@@ -1,0 +1,616 @@
+---
+# ====== Page: Auditing dashboard ============================
+id: 41
+identification: 
+  name: Auditing dashboard
+  alias: AUDITING-DASHBOARD
+  title: '&APPLICATION_TITLE. Auditing dashboard'
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authorization-scheme: READER RIGHTS # 48893993399820863
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 54378488291573195
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Open Violation Count by Standard Group ======
+  id: 54381742004573198
+  identification: 
+    title: Open Violation Count by Standard Group
+    type: Chart
+
+  layout: 
+    sequence: 90
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 54382114696573198
+    chart: 
+      type: Pie
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight And Explode
+
+    value: 
+      pie-chart-other-threshold: 0
+      format-scaling: Automatic
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Series 1 ====================================
+      id: 54382654885573199
+      identification: 
+        name: Series 1
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select ess.name standard_name, src.standard_id, count(*) issue_count
+          from ast_plsql_apex_audit paa
+          inner join eba_stds_standard_tests src on paa.standard_code  = src.standard_code
+          inner join eba_stds_standards ess on src.standard_id = ess.id
+          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
+          group by ess.name, src.standard_id
+
+      column-mapping: 
+        label: STANDARD_NAME
+        value: ISSUE_COUNT
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:&STANDARD_ID.'
+          page: 5 # V_EBA_STDS_STANDARD_TESTS
+          clear-cache: 5
+          values: 
+            p5_id: '&STANDARD_ID.'
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
+- # ====== Region: Top Standard Test Codes by Open Violation Cou
+  id: 54383234770573199
+  identification: 
+    title: Top Standard Test Codes by Open Violation Count
+    type: Chart
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 54383655982573199
+    chart: 
+      type: Pie
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight
+
+    value: 
+      pie-chart-other-threshold: 0
+      format: Decimal
+      decimal-places: 0
+      format-scaling: None
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Standard Codes by Violation Count ===========
+      id: 54385360935573201
+      identification: 
+        name: Standard Codes by Violation Count
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select paa.standard_code, count(*) issue_count
+          from ast_plsql_apex_audit paa
+          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
+          group by paa.standard_code
+          order by count(*) desc
+          fetch first 10 rows only
+
+      column-mapping: 
+        label: STANDARD_CODE
+        value: ISSUE_COUNT
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_STANDARD_CODE:&STANDARD_CODE.'
+          page: 14 # Manage Standard
+          clear-cache: 14
+          values: 
+            p14_standard_code: '&STANDARD_CODE.'
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
+- # ====== Region: Top Assignees by Open Violation count =======
+  id: 54725337171995717
+  identification: 
+    title: Top Assignees by Open Violation count
+    type: Chart
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 54725445642995718
+    chart: 
+      type: Pie
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight
+
+    value: 
+      pie-chart-other-threshold: 0
+      format: Decimal
+      decimal-places: 0
+      format-scaling: None
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Standard Codes by Assignee ==================
+      id: 54725597544995719
+      identification: 
+        name: Standard Codes by Assignee
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select paa.assignee, count(*) issue_count
+          from ast_plsql_apex_audit paa
+          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
+          group by paa.assignee
+          order by count(*) desc
+          fetch first 10 rows only
+
+      column-mapping: 
+        label: ASSIGNEE
+        value: ISSUE_COUNT
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_ASSIGNEE:&ASSIGNEE.'
+          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          clear-cache: CR,1
+          values: 
+            ig[audit_rpt]eq_assignee: '&ASSIGNEE.'
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
+- # ====== Region: Cumulative Violation Count ==================
+  id: 837855174254296830
+  identification: 
+    title: Cumulative Violation Count
+    type: Chart
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select * 
+      from mv_issues_created_by_day
+
+  layout: 
+    sequence: 100
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - i-h480
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: cumViolations
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 54470357594505675
+    chart: 
+      type: Area
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      time-axis-type: Mixed Frequency
+      zoom-and-scroll: Delayed
+      initial-zooming: None
+
+    overview: 
+      show: true
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: true
+      position: Automatic
+      hide-and-show-behavior: Rescale
+
+    series: 
+    - # ====== Series: Violation Count =============================
+      id: 54472033974505677
+      identification: 
+        name: Violation Count
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: ACTION_DATE
+        value-aggregation: No Aggregation
+        value: CUMUL_ISSUES
+        label-tooltip: CUMUL_ISSUES
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      line: 
+        type: Automatic
+
+      marker: 
+        show: Automatic
+        shape: Automatic
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: y =============================================
+      id: 54470800011505676
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+    - # ====== Axis: x =============================================
+      id: 54471462377505676
+      identification: 
+        name: x
+        show-axis: true
+        title: date
+
+      value: 
+        format: Date - Short
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+

@@ -1,0 +1,1424 @@
+---
+- # ====== Plugin: CodeMirror ==================================
+  id: 232477579468712830
+  identification: 
+    name: CodeMirror
+
+  source: 
+    pl/sql-code: |2
+        -----------------------------------------------------------------------------
+        -- PROCEDURE p_render
+        -- %usage: plugin render function
+        procedure p_render (
+          p_item   in            apex_plugin.t_item,
+          p_plugin in            apex_plugin.t_plugin,
+          p_param  in            apex_plugin.t_item_render_param,
+          p_result in out nocopy apex_plugin.t_item_render_result
+        ) 
+        as
+          v_js_code  varchar2(4000);
+          v_readonly varchar2(100);
+          v_autocomplete_hints  varchar2(32676);
+        begin
+          --apex_Debug.enable;
+      
+          -- debug
+          if apex_application.g_debug then
+            apex_plugin_util.debug_page_item(p_plugin              => p_plugin
+                                           , p_page_item           => p_item);
+          end if;
+      
+          if p_param.is_readonly then
+            v_readonly := 'nocursor';
+          else
+            v_readonly := 'false';    
+          end if;
+      
+          -- output item
+          sys.htp.prn('<textarea id="'||p_item.name||'" name="'||p_item.name||'">'||sys.htf.escape_sc(p_param.value)||'</textarea>');
+      
+          -- add files
+          apex_javascript.add_library (
+             p_name                    => 'lib/codemirror/codemirror'
+            ,p_directory               => p_plugin.file_prefix
+            ,p_version                 => null
+            ,p_check_to_add_minified   => false
+            ,p_skip_extension          => false
+            );
+      
+          apex_javascript.add_library (
+             p_name                    => 'lib/codemirror/mode/sql/sql'
+            ,p_directory               => p_plugin.file_prefix
+            ,p_version                 => null
+            ,p_check_to_add_minified   => false
+            ,p_skip_extension          => false
+            );      
+      
+          apex_javascript.add_library (
+             p_name                    => 'lib/codemirror/addon/edit/closebrackets'
+            ,p_directory               => p_plugin.file_prefix
+            ,p_version                 => null
+            ,p_check_to_add_minified   => false
+            ,p_skip_extension          => false
+            );           
+      
+          apex_javascript.add_library (
+             p_name                    => 'lib/codemirror/addon/hint/show-hint'
+            ,p_directory               => p_plugin.file_prefix
+            ,p_version                 => null
+            ,p_check_to_add_minified   => false
+            ,p_skip_extension          => false
+            );           
+      
+          apex_javascript.add_library (
+             p_name                    => 'js/codemirror_custom'
+            ,p_directory               => p_plugin.file_prefix
+            ,p_version                 => null
+            ,p_check_to_add_minified   => true
+            ,p_skip_extension          => false
+            ); 
+      
+      
+          -- CSS  
+          apex_css.add_file (
+             p_name           => 'lib/codemirror/codemirror'
+            ,p_directory      => p_plugin.file_prefix
+            ,p_version        => null
+            ,p_skip_extension => false); 
+      
+          apex_css.add_file (
+             p_name           => 'lib/codemirror/addon/hint/show-hint'
+            ,p_directory      => p_plugin.file_prefix
+            ,p_version        => null
+            ,p_skip_extension => false);      
+      
+          apex_css.add_file (
+             p_name           => 'css/codemirror_custom'
+            ,p_directory      => p_plugin.file_prefix
+            ,p_version        => null
+            ,p_skip_extension => false);
+      
+          if p_item.attribute_03 is not null then    
+            v_autocomplete_hints := apex_plugin_util.get_plsql_function_result(p_item.attribute_03);
+            apex_javascript.add_inline_code('var vAutocompleteHints_'||p_item.name||' = '||v_autocomplete_hints);
+          end if;
+      
+          v_js_code := 'apex.jQuery("textarea#'||p_item.name||'").codemirror_plugin({"config":';
+          
+          if p_item.init_javascript_code is not null then
+            v_js_code := v_js_code||'('||p_item.init_javascript_code||')';
+          end if;
+      
+          v_js_code := v_js_code||'({}),';
+          
+          v_js_code :=  v_js_code ||        
+            apex_javascript.add_attribute('readonly', p_param.is_readonly, p_add_comma => true)||
+            apex_javascript.add_attribute('ignoreChanged', p_item.ignore_change, p_add_comma => true)||
+            apex_javascript.add_attribute('ajaxId', apex_plugin.get_ajax_identifier, p_add_comma => true)||
+            apex_javascript.add_attribute('runInFullscreen', (case when p_item.attribute_01 = 'Y' then true else false end), p_add_comma => true)||      
+            apex_javascript.add_attribute('autocomplete', (case when p_item.attribute_02 = 'Y' then true else false end), p_add_comma => true)||
+            apex_javascript.add_attribute('validateCode', (case when p_item.attribute_04 = 'Y' then true else false end), p_add_comma => true)      
+         ;  
+         
+         if v_autocomplete_hints is not null then
+          v_js_code :=  v_js_code || '"autocompleteHints":vAutocompleteHints_'||p_item.name||','; 
+         end if; 
+          v_js_code :=  v_js_code || apex_javascript.add_attribute('itemName', p_item.name, p_add_comma => false)||
+          '});';
+          apex_javascript.add_onload_code (p_code => v_js_code);      
+        end p_render;
+      
+         -----------------------------------------------------------------------------
+        -- PROCEDURE p_ajax_call
+        -- %usage: plugin ajax call for code completion    
+        procedure p_ajax_call (
+          p_item   in            apex_plugin.t_item,
+          p_plugin in            apex_plugin.t_plugin,
+          p_param  in            apex_plugin.t_item_ajax_param,
+          p_result in out nocopy apex_plugin.t_item_ajax_result 
+        )
+        is
+          --v_scope  logger_logs.scope%type := gc_scope_prefix || 'p_ajax_call';
+          --v_params logger.tab_param;  
+        
+        
+          v_response  varchar2(32767);
+          v_binds     apex_plugin_util.t_bind_list := apex_plugin_util.c_empty_bind_list; 
+          v_autocomplete_hints  varchar2(32676);
+          
+          -- internal response message
+          procedure p_msg (
+              p_msg       varchar2
+            , p_msg_type  varchar2 default 'S'
+          )
+          is
+          begin
+             apex_json.flush;
+             apex_json.initialize_clob_output;
+             apex_json.open_object;
+             apex_json.write('msgType', p_msg_type);
+             apex_json.write('msg', p_msg);         
+             apex_json.close_object;  
+             sys.htp.init;
+             sys.htp.prn(apex_json.get_clob_output);
+             apex_json.free_output;
+          end p_msg;
+        begin
+          --logger.log('START', --v_scope, null, --v_params);  
+        
+          case
+            when apex_application.g_x01 = 'VALIDATE' then
+              v_binds(1).name := 'CODE';
+              v_binds(1).value := apex_application.g_x02;
+              
+              -- add hints to validate
+              if p_item.attribute_03 is not null then  
+                if instr(lower(p_item.attribute_05), ':hints') > 0 then
+                  v_autocomplete_hints := apex_plugin_util.get_plsql_function_result(p_item.attribute_03);        
+                  v_binds(2).name := 'HINTS';
+                  v_binds(2).value := v_autocomplete_hints;
+                end if;          
+              end if;  
+              
+              --v_response := f_validate_code(apex_application.g_x02);        
+              v_response := apex_plugin_util.get_plsql_function_result(
+                  p_plsql_function => p_item.attribute_05
+                , p_bind_list => v_binds  
+              );
+              if v_response is null then
+                v_response := apex_lang.message('PLUGIN.CODEMIRROR.VAL_SUCCESSFUL');
+                if v_response = 'PLUGIN.CODEMIRROR.VAL_SUCCESSFUL' then
+                  v_response := 'Validation successful';
+                end if;
+                p_msg(v_response);          
+              else
+                p_msg(v_response, 'E');
+              end if;
+            else
+              raise_application_error(-20001, 'Unknown request type: '||apex_application.g_x01);
+          end case;
+          --logger.log('END v_response: '||v_response, --v_scope);        
+        exception
+          when others then
+            --logger.log('END error: '||sqlerrm, --v_scope);    
+            p_msg(sqlerrm, 'E');      
+       end p_ajax_call;
+
+- # ====== Plugin: Mini Calendar ===============================
+  id: 7579986200812649020
+  identification: 
+    name: Mini Calendar
+
+  source: 
+    pl/sql-code: |
+      procedure render_mini_calendar( p_region in apex_plugin.t_region ) is
+          c_date_col  constant varchar2(255) := p_region.attribute_01;
+          c_label_col constant varchar2(255) := p_region.attribute_02;
+      
+          l_date_col_no  pls_integer;
+          l_label_col_no pls_integer;
+      
+          c_collection constant varchar2(255) := 'APEX$MINICALENDAR$'||rawtohex(sys_guid());
+          l_column_value_list    apex_plugin_util.t_column_value_list2;
+      
+          l_region_source        varchar2(32767) := p_region.source;
+      
+          --
+          l_date  timestamp with local time zone;
+          l_label varchar2(2000);
+          l_found boolean;
+          l_count number;
+      
+          cursor dt_csr is
+              select c001 label, d001 the_date
+              from apex_collections
+              where collection_name = c_collection
+              order by d001 asc;
+          dt_rec dt_csr%ROWTYPE;
+      
+          -- Variables for knowing what to display.
+          l_startdate  date;
+          l_enddate    date;
+          l_daycount   number;
+          l_month      varchar2(6);
+      
+          l_class      varchar2(512) := '';
+          l_disp       varchar2(255)  := '';
+          l_id         varchar2(512) := p_region.static_id;
+      begin
+          -- get the data to be displayed
+          l_column_value_list := apex_plugin_util.get_data2 (
+                                     p_sql_statement  => l_region_source,
+                                     p_min_columns    => 2,
+                                     p_max_columns    => null,
+                                     p_component_name => p_region.name,
+                                     p_max_rows       => null );
+      
+          -- Get the actual column number for the fields we want.
+          l_date_col_no := apex_plugin_util.get_column_no (
+                              p_attribute_label   => 'Date column',
+                              p_column_alias      => c_date_col,
+                              p_column_value_list => l_column_value_list,
+                              p_is_required       => true,
+                              p_data_type         => null -- might be date, timestamp, etc.
+                          );
+      
+          l_label_col_no := apex_plugin_util.get_column_no (
+                              p_attribute_label   => 'Label column',
+                              p_column_alias      => c_label_col,
+                              p_column_value_list => l_column_value_list,
+                              p_is_required       => true,
+                              p_data_type         => apex_plugin_util.c_data_type_varchar2
+                          );
+      
+          apex_collection.create_or_truncate_collection( p_collection_name => c_collection );
+          -- Loop through the data and shove it into the collection for ease of access.
+          for l_row_num in 1..l_column_value_list(1).value_list.count loop
+              l_found := true;
+              if l_column_value_list(l_date_col_no).value_list(l_row_num).date_value is not null then
+                  l_date := l_column_value_list(l_date_col_no).value_list(l_row_num).date_value;
+              elsif l_column_value_list(l_date_col_no).value_list(l_row_num).timestamp_value is not null then
+                  l_date := l_column_value_list(l_date_col_no).value_list(l_row_num).timestamp_value;
+              elsif l_column_value_list(l_date_col_no).value_list(l_row_num).timestamp_tz_value is not null then
+                  l_date := l_column_value_list(l_date_col_no).value_list(l_row_num).timestamp_tz_value;
+              elsif l_column_value_list(l_date_col_no).value_list(l_row_num).timestamp_ltz_value is not null then
+                  l_date := l_column_value_list(l_date_col_no).value_list(l_row_num).timestamp_ltz_value;
+              else
+                  -- Couldn't get a usable date value; ignore this row.
+                  l_found := false;
+              end if;
+              if l_found then
+                  select count(*) into l_count
+                  from apex_collections
+                  where collection_name = c_collection
+                      and d001 = trunc(l_date);
+      
+                  if l_count = 0 then
+                      l_label := apex_plugin_util.escape(
+                                  apex_plugin_util.get_value_as_varchar2(
+                                      p_data_type => l_column_value_list(l_label_col_no).data_type,
+                                      p_value     => l_column_value_list(l_label_col_no).value_list(l_row_num) ),
+                                  p_region.escape_output );
+                      apex_collection.add_member(
+                          p_collection_name => c_collection,
+                          p_c001            => l_label,
+                          p_d001            => trunc(l_date)
+                      );
+                  end if;
+              end if;
+          end loop;
+      
+          open dt_csr;
+          fetch dt_csr into dt_rec;
+          if dt_csr%FOUND then
+              l_date  := dt_rec.the_date;
+              l_label := dt_rec.label;
+          else
+              l_date  := trunc(localtimestamp);
+              l_label := 'Today';
+          end if;
+      
+          -- Print the calendar header.
+          sys.htp.prn('<div class="a-MiniCal">');
+          sys.htp.prn('<h3 class="a-MiniCal-title">'||to_char(l_date, 'Month')||' '||to_char(l_date,'YYYY')||'</h3>');
+          sys.htp.prn('<table class="a-MiniCal-month" summary="Calendar of '||to_char(l_date, 'Month')||' '||to_char(l_date,'YYYY')||'">');
+          sys.htp.prn('<thead>');
+          sys.htp.prn('<tr>');
+          sys.htp.prn('<th class="a-MiniCal-dayOfWeek" scope="col" id="'||l_id||'_SUN" title="Sunday">Su</th>');
+          sys.htp.prn('<th class="a-MiniCal-dayOfWeek" scope="col" id="'||l_id||'_MON" title="Monday">Mo</th>');
+          sys.htp.prn('<th class="a-MiniCal-dayOfWeek" scope="col" id="'||l_id||'_TUE" title="Tuesday">Tu</th>');
+          sys.htp.prn('<th class="a-MiniCal-dayOfWeek" scope="col" id="'||l_id||'_WED" title="Wednesday">We</th>');
+          sys.htp.prn('<th class="a-MiniCal-dayOfWeek" scope="col" id="'||l_id||'_THU" title="Thursday">Th</th>');
+          sys.htp.prn('<th class="a-MiniCal-dayOfWeek" scope="col" id="'||l_id||'_FRI" title="Friday">Fr</th>');
+          sys.htp.prn('<th class="a-MiniCal-dayOfWeek" scope="col" id="'||l_id||'_SAT" title="Saturday">Sa</th>');
+          sys.htp.prn('</tr>');
+          sys.htp.prn('</thead>');
+          -- Print the calendar body.
+          sys.htp.prn('<tbody>');
+          -- Do some quick manipulation to get the day of the week that the first of the month
+           --  lands on, and then shift our starting date to the first day of that week.
+          l_startdate := trunc(l_date,'MM') - to_char(trunc(l_date,'MM'),'D') + 1;
+          l_enddate := last_day(l_date) + 7-to_char(last_day(l_date),'D');
+          l_month := to_char(l_date,'YYYYMM');
+      
+          for l_daycount in 0..(l_enddate - l_startdate) loop
+              l_class := '';
+              l_disp := to_char(l_startdate+l_daycount,'fmDD');
+              -- If the day isn't part of the month being displayed, grey it out.
+              if to_char(l_startdate+l_daycount,'YYYYMM') <> l_month then
+                  l_class := 'is-null';
+                  l_disp := '<span class="a-MiniCal-date">'||l_disp||'</span>';
+              else
+                  if to_char(l_startdate+l_daycount,'D') in ('1','7') then
+                      l_class := l_class || 'is-weekend ';
+                      l_disp := '<span class="a-MiniCal-date">'||l_disp||'</span>';
+                  end if;
+                  if l_month = to_char(localtimestamp,'YYYYMM')
+                          and l_startdate+l_daycount = current_date then
+                      l_class := l_class || 'is-today ';
+                      l_disp := '<span class="a-MiniCal-date">'||l_disp||'</span>';
+                  end if;
+                  if to_char(l_startdate+l_daycount,'YYYYMMDD')
+                          = to_char(l_date,'YYYYMMDD') then
+                      l_class := l_class || 'is-active ';
+                      l_disp := '<span class="a-MiniCal-date" title="'||l_label||'">'||l_disp||'</span>';
+                  end if;
+              end if;
+              if to_char(l_startdate+l_daycount,'D') = '1' then
+                  sys.htp.prn('<tr>');
+              end if;
+              sys.htp.prn('<td class="a-MiniCal-day '||l_class||'" headers="'||l_id||'_'||to_char(l_startdate+l_daycount,'DY')||'">'||l_disp||'</td>');
+              if to_char(l_startdate+l_daycount,'D') = '7' then
+                  sys.htp.prn('</tr>');
+              end if;
+              if to_char(l_startdate+l_daycount,'YYYYMMDD') = to_char(l_date,'YYYYMMDD') then
+                  fetch dt_csr into dt_rec;
+                  if dt_csr%FOUND then
+                      l_date  := dt_rec.the_date;
+                      l_label := dt_rec.label;
+                  end if;
+              end if;
+          end loop;
+          close dt_csr;
+      
+          -- Clean up after ourselves.
+          apex_collection.delete_collection( p_collection_name => c_collection );
+      
+          sys.htp.prn('</tbody>');
+          sys.htp.prn('</table>');
+          sys.htp.prn('</div>');
+      end render_mini_calendar;
+      
+      function render ( p_region in apex_plugin.t_region,
+          p_plugin in apex_plugin.t_plugin, p_is_printer_friendly in boolean )
+          return apex_plugin.t_region_render_result is
+      begin
+          -- CSS for the Gantt Chart
+          apex_css.add_file (
+              p_name => 'com_oracle_apex_minicalendar',
+              p_directory => p_plugin.file_prefix );
+      
+          render_mini_calendar( p_region );
+          return null;
+      end;
+
+- # ====== Plugin: ACL Status ==================================
+  id: 7581212905802558496
+  identification: 
+    name: ACL Status
+
+  source: 
+    pl/sql-code: |
+      function acl_status (   p_region              in apex_plugin.t_region,
+                              p_plugin              in apex_plugin.t_plugin,
+                              p_is_printer_friendly in boolean ) return apex_plugin.t_region_render_result is
+          l_retval         apex_plugin.t_region_render_result;
+          --
+          c_config_page constant varchar2(30)   := p_region.attribute_01;
+          c_acl_page    constant varchar2(30)   := p_region.attribute_02;
+          c_admin_alias constant varchar2(255)  := p_region.attribute_03;
+          c_cont_alias  constant varchar2(255)  := p_region.attribute_04;
+          c_read_alias  constant varchar2(255)  := p_region.attribute_05;
+          c_scope_pref  constant varchar2(4000) := p_region.attribute_06;
+          c_acl_status  constant varchar2(4000) := p_region.attribute_07;
+          --
+          l_app_id            varchar2(255) := :APP_ID;
+          l_session_id        varchar2(255) := :APP_SESSION;
+          -- TODO: Make this handle generic ACL levels.
+          l_column_value_list apex_plugin_util.t_column_value_list2;
+          l_admin_column_number pls_integer;
+          l_admin_count         number := null;
+          l_cont_column_number  pls_integer;
+          l_cont_count          number := null;
+          l_read_column_number  pls_integer;
+          l_read_count          number := null;
+          --
+          l_scope             varchar2(255);
+          l_acl_mode          varchar2(255);
+          l_acl_enabled       varchar2(1) := 'N';
+      begin
+          l_column_value_list := apex_plugin_util.get_data2(
+              p_sql_statement  => p_region.source,
+              p_min_columns    => 3,
+              p_max_columns    => null,
+              p_component_name => p_region.name
+          );
+      
+          l_admin_column_number := apex_plugin_util.get_column_no (
+              p_attribute_label   => 'ADMINCOUNT',
+              p_column_alias      => c_admin_alias,
+              p_column_value_list => l_column_value_list,
+              p_is_required       => true,
+              p_data_type         => apex_plugin_util.c_data_type_number
+          );
+          l_cont_column_number := apex_plugin_util.get_column_no (
+              p_attribute_label   => 'CONTCOUNT',
+              p_column_alias      => c_cont_alias,
+              p_column_value_list => l_column_value_list,
+              p_is_required       => true,
+              p_data_type         => apex_plugin_util.c_data_type_number
+          );
+          l_read_column_number := apex_plugin_util.get_column_no (
+              p_attribute_label   => 'READCOUNT',
+              p_column_alias      => c_read_alias,
+              p_column_value_list => l_column_value_list,
+              p_is_required       => true,
+              p_data_type         => apex_plugin_util.c_data_type_number
+          );
+      
+          l_scope := apex_plugin_util.get_plsql_expression_result( p_plsql_expression => c_scope_pref );
+          l_acl_enabled := apex_plugin_util.get_plsql_expression_result( p_plsql_expression => c_acl_status );
+      
+          for l_row_number in 1 .. l_column_value_list(1).value_list.count loop
+              l_admin_count := l_column_value_list(l_admin_column_number).value_list(l_row_number).number_value;
+              l_cont_count  := l_column_value_list(l_cont_column_number).value_list(l_row_number).number_value;
+              l_read_count  := l_column_value_list(l_read_column_number).value_list(l_row_number).number_value;
+          end loop;
+      
+          if l_acl_enabled = 'N' then
+              l_acl_mode := 'Disabled';
+          else
+              l_acl_mode := 'Enabled';
+          end if;
+      
+          sys.htp.p('<div class="t-ConfigPanel">');
+          sys.htp.p('  <div class="t-ConfigPanel-about">');
+              if l_acl_mode = 'Disabled' then
+                 sys.htp.p(apex_lang.message('ACL_DISABLED'));
+              else
+                 if l_scope = 'ACL_ONLY' then sys.htp.p(apex_lang.message('ACL_ENABLED')); end if;
+                 if l_scope = 'PUBLIC_CONTRIBUTE' then sys.htp.p(apex_lang.message('ACL_PUBLIC_CONTRIBUTE')); end if;
+                 if l_scope = 'PUBLIC_READONLY' then sys.htp.p(apex_lang.message('ACL_PUBLIC_READONLY')); end if;
+              end if;
+          sys.htp.p('  </div>');
+          sys.htp.p('  <div class="t-ConfigPanel-body">');
+          sys.htp.p('    <div class="t-ConfigPanel-main">');
+          sys.htp.p('      <span class="t-ConfigPanel-icon a-Icon');
+            if l_acl_mode = 'Enabled' then
+              sys.htp.prn('is-enabled');
+            else
+              sys.htp.prn('is-disabled');
+            end if;
+          sys.htp.p('"></span>');
+          sys.htp.p('      <span class="t-ConfigPanel-setting">Access Control</span>');
+              if l_acl_mode = 'Disabled' then
+                  sys.htp.p('      <span class="t-ConfigPanel-status">Disabled</span>');
+                  sys.htp.p('      <span class="t-ConfigPanel-actions">');
+                  sys.htp.p('        <button class="t-Button t-Button--small" onclick="openModal(''confirmEnableACL'');" type="button">Enable Access Control</button>');
+                  sys.htp.p('      </span>');
+              else
+                  sys.htp.p('      <span class="t-ConfigPanel-status">Enabled</span>');
+                  sys.htp.p('      <span class="t-ConfigPanel-actions">');
+                  sys.htp.p('        <button class="t-Button t-Button--small" onclick="apex.navigation.redirect('''||apex_util.prepare_url('f?p='||l_app_id||':'||c_config_page||':'||l_session_id)||''');" type="button">Configure</button>');
+                  sys.htp.p('      </span>');
+              end if;
+          sys.htp.p('      </span>');
+          sys.htp.p('    </div>');
+          sys.htp.p('    <div class="t-ConfigPanel-list">');
+          sys.htp.p('      <ul class="t-ConfigPanel-attrs">');
+          sys.htp.p('        <li class="t-ConfigPanel-attr">');
+          sys.htp.p('          <a href="'||apex_util.prepare_url('f?p='||l_app_id||':'||c_acl_page||':'||l_session_id|| ':::'||c_acl_page||',RIR:IREQ_ACCESS_LEVEL_ID:Administrator')||'" class="t-ConfigPanel-attrLink">');
+          sys.htp.p('            <span class="t-ConfigPanel-attrLabel">Administrators</span>');
+          sys.htp.p('            <span class="t-ConfigPanel-attrValue">');
+              if l_acl_mode = 'Disabled' then
+                  sys.htp.p(apex_escape.html(apex_lang.message('ANY_AUTHENTICATED_USER')));
+              else
+                  sys.htp.p(to_char(l_admin_count,'999G999G990'));
+              end if;
+          sys.htp.p('            </span>');
+          sys.htp.p('          </a>');
+          sys.htp.p('        </li>');
+      
+          sys.htp.p('        <li class="t-ConfigPanel-attr">');
+          sys.htp.p('          <a href="'||apex_util.prepare_url('f?p='||l_app_id||':'||c_acl_page||':'||l_session_id||':::'||c_acl_page||',RIR:IREQ_ACCESS_LEVEL_ID:Contributor')||'" class="t-ConfigPanel-attrLink">');
+          sys.htp.p('            <span class="t-ConfigPanel-attrLabel">Contributors</span>');
+          sys.htp.p('            <span class="t-ConfigPanel-attrValue">');
+              if l_acl_mode = 'Disabled' then 
+                  sys.htp.p(apex_escape.html(apex_lang.message('ANY_AUTHENTICATED_USER')));
+              elsif l_scope = 'ACL_ONLY' or l_scope = 'PUBLIC_READONLY' then
+                  sys.htp.p(to_char(nvl(l_cont_count,0),'999G999G990'));
+              else
+                  sys.htp.p(apex_escape.html(apex_lang.message('ANY_AUTHENTICATED_USER')));
+              end if;
+          sys.htp.p('            </span>');
+          sys.htp.p('          </a>');
+          sys.htp.p('        </li>');
+      
+          sys.htp.p('        <li class="t-ConfigPanel-attr">');
+          sys.htp.p('          <a href="'||apex_util.prepare_url('f?p='||l_app_id||':'||c_acl_page||':'||l_session_id||':::'||c_acl_page||',RIR:IREQ_ACCESS_LEVEL_ID:Reader')||'" class="t-ConfigPanel-attrLink">');
+          sys.htp.p('            <span class="t-ConfigPanel-attrLabel">Readers</span>');
+          sys.htp.p('            <span class="t-ConfigPanel-attrValue">');
+          sys.htp.p(  case
+                          when l_acl_mode = 'Disabled' then 
+                              apex_escape.html(apex_lang.message('ANY_AUTHENTICATED_USER'))
+                          when l_scope = 'ACL_ONLY' then
+                              to_char(nvl(l_read_count,0),'999G999G990')
+                          when l_scope = 'PUBLIC_READONLY' or l_scope = 'PUBLIC_CONTRIBUTE' then
+                              apex_escape.html(apex_lang.message('ANY_AUTHENTICATED_USER'))
+                          else
+                              to_char(nvl(l_read_count,0),'999G999G990')
+                      end );
+          sys.htp.p('            </span>');
+          sys.htp.p('          </a>');
+          sys.htp.p('        </li>');
+      
+          sys.htp.p('      </ul>');
+          sys.htp.p('    </div>');
+          sys.htp.p('  </div>');
+          sys.htp.p('</div>');
+      
+          return l_retval;    
+      end;
+
+- # ====== Plugin: Authorization Administration ================
+  id: 7581216199091560706
+  identification: 
+    name: Authorization Administration
+
+  source: 
+    pl/sql-code: |
+      function auth_admin (   p_region              in apex_plugin.t_region,
+                              p_plugin              in apex_plugin.t_plugin,
+                              p_is_printer_friendly in boolean ) return apex_plugin.t_region_render_result is
+          l_retval         apex_plugin.t_region_render_result;
+          --
+          c_page_report_page constant number        := p_region.attribute_01;
+          c_public_pages_msg constant varchar2(255) := apex_escape.html(p_region.attribute_02);
+          c_auth_pages_msg   constant varchar2(255) := apex_escape.html(p_region.attribute_03);
+          c_custom_auth_msg  constant varchar2(255) := apex_escape.html(p_region.attribute_04);
+      
+          l_app_session     varchar2(255) := :APP_SESSION;
+          l_app_id          number := :APP_ID;
+          l_cnt             number := 0;
+          l_auth_scheme     number := 0;
+          l_auth_required   number := 0;
+          l_auth_scheme_name     varchar2(255);
+      begin
+          for c1 in ( select count(*) c,
+                          sum(decode(authorization_scheme,null,0,1)) auth_scheme,
+                          sum(decode(page_requires_authentication,'Yes',1,0)) auth_required
+                      from apex_application_pages
+                      where application_id =  l_app_id
+                          and page_function != 'Global Page' ) loop
+              l_cnt := c1.c;
+              l_auth_scheme := c1.auth_scheme;
+              l_auth_required := c1.auth_required;
+          end loop;
+      
+          for c1 in ( select authentication_scheme 
+                      from apex_applications 
+                      where application_id = l_app_id ) loop
+              l_auth_scheme_name := c1.authentication_scheme;
+          end loop;
+      
+          sys.htp.p('<div class="container">');
+          sys.htp.p('<div class="row">');
+          sys.htp.p('<div class="col col-12 ">');
+          sys.htp.p('<div class="t-ConfigPanel">');
+          sys.htp.p('<div class="t-ConfigPanel-body">');
+          sys.htp.p('<div class="t-ConfigPanel-main">');
+          sys.htp.p('<span class="t-ConfigPanel-icon a-Icon auth-scheme"></span>');
+          sys.htp.p('<span class="t-ConfigPanel-setting">Authentication Scheme</span>');
+          sys.htp.p('<span class="t-ConfigPanel-status">'||apex_escape.html(l_auth_scheme_name)||'</span>');
+          sys.htp.p('</div>');
+          sys.htp.p('<div class="t-ConfigPanel-list">');
+          sys.htp.p('<ul class="t-ConfigPanel-attrs">');
+          sys.htp.p('<li class="t-ConfigPanel-attr">');
+          sys.htp.p('<a href="'
+              ||case when c_page_report_page is not null then
+                      apex_util.prepare_url('f?p='||l_app_id||':'||c_page_report_page||':'||l_app_session
+                                           ||':::'||c_page_report_page||',RIR:IREQ_REQUIRES_AUTH:No')
+                  else
+                      '#'
+              end
+              ||'" class="t-ConfigPanel-attrLink">');
+          sys.htp.p('<span class="t-ConfigPanel-attrLabel">'||c_public_pages_msg||'</span>');
+          sys.htp.p('<span class="t-ConfigPanel-attrValue">'||to_char((l_cnt - l_auth_required),'999G999G990')
+              ||'</span>');
+          sys.htp.p('</a>');
+          sys.htp.p('</li>');
+          sys.htp.p('<li class="t-ConfigPanel-attr">');
+          sys.htp.p('<a href="'
+              ||case when c_page_report_page is not null then
+                      apex_util.prepare_url('f?p='||l_app_id||':'||c_page_report_page||':'||l_app_session
+                                           ||':::'||c_page_report_page||',RIR:IREQ_REQUIRES_AUTH:Yes')
+                  else
+                      '#'
+              end
+              ||'" class="t-ConfigPanel-attrLink">');
+          sys.htp.p('<span class="t-ConfigPanel-attrLabel">'||c_auth_pages_msg||'</span>');
+          sys.htp.p('<span class="t-ConfigPanel-attrValue">'||to_char(l_auth_required,'999G999G990')||
+            '</span>');
+          sys.htp.p('</a>');
+          sys.htp.p('</li>');
+          sys.htp.p('<li class="t-ConfigPanel-attr">');
+          sys.htp.p('<a href="'
+              ||case when c_page_report_page is not null then
+                      apex_util.prepare_url('f?p='||l_app_id||':'||c_page_report_page||':'||l_app_session
+                                           ||':::'||c_page_report_page||',RIR:IRNEQ_AUTHORIZATION_SCHEME:No Scheme Applied')
+                  else
+                      '#'
+              end
+              ||'" class="t-ConfigPanel-attrLink">');
+          sys.htp.p('<span class="t-ConfigPanel-attrLabel">'||c_custom_auth_msg||'</span>');
+          sys.htp.p('<span class="t-ConfigPanel-attrValue">'||to_char(l_auth_scheme,'999G999G990')||
+                '</span>');
+          sys.htp.p('</a>');
+          sys.htp.p('</li>');
+          sys.htp.p('</ul>');
+          sys.htp.p('</div>');
+          sys.htp.p('</div>');
+          sys.htp.p('</div>');
+          sys.htp.p('</div>');
+          sys.htp.p('</div>');
+          sys.htp.p('</div>');
+          --
+          return l_retval;    
+      end auth_admin;
+
+- # ====== Plugin: Flex Field ==================================
+  id: 7593642560826009699
+  identification: 
+    name: Flex Field
+
+  source: 
+    pl/sql-code: |
+      type t_flex_config is record (
+          is_active         boolean,
+          form_label_text   varchar2(255),
+          is_required       boolean,
+          display_as        varchar2(255),
+          flexible_column   varchar2(128),
+          lov_sql_query     varchar2(32767),
+          width             number,
+          max_width         number,
+          height            number,
+          label_template_id number,
+          help_text         varchar2(4000),
+          label_alignment   varchar2(30),
+          format_mask       varchar2(30),
+          default_value     varchar2(4000),
+          rpt_hdr_alignment varchar2(30)
+          );
+      
+      --===============================================================================
+      -- Reads the config of a flex field.
+      --===============================================================================
+      function get_flex_config (
+          p_item   in apex_plugin.t_page_item,
+          p_plugin in apex_plugin.t_plugin )
+          return t_flex_config
+      is
+          -- Use named constants instead of the generic attribute variables
+          c_config_table constant varchar2(30) := p_plugin.attribute_01;
+          --
+          l_flex_table     varchar2(255);
+          l_flex_column    varchar2(255);
+          l_is_active_yn   varchar2(1) := 'N';
+          l_is_required_yn varchar2(1);
+          l_flex_config    t_flex_config;
+      begin-- Get the information which flex table and column is processed
+          begin
+              select
+                     p.process_source,
+                     i.item_source
+                into l_flex_table,
+                     l_flex_column
+                from apex_application_page_proc p,
+                     apex_application_page_items i
+               where p.application_id    = apex_application.g_flow_id
+                 and p.page_id           = apex_application.g_flow_step_id
+                 and p.process_type_code = 'DML_FETCH_ROW'
+                 and i.application_id    = apex_application.g_flow_id
+                 and i.page_id           = apex_application.g_flow_step_id
+                 and i.item_id           = p_item.id
+                 and i.item_source_type  = 'Database Column';
+          exception
+              when no_data_found then
+                  l_flex_table  := null;
+                  l_flex_column := null;
+          end;
+      
+          --
+          -- Only do the following if we have a flex table and flex column value
+          if l_flex_table is not null and l_flex_column is not null then
+              --
+              -- Get the table name out of the "DML Fetch" process source. The format is
+              -- F|#OWNER#:DEMO_ORDERS:P29_ORDER_ID:ORDER_ID
+              l_flex_table := substr(l_flex_table, 11);
+              l_flex_table := substr(l_flex_table, 1, instr(l_flex_table, ':') -1);
+              --
+              -- Read the flex table configuration
+              begin
+                  execute immediate 'select /*+ result_cache */ ' ||
+                                    'active_yn, form_label_text, is_required_yn, display_as, lov_sql_query, width, ' ||
+                                    'max_width, height, label_template_id, flexible_column, help_text, ' ||
+                                    'label_alignment, format_mask, default_value, rpt_hdr_alignment' ||
+                                    '  from ' || sys.dbms_assert.enquote_name(c_config_table) ||
+                                    ' where flexible_table  = :p_flex_table' ||
+                                    '   and flexible_column = :p_flex_column'
+                               into l_is_active_yn,
+                                    l_flex_config.form_label_text,
+                                    l_is_required_yn,
+                                    l_flex_config.display_as,
+                                    l_flex_config.lov_sql_query,
+                                    l_flex_config.width,
+                                    l_flex_config.max_width,
+                                    l_flex_config.height,
+                                    l_flex_config.label_template_id,
+                                    l_flex_config.flexible_column,
+                                    l_flex_config.help_text,
+                                    l_flex_config.label_alignment,
+                                    l_flex_config.format_mask,
+                                    l_flex_config.default_value,
+                                    l_flex_config.rpt_hdr_alignment
+                              using l_flex_table, l_flex_column;
+              exception when no_data_found then
+                  l_is_active_yn := 'N';
+              end;
+          end if;
+          --
+          l_flex_config.is_active   := ( l_is_active_yn = 'Y' );
+          l_flex_config.is_required := ( l_is_required_yn = 'Y' );
+          --
+          return l_flex_config;
+          --
+      end get_flex_config;
+      
+      --===============================================================================
+      -- Renders a flex field based on the configuration in the flex field repository table.
+      --===============================================================================
+      function render (
+          p_item                in apex_plugin.t_page_item,
+          p_plugin              in apex_plugin.t_plugin,
+          p_value               in varchar2,
+          p_is_readonly         in boolean,
+          p_is_printer_friendly in boolean )
+          return apex_plugin.t_page_item_render_result
+      is
+          l_name           varchar2(30);
+          l_item           apex_plugin.t_page_item := p_item;
+          l_result         apex_plugin.t_page_item_render_result;
+          l_flex_config    t_flex_config;
+          l_label_template varchar2(30);
+          l_date_picker    varchar2(10000);
+          l_label          varchar2(32767);
+          l_label_col_span number := 3;
+          l_help_text      varchar2(4000);
+          l_format_mask    varchar2(30);
+          function get_format_mask(
+              p_item_id in     number,
+              p_app_id  in     number,
+              p_page_id in     number
+          ) return varchar2
+          is
+              l_format_mask    varchar2(30);
+          begin
+              select
+                  format_mask
+              into
+                  l_format_mask
+              from
+                  apex_application_page_items
+              where
+                  item_id = p_item_id
+              and
+                  application_id = p_app_id
+              and
+                  page_id = p_page_id;
+              return l_format_mask;
+          exception
+              when no_data_found then
+                  l_format_mask := null;
+          end get_format_mask;
+          function get_help_text(
+              p_item_id in     number,
+              p_app_id  in     number
+          ) return varchar2
+          is
+              l_help_text    varchar2(4000);
+          begin
+              select
+                  item_help_text
+              into
+                  l_help_text
+              from
+                  apex_application_page_items
+              where
+                  item_id = p_item_id
+              and
+                  application_id = p_app_id;
+              return l_help_text;
+          exception
+              when no_data_found then
+                  l_help_text := null;
+          end get_help_text;
+      begin
+          l_flex_config := null;
+          l_flex_config := get_flex_config (
+                               p_item   => l_item,
+                               p_plugin => p_plugin );
+          --
+          -- Don't render the flex field if it's not active
+          if not l_flex_config.is_active then
+              l_result.is_navigable := false;
+              return l_result;
+          end if;
+          --
+          -- Always assign the item's required setting value to the flex field's required setting value
+          l_item.is_required := l_flex_config.is_required;
+          --
+          -- If a page item saves state, we have to call the get_input_name_for_page_item
+          -- to render the internal hidden p_arg_names field. It will also return the
+          -- HTML field name which we have to use when we render the HTML input field.
+          l_name := apex_plugin.get_input_name_for_page_item(false);
+          --
+          case l_flex_config.display_as
+              when 'TEXT'        then
+                  sys.htp.prn(
+                      '<input type="text" name="' || l_name || '" ' ||
+                      'size="' || l_flex_config.width || '" maxlength="' || l_flex_config.max_width || '"' ||
+                      'value="' || apex_escape.html_attribute(nvl(p_value, l_flex_config.default_value))||'" ' ||
+                      apex_plugin_util.get_element_attributes (
+                          p_item          => l_item,
+                          p_default_class => 'text' ) ||
+                      '/>');
+      
+              when 'TEXTAREA'    then
+                  sys.htp.prn(
+                      '<textarea name="' || l_name || '" ' ||
+                      'cols="' || l_flex_config.width || '" rows="' || l_flex_config.height || '" maxlength="' || l_flex_config.max_width || '" wrap="virtual" ' ||
+                      apex_plugin_util.get_element_attributes (
+                          p_item          => l_item,
+                          p_default_class => 'textarea' ) ||
+                      '>');
+                  apex_plugin_util.print_escaped_value(nvl(p_value, l_flex_config.default_value));
+                  sys.htp.prn('</textarea>');
+      
+              when 'SELECT_LIST' then
+                  wwv_flow_utilities.show_as_combobox (
+                      p_lov        => l_flex_config.lov_sql_query,
+                      p_null_text  => '- select value -',
+                      p_null_value => null,
+                      p_show_extra => 'NO',
+                      p_value      => nvl(p_value, l_flex_config.default_value),
+                      p_name       => l_name,
+                      p_attributes => apex_plugin_util.get_element_attributes (
+                                          p_item          => l_item,
+                                          p_default_class => 'selectlist' )
+                      );
+      
+              when 'NUMBER'      then
+                  l_format_mask := get_format_mask(l_item.id, apex_application.g_flow_id, apex_application.g_flow_step_id);
+                  --
+                  -- Update the format mask of the page item
+                  if nvl(l_flex_config.format_mask,'xxx') <> nvl(l_format_mask,'xxx') then
+                      apex_app_builder_api.edit_page_item (
+                          p_page_id             => apex_application.g_flow_step_id,
+                          p_item_name           => p_item.name,
+                          p_format_mask         => l_flex_config.format_mask);
+                  end if;
+                  sys.htp.prn(
+                      '<input type="text" name="' || l_name || '" ' ||
+                      'size="' || l_flex_config.width || '" maxlength="' || l_flex_config.max_width || '"' ||
+                      'value="' || apex_escape.html_attribute(trim(nvl(p_value, l_flex_config.default_value))) || '" ' ||
+                      apex_plugin_util.get_element_attributes (
+                          p_item          => l_item,
+                          p_default_class => 'number_field' ) ||
+                      '/>');
+      
+              when 'DATE'        then
+                  l_format_mask := get_format_mask(l_item.id, apex_application.g_flow_id, apex_application.g_flow_step_id);
+                  --
+                  -- Update the format mask of the page item
+                  if nvl(l_flex_config.format_mask,'xxx') <> nvl(l_format_mask,'xxx') then
+                      apex_app_builder_api.edit_page_item (
+                          p_page_id             => apex_application.g_flow_step_id,
+                          p_item_name           => p_item.name,
+                          p_format_mask         => l_flex_config.format_mask);
+                  end if;
+                  l_date_picker := wwv_flow_utilities.get_date_picker (
+                      p_id                    => p_item.name,
+                      p_name                  => l_name,
+                      p_value                 => nvl(p_value, l_flex_config.default_value),
+                      p_date_format           => l_flex_config.format_mask,
+                      p_size                  => l_flex_config.width,
+                      p_max_length            => l_flex_config.max_width,
+                      p_attributes            => apex_plugin_util.get_element_attributes (
+                                                      p_item          => l_item,
+                                                      p_default_class => 'datepicker'
+                                                  )
+                  );
+                  sys.htp.prn(l_date_picker);
+              else
+                  sys.htp.prn('<!-- ERRROR IN FLEX FIELD PLUGIN: l_flex_config.display_as = "'||nvl(l_flex_config.display_as,'???')||'" -->');
+          end case;
+      
+          -- Read label template
+          begin
+              select /*+ result_cache */
+                  replace(
+                      replace(
+                          before_label || l_flex_config.form_label_text || after_label,
+                          '#CURRENT_ITEM_NAME#',
+                          p_item.name),
+                      '#LABEL_ID#',p_item.name||'_LABEL'
+                  )
+              into l_label
+              from apex_application_temp_label
+                  -- $$$ make it NLS aware
+              where application_id = apex_application.g_flow_id
+                  -- $$$ restrict to theme of current UI
+                  and label_template_id = l_flex_config.label_template_id;
+              exception when no_data_found then
+                  l_label := '';
+          end;
+          -- Deal with column span.
+          -- This should always return a value, but use the loop construct just in case.
+          for c1 in ( select nvl(pi.grid_label_column_span, tp.grid_default_label_col_span) grid_span
+                      from apex_application_pages pg,
+                          apex_application_temp_page tp,
+                          apex_application_page_items pi
+                      where pi.application_id= 7170
+                          and tp.application_id = pg.application_id
+                          and tp.template_name = pg.page_template
+                          and pg.application_id = pi.application_id
+                          and pg.page_id = pi.page_id
+                          and pi.item_id = p_item.id ) loop
+              l_label_col_span := c1.grid_span;
+          end loop;
+          l_label := replace(l_label, '#LABEL_COLUMN_SPAN_NUMBER#', to_char(l_label_col_span));
+      
+          --
+          -- Handle the help text.
+          l_help_text := get_help_text(l_item.id, apex_application.g_flow_id);
+          --
+          -- Update the help text of the page item
+          apex_app_builder_api.edit_page_item (
+              p_page_id             => apex_application.g_flow_step_id,
+              p_item_name           => p_item.name,
+              p_item_label          => l_flex_config.form_label_text,
+              p_help_text           => l_flex_config.help_text
+          );
+      
+          --
+          -- Now that the item's help text has been updated, 
+          -- refer to it in the label's help text
+          l_label := replace(l_label, '#CURRENT_ITEM_ID#', p_item.id);
+          --
+          l_label := apex_plugin_util.replace_substitutions(
+                         p_value  => l_label,
+                         p_escape => false );
+      
+          --
+          -- Change the item label on the fly
+          --
+          apex_javascript.add_onload_code(p_code=>'$("label[for=' || p_item.name || ']").parent().replaceWith(' || replace(apex_javascript.add_value(l_label, false),'#VALUE_REQUIRED#',apex_lang.message('VALUE_REQUIRED')) || ');',
+                                         p_key=>'flex_upd_'||p_item.name);
+      
+          -- Tell APEX that this field is navigable
+          l_result.is_navigable := true;
+      
+          return l_result;
+      end render;
+      
+      --==============================================================================
+      -- Validate a flex field based on the configuration in the flex field repository table.
+      --==============================================================================
+      function validate (
+          p_item   in apex_plugin.t_page_item,
+          p_plugin in apex_plugin.t_plugin,
+          p_value  in varchar2 )
+          return apex_plugin.t_page_item_validation_result
+      is
+          l_result      apex_plugin.t_page_item_validation_result;
+          l_flex_config t_flex_config;
+      begin
+          l_flex_config := get_flex_config (
+                               p_item   => p_item,
+                               p_plugin => p_plugin );
+          --
+          -- Don't render the flex field if it's not active
+          if not l_flex_config.is_active then
+              return l_result;
+          end if;
+          --
+          if l_flex_config.is_required and p_value is null then
+              l_result.message := l_flex_config.form_label_text || ' is required!';
+          end if;
+          return l_result;
+      end validate;
+
+- # ====== Plugin: ACL Warning =================================
+  id: 7993377328885908954
+  identification: 
+    name: ACL Warning
+
+  source: 
+    pl/sql-code: |
+      function render (   p_region              in apex_plugin.t_region,
+                              p_plugin              in apex_plugin.t_plugin,
+                              p_is_printer_friendly in boolean ) return apex_plugin.t_region_render_result is
+          l_retval         apex_plugin.t_region_render_result;
+          --
+          c_admin_page  constant varchar2(512)   := p_region.attribute_01;
+      begin
+          -- This plugin displays a warning message if the ACL is disabled. To use:
+          --    1) Add this plugin region to the top of the application home page.
+          --    2) Set the template to Alert region, with the Warning template option.
+          --    3) Add a PL/SQL expression condition to the region, following this pattern:
+          --        eba_XXX_fw.get_preference_value('ACCESS_CONTROL_ENABLED') = 'N'
+      
+          sys.htp.p('Access control for this application is currently disabled. '
+              ||'All users are currently Administrators. Navigate to <a href="'
+              ||apex_util.prepare_url(c_admin_page)||'">application administration</a> '
+              ||'to enable access control.');
+      
+          return l_retval;    
+      end;
+
+- # ====== Plugin: Translated Message ==========================
+  id: 8310457079616294961
+  identification: 
+    name: Translated Message
+
+  source: 
+    pl/sql-code: |
+      function render (
+          p_region              in apex_plugin.t_region,
+          p_plugin              in apex_plugin.t_plugin,
+          p_is_printer_friendly in boolean )
+          return apex_plugin.t_region_render_result
+      is
+          c_message     constant varchar2(255) := p_region.attribute_01;
+          c_add_p_tags  constant varchar2(1) := p_region.attribute_12;
+      
+          type subs_t is varray(10) of varchar2(4000);
+          type colnos_t is varray(10) of pls_integer;
+      
+          c_subs_columns constant subs_t :=
+              subs_t (
+                  p_region.attribute_02,
+                  p_region.attribute_03,
+                  p_region.attribute_04,
+                  p_region.attribute_05,
+                  p_region.attribute_06,
+                  p_region.attribute_07,
+                  p_region.attribute_08,
+                  p_region.attribute_09,
+                  p_region.attribute_10,
+                  p_region.attribute_11
+              );
+      
+          l_column_value_list apex_plugin_util.t_column_value_list2;
+          l_subs_column_nos colnos_t := colnos_t( null, null, null, null, null, null, null, null, null, null );
+      
+          l_subs subs_t := subs_t( null, null, null, null, null,
+                                   null, null, null, null, null );
+          l_label varchar2(50);
+          l_message clob;
+      begin
+          if p_region.source is not null then
+              -- Read the data based on the region source query
+              l_column_value_list := apex_plugin_util.get_data2 (
+                                         p_sql_statement  => p_region.source,
+                                         p_min_columns    => 1,
+                                         p_max_columns    => null,
+                                         p_component_name => p_region.name );
+      
+              -- Get the actual column# for faster access and also verify that the data type
+              -- of the column matches with what we are looking for
+              for i in 0..9 loop
+                  l_label := 'Substitution Column '
+                              ||to_char(i)||' (%'||to_char(i)||')';
+                  l_subs_column_nos(i+1) := apex_plugin_util.get_column_no (
+                                              p_attribute_label   => l_label,
+                                              p_column_alias      => c_subs_columns(i+1),
+                                              p_column_value_list => l_column_value_list,
+                                              p_is_required       => false,
+                                              p_data_type         => apex_plugin_util.c_data_type_varchar2 );
+              end loop;
+      
+              -- Set the column values of the first row so that apex_plugin_util.replace_substitutions
+              -- can do substitutions for columns contained in the region source query.
+              apex_plugin_util.set_component_values (
+                  p_column_value_list => l_column_value_list,
+                  p_row_num           => 1 );
+      
+              -- get the substitution values
+              for i in 0..9 loop
+                  if l_subs_column_nos(i+1) is not null then
+                      l_subs(i+1) := apex_plugin_util.escape (
+                                      apex_plugin_util.get_value_as_varchar2 (
+                                          p_data_type => l_column_value_list(l_subs_column_nos(i+1)).data_type,
+                                          p_value     => l_column_value_list(l_subs_column_nos(i+1)).value_list(1) ),
+                                      p_region.escape_output );
+                  end if;
+              end loop;
+          end if;
+      
+          l_message := apex_application.do_substitutions(
+              apex_lang.message( p_name => c_message,
+                                 p0     => l_subs(1),
+                                 p1     => l_subs(2),
+                                 p2     => l_subs(3),
+                                 p3     => l_subs(4),
+                                 p4     => l_subs(5),
+                                 p5     => l_subs(6),
+                                 p6     => l_subs(7),
+                                 p7     => l_subs(8),
+                                 p8     => l_subs(9),
+                                 p9     => l_subs(10)
+                            )
+              );
+          if c_add_p_tags = 'Y' and instr( l_message, '<p' ) = 0 then
+              l_message := '<p>'||l_message||'</p>';
+          end if;
+          sys.htp.p(l_message);
+          return null;
+      end;
+
+- # ====== Plugin: Tag Cloud ===================================
+  id: 13813414393303689739
+  identification: 
+    name: Tag Cloud
+
+  source: 
+    pl/sql-code: |
+      function render (
+          p_region              in apex_plugin.t_region,
+          p_plugin              in apex_plugin.t_plugin,
+          p_is_printer_friendly in boolean )
+          return apex_plugin.t_region_render_result
+      is
+          -- Constants for the columns of our region source query
+          c_tag_col   constant pls_integer := 1;
+          c_count_col constant pls_integer := 2;
+      
+          -- attributes of the plug-in
+          l_target_url           varchar2(4000)  := p_region.attribute_01;
+          l_max_display_tags     number          := p_region.attribute_02;
+          l_show_count           boolean         := nvl(p_region.attribute_03,'Y') = 'Y';
+          l_no_data_found     varchar2(32767) := p_region.no_data_found_message;
+      
+          l_valid_data_type_list wwv_flow_global.vc_arr2;
+          l_column_value_list    apex_plugin_util.t_column_value_list2;
+          l_printed_records    number := 0;
+          l_available_records  number := 20;
+          l_max                number;
+          l_min                number;
+          l_total              number := 0;
+          l_cnts               number;
+          l_tag                varchar2(4000);
+      
+          l_class_size         number;
+          l_class              varchar2(30);
+      
+      begin
+          -- don't need to load css file, styles are contained within theme_42
+          
+          -- apex_css.add_file (
+          --     p_name      => 'tag_cloud',
+          --     p_directory => p_plugin.file_prefix,
+          --     p_version   => null );
+      
+      
+          -- define the valid column data types for the region query
+          l_valid_data_type_list(c_tag_col)   := apex_plugin_util.c_data_type_varchar2;
+          l_valid_data_type_list(c_count_col) := apex_plugin_util.c_data_type_number;
+      
+          -- get the data to be displayed
+          l_column_value_list := apex_plugin_util.get_data2 (
+                                     p_sql_statement  => p_region.source,
+                                     p_min_columns    => 2,
+                                     p_max_columns    => 2,
+                                     p_data_type_list => l_valid_data_type_list,
+                                     p_component_name => p_region.name );
+      
+         l_available_records := l_column_value_list(c_tag_col).value_list.count;
+      
+         -----------------------------------------------
+         -- Determine total count and maximum tag counts
+         --
+         l_max := 0;
+         l_min := 1000;
+         FOR i in 1.. l_column_value_list(c_count_col).value_list.count loop
+            l_cnts := l_column_value_list(c_count_col).value_list(i).number_value;
+            l_total := l_total + l_cnts;
+            if l_cnts > l_max then
+               l_max := l_cnts;
+            end if;
+            if l_cnts < l_min then
+               l_min := l_cnts;
+            end if;
+         end loop;
+         if l_max = 0 then l_max := 1; end if;
+      
+      
+         l_class_size := round((l_max-l_min)/6);
+      
+         ------------------------
+         -- Generate tag cloud --
+         --
+         
+         sys.htp.prn('<ul class="a-TagCloud">');
+      
+         for i in 1.. l_column_value_list(c_tag_col).value_list.count loop
+             l_printed_records := l_printed_records + 1;
+             l_tag := apex_escape.html(l_column_value_list(c_tag_col).value_list(i).varchar2_value);
+             l_cnts := l_column_value_list(c_count_col).value_list(i).number_value;
+             if l_cnts < l_min + l_class_size then
+                l_class := 'size1';
+             elsif l_cnts < l_min + (l_class_size*2) then
+                l_class := 'size2';
+             elsif l_cnts < l_min + (l_class_size*3) then
+                l_class := 'size3';
+             elsif l_cnts < l_min + (l_class_size*4) then
+                l_class := 'size4';
+             elsif l_cnts < l_min + (l_class_size*5) then
+                l_class := 'size5';
+             else l_class := 'size6';
+             end if;      
+             
+              sys.htp.prn('<li class="a-TagCloud-item">'
+                  ||apex_plugin_util.get_link(
+                      p_url  => replace(l_target_url,'#TAG#',l_tag),
+                      p_text => l_tag
+                                  ||case when l_show_count then
+                                      ' <span class="a-TagCloud-count">'||l_cnts||'</span>'
+                                  end,
+                      p_escape_text => false,
+                      p_attributes => 'class="a-TagCloud-link a-TagCloud-link--' ||l_class||'"')
+                  ||'</li>');
+      
+             if  l_printed_records > l_max_display_tags then
+                 exit;
+             end if;
+         end loop;
+      
+         sys.htp.prn('</ul>');
+         if l_printed_records = 0 then
+             sys.htp.p('<span class="nodatafound">' || l_no_data_found || '</span>');
+         end if;
+      
+         return null;
+      end render;
+
+- # ====== Plugin: Simple Checkbox =============================
+  id: 30462973669511252999
+  identification: 
+    name: Simple Checkbox
+
+  source: 
+    pl/sql-code: |
+      --===============================================================================
+      -- Renders the Simple Checkbox item type based on the configuration of the page item.
+      --===============================================================================
+      function render_simple_checkbox (
+          p_item                in apex_plugin.t_page_item,
+          p_plugin              in apex_plugin.t_plugin,
+          p_value               in varchar2,
+          p_is_readonly         in boolean,
+          p_is_printer_friendly in boolean )
+          return apex_plugin.t_page_item_render_result
+      is
+          -- Use named variables instead of the generic attribute variables
+          l_checked_value    varchar2(255)  := nvl(p_item.attribute_01, 'Y');
+          l_unchecked_value  varchar2(255)  := p_item.attribute_02;
+          l_checked_label    varchar2(4000) := p_item.attribute_03;
+      
+          l_name             varchar2(30);
+          l_value            varchar2(255);
+          l_checkbox_postfix varchar2(8);
+          l_result           apex_plugin.t_page_item_render_result;
+      begin
+          -- if the current value doesn't match our checked and unchecked value
+          -- we fallback to the unchecked value 
+          if p_value in (l_checked_value, l_unchecked_value) then
+              l_value := p_value;
+          else
+              l_value := l_unchecked_value;
+          end if;
+      
+          if p_is_readonly or p_is_printer_friendly then
+              -- if the checkbox is readonly we will still render a hidden field with
+              -- the value so that it can be used when the page gets submitted
+              wwv_flow_plugin_util.print_hidden_if_readonly (
+                  p_item_name           => p_item.name,
+                  p_value               => p_value,
+                  p_is_readonly         => p_is_readonly,
+                  p_is_printer_friendly => p_is_printer_friendly );
+              l_checkbox_postfix := '_DISPLAY';
+      
+              -- Tell APEX that this field is NOT navigable
+              l_result.is_navigable := false;
+          else
+              -- If a page item saves state, we have to call the get_input_name_for_page_item
+              -- to render the internal hidden p_arg_names field. It will also return the
+              -- HTML field name which we have to use when we render the HTML input field.
+              l_name := wwv_flow_plugin.get_input_name_for_page_item(false);
+      
+              -- render the hidden field which actually stores the checkbox value
+              sys.htp.prn (
+                  '<input type="hidden" id="'||p_item.name||'_HIDDEN" name="'||l_name||'" '||
+                  'value="'||  apex_escape.html(l_value) ||'" />');
+      
+              -- Add the JavaScript library and the call to initialize the widget
+              apex_javascript.add_library (
+                  p_name      => 'com_oracle_apex_simple_checkbox.min',
+                  p_directory => p_plugin.file_prefix,
+                  p_version   => null );
+      
+              apex_javascript.add_onload_code (
+                  p_code => 'com_oracle_apex_simple_checkbox('||
+                            apex_javascript.add_value(p_item.name)||
+                            '{'||
+                            apex_javascript.add_attribute('unchecked', l_unchecked_value, false)||
+                            apex_javascript.add_attribute('checked',   l_checked_value, false, false)||
+                            '});' );
+      
+              -- Tell APEX that this field is navigable
+              l_result.is_navigable := true;
+          end if;
+      
+          -- render the checkbox widget
+          sys.htp.prn (
+              '<input type="checkbox" id="'||p_item.name||l_checkbox_postfix||'" '||
+              'value="'||  apex_escape.html(l_value) ||'" '||
+              case when l_value = l_checked_value then 'checked="checked" ' end||
+              case when p_is_readonly or p_is_printer_friendly then 'disabled="disabled" ' end||
+              coalesce(p_item.element_attributes, 'class="simple_checkbox"')||' />');
+      
+          -- print label after checkbox
+          if l_checked_label is not null then
+              sys.htp.prn('<label for="'||p_item.name||l_checkbox_postfix||'">'||l_checked_label||'</label>');
+          end if;
+      
+          return l_result;
+      end render_simple_checkbox;
+      
+      --==============================================================================
+      -- Validates the submitted "Simple Checkbox" value against the configuration to
+      -- make sure that invalid values submitted by hackers are detected.
+      --==============================================================================
+      function validate_simple_checkbox (
+          p_item   in apex_plugin.t_page_item,
+          p_plugin in apex_plugin.t_plugin,
+          p_value  in varchar2 )
+          return apex_plugin.t_page_item_validation_result
+      is
+          l_checked_value   varchar2(255) := nvl(p_item.attribute_01, 'Y');
+          l_unchecked_value varchar2(255) := p_item.attribute_02;
+      
+          l_result          apex_plugin.t_page_item_validation_result;
+      begin
+          if not (   p_value in (l_checked_value, l_unchecked_value)
+                  or (p_value is null and l_unchecked_value is null)
+                 )
+          then
+              l_result.message := 'Checkbox contains invalid value!';
+          end if;
+          return l_result;
+      end validate_simple_checkbox;
+      
+

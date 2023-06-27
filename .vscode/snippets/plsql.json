@@ -1,0 +1,92 @@
+{
+    "newFunction":{
+        "prefix": "newFunction",
+        "body": [
+        "function ${1} (${2} in mytable.id%type)",
+        "return varchar2",
+        "is",
+        "c_scope constant varchar2(128) := gc_scope_prefix || '${1}';",
+        "c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';",
+        "begin",
+        "\tapex_debug.message(c_debug_template,'START', '${2}', ${2});",
+        "\treturn 'cheers!';",
+        "exception when others then",
+        "\tapex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);",
+        "\traise;",
+        "end ${1};"
+    ],
+    "description": "Create a new function in a package body"
+    },
+    "newProcedure":{
+        "prefix": "newProcedure",
+        "body": [
+        "procedure ${1} (${2} in mytable.id%type)",
+        "is",
+        "c_scope constant varchar2(128) := gc_scope_prefix || '${1}';",
+        "c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';",
+        "begin",
+        "\tapex_debug.message(c_debug_template,'START', '${2}', ${2});",
+        "exception when others then",
+        "\tapex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);",
+        "\traise;",
+        "end ${1};"
+    ],
+    "description": "Create a new function in a package body"
+    },
+    "debug gc_scope_prefix": {
+        "prefix": "debug.0 gc_scope_prefix constant",
+        "body": [
+          "gc_scope_prefix constant varchar2(32) := lower($$$1plsql_unit) || '.';"
+        ],
+        "description": "Declare gc_scope_prefix"
+    },
+    "debug local constants": {
+		"prefix": "debug.1 c_scope & c_debug_template constants",
+		"body": [
+		  "c_scope          constant varchar2(128)  := gc_scope_prefix || '$1';",
+          "c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';"
+		],
+		"description": "Declare c_scope & c_debug_template constants"
+    },
+    "debug start message": {
+        "prefix": "debug.2 start message",
+        "body": [
+          "apex_debug.message(c_debug_template,'START', '$1', $1);"
+        ],
+        "description": "Start message (after begin)"
+    },
+    "debug general message": {
+        "prefix": "debug.3.0 general message (level 4)",
+        "body": [
+            "apex_debug.message(c_debug_template, '$1', $1);"
+        ],
+        "description": "Add a message (level 4) without parameter specifiers"
+    },
+    "debug info message": {
+      "prefix": "debug.3.1 info message (level 4)",
+      "body": ["apex_debug.info(c_debug_template, '$1', $1);"],
+      "description": "Add an info message (level 4)"
+    },
+    "debug warn message": {
+      "prefix": "debug.3.2 warn message (level 2)",
+      "body": ["apex_debug.warn(c_debug_template,'$1', $1);"],
+      "description": "Add a warning message (level 2)"
+    },
+    "debug error message": {
+      "prefix": "debug.3.3 error message (level 1)",
+      "body": [
+        "apex_debug.error(c_debug_template, '$1', $1);"
+      ],
+      "description": "Add an error message (level 1)"
+    },
+	"debug exception clause": {
+	  "prefix": "debug.4 'when others' exception clause",
+	  "body": [
+		"exception when others then",
+        "\tapex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);",
+        "\traise;"
+	  ],
+	  "description": "Add a 'when others' exception with instrumentation"
+	}
+
+}

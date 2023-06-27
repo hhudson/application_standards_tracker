@@ -1,0 +1,5373 @@
+---
+# ====== Page: Audit Issue &P42_AUDIT_ID. ====================
+id: 42
+identification: 
+  name: Audit Issue &P42_AUDIT_ID.
+  alias: INSPECT-AUDIT-ISSUE
+  title: '&APPLICATION_TITLE.  Audit Issue &P42_AUDIT_ID.'
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  file-urls: 
+  - '#APP_FILES#js/f4000_searchResults#MIN#.js'
+
+security: 
+  authorization-scheme: READER RIGHTS # 48893993399820863
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Unrestricted
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: EBA_STDS_APPLICATIONS region ================
+  id: 1697815183057929
+  identification: 
+    title: EBA_STDS_APPLICATIONS region
+    type: Static Content
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Link to Underlying object ===================
+  id: 44219583854509647
+  identification: 
+    title: Link to Underlying object
+    type: Static Content
+
+  source: 
+    html-code: '&P42_VIEW_BUTTON!RAW.'
+
+  layout: 
+    sequence: 10
+    parent-region: Description # 268630822140257424
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P0_APX_BLDR_SESSION
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: APEX info ===================================
+  id: 240632519864034442
+  identification: 
+    title: APEX info
+    type: Static Content
+
+  layout: 
+    sequence: 60
+    parent-region: Inspect Audit Issue # 244233668686812261
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P42_ISSUE_CATEGORY IN ('SERT','APEX')"
+
+  read-only: 
+    type: Always
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: audit regions ===============================
+  id: 240632601042034443
+  identification: 
+    title: audit regions
+    type: Region Display Selector
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By Session
+
+- # ====== Region: General =====================================
+  id: 240632778831034444
+  identification: 
+    title: General
+    type: Static Content
+
+  layout: 
+    sequence: 70
+    parent-region: Inspect Audit Issue # 244233668686812261
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  read-only: 
+    type: Always
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Database Info ===============================
+  id: 240632894901034445
+  identification: 
+    title: Database Info
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: Inspect Audit Issue # 244233668686812261
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P42_ISSUE_CATEGORY IN ('DB_PLSQL','VIEW','TABLE')"
+
+  read-only: 
+    type: Always
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Actions =====================================
+  id: 240632912402034446
+  identification: 
+    title: Actions
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Inspect Audit Issue # 244233668686812261
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Inspect Audit Issue =========================
+  id: 244233668686812261
+  identification: 
+    title: Inspect Audit Issue
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: AST_PLSQL_APEX_AUDIT
+    include-rowid-column: false
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Breadcrumb ==================================
+  id: 244273633786812325
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Live Test Results ===========================
+  id: 244342221991923118
+  identification: 
+    title: Live Test Results
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: 'select * from ast.ast_standard_view.v_ast(p_standard_code => :P42_STANDARD_CODE , p_audit_id => :P42_ID)'
+    page-items-to-submit: 
+    - P42_STANDARD_CODE
+
+  layout: 
+    sequence: 30
+    parent-region: Live Test Results # 244344973175923145
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7573669835761143993
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--noBorders
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 244342378708923119
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 10
+
+    messages: 
+      when-no-data-found: Pass! Click 'Rerun Test' to update the official audit log.
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+      maximum-rows-per-page: 10
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 245058866310095427
+      identification: 
+        name: Primary Report
+        alias: 2450589
+
+    columns: 
+    - # ====== Column: REFERENCE_CODE ==============================
+      id: 244342464262923120
+      identification: 
+        column-name: REFERENCE_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Reference Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UNQID =======================================
+      id: 244342570802923121
+      identification: 
+        column-name: UNQID
+        type: Plain Text
+
+      heading: 
+        heading: Unqid
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_CATEGORY ==============================
+      id: 244342626506923122
+      identification: 
+        column-name: ISSUE_CATEGORY
+        type: Plain Text
+
+      heading: 
+        heading: Issue Category
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_ID ==============================
+      id: 244342771019923123
+      identification: 
+        column-name: APPLICATION_ID
+        type: Plain Text
+
+      heading: 
+        heading: Application ID
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PAGE_ID =====================================
+      id: 244342848441923124
+      identification: 
+        column-name: PAGE_ID
+        type: Plain Text
+
+      heading: 
+        heading: Page ID
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PASS_YN =====================================
+      id: 244342909466923125
+      identification: 
+        column-name: PASS_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
+
+      heading: 
+        heading: Pass
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: LINE ========================================
+      id: 244343012430923126
+      identification: 
+        column-name: LINE
+        type: Plain Text
+
+      heading: 
+        heading: Line
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_NAME =================================
+      id: 244343164750923127
+      identification: 
+        column-name: OBJECT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Object Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_TYPE =================================
+      id: 244343261156923128
+      identification: 
+        column-name: OBJECT_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Object Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CODE ========================================
+      id: 244343356856923129
+      identification: 
+        column-name: CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALIDATION_FAILURE_MESSAGE ==================
+      id: 244343477934923130
+      identification: 
+        column-name: VALIDATION_FAILURE_MESSAGE
+        type: Plain Text
+
+      heading: 
+        heading: Validation Failure Message
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_TITLE =================================
+      id: 244343592569923131
+      identification: 
+        column-name: ISSUE_TITLE
+        type: Plain Text
+
+      heading: 
+        heading: Issue Title
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_CREATED_BY =============================
+      id: 244343600660923132
+      identification: 
+        column-name: APEX_CREATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Apex Created By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_CREATED_ON =============================
+      id: 244343701310923133
+      identification: 
+        column-name: APEX_CREATED_ON
+        type: Plain Text
+
+      heading: 
+        heading: Apex Created On
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_LAST_UPDATED_BY ========================
+      id: 244343876775923134
+      identification: 
+        column-name: APEX_LAST_UPDATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Apex Last Updated By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_LAST_UPDATED_ON ========================
+      id: 244343941710923135
+      identification: 
+        column-name: APEX_LAST_UPDATED_ON
+        type: Plain Text
+
+      heading: 
+        heading: Apex Last Updated On
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_CODE ===============================
+      id: 244344069850923136
+      identification: 
+        column-name: STANDARD_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Standard Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 170
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CHILD_CODE ==================================
+      id: 244344199631923137
+      identification: 
+        column-name: CHILD_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Child Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 180
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: Live Test Results ===========================
+  id: 244344973175923145
+  identification: 
+    title: Live Test Results
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: False Positive ==============================
+  id: 244345008851923146
+  identification: 
+    title: False Positive
+    type: Static Content
+
+  source: 
+    html-code: This Issue has been identified as a 'False Positive'. Rerun the test to update the audit log.
+
+  layout: 
+    sequence: 10
+    parent-region: Live Test Results # 244344973175923145
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item = Value
+    item: P42_ISSUE_STATUS
+    value: CLOSED
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: False Positive? =============================
+  id: 244345131453923147
+  identification: 
+    title: False Positive?
+    type: Static Content
+
+  source: 
+    html-code: If this issue is a 'False Positive' simply open the 'APEX Issue' and 'close' it.
+
+  layout: 
+    sequence: 40
+    parent-region: Live Test Results # 244344973175923145
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--info
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      (:P42_ISSUE_STATUS != 'CLOSED' or :P42_ISSUE_STATUS is NULL) 
+      and (upper(:P42_LINK_TO_APEX_ISSUE) like 'HTTP%')
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Description =================================
+  id: 268630822140257424
+  identification: 
+    title: Description
+    type: Static Content
+
+  source: 
+    html-code: '&P42_VALIDATION_FAILURE_MESSAGE.'
+
+  layout: 
+    sequence: 30
+    parent-region: Breadcrumb # 244273633786812325
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--info
+    - t-Alert--accessibleHeading
+    - t-Form--slimPadding
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: MV Dependency ===============================
+  id: 268630978084257425
+  identification: 
+    title: MV Dependency
+    type: Static Content
+
+  source: 
+    html-code: This test has a dependency on the Materialized View `&P42_MV_DEPENDENCY.`
+
+  layout: 
+    sequence: 20
+    parent-region: Live Test Results # 244344973175923145
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    - t-Alert--accessibleHeading
+    - t-Form--slimPadding
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P42_MV_DEPENDENCY
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Virtual Cols ================================
+  id: 458446618000308302
+  identification: 
+    title: Virtual Cols
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_AST_PLSQL_APEX_AUDIT
+    include-rowid-column: false
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Common ======================================
+  id: 458830290531448203
+  identification: 
+    title: Common
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: General Virtual Cols ========================
+  id: 458830432779448205
+  identification: 
+    title: General Virtual Cols
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: General # 240632778831034444
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: General Table Cols ==========================
+  id: 458830536617448206
+  identification: 
+    title: General Table Cols
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: General # 240632778831034444
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Actions table cols ==========================
+  id: 458830735079448208
+  identification: 
+    title: Actions table cols
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Actions # 240632912402034446
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Actions virtual cols ========================
+  id: 458830847024448209
+  identification: 
+    title: Actions virtual cols
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Actions # 240632912402034446
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Apex info table cols ========================
+  id: 458830967507448210
+  identification: 
+    title: Apex info table cols
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: APEX info # 240632519864034442
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Apex info virtual cols ======================
+  id: 458831041938448211
+  identification: 
+    title: Apex info virtual cols
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: APEX info # 240632519864034442
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P42_PK_ID ================================
+  id: 1697928227057930
+  identification: 
+    name: P42_PK_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: EBA_STDS_APPLICATIONS region # 1697815183057929
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_COMPONENT_ID =========================
+  id: 44215860575509610
+  identification: 
+    name: P42_COMPONENT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Inspect Audit Issue # 244233668686812261
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: COMPONENT_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_PARENT_COMPONENT_ID ==================
+  id: 44215908338509611
+  identification: 
+    name: P42_PARENT_COMPONENT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Inspect Audit Issue # 244233668686812261
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: PARENT_COMPONENT_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_LINK_URL =============================
+  id: 44218007725509632
+  identification: 
+    name: P42_LINK_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 770
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: LINK_URL
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_VIEW_BUTTON ==========================
+  id: 44218112211509633
+  identification: 
+    name: P42_VIEW_BUTTON
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 780
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: VIEW_BUTTON
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ASSIGNED_TO_ME_YN ====================
+  id: 44218864242509640
+  identification: 
+    name: P42_ASSIGNED_TO_ME_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 850
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ASSIGNED_TO_ME_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_RERUN ================================
+  id: 44219052311509642
+  identification: 
+    name: P42_RERUN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 870
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: RERUN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_MARK_AS_EXCEPTION ====================
+  id: 44219186896509643
+  identification: 
+    name: P42_MARK_AS_EXCEPTION
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 880
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: MARK_AS_EXCEPTION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_AST_COMPONENT_TYPE_ID ================
+  id: 44219443198509646
+  identification: 
+    name: P42_AST_COMPONENT_TYPE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 910
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: AST_COMPONENT_TYPE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_REFERENCE_CODE =======================
+  id: 244234419937812270
+  identification: 
+    name: P42_REFERENCE_CODE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 110
+    region: General Table Cols # 458830536617448206
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: REFERENCE_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ISSUE_CATEGORY =======================
+  id: 244234838430812273
+  identification: 
+    name: P42_ISSUE_CATEGORY
+    type: Text Field
+
+  label: 
+    label: Issue Category
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 40
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 10
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: ISSUE_CATEGORY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: the category of the issue
+
+- # ====== Page Item: P42_APPLICATION_ID =======================
+  id: 244235285628812273
+  identification: 
+    name: P42_APPLICATION_ID
+    type: Display Only
+
+  label: 
+    label: Application ID
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APPLICATION_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The application id where the violation exists
+
+- # ====== Page Item: P42_APPLICATION_NAME =====================
+  id: 244235683754812273
+  identification: 
+    name: P42_APPLICATION_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APPLICATION_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_PAGE_ID ==============================
+  id: 244236076843812274
+  identification: 
+    name: P42_PAGE_ID
+    type: Display Only
+
+  label: 
+    label: Page ID
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: PAGE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The page id where the violation exists
+
+- # ====== Page Item: P42_PASS_YN ==============================
+  id: 244236436231812274
+  identification: 
+    name: P42_PASS_YN
+    type: Switch
+
+  label: 
+    label: Pass
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 70
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: PASS_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: whether or not there is a violation
+
+- # ====== Page Item: P42_LINE =================================
+  id: 244236800461812274
+  identification: 
+    name: P42_LINE
+    type: Number Field
+
+  label: 
+    label: Line
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 10
+    region: Database Info # 240632894901034445
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: LINE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The line number in the package
+
+- # ====== Page Item: P42_OBJECT_NAME ==========================
+  id: 244237266054812275
+  identification: 
+    name: P42_OBJECT_NAME
+    type: Text Field
+
+  label: 
+    label: Object Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Database Info # 240632894901034445
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: OBJECT_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: from all_objects.object_name%type
+
+- # ====== Page Item: P42_OBJECT_TYPE ==========================
+  id: 244237638529812275
+  identification: 
+    name: P42_OBJECT_TYPE
+    type: Text Field
+
+  label: 
+    label: Object Type
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Database Info # 240632894901034445
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 31
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: OBJECT_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: from all_objects.object_type%type
+
+- # ====== Page Item: P42_CODE =================================
+  id: 244238011674812275
+  identification: 
+    name: P42_CODE
+    type: Textarea
+
+  label: 
+    label: Code
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 10
+    region: Database Info # 240632894901034445
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: An extract of the code that expresses the violation
+
+- # ====== Page Item: P42_VALIDATION_FAILURE_MESSAGE ===========
+  id: 244238480048812275
+  identification: 
+    name: P42_VALIDATION_FAILURE_MESSAGE
+    type: Display Only
+
+  label: 
+    label: Validation Failure Message
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: VALIDATION_FAILURE_MESSAGE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: A message describing the violation
+
+- # ====== Page Item: P42_APEX_CREATED_BY ======================
+  id: 244238820247812276
+  identification: 
+    name: P42_APEX_CREATED_BY
+    type: Text Field
+
+  label: 
+    label: Apex Created By
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APEX_CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The `created by` value from the apex audit fields
+
+- # ====== Page Item: P42_APEX_CREATED_ON ======================
+  id: 244239244174812276
+  identification: 
+    name: P42_APEX_CREATED_ON
+    type: Date Picker
+
+  label: 
+    label: Apex Created On
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APEX_CREATED_ON
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The `created on` value from the apex audit fields
+
+- # ====== Page Item: P42_APEX_LAST_UPDATED_BY =================
+  id: 244239635921812276
+  identification: 
+    name: P42_APEX_LAST_UPDATED_BY
+    type: Text Field
+
+  label: 
+    label: Apex Last Updated By
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APEX_LAST_UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The `last updated by` value from the apex audit fields
+
+- # ====== Page Item: P42_APEX_LAST_UPDATED_ON =================
+  id: 244240056839812277
+  identification: 
+    name: P42_APEX_LAST_UPDATED_ON
+    type: Date Picker
+
+  label: 
+    label: Apex Last Updated On
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APEX_LAST_UPDATED_ON
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The `last updated on` value from the apex audit fields
+
+- # ====== Page Item: P42_ASSIGNEE =============================
+  id: 244240451945812277
+  identification: 
+    name: P42_ASSIGNEE
+    type: Popup LOV
+
+  label: 
+    label: Assignee
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: true
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 10
+    region: Actions table cols # 458830735079448208
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ASSIGNEES # 401672094243787964
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: ASSIGNEE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The developer to whom this violation is assigned. This is primarily informed by the available audit fields (from apex, for eg) and secondarily by the `default developer` value for the application
+
+- # ====== Page Item: P42_NOTES ================================
+  id: 244240843416812277
+  identification: 
+    name: P42_NOTES
+    type: Textarea
+
+  label: 
+    label: Notes
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 10
+    region: Actions table cols # 458830735079448208
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: NOTES
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Record notes about this violation
+
+- # ====== Page Item: P42_CREATED ==============================
+  id: 244241211707812277
+  identification: 
+    name: P42_CREATED
+    type: Date Picker
+
+  label: 
+    label: Created
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 140
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: CREATED
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The date on which the violation was recorded
+
+- # ====== Page Item: P42_ACTION_ID ============================
+  id: 244242857281812278
+  identification: 
+    name: P42_ACTION_ID
+    type: Radio Group
+
+  label: 
+    label: Action
+    alignment: Left
+
+  settings: 
+    number-of-columns: 5
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: Actions table cols # 458830735079448208
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--radioButtonGroup
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: AST_AUDIT_ACTIONS # 412818797667761448
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: ACTION_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Identify how to handle this violation
+
+- # ====== Page Item: P42_APEX_ISSUE_ID ========================
+  id: 244243208353812280
+  identification: 
+    name: P42_APEX_ISSUE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APEX_ISSUE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_STANDARD_CODE ========================
+  id: 244244856424812281
+  identification: 
+    name: P42_STANDARD_CODE
+    type: Text Field
+
+  label: 
+    label: Standard Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 50
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: STANDARD_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: a code to describe the test being applied
+
+- # ====== Page Item: P42_CHILD_CODE ===========================
+  id: 244245229224812281
+  identification: 
+    name: P42_CHILD_CODE
+    type: Text Field
+
+  label: 
+    label: Child Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 60
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: CHILD_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The child/sub code from the test query
+
+- # ====== Page Item: P42_LEGACY_YN ============================
+  id: 244246053392812281
+  identification: 
+    name: P42_LEGACY_YN
+    type: Switch
+
+  label: 
+    label: Dismiss as legacy
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 150
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: LEGACY_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: "\"legacy\" means \"we acknowledge it's a legitimate violation but it's not a priority to resolve it because it's in the tech-debt at this point\"."
+
+- # ====== Page Item: P42_UNQID ================================
+  id: 244344506843923141
+  identification: 
+    name: P42_UNQID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 130
+    region: General Table Cols # 458830536617448206
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: UNQID
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_INCLUDE_IN_REPORT_YN =================
+  id: 268630599824257421
+  identification: 
+    name: P42_INCLUDE_IN_REPORT_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 560
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: INCLUDE_IN_REPORT_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_MV_DEPENDENCY ========================
+  id: 268630678669257422
+  identification: 
+    name: P42_MV_DEPENDENCY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: MV Dependency # 268630978084257425
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: MV_DEPENDENCY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Identify a materialized view referenced in your query
+
+- # ====== Page Item: P42_AUDIT_ID =============================
+  id: 458446778079308303
+  identification: 
+    name: P42_AUDIT_ID
+    type: Number Field
+
+  label: 
+    label: Audit ID
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 30
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: AUDIT_ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: the primary key of audit table
+
+- # ====== Page Item: P42_ISSUE_DESC ===========================
+  id: 458447200365308308
+  identification: 
+    name: P42_ISSUE_DESC
+    type: Textarea
+
+  label: 
+    label: Issue Desc
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 40
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ISSUE_DESC
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: a description of the violation
+
+- # ====== Page Item: P42_TEST_ID ==============================
+  id: 458447513692308311
+  identification: 
+    name: P42_TEST_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: TEST_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_URGENCY ==============================
+  id: 458447622452308312
+  identification: 
+    name: P42_URGENCY
+    type: Textarea
+
+  label: 
+    label: Urgency
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 60
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: URGENCY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: the urgency of the violation
+
+- # ====== Page Item: P42_URGENCY_LEVEL ========================
+  id: 458447764185308313
+  identification: 
+    name: P42_URGENCY_LEVEL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 70
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: URGENCY_LEVEL
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ISSUE_TEXT ===========================
+  id: 458448308987308319
+  identification: 
+    name: P42_ISSUE_TEXT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 80
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ISSUE_TEXT
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ACTION_NAME ==========================
+  id: 458449172632308327
+  identification: 
+    name: P42_ACTION_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Actions virtual cols # 458830847024448209
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ACTION_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_LINK_TO_APEX_ISSUE ===================
+  id: 458449588889308331
+  identification: 
+    name: P42_LINK_TO_APEX_ISSUE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 290
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: LINK_TO_APEX_ISSUE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_ISSUE_TITLE =====================
+  id: 458449728440308333
+  identification: 
+    name: P42_APEX_ISSUE_TITLE
+    type: Textarea
+
+  label: 
+    label: Apex Issue Title
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 10
+    region: Apex info virtual cols # 458831041938448211
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_ISSUE_TITLE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The value given to the `apex issue` (from team development) that is created
+
+- # ====== Page Item: P42_APEX_ISSUE_TEXT ======================
+  id: 458449885234308334
+  identification: 
+    name: P42_APEX_ISSUE_TEXT
+    type: Rich Text Editor
+
+  label: 
+    label: Apex Issue Text
+    alignment: Left
+
+  settings: 
+    library: CKEditor [Deprecated]
+    format: Markdown
+    minimum-height: 180
+    allow-custom-html: false
+
+  layout: 
+    sequence: 10
+    region: Apex info virtual cols # 458831041938448211
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_ISSUE_TEXT
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  read-only: 
+    type: Always
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: This text is printed in the body of the 'apex issue' (from team development)
+
+- # ====== Page Item: P42_ISSUE_STATUS =========================
+  id: 458449979806308335
+  identification: 
+    name: P42_ISSUE_STATUS
+    type: Text Field
+
+  label: 
+    label: Issue Status
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Apex info virtual cols # 458831041938448211
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 20
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ISSUE_STATUS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The status of the `apex issue` (from team development) that is created
+
+- # ====== Page Item: P42_FIX ==================================
+  id: 458450128786308337
+  identification: 
+    name: P42_FIX
+    type: Rich Text Editor
+
+  label: 
+    label: Fix
+    alignment: Left
+
+  settings: 
+    library: CKEditor [Deprecated]
+    format: Markdown
+    minimum-height: 180
+    allow-custom-html: false
+
+  layout: 
+    sequence: 90
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: FIX
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: the proposed fix for the violation
+
+- # ====== Page Item: P42_INFO =================================
+  id: 458450237351308338
+  identification: 
+    name: P42_INFO
+    type: Rich Text Editor
+
+  label: 
+    label: Info
+    alignment: Left
+
+  settings: 
+    library: CKEditor [Deprecated]
+    format: Markdown
+    minimum-height: 180
+    allow-custom-html: false
+
+  layout: 
+    sequence: 100
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: INFO
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: details on the violation
+
+- # ====== Page Item: P42_RECENT_YN ============================
+  id: 458450322477308339
+  identification: 
+    name: P42_RECENT_YN
+    type: Text Field
+
+  label: 
+    label: Recent
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 110
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 1
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: RECENT_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: |
+      "recent" issues are eligible for the daily email notification. It is informed by the following :
+      <ul>
+          <li>"Legacy" issues cannot be recent </li>
+          <li>Issues created by tests that have themselves been edited recently, cannot be recent</li>
+          <li>Only issues that been created in the past 2 business days can be recent</li>
+      </ul>
+         
+
+- # ====== Page Item: P42_URGENT_YN ============================
+  id: 458450495476308340
+  identification: 
+    name: P42_URGENT_YN
+    type: Text Field
+
+  label: 
+    label: Urgent
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 120
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 1
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: URGENT_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: If the urgency level is below "100", it is urgent
+
+- # ====== Page Item: P42_SRC_RECENT_CHANGE_YN =================
+  id: 458450714988308343
+  identification: 
+    name: P42_SRC_RECENT_CHANGE_YN
+    type: Text Field
+
+  label: 
+    label: Recent Change in Standard
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 130
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 1
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: SRC_RECENT_CHANGE_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: whether the test itself has been recently edited
+
+- # ====== Page Item: P42_ID ===================================
+  id: 458451013731308346
+  identification: 
+    name: P42_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Common # 458830290531448203
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_CREATED_BY ===========================
+  id: 458451149188308347
+  identification: 
+    name: P42_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 80
+    region: General Table Cols # 458830536617448206
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_UPDATED ==============================
+  id: 458451232174308348
+  identification: 
+    name: P42_UPDATED
+    type: Date Picker
+
+  label: 
+    label: Updated
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 90
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: UPDATED
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: audit field from the audit table
+
+- # ====== Page Item: P42_UPDATED_BY ===========================
+  id: 458451312767308349
+  identification: 
+    name: P42_UPDATED_BY
+    type: Textarea
+
+  label: 
+    label: Updated By
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 100
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: audit field from the audit table
+
+- # ====== Page Item: P42_ISSUE_TITLE ==========================
+  id: 458451472708308350
+  identification: 
+    name: P42_ISSUE_TITLE
+    type: Textarea
+
+  label: 
+    label: Issue Title
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 30
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: ISSUE_TITLE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: summary of the issue
+
+- # ====== Page Item: P42_APEX_ISSUE_TITLE_SUFFIX ==============
+  id: 458830042513448201
+  identification: 
+    name: P42_APEX_ISSUE_TITLE_SUFFIX
+    type: Textarea
+
+  label: 
+    label: Apex Issue Title Suffix
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 10
+    region: Apex info table cols # 458830967507448210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: APEX_ISSUE_TITLE_SUFFIX
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: This is necessary if the `issue title` is not unique
+
+- # ====== Page Item: P42_OWNER ================================
+  id: 458830136287448202
+  identification: 
+    name: P42_OWNER
+    type: Text Field
+
+  label: 
+    label: Owner
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 120
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 50
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: OWNER
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: the schema
+
+buttons: 
+- # ====== Button: Manage_application ==========================
+  id: 1697759877057928
+  identification: 
+    button-name: Manage_application
+    label: Manage Application
+
+  layout: 
+    sequence: 30
+    region: audit regions # 240632601042034443
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    - t-Button--iconRight
+    - t-Button--hoverIconPush
+    icon: fa-apex-square
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:161:&SESSION.::&DEBUG.:161:P161_PK_ID:&P42_PK_ID.'
+      page: 161 # Edit Application
+      clear-cache: 161
+      values: 
+        p161_pk_id: '&P42_PK_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P42_PK_ID
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: CANCEL ======================================
+  id: 244255712927812290
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: audit regions # 240632601042034443
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1::'
+      page: 1 # V_AST_PLSQL_APEX_AUDIT
+      clear-cache: 1
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+- # ====== Button: SAVE ========================================
+  id: 244256709514812293
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 10
+    region: Actions # 240632912402034446
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P42_ID
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: visit_standard ==============================
+  id: 244342179211923117
+  identification: 
+    button-name: visit_standard
+    label: Visit Standard
+
+  layout: 
+    sequence: 40
+    region: audit regions # 240632601042034443
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-info-circle
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:window.open('f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_STANDARD_CODE:&P42_STANDARD_CODE.');"
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: rerun_test_for_audit_id =====================
+  id: 244344227957923138
+  identification: 
+    button-name: rerun_test_for_audit_id
+    label: Rerun Test
+
+  layout: 
+    sequence: 70
+    region: audit regions # 240632601042034443
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    - t-Button--hoverIconPush
+    icon: fa-refresh
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: Link_to_apex_issue ==========================
+  id: 244344661462923142
+  identification: 
+    button-name: Link_to_apex_issue
+    label: Open APEX Issue
+
+  layout: 
+    sequence: 60
+    region: audit regions # 240632601042034443
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconRight
+    icon: fa-box-arrow-in-ne
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:window.open('&P42_LINK_TO_APEX_ISSUE.');"
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  advanced: 
+    custom-attributes: 
+    - target="_blank"
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "upper(:P42_LINK_TO_APEX_ISSUE) LIKE 'HTTP%'"
+
+- # ====== Button: Refresh_MV ==================================
+  id: 268631001486257426
+  identification: 
+    button-name: Refresh_MV
+    label: Refresh Materialized View
+
+  layout: 
+    sequence: 20
+    region: MV Dependency # 268630978084257425
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--simple
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: reset =======================================
+  id: 268632080735257436
+  identification: 
+    button-name: reset
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Live Test Results # 244342221991923118
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:RR,:P42_ID:&P42_ID.'
+      page: 42 # Audit Issue &P42_AUDIT_ID.
+      clear-cache: RR
+      values: 
+        p42_id: '&P42_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: navigateInBuilderWindow =============
+  id: 44267476149286842
+  identification: 
+    name: navigateInBuilderWindow
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: jQuery Selector
+    jquery-selector: button.edit-button
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 44267879686286843
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        debugger;
+        apex.debug.info("DA click event");
+        var appId, pageId, componentId, url, match,
+        instance = getBuilderInstance(),
+        typeId = this.triggeringElement.dataset.typeid;  //btn$.attr( "data-typeid" );
+        apex.debug.info("DA typeId", typeId);
+        
+        
+        if ( typeId ) {
+            appId = this.triggeringElement.dataset.appid; //btn$.attr( "data-appid" );
+            apex.debug.info("DA appId", appId);
+            pageId = this.triggeringElement.dataset.pageid;  //btn$.attr( "data-pageid" );
+            apex.debug.info("DA pageId", pageId);
+            componentId = this.triggeringElement.dataset.componentid; //btn$.attr( "data-componentid" );
+            apex.debug.info("DA componentId", componentId);
+            var url = "f?p=4000:4500:" + instance +
+                "::NO:1:FB_FLOW_ID,FB_FLOW_PAGE_ID,F4000_P1_FLOW,F4000_P1_PAGE:" + appId +
+                "," + pageId +
+                "," + appId +
+                "," + pageId +
+                "#" + typeId + ":" + componentId;
+                apex.debug.info("DA url", url);
+            navigateInPageDesigner( appId, pageId, typeId, componentId, function() {
+                var url = "f?p=4000:4500:" + instance +
+                "::NO:1:FB_FLOW_ID,FB_FLOW_PAGE_ID,F4000_P1_FLOW,F4000_P1_PAGE:" + appId +
+                "," + pageId +
+                "," + appId +
+                "," + pageId +
+                "#" + typeId + ":" + componentId;
+                navigateInBuilderWindow( url );
+            } );
+        } else {
+            url = this.triggeringElement.dataset.link; //btn$.attr( "data-link" );
+            apex.debug.info("DA url", url);
+            // in the case of a URL that opens a dialog we can't just eval that code
+            // Caution! this code makes many assumptions about how the builder opens modal dialog pages
+            match = /'(f\?p.*p_dialog_cs[^']*)',(\{.*\}),'([^']*)'/.exec( url );
+            if ( match ) {
+                openDialog( match[1], match[2], match[3], btn$ );
+            } else {
+                navigateInBuilderWindow( url );
+            }
+        }
+
+    execution: 
+      sequence: 10
+      event: navigateInBuilderWindow # 44267476149286842
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P42_PK_ID ==============================
+  id: 1698043655057931
+  identification: 
+    item-name: P42_PK_ID
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select PK_ID
+      from EBA_STDS_APPLICATIONS
+      WHERE APEX_APP_ID = :P42_APPLICATION_ID
+
+- # ====== Computation: P42_AUDIT_ID ===========================
+  id: 458830356129448204
+  identification: 
+    item-name: P42_AUDIT_ID
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Item
+    item-name: P42_ID
+
+processes: 
+- # ====== Process: Initialize form Inspect Audit Issue ========
+  id: 244257908371812294
+  identification: 
+    name: Initialize form Inspect Audit Issue
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Inspect Audit Issue # 244233668686812261
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form Inspect Audit Issue ===========
+  id: 244258373272812295
+  identification: 
+    name: Process form Inspect Audit Issue
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: Inspect Audit Issue # 244233668686812261
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 244256709514812293
+
+- # ====== Process: rerun_for_audit_id =========================
+  id: 244344324737923139
+  identification: 
+    name: rerun_for_audit_id
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: 'ast_apex_issue_util.refresh_for_audit_id (:P42_AUDIT_ID);'
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: rerun_test_for_audit_id # 244344227957923138
+
+- # ====== Process: Refresh MV =================================
+  id: 268631172517257427
+  identification: 
+    name: Refresh MV
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: 'AST_AUDIT_UTIL.refresh_mv(:P42_MV_DEPENDENCY);'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Refresh_MV # 268631001486257426
+
+- # ====== Process: Initialize form Virtual Cols ===============
+  id: 458830660571448207
+  identification: 
+    name: Initialize form Virtual Cols
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Virtual Cols # 458446618000308302
+
+  execution: 
+    sequence: 20
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+branches: 
+- # ====== Branch: Go To Page 1 ================================
+  id: 244257441814812293
+  identification: 
+    name: Go To Page 1
+
+  execution: 
+    sequence: 1
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 1 # V_AST_PLSQL_APEX_AUDIT
+
+  security: 
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+

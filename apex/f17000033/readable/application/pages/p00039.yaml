@@ -1,0 +1,513 @@
+---
+# ====== Page: Help ==========================================
+id: 39
+identification: 
+  name: Help
+  alias: HELP
+  title: '&APPLICATION_TITLE.  Help'
+  page-group: Help # 8901801716176772001
+
+appearance: 
+  page-mode: Normal
+  page-template: Standard # 7573627022495143936
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: '.standards_tester_app {background-position: -384px -384px}'
+
+html-header: 
+  html-header: |
+    <style>
+    div#uOneCol div.helpContainer div.helpSide h1.appNameHeader {margin-top: 8px; font-size: 16px; line-height: 24px;}
+    div.helpContainer div.helpSide ul.vapList {
+    padding-top: 8px;}
+    </style>
+
+security: 
+  authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: &APPLICATION_TITLE. =========================
+  id: 8193326119011431636
+  identification: 
+    title: '&APPLICATION_TITLE.'
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select aa.version app_version,
+             to_char(aa.pages,'999G999G990') pages,
+             'Oracle' vendor
+      from apex_applications aa
+      where aa.application_id = :APP_ID
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: 4
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    css-classes: 
+    - t-HeroRegion--featured
+    icon: app-application-standards-tracker
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Value Attribute Pairs - Column # 7573678870288144019
+      template-options: 
+      - '#DEFAULT#'
+      - t-AVPList--rightAligned
+      show-null-values-as: '-'
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: APP_VERSION =================================
+    id: 8193326201130431637
+    identification: 
+      column-name: APP_VERSION
+      type: Plain Text
+
+    heading: 
+      heading: App version
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PAGES =======================================
+    id: 8193326276509431638
+    identification: 
+      column-name: PAGES
+      type: Plain Text
+
+    heading: 
+      heading: Pages
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: VENDOR ======================================
+    id: 8193326451834431639
+    identification: 
+      column-name: VENDOR
+      type: Plain Text
+
+    heading: 
+      heading: Vendor
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: About this Application ======================
+  id: 8310470098064407975
+  identification: 
+    title: About this Application
+    type: Translated Message
+
+  layout: 
+    sequence: 10
+    parent-region: Help Container # 10811217519808400463
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      text-message: HELP_ABOUT
+      add-paragraph-tags: true
+
+- # ====== Region: Getting Started =============================
+  id: 8310471400555436657
+  identification: 
+    title: Getting Started
+    type: Translated Message
+
+  layout: 
+    sequence: 20
+    parent-region: Help Container # 10811217519808400463
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      text-message: HELP_GETTING_STARTED
+      add-paragraph-tags: true
+
+- # ====== Region: Features ====================================
+  id: 8310473076098439108
+  identification: 
+    title: Features
+    type: Translated Message
+
+  layout: 
+    sequence: 30
+    parent-region: Help Container # 10811217519808400463
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      text-message: HELP_FEATURES
+      add-paragraph-tags: true
+
+- # ====== Region: Support =====================================
+  id: 8310473283717441328
+  identification: 
+    title: Support
+    type: Translated Message
+
+  source: 
+    sql-query: |
+      select 'https://forums.oracle.com/forums/forum.jspa?forumID=137' support_link,
+          'OTN Forum' support_text
+      from dual
+
+  layout: 
+    sequence: 40
+    parent-region: Help Container # 10811217519808400463
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      text-message: HELP_SUPPORT
+      substitution-column-0-(%0): SUPPORT_LINK
+      substitution-column-1-(%1): SUPPORT_TEXT
+      add-paragraph-tags: true
+
+- # ====== Region: Help Container ==============================
+  id: 10811217519808400463
+  identification: 
+    title: Help Container
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Help ========================================
+  id: 10811218904805400469
+  identification: 
+    title: Help
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+

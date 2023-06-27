@@ -1,0 +1,40 @@
+---
+- # ====== Build Option: DEV_ONLY ==============================
+  id: 6157991809150063520
+  identification: 
+    name: DEV_ONLY
+
+  status: 
+    status: Include
+    default-on-export: Exclude
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This build is used for components that are not ready for deployment or review (should be set to `include` but `exclude` on export)
+
+- # ====== Build Option: TO_DELETE =============================
+  id: 6157992149575072830
+  identification: 
+    name: TO_DELETE
+
+  status: 
+    status: Exclude
+    default-on-export: Exclude
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This build is used to flag components that are candidates for deletion (should be set to `exclude` in dev & `exclude` on export). Deleting things can be scary. If no one complains about this build being applied, it's a good sign the component can be deleted
+
+- # ====== Build Option: Link to Builder =======================
+  id: 7722365380501132220
+  identification: 
+    name: Link to Builder
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: When enabled, this feature provides links into the APEX builder for any users who have an active APEX builder session.
+

@@ -1,0 +1,1053 @@
+---
+# ====== Page: EBA_STDS_STANDARDS ============================
+id: 3
+identification: 
+  name: EBA_STDS_STANDARDS
+  alias: STANDARDS
+  title: '&APPLICATION_TITLE. Standards'
+
+appearance: 
+  page-mode: Normal
+  page-template: Left Side Column # 7573629604361143943
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: READER RIGHTS # 48893993399820863
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Disabled
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: <p>This page provides an overview of the standards which have been defined and their implementation across all relevant applications.</p>
+
+regions: 
+- # ====== Region: Search Results ==============================
+  id: 106736168263503815
+  identification: 
+    title: Search Results
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select null id,
+              'All' STANDARD,
+              'Y' ACTIVE_YN,
+             'All' card_title,
+             'View all the tests' card_text,
+             'ALL' card_initials,
+             apex_string.format('%s active test(s)', coalesce(esst.test_count,0)) card_subtext,
+             esst.test_count,
+             apex_page.get_url (
+                  p_page   => 5,
+                  p_items  => 'P5_ID',
+                  p_values => null ) card_link
+      from (select count(*) test_count
+              from eba_stds_standard_tests
+              where active_yn ='Y') esst
+      union all 
+      select ess.ID,
+             ess.NAME standard,
+             ess.active_yn,
+             ess.NAME card_title,
+             ess.DESCRIPTION card_text,
+             apex_string.get_initials(ess.NAME) CARD_INITIALS,
+             apex_string.format('%s active test(s)', coalesce(esst.test_count,0)) CARD_SUBTEXT,
+             esst.test_count,
+             APEX_PAGE.GET_URL (
+                  p_page   => 5,
+                  p_items  => 'P5_ID',
+                  p_values => ess.ID ) card_link
+        from EBA_STDS_STANDARDS ess
+        left outer join 
+        (select standard_id, count(*) test_count
+          from eba_stds_standard_tests
+          where active_yn ='Y'
+          group by standard_id) esst on esst.standard_id = ess.id
+        
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 50
+
+    appearance: 
+      template-type: Theme
+      template: Cards # 7743801864025833700
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+      - t-Cards--basic
+      - t-Cards--displayInitials
+      - t-Cards--3cols
+      - t-Cards--animColorFill
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: CARD_TITLE ==================================
+    id: 53392194812964828
+    identification: 
+      column-name: CARD_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Card Title
+      alignment: start
+
+    layout: 
+      sequence: 24
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_SUBTEXT ================================
+    id: 53392551436964828
+    identification: 
+      column-name: CARD_SUBTEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card Subtext
+      alignment: start
+
+    layout: 
+      sequence: 34
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_TEXT ===================================
+    id: 53392973849964829
+    identification: 
+      column-name: CARD_TEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card Text
+      alignment: end
+
+    layout: 
+      sequence: 44
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD ====================================
+    id: 53393381394964829
+    identification: 
+      column-name: STANDARD
+      type: Plain Text
+
+    heading: 
+      heading: Standard
+      alignment: start
+
+    layout: 
+      sequence: 54
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 2
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIVE_YN ===================================
+    id: 53393751590964829
+    identification: 
+      column-name: ACTIVE_YN
+      type: Plain Text
+
+    heading: 
+      heading: Active Yn
+      alignment: start
+
+    layout: 
+      sequence: 64
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ID ==========================================
+    id: 53394189331964830
+    identification: 
+      column-name: ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 14
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_INITIALS ===============================
+    id: 53394517624964830
+    identification: 
+      column-name: CARD_INITIALS
+      type: Plain Text
+
+    heading: 
+      heading: Card Initials
+      alignment: start
+
+    layout: 
+      sequence: 84
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TEST_COUNT ==================================
+    id: 53394907936964830
+    identification: 
+      column-name: TEST_COUNT
+      type: Plain Text
+
+    heading: 
+      heading: Test Count
+      alignment: end
+
+    layout: 
+      sequence: 94
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Descending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_LINK ===================================
+    id: 53395398331964831
+    identification: 
+      column-name: CARD_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Card Link
+      alignment: start
+
+    layout: 
+      sequence: 104
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Search ======================================
+  id: 106736289757503815
+  identification: 
+    title: Search
+    type: Faceted Search
+
+  source: 
+    filtered-region: Search Results # 106736168263503815
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+    landmark-label: Filters
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      batch-facet-changes: false
+      compact-numbers-threshold: 10000
+      show-current-facets: Selector
+      current-facets-selector: '#active_facets'
+      show-total-row-count: Yes
+      show-charts: Dialog
+      display-chart-for-top-n-values: 10
+
+  facets: 
+  - # ====== Facet: P3_ACTIVE ====================================
+    id: 106677026533939155
+    identification: 
+      name: P3_ACTIVE
+      type: Radio Group
+
+    label: 
+      label: Active
+      show-label-for-current-facet: true
+
+    settings: 
+      hide-radio-buttons: false
+
+    layout: 
+      sequence: 20
+
+    list-of-values: 
+      type: Distinct Values
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      display-toggling: false
+      collapsible: false
+
+    source: 
+      database-column: ACTIVE_YN
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    default: 
+      type: Static
+      static-value: Y
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P3_SEARCH ====================================
+    id: 106741025423503820
+    identification: 
+      name: P3_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      input-field: Top of Faceted Search Region
+
+    layout: 
+      sequence: 10
+
+    source: 
+      database-column(s): STANDARD,CARD_TEXT,CARD_SUBTEXT
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P3_STANDARD ==================================
+    id: 106741372413503820
+    identification: 
+      name: P3_STANDARD
+      type: Select List
+
+    label: 
+      label: Standard
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 30
+
+    list-of-values: 
+      type: Distinct Values
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+
+    actions-menu: 
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      display-toggling: false
+      collapsible: false
+
+    source: 
+      database-column: STANDARD
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  filters: 
+  - # ====== Filter: P3_ACTIVE ===================================
+    id: 106677026533939155
+    identification: 
+      name: P3_ACTIVE
+      type: Radio Group
+
+    label: 
+      label: Active
+
+    layout: 
+      sequence: 20
+
+    list-of-values: 
+      type: Distinct Values
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: ACTIVE_YN
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    default: 
+      type: Static
+      static-value: Y
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P3_SEARCH ===================================
+    id: 106741025423503820
+    identification: 
+      name: P3_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      collapsed-search-field: false
+
+    layout: 
+      sequence: 10
+
+    source: 
+      database-column(s): STANDARD,CARD_TEXT,CARD_SUBTEXT
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P3_STANDARD =================================
+    id: 106741372413503820
+    identification: 
+      name: P3_STANDARD
+      type: Select List
+
+    label: 
+      label: Standard
+
+    layout: 
+      sequence: 30
+
+    list-of-values: 
+      type: Distinct Values
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: STANDARD
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+- # ====== Region: Button Bar ==================================
+  id: 106754371261524786
+  identification: 
+    title: Button Bar
+    type: Static Content
+
+  source: 
+    html-code: <div id="active_facets"></div>
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7573656789854143977
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noPadding
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 7561021979466717382
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: About this page =============================
+  id: 7576603697885016674
+  identification: 
+    title: About this page
+    type: Static Content
+
+  source: 
+    html-code: <p>This page provides an overview of the standards which have been defined and their implementation across all relevant applications.</p>
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: about1
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+buttons: 
+- # ====== Button: Merge_sample_data ===========================
+  id: 53125450992690227
+  identification: 
+    button-name: Merge_sample_data
+    label: Available Sample Data
+
+  layout: 
+    sequence: 20
+    region: Breadcrumb # 7561021979466717382
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--success
+    - t-Button--noUI
+    - t-Button--iconLeft
+    icon: fa-filter
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:EBA_STDS_STANDARDS'
+      page: 44 # Inspect Static File contents
+      clear-cache: CR,44
+      values: 
+        p44_table_name: EBA_STDS_STANDARDS
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+- # ====== Button: refresh =====================================
+  id: 53280477259974319
+  identification: 
+    button-name: refresh
+    label: Refresh
+
+  layout: 
+    sequence: 10
+    region: Button Bar # 106754371261524786
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconLeft
+    icon: fa-refresh
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: RESET =======================================
+  id: 53409032813985798
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Button Bar # 106754371261524786
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:3:&SESSION.::&DEBUG.:RR,::'
+      page: 3 # EBA_STDS_STANDARDS
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: CREATE_STANDARD =============================
+  id: 7561466994380108836
+  identification: 
+    button-name: CREATE_STANDARD
+    label: Create Standard
+
+  layout: 
+    sequence: 20
+    region: Breadcrumb # 7561021979466717382
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 7573687324825144047
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-plus
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.:RP,11::'
+      page: 11 # Manage Standard
+      clear-cache: RP,11
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+dynamic-actions: 
+- # ====== Dynamic Action: refresh =============================
+  id: 53280540735974320
+  identification: 
+    name: refresh
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: refresh # 53280477259974319
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 53280619682974321
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Search Results # 106736168263503815
+
+    execution: 
+      sequence: 10
+      event: refresh # 53280540735974320
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh =====================================
+    id: 53281994701974334
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Search # 106736289757503815
+
+    execution: 
+      sequence: 20
+      event: refresh # 53280540735974320
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 7721081267384514417
+  identification: 
+    item-name: LAST_VIEW
+
+  execution: 
+    sequence: 20
+    point: Before Header
+
+  computation: 
+    type: Item
+    item-name: APP_PAGE_ID
+

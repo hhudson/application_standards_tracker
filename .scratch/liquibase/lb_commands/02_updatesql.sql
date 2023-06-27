@@ -1,0 +1,1 @@
+lb update-sql -changelog-file controller.xml -output-file sql_preview_2023-Mar-30_17:01.sql

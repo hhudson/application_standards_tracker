@@ -1,0 +1,1192 @@
+---
+# ====== Page: General Administration ========================
+id: 4
+identification: 
+  name: General Administration
+  alias: SETTINGS
+  title: '&APPLICATION_TITLE.  Administration'
+  page-group: Administration # 10780320217725301324
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: |
+    .acl-Info {
+      display: block;
+      overflow: hidden;
+    }
+    .acl-Info-statusBox,
+    .acl-Info-usersBox {
+      display: block;
+      float: left;
+      width: 50%;
+    }
+    .acl-Info-statusBox {
+      text-align: center;
+    }
+    .acl-Info-heading {
+      display: block;
+      font-size: 16px;
+      margin: 16px 16px 8px 16px;
+      font-weight: bold;
+      color: #404040;
+    }
+    .acl-Info-heading span {
+      color: #707070;
+      font-weight: normal;
+    }
+    .acl-Info-status {
+      display: block;
+      width: 50%;
+      margin: 0 auto 8px auto;
+      padding: 12px 0;
+      border: 1px solid #D0D0D0;
+      border-radius: 2px;
+      font-size: 20px;
+      line-height: 20px;
+      color: #404040;
+      font-weight: bold;
+      background-color: #F0F0F0;
+    }
+    .authScheme .acl-Info-status {
+      font-size: 16px;
+      width: 70%
+    }
+    .acl-Info-status.is-enabled {
+      background-color: #40C230;
+      border-color: #37A62A;
+      color: #FFF;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    }
+    .acl-Info-status.is-disabled {
+      background-color: #DE3038;
+      border-color: #A0242A;
+      color: #FFF;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    }
+    .acl-Info-changeStatusLink {
+      display: inline-block;
+      padding: 8px 0;
+      color: #404040;
+      text-decoration: none;
+      font-size: 11px;
+      background-color: #F0F0F0;
+      border: 1px solid #D0D0D0;
+      margin: 0 16px 16px 16px;
+      border-radius: 2px;
+      width: 50%;
+    }
+    .acl-Info-changeStatusLink:hover {
+      background-color: #fff;
+      border-color: #C0C0C0;
+      box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    }
+    .acl-Info-changeStatusLink:active {
+      background-color: #E0E0E0;
+      border-color: #C0C0C0;
+      box-shadow: 0 1px 1px rgba(0,0,0,.25) inset;
+    }
+    .acl-Info-users {
+      margin: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-left: 1px solid #F0F0F0;
+    }
+    .acl-Info-user {
+      border-top: 1px solid #F0F0F0;
+    }
+    .acl-Info-userLink {
+      text-decoration: none;
+      display: block;
+      padding: 8px;
+    }
+    .acl-Info-userLink:hover {
+      background-color: #689AD8;
+    }
+    .acl-Info-user:first-child {
+      border-top: none;
+    }
+    .acl-Info-userType,
+    .acl-Info-userCount {
+      display: block;
+      font-size: 14px;
+    }
+    .acl-Info-userType {
+      font-weight: bold;
+      float: left;
+      margin-right: 8px;
+      line-height: 32px;
+    }
+    .acl-Info-userLink:hover .acl-Info-userType {
+      color: #FFF;
+    }
+    .acl-Info-userCount {
+      display: block;
+      overflow: hidden;
+      text-align: right;
+    }
+    .acl-Info-userCount span {
+      display: inline-block;
+      padding: 8px;
+      background-color: #F8F8F8;
+      color: #404040;
+      line-height: 16px;
+      min-width: 36px;
+      text-decoration: none;
+      text-align: right;
+      border-radius: 2px;
+    }
+    .acl-Info-desc {
+        padding: 16px;
+        border-top: 1px solid #E0E0E0;
+        border-bottom: 1px solid #E0E0E0;
+        background: #F8F8F8;
+        font-size: 14px;
+        clear: both;
+    }
+    .acl-Info-desc>p:last-child {
+      margin-bottom: 0;
+    }
+    
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authentication: Page Requires Authentication
+  deep-linking: Disabled
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Disabled
+
+advanced: 
+  enable-duplicate-page-submissions: No - Prevent page from being re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: |
+    <p>This page allows users with application administrator privileges to perform the following actions:
+        <ul>
+            <li>Enable or disable access control</li>
+            <li>Add, edit, and/or remove users</li>
+            <li>Change the application's username format (email address or non-email address)</li>
+            <li>Monitor application errors</li>
+            <li>Manage the application's appearance</li>
+            <li>Add, edit, and/or remove application notifications</li>
+            <li>Rename the application</li>
+            <li>Manage all other application settings and preferences</li>
+        </ul>
+    </p>
+
+regions: 
+- # ====== Region: ACL Info ====================================
+  id: 6253715005094746500
+  identification: 
+    title: ACL Info
+    type: PL/SQL Dynamic Content [Legacy]
+
+  source: 
+    pl/sql-code: |
+      declare
+          l_acl_enabled varchar2(45);
+          l_acl_scope   varchar2(45);
+      begin
+          l_acl_enabled := eba_stds_fw.get_preference_value('ACCESS_CONTROL_ENABLED');
+          l_acl_scope   := eba_stds_fw.get_preference_value('ACCESS_CONTROL_SCOPE');
+      
+          if l_acl_enabled = 'N' then
+              sys.htp.p(apex_lang.message('ACL_DISABLED'));
+          else
+              case l_acl_scope
+                  when 'ACL_ONLY' then sys.htp.p(apex_lang.message('ACL_ENABLED'));
+                  when 'PUBLIC_CONTRIBUTE' then sys.htp.p(apex_lang.message('ACL_PUBLIC_CONTRIBUTE'));
+                  when 'PUBLIC_READONLY' then sys.htp.p(apex_lang.message('ACL_PUBLIC_READONLY'));
+              end case;
+          end if;
+      end;
+
+  layout: 
+    sequence: 50
+    parent-region: Access Control Settings # 7652842965938608310
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--horizontal
+    - t-Alert--noIcon
+    - t-Alert--warning
+    - t-Alert--accessibleHeading
+    - margin-top-sm
+    - margin-bottom-sm
+    - margin-left-sm
+    - margin-right-sm
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
+- # ====== Region: User Counts =================================
+  id: 6253715134283746501
+  identification: 
+    title: User Counts
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select sum(case when access_level_id = 1 then 1 else 0 end) reader_count,
+          sum(case when access_level_id = 2 then 1 else 0 end) contributor_count,
+          sum(case when access_level_id = 3 then 1 else 0 end) admin_count
+      from eba_stds_users
+      order by 1
+
+  layout: 
+    sequence: 60
+    parent-region: Access Control Settings # 7652842965938608310
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Badge List # 7573674303318144009
+      template-options: 
+      - '#DEFAULT#'
+      - t-BadgeList--large
+      - t-BadgeList--fixed
+      - t-BadgeList--circular
+      show-null-values-as: '-'
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: READER_COUNT ================================
+    id: 6253715263531746502
+    identification: 
+      column-name: READER_COUNT
+      type: Link
+
+    heading: 
+      heading: Readers
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.:RP,26,RIR:IR_ACCESS_LEVEL_ID:Reader'
+        page: 26 # Access Control List
+        clear-cache: RP,26,RIR
+        values: 
+          ir_access_level_id: Reader
+
+      link-text: '#READER_COUNT#'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+      escape-special-characters: true
+
+  - # ====== Column: CONTRIBUTOR_COUNT ===========================
+    id: 6253715299609746503
+    identification: 
+      column-name: CONTRIBUTOR_COUNT
+      type: Link
+
+    heading: 
+      heading: Contributors
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.:RP,26,RIR:IR_ACCESS_LEVEL_ID:Contributor'
+        page: 26 # Access Control List
+        clear-cache: RP,26,RIR
+        values: 
+          ir_access_level_id: Contributor
+
+      link-text: '#CONTRIBUTOR_COUNT#'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+      escape-special-characters: true
+
+  - # ====== Column: ADMIN_COUNT =================================
+    id: 6253715381516746504
+    identification: 
+      column-name: ADMIN_COUNT
+      type: Link
+
+    heading: 
+      heading: Administrators
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.:RP,26,RIR:IR_ACCESS_LEVEL_ID:Administrator'
+        page: 26 # Access Control List
+        clear-cache: RP,26,RIR
+        values: 
+          ir_access_level_id: Administrator
+
+      link-text: '#ADMIN_COUNT#'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+      escape-special-characters: true
+
+- # ====== Region: ACL Status ==================================
+  id: 7448357420005834607
+  identification: 
+    title: ACL Status
+    type: ACL Status
+
+  source: 
+    sql-query: |
+      select sum(case when access_level_id = 1 then 1 else 0 end) reader_count,
+          sum(case when access_level_id = 2 then 1 else 0 end) contributor_count,
+          sum(case when access_level_id = 3 then 1 else 0 end) admin_count
+      from eba_stds_users
+
+  layout: 
+    sequence: 40
+    parent-region: Access Control Settings # 7652842965938608310
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      configuration-page: 35
+      acl-page: 26
+      administrator-count-column: ADMIN_COUNT
+      contributor-count-column: CONTRIBUTOR_COUNT
+      reader-count-column: READER_COUNT
+      scope-preference-value: eba_stds_fw.get_preference_value('ACCESS_CONTROL_SCOPE')
+      acl-enabled-preference: eba_stds_fw.get_preference_value('ACCESS_CONTROL_ENABLED')
+
+- # ====== Region: Application Authentication and Authorization 
+  id: 7448357503153834608
+  identification: 
+    title: Application Authentication and Authorization
+    type: Authorization Administration
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      page-report-page: 7
+      public-pages-label: Public Pages
+      authenticated-pages-label: Login Required Pages
+      authorized-pages-label: Authorization Protected
+
+- # ====== Region: Access Control Settings =====================
+  id: 7652842965938608310
+  identification: 
+    title: Access Control Settings
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Hidden Items ================================
+  id: 7723130257560289515
+  identification: 
+    title: Hidden Items
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_07
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Automated Testing ===========================
+  id: 7723154777719900845
+  identification: 
+    title: Automated Testing
+    type: List
+
+  source: 
+    list: Automated Testing Job # 7723151474209871477
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Media List # 7573683387866144028
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+
+- # ====== Region: Confirm Enabling Access Control =============
+  id: 8065705635583153193
+  identification: 
+    title: Confirm Enabling Access Control
+    type: Static Content
+
+  source: 
+    html-code: <p>Enabling Access Control allows access to the application and its features to be controlled by an Access Control List (ACL).  Until access control is enabled all authenticated users are administrators.</p>
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: REGION_POSITION_04
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Dialog # 7573665624095143986
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-size600x400
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: confirmEnableACL
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Utilities ===================================
+  id: 8251625004453630068
+  identification: 
+    title: Utilities
+    type: List
+
+  source: 
+    list: Utilities # 8251623205361620870
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Media List # 7573683387866144028
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+
+- # ====== Region: Access Control ==============================
+  id: 10780285300308813742
+  identification: 
+    title: Access Control
+    type: List
+
+  source: 
+    list: Access Control # 10780284015761808765
+
+  layout: 
+    sequence: 70
+    parent-region: Access Control Settings # 7652842965938608310
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Media List # 7573683387866144028
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+
+- # ====== Region: Administration ==============================
+  id: 11083705440832860903
+  identification: 
+    title: Administration
+    type: List
+
+  source: 
+    list: Code Tables # 11083704951505860898
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Media List # 7573683387866144028
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+
+- # ====== Region: Breadcrumb ==================================
+  id: 12003103040470789434
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 100
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P4_JOB_STATUS ============================
+  id: 7723130661146298084
+  identification: 
+    name: P4_JOB_STATUS
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Hidden Items # 7723130257560289515
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select state
+      from user_scheduler_jobs
+      where job_name = 'EBA_STDS_TEST_UPD_JOB'
+    used: Always, replacing any existing value in session state
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Checksum Required - Application Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 8065705741847153194
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 20
+    region: Confirm Enabling Access Control # 8065705635583153193
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to URL
+    target: 'javascript:closeModal();'
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: ENABLE_ACCESS_CONTROL =======================
+  id: 8065705786312153195
+  identification: 
+    button-name: ENABLE_ACCESS_CONTROL
+    label: Enable Access Control
+
+  layout: 
+    sequence: 10
+    region: Confirm Enabling Access Control # 8065705635583153193
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Access Control Modal ================
+  id: 7094082707940085129
+  identification: 
+    name: Access Control Modal
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Access Control Settings # 7652842965938608310
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Submit Page =================================
+    id: 7094082823801085130
+    identification: 
+      action: Submit Page
+
+    settings: 
+      show-processing: true
+
+    execution: 
+      sequence: 10
+      event: Access Control Modal # 7094082707940085129
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Automated Testing Modal =============
+  id: 7094083071534085132
+  identification: 
+    name: Automated Testing Modal
+
+  execution: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Automated Testing # 7723154777719900845
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Submit Page =================================
+    id: 7094083091273085133
+    identification: 
+      action: Submit Page
+
+    settings: 
+      show-processing: true
+
+    execution: 
+      sequence: 10
+      event: Automated Testing Modal # 7094083071534085132
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 8267480799408039457
+  identification: 
+    item-name: LAST_VIEW
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: '&APP_PAGE_ID.'
+
+processes: 
+- # ====== Process: Enable Access Control ======================
+  id: 8065705918185153196
+  identification: 
+    name: Enable Access Control
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      -- Set AC flag
+      eba_stds_fw.set_preference_value('ACCESS_CONTROL_ENABLED','Y');
+      
+      -- Seed user table with current user as an administrator or set the current user as administrator
+      declare
+         l_count number;
+      begin
+          select count(*) 
+             into l_count 
+             from eba_stds_users
+             where username = :APP_USER;
+          if l_count = 0 then
+              insert into eba_stds_users(username, access_level_id) values (:APP_USER, 3);   
+          else
+              update eba_stds_users
+                  set access_level_id = 3
+                  where username = :APP_USER;
+          end if;
+      end;
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: "Access Control enabled and the current user '&APP_USER.' has been set to be an Administrator. "
+
+  error: 
+    error-message: Error
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request = Value
+    value: ENABLE_ACCESS_CONTROL
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+

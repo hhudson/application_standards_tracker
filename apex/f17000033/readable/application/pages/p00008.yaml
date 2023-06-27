@@ -1,0 +1,421 @@
+---
+# ====== Page: Rename Application ============================
+id: 8
+identification: 
+  name: Rename Application
+  alias: RENAME-APPLICATION
+  title: Rename Application
+  page-group: Administration # 10780320217725301324
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Drawer # 49917157161329006
+  template-options: 
+  - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+
+dialog: 
+  width: 500
+  height: 350
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Buttons =====================================
+  id: 7648216061061058713
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7573656789854143977
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Rename Application ==========================
+  id: 8907665296958784373
+  identification: 
+    title: Rename Application
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    - t-Region--noBorder
+    - t-Region--removeHeader js-removeLandmark
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P8_APPLICATION_SUBTITLE ==================
+  id: 6330572956597273135
+  identification: 
+    name: P8_APPLICATION_SUBTITLE
+    type: Text Field
+
+  label: 
+    label: Application subtitle
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Rename Application # 8907665296958784373
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select preference_value
+      from eba_stds_preferences
+      where preference_name = 'APPLICATION_SUBTITLE'
+      union all
+      select 'Track and manage APEX application best practices'
+      from dual
+      where not exists ( select null
+                         from eba_stds_preferences
+                         where preference_name = 'APPLICATION_SUBTITLE')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P8_APPLICATION_TITLE =====================
+  id: 8907665821574795379
+  identification: 
+    name: P8_APPLICATION_TITLE
+    type: Text Field
+
+  label: 
+    label: Application Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Rename Application # 8907665296958784373
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Static Value
+    static-value: '&APPLICATION_TITLE.'
+    used: Always, replacing any existing value in session state
+
+  default: 
+    type: Static
+    static-value: '&APP_NAME.'
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 8907665922023801068
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 7648216061061058713
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: SAVE ========================================
+  id: 8907666110379807097
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 20
+    region: Buttons # 7648216061061058713
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Modal ========================
+  id: 6345263838393937938
+  identification: 
+    name: Cancel Modal
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 8907665922023801068
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 6345263949746937939
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Modal # 6345263838393937938
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Set Application Title ======================
+  id: 8907669700945823296
+  identification: 
+    name: Set Application Title
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      :APPLICATION_TITLE := :P8_APPLICATION_TITLE;
+      
+      merge into eba_stds_preferences dst
+      using ( select 'APPLICATION_TITLE' preference_name, :P8_APPLICATION_TITLE preference_value from dual ) src
+      on ( dst.preference_name = src.preference_name )
+      when matched then
+          update set dst.preference_value = src.preference_value
+      when not matched then
+          insert ( preference_name, preference_value )
+          values ( src.preference_name, src.preference_value );
+      
+      merge into eba_stds_preferences dst
+      using ( select 'APPLICATION_SUBTITLE' preference_name, :P8_APPLICATION_SUBTITLE preference_value from dual ) src
+      on ( dst.preference_name = src.preference_name )
+      when matched then
+          update set dst.preference_value = src.preference_value
+      when not matched then
+          insert ( preference_name, preference_value )
+          values ( src.preference_name, src.preference_value );
+      
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Application renamed.
+
+  error: 
+    error-message: '#SQLERRM#'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 8907666110379807097
+
+branches: 
+- # ====== Branch: Go To Page settings =========================
+  id: 8907670119824826655
+  identification: 
+    name: Go To Page settings
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:settings:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: SETTINGS
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 8907666110379807097
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+

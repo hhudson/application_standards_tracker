@@ -1,0 +1,632 @@
+---
+# ====== Page: Add Multiple Users ============================
+id: 53
+identification: 
+  name: Add Multiple Users
+  alias: ADD-MULTIPLE-USERS
+  title: Add Multiple Users
+  page-group: ACL # 8901802019639773041
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Drawer # 49917157161329006
+  template-options: 
+  - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+
+dialog: 
+  chained: false
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: |
+    .helpText {
+    padding: 8px;
+    color: #707070;
+    }
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: Enter or copy and paste usernames separated by commas, semicolons, or whitespace. All usernames provided will be added as the selected role. Existing or duplicate usernames will be ignored.
+
+regions: 
+- # ====== Region: Load Multiple Users =========================
+  id: 8266147894682473042
+  identification: 
+    title: Load Multiple Users
+    type: Static Content
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 8268958385321025770
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7573656789854143977
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Hidden Items ================================
+  id: 8270139302885423548
+  identification: 
+    title: Hidden Items
+    type: Static Content
+
+  layout: 
+    sequence: 5
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P53_ROLE =================================
+  id: 8266148184900484752
+  identification: 
+    name: P53_ROLE
+    type: Radio Group
+
+  label: 
+    label: Role
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 20
+    region: Load Multiple Users # 8266147894682473042
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--radioButtonGroup
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACCESS_LEVELS # 10780251699356541048
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: 2
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Checksum Required - Application Level
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P53_PRELIM_USERS =========================
+  id: 8266164083253652675
+  identification: 
+    name: P53_PRELIM_USERS
+    type: Textarea
+
+  label: 
+    label: Usernames
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: None
+
+  layout: 
+    sequence: 30
+    region: Load Multiple Users # 8266147894682473042
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 80
+    height: 10
+    value-placeholder: Enter usernames here
+
+  validation: 
+    value-required: true
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Application Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Enter usernames separated by commas, semicolons, or whitespace. Existing or duplicate usernames will automatically be ignored.
+
+- # ====== Page Item: P53_USERNAME_FORMAT1 =====================
+  id: 8267474781643880601
+  identification: 
+    name: P53_USERNAME_FORMAT1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Hidden Items # 8270139302885423548
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_stds_fw.get_preference_value ('USERNAME_FORMAT')
+    used: Always, replacing any existing value in session state
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Checksum Required - Application Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 8266130697901286860
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 8268958385321025770
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== Button: NEXT ========================================
+  id: 8266130997002286860
+  identification: 
+    button-name: NEXT
+    label: Next
+
+  layout: 
+    sequence: 20
+    region: Buttons # 8268958385321025770
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconRight
+    - t-Button--gapLeft
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: CNX =================================
+  id: 6253716345035746513
+  identification: 
+    name: CNX
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 8266130697901286860
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 6253716394841746514
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: CNX # 6253716345035746513
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 8267481091213043338
+  identification: 
+    item-name: LAST_VIEW
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: '&APP_PAGE_ID.'
+
+processes: 
+- # ====== Process: Create Collections =========================
+  id: 8266421486499298379
+  identification: 
+    name: Create Collections
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+          l_line      varchar2(32767);
+          l_emails    wwv_flow_global.vc_arr2;
+          l_username  varchar2(4000);
+          l_at        number;
+          l_dot       number;
+          l_valid     boolean := true;
+          l_domain    varchar2(4000);
+      begin
+          ---------------------
+          -- create collections
+          --
+          apex_collection.CREATE_OR_TRUNCATE_COLLECTION ('EBA_STDS_BULK_USER_INVALID');
+          apex_collection.CREATE_OR_TRUNCATE_COLLECTION ('EBA_STDS_BULK_USER_VALID');
+          apex_collection.CREATE_OR_TRUNCATE_COLLECTION ('EBA_STDS_BULK_USER_CREATE');
+      
+          --------------------------------------------
+          -- replace delimiting characters with commas
+          --
+          l_line := :P53_PRELIM_USERS;
+          l_line := replace(l_line,chr(10),' ');
+          l_line := replace(l_line,chr(13),' ');
+          l_line := replace(l_line,chr(9),' ');
+          l_line := replace(l_line,'<',' ');
+          l_line := replace(l_line,'>',' ');
+          l_line := replace(l_line,';',' ');
+          l_line := replace(l_line,':',' ');
+          l_line := replace(l_line,'(',' ');
+          l_line := replace(l_line,')',' ');
+          l_line := replace(l_line,' ',',');
+      
+          -----------------------------------------
+          -- get one comma separated line of emails
+          --
+          for j in 1..1000 loop
+              if instr(l_line,',,') > 0 then
+                 l_line := replace(l_line,',,',',');
+              else
+                 exit;
+              end if;
+          end loop;
+      
+          -------------------------
+          -- get an array of emails
+          --
+          l_emails := wwv_flow_utilities.string_to_table(l_line,',');
+      
+          -----------------------------
+          -- add emails to a collection
+          --
+          l_username := null;
+          l_domain := null;
+          l_at := 0;
+          l_dot := 0;
+          for j in 1..l_emails.count loop
+              l_valid := true;
+              l_username := trim(l_emails(j));
+      
+              if l_username is not null then
+                  if eba_stds_fw.get_preference_value('USERNAME_FORMAT') = 'EMAIL' then
+                    -----------
+                    -- Validate
+                    --
+                    l_at := instr(nvl(l_username,'x'),'@');
+                    l_domain := substr(l_username,l_at+1);
+                    l_dot := instr(l_domain,'.');
+                    if l_at < 2 then
+                        -- invalid email
+                        apex_collection.add_member(
+                            p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
+                            p_c001            => l_username,
+                            p_c002            => apex_lang.message('MISSING_AT_SIGN'));
+                        commit;
+                        l_valid := false;
+                    end if;
+      
+                    if l_dot = 0 and l_valid then
+                        apex_collection.add_member(
+                            p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
+                            p_c001            => l_username,
+                            p_c002            => apex_lang.message('MISSING_DOT'));
+                        commit;
+                        l_valid := false;
+                    end if;
+                  end if;
+      
+      
+                  l_username := trim(l_username);
+                  l_username := trim(both '.' from l_username);
+                  l_username := replace(l_username,' ',null);
+                  l_username := replace(l_username,chr(10),null);
+                  l_username := replace(l_username,chr(9),null);
+                  l_username := replace(l_username,chr(13),null);
+                  l_username := replace(l_username,chr(49824),null);
+      
+                  if l_valid and length(l_username) > 255 then
+                      apex_collection.add_member(
+                          p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
+                          p_c001            => upper(l_username),
+                          p_c002            => apex_lang.message('USERNAME_TOO_LONG'));
+                      commit;
+                      l_valid := false;
+                  end if;
+      
+                  if l_valid then
+                      for c1 in (select /* APEX76a66f */ username
+                                   from eba_stds_users
+                                  where upper(username) = upper(l_username))
+                      loop
+                          wwv_flow_collection.add_member(
+                              p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
+                              p_c001            => upper(l_username),
+                              p_c002            => apex_lang.message('ALREADY_IN_ACL'));
+                          commit;
+                          l_valid := false;
+                          exit;
+                      end loop;
+                  end if;
+      
+                  if l_valid then
+                      for c1 in (select /* APEXeaf772 */  c001
+                                   from wwv_flow_collections
+                                  where collection_name = 'EBA_STDS_BULK_USER_VALID'
+                                    and c001 = upper(l_username))
+                      loop
+                          apex_collection.add_member(
+                              p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
+                              p_c001            => upper(l_username),
+                              p_c002            => apex_lang.message('DUPLICATE_USER'));
+                              commit;
+                          l_valid := false;
+                          exit;
+                      end loop;
+                  end if;
+      
+                  if l_valid then
+                      apex_collection.add_member(
+                          p_collection_name => 'EBA_STDS_BULK_USER_VALID',
+                          p_c001            => upper(l_username));
+                          commit;
+                  end if;
+      
+              end if;
+              l_username := null;
+          end loop;
+      end;
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: '#SQLERRM@'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 8266130997002286860
+
+branches: 
+- # ====== Branch: Go To Page 54 ===============================
+  id: 8266131393565286862
+  identification: 
+    name: Go To Page 54
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:54:&SESSION.&success_msg=#SUCCESS_MSG#'
+      page: 54 # Add Multiple Users
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 8266130997002286860
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+

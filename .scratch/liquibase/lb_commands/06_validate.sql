@@ -1,0 +1,1 @@
+lb validate -changelog-file controller.xml -database-changelog-table-name aitchanges

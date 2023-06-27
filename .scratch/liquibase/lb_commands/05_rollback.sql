@@ -1,0 +1,1 @@
+lb rollback -changelog-file controller.xml -log true

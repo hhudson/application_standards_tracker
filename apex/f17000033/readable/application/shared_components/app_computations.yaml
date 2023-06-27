@@ -1,0 +1,80 @@
+---
+- # ====== Application Computation: P0_APX_BLDR_SESSION ========
+  id: 43730945285018401
+  identification: 
+    item-name: P0_APX_BLDR_SESSION
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':APP_BUILDER_SESSION'
+
+- # ====== Application Computation: APP_USER_EMAIL =============
+  id: 48875874855694552
+  identification: 
+    item-name: APP_USER_EMAIL
+
+  execution: 
+    sequence: 10
+    point: AFTER_LOGIN
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select email
+      from apex_workspace_developers
+      where workspace_id = sys_context('APEX$SESSION','WORKSPACE_ID')
+      and user_name = :APP_USER
+
+  error: 
+    error-message: failure to get email
+
+- # ====== Application Computation: APX_BLDR_SESSION ===========
+  id: 7723945486966685382
+  identification: 
+    item-name: APX_BLDR_SESSION
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':APP_BUILDER_SESSION'
+
+  configuration: 
+    build-option: Link to Builder # 7722365380501132220
+
+- # ====== Application Computation: A_NUM_STDS =================
+  id: 8291513436746201320
+  identification: 
+    item-name: A_NUM_STDS
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select to_char(count(*),'999G990') s
+      from eba_stds_standards std
+
+- # ====== Application Computation: APPLICATION_TITLE ==========
+  id: 8907671897827836810
+  identification: 
+    item-name: APPLICATION_TITLE
+
+  execution: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Static Value
+    static-value: '[AST]'
+

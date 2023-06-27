@@ -1,0 +1,1 @@
+requires public synonym privilege

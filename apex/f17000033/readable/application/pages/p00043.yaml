@@ -1,0 +1,1514 @@
+---
+# ====== Page: Deploying data ================================
+id: 43
+identification: 
+  name: Deploying data
+  alias: DEPLOYING-DATA
+  title: '&APPLICATION_TITLE. Deploying data'
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 51207601900627677
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: v_ast_table_data_load_def ===================
+  id: 114650693670129928
+  identification: 
+    title: v_ast_table_data_load_def
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select table_name,
+             implicit_table,
+             file_blob,
+             mime_type,
+             file_name,
+             static_file_name,
+             character_set,
+             file_size,
+             download,
+             data_load_definition_name,
+             static_application_file_name,
+             inspect_static_file_icon,
+             page_id,
+             page_id_icon,
+             application_file_id,
+             zip_file_size,
+             zip_download,
+             table_last_updated_on,
+             static_file_created_on,
+             stale_yn,
+             zip_blob,
+             zip_mime_type,
+             zip_charset,
+             zip_updated_on
+        from v_ast_table_data_load_def
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7573669835761143993
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: DATALOADTBL
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 114650715677129929
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 51270663114308310
+      identification: 
+        name: Primary Report
+        alias: 512707
+
+    - # ====== Saved Report: Prepping new data deployment ==========
+      id: 55029649514919398
+      identification: 
+        name: Prepping new data deployment
+        alias: 550297
+
+    columns: 
+    - # ====== Column: DATA_LOAD_DEFINITION_NAME ===================
+      id: 51217060396634539
+      identification: 
+        column-name: DATA_LOAD_DEFINITION_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Data Load Definition Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STATIC_APPLICATION_FILE_NAME ================
+      id: 51217125485634540
+      identification: 
+        column-name: STATIC_APPLICATION_FILE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Refresh Static Application File
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          <button type="button" 
+                  title="Refresh Static File Button" 
+                  aria-label="Refresh Static File Button" 
+                  class="t-Button t-Button--noLabel t-Button--icon t-Button--warning t-Button--noUI rfreshSttc"
+                  data-tblname="#IMPLICIT_TABLE#"
+                  >
+                  <span aria-hidden="true" class="t-Icon fa fa-refresh"></span>
+          </button>
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PAGE_ID =====================================
+      id: 51452310916632143
+      identification: 
+        column-name: PAGE_ID
+        type: Link
+
+      heading: 
+        heading: Manage Local Data
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:#PAGE_ID#:&SESSION.::&DEBUG.:#PAGE_ID#::'
+          page: '#PAGE_ID#'
+          clear-cache: '#PAGE_ID#'
+
+        link-text: '#PAGE_ID_ICON#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: INSPECT_STATIC_FILE_ICON ====================
+      id: 51452452576632144
+      identification: 
+        column-name: INSPECT_STATIC_FILE_ICON
+        type: Link
+
+      heading: 
+        heading: Inspect Static File
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 170
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:RR,44:P44_TABLE_NAME:#IMPLICIT_TABLE#'
+          page: 44 # Inspect Static File contents
+          clear-cache: RR,44
+          values: 
+            p44_table_name: '#IMPLICIT_TABLE#'
+
+        link-text: '#INSPECT_STATIC_FILE_ICON#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+        escape-special-characters: false
+
+    - # ====== Column: PAGE_ID_ICON ================================
+      id: 51452563005632145
+      identification: 
+        column-name: PAGE_ID_ICON
+        type: Hidden Column
+
+      heading: 
+        heading: Page ID Icon
+
+      layout: 
+        sequence: 180
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: STATIC_FILE_NAME ============================
+      id: 51452829367632148
+      identification: 
+        column-name: STATIC_FILE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Static File Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 190
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_FILE_ID =========================
+      id: 51452954243632149
+      identification: 
+        column-name: APPLICATION_FILE_ID
+        type: Plain Text
+
+      heading: 
+        heading: Application File ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 200
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ZIP_FILE_SIZE ===============================
+      id: 51453057371632150
+      identification: 
+        column-name: ZIP_FILE_SIZE
+        type: Plain Text
+
+      heading: 
+        heading: Zip File Size
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 210
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ZIP_DOWNLOAD ================================
+      id: 52092164558500401
+      identification: 
+        column-name: ZIP_DOWNLOAD
+        type: Download BLOB
+
+      heading: 
+        heading: Download Static Application File
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 220
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      blob-attributes: 
+        table-owner: Parsing Schema
+        table-name: V_AST_TABLE_DATA_LOAD_DEF
+        blob-column: ZIP_BLOB
+        primary-key-column-1: TABLE_NAME
+        mime-type-column: MIME_TYPE
+        filename-column: STATIC_FILE_NAME
+        last-updated-column: ZIP_UPDATED_ON
+        character-set-column: ZIP_CHARSET
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      appearance: 
+        download-text: '#STATIC_FILE_NAME#'
+        content-disposition: Attachment
+
+    - # ====== Column: TABLE_LAST_UPDATED_ON =======================
+      id: 53643327603011925
+      identification: 
+        column-name: TABLE_LAST_UPDATED_ON
+        type: Plain Text
+
+      heading: 
+        heading: Table Last Updated On
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 230
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STATIC_FILE_CREATED_ON ======================
+      id: 53643485653011926
+      identification: 
+        column-name: STATIC_FILE_CREATED_ON
+        type: Plain Text
+
+      heading: 
+        heading: Static File Created On
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 240
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STALE_YN ====================================
+      id: 53643530283011927
+      identification: 
+        column-name: STALE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
+
+      heading: 
+        heading: Stale
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 250
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: ZIP_BLOB ====================================
+      id: 54725759606995721
+      identification: 
+        column-name: ZIP_BLOB
+        type: Plain Text
+
+      heading: 
+        heading: Zip Blob
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 260
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: None
+
+      enable-users-to: 
+        hide: true
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ZIP_MIME_TYPE ===============================
+      id: 54725820052995722
+      identification: 
+        column-name: ZIP_MIME_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Zip Mime Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 270
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ZIP_CHARSET =================================
+      id: 54725959734995723
+      identification: 
+        column-name: ZIP_CHARSET
+        type: Plain Text
+
+      heading: 
+        heading: Zip Charset
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 280
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ZIP_UPDATED_ON ==============================
+      id: 54726090083995724
+      identification: 
+        column-name: ZIP_UPDATED_ON
+        type: Plain Text
+
+      heading: 
+        heading: Zip Updated On
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 290
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: IMPLICIT_TABLE ==============================
+      id: 54726189099995725
+      identification: 
+        column-name: IMPLICIT_TABLE
+        type: Plain Text
+
+      heading: 
+        heading: Implicit Table
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 300
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TABLE_NAME ==================================
+      id: 114650825856129930
+      identification: 
+        column-name: TABLE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Table Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MIME_TYPE ===================================
+      id: 114650928239129931
+      identification: 
+        column-name: MIME_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Mime Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FILE_NAME ===================================
+      id: 114651099499129932
+      identification: 
+        column-name: FILE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: File Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CHARACTER_SET ===============================
+      id: 114651122496129933
+      identification: 
+        column-name: CHARACTER_SET
+        type: Plain Text
+
+      heading: 
+        heading: Character Set
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FILE_BLOB ===================================
+      id: 114651722882129939
+      identification: 
+        column-name: FILE_BLOB
+        type: Hidden Column
+
+      heading: 
+        heading: File Blob
+
+      layout: 
+        sequence: 100
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FILE_SIZE ===================================
+      id: 114651829148129940
+      identification: 
+        column-name: FILE_SIZE
+        type: Plain Text
+
+      heading: 
+        heading: File Size
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: DOWNLOAD ====================================
+      id: 114651963277129941
+      identification: 
+        column-name: DOWNLOAD
+        type: Download BLOB
+
+      heading: 
+        heading: Download sample file
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      blob-attributes: 
+        table-owner: Parsing Schema
+        table-name: V_AST_TABLE_DATA_LOAD_DEF
+        blob-column: FILE_BLOB
+        primary-key-column-1: TABLE_NAME
+        mime-type-column: MIME_TYPE
+        filename-column: FILE_NAME
+        character-set-column: CHARACTER_SET
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      appearance: 
+        download-text: <span aria-hidden="true" class="t-Icon fa fa-download"></span>
+        content-disposition: Attachment
+
+      help: 
+        help-text: upload to the data load definition
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: v_ast_table_data_load_def
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+page-items: 
+- # ====== Page Item: P43_TABLE_NAME ===========================
+  id: 51217448315634543
+  identification: 
+    name: P43_TABLE_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 10
+    region: v_ast_table_data_load_def # 114650693670129928
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROCESSED_ROW_COUNT ==================
+  id: 52093188954500411
+  identification: 
+    name: P43_PROCESSED_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: v_ast_table_data_load_def # 114650693670129928
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: reset =======================================
+  id: 51217870225634547
+  identification: 
+    button-name: reset
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: v_ast_table_data_load_def # 114650693670129928
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:RR,::'
+      page: 43 # Deploying data
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: refresh Static File =================
+  id: 51217212576634541
+  identification: 
+    name: refresh Static File
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: jQuery Selector
+    jquery-selector: .rfreshSttc
+
+  execution: 
+    event-scope: Dynamic
+    static-container-(jquery-selector): '#DATALOADTBL'
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 51217396101634542
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        debugger
+        apex.debug.info("table name", this.triggeringElement.dataset.tblname);
+
+    execution: 
+      sequence: 10
+      event: refresh Static File # 51217212576634541
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Set Value ===================================
+    id: 51217571956634544
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.tblname
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_TABLE_NAME
+
+    execution: 
+      sequence: 20
+      event: refresh Static File # 51217212576634541
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 51217631091634545
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: 'AST_DEPLOYMENT.upsert_static_file(p_table_name => :P43_TABLE_NAME);'
+      items-to-submit: 
+      - P43_TABLE_NAME
+
+    execution: 
+      sequence: 30
+      event: refresh Static File # 51217212576634541
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh =====================================
+    id: 51217704408634546
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: v_ast_table_data_load_def # 114650693670129928
+
+    execution: 
+      sequence: 40
+      event: refresh Static File # 51217212576634541
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Success message =====================
+  id: 52092729289500407
+  identification: 
+    name: Success message
+
+  execution: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: v_ast_table_data_load_def # 114650693670129928
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 52092819990500408
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: "apex.message.showPageSuccess( 'Processed Row count :'+ apex.item('P43_PROCESSED_ROW_COUNT').getValue )"
+
+    execution: 
+      sequence: 20
+      event: Success message # 52092729289500407
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    server-side-condition: 
+      type: Item is NOT NULL
+      item: P44_PROCESSED_ROW_COUNT
+
+  - # ====== Action: Set Value ===================================
+    id: 52093216721500412
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: Dialog Return Item
+      return-item: P43_PROCESSED_ROW_COUNT
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROCESSED_ROW_COUNT
+
+    execution: 
+      sequence: 10
+      event: Success message # 52092729289500407
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+

@@ -1,0 +1,1660 @@
+---
+# ====== Page: Global Page ===================================
+id: 0
+identification: 
+  name: Global Page
+
+regions: 
+- # ====== Region: Navigate through application ================
+  id: 52094181675500421
+  identification: 
+    title: Navigate through application
+    type: Search
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Drawer # 50155276726329210
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-class-t-Drawer--pullOutEnd
+    - js-dialog-class-t-Drawer--md
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      search-page-item: P0_SEARCH
+      search-as-you-type: true
+      minimum-characters: No minimum (0)
+      lazy-loading: true
+      use-pagination: true
+      results-per-page: 10
+      show-result-count: Yes
+      custom-layout: false
+      overall-sort: Title
+      sort-direction: Ascending
+
+  search-sources: 
+  - # ====== Search Source: SEARCH ===============================
+    id: 52094203026500522
+    identification: 
+      name: SEARCH
+      search-configuration: V_Ast_Nav_Menu # 52465087916389448
+      use-as-initial-result: false
+
+    layout: 
+      sequence: 10
+
+- # ====== Region: Container ===================================
+  id: 52094495467500524
+  identification: 
+    title: Container
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BEFORE_NAVIGATION_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Stale Deployment Files ======================
+  id: 53643685971011928
+  identification: 
+    title: Stale Deployment Files
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select table_name user_name,
+             'STALE' ALERT_ACTION,
+             'This file may need to be updated' event_type,
+             file_blob,
+             mime_type,
+             file_name,
+             static_file_name EVENT_TITLE,
+             character_set,
+             file_size,
+             download,
+             data_load_definition_name,
+             static_application_file_name,
+             inspect_static_file_icon,
+             page_id,
+             page_id_icon,
+             application_file_id,
+             zip_blob,
+             zip_file_size,
+             zip_download,
+             zip_mime_type,
+             zip_charset,
+             zip_updated_on,
+             table_last_updated_on EVENT_DATE,
+             static_file_created_on event_desc,
+             stale_yn,
+             apex_string.get_initials(table_name) user_avatar
+      from ast_deployment.v_ast_table_data_load_def(p_application_id => :APP_ID) 
+      where stale_yn = 'Y'
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_05
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--accent11
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+      from ast_deployment.v_ast_table_data_load_def(p_application_id => :APP_ID) 
+      where stale_yn = 'Y'
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Timeline # 6322382606148923858
+      template-options: 
+      - '#DEFAULT#'
+      - t-Timeline--compact
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: PAGE_ID =====================================
+    id: 53644588082011937
+    identification: 
+      column-name: PAGE_ID
+      type: Plain Text
+
+    heading: 
+      heading: Page ID
+      alignment: end
+
+    layout: 
+      sequence: 20
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PAGE_ID_ICON ================================
+    id: 53644663594011938
+    identification: 
+      column-name: PAGE_ID_ICON
+      type: Plain Text
+
+    heading: 
+      heading: Page ID Icon
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_NAME ===================================
+    id: 53644722739011939
+    identification: 
+      column-name: USER_NAME
+      type: Plain Text
+
+    heading: 
+      heading: User Name
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_ACTION ================================
+    id: 53644823683011940
+    identification: 
+      column-name: ALERT_ACTION
+      type: Plain Text
+
+    heading: 
+      heading: Alert Action
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MIME_TYPE ===================================
+    id: 53645036126011942
+    identification: 
+      column-name: MIME_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Mime Type
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TITLE =================================
+    id: 53645292718011944
+    identification: 
+      column-name: EVENT_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Event Title
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CHARACTER_SET ===============================
+    id: 53645328092011945
+    identification: 
+      column-name: CHARACTER_SET
+      type: Plain Text
+
+    heading: 
+      heading: Character Set
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_SIZE ===================================
+    id: 53645434297011946
+    identification: 
+      column-name: FILE_SIZE
+      type: Plain Text
+
+    heading: 
+      heading: File Size
+      alignment: end
+
+    layout: 
+      sequence: 110
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DOWNLOAD ====================================
+    id: 53645542227011947
+    identification: 
+      column-name: DOWNLOAD
+      type: Plain Text
+
+    heading: 
+      heading: Download
+      alignment: end
+
+    layout: 
+      sequence: 120
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DATA_LOAD_DEFINITION_NAME ===================
+    id: 53645611678011948
+    identification: 
+      column-name: DATA_LOAD_DEFINITION_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Data Load Definition Name
+      alignment: start
+
+    layout: 
+      sequence: 130
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DESC ==================================
+    id: 53645731337011949
+    identification: 
+      column-name: EVENT_DESC
+      type: Plain Text
+
+    heading: 
+      heading: Event Desc
+      alignment: start
+
+    layout: 
+      sequence: 140
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: INSPECT_STATIC_FILE_ICON ====================
+    id: 53645813593011950
+    identification: 
+      column-name: INSPECT_STATIC_FILE_ICON
+      type: Plain Text
+
+    heading: 
+      heading: Inspect Static File Icon
+      alignment: start
+
+    layout: 
+      sequence: 150
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APPLICATION_FILE_ID =========================
+    id: 54723754072995701
+    identification: 
+      column-name: APPLICATION_FILE_ID
+      type: Plain Text
+
+    heading: 
+      heading: Application File ID
+      alignment: end
+
+    layout: 
+      sequence: 160
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_FILE_SIZE ===============================
+    id: 54723933299995703
+    identification: 
+      column-name: ZIP_FILE_SIZE
+      type: Plain Text
+
+    heading: 
+      heading: Zip File Size
+      alignment: end
+
+    layout: 
+      sequence: 180
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_DOWNLOAD ================================
+    id: 54724025664995704
+    identification: 
+      column-name: ZIP_DOWNLOAD
+      type: Plain Text
+
+    heading: 
+      heading: Zip Download
+      alignment: end
+
+    layout: 
+      sequence: 190
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_MIME_TYPE ===============================
+    id: 54724151305995705
+    identification: 
+      column-name: ZIP_MIME_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Zip Mime Type
+      alignment: start
+
+    layout: 
+      sequence: 200
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_CHARSET =================================
+    id: 54724286993995706
+    identification: 
+      column-name: ZIP_CHARSET
+      type: Plain Text
+
+    heading: 
+      heading: Zip Charset
+      alignment: start
+
+    layout: 
+      sequence: 210
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_UPDATED_ON ==============================
+    id: 54724326730995707
+    identification: 
+      column-name: ZIP_UPDATED_ON
+      type: Plain Text
+
+    heading: 
+      heading: Zip Updated On
+      alignment: start
+
+    layout: 
+      sequence: 220
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DATE ==================================
+    id: 54724485864995708
+    identification: 
+      column-name: EVENT_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Event Date
+      alignment: start
+
+    layout: 
+      sequence: 230
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STALE_YN ====================================
+    id: 54724608107995710
+    identification: 
+      column-name: STALE_YN
+      type: Plain Text
+
+    heading: 
+      heading: Stale Yn
+      alignment: start
+
+    layout: 
+      sequence: 250
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_BLOB ===================================
+    id: 54724723774995711
+    identification: 
+      column-name: FILE_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 260
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_NAME ===================================
+    id: 54724858319995712
+    identification: 
+      column-name: FILE_NAME
+      type: Plain Text
+
+    heading: 
+      heading: File Name
+      alignment: start
+
+    layout: 
+      sequence: 270
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_BLOB ====================================
+    id: 54724989166995713
+    identification: 
+      column-name: ZIP_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 280
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_AVATAR =================================
+    id: 54725071321995714
+    identification: 
+      column-name: USER_AVATAR
+      type: Plain Text
+
+    heading: 
+      heading: User Avatar
+      alignment: start
+
+    layout: 
+      sequence: 290
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATIC_APPLICATION_FILE_NAME ================
+    id: 54725110123995715
+    identification: 
+      column-name: STATIC_APPLICATION_FILE_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Static Application File Name
+      alignment: start
+
+    layout: 
+      sequence: 300
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TYPE ==================================
+    id: 54725246968995716
+    identification: 
+      column-name: EVENT_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Event Type
+      alignment: start
+
+    layout: 
+      sequence: 310
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Run from Builder ============================
+  id: 91832964075854247
+  identification: 
+    title: Run from Builder
+    type: Static Content
+
+  source: 
+    html-code: You do not have an active builder session. Important functionality will not be operational until log into the workspace and re-launch this application again.
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_07
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    - t-Form--xlarge
+    - t-Form--stretchInputs
+    - margin-top-lg
+    - margin-bottom-lg
+    - margin-left-lg
+    - margin-right-lg
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P0_APX_BLDR_SESSION
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Unsuccessful Jobs ===========================
+  id: 107607600563604720
+  identification: 
+    title: Unsuccessful Jobs
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select job_name user_name, 
+             status ALERT_ACTION, 
+             log_date_char EVENT_DATE, 
+             error_msg EVENT_TITLE ,
+             job_initials USER_AVATAR,
+             polling_interval EVENT_DESC,
+             status event_type
+      from V_AUTOMATIONS_PROBLEMS
+      order by log_date desc
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--accent11
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 
+      from V_AUTOMATIONS_PROBLEMS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Timeline # 6322382606148923858
+      template-options: 
+      - '#DEFAULT#'
+      - t-Timeline--compact
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: EVENT_TYPE ==================================
+    id: 54325832359630387
+    identification: 
+      column-name: EVENT_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Event Type
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_ACTION ================================
+    id: 54326206315630388
+    identification: 
+      column-name: ALERT_ACTION
+      type: Plain Text
+
+    heading: 
+      heading: Alert Action
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_NAME ===================================
+    id: 54326689386630388
+    identification: 
+      column-name: USER_NAME
+      type: Plain Text
+
+    heading: 
+      heading: User Name
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TITLE =================================
+    id: 54327099443630389
+    identification: 
+      column-name: EVENT_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Event Title
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DATE ==================================
+    id: 54327454282630389
+    identification: 
+      column-name: EVENT_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Event Date
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_AVATAR =================================
+    id: 54327846754630389
+    identification: 
+      column-name: USER_AVATAR
+      type: Plain Text
+
+    heading: 
+      heading: User Avatar
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DESC ==================================
+    id: 54328291787630390
+    identification: 
+      column-name: EVENT_DESC
+      type: Plain Text
+
+    heading: 
+      heading: Event Desc
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P0_APX_BLDR_SESSION ======================
+  id: 42936391191017726
+  identification: 
+    name: P0_APX_BLDR_SESSION
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: APX_BLDR_SESSION
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P0_SEARCH ================================
+  id: 52094316180500523
+  identification: 
+    name: P0_SEARCH
+    type: Text Field
+
+  label: 
+    label: Search
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Navigate through application # 52094181675500421
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7573687128199144043
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Ignore
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P0_SEARCH_BAR ============================
+  id: 52094522957500525
+  identification: 
+    name: P0_SEARCH_BAR
+    type: Text Field
+
+  label: 
+    label: Search
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Container # 52094495467500524
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--xlarge
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Ignore
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: Manage_deployment_files =====================
+  id: 54725628798995720
+  identification: 
+    button-name: Manage_deployment_files
+    label: Manage Deployment Files
+
+  layout: 
+    sequence: 10
+    region: Stale Deployment Files # 53643685971011928
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-database-cursor
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:43::'
+      page: 43 # Deploying data
+      clear-cache: 43
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+dynamic-actions: 
+- # ====== Dynamic Action: Popup Search ========================
+  id: 52094656218500526
+  identification: 
+    name: Popup Search
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Item(s)
+    item(s): 
+    - P0_SEARCH_BAR
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Open Region =================================
+    id: 52094782272500527
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Navigate through application # 52094181675500421
+
+    execution: 
+      sequence: 20
+      event: Popup Search # 52094656218500526
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Set Value ===================================
+    id: 52094874671500528
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: Static Assignment
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P0_SEARCH
+
+    execution: 
+      sequence: 10
+      event: Popup Search # 52094656218500526
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+

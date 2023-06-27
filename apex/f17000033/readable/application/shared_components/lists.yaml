@@ -1,0 +1,1723 @@
+---
+- # ====== List: Navigation Menu Child Entries =================
+  id: 49425638247560554
+  identification: 
+    name: Navigation Menu Child Entries
+
+  source: 
+    type: SQL Query
+    sql-query: |
+      select 1 the_level, 
+             clist.entry_text  label,
+             clist.ENTRY_TARGET   target,
+             null is_current_list_entry,
+             clist.ENTRY_IMAGE   image,
+             clist.ENTRY_IMAGE_ATTRIBUTES   image_attribute,
+             clist.ENTRY_IMAGE_ALT_ATTRIBUTE   image_alt_attribute,
+             coalesce(clist.ENTRY_ATTRIBUTE_01,'missing subtitle')   subtitle,
+             clist.ENTRY_ATTRIBUTE_02   attribute2,
+             clist.ENTRY_ATTRIBUTE_03   attribute3,
+             clist.ENTRY_ATTRIBUTE_04   attribute4,
+             clist.ENTRY_ATTRIBUTE_05   attribute5,
+             clist.ENTRY_ATTRIBUTE_06   attribute6,
+             clist.ENTRY_ATTRIBUTE_07   attribute7,
+             clist.ENTRY_ATTRIBUTE_08   attribute8,
+             clist.ENTRY_ATTRIBUTE_09   attribute9,
+             clist.ENTRY_ATTRIBUTE_10   attribute10
+          from apex_application_list_entries plist 
+          inner join apex_application_list_entries clist
+            on clist.list_entry_parent_id = plist.list_entry_id
+          left outer join APEX_APPLICATION_BUILD_OPTIONS cbo -- child build option
+            on (cbo.build_option_name = clist.build_option
+              and cbo.application_id = plist.application_id)     
+          where 
+                plist.application_id = :APP_TRANSLATION_ID
+            and plist.list_name = 'Navigation'
+            and (
+                 plist.entry_target like  'f?p=&' || 'APP_ID' ||'.:' || :app_page_id || ':%'
+              or plist.entry_target like  'f?p=' || :APP_ALIAS || ':' || :app_page_id || ':%'
+              or plist.entry_target like  'f?p=' || lower(:APP_ALIAS)  || ':' || :app_page_id || ':%'
+              or plist.entry_target like  'f?p=' || :APP_ID || ':' || :app_page_id || ':%'                 
+              )    
+            and ast_menu_util.is_component_used_yn (
+                      p_build_option_id           => cbo.build_option_id,
+                      p_authorization_scheme_id   => clist.authorization_scheme_id,
+                      p_condition_type            => clist.condition_type_code,
+                      p_condition_expression1     => clist.condition_expression1,
+                      p_condition_expression2     => clist.condition_expression2) = 'Y' 
+          order by clist.display_sequence
+      
+
+- # ====== List: Change Logs ===================================
+  id: 3303188647085445144
+  identification: 
+    name: Change Logs
+
+  source: 
+    type: Static Values
+
+- # ====== List: Navigation ====================================
+  id: 7103771714069154120
+  identification: 
+    name: Navigation
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Component Types ==============================
+    id: 42802029077068246
+    label: 
+      label: Component Types
+
+    icon: 
+      image/icon-css-classes: fa-shapes
+
+    layout: 
+      sequence: 220
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 6
+      - 7
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:6:&SESSION.::&DEBUG.::::'
+        page: 6 # AST_COMPONENT_TYPES
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: List of elements that tests can target and link to (with sample data)
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Run jobs =====================================
+    id: 43308140087806028
+    label: 
+      label: Run jobs
+
+    icon: 
+      image/icon-css-classes: fa-function
+
+    layout: 
+      sequence: 230
+      parent-entry: Administration # 7650028480993773785
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 15
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:15:&SESSION.::&DEBUG.::::'
+        page: 15 # run jobs
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Run the scheduled jobs from APEX to facilitate debugging
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: General Administration =======================
+    id: 49430869421614218
+    label: 
+      label: General Administration
+
+    icon: 
+      image/icon-css-classes: fa-abacus
+
+    layout: 
+      sequence: 240
+      parent-entry: Administration # 7650028480993773785
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&SESSION.::&DEBUG.::::'
+        page: 4 # General Administration
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Dashboard for handling common admin tasks (access levels, users)
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Managing Data ================================
+    id: 49437028434740619
+    label: 
+      label: Managing Data
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 250
+      parent-entry: Administration # 7650028480993773785
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 200
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:200:&SESSION.::&DEBUG.::::'
+        page: 200 # Managing Data
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Dashboard for handling DML (manage sample data)
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Username Format ==============================
+    id: 49503352427012453
+    label: 
+      label: Username Format
+
+    icon: 
+      image/icon-css-classes: fa-format
+
+    layout: 
+      sequence: 260
+      parent-entry: General Administration # 49430869421614218
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:13:&SESSION.::&DEBUG.::::'
+        page: 13 # Username Format
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: ID whether username should be in an email/non-email format
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Exceptions ===================================
+    id: 49504664595035039
+    label: 
+      label: Exceptions
+
+    icon: 
+      image/icon-css-classes: fa-exception
+
+    layout: 
+      sequence: 270
+      parent-entry: Reports # 7103772130342154126
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 20
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:20:&SESSION.::&DEBUG.::::'
+        page: 20 # Exceptions
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report on violation false-positives
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Deploying data ===============================
+    id: 51207179451627676
+    label: 
+      label: Deploying data
+
+    icon: 
+      image/icon-css-classes: fa-database-play
+
+    layout: 
+      sequence: 280
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 43
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.::::'
+        page: 43 # Deploying data
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Dashboard for preparing data static files and merging them locally (manage sample data)
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Access Levels ================================
+    id: 52028647705689378
+    label: 
+      label: Access Levels
+
+    icon: 
+      image/icon-css-classes: fa-key-alt
+
+    layout: 
+      sequence: 290
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 48
+      - 49
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:48:&SESSION.::&DEBUG.::::'
+        page: 48 # EBA_STDS_ACCESS_LEVELS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Options for authorization scheme (with Sample Data)
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Test Library =================================
+    id: 52052886064255250
+    label: 
+      label: Test Library
+
+    icon: 
+      image/icon-css-classes: fa-book
+
+    layout: 
+      sequence: 300
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 17
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.::::'
+        page: 17 # EBA_STDS_TESTS_LIB
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: '[Sample Data] Mature test queries that have been collected from all participating installations of this applications'
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: Load Tests ===================================
+    id: 52075178292457369
+    label: 
+      label: Load Tests
+
+    icon: 
+      image/icon-css-classes: fa-database-arrow-up
+
+    layout: 
+      sequence: 310
+      parent-entry: Test Library # 52052886064255250
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 28
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:28:&SESSION.::&DEBUG.::::'
+        page: 28 # Load Tests
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Merge data into eba_stds_test_lib from a JSON file
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Test Help Library ============================
+    id: 53757343674995799
+    label: 
+      label: Test Help Library
+
+    icon: 
+      image/icon-css-classes: fa-info-square-o
+
+    layout: 
+      sequence: 320
+      parent-entry: Test Library # 52052886064255250
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 21
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.::::'
+        page: 21 # EBA_TEST_HELP_LIB
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: '[Sample Data] Test help that has been collected from all participating installations of this applications'
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: Auditing dashboard ===========================
+    id: 54377929329573193
+    label: 
+      label: Auditing dashboard
+
+    icon: 
+      image/icon-css-classes: fa-dashboard
+
+    layout: 
+      sequence: 330
+      parent-entry: Reports # 7103772130342154126
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 41
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:41:&SESSION.::&DEBUG.::::'
+        page: 41 # Auditing dashboard
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Cumulative Violation Count over Time & by Standard Group, Top Standard Test Codes by Violation Count
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: Applications =================================
+    id: 115573750479675209
+    label: 
+      label: Applications
+
+    icon: 
+      image/icon-css-classes: fa-apex
+
+    layout: 
+      sequence: 210
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 160
+      - 161
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:160:&SESSION.::&DEBUG.::::'
+        page: 160 # EBA_STDS_APPLICATIONS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Manage the list of applications under review
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Underlying Types =============================
+    id: 177238998564445831
+    label: 
+      label: Underlying Types
+
+    icon: 
+      image/icon-css-classes: fa-underline
+
+    layout: 
+      sequence: 170
+      parent-entry: Component Types # 42802029077068246
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 63
+      - 64
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.::::'
+        page: 63 # AST_NESTED_TABLE_TYPES
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Available table types, which determine the necessary fields in the standard test query (nested table types)
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Help, Explanation & Fix details ==============
+    id: 223852944451562608
+    label: 
+      label: Help, Explanation & Fix details
+
+    icon: 
+      image/icon-css-classes: fa-info-circle-o
+
+    layout: 
+      sequence: 190
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 34
+      - 61
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.::::'
+        page: 34 # AST_SUB_REFERENCE_CODES
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Parent Standard codes and child (sub) standard codes with associated explanation, help and fix instructions (with sample data)
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: (SERT) How to Fix ============================
+    id: 378921049411707372
+    label: 
+      label: (SERT) How to Fix
+
+    icon: 
+      image/icon-css-classes: fa-user-graduate
+
+    layout: 
+      sequence: 160
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 57
+      - 58
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:57:&SESSION.::&DEBUG.::::'
+        page: 57 # AST_SERT_HOW_TO_FIX
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Fix instructions for APEX SERT issues
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Audit Actions ================================
+    id: 408611976337352416
+    label: 
+      label: Audit Actions
+
+    icon: 
+      image/icon-css-classes: fa-tools
+
+    layout: 
+      sequence: 130
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 55
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:55:&SESSION.::&DEBUG.::::'
+        page: 55 # AST_AUDIT_ACTIONS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Available actions to handle violations (ignore / legacy / etc) - with sample data
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Preferences ==================================
+    id: 430435868091949708
+    label: 
+      label: Preferences
+
+    icon: 
+      image/icon-css-classes: fa-adjust
+
+    layout: 
+      sequence: 200
+      parent-entry: Administration # 7650028480993773785
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 36
+      - 45
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:36:&SESSION.::&DEBUG.:RP:::'
+        page: 36 # Preferences
+        clear-cache: RP
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Manage Application preferences (default schema, workspace, apex issues, sert, scm, etc)
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: APEX SERT ====================================
+    id: 566522757160072988
+    label: 
+      label: APEX SERT
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 140
+      parent-entry: (SERT) How to Fix # 378921049411707372
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 40
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:40:&SESSION.::&DEBUG.::::'
+        page: 40 # APEX SERT
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: A view exposing and organizing objects from the APEX SERT schema
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Parsed URLs ==================================
+    id: 3256484263137892665
+    label: 
+      label: Parsed URLs
+
+    icon: 
+      image/icon-css-classes: fa-link
+
+    layout: 
+      sequence: 80
+      parent-entry: Reports # 7103772130342154126
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 22
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:22:&SESSION.::&DEBUG.::::'
+        page: 22 # Parsed URLs 
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Materialized view that analyzes all stored APEX URLs
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: Urgency Levels ===============================
+    id: 3392911153531104831
+    label: 
+      label: Urgency Levels
+
+    icon: 
+      image/icon-css-classes: fa-certificate
+
+    layout: 
+      sequence: 100
+      parent-entry: Managing Data # 49437028434740619
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 38
+      - 44
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:38:&SESSION.::&DEBUG.::::'
+        page: 38 # AST_STANDARDS_URGENCY_LEVEL
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Urgency-levels with which tests should be handled (with Sample Data)
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Home =========================================
+    id: 7103771829998154123
+    label: 
+      label: Home
+
+    icon: 
+      image/icon-css-classes: fa-home
+
+    layout: 
+      sequence: 1
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 1
+      - 13
+      - 27
+      - 31
+      - 35
+      - 45
+      - 39
+      - 53
+      - 54
+      - 24
+      - 29
+      - 36
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.::::'
+        page: 1 # V_AST_PLSQL_APEX_AUDIT
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Welcome page with violation dashboard
+
+    security: 
+      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+  - # ====== Entry: Standards [&A_NUM_STDS.] =====================
+    id: 7103772027279154126
+    label: 
+      label: Standards [&A_NUM_STDS.]
+
+    icon: 
+      image/icon-css-classes: fa-check
+
+    layout: 
+      sequence: 3
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 3
+      - 5
+      - 11
+      - 14
+      - 15
+      - 19
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:3:&SESSION.::&DEBUG.::::'
+        page: 3 # EBA_STDS_STANDARDS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: List of standards by which to organize tests (with sample data)
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: Reports ======================================
+    id: 7103772130342154126
+    label: 
+      label: Reports
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 4
+      parent-entry: Administration # 7650028480993773785
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&SESSION.::&DEBUG.::::'
+        page: 2 # Reports
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Admin Reports (page views, exceptions, etc)
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Administration ===============================
+    id: 7650028480993773785
+    label: 
+      label: Administration
+
+    icon: 
+      image/icon-css-classes: fa-gear
+
+    layout: 
+      sequence: 70
+      parent-entry: Home # 7103771829998154123
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 4
+      - 7
+      - 8
+      - 9
+      - 18
+      - 21
+      - 23
+      - 25
+      - 26
+      - 30
+      - 32
+      - 175
+      - 37
+      - 38
+      - 40
+      - 37
+      - 40
+      - 100
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:100:&SESSION.::&DEBUG.::::'
+        page: 100 # Administration
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Landing page for administration content
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Page Views ===================================
+    id: 13506757202484712225
+    label: 
+      label: Page Views
+
+    icon: 
+      image/icon-css-classes: fa-eye
+
+    layout: 
+      sequence: 40
+      parent-entry: Reports # 7103772130342154126
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10:&SESSION.::&DEBUG.::::'
+        page: 10 # Page Views
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Interactive report of page views per user.
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Top Users ====================================
+    id: 13506764607332713667
+    label: 
+      label: Top Users
+
+    icon: 
+      image/icon-css-classes: fa-user-circle fam-star fam-is-success
+
+    layout: 
+      sequence: 50
+      parent-entry: Reports # 7103772130342154126
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.::::'
+        page: 12 # Top Users
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of page views aggregated by user.
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== List: Navigation Bar ================================
+  id: 7586381283330477776
+  identification: 
+    name: Navigation Bar
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Auditing Dashboard ===========================
+    id: 55524490051618193
+    label: 
+      label: Auditing Dashboard
+
+    icon: 
+      image/icon-css-classes: fa-dashboard
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:41:&SESSION.::&DEBUG.::::'
+        page: 41 # Auditing dashboard
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: --- ==========================================
+    id: 7194722947442670596
+    label: 
+      label: '---'
+
+    layout: 
+      sequence: 44
+      parent-entry: '&APP_USER.' # 7586382157511477813
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: separator
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: NA
+
+  - # ====== Entry: Help =========================================
+    id: 7586381838918477813
+    label: 
+      label: Help
+
+    icon: 
+      image/icon-css-classes: fa-question-circle-o
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1001:&SESSION.::&DEBUG.:1001:P1001_PAGE_ID:&APP_PAGE_ID.:'
+        page: 1001 # Page Help Dialog
+        clear-cache: 1001
+        values: 
+          p1001_page_id: '&APP_PAGE_ID.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+  - # ====== Entry: &APP_USER. ===================================
+    id: 7586382157511477813
+    label: 
+      label: '&APP_USER.'
+
+    icon: 
+      image/icon-css-classes: fa-user
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      2.: has-username
+
+  - # ====== Entry: Manage Preferences ===========================
+    id: 7586382462730477813
+    label: 
+      label: Manage Preferences
+
+    icon: 
+      image/icon-css-classes: fa-heart-o
+
+    layout: 
+      sequence: 40
+      parent-entry: '&APP_USER.' # 7586382157511477813
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:36:&SESSION.::&DEBUG.::::'
+        page: 36 # Preferences
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: Sign Out =====================================
+    id: 7586382756161477813
+    label: 
+      label: Sign Out
+
+    icon: 
+      image/icon-css-classes: fa-sign-out
+
+    layout: 
+      sequence: 50
+      parent-entry: '&APP_USER.' # 7586382157511477813
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '&LOGOUT_URL.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+- # ====== List: Automated Testing Job =========================
+  id: 7723151474209871477
+  identification: 
+    name: Automated Testing Job
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Enable Automated Testing Job =================
+    id: 7723151682307871480
+    label: 
+      label: Enable Automated Testing Job
+
+    icon: 
+      image/icon-css-classes: fa-play-circle-o
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::::'
+        page: 32 # Confirm Enabling Job
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: The automated testing job runs once a day to ensure that all applications are tested when they are modified, preventing unnecessary delays when users access this application.
+      2.: switchIcon
+
+    server-side-condition: 
+      type: Item != Value
+      item: P4_JOB_STATUS
+      value: SCHEDULED
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Disable Automated Testing Job ================
+    id: 7723153472093885576
+    label: 
+      label: Disable Automated Testing Job
+
+    icon: 
+      image/icon-css-classes: fa-stop
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:33:&SESSION.::&DEBUG.::::'
+        page: 33 # Confirm Disabling Job
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: The automated testing job runs once a day to ensure that all applications are tested when they are modified, preventing unnecessary delays when users access this application.
+      2.: switchIcon
+
+    server-side-condition: 
+      type: Item = Value
+      item: P4_JOB_STATUS
+      value: SCHEDULED
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== List: Utilities =====================================
+  id: 8251623205361620870
+  identification: 
+    name: Utilities
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Rename Application ===========================
+    id: 8251623400621620873
+    label: 
+      label: Rename Application
+
+    icon: 
+      image/icon-css-classes: fa-pencil
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:8:&SESSION.::&DEBUG.:RP:::'
+        page: 8 # Rename Application
+        clear-cache: RP
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Change the application name, displayed on the top left of each page, to one of your choosing.  By default, the application name is "&APP_NAME.".
+      2.: formIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Application Error Log ========================
+    id: 8251624275091620886
+    label: 
+      label: Application Error Log
+
+    icon: 
+      image/icon-css-classes: fa-alert
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:175:&SESSION.::&DEBUG.:RP,RIR,CIR:::'
+        page: 175 # Application Error Log
+        clear-cache: RP,RIR,CIR
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of all internal errors encountered within the application.
+      2.: reportIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Build Options ================================
+    id: 8263548993206711598
+    label: 
+      label: Build Options
+
+    icon: 
+      image/icon-css-classes: fa-adjust
+
+    layout: 
+      sequence: 50
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:9:&SESSION.::&DEBUG.::::'
+        page: 9 # Build Options
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Manage the status of build options. Build options allow application functionality to be included or excluded from an application.  Use build options to factor your application.
+      2.: formIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Application Appearance =======================
+    id: 8271757373241693753
+    label: 
+      label: Application Appearance
+
+    icon: 
+      image/icon-css-classes: fa-desktop
+
+    layout: 
+      sequence: 60
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:37:&SESSION.::&DEBUG.::::'
+        page: 37 # Application Appearance
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Change user interface theme style for all users.
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== List: Access Control ================================
+  id: 10780284015761808765
+  identification: 
+    name: Access Control
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Username Format ==============================
+    id: 8267457096565438314
+    label: 
+      label: Username Format
+
+    icon: 
+      image/icon-css-classes: fa-user
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:13:&SESSION.::&DEBUG.::::'
+        page: 13 # Username Format
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Define the username format for new users in this application.
+      2.: formIcon
+
+    server-side-condition: 
+      type: Never
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Access Control ===============================
+    id: 10780284505143808775
+    label: 
+      label: Access Control
+
+    icon: 
+      image/icon-css-classes: fa-key
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:35:&SESSION.::&DEBUG.::::'
+        page: 35 # Access Control Configuration
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Use to change the Access Control Scope or to disable Access Control.
+      2.: switchIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Users ========================================
+    id: 10780284815310808775
+    label: 
+      label: Users
+
+    icon: 
+      image/icon-css-classes: fa-users
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.:26,RIR:::'
+        page: 26 # Access Control List
+        clear-cache: 26,RIR
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Administrators can define the domain of users and assign each a role.
+      2.: userIcon
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: eba_stds_fw.get_preference_value('ACCESS_CONTROL_ENABLED') = 'Y'
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== List: Preferences ===================================
+  id: 10792440703667364893
+  identification: 
+    name: Preferences
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Other Preferences ============================
+    id: 430428522321825099
+    label: 
+      label: Other Preferences
+
+    icon: 
+      image/icon-css-classes: fa-adjust
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.:RP:P45_PREFERENCE_NAME:Other Preferences:'
+        page: 45 # Set Time Zone
+        clear-cache: RP
+        values: 
+          p45_preference_name: Other Preferences
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Subscribe to the weekly summary of violations
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Entry: Time Zone ====================================
+    id: 10792440910046364897
+    label: 
+      label: Time Zone
+
+    icon: 
+      image/icon-css-classes: fa-globe
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.::P45_PREFERENCE_NAME:Time Zone:'
+        page: 45 # Set Time Zone
+        values: 
+          p45_preference_name: Time Zone
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Set time zone for the current user.
+      2.: |
+        switchIcon
+        
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== List: Code Tables ===================================
+  id: 11083704951505860898
+  identification: 
+    name: Code Tables
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Application Statuses =========================
+    id: 7578250872374220529
+    label: 
+      label: Application Statuses
+
+    icon: 
+      image/icon-css-classes: fa-stethoscope
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:25:&SESSION.::&DEBUG.:RP:::'
+        page: 25 # Application Statuses
+        clear-cache: RP
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Manage the list of statuses applications may belong to (development, production, etc.).
+      2.: formIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+    configuration: 
+      build-option: TO_DELETE # 6157992149575072830
+
+  - # ====== Entry: Manage Sample Data ===========================
+    id: 7657193784971764655
+    label: 
+      label: Manage Sample Data
+
+    icon: 
+      image/icon-css-classes: fa-database
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.::::'
+        page: 19 # Installing supporting data
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: This application ships with a sample Standard. You can remove or recreate the sample Standard using this administrative page.
+      2.: gearIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Application Types ============================
+    id: 8251627897997652122
+    label: 
+      label: Application Types
+
+    icon: 
+      image/icon-css-classes: fa-list-alt
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:23:&SESSION.::&DEBUG.:RP:::'
+        page: 23 # Application Types
+        clear-cache: RP
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Manage the types of applications which standards can apply to; one standard can be applied to multiple application types.
+      2.: formIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  - # ====== Entry: Notifications ================================
+    id: 10528288196693767152
+    label: 
+      label: Notifications
+
+    icon: 
+      image/icon-css-classes: fa-comment-o
+
+    layout: 
+      sequence: 25
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:30:&SESSION.::&DEBUG.::::'
+        page: 30 # Notifications
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Manage notification messages displayed on the home page of this application.  Use notifications to alert application users of important information.
+      2.: formIcon
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== List: Activity Reports ==============================
+  id: 12003144342787174205
+  identification: 
+    name: Activity Reports
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Page Views ===================================
+    id: 12004372234287458444
+    label: 
+      label: Page Views
+
+    icon: 
+      image/icon-css-classes: fa-spinner
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Pages
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10:&SESSION.::&DEBUG.::::'
+        page: 10 # Page Views
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Interactive report of page views per user.
+      2.: reportIcon
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  - # ====== Entry: Top Users ====================================
+    id: 12004379639135459886
+    label: 
+      label: Top Users
+
+    icon: 
+      image/icon-css-classes: fa-users
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Pages
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.::::'
+        page: 12 # Top Users
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of page views aggregated by user.
+      2.: reportIcon
+
+    security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
+

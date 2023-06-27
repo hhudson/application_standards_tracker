@@ -1,0 +1,58 @@
+---
+- # ====== Application Process: Standard Tests =================
+  id: 7578410289476172283
+  identification: 
+    name: Standard Tests
+    type: NATIVE_PLSQL
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          eba_stds_parser.update_standard_status;
+      end;
+
+  execution: 
+    sequence: 1
+    point: After Header
+
+  server-side-condition: 
+    type: Never
+
+- # ====== Application Process: Trim All Page Items ============
+  id: 7663506365990331071
+  identification: 
+    name: Trim All Page Items
+    type: NATIVE_PLSQL
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          for c1 in (select item_name
+                     from apex_application_page_items
+                     where application_id = :APP_ID
+                         and page_id = :APP_PAGE_ID
+                         and display_as_code in ('NATIVE_TEXT_FIELD',
+                                                 'NATIVE_TEXTAREA',
+                                                 'NATIVE_NUMBER_FIELD') ) loop
+              apex_util.set_session_state( c1.item_name,
+                  regexp_replace(apex_util.get_session_state( c1.item_name ),
+                      '^[[:space:]]*(.*?)[[:space:]]*$', '\1'
+                  )
+              );
+          end loop;
+      end;
+
+  execution: 
+    sequence: 1
+    point: After Submit
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Never
+

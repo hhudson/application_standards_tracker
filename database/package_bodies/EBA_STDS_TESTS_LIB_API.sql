@@ -1,0 +1,202 @@
+--liquibase formatted sql
+--changeset package_body_script:EBA_STDS_TESTS_LIB_API_body stripComments:false endDelimiter:/ runOnChange:true
+
+create or replace package body EBA_STDS_TESTS_LIB_API as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   EBA_STDS_TESTS_LIB_API
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso  2023-Jun-8 - created
+---------------------------------------------------------------------------- 
+
+  gc_scope_prefix constant varchar2(51) := lower($$plsql_unit) || '.';
+
+
+  procedure upsert (
+        p_standard_id           in eba_stds_tests_lib.standard_id%type,
+        p_test_name             in eba_stds_tests_lib.test_name%type,
+        p_workspace             in eba_stds_tests_lib.workspace%type,
+        p_test_id               in eba_stds_tests_lib.test_id%type,
+        p_query_clob            in eba_stds_tests_lib.query_clob%type,
+        p_standard_code         in eba_stds_tests_lib.standard_code%type,
+        p_active_yn             in eba_stds_tests_lib.active_yn%type,
+        p_issue_desc            in eba_stds_tests_lib.issue_desc%type,
+        p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
+        p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type
+    )
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'upsert';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_name', p_test_name,
+                                        'p_workspace', p_workspace,
+                                        'p_test_id', p_test_id,
+                                        'p_query_clob', p_query_clob,
+                                        'p_standard_code', p_standard_code,
+                                        'p_active_yn', p_active_yn,
+                                        'p_issue_desc', p_issue_desc,
+                                        'p_mv_dependency', p_mv_dependency,
+                                        'p_ast_component_type_id', p_ast_component_type_id
+                                        );
+
+    merge into eba_stds_tests_lib e
+    using (select p_standard_id           standard_id,
+                  p_test_name             test_name,
+                  p_workspace             workspace,
+                  p_test_id               test_id,
+                  p_query_clob            query_clob,
+                  p_standard_code         standard_code,
+                  p_active_yn             active_yn,
+                  p_issue_desc            issue_desc,
+                  p_mv_dependency         mv_dependency,
+                  p_ast_component_type_id ast_component_type_id
+           from dual) h
+    on (e.standard_code = h.standard_code and e.workspace = h.workspace)
+    when matched then
+    update set e.standard_id           = h.standard_id,
+               e.test_name             = h.test_name,
+               e.test_id               = h.test_id,
+               e.query_clob            = h.query_clob,
+               e.active_yn             = h.active_yn,
+               e.issue_desc            = h.issue_desc,
+               e.mv_dependency         = h.mv_dependency,
+               e.ast_component_type_id = h.ast_component_type_id
+    when not matched then
+    insert (standard_code,
+            workspace,
+            standard_id,
+            test_name,
+            test_id,
+            query_clob,
+            active_yn,
+            issue_desc,
+            mv_dependency,
+            ast_component_type_id)
+    values (h.standard_code,
+            h.workspace,
+            h.standard_id,
+            h.test_name,
+            h.test_id,
+            h.query_clob,
+            h.active_yn,
+            h.issue_desc,
+            h.mv_dependency,
+            h.ast_component_type_id);
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end upsert;
+
+  procedure take_snapshot
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'take_snapshot';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_workspace constant apex_workspace_preferences.preference_value%type := ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE');
+  begin
+    apex_debug.message(c_debug_template,'START');
+
+    for rec in (
+      select id test_id,
+             standard_id,
+             name test_name,
+             query_clob,
+             standard_code,
+             active_yn,
+             issue_desc,
+             mv_dependency,
+             ast_component_type_id
+      from eba_stds_standard_tests
+      order by 1
+    ) loop
+      upsert (
+        p_standard_id           => rec.standard_id,
+        p_test_name             => rec.test_name,
+        p_workspace             => c_workspace,
+        p_test_id               => rec.test_id,
+        p_query_clob            => rec.query_clob,
+        p_standard_code         => rec.standard_code,
+        p_active_yn             => rec.active_yn,
+        p_issue_desc            => rec.issue_desc,
+        p_mv_dependency         => rec.mv_dependency,
+        p_ast_component_type_id => rec.ast_component_type_id
+      );
+    end loop;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end take_snapshot;
+
+  procedure install_standard_test(p_id               in eba_stds_tests_lib.id%type,
+                                  p_standard_id      in eba_stds_standard_tests.standard_id%type,
+                                  p_urgency_level_id in eba_stds_standard_tests.level_id%type)
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'install_standard_test';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_lib_rec eba_stds_tests_lib%rowtype;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_id', p_id,
+                                        'p_urgency_level_id', p_urgency_level_id,
+                                        'p_standard_id', p_standard_id);
+
+    select *
+    into l_lib_rec
+    from eba_stds_tests_lib
+    where id = p_id;
+
+    eba_stds_standard_tests_api.insert_test(
+                p_id                    => l_lib_rec.test_id,
+                p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
+                p_test_type             => 'FAIL_REPORT', 
+                p_name                  => l_lib_rec.test_name,
+                p_query_clob            => l_lib_rec.query_clob,
+                p_owner                 => ast_preferences.get_preference ('AST_DEFAULT_SCHEMA'),
+                p_standard_code         => l_lib_rec.standard_code,
+                p_active_yn             => 'N',
+                p_issue_desc            => l_lib_rec.issue_desc,
+                p_level_id              => coalesce(p_urgency_level_id, ast_urgency_level_api.get_default_level_id),
+                p_mv_dependency         => l_lib_rec.mv_dependency,
+                p_ast_component_type_id => l_lib_rec.ast_component_type_id);
+    
+    ast_deployment.install_help_for_test_from_zip (p_test_id => l_lib_rec.test_id);
+
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end install_standard_test;
+
+   procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type)
+   as 
+   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib';
+   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+   begin
+    apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+
+    delete from eba_stds_tests_lib
+    where id = p_id;
+    
+    apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
+
+    ast_deployment.upsert_static_file(p_table_name => 'EBA_STDS_TESTS_LIB');
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+   end delete_test_from_lib;
+
+
+end EBA_STDS_TESTS_LIB_API;
+/
+--rollback drop package body EBA_STDS_TESTS_LIB_API;

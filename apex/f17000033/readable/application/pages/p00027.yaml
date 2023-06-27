@@ -1,0 +1,728 @@
+---
+# ====== Page: User Access Control ===========================
+id: 27
+identification: 
+  name: User Access Control
+  alias: USER-ACCESS-CONTROL
+  title: User Access Control
+  page-group: ACL # 8901802019639773041
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Wizard Modal Dialog # 7573653346823143970
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: false
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Buttons =====================================
+  id: 7648215798284058711
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7573656789854143977
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: User Details ================================
+  id: 11083816628444345251
+  identification: 
+    title: User Details
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_USERS
+    include-rowid-column: true
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Version Column
+      row-version-column: ROW_VERSION_NUMBER
+
+page-items: 
+- # ====== Page Item: P27_ACCESS_LEVEL_ID ======================
+  id: 10780256921676687485
+  identification: 
+    name: P27_ACCESS_LEVEL_ID
+    type: Radio Group
+
+  label: 
+    label: Access Level
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 30
+    region: User Details # 11083816628444345251
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--radioButtonGroup
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACCESS_LEVELS # 10780251699356541048
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: User Details # 11083816628444345251
+    column: ACCESS_LEVEL_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: 2
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: There are three access levels (Administrator, Contributor, Reader).
+
+- # ====== Page Item: P27_ACCOUNT_LOCKED =======================
+  id: 10780270800514728653
+  identification: 
+    name: P27_ACCOUNT_LOCKED
+    type: Switch
+
+  label: 
+    label: Account Locked
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 40
+    region: User Details # 11083816628444345251
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: User Details # 11083816628444345251
+    column: ACCOUNT_LOCKED
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: N
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P27_ID
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: lock the user's account
+
+- # ====== Page Item: P27_ID ===================================
+  id: 11083818040539345259
+  identification: 
+    name: P27_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: User Details # 11083816628444345251
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: User Details # 11083816628444345251
+    column: ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P27_USER_NAME ============================
+  id: 11083818220927345265
+  identification: 
+    name: P27_USER_NAME
+    type: Popup LOV
+
+  label: 
+    label: Username
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: true
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 20
+    region: User Details # 11083816628444345251
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: APEX_WORKSPACE_APEX_USERS.USER_NAME # 48891043421756469
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: User Details # 11083816628444345251
+    column: USERNAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: 'the :apex_user value'
+
+buttons: 
+- # ====== Button: CREATE_AGAIN ================================
+  id: 8266356806032689038
+  identification: 
+    button-name: CREATE_AGAIN
+    label: Add and Add Another
+
+  layout: 
+    sequence: 40
+    region: Buttons # 7648215798284058711
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P27_ID
+
+- # ====== Button: CREATE ======================================
+  id: 11083816841221345255
+  identification: 
+    button-name: CREATE
+    label: Add User
+
+  layout: 
+    sequence: 50
+    region: Buttons # 7648215798284058711
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P27_ID
+
+- # ====== Button: SAVE ========================================
+  id: 11083816948337345255
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Buttons # 7648215798284058711
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 'show' d
+      from dual
+      where :P27_ID is not null
+          and not exists (
+              select null
+              from eba_stds_users
+              where upper(username) = :APP_USER
+                  and id = :P27_ID)
+
+- # ====== Button: DELETE ======================================
+  id: 11083817033630345255
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Buttons # 7648215798284058711
+    position: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--danger
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Default
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 'show' d
+      from dual
+      where :P27_ID is not null
+          and not exists (
+              select null
+              from eba_stds_users
+              where upper(username) = :APP_USER
+                  and id = :P27_ID)
+
+- # ====== Button: CANCEL ======================================
+  id: 11083817232162345256
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 7648215798284058711
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Modal ========================
+  id: 6345263018980937930
+  identification: 
+    name: Cancel Modal
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 11083817232162345256
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 6345263076568937931
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Modal # 6345263018980937930
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+validations: 
+- # ====== Validation: cannot update yourself ==================
+  id: 10786394721985760027
+  identification: 
+    name: cannot update yourself
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: No Rows returned
+    sql-query: |
+      select 1
+        from eba_stds_users
+       where upper(username) = :APP_USER
+         and id = :P27_ID
+    always-execute: false
+
+  error: 
+    error-message: You cannot update your own record.
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 11083816948337345255
+
+computations: 
+- # ====== Computation: P27_USER_NAME ==========================
+  id: 8272503088787843355
+  identification: 
+    item-name: P27_USER_NAME
+
+  execution: 
+    sequence: 10
+    point: After Submit
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: 'trim(:P27_USER_NAME)'
+
+processes: 
+- # ====== Process: Close ======================================
+  id: 6253715546695746505
+  identification: 
+    name: Close
+    type: Close Dialog
+    execution-chain: None
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request != Value
+    value: CREATE_AGAIN
+
+- # ====== Process: Fetch Row from EBA_STDS_USERS ==============
+  id: 11083818521331345267
+  identification: 
+    name: Fetch Row from EBA_STDS_USERS
+    type: Form - Initialization
+    execution-chain: None
+    form-region: User Details # 11083816628444345251
+
+  execution: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process Row of EBA_STDS_USERS ==============
+  id: 11083818736509345268
+  identification: 
+    name: Process Row of EBA_STDS_USERS
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: User Details # 11083816628444345251
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: false
+    lock-row: Yes
+    return-primary-key(s)-after-insert: false
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    display-location: Inline in Notification
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+- # ====== Process: reset page =================================
+  id: 11083818949750345268
+  identification: 
+    name: reset page
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 11083817033630345255
+
+branches: 
+- # ====== Branch: Go To Page &APP_PAGE_ID. ====================
+  id: 8266357082241695532
+  identification: 
+    name: Go To Page &APP_PAGE_ID.
+
+  execution: 
+    sequence: 5
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: '&APP_PAGE_ID.'
+
+  server-side-condition: 
+    when-button-pressed: CREATE_AGAIN # 8266356806032689038
+

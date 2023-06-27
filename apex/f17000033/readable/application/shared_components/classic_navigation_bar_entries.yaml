@@ -1,0 +1,62 @@
+---
+- # ====== Classic Navigation Bar Entrie: Help =================
+  id: 7188791252276608501
+  label: 
+    label: Help
+
+  layout: 
+    sequence: 10
+
+  link: 
+    target: 
+      url: 'f?p=&APP_ID.:help:&SESSION.::&DEBUG.:::'
+      page: HELP
+
+- # ====== Classic Navigation Bar Entrie: Administration =======
+  id: 7188792281931619818
+  label: 
+    label: Administration
+
+  layout: 
+    sequence: 20
+
+  link: 
+    target: 
+      url: 'f?p=&APP_ID.:settings:&SESSION.::&DEBUG.::::'
+      page: SETTINGS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== Classic Navigation Bar Entrie: Mobile ===============
+  id: 7188792920612623814
+  label: 
+    label: Mobile
+
+  layout: 
+    sequence: 30
+
+  link: 
+    target: 
+      url: 'f?p=&APP_ID.:mobile:&SESSION.::&DEBUG.:::'
+      page: MOBILE
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 'mobile enabled'
+      from apex_application_pages
+      where application_id = :APP_ID
+          and lower(page_alias) = 'mobile'
+
+- # ====== Classic Navigation Bar Entrie: Sign Out =============
+  id: 10800141610255576801
+  label: 
+    label: Sign Out
+
+  layout: 
+    sequence: 40
+
+  link: 
+    target: '&LOGOUT_URL.'
+

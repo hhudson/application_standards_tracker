@@ -1,0 +1,290 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  // Variables Reference : https://code.visualstudio.com/docs/editor/variables-reference
+
+  "version": "2.0.2",
+  "tasks": [
+    {
+      "label": "edit db connection",
+      "type": "shell",
+      "command": ".vscode/scripts/edit_db_conn.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "compile code",
+      "type": "shell",
+      "command": ".vscode/scripts/run_sql.sh",
+      "args": [
+        "\"${relativeFile}\"",
+        "\"${file}\"",
+        "\"${fileBasenameNoExtension}\"",
+        "\"${fileDirnameBasename}\""
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "run utPLSQL tests for package procedure/function",
+      "type": "shell",
+      "command": ".vscode/scripts/run_test.sh",
+      "args": [
+        "\"${relativeFile}\"",
+        "\"${file}\"",
+        "\"${fileBasenameNoExtension}\"",
+        "\"${selectedText}\"",
+        "\"${fileDirname}\""
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "correct constraint/index names for table",
+      "type": "shell",
+      "command": ".vscode/scripts/name_fixer.sh",
+      "args": [
+        "\"${relativeFile}\"",
+        "\"${file}\"",
+        "\"${fileBasenameNoExtension}\"",
+        "\"${fileDirname}\"",
+        "\"${fileWorkspaceFolder}\"",
+        "\"${lineNumber}\""
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "generate DDL from db",
+      "type": "shell",
+      "command": ".vscode/scripts/gen_scripts_from_db.sh",
+      "args": [
+        "${input:genObjOptions}",
+        "${input:newObjectName}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "generate Insert Script",
+      "type": "shell",
+      "command": ".vscode/scripts/gen_insert_from_db.sh",
+      "args": [
+        "${input:genInsertOptions}",
+        "${input:newTableName}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "generate Insert Script for Tests",
+      "type": "shell",
+      "command": ".vscode/scripts/gen_insert_test_from_db.sh",
+      "args": [
+        "${input:genInsertTestOptions}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "generate DDL from template",
+      "type": "shell",
+      "command": ".vscode/scripts/gen_object.sh",
+      "args": [
+        "${input:newObjectType}",
+        "${input:newObjectName}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    // EXPORT apex applications
+    {
+      "label": "apex export",
+      "type": "shell",
+      "command": ".vscode/scripts/apex_export.sh",
+      "args": ["${input:apexExportType}"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "admin tasks",
+      "type": "shell",
+      "command": ".vscode/scripts/admin_tasks.sh",
+      "args": [
+        "${input:adminTaskType}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "liquibase release tasks",
+      "type": "shell",
+      "command": ".vscode/scripts/liquibase_release_tasks.sh",
+      "args": [
+        "${input:releaseTaskType}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+  ],
+  "inputs": [
+    {
+      "type": "pickString",
+      "id": "newObjectType",
+      "description": "Testing types to include",
+      // Note: these options must match what's in scripts/project-config.sh
+      "options": [
+        "package",
+        "view",
+        "mview",
+        "table",
+        "trigger",
+        "job",
+        "comment",
+        "data_array"
+      ]
+    },
+    {
+      "type": "promptString",
+      "id": "newObjectName",
+      "description": "Object name"
+    },
+    {
+      "type": "promptString",
+      "id": "newTableName",
+      "description": "Table name"
+    },
+    {
+      "type": "pickString",
+      "id": "genObjOptions",
+      "description": "Objects combinations to export from db",
+      // Note: these options must match what's in scripts/project-config.sh
+      "options": [
+        "1 - Scripts for Table, Foreign Keys, Comments & BIU Trigger",
+        "2 - Scripts for Package Spec and Body",
+        "3 - Table script only"
+      ]
+      },{
+        "type": "pickString",
+        "id": "genInsertOptions",
+        "description": "Objects combinations to export from db",
+        // Note: these options must match what's in scripts/project-config.sh
+        "options": [
+          "1 - With Primary Key",
+          "2 - No Primary Key"
+      ]
+    },{
+      "type": "pickString",
+      "id": "apexIdOptions",
+      "description": "APEX applications to export from db",
+      // select apex_string.format('"%s",', aa.application_id) stmt
+      // from apex_applications aa
+      // where aa.workspace = ''
+      // order by aa.application_id
+      "options": [
+        "17000033"
+      ] 
+    },
+    {
+      "type": "pickString",
+      "id": "adminTaskType",
+      "description": "Admin tasks to include",
+      // Note: these options must match what's in scripts/project-config.sh
+      "options": [
+        "1 - refresh APEX SERT views",
+        "2 - List invalid objects"
+      ]
+    },
+    {
+      "type": "pickString",
+      "id": "apexExportType",
+      "description": "style of APEX Export",
+      // Note: these options must match what's in scripts/project-config.sh
+      "options": [
+        "1 - APEX Readable YAML",
+        "2 - APEX installation file",
+        "3 - All of the above"
+      ]
+    },
+    {
+      "type": "pickString",
+      "id": "releaseTaskType",
+      "description": "Release tasks to include",
+      // Note: these options must match what's in scripts/project-config.sh
+      "options": [
+        "1 - Preview SQL",
+        "2 - Deploy Changes",
+        "3 - Clear Checksums",
+        "4 - Validate"
+      ]
+    },
+    {
+      "type": "pickString",
+      "id": "genInsertTestOptions",
+      "description": "Test types",
+      // Note: these options must match what's in scripts/project-config.sh
+      "options": [
+        "1 - PLSQL",
+        "2 - SERT",
+        "3 - APEX",
+        "4 - Views",
+        "5 - Tables"
+      ]
+    }
+  ]
+}

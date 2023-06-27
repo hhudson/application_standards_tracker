@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  
+  <!-- Always include release.properties -->
+  <property file="release.properties" />
+
+  <!-- Table scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/tables"
+  />
+
+
+  <!-- Trigger scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/triggers"
+  />
+
+  <!-- Foreign key scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/foreign_keys"
+  />
+
+  <!-- Package spec scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/package_specs"
+  />
+
+  <!-- View scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/views"
+  />
+  
+
+  <!-- Function scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/functions"
+  />
+  
+  <!-- Procedure scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/procedures"
+  />
+
+  <!-- create oracle apex version package -->
+  <include 
+        relativeToChangelogFile="true"
+        file="database/adhoc_scripts/ORACLE_APEX_VERSION.sql"
+  />
+
+  <!-- Synonym scripts START-->  
+  <!-- <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/synonyms/public"
+  /> -->
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/synonyms/apex"
+  />
+  <!-- Synonym scripts END-->  
+
+  <!-- Object Type scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/types/object_types"
+  />
+
+  <!-- Table Type scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/types/table_types"
+  />
+
+  <!-- Package body scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/package_bodies"
+  />
+ 
+  <!-- Package context scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/contexts"
+  />
+  
+  <!-- Materialized View scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/mviews"
+  />
+  
+  <!-- Sequence scripts -->  
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="database/sequences"
+  />
+
+
+  <!-- Dev Support Utils scripts -->  
+    <!-- <includeAll
+        relativeToChangelogFile="true"
+        context="dsu"
+        errorIfMissingOrEmpty="false"
+        path="database/dev_ddl/package_specs"
+    />
+    <includeAll
+        relativeToChangelogFile="true"
+        context="dsu"
+        errorIfMissingOrEmpty="false"
+        path="database/dev_ddl/tables"
+    />
+    <includeAll
+        relativeToChangelogFile="true"
+        context="dsu"
+        errorIfMissingOrEmpty="false"
+        path="database/dev_ddl/views/views1"
+    />
+    <includeAll
+        relativeToChangelogFile="true"
+        context="dsu"
+        errorIfMissingOrEmpty="false"
+        path="database/dev_ddl/views/views2"
+    />
+    <includeAll
+        relativeToChangelogFile="true"
+        context="dsu"
+        errorIfMissingOrEmpty="false"
+        path="database/dev_ddl/package_bodies"
+    /> -->
+  <!-- Dev Support Utils scripts -->  
+
+  <!-- Data scripts --> 
+    <includeAll
+        relativeToChangelogFile="true"
+        context="dml"
+        errorIfMissingOrEmpty="false"
+        path="database/data/tables1"
+    />
+  <includeAll
+        relativeToChangelogFile="true"
+        context="dml"
+        errorIfMissingOrEmpty="false"
+        path="database/data/tables2"
+    />
+  
+  <includeAll
+        relativeToChangelogFile="true"
+        context="dml"
+        errorIfMissingOrEmpty="false"
+        path="database/data/tables3"
+    />
+  <!-- Data scripts --> 
+
+  <!-- grants -->
+  <include 
+        relativeToChangelogFile="true"
+        file="database/adhoc_scripts/grants.sql"
+  />
+
+  <!-- Tag the install with a version -->
+  <changeSet
+      id="version_tag"
+      author="${git_author}"
+      runOnChange="true"
+      runAlways="true">
+      <tagDatabase tag="${platform_install_platform_release}" />
+  </changeSet>  
+   
+</databaseChangeLog> 

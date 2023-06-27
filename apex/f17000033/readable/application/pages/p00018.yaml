@@ -1,0 +1,407 @@
+---
+# ====== Page: Manage Sample Standard ========================
+id: 18
+identification: 
+  name: Manage Sample Standard
+  alias: MANAGE-SAMPLE-STANDARD
+  title: Manage Sample Standard
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+configuration: 
+  build-option: TO_DELETE # 6157992149575072830
+
+regions: 
+- # ====== Region: Buttons =====================================
+  id: 7648215747164058710
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Manage Sample Standard # 7657084755499643225
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7573656789854143977
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noPadding
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Manage Sample Standard ======================
+  id: 7657084755499643225
+  identification: 
+    title: Manage Sample Standard
+    type: Static Content
+
+  source: 
+    html-code: <p>This application ships with a sample Standard, which includes several automated tests. You can remove and recreate this sample Standard using this page. Note that removing or recreating the sample Standard will remove all automated tests associated with it, even if they were added by the end user; they will not be recoverable. Removing or adding the sample Standard will not affect any standards created by end users.<p>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--info
+    css-classes: 
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 7657189777195715701
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 7648215747164058710
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: RESET_SAMPLE_STANDARD =======================
+  id: 7657190169014722786
+  identification: 
+    button-name: RESET_SAMPLE_STANDARD
+    label: Reset Sample Standard
+
+  layout: 
+    sequence: 50
+    region: Buttons # 7648215747164058710
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_stds_data.is_sample_data_loaded()
+
+- # ====== Button: LOAD_SAMPLE_STANDARD ========================
+  id: 7657190756332728616
+  identification: 
+    button-name: LOAD_SAMPLE_STANDARD
+    label: Load Sample Standard
+
+  layout: 
+    sequence: 30
+    region: Buttons # 7648215747164058710
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: not eba_stds_data.is_sample_data_loaded()
+
+- # ====== Button: REMOVE_SAMPLE_STANDARD ======================
+  id: 7657191060639730373
+  identification: 
+    button-name: REMOVE_SAMPLE_STANDARD
+    label: Remove Sample Standard
+
+  layout: 
+    sequence: 40
+    region: Buttons # 7648215747164058710
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--primary
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_stds_data.is_sample_data_loaded()
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 6253714455859746494
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 7657189777195715701
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 6253714555416746495
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 6253714455859746494
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Load Sample Standard =======================
+  id: 7657192362004739726
+  identification: 
+    name: Load Sample Standard
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          eba_stds_data.load_sample_data();
+      end;
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Sample Standard created.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LOAD_SAMPLE_STANDARD # 7657190756332728616
+
+- # ====== Process: Remove Sample Standard =====================
+  id: 7657192773086742922
+  identification: 
+    name: Remove Sample Standard
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          eba_stds_data.remove_sample_data();
+      end;
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Sample Standard removed.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: REMOVE_SAMPLE_STANDARD # 7657191060639730373
+
+- # ====== Process: Reset Sample Standard ======================
+  id: 7657192982782745743
+  identification: 
+    name: Reset Sample Standard
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          eba_stds_data.remove_sample_data();
+          eba_stds_data.load_sample_data();
+      end;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Sample Standard reset.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: RESET_SAMPLE_STANDARD # 7657190169014722786
+
+branches: 
+- # ====== Branch: Go To Page settings =========================
+  id: 7657191882839735221
+  identification: 
+    name: Go To Page settings
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:settings:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: SETTINGS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+

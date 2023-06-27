@@ -1,0 +1,69 @@
+---
+- # ====== Search Configuration: Navigation Search =============
+  id: 52162388826308523
+  identification: 
+    name: Navigation Search
+
+  source: 
+    search-type: APEX List
+    list: Navigation # 7103771714069154120
+
+  column-mapping: 
+    primary-key-1-column-name: 1
+    title-column-name: 2
+    custom-column-name-1: 8
+
+  link: 
+    type: Redirect to URL
+    target: '&ENTRY_TARGET.'
+
+  icon-and-badge: 
+    icon-source: Icon Class Column
+    icon-column: 5
+
+  messages: 
+    when-no-data-found: No Results Found
+
+  advanced: 
+    static-id: navigation
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Search Configuration: V_Ast_Nav_Menu ================
+  id: 52465087916389448
+  identification: 
+    name: V_Ast_Nav_Menu
+
+  source: 
+    search-type: Simple (APEX Data Source)
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select list_entry_id,
+             entry_text, 
+             destination_page_id, 
+             element_authorization,
+             entry_attribute_01,
+             entry_image
+      from V_AST_NAV_MENU
+    searchable-columns: 'ENTRY_TEXT:ENTRY_ATTRIBUTE_01'
+
+  column-mapping: 
+    primary-key-1-column-name: LIST_ENTRY_ID
+    title-column-name: ENTRY_TEXT
+    description-column-name: ENTRY_ATTRIBUTE_01
+
+  link: 
+    type: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&DESTINATION_PAGE_ID.:&APP_SESSION.::&DEBUG.:::'
+      page: '&DESTINATION_PAGE_ID.'
+
+  icon-and-badge: 
+    icon-source: Icon Class Column
+    icon-column: ENTRY_IMAGE
+
+  advanced: 
+    static-id: v_ast_nav_menu
+

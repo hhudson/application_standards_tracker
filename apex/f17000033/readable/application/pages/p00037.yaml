@@ -1,0 +1,469 @@
+---
+# ====== Page: Application Appearance ========================
+id: 37
+identification: 
+  name: Application Appearance
+  alias: APPLICATION-APPEARANCE
+  title: Application Appearance
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Drawer # 49917157161329006
+  template-options: 
+  - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: |
+    <p>
+        The appearance of your application is determined by the chosen Default Theme Style. The Default Theme Style affects <strong>all</strong> users of the application.
+    </p>
+    <p>
+        Additionally, choose whether to enable end users to change their Theme Style.
+    </p>
+    <p>
+        <i>&#40;If an end user changes Theme Styles, the change only applies to their individual account; end users cannot change the application appearance for other end users.&#41;</i>
+    </p>
+    <h3>
+        Default Theme Style
+    </h3>
+    <p>
+        Choose the Default Theme Style for all users of the application from a list of appearance options called Theme Styles. Each Theme Style applies a different look and color scheme to your application.
+    </p>
+    <p>
+        End users can change their Theme Style setting if you enable <q>Allow End Users to choose Theme Style.</q>
+    </p>
+    <h3>
+        Allow End Users to choose Theme Style
+    </h3>
+    <p>
+        Enable end users to customize their choice of Theme Style for the application.
+    </p>
+    <p>
+        Select this check box to populate the Customize link at the bottom of every non-modal page in the application for all end users.
+    </p>
+    <p>
+        Clicking the Customize link opens the Customize dialog. In the Customize dialog, end users choose from the list of Theme Styles to select their preferred application appearance.
+    </p>
+
+regions: 
+- # ====== Region: Configure Appearance ========================
+  id: 9006454522637939918
+  identification: 
+    title: Configure Appearance
+    type: Static Content
+
+  source: 
+    html-code: <p>The appearance of your application is defined by the Theme Style.</p>
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--info
+    - t-Form--large
+    render-components: Below Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P37_DESKTOP_THEME_STYLE_ID ===============
+  id: 7194717767895654320
+  identification: 
+    name: P37_DESKTOP_THEME_STYLE_ID
+    type: Select List
+
+  label: 
+    label: Default Theme Style
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 10
+    region: Configure Appearance # 9006454522637939918
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    css-classes: 
+    - margin-top-lg
+    height: 1
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select s.name d,
+             s.theme_style_id r
+      from apex_application_theme_styles s, apex_application_themes t
+      where s.application_id = t.application_id
+      and s.theme_number = t.theme_number
+      and s.application_id = :app_id
+      and t.ui_type_name   = 'DESKTOP'
+      and t.is_current = 'Yes'
+      order by 1
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select s.theme_style_id
+      from apex_application_theme_styles s, apex_application_themes t
+      where s.application_id = t.application_id
+      and s.theme_number = t.theme_number
+      and s.application_id = :app_id
+      and t.ui_type_name   = 'DESKTOP'
+      and s.is_current = 'Yes'
+    used: Always, replacing any existing value in session state
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+      from apex_application_theme_styles s, apex_application_themes t
+      where s.application_id = t.application_id
+      and s.theme_number = t.theme_number
+      and s.application_id = :app_id
+      and t.ui_type_name   = 'DESKTOP'
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    inline-help-text: The default Theme Style applies to all users.
+
+- # ====== Page Item: P37_END_USER_STYLE =======================
+  id: 7194718078577654325
+  identification: 
+    name: P37_END_USER_STYLE
+    type: Checkbox Group
+
+  label: 
+    label: End User Theme Preference
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 30
+    region: Configure Appearance # 9006454522637939918
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 3
+
+  appearance: 
+    template: Hidden # 7573687030950144041
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC:Allow End Users to choose Theme Style;Yes'
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select a.theme_style_by_user_pref
+        from apex_applications a
+       where a.application_id  = :app_id
+    used: Always, replacing any existing value in session state
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: If checked, end users may choose their own Theme Style using the Customize link.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 7194716940901654319
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Configure Appearance # 9006454522637939918
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: SAVE ========================================
+  id: 7194717332522654320
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 20
+    region: Configure Appearance # 9006454522637939918
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel ==============================
+  id: 6253714814206746498
+  identification: 
+    name: Cancel
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 7194716940901654319
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 6253714951310746499
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel # 6253714814206746498
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Enable / Disable End User Style ============
+  id: 7194719203197654339
+  identification: 
+    name: Enable / Disable End User Style
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+        l_enabled boolean := case when :P37_END_USER_STYLE = 'Yes' then true else false end;
+      begin
+        for c1 in (
+          select ui.theme_number
+            from apex_application_themes t, apex_appl_user_interfaces ui
+           where ui.application_id = t.application_id 
+             and ui.theme_number   = t.theme_number 
+             and t.application_id  = :app_id 
+             and t.ui_type_name    = 'DESKTOP'
+             and t.is_current      = 'Yes'
+        ) loop
+          if l_enabled then 
+            apex_theme.enable_user_style ( p_application_id => :APP_ID, p_theme_number => c1.theme_number );
+          else
+            apex_theme.disable_user_style ( p_application_id => :APP_ID, p_theme_number => c1.theme_number );
+            apex_theme.clear_all_users_style(:APP_ID);
+          end if; 
+        end loop;
+      end; 
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: '#SQLERRM#'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 7194717332522654320
+
+- # ====== Process: Set Theme Style ============================
+  id: 7194719473526654339
+  identification: 
+    name: Set Theme Style
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :P37_DESKTOP_THEME_STYLE_ID is not null then
+          for c1 in (select theme_number
+                     from apex_application_themes
+                     where application_id = :app_id
+                     and ui_type_name   = 'DESKTOP'
+                     and is_current = 'Yes')
+          loop
+              apex_theme.set_current_style (
+                  p_theme_number   => c1.theme_number,
+                  p_id => :P37_DESKTOP_THEME_STYLE_ID
+                  );
+          end loop;
+      end if;
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Application appearance settings updated successfully.
+
+  error: 
+    error-message: '#SQLERRM#'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 7194717332522654320
+
+branches: 
+- # ====== Branch: Go To Page settings =========================
+  id: 7194720053193654341
+  identification: 
+    name: Go To Page settings
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:settings:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: SETTINGS
+
+  server-side-condition: 
+    when-button-pressed: CANCEL # 7194716940901654319
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+

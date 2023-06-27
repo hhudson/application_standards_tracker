@@ -1,0 +1,105 @@
+---
+- # ====== Authorization: READER RIGHTS ========================
+  id: 48893993399820863
+  identification: 
+    name: READER RIGHTS
+
+  authorization-scheme: 
+    type: PL/SQL Function Returning Boolean
+
+  settings: 
+    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) >= 1;'
+
+  server-cache: 
+    evaluation-point: Once per Session
+
+  error: 
+    error-message: Insufficient privileges - user not a reader
+
+- # ====== Authorization: PERMALINK_PAGE_AUTH ==================
+  id: 8265064398508453019
+  identification: 
+    name: PERMALINK_PAGE_AUTH
+
+  authorization-scheme: 
+    type: PL/SQL Function Returning Boolean
+
+  settings: 
+    pl/sql-function-body: |
+      begin
+          if eba_stds_security.is_authorized_viewer(:APP_USER) = 'Y' then
+              return true;
+          else
+              return false;
+          end if;
+      exception
+          when no_data_found then
+              -- Not a controlled report page.
+              return true;
+      end;
+
+  server-cache: 
+    evaluation-point: Once per Page View
+
+  error: 
+    error-message: You do not have permission to view this page.
+
+- # ====== Authorization: ADMINISTRATION RIGHTS ================
+  id: 10780232806617370804
+  identification: 
+    name: ADMINISTRATION RIGHTS
+
+  authorization-scheme: 
+    type: PL/SQL Function Returning Boolean
+
+  settings: 
+    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) = 3;'
+
+  server-cache: 
+    evaluation-point: Once per Session
+
+  error: 
+    error-message: Insufficient privileges, user is not an Administrator
+
+- # ====== Authorization: APPLICATION SENTRY ===================
+  id: 10780233005961370815
+  identification: 
+    name: APPLICATION SENTRY
+
+  authorization-scheme: 
+    type: PL/SQL Function Returning Boolean
+
+  settings: 
+    pl/sql-function-body: |
+      begin
+          if :APP_PAGE_ID = 101 then
+              return true;
+          else
+              --return (eba_stds_security.get_authorization_level(:APP_USER) > 0);
+              return true;
+          end if;
+      end;
+
+  server-cache: 
+    evaluation-point: Once per Session
+
+  error: 
+    error-message: You are not authorized to view this application, either because you have not been granted access, or your account has been locked. Please contact the application administrator.
+
+- # ====== Authorization: CONTRIBUTION RIGHTS ==================
+  id: 10780233298390370815
+  identification: 
+    name: CONTRIBUTION RIGHTS
+
+  authorization-scheme: 
+    type: PL/SQL Function Returning Boolean
+
+  settings: 
+    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) >= 2;'
+
+  server-cache: 
+    evaluation-point: Once per Session
+
+  error: 
+    error-message: Insufficient privileges, user is not a Contributor
+

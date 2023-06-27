@@ -1,0 +1,300 @@
+---
+- # ====== Automation: 3. [Hourly - 40 min past] Manage APEX Iss
+  id: 2329800219461456
+  identification: 
+    name: 3. [Hourly - 40 min past] Manage APEX Issues
+    static-id: manage-apex-issues
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=40
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Disable Automation
+
+  comments: 
+    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=40
+
+  actions: 
+  - # ====== Action: manage_apex_issues ==========================
+    id: 2330198729461458
+    identification: 
+      name: manage_apex_issues
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: ast_apex_issue_util.manage_apex_issues;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 6. [Daily] Validate APEX Version ========
+  id: 2331842124786021
+  identification: 
+    name: 6. [Daily] Validate APEX Version
+    static-id: validate-apex-version
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Disable Automation
+
+  comments: 
+    comments: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
+
+  actions: 
+  - # ====== Action: Send email ==================================
+    id: 2332127749786022
+    identification: 
+      name: Send email
+      type: Send E-Mail
+
+    settings: 
+      from: '&APP_EMAIL.'
+      to: hayden.h.hudson@oracle.com
+      subject: The Oracle APEX Version is out-of-date
+      body-plain-text: You must update oracle_apex_version & ast_flow_issues.
+      send-immediately: false
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+    server-side-condition: 
+      type: Function Body
+      language: PL/SQL
+      pl/sql-function-body: |
+        begin
+        ast_apex_issue_util.hard_correct_ast_issues;
+        return false;
+        exception when others then
+        return true;
+        end;
+      execute-condition: For Each Row
+
+- # ====== Automation: 1. [Hourly on the dot] Refresh Parsed URL
+  id: 2684628413891611
+  identification: 
+    name: 1. [Hourly on the dot] Refresh Parsed URLs Materialized View
+    static-id: refresh-mv-eba-stds-parsed-urls
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=0
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Disable Automation
+
+  comments: 
+    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=0
+
+  actions: 
+  - # ====== Action: set workspace ===============================
+    id: 2684989137891611
+    identification: 
+      name: set workspace
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            ast_audit_util.set_workspace;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+  - # ====== Action: refresh mv ==================================
+    id: 2711078475896753
+    identification: 
+      name: refresh mv
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+          dbms_mview.refresh ('MV_EBA_STDS_PARSED_URLS');
+        end;
+
+    execution: 
+      sequence: 20
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 7. [Nightly] Refresh Cumulative Issues co
+  id: 54474612134518936
+  identification: 
+    name: 7. [Nightly] Refresh Cumulative Issues count
+    static-id: 7-nightly-refresh-cumulative-issues-count
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  comments: 
+    comments: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
+
+  actions: 
+  - # ====== Action: dbms_mview.refresh  MV_ISSUES_CREATED_BY_DAY 
+    id: 54474930658518937
+    identification: 
+      name: dbms_mview.refresh  MV_ISSUES_CREATED_BY_DAY
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+          dbms_mview.refresh ('MV_ISSUES_CREATED_BY_DAY');
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 4. [Hourly - 50 min past] Clear Invalid E
+  id: 181629050155860116
+  identification: 
+    name: 4. [Hourly - 50 min past] Clear Invalid Exceptions
+    static-id: clear-invalid-exceptions
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=50
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Disable Automation
+
+  comments: 
+    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=50
+
+  actions: 
+  - # ====== Action: clear_invalid_exceptions ====================
+    id: 181629312029860121
+    identification: 
+      name: clear_invalid_exceptions
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+        ast_plsql_review.clear_invalid_exceptions;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 2. [Hourly  - 10 min past] Issue Snapshot
+  id: 325704980825337043
+  identification: 
+    name: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table
+    static-id: big-job
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Disable Automation
+
+  comments: 
+    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
+
+  actions: 
+  - # ====== Action: record_daily_issue_snapshot =================
+    id: 325705293632337059
+    identification: 
+      name: record_daily_issue_snapshot
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: ast_audit_util.record_daily_issue_snapshot;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 5. [Daily] Send Admin Email =============
+  id: 435135553730366422
+  identification: 
+    name: 5. [Daily] Send Admin Email
+    static-id: send-admin-email
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=11;BYMINUTE=0
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Disable Automation
+
+  comments: 
+    comments: FREQ=DAILY;INTERVAL=1;BYHOUR=11;BYMINUTE=0
+
+  actions: 
+  - # ====== Action: send email ==================================
+    id: 435135920108366427
+    identification: 
+      name: send email
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            ast_monitoring.send_update(p_days_since => 2);
+                                       --p_override_email => 'hayden.h.hudson@oracle.com');
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+

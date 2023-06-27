@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  
+  <!-- Include as a way to escape strings that look like liquibase properties -->
+  <property name="lbdollar" value="$" />
+    
+  <!-- Always include install.properties -->
+  <property file="install.properties" />
+
+  <!-- Always include release.properties -->
+  <property file="release.properties" />
+  <includeAll
+        relativeToChangelogFile="true"
+        errorIfMissingOrEmpty="true"
+        path="packages"
+    />
+  
+  <include file="table/departments_table.xml"/> 
+  <include file="table/employees_table.xml"/> 
+  <include file="view/emp_v_view.xml"/> 
+  <include file="ref_constraint/employees_department_id_fk_ref_constraint.xml"/> 
+  <include file="index/employees_i1_index.xml"/> 
+  <include file="trigger/employees_biu_trigger.xml"/> 
+  <changeSet author="ait" id="departments.sql">
+        <sqlFile dbms="oracle"
+                encoding="UTF-8"
+                path="data/departments.sql"
+                relativeToChangelogFile="true"
+                splitStatements="true"
+                stripComments="true"/>
+  </changeSet>
+  <changeSet author="ait" id="2">
+        <sqlFile dbms="oracle"
+                encoding="UTF-8"
+                path="data/departments2.sql"
+                relativeToChangelogFile="true"
+                splitStatements="true"
+                stripComments="true"/>
+  </changeSet>
+  <changeSet author="ait" id="departments3.sql">
+        <sqlFile dbms="oracle"
+                encoding="UTF-8"
+                path="data/departments3.sql"
+                relativeToChangelogFile="true"
+                splitStatements="true"
+                stripComments="true"/>
+  </changeSet>
+  <changeSet author="ait" id="employees.sql">
+        <sqlFile dbms="oracle"
+                encoding="UTF-8"
+                path="data/employees.sql"
+                relativeToChangelogFile="true"
+                splitStatements="true"
+                stripComments="true"/>
+  </changeSet>
+
+  <!-- Tag the install with a version -->
+  <changeSet
+      id="version_tag"
+      author="ait"
+      runOnChange="true"
+      runAlways="true"
+  >
+      <tagDatabase tag="${platform_install_platform_release}" />
+  </changeSet>  
+   
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="package_specs"
+  />
+  <includeAll
+      relativeToChangelogFile="true"
+      errorIfMissingOrEmpty="false"
+      path="package_bodies"
+  />
+</databaseChangeLog> 

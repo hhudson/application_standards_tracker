@@ -1,0 +1,400 @@
+---
+# ====== Page: Login =========================================
+id: 101
+identification: 
+  name: Login
+  alias: LOGIN
+  title: '&APPLICATION_TITLE. Sign-In'
+  page-group: Login # 8901801918600772731
+
+appearance: 
+  page-mode: Normal
+  page-template: Login # 7573636225447143951
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: |
+    .standards_tester_app {background-position: -384px -384px}
+    
+
+security: 
+  authentication: Page Is Public
+
+advanced: 
+  enable-meta-tags: false
+
+security: 
+  deep-linking: Application Default
+  page-access-protection: No Arguments Supported
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Application Standards Tracker ===============
+  id: 11984536932898947240
+  identification: 
+    title: Application Standards Tracker
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Login # 7573670143558143997
+    template-options: 
+    - '#DEFAULT#'
+    icon: app-application-standards-tracker
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: standards_tester_app
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P101_APP_NAME ============================
+  id: 8910296316424481253
+  identification: 
+    name: P101_APP_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Application Standards Tracker # 11984536932898947240
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: 'nvl(:APPLICATION_TITLE, :APP_NAME)'
+    used: Always, replacing any existing value in session state
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P101_USERNAME ============================
+  id: 11984537058239947244
+  identification: 
+    name: P101_USERNAME
+    type: Text Field
+
+  label: 
+    label: Username
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Application Standards Tracker # 11984536932898947240
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 7573687030950144041
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-user
+    width: 64
+    value-placeholder: username
+
+  validation: 
+    value-required: true
+    maximum-length: 100
+
+  advanced: 
+    post-text-: <span class="t-Login-iconValidation a-Icon icon-check"></span>
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+- # ====== Page Item: P101_PASSWORD ============================
+  id: 11984537134471947247
+  identification: 
+    name: P101_PASSWORD
+    type: Password
+
+  label: 
+    label: Password
+    alignment: Left
+
+  settings: 
+    submit-when-enter-pressed: true
+
+  layout: 
+    sequence: 20
+    region: Application Standards Tracker # 11984536932898947240
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 7573687030950144041
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-key
+    width: 64
+    value-placeholder: password
+
+  validation: 
+    value-required: true
+    maximum-length: 100
+
+  advanced: 
+    post-text-: <span class="t-Login-iconValidation a-Icon icon-check"></span>
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: LOGIN =======================================
+  id: 10710800318822048050
+  identification: 
+    button-name: LOGIN
+    label: Sign In
+
+  layout: 
+    sequence: 10
+    region: Application Standards Tracker # 11984536932898947240
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Set Focus ===========================
+  id: 10851822815409389276
+  identification: 
+    name: Set Focus
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: ( $v( "P101_USERNAME" ) === "" )
+
+  execution: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: Set Focus ===================================
+    id: 10851823100513389300
+    identification: 
+      action: Set Focus
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P101_USERNAME
+
+    execution: 
+      sequence: 10
+      event: Set Focus # 10851822815409389276
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Set Focus ===================================
+    id: 10851823322794389302
+    identification: 
+      action: Set Focus
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P101_PASSWORD
+
+    execution: 
+      sequence: 20
+      event: Set Focus # 10851822815409389276
+      fire-when-event-result-is: False
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Login ======================================
+  id: 11984537354194947247
+  identification: 
+    name: Login
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      apex_authentication.login(
+          p_username => :P101_USERNAME,
+          p_password => :P101_PASSWORD );
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+
+- # ====== Process: Set Username Cookie ========================
+  id: 11984537429263947249
+  identification: 
+    name: Set Username Cookie
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      apex_authentication.send_login_username_cookie (
+          p_username => lower(:P101_USERNAME) );
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+
+- # ====== Process: Get Username Cookie ========================
+  id: 11984537543955947250
+  identification: 
+    name: Get Username Cookie
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P101_USERNAME := apex_authentication.get_login_username_cookie;'
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Clear Page(s) Cache ========================
+  id: 11984537642009947250
+  identification: 
+    name: Clear Page(s) Cache
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+

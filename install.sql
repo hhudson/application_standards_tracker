@@ -1,0 +1,1 @@
+lb update -changelog-file controller.xml -log true
