@@ -20,6 +20,9 @@ create table ast_component_types (
   pk_value          varchar2(50),
   parent_pk_value   varchar2(50),
   template_url      varchar2(250),
+  friendly_name     varchar2(50),
+  name_column       varchar2(100),
+  addl_cols         varchar2(1000),
   created           date not null,
 	created_by        varchar2(255 char) not null,
 	updated           date not null,
@@ -46,4 +49,15 @@ ADD CONSTRAINT componentname_uk2 UNIQUE(column_name1, column_nam2)
 --precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where table_name = 'AST_COMPONENT_TYPES' and column_name = 'TEMPLATE_URL';
 
 ALTER TABLE ast_component_types ADD TEMPLATE_URL varchar2(250)
+/
+
+alter table ast_component_types add friendly_name varchar2(50)
+/
+ALTER TABLE AST_COMPONENT_TYPES MODIFY (friendly_name NOT NULL ENABLE)
+/
+alter table ast_component_types add name_column varchar2(100)
+/
+ALTER TABLE AST_COMPONENT_TYPES MODIFY (name_column NOT NULL ENABLE)
+/
+alter table ast_component_types add addl_cols varchar2(1000)
 /

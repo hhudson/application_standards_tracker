@@ -208,7 +208,7 @@ end;
 -- Function to return a default query, given an ast_component_type_id
 --
 /*
-select eba_stds_parser.seed_default_query(p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID)
+select eba_stds_parser.seed_default_query(p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID) stmt
 from dual
 */
 ------------------------------------------------------------------------------

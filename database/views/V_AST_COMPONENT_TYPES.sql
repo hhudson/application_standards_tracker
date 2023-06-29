@@ -9,10 +9,8 @@ select id,
        component_name, 
        component_code, 
        apex_string.format('%0 %1', 
-                          p0 => component_name, 
-                          p1 => case when component_code is not null 
-                                     then '('||component_code||')'
-                                     end
+                          p0 => friendly_name, 
+                          p1 => '('||component_name||')'
                         ) description
 from ast_component_types
 where available_yn = 'Y'

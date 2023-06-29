@@ -780,7 +780,7 @@ create or replace package body ast_standard_view as
       loop
         pipe row (v_ast_plsql_apex__0_ot (
                     l_v_ast_plsql_apex__0 (rec).reference_code,
-                    l_v_ast_plsql_apex__0 (rec).unqid,
+                    c_standard_code||':'||l_v_ast_plsql_apex__0 (rec).unqid,
                     l_v_ast_plsql_apex__0 (rec).issue_category,
                     l_v_ast_plsql_apex__0 (rec).application_id,
                     l_v_ast_plsql_apex__0 (rec).page_id,
