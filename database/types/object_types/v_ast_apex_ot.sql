@@ -19,7 +19,7 @@
 create type v_ast_apex_ot as object
     (
       PASS_YN                          VARCHAR2(1 CHAR),
-      REFERENCE_CODE                   VARCHAR2(5000 CHAR),
+      UNQID                            VARCHAR2(5000 CHAR),
       APPLICATION_ID                   NUMBER,
       PAGE_ID                          NUMBER,
       CREATED_BY                       VARCHAR2(1020 CHAR),

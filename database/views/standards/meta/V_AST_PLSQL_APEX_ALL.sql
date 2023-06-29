@@ -4,7 +4,7 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_AST_PLSQL_APEX_ALL as
-select aaa.reference_code, 
+select aaa.unqid, -- aaa.reference_code, 
        'APEX' issue_category,
        'NA' issue_subcategory,
        aaa.application_id, 
@@ -28,7 +28,7 @@ select aaa.reference_code,
        aaa.child_code
 from v_ast_apex_all aaa
 union all
-select asa.reference_code, 
+select asa.unqid, --reference_code, 
        'SERT' issue_category,
        asa.sert_attribute_key issue_subcategory,
        asa.application_id, 
@@ -52,7 +52,7 @@ select asa.reference_code,
        'NA' child_code
 from v_ast_sert__all asa
 union all
-select dpa.reference_code, 
+select dpa.unqid, --reference_code, 
        'DB_PLSQL' issue_category,
        'NA' issue_subcategory,
        0 application_id, 
@@ -76,7 +76,7 @@ select dpa.reference_code,
        dpa.child_code
 from v_ast_db_plsql_all dpa
 union all
-select dva.reference_code, 
+select dva.unqid, --reference_code, 
        'VIEW' issue_category,
        'NA' issue_subcategory,
        0 application_id, 

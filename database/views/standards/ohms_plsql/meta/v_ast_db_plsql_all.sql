@@ -7,7 +7,7 @@
 create or replace force view v_ast_db_plsql_all as
 select 
 'N' pass_yn,
-a.unqid reference_code,
+a.unqid,
 -- asrc.src,
 -- asrc.link_to_doc standard_ref_link,
 asrc.issue_desc,

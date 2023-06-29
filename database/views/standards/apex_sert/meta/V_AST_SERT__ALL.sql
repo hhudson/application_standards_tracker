@@ -11,7 +11,7 @@ create or replace force editionable view V_AST_SERT__ALL as
 with data as (
     select 
         'N' pass_yn, 
-        collection_name||'__'||component_signature reference_code,
+        collection_name||'__'||component_signature unqid,
         application_id, 
         attribute_id, 
         page_id, 
@@ -26,7 +26,7 @@ with data as (
     from v_ast_sert__0
 )
 select a0.pass_yn, 
-       a0.reference_code,
+       a0.unqid,
        a0.application_id, 
        aa.application_name,
        a0.attribute_id,

@@ -1,7 +1,7 @@
 /* List entries should not have a build option that excludes them or an invalid build option indefinitely */
 create or replace force view v_ast_apex_80_valid_build_list_entry as
 select pass_yn,
-       reference_code,
+       unqid, --reference_code,
        application_id,
        page_id,
        created_by,

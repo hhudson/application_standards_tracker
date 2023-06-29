@@ -18,7 +18,6 @@
 -- /
   create type v_ast_plsql_apex__0_ot as object
     (
-        REFERENCE_CODE             VARCHAR2(1000 CHAR),
         UNQID                      VARCHAR2(1000 CHAR),
         ISSUE_CATEGORY             VARCHAR2(8),
         APPLICATION_ID             NUMBER,

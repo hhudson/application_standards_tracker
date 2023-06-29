@@ -127,29 +127,6 @@ procedure delete_obsolete_violations (
                 p_application_id in ast_plsql_apex_audit.application_id%type default null,
                 p_page_id        in ast_plsql_apex_audit.page_id%type default null);
 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: February 1, 2023
--- Synopsis:
---
--- Get a row of ast_plsql_apex_audit for a given audit id
---
-------------------------------------------------------------------------------
-function get_audit_record (p_audit_id in ast_plsql_apex_audit.id%type) 
-return ast_plsql_apex_audit%rowtype;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: February 2, 2023
--- Synopsis:
---
--- Function to get the audit_id for a give unqid
---
-------------------------------------------------------------------------------
-function get_unqid(p_audit_id in ast_plsql_apex_audit.id%type) 
-return ast_plsql_apex_audit.unqid%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: February 8, 2023

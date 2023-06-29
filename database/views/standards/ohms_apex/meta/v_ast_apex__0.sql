@@ -4,7 +4,7 @@
 
 create or replace force editionable view v_ast_apex__0 as
 select pass_yn,
-       reference_code,
+       unqid, --reference_code,
        application_id,
        page_id,
        created_by,

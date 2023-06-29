@@ -7,7 +7,7 @@
 create or replace force editionable view V_AST_PLSQL_APEX_AUDIT as
 with aspaa as (
     select paa.id audit_id,
-           paa.reference_code,
+        --    paa.reference_code,
            paa.issue_category,
            paa.application_id,
            vaa.application_name,
@@ -70,7 +70,7 @@ with aspaa as (
 )
 select 
     a.audit_id,
-    a.reference_code,
+    -- a.reference_code,
     a.issue_category,
     a.application_id,
     a.application_name,

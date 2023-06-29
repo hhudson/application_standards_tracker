@@ -1,7 +1,7 @@
 create or replace force view v_ast_apex_50_page_item_naming
 as
 select pass_yn,
-       reference_code,
+       unqid, --reference_code,
        application_id,
        page_id,
        created_by,

@@ -423,16 +423,16 @@ create or replace package body ast_plsql_review as
       raise;
   end issues;
 
-  procedure assert_exception (p_reference_code in varchar2)
+  procedure assert_exception (p_unqid in ast_plsql_exceptions.unqid%type)
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'assert_exception';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_reference_code constant varchar2(500) := upper(trim(p_reference_code));
+  c_unqid constant varchar2(500) := upper(trim(p_unqid));
   begin
-    apex_debug.message(c_debug_template,'START', 'p_reference_code', p_reference_code);
+    apex_debug.message(c_debug_template,'START', 'p_unqid', p_unqid);
 
-    insert into ast_plsql_exceptions (reference_code)
-    values (c_reference_code);
+    insert into ast_plsql_exceptions (unqid)
+    values (c_unqid);
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -447,9 +447,10 @@ create or replace package body ast_plsql_review as
     apex_debug.message(c_debug_template,'START');
 
     delete from ast_plsql_exceptions
-    where reference_code not in (
-      select reference_code 
+    where unqid not in (
+      select unqid 
       from ast.v_ast_db_plsql__0
+      where unqid is not null
     );
 
     apex_debug.message(c_debug_template, 'deleted', sql%rowcount);

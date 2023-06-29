@@ -537,7 +537,6 @@ create or replace package body ast_standard_view as
   -- v_ast_plsql_apex__0 identifiers
   ------------------------------------------------------------------------------
   type r_v_ast_plsql_apex__0 is record (
-    reference_code             varchar2(1000 char),
     unqid                      varchar2(1000 char),
     issue_category             varchar2(8),
     application_id             number,
@@ -565,7 +564,7 @@ create or replace package body ast_standard_view as
                                              case when p_unqid is not null 
                                                   then p_unqid 
                                                   when p_audit_id is not null 
-                                                  then ast_audit_util.get_unqid(p_audit_id => p_audit_id)
+                                                  then ast_plsql_apex_audit_api.get_unqid(p_audit_id => p_audit_id)
                                                   end;
   l_unqid_predicate varchar2(1200) := apex_string.format(q'^ and unqid = '%s' ^', c_unqid);
   begin
@@ -587,12 +586,7 @@ create or replace package body ast_standard_view as
       l_query_clob := get_query_clob (
         p_standard_code => c_standard_code,
         p_nt_name => l_nt_name,
-        p_select_stmt => q'[select apex_string.format('%s:%s:%s', 
-                                         object_name,
-                                         object_type,
-                                         line
-                                         ) reference_code,
-                                   unqid,
+        p_select_stmt => q'[select unqid,
                                    'DB_PLSQL' issue_category,
                                    null application_id,
                                    null page_id,
@@ -620,8 +614,7 @@ create or replace package body ast_standard_view as
       l_query_clob := get_query_clob (
         p_standard_code => c_standard_code,
         p_nt_name => l_nt_name,
-        p_select_stmt => q'[select apex_string.format('%s:VIEW:1', view_name) reference_code,
-                                   unqid,
+        p_select_stmt => q'[select unqid,
                                    'VIEW' issue_category,
                                    null application_id,
                                    null page_id,
@@ -646,8 +639,7 @@ create or replace package body ast_standard_view as
       l_query_clob := get_query_clob (
         p_standard_code => c_standard_code,
         p_nt_name => l_nt_name,
-        p_select_stmt => q'[select apex_string.format('%s:TABLE:1', table_name) reference_code,
-                                   unqid,
+        p_select_stmt => q'[select unqid,
                                    'TABLE' issue_category,
                                    null application_id,
                                    null page_id,
@@ -673,13 +665,6 @@ create or replace package body ast_standard_view as
         p_standard_code => c_standard_code,
         p_nt_name => l_nt_name,
         p_select_stmt => q'[select application_id||
-                                   case when parent_component_id is not null 
-                                        then ':'||parent_component_id||':'||component_id
-                                        else case when  component_id != application_id
-                                                  then ':'||component_id
-                                                  end
-                                        end reference_code,
-                                   application_id||
                                    case when parent_component_id is not null 
                                         then ':'||parent_component_id||':'||component_id
                                         else case when  component_id != application_id
@@ -714,13 +699,19 @@ create or replace package body ast_standard_view as
                            then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
                            else l_query_clob 
                            end;
-      l_unqid_predicate := apex_string.format(q'^ and application_id||case when parent_component_id is not null then ':'||parent_component_id||':'||component_id else case when  component_id != application_id then ':'||component_id end end = '%s' ^', c_unqid);
+      -- l_unqid_predicate := apex_string.format(q'^ and application_id||case when parent_component_id is not null then ':'||parent_component_id||':'||component_id else case when  component_id != application_id then ':'||component_id end end = '%s' ^', c_unqid);
+      l_unqid_predicate := apex_string.format(q'^ and '%0:'||application_id||
+                                                      case when parent_component_id is not null 
+                                                           then ':'||parent_component_id||':'||component_id
+                                                           else case when  component_id != application_id
+                                                                     then ':'||component_id
+                                                                     end
+                                                           end = '%1' ^', c_standard_code, c_unqid);
     elsif l_nt_name = gc_v_ast_sert__0_nt then
       l_query_clob := get_query_clob (
         p_standard_code => c_standard_code,
         p_nt_name => l_nt_name,
-        p_select_stmt => q'[select null reference_code,
-                                   collection_name||'__'||application_id||'__'||page_id||'__'||component_signature unqid,
+        p_select_stmt => q'[select collection_name||'__'||application_id||'__'||page_id||'__'||component_signature unqid,
                                    'SERT' issue_category,
                                    application_id,
                                    page_id,
@@ -779,7 +770,6 @@ create or replace package body ast_standard_view as
       for rec in 1 .. l_v_ast_plsql_apex__0.count
       loop
         pipe row (v_ast_plsql_apex__0_ot (
-                    l_v_ast_plsql_apex__0 (rec).reference_code,
                     c_standard_code||':'||l_v_ast_plsql_apex__0 (rec).unqid,
                     l_v_ast_plsql_apex__0 (rec).issue_category,
                     l_v_ast_plsql_apex__0 (rec).application_id,

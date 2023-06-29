@@ -173,10 +173,10 @@ create or replace package body AST_AUDIT_UTIL as
       and (issue_category = p_standard_code or p_standard_code is null)
       and (application_id = p_application_id or p_application_id is null)
       and (page_id        = p_page_id or p_page_id is null)
-      and reference_code not in  (
-                select reference_code 
+      and unqid not in  (
+                select unqid 
                 from v_ast_plsql_apex__0
-                where reference_code is not null
+                where unqid is not null
             );
       apex_debug.error(c_debug_template, 'deleted from ast_plsql_apex_audit:',  sql%rowcount);
     exception when others then
@@ -202,7 +202,7 @@ create or replace package body AST_AUDIT_UTIL as
     c_limit         constant pls_integer := 100;
 
     type r_issues is record (
-        reference_code             ast_plsql_apex_audit.reference_code%type,
+        unqid                      ast_plsql_apex_audit.unqid%type,
         issue_category             ast_plsql_apex_audit.issue_category%type,
         application_id             ast_plsql_apex_audit.application_id%type,
         page_id                    ast_plsql_apex_audit.page_id%type,
@@ -242,10 +242,9 @@ create or replace package body AST_AUDIT_UTIL as
                                           );
 
         l_ast_plsql_apex_audit_rec := case when p_audit_id is not null
-                                           then get_audit_record (p_audit_id)
+                                           then ast_plsql_apex_audit_api.get_audit_record (p_audit_id)
                                            end;
         for rec in (select 
-                    a.reference_code,
                     a.unqid,
                     a.issue_category,
                     a.application_id,
@@ -280,7 +279,7 @@ create or replace package body AST_AUDIT_UTIL as
                   where (a.application_id  = p_application_id or p_application_id is null)
                   and   (a.page_id  = p_page_id or p_page_id is null))
         loop
-          l_issues_t(rec.unqid) := r_issues(rec.reference_code,
+          l_issues_t(rec.unqid) := r_issues(rec.unqid,
                                             rec.issue_category,
                                             rec.application_id,
                                             rec.page_id,
@@ -318,8 +317,7 @@ create or replace package body AST_AUDIT_UTIL as
             exit when l_unqid is null;
 
             merge into ast_plsql_apex_audit aa
-            using (select l_issues_t(l_unqid).reference_code             reference_code,
-                          l_issues_t(l_unqid).issue_category             issue_category,
+            using (select l_issues_t(l_unqid).issue_category             issue_category,
                           l_issues_t(l_unqid).application_id             application_id,
                           l_issues_t(l_unqid).page_id                    page_id,
                           l_issues_t(l_unqid).pass_yn                    pass_yn,
@@ -341,8 +339,7 @@ create or replace package body AST_AUDIT_UTIL as
                   from dual) lit
             on (aa.unqid    = l_unqid)
             when matched then
-            update set aa.reference_code             = lit.reference_code,
-                       aa.issue_category             = lit.issue_category,
+            update set aa.issue_category             = lit.issue_category,
                        aa.application_id             = lit.application_id,
                        aa.page_id                    = lit.page_id,
                        aa.pass_yn                    = lit.pass_yn,
@@ -364,7 +361,6 @@ create or replace package body AST_AUDIT_UTIL as
                        aa.parent_component_id        = lit.parent_component_id
             when not matched then
             insert (aa.unqid, 
-                    aa.reference_code, 
                     aa.issue_category, 
                     aa.application_id, 
                     aa.page_id, 
@@ -387,7 +383,6 @@ create or replace package body AST_AUDIT_UTIL as
                     aa.parent_component_id
                     )
             values (l_unqid,
-                    lit.reference_code,
                     lit.issue_category,
                     lit.application_id,
                     lit.page_id,
@@ -649,56 +644,6 @@ create or replace package body AST_AUDIT_UTIL as
        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
        raise;
     end record_daily_issue_snapshot;
-
-    function get_audit_record (p_audit_id in ast_plsql_apex_audit.id%type) 
-    return ast_plsql_apex_audit%rowtype
-    is 
-    c_scope          constant varchar2(128)  := gc_scope_prefix || 'get_audit_record';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-
-    l_ast_plsql_apex_audit_rec ast_plsql_apex_audit%rowtype;
-    begin
-      apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
-
-      select *
-      into l_ast_plsql_apex_audit_rec
-      from ast_plsql_apex_audit
-      where id = p_audit_id;
-
-      return l_ast_plsql_apex_audit_rec;
-
-    exception 
-      when no_data_found then 
-        return l_ast_plsql_apex_audit_rec;
-      when others then
-        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-        raise;
-    end get_audit_record;
-
-    function get_unqid(p_audit_id in ast_plsql_apex_audit.id%type) 
-    return ast_plsql_apex_audit.unqid%type
-    is
-    c_scope constant varchar2(128) := gc_scope_prefix || 'get_unqid';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    l_unqid ast_plsql_apex_audit.unqid%type;
-    begin
-      apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
-
-      select unqid
-      into l_unqid
-      from ast_plsql_apex_audit
-      where id = p_audit_id;
-
-      return l_unqid;
-
-    exception 
-      when no_data_found then
-        apex_debug.error(c_debug_template, 'Unknown p_audit_id: ',p_audit_id);
-        raise;
-      when others then
-        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-        raise;
-    end get_unqid;
 
     procedure initialize_standard(p_standard_code  in eba_stds_standard_tests.standard_code%type)
     is

@@ -11,6 +11,11 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
+drop type v_ast_plsql_apex_all_nt
+/
+drop type v_ast_plsql_apex_all_ot
+/
+
 declare
   already_exists EXCEPTION;
   pragma exception_init (already_exists, -00955);
@@ -18,7 +23,7 @@ begin
   execute immediate q'[
   create type v_ast_plsql_apex_all_ot as object
     (
-        REFERENCE_CODE             VARCHAR2(5000 CHAR),
+        UNQID                      VARCHAR2(5000 CHAR),
         ISSUE_CATEGORY             VARCHAR2(8 CHAR),
         ISSUE_SUBCATEGORY          VARCHAR2(26 CHAR),
         APPLICATION_ID             NUMBER,    

@@ -210,10 +210,7 @@ $if oracle_apex_version.c_apex_issue_access $then
 
     apex_debug.message(c_debug_template, 'deleted from apex_issues :', sql%rowcount);
 
-    update ast_plsql_apex_audit
-    set apex_issue_id = null, 
-        apex_issue_title_suffix= null
-    where apex_issue_id = p_id;
+    ast_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => p_id);
     apex_debug.message(c_debug_template, 'updated ast_plsql_apex_audit :', sql%rowcount);
 
   exception when others then 
@@ -279,7 +276,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   c_limit    constant pls_integer := 100;
   cursor cur_issues
     is
-    select audit_id, application_id, page_id, issue_title, issue_text, reference_code, apex_issue_id, apex_issue_title_suffix
+    select audit_id, application_id, page_id, issue_title, issue_text, unqid, apex_issue_id, apex_issue_title_suffix
       from v_ast_plsql_apex_audit
       where application_id != 0
       and issue_category in ('APEX','SERT')
@@ -300,7 +297,7 @@ $if oracle_apex_version.c_apex_issue_access $then
     page_id            ast_plsql_apex_audit.page_id%type, 
     issue_title        ast_plsql_apex_audit.issue_title%type, 
     issue_text         ast_plsql_apex_audit.validation_failure_message%type,
-    reference_code     ast_plsql_apex_audit.reference_code%type,
+    unqid              ast_plsql_apex_audit.unqid%type,
     apex_issue_id      ast_plsql_apex_audit.apex_issue_id%type,
     issue_title_suffix ast_plsql_apex_audit.apex_issue_title_suffix%type
   );
@@ -337,7 +334,7 @@ $if oracle_apex_version.c_apex_issue_access $then
               case when l_issues_t(i).apex_issue_id is null 
                    then 
                         begin <<insert_section>>
-                          apex_debug.message(c_debug_template, 'reference_code', l_issues_t(i).reference_code);
+                          apex_debug.message(c_debug_template, 'unqid', l_issues_t(i).unqid);
                           create_issue (p_id             => l_issue_id,
                                         p_title          => l_issues_t(i).issue_title,
                                         p_issue_text     => l_issues_t(i).issue_text,
@@ -481,13 +478,14 @@ $if oracle_apex_version.c_apex_issue_access $then
     from ast_flow_issues
     where security_group_id = 0;
 
-    update ast_plsql_apex_audit
-    set apex_issue_id = null 
-    where id in (select paa.id
+    for rec in (select paa.id audit_id
                   from ast_plsql_apex_audit paa 
                   left outer join apex_issues ai on paa.apex_issue_id = ai.issue_id
                   where paa.apex_issue_id is not null
-                  and ai.issue_id is null);
+                  and ai.issue_id is null)
+    loop 
+      ast_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => rec.audit_id);
+    end loop;
     
     drop_irrelevant_issues;
 
@@ -538,7 +536,7 @@ $end
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   l_ast_plsql_apex_audit_rec ast_plsql_apex_audit%rowtype 
-                             := ast_audit_util.get_audit_record (p_audit_id);
+                             := ast_plsql_apex_audit_api.get_audit_record (p_audit_id);
   l_apex_issue_id ast_plsql_apex_audit.apex_issue_id%type;
   c_mv_dependency eba_stds_standard_tests.mv_dependency%type 
                     := eba_stds.get_mv_dependency(p_standard_code => l_ast_plsql_apex_audit_rec.standard_code);
@@ -560,7 +558,7 @@ $end
                     );
       
 
-      l_ast_plsql_apex_audit_rec := ast_audit_util.get_audit_record (p_audit_id);
+      l_ast_plsql_apex_audit_rec := ast_plsql_apex_audit_api.get_audit_record (p_audit_id);
 
       if l_ast_plsql_apex_audit_rec.id is not null then
         apex_debug.message(c_debug_template, 'violation has not been fixed');
@@ -658,17 +656,13 @@ $end
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
     if p_audit_id is not null then
-    
-      update ast_plsql_apex_audit
-      set action_id = c_ignore_legacy
-      where id = p_audit_id;
 
+      ast_plsql_apex_audit_api.mark_as_exception (p_audit_id  => p_audit_id);
+    
       $if oracle_apex_version.c_apex_issue_access $then
-      l_ast_plsql_apex_audit_rec := ast_audit_util.get_audit_record (p_audit_id);
+      l_ast_plsql_apex_audit_rec := ast_plsql_apex_audit_api.get_audit_record (p_audit_id);
       ast_apex_issue_util.drop_issue (p_id => l_ast_plsql_apex_audit_rec.apex_issue_id);
-      update ast_plsql_apex_audit
-      set apex_issue_id = null
-      where id = p_audit_id;
+      ast_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => p_audit_id);
       $end
 
     end if;

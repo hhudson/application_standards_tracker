@@ -16,7 +16,7 @@ comment on column AST_PLSQL_APEX_AUDIT.OWNER                                    
 comment on column AST_PLSQL_APEX_AUDIT.STANDARD_CODE                                 is q'[]';
 comment on column AST_PLSQL_APEX_AUDIT.CHILD_CODE                                    is q'[]';
 comment on column AST_PLSQL_APEX_AUDIT.ID                                            is q'[Primary Key]';
-comment on column AST_PLSQL_APEX_AUDIT.REFERENCE_CODE                                is q'[references AST_STANDARDS_REFERENCE_CODES]';
+comment on column AST_PLSQL_APEX_AUDIT.REFERENCE_CODE                                is q'[candidate for deletion]';
 comment on column AST_PLSQL_APEX_AUDIT.ISSUE_CATEGORY                                is q'[APEX/SERT/PLSQL]';
 comment on column AST_PLSQL_APEX_AUDIT.APPLICATION_ID                                is q'[apex application id]';
 comment on column AST_PLSQL_APEX_AUDIT.APPLICATION_NAME                              is q'[apex application name]';

@@ -4,8 +4,8 @@
 --------------------------------------------------------
 
 create or replace force editionable view v_ast_plsql_apex__0 as
-select a.reference_code, 
-       a.issue_category,
+select a.issue_category,
+       -- a.reference_code, 
        a.application_id, 
        a.page_id, 
        a.pass_yn, 

@@ -5,7 +5,7 @@ to do : prioritize apps that have  :
 
 create or replace force view v_ast_apex_30_page_access_protection as
 select pass_yn,
-       reference_code,
+       unqid, --reference_code,
        application_id,
        page_id,
        created_by,

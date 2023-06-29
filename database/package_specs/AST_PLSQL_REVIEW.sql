@@ -29,7 +29,7 @@ create or replace package ast_plsql_review authid current_user as
     -- Procedure to suppress a row from the above issues function 
     --
     ------------------------------------------------------------------------------
-    procedure assert_exception (p_reference_code in varchar2);
+    procedure assert_exception (p_unqid in ast_plsql_exceptions.unqid%type);
 
 
     ------------------------------------------------------------------------------
