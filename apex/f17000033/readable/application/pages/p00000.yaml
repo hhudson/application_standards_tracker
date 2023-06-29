@@ -12,7 +12,7 @@ regions:
     type: Search
 
   layout: 
-    sequence: 50
+    sequence: 40
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -162,7 +162,7 @@ regions:
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
-    - t-Region--accent11
+    - t-Region--accent10
     - t-Region--noBorder
     - t-Region--scrollBody
     render-components: Above Content
@@ -1033,6 +1033,134 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: Missing preferences =========================
+  id: 54727433517995738
+  identification: 
+    title: Missing preferences
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_PREFERENCE_PROBLEMS
+    include-rowid-column: false
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+      from V_PREFERENCE_PROBLEMS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7573676953099144016
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: STMT ========================================
+    id: 54727552190995739
+    identification: 
+      column-name: STMT
+      type: Plain Text
+
+    heading: 
+      heading: Stmt
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Run from Builder ============================
   id: 91832964075854247
   identification: 
@@ -1584,7 +1712,7 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--danger
+    - t-Button--primary
     - t-Button--simple
     - t-Button--iconLeft
     icon: fa-database-cursor
@@ -1600,6 +1728,44 @@ buttons:
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+- # ====== Button: Configure_preferences =======================
+  id: 54727655098995740
+  identification: 
+    button-name: Configure_preferences
+    label: Configure Preferences
+
+  layout: 
+    sequence: 10
+    region: Missing preferences # 54727433517995738
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.:45:P45_PREFERENCE_NAME:Other Preferences'
+      page: 45 # Set Time Zone
+      clear-cache: 45
+      values: 
+        p45_preference_name: Other Preferences
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
 
 dynamic-actions: 
 - # ====== Dynamic Action: Popup Search ========================

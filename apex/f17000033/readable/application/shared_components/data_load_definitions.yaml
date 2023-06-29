@@ -271,7 +271,7 @@
         decimal-character: .
 
       advanced: 
-        sequence: 1
+        sequence: 10
         hidden: false
 
     - # ====== Column: PK_VALUE ====================================
@@ -289,7 +289,7 @@
         path-expression: PK_VALUE
 
       advanced: 
-        sequence: 2
+        sequence: 20
         hidden: false
 
     - # ====== Column: NT_TYPE_ID ==================================
@@ -309,7 +309,7 @@
         decimal-character: .
 
       advanced: 
-        sequence: 3
+        sequence: 40
         hidden: false
 
     - # ====== Column: AVAILABLE_YN ================================
@@ -327,7 +327,7 @@
         path-expression: AVAILABLE_YN
 
       advanced: 
-        sequence: 4
+        sequence: 60
         hidden: false
 
     - # ====== Column: TEMPLATE_URL ================================
@@ -345,7 +345,7 @@
         path-expression: TEMPLATE_URL
 
       advanced: 
-        sequence: 5
+        sequence: 70
         hidden: false
 
     - # ====== Column: COMPONENT_CODE ==============================
@@ -363,7 +363,7 @@
         path-expression: COMPONENT_CODE
 
       advanced: 
-        sequence: 6
+        sequence: 90
         hidden: false
 
     - # ====== Column: COMPONENT_NAME ==============================
@@ -381,7 +381,7 @@
         path-expression: COMPONENT_NAME
 
       advanced: 
-        sequence: 7
+        sequence: 100
         hidden: false
 
     - # ====== Column: PARENT_PK_VALUE =============================
@@ -399,7 +399,61 @@
         path-expression: PARENT_PK_VALUE
 
       advanced: 
-        sequence: 8
+        sequence: 110
+        hidden: false
+
+    - # ====== Column: ADDL_COLS ===================================
+      id: 55686632410854908
+      identification: 
+        column-name: ADDL_COLS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1000
+        primary-key: false
+
+      parsing: 
+        path-expression: ADDL_COLS
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: NAME_COLUMN =================================
+      id: 55687521504862233
+      identification: 
+        column-name: NAME_COLUMN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        path-expression: NAME_COLUMN
+
+      advanced: 
+        sequence: 50
+        hidden: false
+
+    - # ====== Column: FRIENDLY_NAME ===============================
+      id: 55688437646872588
+      identification: 
+        column-name: FRIENDLY_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        path-expression: FRIENDLY_NAME
+
+      advanced: 
+        sequence: 80
         hidden: false
 
 - # ====== Data Load Definition: AST-STANDARDS-URGENCY-LEVEL ===
@@ -1053,5 +1107,237 @@
 
       advanced: 
         sequence: 7
+        hidden: false
+
+- # ====== Data Load Definition: df ============================
+  id: 55685009184846691
+  identification: 
+    name: df
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: AST_COMPONENT_TYPES
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: df
+
+  data-profiles: 
+    id: 55681578821846688
+    identification: 
+      name: df
+
+    data-profile: 
+      format: JSON
+
+    advanced: 
+      encoding: Unicode UTF-8
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 55681829764846689
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        path-expression: ID
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: PK_VALUE ====================================
+      id: 55682148771846689
+      identification: 
+        column-name: PK_VALUE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        path-expression: PK_VALUE
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: ADDL_COLS ===================================
+      id: 55682498113846689
+      identification: 
+        column-name: ADDL_COLS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1000
+        primary-key: false
+
+      parsing: 
+        path-expression: ADDL_COLS
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: NT_TYPE_ID ==================================
+      id: 55682799012846689
+      identification: 
+        column-name: NT_TYPE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: NT_TYPE_ID
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: NAME_COLUMN =================================
+      id: 55683056302846690
+      identification: 
+        column-name: NAME_COLUMN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        path-expression: NAME_COLUMN
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: AVAILABLE_YN ================================
+      id: 55683375423846690
+      identification: 
+        column-name: AVAILABLE_YN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1
+        primary-key: false
+
+      parsing: 
+        path-expression: AVAILABLE_YN
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: TEMPLATE_URL ================================
+      id: 55683604691846690
+      identification: 
+        column-name: TEMPLATE_URL
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 250
+        primary-key: false
+
+      parsing: 
+        path-expression: TEMPLATE_URL
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: FRIENDLY_NAME ===============================
+      id: 55683993906846690
+      identification: 
+        column-name: FRIENDLY_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        path-expression: FRIENDLY_NAME
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: COMPONENT_CODE ==============================
+      id: 55684202443846690
+      identification: 
+        column-name: COMPONENT_CODE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        path-expression: COMPONENT_CODE
+
+      advanced: 
+        sequence: 9
+        hidden: false
+
+    - # ====== Column: COMPONENT_NAME ==============================
+      id: 55684573751846691
+      identification: 
+        column-name: COMPONENT_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        path-expression: COMPONENT_NAME
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: PARENT_PK_VALUE =============================
+      id: 55684836415846691
+      identification: 
+        column-name: PARENT_PK_VALUE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        path-expression: PARENT_PK_VALUE
+
+      advanced: 
+        sequence: 11
         hidden: false
 

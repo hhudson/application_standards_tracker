@@ -387,6 +387,50 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: New Assignment ==============================
+  id: 55784791244830914
+  identification: 
+    title: New Assignment
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Issues # 401427034081643714
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Drawer # 50155276726329210
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-class-t-Drawer--pullOutEnd
+    - js-dialog-class-t-Drawer--md
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: NEWASSIGNEE
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Breadcrumb ==================================
   id: 268632373208257439
   identification: 
@@ -526,6 +570,9 @@ regions:
   advanced: 
     region-display-selector: true
     exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
   server-cache: 
     caching: Disabled
@@ -912,7 +959,8 @@ regions:
                     type: "BUTTON",
                     hot: false,
                     action: "sub-email",
-                    icon: "fa fa-envelope-o"
+                    icon: "fa fa-envelope-o",
+                    iconBeforeLabel: true
                 };
                 lastToolbarGroup.controls.push( subscribeButton );
                 OthrToolbarGroup = toolbarData.toolbarFind("actions1");
@@ -920,10 +968,20 @@ regions:
                     type: "BUTTON",
                     hot: false,
                     action: "bulk-exception",
-                    icon: "fa fa-th-large",
-                    id:"bulkexcept"
+                    icon: "fa fa-exception",
+                    id:"bulkexcept",
+                    iconBeforeLabel: true
                 };
                 OthrToolbarGroup.controls.push( bulkButton );
+                reassignButton = {
+                    type: "BUTTON",
+                    hot: false,
+                    action: "bulk-reassign",
+                    icon: "fa fa-user-slash",
+                    id:"bulkreassign",
+                    iconBeforeLabel: true
+                };
+                OthrToolbarGroup.controls.push( reassignButton );
                 config.toolbarData = toolbarData;
             
             // this is how actions are added
@@ -935,12 +993,20 @@ regions:
                     // But better to use a message so it can be translated. In shared
                     // components, text messages create MY_CREATE_BUTTON = Create and 
                     // set Used in JavaScript: Yes
-                    labelKey: "Bulk Exception ",
+                    labelKey: "Bulk Exception   ",
                     // this sets the action to be what the hidden button does when you click it
                     // action: $("#hiddenBulk").prop("onclick")   
                     action: function() {
                         apex.debug.info("bulk-exception");
                         $.event.trigger('bulkException');
+                    }         
+                });
+                actions.add({
+                    name: "bulk-reassign",
+                    labelKey: "Bulk Reassign",
+                    action: function() {
+                        apex.debug.info("bulk-reassign");
+                        $.event.trigger('bulkReassign');
                     }         
                 });
                 actions.add({
@@ -1016,37 +1082,6 @@ regions:
     security: 
       authorization-scheme: READER RIGHTS # 48893993399820863
       escape-special-characters: true
-
-  - # ====== Column: REFERENCE_CODE ==============================
-    id: 105063277512292751
-    identification: 
-      column-name: REFERENCE_CODE
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 570
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: REFERENCE_CODE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
 
   - # ====== Column: ISSUE_CATEGORY ==============================
     id: 105063414731292752
@@ -3577,6 +3612,99 @@ regions:
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P1_VIOLATION_COUNT =======================
+  id: 54727214194995736
+  identification: 
+    name: P1_VIOLATION_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 268632373208257439
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_NEW_ASSIGNEE ==========================
+  id: 55784815172830915
+  identification: 
+    name: P1_NEW_ASSIGNEE
+    type: Popup LOV
+
+  label: 
+    label: New Assignee
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 10
+    region: New Assignment # 55784791244830914
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ASSIGNEES # 401672094243787964
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P1_SELECTED_IDS ==========================
   id: 105720528380542216
   identification: 
@@ -3723,6 +3851,7 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
 
   behavior: 
     action: Redirect to Page in this Application
@@ -3767,6 +3896,127 @@ buttons:
 
   advanced: 
     static-id: hiddenBulk
+
+- # ====== Button: VIOLATION_COUNT =============================
+  id: 54727158329995735
+  identification: 
+    button-name: VIOLATION_COUNT
+    label: 'Violation Count : &P1_VIOLATION_COUNT.'
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 268632373208257439
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-dashboard
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:41:&SESSION.::&DEBUG.:41::'
+      page: 41 # Auditing dashboard
+      clear-cache: 41
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: bulk_reassign ===============================
+  id: 54728370091995747
+  identification: 
+    button-name: bulk_reassign
+    label: bulk reassign
+
+  layout: 
+    sequence: 30
+    region: hidden # 1550078206517095080
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: Reassign ====================================
+  id: 55785023625830917
+  identification: 
+    button-name: Reassign
+    label: Reassign
+
+  layout: 
+    sequence: 20
+    region: New Assignment # 55784791244830914
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-user-slash
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: Cancel ======================================
+  id: 55785160804830918
+  identification: 
+    button-name: Cancel
+    label: Cancel
+
+  layout: 
+    sequence: 30
+    region: New Assignment # 55784791244830914
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
 
 dynamic-actions: 
 - # ====== Dynamic Action: Mark as Exception ===================
@@ -3876,7 +4126,7 @@ dynamic-actions:
     name: navigateInBuilderWindow
 
   execution: 
-    sequence: 30
+    sequence: 40
 
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
@@ -3946,13 +4196,13 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-- # ====== Dynamic Action: disable bulk exception ==============
+- # ====== Dynamic Action: disable buttons =====================
   id: 52755714184756817
   identification: 
-    name: disable bulk exception
+    name: disable buttons
 
   execution: 
-    sequence: 60
+    sequence: 80
 
   when: 
     event: EVENT.EVENT.BROWSER.READY
@@ -3975,7 +4225,22 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: disable bulk exception # 52755714184756817
+      event: disable buttons # 52755714184756817
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Disable =====================================
+    id: 54728657446995750
+    identification: 
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#AUDIT_RPT_ig_toolbar_bulkreassign'
+
+    execution: 
+      sequence: 20
+      event: disable buttons # 52755714184756817
       fire-when-event-result-is: True
       fire-on-initialization: true
 
@@ -3985,7 +4250,7 @@ dynamic-actions:
     name: bulk exception
 
   execution: 
-    sequence: 40
+    sequence: 50
 
   when: 
     event: EVENT.EVENT.CUSTOM.CUSTOM
@@ -4089,7 +4354,7 @@ dynamic-actions:
     name: Select Grid
 
   execution: 
-    sequence: 50
+    sequence: 70
 
   when: 
     event: NATIVE_IG|REGION TYPE|interactivegridselectionchange
@@ -4131,7 +4396,7 @@ dynamic-actions:
       jquery-selector: '#AUDIT_RPT_ig_toolbar_bulkexcept'
 
     execution: 
-      sequence: 30
+      sequence: 40
       event: Select Grid # 52991752025803288
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4161,6 +4426,209 @@ dynamic-actions:
     execution: 
       sequence: 10
       event: Select Grid # 52991752025803288
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Enable ======================================
+    id: 54728430415995748
+    identification: 
+      action: Enable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#AUDIT_RPT_ig_toolbar_bulkreassign'
+
+    execution: 
+      sequence: 30
+      event: Select Grid # 52991752025803288
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item / Column is not null
+      component-type: Item
+      item: P1_SELECTED_IDS
+
+  - # ====== Action: Disable =====================================
+    id: 54728593714995749
+    identification: 
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#AUDIT_RPT_ig_toolbar_bulkreassign'
+
+    execution: 
+      sequence: 50
+      event: Select Grid # 52991752025803288
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item / Column is null
+      component-type: Item
+      item: P1_SELECTED_IDS
+
+- # ====== Dynamic Action: bulk reassign =======================
+  id: 55784094013830907
+  identification: 
+    name: bulk reassign
+
+  execution: 
+    sequence: 60
+
+  when: 
+    event: EVENT.EVENT.CUSTOM.CUSTOM
+    custom-event: bulkReassign
+    selection-type: JavaScript Expression
+    javascript-expression: document
+
+  client-side-condition: 
+    type: Item is not null
+    item: P1_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 55784269237830909
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.debug.info("P1_SELECTED_IDS", apex.item("P1_SELECTED_IDS").getValue());
+
+    execution: 
+      sequence: 20
+      event: bulk reassign # 55784094013830907
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Open Region =================================
+    id: 55784695952830913
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: New Assignment # 55784791244830914
+
+    execution: 
+      sequence: 30
+      event: bulk reassign # 55784094013830907
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Cancel reassign =====================
+  id: 55785241534830919
+  identification: 
+    name: Cancel reassign
+
+  execution: 
+    sequence: 90
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: Cancel # 55785160804830918
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Close Region ================================
+    id: 55785387228830920
+    identification: 
+      action: Close Region
+
+    affected-elements: 
+      selection-type: Region
+      region: New Assignment # 55784791244830914
+
+    execution: 
+      sequence: 10
+      event: Cancel reassign # 55785241534830919
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Bulk Reassign =======================
+  id: 55785898382830925
+  identification: 
+    name: Bulk Reassign
+
+  execution: 
+    sequence: 100
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: Reassign # 55785023625830917
+
+  client-side-condition: 
+    type: Item is not null
+    item: P1_NEW_ASSIGNEE
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Execute Server-side Code ====================
+    id: 55785917305830926
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |2
+         ast_plsql_apex_audit_api.bulk_reassign (
+                                 p_audit_ids  => :P1_SELECTED_IDS,
+                                 p_assignee   => :P1_NEW_ASSIGNEE );
+      items-to-submit: 
+      - P1_SELECTED_IDS
+      - P1_NEW_ASSIGNEE
+
+    execution: 
+      sequence: 10
+      event: Bulk Reassign # 55785898382830925
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Close Region ================================
+    id: 55786013925830927
+    identification: 
+      action: Close Region
+
+    affected-elements: 
+      selection-type: Region
+      region: New Assignment # 55784791244830914
+
+    execution: 
+      sequence: 20
+      event: Bulk Reassign # 55785898382830925
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh =====================================
+    id: 55786156063830928
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tracking issues report # 506888790743553540
+
+    execution: 
+      sequence: 30
+      event: Bulk Reassign # 55785898382830925
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -4266,6 +4734,26 @@ dynamic-actions:
       fire-on-initialization: false
 
 computations: 
+- # ====== Computation: P1_VIOLATION_COUNT =====================
+  id: 54727317701995737
+  identification: 
+    item-name: P1_VIOLATION_COUNT
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(*)
+      from ast_plsql_apex_audit paa
+      left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+      where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
 - # ====== Computation: LAST_VIEW ==============================
   id: 12003105357417809498
   identification: 
@@ -4278,28 +4766,4 @@ computations:
   computation: 
     type: Static Value
     static-value: 1
-
-processes: 
-- # ====== Process: Refresh issue summary ======================
-  id: 3421804623518553801
-  identification: 
-    name: Refresh issue summary
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: eba_stds_data.record_daily_issue_snapshot;
-
-  execution: 
-    sequence: 20
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    type: Never
 

@@ -74,6 +74,7 @@ regions:
     - t-Alert--horizontal
     - t-Alert--defaultIcons
     - t-Alert--info
+    - t-Alert--accessibleHeading
     render-components: Above Content
 
   accessibility: 
@@ -167,6 +168,7 @@ regions:
     - t-Alert--horizontal
     - t-Alert--defaultIcons
     - t-Alert--info
+    - t-Alert--accessibleHeading
     render-components: Above Content
 
   accessibility: 
@@ -971,8 +973,7 @@ regions:
                                    p_failures_only => 'Y',
                                    p_production_apps_only => 'Y') a
       )
-      select std.reference_code, 
-             std.issue_category,
+      select std.issue_category,
              std.application_id, 
              std.page_id, 
              std.pass_yn, 
@@ -1274,47 +1275,6 @@ regions:
 
       security: 
         escape-special-characters: false
-
-    - # ====== Column: REFERENCE_CODE ==============================
-      id: 223434393950172345
-      identification: 
-        column-name: REFERENCE_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Reference Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 20
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
 
     - # ====== Column: ISSUE_CATEGORY ==============================
       id: 223434447323172346
@@ -2869,6 +2829,14 @@ page-items:
       Write your SQL query defining your pass/fail conditions. 
       To get a default query to get you started, erase the contents of this field and (re)select the component type - 
       A query should automatically populate.
+      <br/><br/>
+      Explanation of requires fields:
+      <ul>
+          <li>validation_failure_message : human readable, long-form description of violation (for apex issue)</li>
+          <li>issue_title : human readable, short-form description of violation (for apex issue)</li>
+          <li>child_code : for advanced use if there are >1 standards in this query, otherwise leave null</li>
+          <li>component_id: the primary key of underlying component</li>
+      </ul>
 
 - # ====== Page Item: P14_OWNER ================================
   id: 115236014273846912
@@ -2990,7 +2958,7 @@ page-items:
     alignment: Left
     start-new-layout: false
     start-new-row: true
-    column: Automatic
+    column: 12
     new-column: true
     column-span: Automatic
     label-column-span: Page Template Default
@@ -3001,6 +2969,7 @@ page-items:
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
     - t-Form-fieldContainer--xlarge
+    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -3135,40 +3104,15 @@ page-items:
   id: 223430790079172309
   identification: 
     name: P14_ISSUE_DESC
-    type: Text Field
-
-  label: 
-    label: Longer Description
-    alignment: Left
+    type: Hidden
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    value-protected: true
 
   layout: 
     sequence: 50
     region: Configuration # 115235287601846904
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 64
-
-  validation: 
-    value-required: false
-    maximum-length: 511
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -3181,10 +3125,8 @@ page-items:
     primary-key: false
 
   session-state: 
+    data-type: VARCHAR2
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Checksum Required - Session Level
@@ -3266,12 +3208,11 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: |
+    help-text: |
       <ul>
           <li>urgency levels higher than 100 will not be tracked in the audit table</li>
           <li>only urgency levels lower than 100 are eligible to included in the daily notification email</li>
       <ul>
-    help-text: The level determines the urgency with which the standard is enforced
 
 - # ====== Page Item: P14_ID ===================================
   id: 7562695404019107367
@@ -3595,7 +3536,7 @@ buttons:
     - '#DEFAULT#'
     - t-Button--noUI
     - t-Button--iconLeft
-    icon: fa-database-plus
+    icon: fa-book
 
   behavior: 
     action: Redirect to Page in this Application
@@ -3657,7 +3598,7 @@ buttons:
     label: Current Violations
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Menu # 115235002622846902
     position: CHANGE
     start-new-layout: false
@@ -3686,6 +3627,10 @@ buttons:
         ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
 
     warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P14_ID
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER

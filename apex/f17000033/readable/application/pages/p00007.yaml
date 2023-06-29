@@ -210,40 +210,15 @@ page-items:
   id: 1699828709057949
   identification: 
     name: P7_COMPONENT_CODE
-    type: Text Field
-
-  label: 
-    label: Component Code
-    alignment: Left
+    type: Hidden
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    value-protected: true
 
   layout: 
-    sequence: 120
+    sequence: 150
     region: Manage Component Type # 42792429484068235
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 40
-
-  validation: 
-    value-required: false
-    maximum-length: 40
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -256,10 +231,8 @@ page-items:
     primary-key: false
 
   session-state: 
+    data-type: VARCHAR2
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
@@ -316,7 +289,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 140
+    sequence: 190
     region: Manage Component Type # 42792429484068235
     position: BODY
     alignment: Left
@@ -576,7 +549,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 100
+    sequence: 120
     region: Manage Component Type # 42792429484068235
     position: BODY
     alignment: Left
@@ -655,7 +628,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 110
+    sequence: 140
     region: Manage Component Type # 42792429484068235
     position: BODY
     alignment: Left
@@ -722,7 +695,7 @@ page-items:
     type: Textarea
 
   label: 
-    label: Template Url
+    label: Override Template URL
     alignment: Left
 
   settings: 
@@ -732,7 +705,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 130
+    sequence: 170
     region: Manage Component Type # 42792429484068235
     position: BODY
     alignment: Left
@@ -786,6 +759,228 @@ page-items:
           <li>%parent_pk_value%</li>
           <li>%session%</li>
       </ul> 
+
+- # ====== Page Item: P7_FRIENDLY_NAME =========================
+  id: 54727921414995743
+  identification: 
+    name: P7_FRIENDLY_NAME
+    type: Text Field
+
+  label: 
+    label: Friendly Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 100
+    region: Manage Component Type # 42792429484068235
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+    maximum-length: 50
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Component Type # 42792429484068235
+    column: FRIENDLY_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Give this component a friendly name, eg 'Button'
+
+- # ====== Page Item: P7_NAME_COLUMN ===========================
+  id: 54728016423995744
+  identification: 
+    name: P7_NAME_COLUMN
+    type: Popup LOV
+
+  label: 
+    label: Name Column
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: true
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 110
+    region: Manage Component Type # 42792429484068235
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+    maximum-length: 100
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select distinct COLUMN_NAME D, COLUMN_NAME R
+      from all_tab_cols
+      where table_name = :P7_COMPONENT_NAME
+      order by 1
+    display-extra-values: true
+    display-null-value: true
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P7_COMPONENT_NAME
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Component Type # 42792429484068235
+    column: NAME_COLUMN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: What column in the meta data table gives a 'name' to this component?
+
+- # ====== Page Item: P7_ADDL_COLS =============================
+  id: 54728262141995746
+  identification: 
+    name: P7_ADDL_COLS
+    type: Popup LOV
+
+  label: 
+    label: Additional Columns
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ':'
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 160
+    region: Manage Component Type # 42792429484068235
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select distinct COLUMN_NAME D, COLUMN_NAME R
+      from all_tab_cols
+      where table_name = :P7_COMPONENT_NAME
+      order by 1
+    display-extra-values: true
+    display-null-value: true
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P7_COMPONENT_NAME
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Component Type # 42792429484068235
+    column: ADDL_COLS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: These columns will be added to the default query
 
 buttons: 
 - # ====== Button: CANCEL ======================================

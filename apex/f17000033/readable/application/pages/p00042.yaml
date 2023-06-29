@@ -476,6 +476,7 @@ regions:
     sql-query: 'select * from ast.ast_standard_view.v_ast(p_standard_code => :P42_STANDARD_CODE , p_audit_id => :P42_ID)'
     page-items-to-submit: 
     - P42_STANDARD_CODE
+    - P42_ID
 
   layout: 
     sequence: 30
@@ -569,22 +570,63 @@ regions:
         alias: 2450589
 
     columns: 
-    - # ====== Column: REFERENCE_CODE ==============================
-      id: 244342464262923120
+    - # ====== Column: COMPONENT_ID ================================
+      id: 55813496272479607
       identification: 
-        column-name: REFERENCE_CODE
+        column-name: COMPONENT_ID
         type: Plain Text
 
       heading: 
-        heading: Reference Code
-        alignment: start
+        heading: Component ID
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 10
-        column-alignment: start
+        sequence: 190
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PARENT_COMPONENT_ID =========================
+      id: 55813594180479608
+      identification: 
+        column-name: PARENT_COMPONENT_ID
+        type: Plain Text
+
+      heading: 
+        heading: Parent Component ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 200
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -2024,7 +2066,7 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
@@ -2193,39 +2235,6 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_REFERENCE_CODE =======================
-  id: 244234419937812270
-  identification: 
-    name: P42_REFERENCE_CODE
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 110
-    region: General Table Cols # 458830536617448206
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Inspect Audit Issue # 244233668686812261
-    column: REFERENCE_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
@@ -3528,15 +3537,34 @@ page-items:
   id: 244344506843923141
   identification: 
     name: P42_UNQID
-    type: Hidden
+    type: Display Only
+
+  label: 
+    label: Unique ID
+    alignment: Left
 
   settings: 
-    value-protected: true
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
 
   layout: 
     sequence: 130
     region: General Table Cols # 458830536617448206
     position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -3556,6 +3584,9 @@ page-items:
     session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: A code that uniquely describes the violation that isn't the audit id and doesn't require the violation to be recorded
 
 - # ====== Page Item: P42_INCLUDE_IN_REPORT_YN =================
   id: 268630599824257421
@@ -3971,7 +4002,7 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
@@ -5080,7 +5111,7 @@ buttons:
   server-side-condition: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: "upper(:P42_LINK_TO_APEX_ISSUE) LIKE 'HTTP%'"
+    pl/sql-expression: "upper(:P42_LINK_TO_APEX_ISSUE) LIKE '%F?P%'"
 
 - # ====== Button: Refresh_MV ==================================
   id: 268631001486257426
