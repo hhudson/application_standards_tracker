@@ -14,9 +14,15 @@ create or replace editionable trigger EBA_STDS_NOTIFICATIONS_BIU
   on EBA_STDS_NOTIFICATIONS
   for each row
 begin
-  if :new.ID is null
-  then 
+  if :new.ID is null then 
     :new.ID :=  to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
   end if;
+  :new.ROW_VERSION_NUMBER := coalesce(:old.ROW_VERSION_NUMBER,0) + 1;
+  if inserting then
+      :new.created := sysdate;
+      :new.created_by := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
+  end if;
+  :new.updated := sysdate;
+  :new.updated_by := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
 end EBA_STDS_NOTIFICATIONS_BIU;
 /

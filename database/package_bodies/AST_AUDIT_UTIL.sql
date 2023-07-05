@@ -663,22 +663,6 @@ create or replace package body AST_AUDIT_UTIL as
       raise;
     end initialize_standard;
 
-    procedure refresh_mv(p_mv_name in user_objects.object_name%type)
-    is 
-    c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_mv';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    begin
-      apex_debug.message(c_debug_template,'START', 'p_mv_name', p_mv_name);
-
-      dbms_mview.refresh (p_mv_name);
-
-    exception when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-    end refresh_mv;
-
-
-
 end AST_AUDIT_UTIL;
 /
 

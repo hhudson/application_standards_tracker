@@ -509,7 +509,7 @@ $end
                                         'p_page_id', p_page_id);
 
     if c_mv_dependency is not null then
-      ast_audit_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
+      ast_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
     end if;
 
     ast_audit_util.merge_audit_tbl (
@@ -546,7 +546,7 @@ $end
     if l_ast_plsql_apex_audit_rec.id is not null then
       
       if c_mv_dependency is not null then
-        ast_audit_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
+        ast_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
       end if;
 
       l_apex_issue_id := l_ast_plsql_apex_audit_rec.apex_issue_id;

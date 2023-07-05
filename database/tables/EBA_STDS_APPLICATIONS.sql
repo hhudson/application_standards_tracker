@@ -26,12 +26,8 @@ Initialize this table with the a2_initial_data_load script
    ) 
 /
 
-
-
-
   ALTER TABLE EBA_STDS_APPLICATIONS MODIFY (ESA_CREATED NOT NULL ENABLE)
 /
-
 
   ALTER TABLE EBA_STDS_APPLICATIONS MODIFY (ESA_CREATED_BY NOT NULL ENABLE)
 /
@@ -72,4 +68,7 @@ Initialize this table with the a2_initial_data_load script
 --precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where table_name = 'AST_AUDIT_ON_AUDIT' and column_name = 'DEFAULT_DEVELOPER';
 
 alter table EBA_STDS_APPLICATIONS add DEFAULT_DEVELOPER varchar2(100)
+/
+
+alter table EBA_STDS_APPLICATIONS add type_id number
 /

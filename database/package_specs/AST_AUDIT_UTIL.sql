@@ -159,21 +159,6 @@ end;
 ------------------------------------------------------------------------------
 procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null);
 
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 10, 2023
--- Synopsis:
---
--- Procedure to refresh a given materialized view on demand 
---
-/*
-begin
-    AST_AUDIT_UTIL.refresh_mv(:P14_MV_DEPENDENCY);
-end;
-*/
-------------------------------------------------------------------------------
-procedure refresh_mv(p_mv_name in user_objects.object_name%type);
-
 end AST_AUDIT_UTIL;
 /
 
