@@ -57,10 +57,12 @@ create or replace package body AST_PREFERENCES as
     apex_debug.message(c_debug_template,'START', 
                                         'p_preference_name', p_preference_name,
                                         'p_value', p_value);
-    apex_util.set_preference(        
-        p_preference => p_preference_name,
-        p_value      => p_value,      
-        p_user       => gc_ast); 
+    if p_value is not null then
+      apex_util.set_preference(        
+          p_preference => p_preference_name,
+          p_value      => p_value,      
+          p_user       => gc_ast); 
+    end if;
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
