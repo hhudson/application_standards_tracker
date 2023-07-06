@@ -1,11 +1,10 @@
 ---
-# ====== Page: Set Time Zone =================================
+# ====== Page: Set Preferences ===============================
 id: 45
 identification: 
-  name: Set Time Zone
-  alias: SET-TIME-ZONE
+  name: Set Preferences
+  alias: SET-PREFERENCES
   title: '&APPLICATION_TITLE. Set Preferences'
-  page-group: Administration # 10780320217725301324
 
 appearance: 
   page-mode: Normal
@@ -39,10 +38,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Other preferences ===========================
-  id: 262034199728761319
+- # ====== Region: Set Preferences =============================
+  id: 55813710470479610
   identification: 
-    title: Other preferences
+    title: Set Preferences
     type: Static Content
 
   layout: 
@@ -62,7 +61,6 @@ regions:
     - t-Alert--wizard
     - t-Alert--defaultIcons
     - t-Alert--info
-    - t-Alert--accessibleHeading
     render-components: Above Content
 
   accessibility: 
@@ -70,16 +68,8 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Item != Value
-    item: P45_PREFERENCE_NAME
-    value: Time Zone
-
-  security: 
-    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
   server-cache: 
     caching: Disabled
@@ -99,7 +89,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 40
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -140,9 +130,9 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 10
-    parent-region: Other preferences # 262034199728761319
-    position: SUB_REGIONS
+    sequence: 20
+    parent-region: Set Preferences # 55813710470479610
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -223,15 +213,15 @@ regions:
       template-options: 
       - '#DEFAULT#'
 
-- # ====== Region: Time Zone ===================================
+- # ====== Region: Personal ====================================
   id: 10792421719401830154
   identification: 
-    title: Time Zone
+    title: Personal
     type: Static Content
 
   layout: 
     sequence: 10
-    parent-region: No Parent
+    parent-region: Set Preferences # 55813710470479610
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -240,12 +230,9 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7573654784682143972
+    template: Blank with Attributes # 7573656657747143975
     template-options: 
     - '#DEFAULT#'
-    - t-Alert--wizard
-    - t-Alert--defaultIcons
-    - t-Alert--info
     render-components: Above Content
 
   accessibility: 
@@ -256,10 +243,8 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-side-condition: 
-    type: Item = Value
-    item: P45_PREFERENCE_NAME
-    value: Time Zone
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
 
   server-cache: 
     caching: Disabled
@@ -280,7 +265,7 @@ page-items:
     type: Popup LOV
 
   label: 
-    label: Ast Default Assignee
+    label: Default Assignee
     alignment: Left
 
   settings: 
@@ -302,13 +287,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -369,13 +353,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -433,13 +416,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -495,13 +477,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -575,8 +556,8 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 10
-    region: Other preferences # 262034199728761319
+    sequence: 20
+    region: Personal # 10792421719401830154
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -584,14 +565,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -640,10 +619,10 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -708,10 +687,10 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -773,10 +752,10 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -839,13 +818,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -905,10 +883,10 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -965,14 +943,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -1017,14 +993,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -1069,14 +1043,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -1098,14 +1070,14 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_TIME_ZONE ============================
+- # ====== Page Item: P45_AST_TIME_ZONE ========================
   id: 10792439804528327340
   identification: 
-    name: P45_TIME_ZONE
+    name: P45_AST_TIME_ZONE
     type: Select List
 
   label: 
-    label: Time Zone
+    label: Ast Time Zone
     alignment: Left
 
   settings: 
@@ -1114,7 +1086,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Time Zone # 10792421719401830154
+    region: Personal # 10792421719401830154
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -1125,7 +1097,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required # 7573687255378144045
+    template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
     height: 1
@@ -1146,12 +1118,9 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    type: SQL Query (return single value)
-    sql-query: |
-      select timezone_preference 
-      from eba_stds_tz_pref 
-      where username = :APP_USER
-    used: Always, replacing any existing value in session state
+    type: Preference
+    preference: AST_TIME_ZONE
+    used: Only when current value in session state is null
 
   default: 
     type: Function Body
@@ -1242,7 +1211,7 @@ processes:
       begin
           ast_preferences.set_preference (
               p_preference_name  => 'AST_DEFAULT_ASSIGNEE',
-              p_value => :P45_DEFAULT_ASSIGNEE
+              p_value => :P45_AST_DEFAULT_ASSIGNEE
           );
       end;
 
@@ -1253,6 +1222,10 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_DEFAULT_ASSIGNEE
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1287,6 +1260,9 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
 - # ====== Process: AST_FROM_EMAIL =============================
   id: 115637121424775409
   identification: 
@@ -1312,6 +1288,10 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_FROM_EMAIL
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1342,6 +1322,10 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_SRC_EDIT_DELAY
+
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
@@ -1371,6 +1355,10 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_CLEANUP_DELAY
+
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
@@ -1393,6 +1381,10 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_EMAIL_SUBSCRIPTION
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
@@ -1421,6 +1413,10 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_DEFAULT_SCHEMA
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1451,6 +1447,10 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_DB_NAME
+
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
@@ -1479,6 +1479,10 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_EMAIL_API
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1509,6 +1513,10 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_BASE_URL
+
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
@@ -1536,6 +1544,10 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_DEFAULT_WORKSPACE
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1566,6 +1578,10 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_SERT_YN
+
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
@@ -1594,6 +1610,10 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_APEX_ISSUES_YN
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1624,55 +1644,36 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_AST_SCM_YN
+
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
-- # ====== Process: set timezone ===============================
+- # ====== Process: AST_TIME_ZONE ==============================
   id: 10792440002928336273
   identification: 
-    name: set timezone
-    type: Execute Code
+    name: AST_TIME_ZONE
+    type: User Preferences
     execution-chain: None
 
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      declare
-         c integer := 0;
-      begin
-         for c1 in (select id, timezone_preference 
-                    from eba_stds_tz_pref 
-                    where username = :APP_USER) loop
-            update eba_stds_tz_pref
-            set timezone_preference = nvl(:P45_TIME_ZONE,'UTC')
-            where id = c1.id;
-            c := c + 1;
-         end loop;
-         if c = 0 then
-            insert into eba_stds_tz_pref (username, timezone_preference)
-            values (:APP_USER,:P45_TIME_ZONE);
-         end if;
-         APEX_UTIL.SET_SESSION_TIME_ZONE (  
-                P_TIME_ZONE => :P45_TIME_ZONE); 
-         commit;
-      end;
+  settings: 
+    type: Set to Item Value
+    preference-name: AST_TIME_ZONE
+    item: P45_AST_TIME_ZONE
 
   execution: 
     sequence: 10
     point: Processing
     run-process: Once Per Page Visit (default)
 
-  success-message: 
-    success-message: Time Zone Set
-
   error: 
     display-location: Inline in Notification
 
   server-side-condition: 
-    type: Item = Value
-    item: P45_PREFERENCE_NAME
-    value: Time Zone
+    type: Item is NOT NULL
+    item: P45_AST_TIME_ZONE
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER

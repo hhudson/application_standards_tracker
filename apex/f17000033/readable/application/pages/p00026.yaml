@@ -4,18 +4,14 @@ id: 26
 identification: 
   name: Access Control List
   alias: MANAGE_ACL
-  title: Access Control List
+  title: '&APPLICATION_TITLE. Access Control List'
   page-group: ACL # 8901802019639773041
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-  - js-dialog-class-t-Drawer--pullOutEnd
-
-dialog: 
-  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -46,6 +42,52 @@ help:
   help-text: When Access Control is enabled, Administrators have the ability to restrict access to certain application features, for authenticated users. This application supports the following 3 access levels; Reader, Contributor and Administrator. Readers have read-only access and can also view reports. Contributors can additionally create, edit, delete content. Administrators, in addition to Contributor's capability, can also perform application administration, including configuration of access control, managing application look-up data.
 
 regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 55815387119479626
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+
 - # ====== Region: Users =======================================
   id: 11083819544688345276
   identification: 
@@ -420,10 +462,13 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7573687401426144051
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-users
 
   behavior: 
     action: Redirect to Page in this Application
@@ -444,7 +489,7 @@ buttons:
     label: Reset
 
   layout: 
-    sequence: 10
+    sequence: 40
     region: Users # 11083819544688345276
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -476,7 +521,7 @@ buttons:
   id: 11083820537090345284
   identification: 
     button-name: CREATE
-    label: Add User
+    label: Create
 
   layout: 
     sequence: 30
@@ -489,10 +534,12 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Icon # 7573687324825144047
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-plus
 
   behavior: 
     action: Redirect to Page in this Application

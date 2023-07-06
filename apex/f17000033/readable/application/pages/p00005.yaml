@@ -19,22 +19,6 @@ navigation:
   cursor-focus: Do not focus cursor
   warn-on-unsaved-changes: false
 
-css: 
-  inline: |
-    #AVG_DURATION {white-space: nowrap;}
-    .check_sql {
-    white-space: pre;
-    font-family: monospace;
-    font-size: 10px;
-    line-height: 14px;
-    }
-    section.uModalRegion.ui-dialog-content {
-        padding: 0;
-    }
-    section.uModalRegion.ui-dialog-content>div.uRegionContent {
-        padding: 0 !important;
-    }
-
 security: 
   authorization-scheme: READER RIGHTS # 48893993399820863
   authentication: Page Requires Authentication
@@ -70,7 +54,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARD_TESTS
+    table-name: V_EBA_STDS_STANDARD_TESTS_W_CHILD_CODE
     include-rowid-column: false
     where-clause: 'standard_id = :P5_ID or :P5_ID is null'
 
@@ -187,7 +171,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Mv Dependency
+        heading: MV Dependency
         alignment: start
 
       single-row-view: 
@@ -205,6 +189,9 @@ regions:
 
       column-filter: 
         type: Default Based on Column Type
+
+      advanced: 
+        static-id: MV_DEPENDENCY
 
       enable-users-to: 
         hide: true
@@ -247,6 +234,9 @@ regions:
       column-filter: 
         type: Default Based on Column Type
 
+      advanced: 
+        static-id: AST_COMPONENT_TYPE_ID
+
       enable-users-to: 
         hide: true
         sort: true
@@ -280,6 +270,279 @@ regions:
 
       layout: 
         sequence: 330
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      advanced: 
+        static-id: COMPONENT_NAME
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SUB_SRC_ID ==================================
+      id: 55814590090479618
+      identification: 
+        column-name: SUB_SRC_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Sub SRC ID
+
+      layout: 
+        sequence: 340
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FIX_DEFINED_YN ==============================
+      id: 55814659711479619
+      identification: 
+        column-name: FIX_DEFINED_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
+
+      heading: 
+        heading: Fix Defined
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 350
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SERT_HELP_YN ================================
+      id: 55814785420479620
+      identification: 
+        column-name: SERT_HELP_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
+
+      heading: 
+        heading: Sert Help
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 360
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: CHILD_CODE ==================================
+      id: 55814845610479621
+      identification: 
+        column-name: CHILD_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 370
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: EXPLANATION =================================
+      id: 55814973398479622
+      identification: 
+        column-name: EXPLANATION
+        type: Plain Text
+
+      heading: 
+        heading: Explanation
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 380
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: <span class="queryColSummary">#EXPLANATION#</span>
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FIX =========================================
+      id: 55815002313479623
+      identification: 
+        column-name: FIX
+        type: Plain Text
+
+      heading: 
+        heading: Fix
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 390
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: <span class="queryColSummary">#FIX#</span>
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: None
+
+      enable-users-to: 
+        hide: true
+        sort: false
+        filter: true
+        highlight: true
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_ACTIVE_YN ==========================
+      id: 55815155278479624
+      identification: 
+        column-name: STANDARD_ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
+
+      heading: 
+        heading: Standard Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 400
         column-alignment: start
 
       accessibility: 
@@ -329,6 +592,9 @@ regions:
       column-filter: 
         type: Default Based on Column Type
 
+      advanced: 
+        static-id: STANDARD_CODE
+
       enable-users-to: 
         hide: true
         sort: true
@@ -373,6 +639,9 @@ regions:
       column-filter: 
         type: Use Named List of Values to Filter Exact Match
 
+      advanced: 
+        static-id: ACTIVE_YN
+
       enable-users-to: 
         hide: true
         sort: true
@@ -410,6 +679,9 @@ regions:
 
       column-filter: 
         type: Default Based on Column Type
+
+      advanced: 
+        static-id: TEST_NAME
 
       enable-users-to: 
         hide: true
@@ -452,6 +724,9 @@ regions:
       column-filter: 
         type: Default Based on Column Type
 
+      advanced: 
+        static-id: NT_NAME
+
       enable-users-to: 
         hide: true
         sort: true
@@ -487,23 +762,29 @@ regions:
       accessibility: 
         value-identifies-row: false
 
+      column-formatting: 
+        html-expression: <code class="queryColSummary">#QUERY_CLOB#</code>
+
       source: 
         primary-key: false
 
       column-filter: 
         type: Default Based on Column Type
 
+      advanced: 
+        static-id: QUERY_CLOB
+
       enable-users-to: 
         hide: true
         sort: true
         filter: true
         highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
 
       security: 
         escape-special-characters: true
@@ -533,6 +814,9 @@ regions:
 
       column-filter: 
         type: Default Based on Column Type
+
+      advanced: 
+        static-id: TEST_ID
 
       enable-users-to: 
         hide: true
@@ -575,6 +859,9 @@ regions:
       column-filter: 
         type: Default Based on Column Type
 
+      advanced: 
+        static-id: ISSUE_DESC
+
       enable-users-to: 
         hide: true
         sort: true
@@ -615,6 +902,9 @@ regions:
 
       column-filter: 
         type: Default Based on Column Type
+
+      advanced: 
+        static-id: URGENCY
 
       enable-users-to: 
         hide: true
@@ -657,6 +947,9 @@ regions:
       column-filter: 
         type: Default Based on Column Type
 
+      advanced: 
+        static-id: URGENCY_LEVEL
+
       enable-users-to: 
         hide: true
         sort: true
@@ -697,6 +990,9 @@ regions:
 
       column-filter: 
         type: Default Based on Column Type
+
+      advanced: 
+        static-id: STANDARD_CATEGORY_NAME
 
       enable-users-to: 
         hide: true
@@ -740,6 +1036,9 @@ regions:
         type: Default Based on Column Type
         date-ranges: All
 
+      advanced: 
+        static-id: STD_CREATION_DATE
+
       enable-users-to: 
         hide: true
         sort: true
@@ -782,6 +1081,9 @@ regions:
         type: Default Based on Column Type
         date-ranges: All
 
+      advanced: 
+        static-id: STD_UPDATED_DATE
+
       enable-users-to: 
         hide: true
         sort: true
@@ -823,46 +1125,8 @@ regions:
       column-filter: 
         type: Default Based on Column Type
 
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: DISPLAY_SEQUENCE ============================
-      id: 6150803960922766209
-      identification: 
-        column-name: DISPLAY_SEQUENCE
-        type: Plain Text
-
-      heading: 
-        heading: Display Sequence
-        alignment: end
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 20
-        column-alignment: end
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
+      advanced: 
+        static-id: SRC_RECENT_CHANGE_YN
 
       enable-users-to: 
         hide: true
@@ -905,6 +1169,9 @@ regions:
       column-filter: 
         type: Default Based on Column Type
 
+      advanced: 
+        static-id: TEST_TYPE
+
       enable-users-to: 
         hide: true
         sort: true
@@ -934,6 +1201,9 @@ regions:
 
       source: 
         primary-key: false
+
+      advanced: 
+        static-id: STANDARD_ID
 
       security: 
         escape-special-characters: true
@@ -1464,7 +1734,7 @@ buttons:
     template-options: 
     - '#DEFAULT#'
     - t-Button--warning
-    - t-Button--noUI
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-camera
 
@@ -1497,7 +1767,7 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--noUI
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-book
 
@@ -1595,12 +1865,12 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
-    hot: false
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-Button--primary
-    - t-Button--noUI
+    - t-Button--iconLeft
+    icon: fa-wrench
 
   behavior: 
     action: Redirect to Page in this Application
@@ -1638,7 +1908,7 @@ buttons:
 
   appearance: 
     button-template: Icon # 7573687324825144047
-    hot: false
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI

@@ -4,18 +4,14 @@ id: 30
 identification: 
   name: Notifications
   alias: NOTIFICATIONS
-  title: Notifications
+  title: '&APPLICATION_TITLE. Notifications'
   page-group: Administration # 10780320217725301324
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-  - js-dialog-class-t-Drawer--pullOutEnd
-
-dialog: 
-  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -46,6 +42,52 @@ help:
   help-text: <p>Notifications are displayed on the application home page on top of the screen.  Use application notifications to communicate with users of this application.  Notifications are managed by application administrators but viewable by all users.</p>
 
 regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 55814080719479613
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: ' Breadcrumb' # 11984537740102947250
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 7573688177511144054
+      template-options: 
+      - '#DEFAULT#'
+
 - # ====== Region: Notifications ===============================
   id: 10528251419261759969
   identification: 
@@ -699,7 +741,7 @@ buttons:
     label: Reset
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Notifications # 10528251419261759969
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -731,10 +773,10 @@ buttons:
   id: 10528253116086759976
   identification: 
     button-name: CREATE
-    label: Create Notification
+    label: Create
 
   layout: 
-    sequence: 20
+    sequence: 10
     region: Notifications # 10528251419261759969
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -745,7 +787,7 @@ buttons:
 
   appearance: 
     button-template: Icon # 7573687324825144047
-    hot: false
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI

@@ -9,9 +9,10 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Theme Default
+  dialog-template: Drawer # 49917157161329006
   template-options: 
   - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
 
 dialog: 
   chained: false
@@ -44,9 +45,6 @@ server-cache:
 help: 
   help-text: No help is available for this page.
 
-configuration: 
-  build-option: TO_DELETE # 6157992149575072830
-
 regions: 
 - # ====== Region: Notification ================================
   id: 10528344820509772294
@@ -59,7 +57,7 @@ regions:
     type: Table / View
     table-owner: Parsing Schema
     table-name: EBA_STDS_NOTIFICATIONS
-    include-rowid-column: true
+    include-rowid-column: false
 
   layout: 
     sequence: 10
@@ -443,6 +441,171 @@ regions:
       escape-special-characters: true
 
 page-items: 
+- # ====== Page Item: P31_ROW_VERSION_NUMBER ===================
+  id: 55815535166479628
+  identification: 
+    name: P31_ROW_VERSION_NUMBER
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 90
+    region: Notification # 10528344820509772294
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Notification # 10528344820509772294
+    column: ROW_VERSION_NUMBER
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P31_CREATED ==============================
+  id: 55815633749479629
+  identification: 
+    name: P31_CREATED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 100
+    region: Notification # 10528344820509772294
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Notification # 10528344820509772294
+    column: CREATED
+    data-type: TIMESTAMP WITH LOCAL TIME ZONE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P31_CREATED_BY ===========================
+  id: 55815730310479630
+  identification: 
+    name: P31_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 110
+    region: Notification # 10528344820509772294
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Notification # 10528344820509772294
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P31_UPDATED ==============================
+  id: 55815852430479631
+  identification: 
+    name: P31_UPDATED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: Notification # 10528344820509772294
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Notification # 10528344820509772294
+    column: UPDATED
+    data-type: TIMESTAMP WITH LOCAL TIME ZONE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P31_UPDATED_BY ===========================
+  id: 55815909100479632
+  identification: 
+    name: P31_UPDATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 130
+    region: Notification # 10528344820509772294
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Notification # 10528344820509772294
+    column: UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P31_DISPLAY_SEQUENCE =====================
   id: 10528345805794772297
   identification: 
@@ -502,6 +665,9 @@ page-items:
     session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: false
     restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: self-evident
 
 - # ====== Page Item: P31_ID ===================================
   id: 10528346024044772305
@@ -596,6 +762,9 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: Blocklist HTML command characters (<>")
 
+  help: 
+    help-text: Give this announcement a title (will be displayed)
+
 - # ====== Page Item: P31_NOTIFICATION_DESCRIPTION =============
   id: 10528346394965772306
   identification: 
@@ -656,6 +825,9 @@ page-items:
     session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: false
     restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: What is the body of the announcement?
 
 - # ====== Page Item: P31_NOTIFICATION_TYPE ====================
   id: 10528346600683772306
@@ -723,6 +895,9 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: This determines the color formatting to display
+
 - # ====== Page Item: P31_DISPLAY_FROM =========================
   id: 10528347012783772306
   identification: 
@@ -784,6 +959,9 @@ page-items:
     session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The start date from which to display this notification
 
 - # ====== Page Item: P31_DISPLAY_UNTIL ========================
   id: 10528347200517772311
@@ -847,17 +1025,20 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: The end date by which the announcement is no longer displayed
+
 buttons: 
 - # ====== Button: CREATE ======================================
   id: 10528345014991772295
   identification: 
     button-name: CREATE
-    label: Create Notification
+    label: Create
 
   layout: 
     sequence: 40
     region: Buttons # 10528347416768772311
-    position: NEXT
+    position: CREATE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -890,7 +1071,7 @@ buttons:
   layout: 
     sequence: 10
     region: Buttons # 10528347416768772311
-    position: NEXT
+    position: CLOSE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -916,7 +1097,7 @@ buttons:
   layout: 
     sequence: 20
     region: Buttons # 10528347416768772311
-    position: NEXT
+    position: DELETE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -954,7 +1135,7 @@ buttons:
   layout: 
     sequence: 30
     region: Buttons # 10528347416768772311
-    position: NEXT
+    position: CHANGE
     start-new-layout: false
     start-new-row: true
     column: Automatic

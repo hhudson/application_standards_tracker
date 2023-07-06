@@ -85,11 +85,11 @@
         end;
       execute-condition: For Each Row
 
-- # ====== Automation: 1. [Hourly on the dot] Refresh Parsed URL
+- # ====== Automation: 1. [Hourly on the dot] Refresh Materializ
   id: 2684628413891611
   identification: 
-    name: 1. [Hourly on the dot] Refresh Parsed URLs Materialized View
-    static-id: refresh-mv-eba-stds-parsed-urls
+    name: 1. [Hourly on the dot] Refresh Materialized Views
+    static-id: refresh-all-materialized-views
 
   execution: 
     type: Scheduled
@@ -104,26 +104,6 @@
     comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=0
 
   actions: 
-  - # ====== Action: set workspace ===============================
-    id: 2684989137891611
-    identification: 
-      name: set workspace
-      type: Execute Code
-
-    source: 
-      location: Local Database
-      language: PL/SQL
-      pl/sql-code: |
-        begin
-            ast_audit_util.set_workspace;
-        end;
-
-    execution: 
-      sequence: 10
-
-    error: 
-      stop-execution-on-error: true
-
   - # ====== Action: refresh mv ==================================
     id: 2711078475896753
     identification: 
@@ -135,7 +115,7 @@
       language: PL/SQL
       pl/sql-code: |
         begin
-          dbms_mview.refresh ('MV_EBA_STDS_PARSED_URLS');
+          AST_MV_UTIL.refresh_mv();
         end;
 
     execution: 

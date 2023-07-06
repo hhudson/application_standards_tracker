@@ -8,9 +8,10 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog # 7573653346823143970
+  dialog-template: Drawer # 49917157161329006
   template-options: 
   - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
 
 dialog: 
   height: 350
@@ -43,9 +44,6 @@ server-cache:
 
 help: 
   help-text: No help is available for this page.
-
-configuration: 
-  build-option: TO_DELETE # 6157992149575072830
 
 regions: 
 - # ====== Region: Buttons =====================================
@@ -233,6 +231,9 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: self-evident
+
 - # ====== Page Item: P24_NAME =================================
   id: 7578138379919132215
   identification: 
@@ -292,6 +293,9 @@ page-items:
     session-state-protection: Checksum Required - Application Level
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Name this grouping
 
 - # ====== Page Item: P24_DESCRIPTION ==========================
   id: 7578138591841132215
@@ -354,12 +358,15 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: What is the purpose of this grouping?
+
 buttons: 
 - # ====== Button: CREATE ======================================
   id: 7578136795957132186
   identification: 
     button-name: CREATE
-    label: Add Application Type
+    label: Create
 
   layout: 
     sequence: 40
@@ -376,7 +383,6 @@ buttons:
     hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-Button--gapLeft
 
   behavior: 
     action: Submit Page
@@ -430,7 +436,7 @@ buttons:
   layout: 
     sequence: 20
     region: Buttons # 7094082240577085124
-    position: NEXT
+    position: DELETE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -442,8 +448,8 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--simple
     - t-Button--danger
+    - t-Button--simple
 
   behavior: 
     action: Submit Page
@@ -468,7 +474,7 @@ buttons:
   layout: 
     sequence: 10
     region: Buttons # 7094082240577085124
-    position: NEXT
+    position: CLOSE
     start-new-layout: false
     start-new-row: true
     column: Automatic

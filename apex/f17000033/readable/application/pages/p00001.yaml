@@ -431,6 +431,56 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: Jobs Status =================================
+  id: 55813893510479611
+  identification: 
+    title: Jobs Status
+    type: Static Content
+
+  layout: 
+    sequence: 51
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7573667094242143990
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--stacked
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Breadcrumb ==================================
   id: 268632373208257439
   identification: 
@@ -524,10 +574,10 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Job Status Summary ==========================
+- # ====== Region: Job Status Report ===========================
   id: 401427066179643715
   identification: 
-    title: Job Status Summary
+    title: Job Status Report
     type: Classic Report
 
   source: 
@@ -545,8 +595,8 @@ regions:
       order by start_timestamp desc
 
   layout: 
-    sequence: 51
-    parent-region: No Parent
+    sequence: 61
+    parent-region: Jobs Status # 55813893510479611
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -559,7 +609,7 @@ regions:
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
-    - t-Region--noBorder
+    - t-Region--noUI
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -568,11 +618,8 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
   server-cache: 
     caching: Disabled
@@ -3785,7 +3832,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: "apex_util.prepare_url('f?p='||:APP_ID||':36:'||:APP_SESSION)"
+    pl/sql-expression: "apex_util.prepare_url('f?p='||:APP_ID||':45:'||:APP_SESSION)"
     used: Only when current value in session state is null
 
   session-state: 
@@ -3847,11 +3894,13 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7573687401426144051
     hot: false
     template-options: 
     - '#DEFAULT#'
     - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-mail-forward
 
   behavior: 
     action: Redirect to Page in this Application
@@ -3885,10 +3934,13 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7573687401426144051
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-braille
 
   behavior: 
     action: Defined by Dynamic Action
@@ -3952,10 +4004,13 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7573687401426144051
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-angle-up
 
   behavior: 
     action: Defined by Dynamic Action
@@ -4280,7 +4335,7 @@ dynamic-actions:
       jquery-selector: .auditRpt
 
     execution: 
-      sequence: 10
+      sequence: 20
       event: bulk exception # 52989658222794994
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4344,6 +4399,23 @@ dynamic-actions:
 
     execution: 
       sequence: 30
+      event: bulk exception # 52989658222794994
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 55814360406479616
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Bulk Exception
+      message: Are you sure you want to declare all the selected violation(s) as valid exceptions?
+      style: Warning
+      icon: fa-exclamation-diamond-o
+
+    execution: 
+      sequence: 10
       event: bulk exception # 52989658222794994
       fire-when-event-result-is: True
       fire-on-initialization: false
