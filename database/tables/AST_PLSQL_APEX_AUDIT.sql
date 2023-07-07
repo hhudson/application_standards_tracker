@@ -101,3 +101,10 @@ alter table AST_PLSQL_APEX_AUDIT add COMPONENT_ID number;
 
 alter table AST_PLSQL_APEX_AUDIT add PARENT_COMPONENT_ID number;
 /
+
+CREATE INDEX AST_PLAPAD_IDX2 
+ON ast_plsql_apex_audit(STANDARD_CODE, CHILD_CODE)
+/
+CREATE INDEX AST_PLAPAD_IDX3
+ON ast_plsql_apex_audit(application_id)
+/
