@@ -5,7 +5,6 @@
 
 create or replace force editionable view v_ast_plsql_apex__0 as
 select a.issue_category,
-       -- a.reference_code, 
        a.application_id, 
        a.page_id, 
        a.pass_yn, 
@@ -20,7 +19,6 @@ select a.issue_category,
        a.apex_last_updated_by, 
        a.apex_last_updated_on,
        esst.standard_code,
-       a.child_code,
        a.unqid
 from v_eba_stds_standard_tests esst
 join ast_standard_view.v_ast(p_standard_code        => esst.standard_code,

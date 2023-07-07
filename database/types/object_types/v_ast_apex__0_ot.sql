@@ -31,8 +31,7 @@ begin
       LAST_UPDATED_BY                  VARCHAR2(1020 CHAR),
       LAST_UPDATED_ON                  DATE,
       VALIDATION_FAILURE_MESSAGE       VARCHAR2(15000 CHAR),
-      ISSUE_TITLE                      VARCHAR2(5000 CHAR),
-      CHILD_CODE                       VARCHAR2(100)
+      ISSUE_TITLE                      VARCHAR2(5000 CHAR)
     ) ]';
   dbms_output.put_line(q'[ type v_ast_apex__0_ot created ]');
 exception

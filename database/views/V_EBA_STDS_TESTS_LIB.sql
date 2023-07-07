@@ -22,7 +22,9 @@ select estl.id,
             then 'N'
             else 'Y'
             end installed_yn,
-        ess.active_yn standard_active_yn
+        ess.active_yn standard_active_yn,
+        estl.explanation,
+        estl.fix
   from eba_stds_tests_lib estl
   left outer join eba_stds_standard_tests esst on estl.standard_code = esst.standard_code
   left outer join eba_stds_standards ess on ess.id = estl.standard_id

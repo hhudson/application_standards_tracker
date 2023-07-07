@@ -90,11 +90,6 @@ create or replace package body eba_stds_standard_tests_api as
       l_test_rec.ast_component_type_id
     ) returning id into l_new_test_id;
 
-    ast_sub_reference_codes_api.duplicate_standard_help (
-                                    p_from_test_id  => l_test_rec.id,
-                                    p_to_test_id    => l_new_test_id
-                                );
-
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);

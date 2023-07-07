@@ -123,8 +123,6 @@ create or replace package body AST_DEPLOYMENT as
 
     if c_base_file_name = 'eba_stds_tests_lib' then
       eba_stds_tests_lib_api.take_snapshot;
-    elsif c_base_file_name = 'eba_test_help_lib' then
-      eba_test_help_lib_api.take_snapshot;
     end if;
 
     l_content_blob := json_content_blob (p_table_name => p_table_name);
@@ -187,49 +185,6 @@ create or replace package body AST_DEPLOYMENT as
     raise;
   end merge_from_zip;
 
-  procedure install_help_for_test_from_zip (p_test_id in eba_stds_standard_tests.id%type)
-  as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'install_help_for_test_from_zip';
-  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  begin
-    apex_debug.message(c_debug_template,'START', 'p_test_id', p_test_id);
-
-    for rec in (
-      with std as (select aadl.application_id, aadl.name, aadl.static_id, aadl.table_name, aasf.file_name, apex_zip.get_file_content (
-                                                p_zipped_blob => aasf.file_content,
-                                                p_file_name   => lower(aadl.table_name)||'.json'
-                                        ) thejson
-                from apex_appl_data_loads aadl
-                inner join apex_application_static_files aasf on aasf.file_name = 'data/'||lower(aadl.table_name)||'.zip'
-                where aadl.application_id = gc_app_id
-                and aadl.table_name = 'AST_SUB_REFERENCE_CODES'
-             )
-      select col002 test_id, adp.col003 child_code, adp.col004 explanation, adp.clob01 fix
-      from std, table( apex_data_parser.parse(
-                      p_content       =>  std.thejson,
-                      p_file_name     =>  std.file_name, 
-                      p_file_profile  =>  apex_data_loading.get_file_profile( p_application_id => std.application_id,
-                                                                              p_static_id => std.static_id),
-                      p_max_rows      =>  500 ) ) adp
-      where adp.col002 = p_test_id
-    )
-    loop
-      begin <<inshlp>>
-      ast_sub_reference_codes_api.insert_help (
-            p_sub_code    => rec.child_code,
-            p_explanation => rec.explanation,
-            p_fix         => rec.fix,
-            p_test_id     => rec.test_id
-        );
-      exception when dup_val_on_index then
-        apex_debug.message(c_debug_template, 'duplicate value');
-      end inshlp;
-    end loop;
-
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
-  end install_help_for_test_from_zip;
 
   function table_last_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type
   as 
@@ -277,7 +232,7 @@ create or replace package body AST_DEPLOYMENT as
     where ut.table_name not like 'DATABASECHANGELOG%'
     and ut.table_name not like 'DEV%'
     and ut.table_name not like 'MV%'
-    and ut.table_name not in ('EBA_STDS_STANDARD_TESTS', 'AST_SUB_REFERENCE_CODES')
+    and ut.table_name not in ('EBA_STDS_STANDARD_TESTS')
   )
     select std.table_name, 
           std.mime_type,
@@ -347,8 +302,6 @@ create or replace package body AST_DEPLOYMENT as
         c_overwrite_table_name constant varchar2(255) 
               := case when l_aat (rec).table_name = 'EBA_STDS_TESTS_LIB'
                       then 'EBA_STDS_STANDARD_TESTS'
-                      when l_aat (rec).table_name = 'EBA_TEST_HELP_LIB'
-                      then 'AST_SUB_REFERENCE_CODES'
                       else l_aat (rec).table_name
                       end;
         c_file_blob constant blob := ast_deployment.sample_template_file (p_table_name => l_aat (rec).table_name);

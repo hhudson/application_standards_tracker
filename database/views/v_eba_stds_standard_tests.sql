@@ -26,7 +26,9 @@ select  st.id test_id,
        st.mv_dependency,
        st.ast_component_type_id,
        act.component_name,
-       ess.active_yn standard_active_yn
+       ess.active_yn standard_active_yn,
+       st.explanation,
+       st.fix
 from eba_stds_standard_tests st
 inner join eba_stds_standards ess on st.standard_id = ess.id
 inner join ast_component_types act on act.id = st.ast_component_type_id

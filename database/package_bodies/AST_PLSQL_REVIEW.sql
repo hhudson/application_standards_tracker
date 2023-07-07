@@ -144,14 +144,14 @@ create or replace package body ast_plsql_review as
   cursor cur_pkg_issues
    is
       select  
-        coalesce(subr.explanation, esst.issue_desc) issue_desc,
-        object_name,
-        object_type,
-        line,
-        code,
-        urgency,
-        urgency_level,
-        standard_code
+        substr(esst.explanation,1,500) issue_desc,
+        dp.object_name,
+        dp.object_type,
+        dp.line,
+        dp.code,
+        esst.urgency,
+        esst.urgency_level,
+        esst.standard_code
       from ast.v_eba_stds_standard_tests esst
       join ast.ast_standard_view.v_ast_db_plsql(p_standard_code => esst.standard_code, 
                                             p_failures_only => gc_y,
@@ -159,9 +159,7 @@ create or replace package body ast_plsql_review as
         on  esst.nt_name = 'V_AST_DB_PLSQL_NT'
         and esst.query_clob is not null
         and esst.active_yn = gc_y
-      left join ast.ast_sub_reference_codes subr on esst.test_id = subr.test_id
-                                             and dp.child_code = subr.sub_code
-      order by urgency_level, issue_desc, object_name, line, code;
+      order by urgency_level, esst.explanation, object_name, line, code;
 
   type r_v_ast_db_plsql is record (
     issue_desc              varchar2(511   char),

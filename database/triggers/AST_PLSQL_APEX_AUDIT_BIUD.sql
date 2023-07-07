@@ -16,12 +16,12 @@ create or replace trigger ast_plsql_apex_audit_biud
 begin
     if inserting then
        insert into ast_audit_on_audit 
-              (     unqid, action_name,      standard_code, audit_id,      child_code,      validation_failure_message)
-       values (:new.unqid, 'INSERT'   , :new.standard_code,  :new.id, :new.child_code, :new.validation_failure_message);
+              (     unqid, action_name,      standard_code, audit_id,      validation_failure_message)
+       values (:new.unqid, 'INSERT'   , :new.standard_code,  :new.id, :new.validation_failure_message);
     elsif deleting then
        insert into ast_audit_on_audit 
-              (     unqid, action_name,      standard_code, audit_id,      child_code,      validation_failure_message)
-       values (:old.unqid, 'DELETE'   , :old.standard_code,  :old.id, :old.child_code, :old.validation_failure_message);
+              (     unqid, action_name,      standard_code, audit_id,      validation_failure_message)
+       values (:old.unqid, 'DELETE'   , :old.standard_code,  :old.id, :old.validation_failure_message);
     end if;
 end ast_plsql_apex_audit_biud;
 /

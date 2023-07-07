@@ -4,7 +4,7 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_AST_PLSQL_APEX_ALL as
-select aaa.unqid, -- aaa.reference_code, 
+select aaa.unqid,  
        'APEX' issue_category,
        'NA' issue_subcategory,
        aaa.application_id, 
@@ -24,11 +24,10 @@ select aaa.unqid, -- aaa.reference_code,
        aaa.created_on apex_created_on, 
        aaa.last_updated_by apex_last_updated_by, 
        aaa.last_updated_on apex_last_updated_on,
-       aaa.standard_code,
-       aaa.child_code
+       aaa.standard_code
 from v_ast_apex_all aaa
 union all
-select asa.unqid, --reference_code, 
+select asa.unqid, 
        'SERT' issue_category,
        asa.sert_attribute_key issue_subcategory,
        asa.application_id, 
@@ -48,11 +47,10 @@ select asa.unqid, --reference_code,
        asa.created_on apex_created_on, 
        asa.last_updated_by apex_last_updated_by, 
        asa.last_updated_on apex_last_updated_on,
-       asa.standard_code,
-       'NA' child_code
+       asa.standard_code
 from v_ast_sert__all asa
 union all
-select dpa.unqid, --reference_code, 
+select dpa.unqid, 
        'DB_PLSQL' issue_category,
        'NA' issue_subcategory,
        0 application_id, 
@@ -72,11 +70,10 @@ select dpa.unqid, --reference_code,
        null apex_created_on, 
        null apex_last_updated_by, 
        null apex_last_updated_on,
-       dpa.standard_code,
-       dpa.child_code
+       dpa.standard_code
 from v_ast_db_plsql_all dpa
 union all
-select dva.unqid, --reference_code, 
+select dva.unqid,
        'VIEW' issue_category,
        'NA' issue_subcategory,
        0 application_id, 
@@ -96,7 +93,6 @@ select dva.unqid, --reference_code,
        null apex_created_on, 
        null apex_last_updated_by, 
        null apex_last_updated_on,
-       dva.standard_code,
-       null child_code
+       dva.standard_code
 from v_ast_db_view_all dva
 /

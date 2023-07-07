@@ -78,7 +78,6 @@ from ast_standard_view.v_ast_sert__0(
 --
 /*
 select pass_yn,
-       reference_code,
        application_id,
        page_id,
        created_by,
@@ -87,8 +86,7 @@ select pass_yn,
        last_updated_on,
        validation_failure_message,
        issue_title,
-       standard_code,
-       child_code
+       standard_code
 from ast_standard_view.v_ast_apex(
                         p_standard_code => 'APP_AUTH',
                         p_failures_only => 'Y'); 
@@ -187,19 +185,6 @@ from dual;
 ------------------------------------------------------------------------------
   function get_nt_type_id (p_nt_name in ast_nested_table_types.nt_name%type) return ast_nested_table_types.id%type;
 
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 16, 2023
--- Synopsis:
---
--- Get SQL Query to get list of child / sub codes that require help  - used for P61_SUB_CODE lov
---
-/*
-select ast_standard_view.get_codes_for_help ('FIELD_NAMES')
-from dual;
-*/
-------------------------------------------------------------------------------
-  function get_codes_for_help (p_standard_code in eba_stds_standard_tests.standard_code%type) return varchar2;
 
 ------------------------------------------------------------------------------
 -- exceptions

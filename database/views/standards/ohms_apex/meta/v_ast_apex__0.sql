@@ -4,7 +4,7 @@
 
 create or replace force editionable view v_ast_apex__0 as
 select pass_yn,
-       unqid, --reference_code,
+       unqid,
        application_id,
        page_id,
        created_by,
@@ -13,8 +13,7 @@ select pass_yn,
        last_updated_on,
        validation_failure_message,
        issue_title,
-       standard_code,
-       child_code
+       standard_code
 from v_eba_stds_standard_tests esst
 join ast_standard_view.v_ast_apex(p_standard_code => esst.standard_code, 
                                   p_failures_only => 'Y',

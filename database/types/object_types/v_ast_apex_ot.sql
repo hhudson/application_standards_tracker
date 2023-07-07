@@ -29,7 +29,6 @@ create type v_ast_apex_ot as object
       VALIDATION_FAILURE_MESSAGE       VARCHAR2(15000 CHAR),
       ISSUE_TITLE                      VARCHAR2(5000 CHAR),
       STANDARD_CODE                    VARCHAR2(100),
-      CHILD_CODE                       VARCHAR2(100),
       COMPONENT_ID                     NUMBER,
       PARENT_COMPONENT_ID              NUMBER
     )

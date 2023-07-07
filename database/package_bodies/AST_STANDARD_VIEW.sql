@@ -26,12 +26,11 @@ create or replace package body ast_standard_view as
     code           varchar2(5000 char),
     object_type    varchar2(19 char),
     line           number,
-    unqid          varchar2(5000 char),
-    child_code     varchar2(100 char)
+    unqid          varchar2(5000 char)
   );
   type t_v_ast_db_plsql is table of r_v_ast_db_plsql index by pls_integer;
   l_v_ast_db_plsql t_v_ast_db_plsql;
-  gc_db_plsql_select_stmt constant varchar2(100) := 'select pass_yn, object_name, code, object_type, line, unqid, child_code from (';
+  gc_db_plsql_select_stmt constant varchar2(100) := 'select pass_yn, object_name, code, object_type, line, unqid from (';
   gc_v_ast_db_plsql_nt constant ast_nested_table_types.nt_name%type:= 'v_ast_db_plsql_nt';
   ------------------------------------------------------------------------------
   -- v_ast_sert__0 identifiers
@@ -68,14 +67,13 @@ create or replace package body ast_standard_view as
     last_updated_on            date,
     validation_failure_message varchar2(15000 char),
     issue_title                varchar2(5000 char),
-    child_code                 varchar2(100 char),
     component_id               number,
     parent_component_id        number
   );
   type t_v_ast_apex is table of r_v_ast_apex index by pls_integer;
   l_v_ast_apex t_v_ast_apex;
   gc_apex_select_stmt constant varchar2(255) 
-    := 'select pass_yn, application_id, page_id, created_by, created_on, last_updated_by, last_updated_on, validation_failure_message, issue_title, child_code, component_id, parent_component_id from (';
+    := 'select pass_yn, application_id, page_id, created_by, created_on, last_updated_by, last_updated_on, validation_failure_message, issue_title, component_id, parent_component_id from (';
   gc_v_ast_apex_nt  constant ast_nested_table_types.nt_name%type:= 'v_ast_apex__0_nt';
   ------------------------------------------------------------------------------
   -- v_ast_db_view__0 identifiers
@@ -238,12 +236,7 @@ create or replace package body ast_standard_view as
                       l_v_ast_db_plsql (rec).line,
                       l_v_ast_db_plsql (rec).code,
                       l_v_ast_db_plsql (rec).unqid,
-                      coalesce(l_v_ast_db_plsql (rec).child_code, c_standard_code),
-                      apex_string.format('%s:%s:%s', 
-                                         l_v_ast_db_plsql (rec).object_name,
-                                         l_v_ast_db_plsql (rec).object_type,
-                                         l_v_ast_db_plsql (rec).line
-                                         )
+                      c_standard_code
                     )
                 );
       end loop;
@@ -384,7 +377,6 @@ create or replace package body ast_standard_view as
                       l_v_ast_apex (rec).validation_failure_message,
                       l_v_ast_apex (rec).issue_title,
                       c_standard_code,
-                      coalesce(l_v_ast_apex (rec).child_code, c_standard_code),
                       l_v_ast_apex (rec).component_id,
                       l_v_ast_apex (rec).parent_component_id
                     )
@@ -553,7 +545,6 @@ create or replace package body ast_standard_view as
     apex_last_updated_by       varchar2(4080),
     apex_last_updated_on       date,
     standard_code              varchar2(100),
-    child_code                 varchar2(100 char),
     component_id               number,
     parent_component_id        number
   );
@@ -605,7 +596,6 @@ create or replace package body ast_standard_view as
                                    null apex_last_updated_by,
                                    null apex_last_updated_on,
                                    null standard_code,
-                                   child_code,
                                    null component_id,
                                    null parent_component_id
                           from (]'
@@ -630,7 +620,6 @@ create or replace package body ast_standard_view as
                                    null apex_last_updated_by,
                                    null apex_last_updated_on,
                                    null standard_code,
-                                   null child_code,
                                    null component_id,
                                    null parent_component_id
                           from (]'
@@ -655,7 +644,6 @@ create or replace package body ast_standard_view as
                                    null apex_last_updated_by,
                                    null apex_last_updated_on,
                                    null standard_code,
-                                   null child_code,
                                    object_id component_id,
                                    null parent_component_id
                           from (]'
@@ -690,7 +678,6 @@ create or replace package body ast_standard_view as
                                         end apex_last_updated_by,
                                    last_updated_on apex_last_updated_on,
                                    null standard_code,
-                                   child_code,
                                    component_id,
                                    parent_component_id
                           from (]'
@@ -730,7 +717,6 @@ create or replace package body ast_standard_view as
                                    last_updated_by apex_last_updated_by,
                                    last_updated_on apex_last_updated_on,
                                    null standard_code,
-                                   null child_code,
                                    null component_id,
                                    null parent_component_id
                           from (]'
@@ -790,7 +776,6 @@ create or replace package body ast_standard_view as
                     l_v_ast_plsql_apex__0 (rec).apex_last_updated_by,
                     l_v_ast_plsql_apex__0 (rec).apex_last_updated_on,
                     c_standard_code,
-                    coalesce(l_v_ast_plsql_apex__0 (rec).child_code, c_standard_code),
                     l_v_ast_plsql_apex__0 (rec).component_id,
                     l_v_ast_plsql_apex__0 (rec).parent_component_id
                   )
@@ -902,8 +887,6 @@ create or replace package body ast_standard_view as
                                 then apex_string.format('<ul><li>%s</li></ul>', q'[This field is used as a succinct summary. It is referenced in the Audit email and as the title of the APEX Issue (if turned on). Try to make it as unique as possible.]')
                                 when l_code_excerpt = 'VALIDATION_FAILURE_MESSAGE'
                                 then apex_string.format('<ul><li>%s</li></ul>', q'[This field provides a detailed description of the error.]')
-                                when l_code_excerpt = 'CHILD_CODE'
-                                then apex_string.format('<ul><li>%s</li></ul>', q'[This field allows a single query to identify several distinct violations which can be referenced in the Help tables. Provide `null` if inapplicable.]')
                                 when l_code_excerpt = 'COMPONENT_ID'
                                 then apex_string.format('<ul><li>%s</li></ul>', q'[This field provides the Primary Key of the underlying component type. Many things depend on this being provided.]')
                                 when l_code_excerpt = 'PARENT_COMPONENT_ID'
@@ -980,47 +963,6 @@ create or replace package body ast_standard_view as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end query_feedback;
-
-  function get_codes_for_help (p_standard_code in eba_stds_standard_tests.standard_code%type) return varchar2
-  as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'get_codes_for_help';
-  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_child_code_exists varchar2(1) := 'N';
-  l_child_code_query varchar2(4000) := 
-  apex_string.format(
-    q'[select distinct child_code r, child_code d
-       from ast_standard_view.v_ast(p_standard_code => '%0')]',
-    p0 => p_standard_code
-  );
-  l_standard_code_query varchar2(4000) := 
-  apex_string.format(
-    q'[select '%0' r, '%0' d
-       from dual]',
-    p0 => p_standard_code
-  );
-  begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
-
-    select case when count(*) = 1
-                then 'Y'
-                else 'N'
-                end into l_child_code_exists
-    from sys.dual where exists (
-       select 1
-        from ast_standard_view.v_ast(p_standard_code => p_standard_code)
-        where child_code is not null
-    );
-
-    return case when l_child_code_exists = 'Y'
-                then l_child_code_query
-                else l_standard_code_query
-                end;
-
-   exception 
-    when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-  end get_codes_for_help;
 
 end ast_standard_view;
 /

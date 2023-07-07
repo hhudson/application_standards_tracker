@@ -34,7 +34,6 @@
         APEX_LAST_UPDATED_BY       VARCHAR2(4080),
         APEX_LAST_UPDATED_ON       DATE,
         STANDARD_CODE              VARCHAR2(100),
-        CHILD_CODE                 VARCHAR2(100 CHAR),
         COMPONENT_ID               NUMBER,
         PARENT_COMPONENT_ID        NUMBER
     )

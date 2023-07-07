@@ -5,7 +5,7 @@ select  pass_yn,
         line,
         code,
         unqid,
-        child_code
+        standard_code
 from ast_standard_view.v_ast_db_plsql(p_standard_code => 'DBMS_ASSERT',
                                       p_failures_only => 'Y')
 /

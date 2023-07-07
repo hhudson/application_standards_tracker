@@ -47,7 +47,6 @@ with aspaa as (
            paa.apex_issue_id,
            paa.apex_issue_title_suffix,
            paa.standard_code,
-           paa.child_code,
            src.src_recent_change_yn,
            paa.legacy_yn,
            paa.unqid,
@@ -64,8 +63,7 @@ with aspaa as (
     from ast_plsql_apex_audit paa
     left  join v_apex_applications vaa on paa.application_id = vaa.application_id
     left outer join ast_audit_actions aaa on paa.action_id = aaa.id
-    inner join v_eba_stds_standard_tests_w_child_code src on paa.standard_code  = src.standard_code
-                                                          and paa.child_code = src.child_code
+    inner join v_eba_stds_standard_tests src on paa.standard_code  = src.standard_code
     left join v_ast_flow_dictionary_views fdv on fdv.view_name = src.component_name
 )
 select 
@@ -184,7 +182,6 @@ Audit id : %3
         else 'N'
         end urgent_yn,
     a.standard_code,
-    a.child_code,
     a.src_recent_change_yn,
     a.legacy_yn,
     a.unqid,

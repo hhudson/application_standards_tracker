@@ -19,10 +19,8 @@ a.code,
 asrc.urgency,
 asrc.urgency_level,
 asrc.test_id,
-a.standard_code,
-a.child_code
+a.standard_code
 from v_ast_db_plsql__0 a
-inner join v_eba_stds_standard_tests_w_child_code asrc on a.standard_code = asrc.standard_code
-                                                       and a.child_code = asrc.child_code
+inner join v_eba_stds_standard_tests asrc on a.standard_code = asrc.standard_code
 /
 --rollback drop view V_AST_DB_PLSQL_ALL;

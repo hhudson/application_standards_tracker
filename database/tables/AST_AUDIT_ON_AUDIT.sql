@@ -19,7 +19,6 @@
 	ACTION_NAME VARCHAR2(100 CHAR), 
   standard_code varchar2(100),
   AUDIT_ID number,
-  CHILD_CODE varchar2(100),
   ALIDATION_FAILURE_MESSAGE VARCHAR2(4000 CHAR),
 	CREATED DATE, 
 	CREATED_BY VARCHAR2(255 CHAR)
@@ -64,14 +63,6 @@ alter table AST_AUDIT_ON_AUDIT add standard_code varchar2(100)
 --precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where table_name = 'AST_AUDIT_ON_AUDIT' and column_name = 'AUDIT_ID';
 
 alter table AST_AUDIT_ON_AUDIT add AUDIT_ID number
-/
-
---liquibase formatted sql
---changeset table_script:AST_AUDIT_ON_AUDIT.CHILD_CODE stripComments:false runOnChange:true
---preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where table_name = 'AST_AUDIT_ON_AUDIT' and column_name = 'CHILD_CODE';
-
-alter table AST_AUDIT_ON_AUDIT add CHILD_CODE varchar2(100)
 /
 
 --liquibase formatted sql

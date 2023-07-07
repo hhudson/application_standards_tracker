@@ -14,7 +14,6 @@ comment on column AST_PLSQL_APEX_AUDIT.UNQID                                    
 comment on column AST_PLSQL_APEX_AUDIT.LEGACY_YN                                     is q'[]';
 comment on column AST_PLSQL_APEX_AUDIT.OWNER                                         is q'[]';
 comment on column AST_PLSQL_APEX_AUDIT.STANDARD_CODE                                 is q'[]';
-comment on column AST_PLSQL_APEX_AUDIT.CHILD_CODE                                    is q'[]';
 comment on column AST_PLSQL_APEX_AUDIT.ID                                            is q'[Primary Key]';
 comment on column AST_PLSQL_APEX_AUDIT.REFERENCE_CODE                                is q'[candidate for deletion]';
 comment on column AST_PLSQL_APEX_AUDIT.ISSUE_CATEGORY                                is q'[APEX/SERT/PLSQL]';
