@@ -33,7 +33,8 @@ create or replace package body eba_stds_standard_tests_api as
                          p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
                          p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
                          p_explanation           in eba_stds_standard_tests.explanation%type,
-                         p_fix                   in eba_stds_standard_tests.fix%type)
+                         p_fix                   in eba_stds_standard_tests.fix%type,
+                         p_version_number        in eba_stds_standard_tests.version_number%type default null)
    return eba_stds_standard_tests.id%type 
    as 
    c_scope constant varchar2(128) := gc_scope_prefix || 'insert_test';
@@ -73,7 +74,7 @@ create or replace package body eba_stds_standard_tests_api as
       p_level_id,
       p_mv_dependency,
       p_ast_component_type_id,
-      c_default_version_number
+      coalesce(p_version_number,c_default_version_number)
     ) returning id into l_id;
 
     return l_id;
@@ -97,7 +98,8 @@ create or replace package body eba_stds_standard_tests_api as
                          p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
                          p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
                          p_explanation           in eba_stds_standard_tests.explanation%type,
-                         p_fix                   in eba_stds_standard_tests.fix%type)
+                         p_fix                   in eba_stds_standard_tests.fix%type,
+                         p_version_number        in eba_stds_standard_tests.version_number%type default null)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'insert_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -129,7 +131,8 @@ create or replace package body eba_stds_standard_tests_api as
                         p_mv_dependency         => p_mv_dependency,
                         p_ast_component_type_id => p_ast_component_type_id,
                         p_explanation           => p_explanation,
-                        p_fix                   => p_fix
+                        p_fix                   => p_fix,
+                        p_version_number        => p_version_number
                         );
 
     apex_debug.message(c_debug_template, 'l_id', l_id);
@@ -140,42 +143,75 @@ create or replace package body eba_stds_standard_tests_api as
       raise;
   end insert_test;
 
-    -- build md5 function for table eba_stds_standard_tests
-    function build_test_md5 (
-        p_id                    in eba_stds_standard_tests.id%type,
-        p_standard_id           in eba_stds_standard_tests.standard_id%type,
-        p_test_type             in eba_stds_standard_tests.test_type%type,
-        p_test_name                  in eba_stds_standard_tests.test_name%type,
-        p_query_clob            in eba_stds_standard_tests.query_clob%type,
-        p_standard_code         in eba_stds_standard_tests.standard_code%type,
-        p_active_yn             in eba_stds_standard_tests.active_yn%type,
-        p_level_id              in eba_stds_standard_tests.level_id%type,
-        p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-        p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
-        p_explanation           in eba_stds_standard_tests.explanation%type,
-        p_fix                   in eba_stds_standard_tests.fix%type
-    ) return varchar2 is 
-    c_scope constant varchar2(128) := gc_scope_prefix || 'build_test_md5';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  -- build md5 function for table eba_stds_standard_tests
+  function build_test_md5 (
+      p_standard_id           in eba_stds_standard_tests.standard_id%type,
+      p_test_type             in eba_stds_standard_tests.test_type%type,
+      p_test_name                  in eba_stds_standard_tests.test_name%type,
+      p_query_clob            in eba_stds_standard_tests.query_clob%type,
+      p_standard_code         in eba_stds_standard_tests.standard_code%type,
+      p_active_yn             in eba_stds_standard_tests.active_yn%type,
+      p_level_id              in eba_stds_standard_tests.level_id%type,
+      p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
+      p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
+      p_explanation           in eba_stds_standard_tests.explanation%type,
+      p_fix                   in eba_stds_standard_tests.fix%type
+  ) return varchar2 is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'build_test_md5';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    begin
-        apex_debug.message(c_debug_template,'build_test_md5', 'p_id', p_id);
-        
-        return apex_util.get_hash(apex_t_varchar2(
-          p_id,
-          p_standard_id,
-          p_test_type,
-          p_test_name,
-          p_query_clob,
-          p_standard_code,
-          p_active_yn,
-          p_level_id,
-          p_mv_dependency,
-          p_ast_component_type_id,
-          p_explanation,
-          p_fix ));
+  begin
+      apex_debug.message(c_debug_template,'build_test_md5', 'p_standard_code', p_standard_code);
+      
+      return apex_util.get_hash(apex_t_varchar2(
+        p_standard_id,
+        p_test_type,
+        p_test_name,
+        p_query_clob,
+        p_standard_code,
+        p_active_yn,
+        p_level_id,
+        p_mv_dependency,
+        p_ast_component_type_id,
+        p_explanation,
+        p_fix ));
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end build_test_md5;
+
+  function current_md5(p_id in eba_stds_standard_tests.id%type)
+  return varchar2
+  as 
+  l_test_rec eba_stds_standard_tests%rowtype;
+  c_scope constant varchar2(128) := gc_scope_prefix || 'current_md5';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
+
+    select *
+    into l_test_rec
+    from eba_stds_standard_tests
+    where id = p_id;
+
+    return build_test_md5(
+                      l_test_rec.standard_id,
+                      l_test_rec.test_type,
+                      l_test_rec.test_name,
+                      l_test_rec.query_clob,
+                      l_test_rec.standard_code,
+                      l_test_rec.active_yn,
+                      l_test_rec.level_id,
+                      l_test_rec.mv_dependency,
+                      l_test_rec.ast_component_type_id,
+                      l_test_rec.explanation,
+                      l_test_rec.fix
+                  );
   
-    end build_test_md5;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end current_md5;
   
   procedure update_test(p_id                    in eba_stds_standard_tests.id%type default null,
                         p_standard_id           in eba_stds_standard_tests.standard_id%type,
@@ -194,8 +230,48 @@ create or replace package body eba_stds_standard_tests_api as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  
+  l_current_md5  varchar2(32767) := null;
+  l_new_md5      varchar2(32767) := null;
   begin
     apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+
+    l_current_md5 := current_md5(p_id => p_id);
+
+    l_new_md5 := build_test_md5(
+                      p_standard_id,
+                      p_test_type,
+                      p_test_name,
+                      p_query_clob,
+                      p_standard_code,
+                      p_active_yn,
+                      p_level_id,
+                      p_mv_dependency,
+                      p_ast_component_type_id,
+                      p_explanation,
+                      p_fix
+                  );
+ 
+    if l_current_md5 = l_new_md5 then
+      apex_debug.message(c_debug_template, '. nothing to update');
+    else 
+      update eba_stds_standard_tests set
+        standard_id           = p_standard_id,
+        test_type             = p_test_type,
+        test_name             = p_test_name,
+        display_sequence      = p_display_sequence,
+        query_clob            = p_query_clob,
+        owner                 = p_owner,
+        standard_code         = p_standard_code,
+        active_yn             = p_active_yn,
+        level_id              = p_level_id,
+        mv_dependency         = p_mv_dependency,
+        ast_component_type_id = p_ast_component_type_id,
+        explanation           = p_explanation,
+        fix                   = p_fix,
+        version_number        = version_number + 1
+      where id = p_id;
+    end if;
   
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);

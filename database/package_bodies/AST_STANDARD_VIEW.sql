@@ -901,7 +901,7 @@ create or replace package body ast_standard_view as
                                when p_sqlcode = gc_inconsistent_data_types
                                then 'Your query has inconsistent data types : '|| p_sqlerrm
                                when p_sqlcode = gc_table_or_view_does_not_exist
-                               then 'A table in your query does not exist : '||p_sqlerrm
+                               then 'A table/view in your query does not exist : '||p_sqlerrm
                                else p_sqlerrm
                                end
                           ||l_error_explanation;

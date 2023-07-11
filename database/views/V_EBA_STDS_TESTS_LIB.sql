@@ -20,12 +20,20 @@ select estl.id,
        case when esst.id is null 
             then 'N'
             else 'Y'
-            end installed_yn,
+            end standard_code_in_db_yn,
        ess.active_yn standard_active_yn,
        estl.explanation,
        estl.fix,
        estl.level_id,
-       coalesce(asul.urgency_name, '[MISSING URGENCY]') urgency_name
+       coalesce(asul.urgency_name, '[MISSING URGENCY]') urgency_name,
+       estl.version_number imported_version_number,
+       esst.version_number installed_version_number,
+       case when esst.version_number is null 
+            then 'N'
+            when estl.version_number = esst.version_number
+            then 'Y'
+            else 'N'
+            end current_version_installed_yn
   from eba_stds_tests_lib estl
   left outer join eba_stds_standard_tests esst on estl.standard_code = esst.standard_code
   left outer join eba_stds_standards ess on ess.id = estl.standard_id

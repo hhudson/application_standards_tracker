@@ -102,7 +102,8 @@ end;
                        p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
                        p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
                        p_explanation           in eba_stds_standard_tests.explanation%type,
-                       p_fix                   in eba_stds_standard_tests.fix%type)
+                       p_fix                   in eba_stds_standard_tests.fix%type,
+                       p_version_number        in eba_stds_standard_tests.version_number%type default null)
   return eba_stds_standard_tests.id%type;
 
 ------------------------------------------------------------------------------
@@ -143,7 +144,8 @@ end;
                         p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
                         p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
                         p_explanation           in eba_stds_standard_tests.explanation%type,
-                        p_fix                   in eba_stds_standard_tests.fix%type);
+                        p_fix                   in eba_stds_standard_tests.fix%type,
+                        p_version_number        in eba_stds_standard_tests.version_number%type default null);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

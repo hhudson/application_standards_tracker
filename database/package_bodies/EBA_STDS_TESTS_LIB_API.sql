@@ -182,7 +182,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                 p_mv_dependency         => l_lib_rec.mv_dependency,
                 p_ast_component_type_id => l_lib_rec.ast_component_type_id,
                 p_explanation           => l_lib_rec.explanation,
-                p_fix                   => l_lib_rec.fix
+                p_fix                   => l_lib_rec.fix,
+                p_version_number        => l_lib_rec.version_number
                 );
     
   exception when others then
@@ -208,6 +209,36 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
    end delete_test_from_lib;
+
+   function get_id(p_standard_code in eba_stds_tests_lib.standard_code%type)
+   return eba_stds_tests_lib.id%type
+   as 
+   c_scope constant varchar2(128) := gc_scope_prefix || 'get_id';
+   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+   c_space_index constant number := instr(p_standard_code,' ');
+   c_standard_code constant eba_stds_tests_lib.standard_code%type 
+                    := case when c_space_index = 0
+                            then upper(p_standard_code)
+                            else substr (upper(p_standard_code), 1,c_space_index - 1)
+                            end;
+   l_id eba_stds_tests_lib.id%type;
+   begin
+    apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+    
+    select id
+    into l_id
+    from eba_stds_tests_lib
+    where standard_code = c_standard_code;
+
+    return l_id;
+  
+   exception 
+    when no_data_found then
+      return null;
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+   end get_id;
 
 end EBA_STDS_TESTS_LIB_API;
 /

@@ -110,6 +110,22 @@ end;
 ------------------------------------------------------------------------------
     procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type);
 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 11, 2023
+-- Synopsis:
+--
+-- Function to get the primary key of eba_stds_tests_lib from a given standard_code
+--
+/*
+        select eba_stds_tests_lib_api.get_id(:P60_STANDARD_CODE)
+        from dual
+*/
+------------------------------------------------------------------------------
+   function get_id(p_standard_code in eba_stds_tests_lib.standard_code%type)
+   return eba_stds_tests_lib.id%type;
+
 end EBA_STDS_TESTS_LIB_API;
 /
 --rollback drop package EBA_STDS_TESTS_LIB_API;
