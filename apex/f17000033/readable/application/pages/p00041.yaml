@@ -409,6 +409,7 @@ regions:
         sql-query: |
           select paa.assignee, count(*) issue_count
           from ast_plsql_apex_audit paa
+          inner join eba_stds_standard_tests esst on esst.standard_code = paa.standard_code
           left outer join ast_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
           group by paa.assignee
@@ -436,6 +437,120 @@ regions:
       performance: 
         maximum-rows-to-process: 20
 
+- # ====== Region: Exception Count by Standard Group ===========
+  id: 55816689477479639
+  identification: 
+    title: Exception Count by Standard Group
+    type: Chart
+
+  layout: 
+    sequence: 100
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 55816741582479640
+    chart: 
+      type: Pie
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight And Explode
+
+    value: 
+      pie-chart-other-threshold: 0
+      format-scaling: Automatic
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Series 1 ====================================
+      id: 55816800633479641
+      identification: 
+        name: Series 1
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select src.standard_code, count(*) issue_count
+          from ast_plsql_apex_audit paa
+          inner join eba_stds_standard_tests src on paa.standard_code  = src.standard_code
+          inner join eba_stds_standards ess on src.standard_id = ess.id
+          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          where coalesce(aaa.include_in_report_yn,'Y') = 'N'
+          group by src.standard_code
+
+      column-mapping: 
+        label: STANDARD_CODE
+        value: ISSUE_COUNT
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:&STANDARD_ID.'
+          page: 5 # V_EBA_STDS_STANDARD_TESTS
+          clear-cache: 5
+          values: 
+            p5_id: '&STANDARD_ID.'
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
 - # ====== Region: Cumulative Violation Count ==================
   id: 837855174254296830
   identification: 
@@ -450,11 +565,11 @@ regions:
       from mv_issues_created_by_day
 
   layout: 
-    sequence: 100
+    sequence: 110
     parent-region: No Parent
     position: BODY
     start-new-layout: false
-    start-new-row: false
+    start-new-row: true
     column: Automatic
     new-column: true
     column-span: Automatic

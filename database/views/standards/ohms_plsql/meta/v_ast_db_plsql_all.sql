@@ -10,7 +10,7 @@ select
 a.unqid,
 -- asrc.src,
 -- asrc.link_to_doc standard_ref_link,
-asrc.issue_desc,
+asrc.test_name,
 a.object_name, 
 a.object_type, 
 a.line,

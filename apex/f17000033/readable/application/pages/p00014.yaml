@@ -48,56 +48,6 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Instructions for adding Help ================
-  id: 53643093309011922
-  identification: 
-    title: Instructions for adding Help
-    type: Static Content
-
-  source: 
-    html-code: |
-      If you want to provide more details on the underlying violation and instructions on how to fix it, you can provide it here. 
-      <br/> <small>If your query makes use of CHILD_CODE(s) then associate your help with them, otherwise, associate it with the STANDARD_CODE (`&P14_STANDARD_CODE.`).</small>
-
-  layout: 
-    sequence: 10
-    parent-region: Help # 191506219830792031
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7573654784682143972
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--horizontal
-    - t-Alert--defaultIcons
-    - t-Alert--info
-    - t-Alert--accessibleHeading
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 - # ====== Region: Live Test Results ===========================
   id: 53643144549011923
   identification: 
@@ -386,567 +336,6 @@ regions:
       template-options: 
       - '#DEFAULT#'
 
-- # ====== Region: Help ========================================
-  id: 191506219830792031
-  identification: 
-    title: Help
-    type: Static Content
-
-  layout: 
-    sequence: 70
-    parent-region: Automated Test # 7562693978314107360
-    position: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7573656657747143975
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ':P14_STANDARD_CODE is not null and :P14_QUERY_CLOB is not null'
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: SERT HOW TO FIX =============================
-  id: 223431533115172317
-  identification: 
-    title: SERT HOW TO FIX
-    type: Interactive Report
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_SERT_HOW_TO_FIX
-    include-rowid-column: false
-    where-clause: 'test_id = :P14_ID'
-    page-items-to-submit: 
-    - P14_ID
-
-  layout: 
-    sequence: 10
-    parent-region: Help Report # 447717238682139949
-    position: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Interactive Report # 7573669835761143993
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Rows returned
-    sql-query: |
-      select 1
-      from AST_SERT_HOW_TO_FIX
-      where test_id = :P14_ID
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    id: 223431673697172318
-    link: 
-      link-column: Exclude Link Column
-
-    pagination: 
-      type: None
-
-    performance: 
-      lazy-loading: false
-      maximum-rows-to-process: 1000000
-
-    messages: 
-      when-no-data-found: '&nbsp'
-
-    search-bar: 
-      include-search-bar: false
-
-    heading: 
-      fixed-to: Page
-
-    icon-view: 
-      show: false
-
-    detail-view: 
-      show: false
-
-    saved-reports: 
-    - # ====== Saved Report: Primary Report ========================
-      id: 230039807319632020
-      identification: 
-        name: Primary Report
-        alias: 2300399
-
-    columns: 
-    - # ====== Column: ID ==========================================
-      id: 223431794604172319
-      identification: 
-        column-name: ID
-        type: Plain Text
-
-      heading: 
-        heading: ID
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 10
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: ATTRIBUTE_ID ================================
-      id: 223431847642172320
-      identification: 
-        column-name: ATTRIBUTE_ID
-        type: Plain Text
-
-      heading: 
-        heading: Attribute ID
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 20
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: INFO ========================================
-      id: 223431989565172321
-      identification: 
-        column-name: INFO
-        type: Rich Text
-
-      heading: 
-        heading: Official SERT Information
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 30
-        column-alignment: start
-
-      settings: 
-        format: Markdown
-
-      source: 
-        primary-key: false
-
-      enable-users-to: 
-        hide: true
-        filter: true
-        highlight: true
-
-    - # ====== Column: FIX =========================================
-      id: 223432041613172322
-      identification: 
-        column-name: FIX
-        type: Rich Text
-
-      heading: 
-        heading: Official SERT Fix
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 40
-        column-alignment: start
-
-      settings: 
-        format: Markdown
-
-      source: 
-        primary-key: false
-
-      enable-users-to: 
-        hide: true
-        filter: true
-        highlight: true
-
-    - # ====== Column: CREATED =====================================
-      id: 223432196120172323
-      identification: 
-        column-name: CREATED
-        type: Plain Text
-
-      heading: 
-        heading: Created
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 50
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: CREATED_BY ==================================
-      id: 223432264918172324
-      identification: 
-        column-name: CREATED_BY
-        type: Plain Text
-
-      heading: 
-        heading: Created By
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 60
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: UPDATED =====================================
-      id: 223432359107172325
-      identification: 
-        column-name: UPDATED
-        type: Plain Text
-
-      heading: 
-        heading: Updated
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 70
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: UPDATED_BY ==================================
-      id: 223432448770172326
-      identification: 
-        column-name: UPDATED_BY
-        type: Plain Text
-
-      heading: 
-        heading: Updated By
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 80
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: SOURCE_INFO_FIX_MD5 =========================
-      id: 223432562618172327
-      identification: 
-        column-name: SOURCE_INFO_FIX_MD5
-        type: Plain Text
-
-      heading: 
-        heading: Source Info Fix Md5
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 90
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: COLLECTION_NAME =============================
-      id: 223432688828172328
-      identification: 
-        column-name: COLLECTION_NAME
-        type: Plain Text
-
-      heading: 
-        heading: Collection Name
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 100
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: TEST_ID =====================================
-      id: 223432731595172329
-      identification: 
-        column-name: TEST_ID
-        type: Plain Text
-
-      heading: 
-        heading: Test ID
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 110
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
 - # ====== Region: Live Test results ===========================
   id: 223434012666172342
   identification: 
@@ -989,7 +378,6 @@ regions:
              std.apex_created_on, 
              std.apex_last_updated_by, 
              std.apex_last_updated_on,
-             std.child_code,
              std.unqid,
              std.component_id,
              std.parent_component_id,
@@ -1854,47 +1242,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: CHILD_CODE ==================================
-      id: 240631766792034434
-      identification: 
-        column-name: CHILD_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Child Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 410
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: UNQID =======================================
       id: 240632049630034437
       identification: 
@@ -1935,451 +1282,6 @@ regions:
 
       security: 
         escape-special-characters: true
-
-- # ====== Region: Help Report =================================
-  id: 447717238682139949
-  identification: 
-    title: Help Report
-    type: Interactive Report
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_SUB_REFERENCE_CODES
-    include-rowid-column: false
-    where-clause: 'test_id  = :P14_ID'
-    page-items-to-submit: 
-    - P14_ID
-
-  layout: 
-    sequence: 30
-    parent-region: Help # 191506219830792031
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Interactive Report # 7573669835761143993
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    id: 447717358913139949
-    link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:61:&SESSION.::&DEBUG.:RP,61:P61_ID,P61_STANDARD_CODE:\#ID#\,&P14_STANDARD_CODE.'
-        page: 61 # Edit Code Help
-        clear-cache: RP,61
-        values: 
-          p61_id: '#ID#'
-          p61_standard_code: '&P14_STANDARD_CODE.'
-
-      link-icon: <span aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
-      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
-    pagination: 
-      type: None
-
-    performance: 
-      lazy-loading: false
-      maximum-rows-to-process: 10
-
-    messages: 
-      when-no-data-found: No data found.
-      when-more-data-found: 'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
-
-    search-bar: 
-      include-search-bar: true
-      search-field: true
-      finder-drop-down: true
-      reports-select-list: true
-      rows-per-page-selector: false
-      maximum-rows-per-page: 25
-
-    actions-menu: 
-      include-actions-menu: true
-      filter: true
-      select-columns: true
-      rows-per-page: true
-      sort: true
-      control-break: true
-      highlight: true
-      compute: true
-      aggregate: true
-      chart: true
-      group-by: true
-      pivot: true
-      flashback: true
-      save-report: true
-      save-public-report: false
-      reset: true
-      help: true
-      download: false
-
-    heading: 
-      fixed-to: Page
-
-    icon-view: 
-      show: false
-
-    detail-view: 
-      show: false
-
-    saved-reports: 
-    - # ====== Saved Report: Primary Report ========================
-      id: 447723481035140333
-      identification: 
-        name: Primary Report
-        alias: 2238597
-
-    columns: 
-    - # ====== Column: ID ==========================================
-      id: 223864137097577352
-      identification: 
-        column-name: ID
-        type: Hidden Column
-
-      heading: 
-        heading: ID
-
-      layout: 
-        sequence: 0
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: SUB_CODE ====================================
-      id: 223864580431577352
-      identification: 
-        column-name: SUB_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 2
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: EXPLANATION =================================
-      id: 223864932036577352
-      identification: 
-        column-name: EXPLANATION
-        type: Rich Text
-
-      heading: 
-        heading: Explanation
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 3
-        column-alignment: start
-
-      settings: 
-        format: Markdown
-
-      source: 
-        primary-key: false
-
-      enable-users-to: 
-        hide: true
-        filter: true
-        highlight: true
-
-    - # ====== Column: CREATED =====================================
-      id: 223865337704577353
-      identification: 
-        column-name: CREATED
-        type: Plain Text
-
-      heading: 
-        heading: Created
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 4
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      appearance: 
-        format-mask: SINCE
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: CREATED_BY ==================================
-      id: 223865737306577353
-      identification: 
-        column-name: CREATED_BY
-        type: Plain Text
-
-      heading: 
-        heading: Created By
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 5
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: UPDATED =====================================
-      id: 223866118878577353
-      identification: 
-        column-name: UPDATED
-        type: Plain Text
-
-      heading: 
-        heading: Updated
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 6
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      appearance: 
-        format-mask: SINCE
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: UPDATED_BY ==================================
-      id: 223866588176577353
-      identification: 
-        column-name: UPDATED_BY
-        type: Plain Text
-
-      heading: 
-        heading: Updated By
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 7
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: FIX =========================================
-      id: 223866918596577353
-      identification: 
-        column-name: FIX
-        type: Rich Text
-
-      heading: 
-        heading: Fix
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 8
-        column-alignment: start
-
-      settings: 
-        format: Markdown
-
-      source: 
-        primary-key: false
-
-      enable-users-to: 
-        hide: true
-        filter: true
-        highlight: true
-
-    - # ====== Column: TEST_ID =====================================
-      id: 223867305937577354
-      identification: 
-        column-name: TEST_ID
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: EBA_STDS_STANDARD_TESTS # 408630547578879702
-
-      heading: 
-        heading: Test
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 9
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
 
 - # ====== Region: Buttons =====================================
   id: 7094082318946085125
@@ -2642,6 +1544,120 @@ page-items:
   help: 
     help-text: What type of component are you targeting for your test? This choice will inform where the test will link to
 
+- # ====== Page Item: P14_EXPLANATION ==========================
+  id: 55816995150479642
+  identification: 
+    name: P14_EXPLANATION
+    type: Rich Text Editor
+
+  label: 
+    label: Explanation
+    alignment: Left
+
+  settings: 
+    library: TinyMCE
+    format: Markdown
+    minimum-height: 180
+
+  layout: 
+    sequence: 110
+    region: Configuration # 115235287601846904
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Automated Test # 7562693978314107360
+    column: EXPLANATION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Provide more detail on the nature of this violation. Why is it a problem?
+
+- # ====== Page Item: P14_FIX ==================================
+  id: 55817082162479643
+  identification: 
+    name: P14_FIX
+    type: Rich Text Editor
+
+  label: 
+    label: Fix
+    alignment: Left
+
+  settings: 
+    library: TinyMCE
+    format: Markdown
+    minimum-height: 180
+
+  layout: 
+    sequence: 120
+    region: Configuration # 115235287601846904
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Automated Test # 7562693978314107360
+    column: FIX
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Propose an approach to fixing this violation
+
 - # ====== Page Item: P14_CREATED ==============================
   id: 115235592823846907
   identification: 
@@ -2836,7 +1852,6 @@ page-items:
       <ul>
           <li>validation_failure_message : human readable, long-form description of violation (for apex issue)</li>
           <li>issue_title : human readable, short-form description of violation (for apex issue)</li>
-          <li>child_code : for advanced use if there are >1 standards in this query, otherwise leave null</li>
           <li>component_id: the primary key of underlying component</li>
       </ul>
 
@@ -2877,18 +1892,18 @@ page-items:
   id: 115236298414846914
   identification: 
     name: P14_STANDARD_CODE
-    type: Text Field
+    type: Text Field with autocomplete
 
   label: 
     label: Standard Code
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    search: Contains & Ignore Case
+    fetch-on-type: true
+    cache: true
+    maximum-values-in-list: 7
+    minimum-search: 1
 
   layout: 
     sequence: 20
@@ -2912,6 +1927,11 @@ page-items:
     value-required: true
     maximum-length: 100
 
+  list-of-values: 
+    type: SQL Query
+    sql-query: select standard_code from eba_stds_standard_tests
+    display-extra-values: true
+
   advanced: 
     warn-on-unsaved-changes: Page Default
 
@@ -2925,12 +1945,9 @@ page-items:
   session-state: 
     storage: Per Session (Persistent)
 
-  quick-picks: 
-    show-quick-picks: false
-
   read-only: 
     type: Item is NOT NULL
-    item: P14_STANDARD_CODE
+    item: P14_ID
 
   security: 
     session-state-protection: Unrestricted
@@ -2954,7 +1971,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 110
+    sequence: 130
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2992,7 +2009,7 @@ page-items:
   read-only: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'eba_stds_security.get_authorization_level(:APP_USER) < 3'
+    pl/sql-expression: 'eba_stds_security.get_authorization_level(:APP_USER) < 2'
 
   security: 
     session-state-protection: Unrestricted
@@ -3553,47 +2570,6 @@ buttons:
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
 
-- # ====== Button: Merge_sample_data ===========================
-  id: 53286220799029370
-  identification: 
-    button-name: Merge_sample_data
-    label: Available Sample Data
-
-  layout: 
-    sequence: 10
-    region: Help Report # 447717238682139949
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--success
-    - t-Button--simple
-    - t-Button--iconLeft
-    icon: fa-filter
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME,P44_TEST_ID:EBA_TEST_HELP_LIB,&P14_ID.'
-      page: 44 # Inspect Static File contents
-      clear-cache: CR,44
-      values: 
-        p44_table_name: EBA_TEST_HELP_LIB
-        p44_test_id: '&P14_ID.'
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
 - # ====== Button: CURRENT_VIOLATIONS ==========================
   id: 54726858435995732
   identification: 
@@ -3632,8 +2608,9 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   server-side-condition: 
-    type: Item is NOT NULL
-    item: P14_ID
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P14_ID is not null and :P14_ACTIVE_YN = 'Y'"
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
@@ -3673,45 +2650,6 @@ buttons:
 
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
-
-- # ====== Button: CREATE_HELP =================================
-  id: 223868021399577364
-  identification: 
-    button-name: CREATE_HELP
-    label: Create Help
-
-  layout: 
-    sequence: 30
-    region: Help Report # 447717238682139949
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--noUI
-    icon: fa-plus
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:61:&SESSION.::&DEBUG.:61:P61_TEST_ID,P61_STANDARD_CODE:&P14_ID.,&P14_STANDARD_CODE.'
-      page: 61 # Edit Code Help
-      clear-cache: 61
-      values: 
-        p61_test_id: '&P14_ID.'
-        p61_standard_code: '&P14_STANDARD_CODE.'
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
 - # ====== Button: Rerun_audit =================================
   id: 240632191206034438
@@ -3794,41 +2732,6 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-- # ====== Button: Reset =======================================
-  id: 282801772266565207
-  identification: 
-    button-name: Reset
-    label: Reset
-
-  layout: 
-    sequence: 40
-    region: Help Report # 447717238682139949
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--warning
-    - t-Button--noUI
-    - t-Button--iconRight
-    icon: fa-undo-arrow
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,::'
-      page: 14 # Manage Standard
-      clear-cache: RR
-
-    warn-on-unsaved-changes: Do Not Check
-
 - # ====== Button: Reset_LTR ===================================
   id: 282801880058565208
   identification: 
@@ -3838,41 +2741,6 @@ buttons:
   layout: 
     sequence: 40
     region: Live Test results # 223434012666172342
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--warning
-    - t-Button--noUI
-    - t-Button--iconRight
-    icon: fa-undo-arrow
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,::'
-      page: 14 # Manage Standard
-      clear-cache: RR
-
-    warn-on-unsaved-changes: Do Not Check
-
-- # ====== Button: Reset_HTF ===================================
-  id: 282801953204565209
-  identification: 
-    button-name: Reset_HTF
-    label: Reset
-
-  layout: 
-    sequence: 10
-    region: SERT HOW TO FIX # 223431533115172317
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -4248,72 +3116,6 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-- # ====== Dynamic Action: Refresh on create ===================
-  id: 262035668979761334
-  identification: 
-    name: Refresh on create
-
-  execution: 
-    sequence: 50
-
-  when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
-    selection-type: Button
-    button: CREATE_HELP # 223868021399577364
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Refresh =====================================
-    id: 262035758386761335
-    identification: 
-      action: Refresh
-
-    affected-elements: 
-      selection-type: Region
-      region: Help Report # 447717238682139949
-
-    execution: 
-      sequence: 10
-      event: Refresh on create # 262035668979761334
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-- # ====== Dynamic Action: Refresh =============================
-  id: 262035896454761336
-  identification: 
-    name: Refresh
-
-  execution: 
-    sequence: 60
-
-  when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
-    selection-type: Region
-    region: Help Report # 447717238682139949
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Refresh =====================================
-    id: 262035927467761337
-    identification: 
-      action: Refresh
-
-    affected-elements: 
-      selection-type: Region
-      region: Help Report # 447717238682139949
-
-    execution: 
-      sequence: 10
-      event: Refresh # 262035896454761336
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
 - # ====== Dynamic Action: rerunAudit ==========================
   id: 282803581260565225
   identification: 
@@ -4631,6 +3433,9 @@ computations:
       select case when :P14_SHORT_NAME is null 
                   then '- New Standard'
                   else apex_string.format('`%s`',:P14_SHORT_NAME)
+                  end ||
+             case when :P14_ACTIVE_YN ='N'
+                  then ' [INACTIVE]'
                   end hidden_name 
        from dual
 

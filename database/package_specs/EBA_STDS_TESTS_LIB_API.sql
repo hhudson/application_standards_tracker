@@ -36,7 +36,6 @@ begin
         p_query_clob            => 'blerg',
         p_standard_code         => 'blerg',
         p_active_yn             => null,
-        p_issue_desc            => 'blerg',
         p_mv_dependency         => null,
         p_ast_component_type_id => 1
     );
@@ -51,9 +50,11 @@ end;
         p_query_clob            in eba_stds_tests_lib.query_clob%type,
         p_standard_code         in eba_stds_tests_lib.standard_code%type,
         p_active_yn             in eba_stds_tests_lib.active_yn%type,
-        p_issue_desc            in eba_stds_tests_lib.issue_desc%type,
         p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
-        p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type
+        p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type,
+        p_explanation           in eba_stds_tests_lib.explanation%type,
+        p_fix                   in eba_stds_tests_lib.fix%type,
+        p_level_id              in eba_stds_tests_lib.level_id%type
     );
 
 ------------------------------------------------------------------------------

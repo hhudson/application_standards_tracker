@@ -54,7 +54,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARD_TESTS_W_CHILD_CODE
+    table-name: V_EBA_STDS_STANDARD_TESTS
     include-rowid-column: false
     where-clause: 'standard_id = :P5_ID or :P5_ID is null'
 
@@ -104,7 +104,7 @@ regions:
       authorization-scheme: APPLICATION SENTRY # 10780233005961370815
 
     pagination: 
-      type: Row Ranges X to Y
+      type: Row Ranges X to Y of Z
       display-position: Bottom - Right
 
     performance: 
@@ -296,147 +296,6 @@ regions:
         group-by: true
         pivot: true
 
-    - # ====== Column: SUB_SRC_ID ==================================
-      id: 55814590090479618
-      identification: 
-        column-name: SUB_SRC_ID
-        type: Hidden Column
-
-      heading: 
-        heading: Sub SRC ID
-
-      layout: 
-        sequence: 340
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: FIX_DEFINED_YN ==============================
-      id: 55814659711479619
-      identification: 
-        column-name: FIX_DEFINED_YN
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: YES NO # 10458821105493383260
-
-      heading: 
-        heading: Fix Defined
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 350
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-    - # ====== Column: SERT_HELP_YN ================================
-      id: 55814785420479620
-      identification: 
-        column-name: SERT_HELP_YN
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: YES NO # 10458821105493383260
-
-      heading: 
-        heading: Sert Help
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 360
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-    - # ====== Column: CHILD_CODE ==================================
-      id: 55814845610479621
-      identification: 
-        column-name: CHILD_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 370
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: EXPLANATION =================================
       id: 55814973398479622
       identification: 
@@ -565,6 +424,88 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+    - # ====== Column: DISPLAY_SEQUENCE ============================
+      id: 55817126613479644
+      identification: 
+        column-name: DISPLAY_SEQUENCE
+        type: Plain Text
+
+      heading: 
+        heading: Display Sequence
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 410
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_DESC ==================================
+      id: 55817276390479645
+      identification: 
+        column-name: ISSUE_DESC
+        type: Plain Text
+
+      heading: 
+        heading: Issue Desc
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 420
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
 
     - # ====== Column: STANDARD_CODE ===============================
       id: 115236300983846915
@@ -817,50 +758,6 @@ regions:
 
       advanced: 
         static-id: TEST_ID
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: ISSUE_DESC ==================================
-      id: 219832009589983045
-      identification: 
-        column-name: ISSUE_DESC
-        type: Plain Text
-
-      heading: 
-        heading: Issue Desc
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 200
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      advanced: 
-        static-id: ISSUE_DESC
 
       enable-users-to: 
         hide: true

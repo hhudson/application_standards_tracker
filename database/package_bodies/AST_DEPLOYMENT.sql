@@ -48,8 +48,9 @@ create or replace package body AST_DEPLOYMENT as
     raise;
   end exclude_id_yn;
 
-  function json_content_blob (p_table_name in user_tables.table_name%type,
-                              p_row_limit in number default null)
+  function json_content_blob (p_table_name    in user_tables.table_name%type,
+                              p_row_limit     in number default null,
+                              p_standard_code in eba_stds_standard_tests.standard_code%type default null)
   return blob
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_blob';
@@ -58,18 +59,21 @@ create or replace package body AST_DEPLOYMENT as
   c_exclude_id_yn varchar2(1) := exclude_id_yn (p_table_name => c_table_name);
   c_query_template constant varchar2(1000) := 
   'select json_arrayagg(json_object (jn.* returning clob) returning blob)
-   from (select *
+   from (select asrc.* %4
         from   except_cols (  
           %0,  
           columns ( %1 )  
         ) asrc
+        %3
         %2) jn';
+  c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
   l_query clob;
   l_file_blob blob;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name,
-                                        'p_row_limit', p_row_limit);
+                                        'p_row_limit', p_row_limit,
+                                        'p_standard_code', p_standard_code);
     
 
     l_query := apex_string.format(
@@ -80,6 +84,12 @@ create or replace package body AST_DEPLOYMENT as
                  end||'created, created_by, updated, updated_by, date_started, row_version_number, account_locked',
       p2 => case when p_row_limit is not null
                  then 'fetch first '||p_row_limit||' rows only'
+                 end,
+      p3 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_standard_code is not null
+                 then apex_string.format(q'[where standard_code = '%s']', c_standard_code)
+                 end,
+      p4 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_standard_code is not null
+                 then apex_string.format(q'[, '%s' workspace]', ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE'))
                  end
     );
 

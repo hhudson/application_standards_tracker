@@ -1,7 +1,7 @@
 create or replace force view v_ast_db_view_all as
 select 
 a.pass_yn,
-asrc.issue_desc,
+asrc.test_name,
 a.view_name, 
 asrc.urgency,
 asrc.urgency_level,

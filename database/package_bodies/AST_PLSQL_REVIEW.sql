@@ -144,7 +144,7 @@ create or replace package body ast_plsql_review as
   cursor cur_pkg_issues
    is
       select  
-        substr(esst.explanation,1,500) issue_desc,
+        substr(esst.explanation,1,500) explanation,
         dp.object_name,
         dp.object_type,
         dp.line,
@@ -162,7 +162,7 @@ create or replace package body ast_plsql_review as
       order by urgency_level, esst.explanation, object_name, line, code;
 
   type r_v_ast_db_plsql is record (
-    issue_desc              varchar2(511   char),
+    test_name               varchar2(511   char),
     object_name             varchar2(128   char),  
     object_type             varchar2(23    char),   
     line                    number,
@@ -179,7 +179,7 @@ create or replace package body ast_plsql_review as
       select *
       from ast.v_ast_db_view_all
       where (view_name = c_object_name or c_object_name is null)
-      order by urgency_level, issue_desc, view_name;
+      order by urgency_level, test_name, view_name;
 
   type t_ast_db_view_issue is table of ast.v_ast_db_view_all%rowtype index by pls_integer;
   l_vw_issue_t t_ast_db_view_issue;
@@ -189,7 +189,7 @@ create or replace package body ast_plsql_review as
       select *
       from ast.v_ast_db_tbl_all
       where (table_name = c_object_name or c_object_name is null)
-      order by urgency_level, issue_desc, table_name;
+      order by urgency_level, test_name, table_name;
 
   type t_ast_db_tbl_issue is table of ast.v_ast_db_tbl_all%rowtype index by pls_integer;
   l_tbl_issue_t t_ast_db_tbl_issue;
@@ -299,7 +299,7 @@ create or replace package body ast_plsql_review as
             l_issue_shown_count := l_issue_shown_count + 1;
 
             pipe row (ast_db_plsql_issue_ot (
-                          l_pkg_issue_t (rec).issue_desc,
+                          l_pkg_issue_t (rec).test_name,
                           l_pkg_issue_t (rec).object_name,
                           l_pkg_issue_t (rec).object_type,
                           l_pkg_issue_t (rec).line,
@@ -353,7 +353,7 @@ create or replace package body ast_plsql_review as
         loop
 
             pipe row (ast_db_plsql_issue_ot (
-                          l_vw_issue_t (rec).issue_desc,
+                          l_vw_issue_t (rec).test_name,
                           l_vw_issue_t (rec).view_name,
                           gc_view,
                           null,
@@ -378,7 +378,7 @@ create or replace package body ast_plsql_review as
         loop
 
             pipe row (ast_db_plsql_issue_ot (
-                          l_tbl_issue_t (rec).issue_desc,
+                          l_tbl_issue_t (rec).test_name,
                           l_tbl_issue_t (rec).table_name,
                           gc_table,
                           null,

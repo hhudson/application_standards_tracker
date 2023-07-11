@@ -8,7 +8,7 @@ select  st.id test_id,
         asul.name urgency, 
         asul.urgency_level,
         st.display_sequence,
-        st.name test_name,
+        st.test_name,
         st.standard_code,
         st.test_type,
         st.standard_id,
@@ -22,13 +22,13 @@ select  st.id test_id,
             then 'Y'
             else 'N'
             end src_recent_change_yn,
-       st.issue_desc,
        st.mv_dependency,
        st.ast_component_type_id,
        act.component_name,
        ess.active_yn standard_active_yn,
        st.explanation,
-       st.fix
+       st.fix,
+       st.version_number
 from eba_stds_standard_tests st
 inner join eba_stds_standards ess on st.standard_id = ess.id
 inner join ast_component_types act on act.id = st.ast_component_type_id

@@ -17,7 +17,190 @@ create or replace package eba_stds_standard_tests_api authid definer as
 --
 -- MODIFIED  (YYYY-MON-DD)
 -- change_me  YYYY-MON-DD - created
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+      :P14_ID := eba_stds_standard_tests_api.insert_test(
+                  p_id                    => :P14_ID,
+                  p_standard_id           => :P14_STANDARD_ID,
+                  p_test_type             => :P14_TEST_TYPE,
+                  p_test_name                  => :P14_SHORT_NAME,
+                  p_display_sequence      => :P14_DISPLAY_SEQUENCE,
+                  p_query_clob            => :P14_QUERY_CLOB,
+                  p_owner                 => :P14_OWNER,
+                  p_standard_code         => :P14_STANDARD_CODE,
+                  p_active_yn             => :P14_ACTIVE_YN,
+                  p_level_id              => :P14_LEVEL_ID,
+                  p_mv_dependency         => :P14_MV_DEPENDENCY,
+                  p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
+                  p_explanation           => :P14_EXPLANATION,
+                  p_fix                   => :P14_FIX
+                );
+    when 'U' then
+      eba_stds_standard_tests_api.update_test(
+                          p_id                    => :P14_ID,
+                          p_standard_id           => :P14_STANDARD_ID,
+                          p_test_type             => :P14_TEST_TYPE,
+                          p_test_name                  => :P14_SHORT_NAME,
+                          p_display_sequence      => :P14_DISPLAY_SEQUENCE,
+                          p_query_clob            => :P14_QUERY_CLOB,
+                          p_owner                 => :P14_OWNER,
+                          p_standard_code         => :P14_STANDARD_CODE,
+                          p_active_yn             => :P14_ACTIVE_YN,
+                          p_level_id              => :P14_LEVEL_ID,
+                          p_mv_dependency         => :P14_MV_DEPENDENCY,
+                          p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
+                          p_explanation           => :P14_EXPLANATION,
+                          p_fix                   => :P14_FIX
+                        );
+    when 'D' then
+      eba_stds_standard_tests_api.delete_test(p_id => :P14_ID);
+  end case;
+end;
+*/
 ---------------------------------------------------------------------------- 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Jul-10
+-- Synopsis:
+--
+-- Procedure to insert new record into  eba_stds_standard_tests
+--
+/*
+begin
+    eba_stds_standard_tests_api.insert_test(
+                p_id                    => p_id,
+                p_standard_id           => p_standard_id,
+                p_test_type             => p_test_type,
+                p_test_name             => p_test_name,
+                p_display_sequence      => p_display_sequence,
+                p_query_clob            => p_query_clob,
+                p_owner                 => p_owner,
+                p_standard_code         => p_standard_code,
+                p_active_yn             => p_active_yn,
+                p_level_id              => p_level_id,
+                p_mv_dependency         => p_mv_dependency,
+                p_ast_component_type_id => p_ast_component_type_id,
+                p_explanation           => p_explanation,
+                p_fix                   => p_fix
+              );
+end;
+*/
+------------------------------------------------------------------------------
+  function insert_test(p_id                    in eba_stds_standard_tests.id%type default null,
+                       p_standard_id           in eba_stds_standard_tests.standard_id%type,
+                       p_test_type             in eba_stds_standard_tests.test_type%type,
+                       p_test_name             in eba_stds_standard_tests.test_name%type,
+                       p_display_sequence      in eba_stds_standard_tests.display_sequence%type default null,
+                       p_query_clob            in eba_stds_standard_tests.query_clob%type,
+                       p_owner                 in eba_stds_standard_tests.owner%type,
+                       p_standard_code         in eba_stds_standard_tests.standard_code%type,
+                       p_active_yn             in eba_stds_standard_tests.active_yn%type,
+                       p_level_id              in eba_stds_standard_tests.level_id%type,
+                       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
+                       p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
+                       p_explanation           in eba_stds_standard_tests.explanation%type,
+                       p_fix                   in eba_stds_standard_tests.fix%type)
+  return eba_stds_standard_tests.id%type;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: June 14, 2023
+-- Synopsis:
+--
+-- Procedure to insert new record into  eba_stds_standard_tests (called by EBA_STDS_TESTS_LIB_API.install_standard_test)
+--
+/*
+begin
+    eba_stds_standard_tests_api.insert_test(
+                p_id                    => p_id,
+                p_standard_id           => p_standard_id,
+                p_test_type             => p_test_type,
+                p_test_name             => p_test_name,
+                p_display_sequence      => p_display_sequence,
+                p_query_clob            => p_query_clob,
+                p_owner                 => p_owner,
+                p_standard_code         => p_standard_code,
+                p_active_yn             => p_active_yn,
+                p_level_id              => p_level_id,
+                p_mv_dependency         => p_mv_dependency,
+                p_ast_component_type_id => p_ast_component_type_id);
+end;
+*/
+------------------------------------------------------------------------------
+  procedure insert_test(p_id                    in eba_stds_standard_tests.id%type default null,
+                        p_standard_id           in eba_stds_standard_tests.standard_id%type,
+                        p_test_type             in eba_stds_standard_tests.test_type%type,
+                        p_test_name             in eba_stds_standard_tests.test_name%type,
+                        p_display_sequence      in eba_stds_standard_tests.display_sequence%type default null,
+                        p_query_clob            in eba_stds_standard_tests.query_clob%type,
+                        p_owner                 in eba_stds_standard_tests.owner%type,
+                        p_standard_code         in eba_stds_standard_tests.standard_code%type,
+                        p_active_yn             in eba_stds_standard_tests.active_yn%type,
+                        p_level_id              in eba_stds_standard_tests.level_id%type,
+                        p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
+                        p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
+                        p_explanation           in eba_stds_standard_tests.explanation%type,
+                        p_fix                   in eba_stds_standard_tests.fix%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 10, 2023
+-- Synopsis:
+--
+-- Procedure to update eba_stds_standard_tests
+--
+/*
+begin
+  eba_stds_standard_tests_api.update_test(
+                          p_id                    => :P14_ID,
+                          p_standard_id           => :P14_STANDARD_ID,
+                          p_test_type             => :P14_TEST_TYPE,
+                          p_test_name             => :P14_SHORT_NAME,
+                          p_display_sequence      => :P14_DISPLAY_SEQUENCE,
+                          p_query_clob            => :P14_QUERY_CLOB,
+                          p_owner                 => :P14_OWNER,
+                          p_standard_code         => :P14_STANDARD_CODE,
+                          p_active_yn             => :P14_ACTIVE_YN,
+                          p_level_id              => :P14_LEVEL_ID,
+                          p_mv_dependency         => :P14_MV_DEPENDENCY,
+                          p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
+                          p_explanation           => :P14_EXPLANATION,
+                          p_fix                   => :P14_FIX
+end;
+*/
+------------------------------------------------------------------------------
+    procedure update_test(p_id                    in eba_stds_standard_tests.id%type default null,
+                          p_standard_id           in eba_stds_standard_tests.standard_id%type,
+                          p_test_type             in eba_stds_standard_tests.test_type%type,
+                          p_test_name             in eba_stds_standard_tests.test_name%type,
+                          p_display_sequence      in eba_stds_standard_tests.display_sequence%type default null,
+                          p_query_clob            in eba_stds_standard_tests.query_clob%type,
+                          p_owner                 in eba_stds_standard_tests.owner%type,
+                          p_standard_code         in eba_stds_standard_tests.standard_code%type,
+                          p_active_yn             in eba_stds_standard_tests.active_yn%type,
+                          p_level_id              in eba_stds_standard_tests.level_id%type,
+                          p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
+                          p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
+                          p_explanation           in eba_stds_standard_tests.explanation%type,
+                          p_fix                   in eba_stds_standard_tests.fix%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 10, 2023
+-- Synopsis:
+--
+-- Procedure to delete test
+--
+/*
+begin
+  eba_stds_standard_tests_api.delete_test(p_id => :P14_ID);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_test(p_id in eba_stds_standard_tests.id%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -76,45 +259,22 @@ from dual
     function get_test_id (p_standard_code in eba_stds_standard_tests.standard_code%type)
     return eba_stds_standard_tests.id%type;
 
-------------------------------------------------------------------------------
+ 
+ ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
---     Date: June 14, 2023
+--     Date: July 10, 2023
 -- Synopsis:
 --
--- Procedure to insert new record into  eba_stds_standard_tests
+-- Function to query the V_EBA_STDS_STANDARD_TESTS view with some additional columns
+-- namely the download test sample file
 --
 /*
-begin
-    eba_stds_standard_tests_api.insert_test(
-                p_id                    => p_id,
-                p_standard_id           => p_standard_id,
-                p_test_type             => p_test_type,
-                p_name                  => p_name,
-                p_display_sequence      => p_display_sequence,
-                p_query_clob            => p_query_clob,
-                p_owner                 => p_owner,
-                p_standard_code         => p_standard_code,
-                p_active_yn             => p_active_yn,
-                p_issue_desc            => p_issue_desc,
-                p_level_id              => p_level_id,
-                p_mv_dependency         => p_mv_dependency,
-                p_ast_component_type_id => p_ast_component_type_id);
-end;
+select *
+from eba_stds_standard_tests_api.v_eba_stds_standard_tests()
 */
 ------------------------------------------------------------------------------
-  procedure insert_test(p_id                    in eba_stds_standard_tests.id%type default null,
-                        p_standard_id           in eba_stds_standard_tests.standard_id%type,
-                        p_test_type             in eba_stds_standard_tests.test_type%type,
-                        p_name                  in eba_stds_standard_tests.name%type,
-                        p_display_sequence      in eba_stds_standard_tests.display_sequence%type default null,
-                        p_query_clob            in eba_stds_standard_tests.query_clob%type,
-                        p_owner                 in eba_stds_standard_tests.owner%type,
-                        p_standard_code         in eba_stds_standard_tests.standard_code%type,
-                        p_active_yn             in eba_stds_standard_tests.active_yn%type,
-                        p_issue_desc            in eba_stds_standard_tests.issue_desc%type,
-                        p_level_id              in eba_stds_standard_tests.level_id%type,
-                        p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-                        p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type);
+  function v_eba_stds_standard_tests
+  return v_eba_stds_standard_tests_nt pipelined;
 
 end eba_stds_standard_tests_api;
 /

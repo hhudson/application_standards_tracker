@@ -11,7 +11,6 @@ with aspaa as (
            paa.issue_category,
            paa.application_id,
            vaa.application_name,
-           src.issue_desc,
            src.test_name,
            paa.page_id,
            paa.pass_yn,
@@ -72,7 +71,6 @@ select
     a.issue_category,
     a.application_id,
     a.application_name,
-    a.issue_desc,
     a.page_id,
     a.pass_yn,
     a.test_id,
@@ -87,7 +85,7 @@ select
     p_message => q'^
 |Issue Description|
 |-----------------|
-|(%2) %1|
+|%2|
 |%10|
 |%7|
 
@@ -108,8 +106,6 @@ Questions/concerns? Contact hayden.h.hudson@oracle.com.
 Audit id : %3
     ^',
     p0  => a.validation_failure_message,
--- 
-    p1  => a.issue_desc,
     p2  => a.test_name,
     p3  => a.audit_id,
     p4 => case when a.notes is not null

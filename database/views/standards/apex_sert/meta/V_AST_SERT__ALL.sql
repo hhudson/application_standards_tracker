@@ -38,11 +38,11 @@ select a0.pass_yn,
        a0.validation_failure_message,
        a0.issue_title,
        a0.collection_name sert_attribute_key,
-       asrc.issue_desc,
        asrc.urgency,
        asrc.urgency_level,
        asrc.test_id,
-       a0.standard_code
+       a0.standard_code,
+       asrc.test_name
 from data a0
 left join v_eba_stds_standard_tests asrc on asrc.standard_code = a0.collection_name
 inner join v_apex_applications aa on aa.application_id = a0.application_id

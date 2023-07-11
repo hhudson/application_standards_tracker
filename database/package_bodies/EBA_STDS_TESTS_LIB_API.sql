@@ -27,9 +27,11 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_query_clob            in eba_stds_tests_lib.query_clob%type,
         p_standard_code         in eba_stds_tests_lib.standard_code%type,
         p_active_yn             in eba_stds_tests_lib.active_yn%type,
-        p_issue_desc            in eba_stds_tests_lib.issue_desc%type,
         p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
-        p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type
+        p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type,
+        p_explanation           in eba_stds_tests_lib.explanation%type,
+        p_fix                   in eba_stds_tests_lib.fix%type,
+        p_level_id              in eba_stds_tests_lib.level_id%type
     )
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'upsert';
@@ -43,7 +45,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                                         'p_query_clob', p_query_clob,
                                         'p_standard_code', p_standard_code,
                                         'p_active_yn', p_active_yn,
-                                        'p_issue_desc', p_issue_desc,
                                         'p_mv_dependency', p_mv_dependency,
                                         'p_ast_component_type_id', p_ast_component_type_id
                                         );
@@ -56,9 +57,11 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_query_clob            query_clob,
                   p_standard_code         standard_code,
                   p_active_yn             active_yn,
-                  p_issue_desc            issue_desc,
                   p_mv_dependency         mv_dependency,
-                  p_ast_component_type_id ast_component_type_id
+                  p_ast_component_type_id ast_component_type_id,
+                  p_explanation           explanation,
+                  p_fix                   fix,
+                  p_level_id              level_id
            from dual) h
     on (e.standard_code = h.standard_code and e.workspace = h.workspace)
     when matched then
@@ -67,9 +70,11 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                e.test_id               = h.test_id,
                e.query_clob            = h.query_clob,
                e.active_yn             = h.active_yn,
-               e.issue_desc            = h.issue_desc,
                e.mv_dependency         = h.mv_dependency,
-               e.ast_component_type_id = h.ast_component_type_id
+               e.ast_component_type_id = h.ast_component_type_id,
+               e.explanation           = h.explanation,
+               e.fix                   = h.fix,
+               e.level_id              = h.level_id
     when not matched then
     insert (standard_code,
             workspace,
@@ -78,9 +83,11 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             test_id,
             query_clob,
             active_yn,
-            issue_desc,
             mv_dependency,
-            ast_component_type_id)
+            ast_component_type_id,
+            explanation,
+            fix,
+            level_id)
     values (h.standard_code,
             h.workspace,
             h.standard_id,
@@ -88,9 +95,12 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             h.test_id,
             h.query_clob,
             h.active_yn,
-            h.issue_desc,
             h.mv_dependency,
-            h.ast_component_type_id);
+            h.ast_component_type_id,
+            h.explanation,
+            h.fix,
+            h.level_id
+            );
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -108,13 +118,15 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     for rec in (
       select id test_id,
              standard_id,
-             name test_name,
+             test_name,
              query_clob,
              standard_code,
              active_yn,
-             issue_desc,
              mv_dependency,
-             ast_component_type_id
+             ast_component_type_id,
+             explanation,
+             fix,
+             level_id
       from eba_stds_standard_tests
       order by 1
     ) loop
@@ -126,9 +138,11 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_query_clob            => rec.query_clob,
         p_standard_code         => rec.standard_code,
         p_active_yn             => rec.active_yn,
-        p_issue_desc            => rec.issue_desc,
         p_mv_dependency         => rec.mv_dependency,
-        p_ast_component_type_id => rec.ast_component_type_id
+        p_ast_component_type_id => rec.ast_component_type_id,
+        p_explanation           => rec.explanation,
+        p_fix                   => rec.fix,
+        p_level_id              => rec.level_id
       );
     end loop;
 
@@ -159,15 +173,17 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                 p_id                    => l_lib_rec.test_id,
                 p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
                 p_test_type             => 'FAIL_REPORT', 
-                p_name                  => l_lib_rec.test_name,
+                p_test_name             => l_lib_rec.test_name,
                 p_query_clob            => l_lib_rec.query_clob,
                 p_owner                 => ast_preferences.get_preference ('AST_DEFAULT_SCHEMA'),
                 p_standard_code         => l_lib_rec.standard_code,
                 p_active_yn             => 'N',
-                p_issue_desc            => l_lib_rec.issue_desc,
                 p_level_id              => coalesce(p_urgency_level_id, ast_urgency_level_api.get_default_level_id),
                 p_mv_dependency         => l_lib_rec.mv_dependency,
-                p_ast_component_type_id => l_lib_rec.ast_component_type_id);
+                p_ast_component_type_id => l_lib_rec.ast_component_type_id,
+                p_explanation           => l_lib_rec.explanation,
+                p_fix                   => l_lib_rec.fix
+                );
     
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -192,7 +208,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
    end delete_test_from_lib;
-
 
 end EBA_STDS_TESTS_LIB_API;
 /

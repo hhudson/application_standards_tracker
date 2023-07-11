@@ -2280,7 +2280,7 @@ regions:
 
     enable-users-to: 
       sort: false
-      hide: true
+      hide: false
 
   - # ====== Column: LINK_TO_APEX_ISSUE ==========================
     id: 105505289450911929
@@ -2643,6 +2643,7 @@ regions:
       type: Display Only
 
     heading: 
+      heading: Standard Code
       alignment: start
 
     settings: 
@@ -2682,66 +2683,9 @@ regions:
       include-in-export-/-print: false
 
     enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: CHILD_CODE ==================================
-    id: 105506413619911940
-    identification: 
-      column-name: CHILD_CODE
-      type: Link
-
-    heading: 
-      heading: Code
-      alignment: start
-
-    layout: 
-      sequence: 300
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_STANDARD_CODE:&STANDARD_CODE.'
-        page: 14 # Manage Standard
-        clear-cache: CR,14
-        values: 
-          p14_standard_code: '&STANDARD_CODE.'
-
-      link-text: '&CHILD_CODE.'
-
-    source: 
-      type: Database Column
-      database-column: CHILD_CODE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
       sort: true
       control-break/aggregate: true
-      hide: true
-
-    security: 
-      authorization-scheme: READER RIGHTS # 48893993399820863
-      escape-special-characters: true
+      hide: false
 
   - # ====== Column: SRC_RECENT_CHANGE_YN ========================
     id: 105506487034911941
@@ -3022,9 +2966,8 @@ regions:
       include-in-export-/-print: true
 
     enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
+      sort: false
+      hide: false
 
     security: 
       authorization-scheme: READER RIGHTS # 48893993399820863
@@ -3070,9 +3013,8 @@ regions:
       include-in-export-/-print: true
 
     enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
+      sort: false
+      hide: false
 
     security: 
       authorization-scheme: READER RIGHTS # 48893993399820863
