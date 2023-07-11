@@ -25,18 +25,18 @@ create or replace package body eba_stds_data is
             l_data(l_data.count + 1) := rec_data('DB Supporting Objects' , '80', 8);
 
             for i in 1..l_data.count loop
-                l_row.name := l_data(i)(1);
+                l_row.type_name := l_data(i)(1);
                 l_row.id := l_data(i)(2);
                 l_row.display_sequence := l_data(i)(3);
 
                 merge into eba_stds_types dest
                 using (
                     select
-                    l_row.name name
+                    l_row.type_name type_name
                     from dual
                 ) src
                 on (1=1
-                    and dest.name = src.name
+                    and dest.type_name = src.type_name
                 )
                 when matched then
                 update
@@ -45,11 +45,11 @@ create or replace package body eba_stds_data is
                     dest.display_sequence = l_row.display_sequence
                 when not matched then
                 insert (
-                    name,
+                    type_name,
                     id,
                     display_sequence)
                 values(
-                    l_row.name,
+                    l_row.type_name,
                     l_row.id,
                     l_row.display_sequence)
                 ;
@@ -67,7 +67,7 @@ create or replace package body eba_stds_data is
 
             for i in 1..l_data_as.count loop
               l_row_as.id := l_data_as(i)(1);
-              l_row_as.name := l_data_as(i)(2);
+              l_row_as.status_name := l_data_as(i)(2);
               l_row_as.display_sequence := l_data_as(i)(3);
 
               merge into eba_stds_app_statuses dest
@@ -84,16 +84,16 @@ create or replace package body eba_stds_data is
                   set
                     -- Don't update the value as it's probably a key/secure value
                     -- Deletions are handled above
-                    dest.name = l_row_as.name,
+                    dest.status_name = l_row_as.status_name,
                     dest.display_sequence = l_row_as.display_sequence
               when not matched then
                 insert (
                   id,
-                  name,
+                  status_name,
                   display_sequence)
                 values(
                   l_row_as.id,
-                  l_row_as.name,
+                  l_row_as.status_name,
                   l_row_as.display_sequence)
               ;
             end loop;

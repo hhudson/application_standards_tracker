@@ -208,6 +208,11 @@ create or replace package body eba_stds_standard_tests_api as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+
+    delete from eba_stds_standard_tests
+    where id = p_id;
+
+    apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
     
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);

@@ -34,7 +34,7 @@ create or replace package body eba_stds as
     end register_job;
 
 
-    function get_standard_id (p_standard_name in eba_stds_standards.name%type)
+    function get_standard_id (p_standard_name in eba_stds_standards.standard_name%type)
     return eba_stds_standards.id%type
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_standard_id';
@@ -47,7 +47,7 @@ create or replace package body eba_stds as
         select id
         into l_id 
         from eba_stds_standards
-        where upper(name) =  upper(p_standard_name);
+        where upper(standard_name) =  upper(p_standard_name);
 
         return l_id;
 

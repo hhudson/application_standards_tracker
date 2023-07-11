@@ -161,7 +161,7 @@ is
            select id 
             into l_default_id
             from eba_stds_types
-            where lower(name) = 'default';
+            where lower(type_name) = 'default';
 
         exception when no_data_found then 
             l_default_id := null;
