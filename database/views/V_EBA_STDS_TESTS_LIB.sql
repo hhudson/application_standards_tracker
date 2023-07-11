@@ -7,7 +7,7 @@
 create or replace force editionable view V_EBA_STDS_TESTS_LIB as
 select estl.id,
        estl.standard_id,
-       coalesce(ess.standard_name, '[MISSING STANDARD]') standard_name,
+       ess.standard_name,
        estl.test_name,
        estl.query_clob,
        estl.standard_code,
@@ -25,7 +25,7 @@ select estl.id,
        estl.explanation,
        estl.fix,
        estl.level_id,
-       coalesce(asul.urgency_name, '[MISSING URGENCY]') urgency_name,
+       asul.urgency_name,
        estl.version_number imported_version_number,
        esst.version_number installed_version_number,
        case when esst.version_number is null 

@@ -54,9 +54,11 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARD_TESTS
+    table-name: V_EBA_STDS_STANDARD_TESTS_EXPORT
     include-rowid-column: false
     where-clause: 'standard_id = :P5_ID or :P5_ID is null'
+    page-items-to-submit: 
+    - P5_ID
 
   layout: 
     sequence: 40
@@ -79,7 +81,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    static-id: autmtd_tests
+    static-id: STANDARD_TEST_RPT
     region-display-selector: true
     exclude-title-from-translation: false
 
@@ -425,22 +427,114 @@ regions:
         group-by: true
         pivot: true
 
-    - # ====== Column: DISPLAY_SEQUENCE ============================
-      id: 55817126613479644
+    - # ====== Column: DOWNLOAD ====================================
+      id: 55817467326479647
       identification: 
-        column-name: DISPLAY_SEQUENCE
-        type: Plain Text
+        column-name: DOWNLOAD
+        type: Download BLOB
 
       heading: 
-        heading: Display Sequence
-        alignment: end
+        heading: Export
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 410
-        column-alignment: end
+        sequence: 430
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      blob-attributes: 
+        table-owner: Parsing Schema
+        table-name: V_EBA_STDS_STANDARD_TESTS_EXPORT
+        blob-column: FILE_BLOB
+        primary-key-column-1: TEST_ID
+        mime-type-column: MIME_TYPE
+        filename-column: FILE_NAME
+        character-set-column: CHARACTER_SET
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      appearance: 
+        download-text: '#VERSION_NUMBER# <span aria-hidden="true" class="fa fa-file-arrow-down"></span>'
+        content-disposition: Attachment
+
+    - # ====== Column: FILE_BLOB ===================================
+      id: 55817513623479648
+      identification: 
+        column-name: FILE_BLOB
+        type: Plain Text
+
+      heading: 
+        heading: File Blob
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 440
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: None
+
+      enable-users-to: 
+        hide: true
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MIME_TYPE ===================================
+      id: 55817618916479649
+      identification: 
+        column-name: MIME_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Mime Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 450
+        column-alignment: start
 
       accessibility: 
         value-identifies-row: false
@@ -466,21 +560,21 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: ISSUE_DESC ==================================
-      id: 55817276390479645
+    - # ====== Column: FILE_NAME ===================================
+      id: 55817797878479650
       identification: 
-        column-name: ISSUE_DESC
+        column-name: FILE_NAME
         type: Plain Text
 
       heading: 
-        heading: Issue Desc
+        heading: File Name
         alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 420
+        sequence: 460
         column-alignment: start
 
       accessibility: 
@@ -730,6 +824,129 @@ regions:
       security: 
         escape-special-characters: true
 
+    - # ====== Column: CHARACTER_SET ===============================
+      id: 139352333320506101
+      identification: 
+        column-name: CHARACTER_SET
+        type: Plain Text
+
+      heading: 
+        heading: Character Set
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 470
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_ID =================================
+      id: 139352472131506102
+      identification: 
+        column-name: STANDARD_ID
+        type: Plain Text
+
+      heading: 
+        heading: Standard ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 480
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VERSION_NUMBER ==============================
+      id: 139352570471506103
+      identification: 
+        column-name: VERSION_NUMBER
+        type: Plain Text
+
+      heading: 
+        heading: Version Number
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 490
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: TEST_ID =====================================
       id: 219831738158983042
       identification: 
@@ -951,95 +1168,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: STD_UPDATED_DATE ============================
-      id: 223430112998172303
-      identification: 
-        column-name: STD_UPDATED_DATE
-        type: Plain Text
-
-      heading: 
-        heading: Std Updated Date
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 280
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      advanced: 
-        static-id: STD_UPDATED_DATE
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: SRC_RECENT_CHANGE_YN ========================
-      id: 223430303518172305
-      identification: 
-        column-name: SRC_RECENT_CHANGE_YN
-        type: Plain Text
-
-      heading: 
-        heading: Src Recent Change Yn
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 300
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      advanced: 
-        static-id: SRC_RECENT_CHANGE_YN
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: TEST_TYPE ===================================
       id: 6150804406108766214
       identification: 
@@ -1080,27 +1208,6 @@ regions:
         chart: true
         group-by: true
         pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: STANDARD_ID =================================
-      id: 6150804594258766216
-      identification: 
-        column-name: STANDARD_ID
-        type: Hidden Column
-
-      heading: 
-        heading: Cross-Application Report
-
-      layout: 
-        sequence: 90
-
-      source: 
-        primary-key: false
-
-      advanced: 
-        static-id: STANDARD_ID
 
       security: 
         escape-special-characters: true
@@ -1246,7 +1353,7 @@ regions:
     type: SQL Query
     sql-query: |
       select std.id,
-          std.name standard,
+          std.standard_name standard,
           std.description,
           std.primary_developer,
           std.date_started,
@@ -1643,6 +1750,9 @@ buttons:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
 - # ====== Button: Create_from_test_lib ========================
   id: 53248635066990698
   identification: 
@@ -1709,6 +1819,43 @@ buttons:
 
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
+
+- # ====== Button: IMPORT_TEST =================================
+  id: 142664582547911622
+  identification: 
+    button-name: IMPORT_TEST
+    label: Import Test(s)
+
+  layout: 
+    sequence: 50
+    region: Breadcrumb # 7561458788694065578
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-upload
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:34::'
+      page: 34 # Import Tests
+      clear-cache: 34
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
 - # ====== Button: reset =======================================
   id: 268631833539257434
@@ -1901,7 +2048,7 @@ computations:
   computation: 
     type: SQL Query (return single value)
     sql-query: |
-      select s.name
+      select s.standard_name
       from eba_stds_standards s
       where s.id = :P5_ID
 

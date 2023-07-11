@@ -68,11 +68,11 @@ regions:
               where active_yn ='Y') esst
       union all 
       select ess.ID,
-             ess.NAME standard,
+             ess.STANDARD_NAME standard,
              ess.active_yn,
-             ess.NAME card_title,
+             ess.STANDARD_NAME card_title,
              ess.DESCRIPTION card_text,
-             apex_string.get_initials(ess.NAME) CARD_INITIALS,
+             apex_string.get_initials(ess.STANDARD_NAME) CARD_INITIALS,
              apex_string.format('%s active test(s)', coalesce(esst.test_count,0)) CARD_SUBTEXT,
              esst.test_count,
              APEX_PAGE.GET_URL (
@@ -951,6 +951,43 @@ buttons:
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: IMPORT_TEST =================================
+  id: 139352664869506104
+  identification: 
+    button-name: IMPORT_TEST
+    label: Import Test(s)
+
+  layout: 
+    sequence: 30
+    region: Breadcrumb # 7561021979466717382
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-upload
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:34::'
+      page: 34 # Import Tests
+      clear-cache: 34
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
 - # ====== Button: CREATE_STANDARD =============================
   id: 7561466994380108836

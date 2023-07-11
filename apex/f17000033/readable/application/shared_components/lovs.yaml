@@ -111,10 +111,10 @@
       display: hayden.h.hudson@oracle.com
       return: hayden.h.hudson@oracle.com
 
-- # ====== List of Values: EBA_STDS_STANDARDS.NAME =============
+- # ====== List of Values: EBA_STDS_STANDARDS.STANDARD_NAME ====
   id: 163835793448737572
   identification: 
-    name: EBA_STDS_STANDARDS.NAME
+    name: EBA_STDS_STANDARDS.STANDARD_NAME
 
   source: 
     location: Local Database
@@ -124,8 +124,8 @@
 
   column-mapping: 
     return: ID
-    display: NAME
-    default-sort: NAME
+    display: STANDARD_NAME
+    default-sort: STANDARD_NAME
     sort-direction: Ascending (Nulls Last)
 
 - # ====== List of Values: AST_NESTED_TABLE_TYPES ==============
@@ -464,7 +464,7 @@
     location: Local Database
     type: SQL Query
     sql-query: |
-      select id r, apex_string.format('[%1] %0', name, urgency_level) d
+      select id r, apex_string.format('[%1] %0', urgency_name, urgency_level) d
       from AST_STANDARDS_URGENCY_LEVEL
       order by urgency_level
 
@@ -563,7 +563,7 @@
     location: Local Database
     type: Legacy SQL Query
     sql-query: |
-      select name d, id r
+      select standard_name d, id r
       from eba_stds_standards
 
 - # ====== List of Values: APPLICATION STATUSES ================
@@ -596,7 +596,7 @@
 
   column-mapping: 
     return: ID
-    display: NAME
+    display: TYPE_NAME
     default-sort: DISPLAY_SEQUENCE
     sort-direction: Ascending (Nulls Last)
 

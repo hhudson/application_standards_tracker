@@ -1,10 +1,10 @@
 ---
-# ====== Page: Load Sample Standard Test =====================
+# ====== Page: Load Standard Test ============================
 id: 60
 identification: 
-  name: Load Sample Standard Test
+  name: Load Standard Test
   alias: LOAD-SAMPLE-STANDARD-TEST
-  title: Load Sample Standard Test
+  title: Install Standard Test
 
 appearance: 
   page-mode: Modal Dialog
@@ -358,123 +358,7 @@ regions:
       output-as: Text (escape special characters)
       show-line-breaks: true
 
-- # ====== Region: FYI =========================================
-  id: 54726648013995730
-  identification: 
-    title: FYI
-    type: Static Content
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_03
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7573656657747143975
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 page-items: 
-- # ====== Page Item: P60_URGENCY_LEVEL_ID =====================
-  id: 52758750480756847
-  identification: 
-    name: P60_URGENCY_LEVEL_ID
-    type: Popup LOV
-
-  label: 
-    label: Urgency Level
-    alignment: Left
-
-  settings: 
-    display-as: Inline Popup
-    initial-fetch: Automatic
-    multiple-values: false
-    manual-entry: false
-    search-as-you-type: true
-    minimum-characters: No minimum (0)
-
-  layout: 
-    sequence: 30
-    region: Editable # 52758854672756848
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: true
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: ISSUE_URGENCY # 3436913835582113648
-    display-extra-values: false
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  default: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ast_urgency_level_api.get_default_level_id
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: |
-      <ul>
-          <li>urgency levels higher than 100 will not be tracked in the audit table</li>
-          <li>only urgency levels lower than 100 are eligible to included in the daily notification email</li>
-      <ul>
-
 - # ====== Page Item: P60_ID ===================================
   id: 53148527786876948
   identification: 
@@ -501,7 +385,7 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Checksum Required - Session Level
@@ -527,7 +411,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 20
+    sequence: 10
     region: Editable # 52758854672756848
     position: BODY
     alignment: Left
@@ -549,7 +433,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: EBA_STDS_STANDARDS.NAME # 163835793448737572
+    list-of-values: EBA_STDS_STANDARDS.STANDARD_NAME # 163835793448737572
     display-extra-values: false
     display-null-value: false
 
@@ -581,40 +465,15 @@ page-items:
   id: 53149374002876950
   identification: 
     name: P60_STANDARD_NAME
-    type: Text Field
-
-  label: 
-    label: Standard Name
-    alignment: Left
+    type: Hidden
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    value-protected: true
 
   layout: 
-    sequence: 20
-    region: Non-Editable # 52758944684756849
+    sequence: 190
+    region: Load Sample Standard Test # 53148245846876947
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: false
-    maximum-length: 64
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -627,10 +486,8 @@ page-items:
     primary-key: false
 
   session-state: 
+    data-type: VARCHAR2
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
@@ -658,12 +515,12 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 30
+    sequence: 60
     region: Non-Editable # 52758944684756849
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -775,7 +632,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 40
+    sequence: 50
     region: Non-Editable # 52758944684756849
     position: BODY
     alignment: Left
@@ -807,13 +664,13 @@ page-items:
     primary-key: false
 
   session-state: 
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   quick-picks: 
     show-quick-picks: false
 
   security: 
-    session-state-protection: Unrestricted
+    session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
@@ -852,70 +709,6 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P60_ISSUE_DESC ===========================
-  id: 53151375463876951
-  identification: 
-    name: P60_ISSUE_DESC
-    type: Textarea
-
-  label: 
-    label: Issue Desc
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
-
-  layout: 
-    sequence: 50
-    region: Non-Editable # 52758944684756849
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 60
-    height: 4
-
-  validation: 
-    value-required: false
-    maximum-length: 511
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Load Sample Standard Test # 53148245846876947
-    column: ISSUE_DESC
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Longer description of the test, should include subject, verb, object
 
 - # ====== Page Item: P60_MV_DEPENDENCY ========================
   id: 53151798612876952
@@ -1142,26 +935,426 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P60_INSTALLED_YN =========================
-  id: 53153701050876954
+- # ====== Page Item: P60_STANDARD_ACTIVE_YN ===================
+  id: 139353217432506110
   identification: 
-    name: P60_INSTALLED_YN
+    name: P60_STANDARD_ACTIVE_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 200
+    region: Load Sample Standard Test # 53148245846876947
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: STANDARD_ACTIVE_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_EXPLANATION ==========================
+  id: 139353365304506111
+  identification: 
+    name: P60_EXPLANATION
+    type: Display Only
+
+  label: 
+    label: Explanation
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 70
+    region: Non-Editable # 52758944684756849
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: EXPLANATION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Elaboration on the nature of the violation
+
+- # ====== Page Item: P60_FIX ==================================
+  id: 139353427067506112
+  identification: 
+    name: P60_FIX
+    type: Display Only
+
+  label: 
+    label: Fix
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 80
+    region: Non-Editable # 52758944684756849
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: FIX
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Recommendation on how to address the violation
+
+- # ====== Page Item: P60_LEVEL_ID =============================
+  id: 139354712242506125
+  identification: 
+    name: P60_LEVEL_ID
+    type: Popup LOV
+
+  label: 
+    label: Urgency Level
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 20
+    region: Editable # 52758854672756848
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ISSUE_URGENCY # 3436913835582113648
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: LEVEL_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: A measure of the importance given to a violation
+
+- # ====== Page Item: P60_URGENCY_NAME =========================
+  id: 139354865123506126
+  identification: 
+    name: P60_URGENCY_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 220
+    region: Load Sample Standard Test # 53148245846876947
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: URGENCY_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_STANDARD_CODE_IN_DB_YN ===============
+  id: 139355919554506137
+  identification: 
+    name: P60_STANDARD_CODE_IN_DB_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Non-Editable # 52758944684756849
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: STANDARD_CODE_IN_DB_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  server-side-condition: 
+    type: Item = Value
+    item: P60_STANDARD_CODE_IN_DB_YN
+    value: Y
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_IMPORTED_VERSION_NUMBER ==============
+  id: 139356008244506138
+  identification: 
+    name: P60_IMPORTED_VERSION_NUMBER
+    type: Number Field
+
+  label: 
+    label: Imported Version Number
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 30
+    region: Non-Editable # 52758944684756849
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: IMPORTED_VERSION_NUMBER
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_INSTALLED_VERSION_NUMBER =============
+  id: 139356141550506139
+  identification: 
+    name: P60_INSTALLED_VERSION_NUMBER
+    type: Number Field
+
+  label: 
+    label: Installed Version Number
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 40
+    region: Non-Editable # 52758944684756849
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: INSTALLED_VERSION_NUMBER
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P60_INSTALLED_VERSION_NUMBER is not null and :P60_CURRENT_VERSION_INSTALLED_YN = 'N'"
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_CURRENT_VERSION_INSTALLED_YN =========
+  id: 139356234328506140
+  identification: 
+    name: P60_CURRENT_VERSION_INSTALLED_YN
     type: Switch
 
   label: 
-    label: Already Installed
+    label: Current Version Installed
     alignment: Left
 
   settings: 
     use-defaults: true
 
   layout: 
-    sequence: 10
-    region: FYI # 54726648013995730
+    sequence: 20
+    region: Non-Editable # 52758944684756849
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -1180,7 +1373,7 @@ page-items:
 
   source: 
     form-region: Load Sample Standard Test # 53148245846876947
-    column: INSTALLED_YN
+    column: CURRENT_VERSION_INSTALLED_YN
     data-type: VARCHAR2
     query-only: false
     primary-key: false
@@ -1188,16 +1381,10 @@ page-items:
   session-state: 
     storage: Per Request (Memory Only)
 
-  read-only: 
-    type: Always
-
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Whether or not this test has been installed in the EBA_STDS_STANDARDS_TEST table
 
 buttons: 
 - # ====== Button: INSTALL =====================================
@@ -1231,7 +1418,7 @@ buttons:
 
   server-side-condition: 
     type: Item = Value
-    item: P60_INSTALLED_YN
+    item: P60_CURRENT_VERSION_INSTALLED_YN
     value: N
 
 - # ====== Button: CANCEL ======================================
@@ -1299,7 +1486,7 @@ buttons:
 
   server-side-condition: 
     type: Item = Value
-    item: P60_INSTALLED_YN
+    item: P60_STANDARD_CODE_IN_DB_YN
     value: Y
 
   security: 
@@ -1342,6 +1529,9 @@ buttons:
 
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Button: DELETE ======================================
   id: 54726273545995726
@@ -1410,6 +1600,63 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+validations: 
+- # ====== Validation: standard not null =======================
+  id: 139356321962506141
+  identification: 
+    name: standard not null
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Item is NOT NULL
+    item: P60_STANDARD_ID
+    always-execute: true
+
+  error: 
+    error-message: You must associate it with a Standard
+    display-location: Inline with Field and in Notification
+    associated-item: P60_STANDARD_ID # 53148979462876949
+
+- # ====== Validation: Urgency is not null =====================
+  id: 139356467088506142
+  identification: 
+    name: Urgency is not null
+
+  execution: 
+    sequence: 20
+
+  validation: 
+    type: Item is NOT NULL
+    item: P60_LEVEL_ID
+    always-execute: true
+
+  error: 
+    error-message: You must pick an urgency level
+    display-location: Inline with Field and in Notification
+    associated-item: P60_LEVEL_ID # 139354712242506125
+
+computations: 
+- # ====== Computation: P60_ID =================================
+  id: 139354647048506124
+  identification: 
+    item-name: P60_ID
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: 'eba_stds_tests_lib_api.get_id(:P60_STANDARD_CODE)'
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P60_ID is null and :P60_STANDARD_CODE is not null'
+
 processes: 
 - # ====== Process: Install ====================================
   id: 52758696248756846
@@ -1424,7 +1671,7 @@ processes:
     pl/sql-code: |
       EBA_STDS_TESTS_LIB_API.install_standard_test(
                               p_id => :P60_ID,
-                              p_urgency_level_id =>  :P60_URGENCY_LEVEL_ID,
+                              p_urgency_level_id =>  :P60_LEVEL_ID,
                               p_standard_id => :P60_STANDARD_ID);
 
   execution: 
@@ -1471,7 +1718,7 @@ processes:
 
   server-side-condition: 
     type: Request is contained in Value
-    value: CREATE,SAVE,DELETE,INSTALL
+    value: CREATE,SAVE,DELETE
 
 - # ====== Process: Delete test ================================
   id: 54726548677995729
@@ -1501,4 +1748,26 @@ processes:
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+branches: 
+- # ====== Branch: go to page 14 ===============================
+  id: 139355050954506128
+  identification: 
+    name: go to page 14
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_STANDARD_CODE:&P60_STANDARD_CODE.&success_msg=#SUCCESS_MSG#'
+      page: 14 # Manage Standard
+      clear-cache: 14
+      values: 
+        p14_standard_code: '&P60_STANDARD_CODE.'
+
+  server-side-condition: 
+    when-button-pressed: INSTALL # 52757800228756838
 

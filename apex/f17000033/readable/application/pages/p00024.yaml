@@ -99,7 +99,7 @@ regions:
     type: Table / View
     table-owner: Parsing Schema
     table-name: EBA_STDS_TYPES
-    include-rowid-column: true
+    include-rowid-column: false
 
   layout: 
     sequence: 10
@@ -141,6 +141,69 @@ regions:
       lost-update-type: Row Values
 
 page-items: 
+- # ====== Page Item: P24_TYPE_NAME ============================
+  id: 139353966283506117
+  identification: 
+    name: P24_TYPE_NAME
+    type: Text Field
+
+  label: 
+    label: Type Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Application Type # 7578136600893132182
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+    maximum-length: 32
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Application Type # 7578136600893132182
+    column: TYPE_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Give your application type a descriptive name
+
 - # ====== Page Item: P24_ID ===================================
   id: 7578137984025132199
   identification: 
@@ -167,7 +230,7 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Checksum Required - Application Level
@@ -189,7 +252,7 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 40
+    sequence: 30
     region: Application Type # 7578136600893132182
     position: BODY
     alignment: Left
@@ -234,69 +297,6 @@ page-items:
   help: 
     help-text: self-evident
 
-- # ====== Page Item: P24_NAME =================================
-  id: 7578138379919132215
-  identification: 
-    name: P24_NAME
-    type: Text Field
-
-  label: 
-    label: Name
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 20
-    region: Application Type # 7578136600893132182
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: true
-    maximum-length: 32
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Application Type # 7578136600893132182
-    column: NAME
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Name this grouping
-
 - # ====== Page Item: P24_DESCRIPTION ==========================
   id: 7578138591841132215
   identification: 
@@ -314,7 +314,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 60
+    sequence: 40
     region: Application Type # 7578136600893132182
     position: BODY
     alignment: Left

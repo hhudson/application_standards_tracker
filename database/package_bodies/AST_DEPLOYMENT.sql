@@ -50,7 +50,8 @@ create or replace package body AST_DEPLOYMENT as
 
   function json_content_blob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
-                              p_standard_code in eba_stds_standard_tests.standard_code%type default null)
+                              p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                              p_standard_id   in eba_stds_standards.id%type default null)
   return blob
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_blob';
@@ -64,7 +65,7 @@ create or replace package body AST_DEPLOYMENT as
           %0,  
           columns ( %1 )  
         ) asrc
-        %3
+        %3%5
         %2) jn';
   c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
   l_query clob;
@@ -73,7 +74,8 @@ create or replace package body AST_DEPLOYMENT as
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name,
                                         'p_row_limit', p_row_limit,
-                                        'p_standard_code', p_standard_code);
+                                        'p_standard_code', p_standard_code,
+                                        'p_standard_id', p_standard_id);
     
 
     l_query := apex_string.format(
@@ -88,8 +90,11 @@ create or replace package body AST_DEPLOYMENT as
       p3 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_standard_code is not null
                  then apex_string.format(q'[where standard_code = '%s']', c_standard_code)
                  end,
-      p4 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_standard_code is not null
+      p4 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS'
                  then apex_string.format(q'[, '%s' workspace]', ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE'))
+                 end,
+      p5 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
+                 then apex_string.format(q'[where standard_id = %s and active_yn = 'Y']', p_standard_id)
                  end
     );
 

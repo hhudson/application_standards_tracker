@@ -31,9 +31,10 @@ select ast_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TEST
 from dual
 */
 ------------------------------------------------------------------------------
-    function json_content_blob (p_table_name in user_tables.table_name%type,
-                                p_row_limit in number default null,
-                                p_standard_code in eba_stds_standard_tests.standard_code%type default null)
+    function json_content_blob (p_table_name     in user_tables.table_name%type,
+                                p_row_limit      in number default null,
+                                p_standard_code  in eba_stds_standard_tests.standard_code%type default null,
+                                p_standard_id    in eba_stds_standards.id%type default null)
      return blob;
 
 ------------------------------------------------------------------------------
