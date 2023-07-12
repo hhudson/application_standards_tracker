@@ -247,7 +247,7 @@ create or replace package body AST_DEPLOYMENT as
     where ut.table_name not like 'DATABASECHANGELOG%'
     and ut.table_name not like 'DEV%'
     and ut.table_name not like 'MV%'
-    and ut.table_name not in ('EBA_STDS_STANDARD_TESTS')
+    and ut.table_name not in ('EBA_STDS_STANDARD_TESTS','EBA_STDS_TESTS_LIB')
   )
     select std.table_name, 
           std.mime_type,
@@ -314,11 +314,11 @@ create or replace package body AST_DEPLOYMENT as
       loop
         <<load_block>>
         declare
-        c_overwrite_table_name constant varchar2(255) 
-              := case when l_aat (rec).table_name = 'EBA_STDS_TESTS_LIB'
-                      then 'EBA_STDS_STANDARD_TESTS'
-                      else l_aat (rec).table_name
-                      end;
+        c_overwrite_table_name constant varchar2(255) := l_aat (rec).table_name;
+              -- := case when l_aat (rec).table_name = 'EBA_STDS_TESTS_LIB'
+              --         then 'EBA_STDS_STANDARD_TESTS'
+              --         else l_aat (rec).table_name
+              --         end;
         c_file_blob constant blob := ast_deployment.sample_template_file (p_table_name => l_aat (rec).table_name);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
         c_zip_size  constant pls_integer := sys.dbms_lob.getlength(l_aat (rec).zip_blob);

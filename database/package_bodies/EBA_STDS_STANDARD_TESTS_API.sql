@@ -41,7 +41,7 @@ create or replace package body eba_stds_standard_tests_api as
    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
    l_id eba_stds_standard_tests.id%type := p_id;
-   c_default_version_number constant number := 1;
+   c_default_version_number constant number := 0;
    begin
     apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
 
@@ -233,6 +233,8 @@ create or replace package body eba_stds_standard_tests_api as
   
   l_current_md5  varchar2(32767) := null;
   l_new_md5      varchar2(32767) := null;
+  c_major_version_increment pls_integer := 1;
+  c_minor_version_increment number := 0.1;
   begin
     apex_debug.message(c_debug_template,'START', 'p_id', p_id);
 
@@ -269,7 +271,13 @@ create or replace package body eba_stds_standard_tests_api as
         ast_component_type_id = p_ast_component_type_id,
         explanation           = p_explanation,
         fix                   = p_fix,
-        version_number        = version_number + 1
+        version_number        = case when p_active_yn = 'Y'
+                                     then case when version_number >= 1 
+                                               then version_number + c_minor_version_increment
+                                               else version_number + c_major_version_increment
+                                               end
+                                     else version_number
+                                     end
       where id = p_id;
     end if;
   

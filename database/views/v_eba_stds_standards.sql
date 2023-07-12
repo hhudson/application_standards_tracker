@@ -17,7 +17,9 @@ with jcb as (select id standard_id,
                     'application/json' mime_type,
                     apex_string.format('STANDARD-%s.json',
                                         upper(
-                                            replace(standard_name, ' ', '_')
+                                            replace(
+                                                regexp_replace(standard_name,'[[:punct:]]')
+                                                , ' ', '_')
                                         )
                         ) file_name,
                     'UTF-8' character_set,
