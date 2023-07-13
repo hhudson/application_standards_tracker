@@ -136,6 +136,201 @@ regions:
       show-line-breaks: true
 
 page-items: 
+- # ====== Page Item: P50_URGENCY_NAME =========================
+  id: 142990955195948619
+  identification: 
+    name: P50_URGENCY_NAME
+    type: Text Field
+
+  label: 
+    label: Urgency Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 40
+    region: Edit Urgency Level # 3437005329576452355
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Urgency Level # 3437005329576452355
+    column: URGENCY_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Provide a descriptive name to this urgency level
+
+- # ====== Page Item: P50_CREATED ==============================
+  id: 142991075193948620
+  identification: 
+    name: P50_CREATED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: Edit Urgency Level # 3437005329576452355
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Urgency Level # 3437005329576452355
+    column: CREATED
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P50_CREATED_BY ===========================
+  id: 142991184538948621
+  identification: 
+    name: P50_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 60
+    region: Edit Urgency Level # 3437005329576452355
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Urgency Level # 3437005329576452355
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P50_UPDATED ==============================
+  id: 142991260683948622
+  identification: 
+    name: P50_UPDATED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 70
+    region: Edit Urgency Level # 3437005329576452355
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Urgency Level # 3437005329576452355
+    column: UPDATED
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P50_UPDATED_BY ===========================
+  id: 142991358319948623
+  identification: 
+    name: P50_UPDATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 80
+    region: Edit Urgency Level # 3437005329576452355
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Urgency Level # 3437005329576452355
+    column: UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P50_ID ===================================
   id: 3437005584622452356
   identification: 
@@ -180,6 +375,8 @@ page-items:
     alignment: Left
 
   settings: 
+    minimum-value: 0
+    maximum-value: 1000
     number-alignment: Start
     virtual-keyboard: Decimal
 
@@ -196,7 +393,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6411715103038685265
+    template: Required - Floating # 6411714809400685265
     template-options: 
     - '#DEFAULT#'
     width: 32
@@ -228,69 +425,6 @@ page-items:
 
   help: 
     help-text: The lower the number, the higher the urgency. Urgency levels higher than 100 will not be tracked in the audit table.
-
-- # ====== Page Item: P50_NAME =================================
-  id: 3437006414021452363
-  identification: 
-    name: P50_NAME
-    type: Text Field
-
-  label: 
-    label: Name
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 20
-    region: Edit Urgency Level # 3437005329576452355
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 60
-
-  validation: 
-    value-required: false
-    maximum-length: 255
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Urgency Level # 3437005329576452355
-    column: NAME
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Give this urgency level a description
 
 buttons: 
 - # ====== Button: CANCEL ======================================
@@ -454,6 +588,43 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+validations: 
+- # ====== Validation: Name must not null ======================
+  id: 142991439487948624
+  identification: 
+    name: Name must not null
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Item is NOT NULL
+    item: P50_URGENCY_NAME
+    always-execute: false
+
+  error: 
+    error-message: Urgency name must not be null
+    display-location: Inline with Field and in Notification
+    associated-item: P50_URGENCY_NAME # 142990955195948619
+
+- # ====== Validation: Level must not be null ==================
+  id: 142991514255948625
+  identification: 
+    name: Level must not be null
+
+  execution: 
+    sequence: 20
+
+  validation: 
+    type: Item is NOT NULL
+    item: P50_URGENCY_LEVEL
+    always-execute: false
+
+  error: 
+    error-message: Urgency Level must not be null
+    display-location: Inline with Field and in Notification
+    associated-item: P50_URGENCY_LEVEL # 3437005946644452362
+
 processes: 
 - # ====== Process: Initialize form Edit Urgency Level =========
   id: 3437010900904452371
@@ -496,6 +667,10 @@ processes:
     name: Close Dialog
     type: Close Dialog
     execution-chain: None
+
+  settings: 
+    items-to-return-: 
+    - P50_ID
 
   execution: 
     sequence: 50

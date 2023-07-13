@@ -31,7 +31,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type,
         p_explanation           in eba_stds_tests_lib.explanation%type,
         p_fix                   in eba_stds_tests_lib.fix%type,
-        p_level_id              in eba_stds_tests_lib.level_id%type
+        p_level_id              in eba_stds_tests_lib.level_id%type,
+        p_version_number        in eba_stds_tests_lib.version_number%type
     )
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'upsert';
@@ -61,7 +62,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_ast_component_type_id ast_component_type_id,
                   p_explanation           explanation,
                   p_fix                   fix,
-                  p_level_id              level_id
+                  p_level_id              level_id,
+                  p_version_number        version_number
            from dual) h
     on (e.standard_code = h.standard_code and e.workspace = h.workspace)
     when matched then
@@ -74,7 +76,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                e.ast_component_type_id = h.ast_component_type_id,
                e.explanation           = h.explanation,
                e.fix                   = h.fix,
-               e.level_id              = h.level_id
+               e.level_id              = h.level_id,
+               e.version_number        = h.version_number
     when not matched then
     insert (standard_code,
             workspace,
@@ -87,7 +90,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             ast_component_type_id,
             explanation,
             fix,
-            level_id)
+            level_id,
+            version_number)
     values (h.standard_code,
             h.workspace,
             h.standard_id,
@@ -99,7 +103,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             h.ast_component_type_id,
             h.explanation,
             h.fix,
-            h.level_id
+            h.level_id,
+            h.version_number
             );
 
   exception when others then
@@ -126,7 +131,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
              ast_component_type_id,
              explanation,
              fix,
-             level_id
+             level_id,
+             version_number
       from eba_stds_standard_tests
       order by 1
     ) loop
@@ -142,7 +148,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_ast_component_type_id => rec.ast_component_type_id,
         p_explanation           => rec.explanation,
         p_fix                   => rec.fix,
-        p_level_id              => rec.level_id
+        p_level_id              => rec.level_id,
+        p_version_number        => rec.version_number
       );
     end loop;
 
@@ -172,7 +179,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     eba_stds_standard_tests_api.insert_test(
                 p_id                    => l_lib_rec.test_id,
                 p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
-                p_test_type             => 'FAIL_REPORT', 
                 p_test_name             => l_lib_rec.test_name,
                 p_query_clob            => l_lib_rec.query_clob,
                 p_owner                 => ast_preferences.get_preference ('AST_DEFAULT_SCHEMA'),
@@ -239,6 +245,41 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
    end get_id;
+
+  function current_md5(p_standard_code in eba_stds_tests_lib.standard_code%type)
+  return varchar2
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'current_md5';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_lib_rec eba_stds_tests_lib%rowtype;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+
+    select *
+    into l_lib_rec
+    from eba_stds_tests_lib
+    where standard_code = p_standard_code;
+
+    return eba_stds_standard_tests_api.build_test_md5(
+                      l_lib_rec.standard_id,
+                      l_lib_rec.test_name,
+                      l_lib_rec.query_clob,
+                      l_lib_rec.standard_code,
+                      l_lib_rec.active_yn,
+                      l_lib_rec.level_id,
+                      l_lib_rec.mv_dependency,
+                      l_lib_rec.ast_component_type_id,
+                      l_lib_rec.explanation,
+                      l_lib_rec.fix
+                  );
+
+  exception 
+    when no_data_found then
+      return null;
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end current_md5;
 
 end EBA_STDS_TESTS_LIB_API;
 /

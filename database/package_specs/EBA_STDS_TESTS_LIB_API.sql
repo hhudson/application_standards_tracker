@@ -29,15 +29,19 @@ create or replace package EBA_STDS_TESTS_LIB_API authid definer as
 /*
 begin
     eba_stds_tests_lib_api.upsert (
-        p_standard_id           => 1,
-        p_test_name             => 'blerg',
-        p_workspace             => 'blerg',
-        p_test_id               => 1,
-        p_query_clob            => 'blerg',
-        p_standard_code         => 'blerg',
-        p_active_yn             => null,
-        p_mv_dependency         => null,
-        p_ast_component_type_id => 1
+        p_standard_id           => p_standard_id,
+        p_test_name             => p_test_name,
+        p_workspace             => p_workspace,
+        p_test_id               => p_test_id,
+        p_query_clob            => p_query_clob,
+        p_standard_code         => p_standard_code,
+        p_active_yn             => p_active_yn,
+        p_mv_dependency         => p_mv_dependency,
+        p_ast_component_type_id => p_ast_component_type_id,
+        p_explanation           => p_explanation,
+        p_fix                   => p_fix,
+        p_level_id              => p_level_id,
+        p_version_number        => p_version_number
     );
 end;
 */
@@ -54,7 +58,8 @@ end;
         p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type,
         p_explanation           in eba_stds_tests_lib.explanation%type,
         p_fix                   in eba_stds_tests_lib.fix%type,
-        p_level_id              in eba_stds_tests_lib.level_id%type
+        p_level_id              in eba_stds_tests_lib.level_id%type,
+        p_version_number        in eba_stds_tests_lib.version_number%type
     );
 
 ------------------------------------------------------------------------------
@@ -125,6 +130,21 @@ end;
 ------------------------------------------------------------------------------
    function get_id(p_standard_code in eba_stds_tests_lib.standard_code%type)
    return eba_stds_tests_lib.id%type;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 13, 2023
+-- Synopsis:
+--
+-- Function to return the md5 of a eba_stds_tests_lib for comparison with a eba_stds_standard_tests record
+--
+/*
+select eba_stds_tests_lib_api.current_md5(p_standard_code)
+from dual
+*/
+------------------------------------------------------------------------------
+   function current_md5(p_standard_code in eba_stds_tests_lib.standard_code%type)
+   return varchar2;
 
 end EBA_STDS_TESTS_LIB_API;
 /

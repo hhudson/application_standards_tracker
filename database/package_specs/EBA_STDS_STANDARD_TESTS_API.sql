@@ -24,8 +24,7 @@ begin
       :P14_ID := eba_stds_standard_tests_api.insert_test(
                   p_id                    => :P14_ID,
                   p_standard_id           => :P14_STANDARD_ID,
-                  p_test_type             => :P14_TEST_TYPE,
-                  p_test_name                  => :P14_SHORT_NAME,
+                  p_test_name             => :P14_SHORT_NAME,
                   p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                   p_query_clob            => :P14_QUERY_CLOB,
                   p_owner                 => :P14_OWNER,
@@ -41,8 +40,7 @@ begin
       eba_stds_standard_tests_api.update_test(
                           p_id                    => :P14_ID,
                           p_standard_id           => :P14_STANDARD_ID,
-                          p_test_type             => :P14_TEST_TYPE,
-                          p_test_name                  => :P14_SHORT_NAME,
+                          p_test_name             => :P14_SHORT_NAME,
                           p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                           p_query_clob            => :P14_QUERY_CLOB,
                           p_owner                 => :P14_OWNER,
@@ -69,11 +67,11 @@ end;
 -- Procedure to insert new record into  eba_stds_standard_tests
 --
 /*
+declare 
+l_id eba_stds_standard_tests.id%type;
 begin
-    eba_stds_standard_tests_api.insert_test(
-                p_id                    => p_id,
+    l_id := eba_stds_standard_tests_api.insert_test(
                 p_standard_id           => p_standard_id,
-                p_test_type             => p_test_type,
                 p_test_name             => p_test_name,
                 p_display_sequence      => p_display_sequence,
                 p_query_clob            => p_query_clob,
@@ -91,7 +89,6 @@ end;
 ------------------------------------------------------------------------------
   function insert_test(p_id                    in eba_stds_standard_tests.id%type default null,
                        p_standard_id           in eba_stds_standard_tests.standard_id%type,
-                       p_test_type             in eba_stds_standard_tests.test_type%type,
                        p_test_name             in eba_stds_standard_tests.test_name%type,
                        p_display_sequence      in eba_stds_standard_tests.display_sequence%type default null,
                        p_query_clob            in eba_stds_standard_tests.query_clob%type,
@@ -118,7 +115,6 @@ begin
     eba_stds_standard_tests_api.insert_test(
                 p_id                    => p_id,
                 p_standard_id           => p_standard_id,
-                p_test_type             => p_test_type,
                 p_test_name             => p_test_name,
                 p_display_sequence      => p_display_sequence,
                 p_query_clob            => p_query_clob,
@@ -133,7 +129,6 @@ end;
 ------------------------------------------------------------------------------
   procedure insert_test(p_id                    in eba_stds_standard_tests.id%type default null,
                         p_standard_id           in eba_stds_standard_tests.standard_id%type,
-                        p_test_type             in eba_stds_standard_tests.test_type%type,
                         p_test_name             in eba_stds_standard_tests.test_name%type,
                         p_display_sequence      in eba_stds_standard_tests.display_sequence%type default null,
                         p_query_clob            in eba_stds_standard_tests.query_clob%type,
@@ -146,6 +141,42 @@ end;
                         p_explanation           in eba_stds_standard_tests.explanation%type,
                         p_fix                   in eba_stds_standard_tests.fix%type,
                         p_version_number        in eba_stds_standard_tests.version_number%type default null);
+  
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 13, 2023
+-- Synopsis:
+--
+-- function to get md5 for a record of eba_stds_standard_tests
+--
+/*
+select eba_stds_standard_tests_api.build_test_md5 (
+        p_standard_id           => esst.standard_id,
+        p_test_name             => esst.test_name,
+        p_query_clob            => esst.query_clob,
+        p_standard_code         => esst.standard_code,
+        p_active_yn             => esst.active_yn,
+        p_level_id              => esst.level_id,
+        p_mv_dependency         => esst.mv_dependency,
+        p_ast_component_type_id => esst.ast_component_type_id,
+        p_explanation           => esst.explanation,
+        p_fix                   => esst.fix
+    ) esst_md5
+from eba_stds_standard_tests esst;
+*/
+------------------------------------------------------------------------------
+  function build_test_md5 (
+      p_standard_id           in eba_stds_standard_tests.standard_id%type,
+      p_test_name             in eba_stds_standard_tests.test_name%type,
+      p_query_clob            in eba_stds_standard_tests.query_clob%type,
+      p_standard_code         in eba_stds_standard_tests.standard_code%type,
+      p_active_yn             in eba_stds_standard_tests.active_yn%type,
+      p_level_id              in eba_stds_standard_tests.level_id%type,
+      p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
+      p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
+      p_explanation           in eba_stds_standard_tests.explanation%type,
+      p_fix                   in eba_stds_standard_tests.fix%type
+  ) return varchar2;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -159,8 +190,7 @@ begin
   eba_stds_standard_tests_api.update_test(
                           p_id                    => :P14_ID,
                           p_standard_id           => :P14_STANDARD_ID,
-                          p_test_type             => :P14_TEST_TYPE,
-                          p_test_name             => :P14_SHORT_NAME,
+                          p_test_name             => :P14_TEST_NAME,
                           p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                           p_query_clob            => :P14_QUERY_CLOB,
                           p_owner                 => :P14_OWNER,
@@ -170,13 +200,14 @@ begin
                           p_mv_dependency         => :P14_MV_DEPENDENCY,
                           p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
                           p_explanation           => :P14_EXPLANATION,
-                          p_fix                   => :P14_FIX
+                          p_fix                   => :P14_FIX,
+                          p_version_number        => :P14_VERSION_NUMBER
+                        );
 end;
 */
 ------------------------------------------------------------------------------
     procedure update_test(p_id                    in eba_stds_standard_tests.id%type default null,
                           p_standard_id           in eba_stds_standard_tests.standard_id%type,
-                          p_test_type             in eba_stds_standard_tests.test_type%type,
                           p_test_name             in eba_stds_standard_tests.test_name%type,
                           p_display_sequence      in eba_stds_standard_tests.display_sequence%type default null,
                           p_query_clob            in eba_stds_standard_tests.query_clob%type,
@@ -187,7 +218,24 @@ end;
                           p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
                           p_ast_component_type_id in eba_stds_standard_tests.ast_component_type_id%type,
                           p_explanation           in eba_stds_standard_tests.explanation%type,
-                          p_fix                   in eba_stds_standard_tests.fix%type);
+                          p_fix                   in eba_stds_standard_tests.fix%type,
+                          p_version_number        in eba_stds_standard_tests.version_number%type);
+    
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 13, 2023
+-- Synopsis:
+--
+-- Publish a given eba_stds_standard_tests record 
+--
+/*
+begin
+  eba_stds_standard_tests_api.publish_test(p_standard_code => :P14_STANDARD_CODE);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure publish_test(p_standard_code in eba_stds_standard_tests.standard_code%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

@@ -5,12 +5,12 @@
 
 create or replace force view v_eba_stds_standard_tests as 
 select  st.id test_id,
+        st.level_id,
         asul.urgency_name urgency, 
         asul.urgency_level,
         st.display_sequence,
         st.test_name,
         st.standard_code,
-        st.test_type,
         st.standard_id,
         ess.standard_name standard_category_name,
         st.active_yn,

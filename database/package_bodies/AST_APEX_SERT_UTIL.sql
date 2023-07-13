@@ -639,7 +639,6 @@ $then
 
   c_standard_id          constant eba_stds_standard_tests.standard_id%type := eba_stds.get_standard_id ('APEX SERT');
   c_nt_type_id           constant eba_stds_standard_tests.nt_type_id%type := ast_standard_view.get_nt_type_id('v_ast_sert__0_nt');
-  c_fail_report          constant eba_stds_standard_tests.test_type%type := 'FAIL_REPORT';
   c_db_supporting_object constant eba_stds_standard_tests.ast_component_type_id%type := 0; --'DB_SUPPORTING_OBJECT';
   c_y                    constant eba_stds_standard_tests.active_yn%type := 'Y';
   begin
@@ -661,7 +660,6 @@ $then
         begin <<eba_merge>>
           insert into eba_stds_standard_tests 
                 (standard_id,
-                 test_type,
                  name,
                  ast_component_type_id,
                  query_clob,
@@ -669,7 +667,6 @@ $then
                  active_yn,
                  nt_type_id)
           values(c_standard_id,
-                 c_fail_report,
                  rec.attribute_name,
                  c_db_supporting_object_id,
                  rec.stmt,

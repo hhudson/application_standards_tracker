@@ -234,13 +234,22 @@ regions:
     type: SQL Query
     sql-query: |
       select p.line_number,
-             p.col001, p.col002, p.col003, p.col004, p.col005, p.col006, p.col007, p.col008, p.col009, p.col010
+             p.col001 test_id, 
+             p.col003 active_yn, 
+             p.col004 test_name, 
+             p.col005 workspace,
+             p.col007 standard_id,
+             p.col009 standard_code, 
+             p.col010 ast_component_type_id, 
+             p.col012 explanation,
+             p.col013 level_id,
+             p.col014 version_number
              -- add more columns (col011 to col300) here.
         from apex_application_temp_files f, 
              table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'drg' ),
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
                         p_max_rows          => 100 ) ) p
        where f.name = :P34_FILE
 
@@ -317,7 +326,7 @@ regions:
       sort-nulls: Last
 
     heading: 
-      type: None
+      type: Custom Headings
 
     download: 
       csv-export-enabled: false
@@ -358,25 +367,70 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: COL001 ======================================
-    id: 139380410533261905
+  - # ====== Column: TEST_ID =====================================
+    id: 142751334703835325
     identification: 
-      column-name: COL001
+      column-name: TEST_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 21
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LEVEL_ID ====================================
+    id: 142752504585835337
+    identification: 
+      column-name: LEVEL_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 31
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: WORKSPACE ===================================
+    id: 142752954784835341
+    identification: 
+      column-name: WORKSPACE
+      type: Hidden Column
+
+    layout: 
+      sequence: 41
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TEST_NAME ===================================
+    id: 142989157231948601
+    identification: 
+      column-name: TEST_NAME
       type: Plain Text
 
     heading: 
-      heading: Col001
+      heading: Test Name
       alignment: start
 
     layout: 
-      sequence: 2
+      sequence: 51
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: false
+      sortable: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -390,25 +444,40 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: COL002 ======================================
-    id: 139380802550261906
+  - # ====== Column: ACTIVE_YN ===================================
+    id: 142989252900948602
     identification: 
-      column-name: COL002
+      column-name: ACTIVE_YN
+      type: Hidden Column
+
+    layout: 
+      sequence: 61
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_ID =================================
+    id: 142989449158948604
+    identification: 
+      column-name: STANDARD_ID
       type: Plain Text
 
     heading: 
-      heading: Col002
+      heading: Standard ID
       alignment: start
 
     layout: 
-      sequence: 3
+      sequence: 111
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: false
+      sortable: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -422,25 +491,40 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: COL003 ======================================
-    id: 139381235459261906
+  - # ====== Column: AST_COMPONENT_TYPE_ID =======================
+    id: 142989560867948605
     identification: 
-      column-name: COL003
+      column-name: AST_COMPONENT_TYPE_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 81
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXPLANATION =================================
+    id: 142989945048948609
+    identification: 
+      column-name: EXPLANATION
       type: Plain Text
 
     heading: 
-      heading: Col003
+      heading: Explanation
       alignment: start
 
     layout: 
-      sequence: 4
+      sequence: 91
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: false
+      sortable: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -454,25 +538,25 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: COL004 ======================================
-    id: 139381670183261906
+  - # ====== Column: VERSION_NUMBER ==============================
+    id: 142990079984948610
     identification: 
-      column-name: COL004
+      column-name: VERSION_NUMBER
       type: Plain Text
 
     heading: 
-      heading: Col004
+      heading: Version Number
       alignment: start
 
     layout: 
-      sequence: 5
+      sequence: 101
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: false
+      sortable: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -486,174 +570,14 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: COL005 ======================================
-    id: 139382031580261907
+  - # ====== Column: STANDARD_CODE ===============================
+    id: 142990180140948611
     identification: 
-      column-name: COL005
+      column-name: STANDARD_CODE
       type: Plain Text
 
     heading: 
-      heading: Col005
-      alignment: start
-
-    layout: 
-      sequence: 6
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL006 ======================================
-    id: 139382417202261907
-    identification: 
-      column-name: COL006
-      type: Plain Text
-
-    heading: 
-      heading: Col006
-      alignment: start
-
-    layout: 
-      sequence: 7
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL007 ======================================
-    id: 139382838295261907
-    identification: 
-      column-name: COL007
-      type: Plain Text
-
-    heading: 
-      heading: Col007
-      alignment: start
-
-    layout: 
-      sequence: 8
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL008 ======================================
-    id: 139383210405261908
-    identification: 
-      column-name: COL008
-      type: Plain Text
-
-    heading: 
-      heading: Col008
-      alignment: start
-
-    layout: 
-      sequence: 9
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL009 ======================================
-    id: 139383683474261908
-    identification: 
-      column-name: COL009
-      type: Plain Text
-
-    heading: 
-      heading: Col009
-      alignment: start
-
-    layout: 
-      sequence: 10
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL010 ======================================
-    id: 139384070538261908
-    identification: 
-      column-name: COL010
-      type: Plain Text
-
-    heading: 
-      heading: Col010
+      heading: Standard Code
       alignment: start
 
     layout: 
@@ -664,7 +588,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: false
+      sortable: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -689,7 +613,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: Loaded File # 139378056436261899
     position: BODY
 
@@ -875,6 +799,66 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P34_STANDARD_ID ==========================
+  id: 142750410866835316
+  identification: 
+    name: P34_STANDARD_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: Loaded File # 139378056436261899
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_ROW_COUNT ============================
+  id: 142990401654948614
+  identification: 
+    name: P34_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Loaded File # 139378056436261899
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: CLEAR =======================================
   id: 139374033097261896
@@ -923,10 +907,11 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7573687401426144051
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--iconLeft
     icon: fa-upload
 
   behavior: 
@@ -1002,26 +987,6 @@ validations:
     associated-item: P34_FILE # 139376398030261898
 
 computations: 
-- # ====== Computation: P34_STANDARD_CODE ======================
-  id: 139354578134506123
-  identification: 
-    item-name: P34_STANDARD_CODE
-
-  execution: 
-    sequence: 20
-    point: After Submit
-
-  computation: 
-    type: SQL Query (return single value)
-    sql-query: |
-      select replace(filename, '.json')
-        from apex_application_temp_files 
-       where name = :P34_FILE
-
-  server-side-condition: 
-    type: Item is NOT NULL
-    item: P34_FILE
-
 - # ====== Computation: P34_FILE_NAME ==========================
   id: 139378937153261900
   identification: 
@@ -1041,6 +1006,81 @@ computations:
   server-side-condition: 
     type: Item is NOT NULL
     item: P34_FILE
+
+- # ====== Computation: P34_ROW_COUNT ==========================
+  id: 142990558814948615
+  identification: 
+    item-name: P34_ROW_COUNT
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(1)
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P34_FILE
+
+- # ====== Computation: P34_STANDARD_CODE ======================
+  id: 142990618559948616
+  identification: 
+    item-name: P34_STANDARD_CODE
+
+  execution: 
+    sequence: 20
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select p.col009
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P34_FILE
+       fetch first 1 rows only
+
+  server-side-condition: 
+    type: Item = Value
+    item: P34_ROW_COUNT
+    value: 1
+
+- # ====== Computation: P34_STANDARD_ID ========================
+  id: 142990799335948617
+  identification: 
+    item-name: P34_STANDARD_ID
+
+  execution: 
+    sequence: 30
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select p.col007
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P34_FILE
+       fetch first 1 rows only
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P34_ROW_COUNT > 1'
 
 processes: 
 - # ====== Process: Load Data ==================================
@@ -1088,12 +1128,7 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ":REQUEST = 'CLEAR' or :P34_ERROR_ROW_COUNT = 0"
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
+    when-button-pressed: CLEAR # 139374033097261896
 
 branches: 
 - # ====== Branch: go to page 60 ===============================
@@ -1119,4 +1154,28 @@ branches:
     type: Expression
     language: PL/SQL
     pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_STANDARD_CODE is not null and :P34_PROCESSED_ROW_COUNT = 1'
+
+- # ====== Branch: go to page 17 ===============================
+  id: 142750757444835319
+  identification: 
+    name: go to page 17
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:RR,17:IR[TEST_LIB]EQ_STANDARD_ID:&P34_STANDARD_ID.&success_msg=#SUCCESS_MSG#'
+      page: 17 # EBA_STDS_TESTS_LIB
+      clear-cache: RR,17
+      values: 
+        ir[test_lib]eq_standard_id: '&P34_STANDARD_ID.'
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 139374373993261896
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_STANDARD_ID is not null and :P34_PROCESSED_ROW_COUNT > 0'
 

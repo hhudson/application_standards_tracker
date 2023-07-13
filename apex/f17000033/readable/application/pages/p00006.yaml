@@ -114,7 +114,7 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
       maximum-rows-per-page: 10
 
     actions-menu: 
@@ -963,7 +963,7 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
 
     actions-menu: 
       include-actions-menu: true
@@ -1258,6 +1258,48 @@ regions:
         font-color: '#000000'
         alignment: center
 
+- # ====== Region: Footer ======================================
+  id: 286024182837659066
+  identification: 
+    title: Footer
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: REGION_POSITION_05
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 buttons: 
 - # ====== Button: CREATE ======================================
   id: 42805839753068252
@@ -1406,12 +1448,12 @@ buttons:
   id: 53108406394610548
   identification: 
     button-name: Merge_sample_data
-    label: Available Sample Data
+    label: Available Sample`Component Types`
 
   layout: 
     sequence: 10
-    region: Configured Component Types # 42802480974068246
-    position: RIGHT_OF_IR_SEARCH_BAR
+    region: Footer # 286024182837659066
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic

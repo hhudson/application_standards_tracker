@@ -33,7 +33,19 @@ select estl.id,
             when estl.version_number = esst.version_number
             then 'Y'
             else 'N'
-            end current_version_installed_yn
+            end current_version_installed_yn,
+       eba_stds_standard_tests_api.build_test_md5 (
+          p_standard_id           => estl.standard_id,
+          p_test_name             => estl.test_name,
+          p_query_clob            => estl.query_clob,
+          p_standard_code         => estl.standard_code,
+          p_active_yn             => estl.active_yn,
+          p_level_id              => estl.level_id,
+          p_mv_dependency         => estl.mv_dependency,
+          p_ast_component_type_id => estl.ast_component_type_id,
+          p_explanation           => estl.explanation,
+          p_fix                   => estl.fix
+       ) estl_md5
   from eba_stds_tests_lib estl
   left outer join eba_stds_standard_tests esst on estl.standard_code = esst.standard_code
   left outer join eba_stds_standards ess on ess.id = estl.standard_id

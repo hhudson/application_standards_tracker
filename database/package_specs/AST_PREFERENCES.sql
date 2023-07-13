@@ -30,7 +30,8 @@ create or replace package AST_PREFERENCES authid definer as
 
 Instructions : Set the values of these preference in the Admin section of the application (p36)
 
-select ast_preferences.get_preference ('AST_DEFAULT_SCHEMA') pref_val
+select ast_preferences.get_preference ('AST_DEFAULT_SCHEMA') schema,
+       ast_preferences.get_preference ('AST_DEFAULT_SCHEMA') workspace
 from dual;
 */
 ------------------------------------------------------------------------------

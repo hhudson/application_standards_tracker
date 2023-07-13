@@ -111,7 +111,7 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
 
     actions-menu: 
       include-actions-menu: true
@@ -222,7 +222,7 @@ regions:
       id: 177240675685445845
       identification: 
         column-name: EXAMPLE_QUERY
-        type: Rich Text
+        type: Plain Text
 
       heading: 
         heading: Example Query
@@ -235,16 +235,32 @@ regions:
         sequence: 3
         column-alignment: start
 
-      settings: 
-        format: Markdown
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: <code class="queryColSummary">#EXAMPLE_QUERY#</code>
 
       source: 
         primary-key: false
 
+      column-filter: 
+        type: Default Based on Column Type
+
       enable-users-to: 
         hide: true
+        sort: true
         filter: true
         highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
 
     - # ====== Column: CREATED =====================================
       id: 177241050144445845
@@ -547,17 +563,59 @@ regions:
       template-options: 
       - '#DEFAULT#'
 
+- # ====== Region: Footer ======================================
+  id: 858167432048584055
+  identification: 
+    title: Footer
+    type: Static Content
+
+  layout: 
+    sequence: 90
+    parent-region: No Parent
+    position: REGION_POSITION_05
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 buttons: 
 - # ====== Button: Merge_sample_data ===========================
   id: 53113803844619552
   identification: 
     button-name: Merge_sample_data
-    label: Available Sample Data
+    label: Available Sample `Types`
 
   layout: 
     sequence: 10
-    region: Underlying Object Types # 177239357483445837
-    position: RIGHT_OF_IR_SEARCH_BAR
+    region: Footer # 858167432048584055
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic

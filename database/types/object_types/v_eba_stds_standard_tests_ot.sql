@@ -20,11 +20,11 @@
     (
         STANDARD_ID             NUMBER,
         TEST_ID                 NUMBER,
+        LEVEL_ID                NUMBER,
         URGENCY                 VARCHAR2(255),
         URGENCY_LEVEL           NUMBER,
         TEST_NAME               VARCHAR2(64),
         STANDARD_CODE           VARCHAR2(100),
-        TEST_TYPE               VARCHAR2(16),
         STANDARD_CATEGORY_NAME  VARCHAR2(64),
         ACTIVE_YN               VARCHAR2(1),
         NT_NAME                 VARCHAR2(255 CHAR),
@@ -41,7 +41,8 @@
         MIME_TYPE               CHAR(16),
         FILE_NAME               VARCHAR2(4000), 
         CHARACTER_SET           CHAR(5),
-        VERSION_NUMBER          NUMBER
+        VERSION_NUMBER          NUMBER,
+        RECORD_MD5              VARCHAR2(250)
     )
 /
 --rollback drop type V_EBA_STDS_STANDARD_TESTS_OT;

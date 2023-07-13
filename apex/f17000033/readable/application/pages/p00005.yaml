@@ -44,6 +44,378 @@ help:
     <p>Once a standard has at least one automated test, the status column of the applications section indicates the percentage of the automated test(s) each associated application passes.</p>
 
 regions: 
+- # ====== Region: Download ====================================
+  id: 142694847673493246
+  identification: 
+    title: Download
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_EBA_STDS_STANDARDS
+    include-rowid-column: false
+    where-clause: 'standard_id = :P5_ID'
+    page-items-to-submit: 
+    - P5_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_05
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7573676953099144016
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: STANDARD_NAME ===============================
+    id: 142695024850493248
+    identification: 
+      column-name: STANDARD_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 20
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DESCRIPTION =================================
+    id: 142695171107493249
+    identification: 
+      column-name: DESCRIPTION
+      type: Hidden Column
+
+    layout: 
+      sequence: 30
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PRIMARY_DEVELOPER ===========================
+    id: 142695271113493250
+    identification: 
+      column-name: PRIMARY_DEVELOPER
+      type: Hidden Column
+
+    layout: 
+      sequence: 40
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: IMPLEMENTATION ==============================
+    id: 142748980616835301
+    identification: 
+      column-name: IMPLEMENTATION
+      type: Hidden Column
+
+    layout: 
+      sequence: 50
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DATE_STARTED ================================
+    id: 142749017214835302
+    identification: 
+      column-name: DATE_STARTED
+      type: Hidden Column
+
+    layout: 
+      sequence: 60
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED =====================================
+    id: 142749125131835303
+    identification: 
+      column-name: CREATED
+      type: Hidden Column
+
+    layout: 
+      sequence: 70
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED_BY ==================================
+    id: 142749244468835304
+    identification: 
+      column-name: CREATED_BY
+      type: Hidden Column
+
+    layout: 
+      sequence: 80
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED =====================================
+    id: 142749330998835305
+    identification: 
+      column-name: UPDATED
+      type: Hidden Column
+
+    layout: 
+      sequence: 90
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED_BY ==================================
+    id: 142749442740835306
+    identification: 
+      column-name: UPDATED_BY
+      type: Hidden Column
+
+    layout: 
+      sequence: 100
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_GROUP ==============================
+    id: 142749590415835307
+    identification: 
+      column-name: STANDARD_GROUP
+      type: Hidden Column
+
+    layout: 
+      sequence: 110
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIVE_YN ===================================
+    id: 142749612881835308
+    identification: 
+      column-name: ACTIVE_YN
+      type: Hidden Column
+
+    layout: 
+      sequence: 120
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_SIZE ===================================
+    id: 142749700726835309
+    identification: 
+      column-name: FILE_SIZE
+      type: Download BLOB
+
+    heading: 
+      heading: Export Standard
+      alignment: end
+
+    layout: 
+      sequence: 130
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    blob-attributes: 
+      table-owner: Parsing Schema
+      table-name: V_EBA_STDS_STANDARDS
+      blob-column: FILE_BLOB
+      primary-key-column-1: STANDARD_ID
+      mime-type-column: MIME_TYPE
+      filename-column: FILE_NAME
+      character-set-column: CHARACTER_SET
+
+    appearance: 
+      download-text: Download active `&P5_STANDARD.` tests   <span class="fa fa-download" aria-hidden="true"></span>
+      content-disposition: Attachment
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+  - # ====== Column: FILE_BLOB ===================================
+    id: 142749805572835310
+    identification: 
+      column-name: FILE_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 140
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MIME_TYPE ===================================
+    id: 142749998901835311
+    identification: 
+      column-name: MIME_TYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 150
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_NAME ===================================
+    id: 142750034432835312
+    identification: 
+      column-name: FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 160
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CHARACTER_SET ===============================
+    id: 142750123885835313
+    identification: 
+      column-name: CHARACTER_SET
+      type: Hidden Column
+
+    layout: 
+      sequence: 170
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_ID =================================
+    id: 142750245600835314
+    identification: 
+      column-name: STANDARD_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 180
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Tests =======================================
   id: 7561454687653065561
   identification: 
@@ -1790,6 +2162,9 @@ buttons:
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
 
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
 - # ====== Button: clear_filter ================================
   id: 115237389504846925
   identification: 
@@ -1827,7 +2202,7 @@ buttons:
     label: Import Test(s)
 
   layout: 
-    sequence: 50
+    sequence: 30
     region: Breadcrumb # 7561458788694065578
     position: CHANGE
     start-new-layout: false

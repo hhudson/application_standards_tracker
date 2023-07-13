@@ -197,7 +197,6 @@ create or replace package body eba_stds_data is
         --   -- 1: query_view
         --   -- 2: name
         --   -- 3: display_sequence
-        --   -- 4: test_type
         --   -- 5: standard_id
         --   -- 6: component_type_id
         --   -- 7: failure_help_text
@@ -233,7 +232,6 @@ create or replace package body eba_stds_data is
         --   --   l_st_row.query_view := l_st_data(i)(1);
         --   --   l_st_row.name := l_st_data(i)(2);
         --   --   l_st_row.display_sequence := l_st_data(i)(3);
-        --   --   l_st_row.test_type := l_st_data(i)(4);
         --   --   l_st_row.standard_id := l_st_data(i)(5);
         --   --   l_st_row.component_type_id := l_st_data(i)(6);
         --   --   l_st_row.failure_help_text := l_st_data(i)(7);
@@ -254,7 +252,6 @@ create or replace package body eba_stds_data is
         --   --         -- Deletions are handled above
         --   --         dest.name = l_st_row.name,
         --   --         dest.display_sequence = l_st_row.display_sequence,
-        --   --         dest.test_type = l_st_row.test_type,
         --   --         dest.standard_id = l_st_row.standard_id,
         --   --         dest.component_type_id = l_st_row.component_type_id,
         --   --         dest.failure_help_text = l_st_row.failure_help_text
@@ -263,7 +260,6 @@ create or replace package body eba_stds_data is
         --   --       query_view,
         --   --       name,
         --   --       display_sequence,
-        --   --       test_type,
         --   --       standard_id,
         --   --       component_type_id,
         --   --       failure_help_text
@@ -272,7 +268,6 @@ create or replace package body eba_stds_data is
         --   --       l_st_row.query_view,
         --   --       l_st_row.name,
         --   --       l_st_row.display_sequence,
-        --   --       l_st_row.test_type,
         --   --       l_st_row.standard_id,
         --   --       l_st_row.component_type_id,
         --   --       l_st_row.failure_help_text
