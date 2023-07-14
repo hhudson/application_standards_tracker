@@ -706,15 +706,15 @@ is
     l_opt_parent_pk_value  all_objects.object_type%type;
     l_initials varchar2(5);
     l_app_id all_tab_cols.column_name%type;
-    c_application_id constant varchar2(25) := 'application_id';
-    c_page_id constant varchar2(25) := 'page_id';
-    c_created_by constant varchar2(25) := 'created_by';
-    c_created_on constant varchar2(25) := 'created_on';
-    c_updated_by constant varchar2(25) := 'updated_by';
-    c_updated_on constant varchar2(25) := 'updated_on';
+    c_application_id  constant varchar2(25) := 'application_id';
+    c_page_id         constant varchar2(25) := 'page_id';
+    c_created_by      constant varchar2(25) := 'created_by';
+    c_created_on      constant varchar2(25) := 'created_on';
+    c_updated_by      constant varchar2(25) := 'updated_by';
+    c_updated_on      constant varchar2(25) := 'updated_on';
     c_last_updated_by constant varchar2(25) := 'last_updated_by';
     c_last_updated_on constant varchar2(25) := 'last_updated_on';
-    c_build_option constant varchar2(25) := 'build_option';
+    c_build_option    constant varchar2(25) := 'build_option';
 
         function column_exists (p_column_name in varchar2) return boolean
         as 
@@ -794,17 +794,17 @@ is
                                                                         else 'null '
                                                                         end
                                   );
-        l_example_query := replace(l_example_query, '%updatedby%', case when column_exists (c_updated_by)
+        l_example_query := replace(l_example_query, '%updatedby%', case when column_exists (c_last_updated_by)
                                                                         then l_initials||'.'
-                                                                        when column_exists (c_last_updated_by)
-                                                                        then l_initials||'.'||c_last_updated_by||' '
+                                                                        when column_exists (c_updated_by)
+                                                                        then l_initials||'.'||c_updated_by||' '
                                                                         else 'null '
                                                                         end
                                   );
-        l_example_query := replace(l_example_query, '%updatedon%', case when column_exists (c_updated_on)
+        l_example_query := replace(l_example_query, '%updatedon%', case when column_exists (c_last_updated_on)
                                                                         then l_initials||'.'
-                                                                        when column_exists (c_last_updated_on)
-                                                                        then l_initials||'.'||c_last_updated_on||' '
+                                                                        when column_exists (c_updated_on)
+                                                                        then l_initials||'.'||c_updated_on||' '
                                                                         else 'null '
                                                                         end
                                   );
