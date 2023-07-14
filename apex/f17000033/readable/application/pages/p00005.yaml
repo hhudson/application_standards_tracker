@@ -505,9 +505,10 @@ regions:
       chart: true
       group-by: true
       pivot: true
-      flashback: true
+      flashback: false
       save-report: true
       save-public-report: true
+      save-public-report-authorization: ADMINISTRATION RIGHTS # 10780232806617370804
       reset: true
       help: true
       download: true
@@ -847,7 +848,7 @@ regions:
         pivot: false
 
       appearance: 
-        download-text: '#VERSION_NUMBER# <span aria-hidden="true" class="fa fa-file-arrow-down"></span>'
+        download-text: '<span class="#DLCLSS#"> <span aria-hidden="true" class="fa fa-file-arrow-down"></span> Download #VSN# </span>'
         content-disposition: Attachment
 
     - # ====== Column: FILE_BLOB ===================================
@@ -1278,21 +1279,21 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: VERSION_NUMBER ==============================
-      id: 139352570471506103
+    - # ====== Column: RECORD_MD5 ==================================
+      id: 142993537324948645
       identification: 
-        column-name: VERSION_NUMBER
+        column-name: RECORD_MD5
         type: Plain Text
 
       heading: 
-        heading: Version Number
+        heading: Record Md5
         alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 490
+        sequence: 500
         column-alignment: start
 
       accessibility: 
@@ -1315,6 +1316,215 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ESTL_MD5 ====================================
+      id: 142993629585948646
+      identification: 
+        column-name: ESTL_MD5
+        type: Plain Text
+
+      heading: 
+        heading: Estl Md5
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 510
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISHED_YN ================================
+      id: 142993733676948647
+      identification: 
+        column-name: PUBLISHED_YN
+        type: Plain Text
+
+      heading: 
+        heading: Published Yn
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 520
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISH_BUTTON_HTML =========================
+      id: 142993835693948648
+      identification: 
+        column-name: PUBLISH_BUTTON_HTML
+        type: Plain Text
+
+      heading: 
+        heading: Publish
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 530
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          <button type="button" 
+                  class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft publishRpt #PUBLISH_CLSS#"
+                  data-stdcd="#STANDARD_CODE#">
+          <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-print"></span>
+          Publish
+          </button>
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: VSN =========================================
+      id: 143452357825206738
+      identification: 
+        column-name: VSN
+        type: Plain Text
+
+      heading: 
+        heading: Version Number
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 540
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: DLCLSS ======================================
+      id: 143452400689206739
+      identification: 
+        column-name: DLCLSS
+        type: Hidden Column
+
+      heading: 
+        heading: Dlclss
+
+      layout: 
+        sequence: 550
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISH_CLSS ================================
+      id: 143453147922206746
+      identification: 
+        column-name: PUBLISH_CLSS
+        type: Hidden Column
+
+      heading: 
+        heading: Publish Clss
+
+      layout: 
+        sequence: 560
+
+      source: 
+        primary-key: false
 
       security: 
         escape-special-characters: true
@@ -1524,50 +1734,6 @@ regions:
 
       advanced: 
         static-id: STD_CREATION_DATE
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: TEST_TYPE ===================================
-      id: 6150804406108766214
-      identification: 
-        column-name: TEST_TYPE
-        type: Plain Text
-
-      heading: 
-        heading: Test Type
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 70
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      advanced: 
-        static-id: TEST_TYPE
 
       enable-users-to: 
         hide: true
@@ -1997,6 +2163,36 @@ regions:
       - '#DEFAULT#'
 
 page-items: 
+- # ====== Page Item: P5_STANDARD_CODE =========================
+  id: 143453247760206747
+  identification: 
+    name: P5_STANDARD_CODE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 10
+    region: Tests # 7561454687653065561
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P5_ID ====================================
   id: 7561455492187065562
   identification: 
@@ -2348,6 +2544,107 @@ buttons:
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
 dynamic-actions: 
+- # ====== Dynamic Action: publish test ========================
+  id: 143452948946206744
+  identification: 
+    name: publish test
+
+  execution: 
+    sequence: 60
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: jQuery Selector
+    jquery-selector: .publishRpt
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 143453390342206748
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.item('P5_STANDARD_CODE').setValue(this.triggeringElement.dataset.stdcd);
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P5_STANDARD_CODE
+
+    execution: 
+      sequence: 40
+      event: publish test # 143452948946206744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Disable =====================================
+    id: 143453448533206749
+    identification: 
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 10
+      event: publish test # 143452948946206744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 143453590095206750
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: 'eba_stds_standard_tests_api.publish_test(p_standard_code => :P5_STANDARD_CODE);'
+      items-to-submit: 
+      - P5_STANDARD_CODE
+
+    execution: 
+      sequence: 50
+      event: publish test # 143452948946206744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh =====================================
+    id: 144375567656069501
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tests # 7561454687653065561
+
+    execution: 
+      sequence: 60
+      event: publish test # 143452948946206744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Enable ======================================
+    id: 144375694254069502
+    identification: 
+      action: Enable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 70
+      event: publish test # 143452948946206744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: Apply Filter ========================
   id: 7722074380474787813
   identification: 

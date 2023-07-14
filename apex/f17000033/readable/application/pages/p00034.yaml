@@ -293,7 +293,7 @@ regions:
   attributes: 
     layout: 
       number-of-rows-type: Static Value
-      number-of-rows: 50
+      number-of-rows: 10
 
     appearance: 
       template-type: Theme
@@ -1046,9 +1046,12 @@ computations:
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
                         p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
-                        p_max_rows          => 100 ) ) p
+                        p_max_rows          => 2 ) ) p
        where f.name = :P34_FILE
        fetch first 1 rows only
+
+  error: 
+    error-message: failure to get standard code
 
   server-side-condition: 
     type: Item = Value
@@ -1073,7 +1076,7 @@ computations:
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
                         p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
-                        p_max_rows          => 100 ) ) p
+                        p_max_rows          => 3 ) ) p
        where f.name = :P34_FILE
        fetch first 1 rows only
 

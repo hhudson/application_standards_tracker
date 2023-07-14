@@ -169,13 +169,13 @@ regions:
         location: Local Database
         type: SQL Query
         sql-query: |
-          select ess.name standard_name, src.standard_id, count(*) issue_count
+          select ess.standard_name standard_name, src.standard_id, count(*) issue_count
           from ast_plsql_apex_audit paa
           inner join eba_stds_standard_tests src on paa.standard_code  = src.standard_code
           inner join eba_stds_standards ess on src.standard_id = ess.id
           left outer join ast_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
-          group by ess.name, src.standard_id
+          group by ess.standard_name, src.standard_id
 
       column-mapping: 
         label: STANDARD_NAME
@@ -551,6 +551,117 @@ regions:
       performance: 
         maximum-rows-to-process: 20
 
+- # ====== Region: Violation Count by Application ==============
+  id: 142993241229948642
+  identification: 
+    title: Violation Count by Application
+    type: Chart
+
+  layout: 
+    sequence: 110
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 142993395392948643
+    chart: 
+      type: Pie
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight And Explode
+
+    value: 
+      pie-chart-other-threshold: 0
+      format-scaling: Automatic
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Series 1 ====================================
+      id: 142993427737948644
+      identification: 
+        name: Series 1
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select aarc.application_id, aarc.application_name, aarc.violation_count
+          from V_AST_APPLICATION_REPORT_CARD aarc
+          order by aarc.violation_count desc
+          fetch first 10 rows only
+
+      column-mapping: 
+        label: APPLICATION_NAME
+        value: VIOLATION_COUNT
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.:RR,21:IR[RPTCRD]EQ_APPLICATION_ID:&APPLICATION_ID.'
+          page: 21 # Application Report Card
+          clear-cache: RR,21
+          values: 
+            ir[rptcrd]eq_application_id: '&APPLICATION_ID.'
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
 - # ====== Region: Cumulative Violation Count ==================
   id: 837855174254296830
   identification: 
@@ -565,7 +676,7 @@ regions:
       from mv_issues_created_by_day
 
   layout: 
-    sequence: 110
+    sequence: 120
     parent-region: No Parent
     position: BODY
     start-new-layout: false

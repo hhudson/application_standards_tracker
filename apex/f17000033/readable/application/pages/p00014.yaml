@@ -23,12 +23,6 @@ javascript:
   file-urls: 
   - '#APP_FILES#js/f4000_searchResults#MIN#.js'
 
-css: 
-  inline: |
-    th, td {
-        border-style: dotted;
-      }
-
 security: 
   authorization-scheme: READER RIGHTS # 48893993399820863
   authentication: Page Requires Authentication
@@ -149,7 +143,7 @@ regions:
     type: Region Display Selector
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -162,7 +156,9 @@ regions:
     template: Standard # 7573670342594143998
     template-options: 
     - '#DEFAULT#'
+    - t-Region--noPadding
     - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
     - t-Region--scrollBody
     - margin-bottom-none
     render-components: Above Content
@@ -290,6 +286,106 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: Do you want to publish your change? =========
+  id: 142992155007948631
+  identification: 
+    title: Do you want to publish your change?
+    type: Static Content
+
+  source: 
+    html-code: Select 'Yes' to indicate that you are updating your test in a significant way. 'Yes' will increase the test version number and will signal to other deployments of this test that they should update their local version with this one.
+
+  layout: 
+    sequence: 10
+    parent-region: Update Standard Test # 198848628130243437
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--success
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Inactivating your test ======================
+  id: 142992818447948638
+  identification: 
+    title: Inactivating your test
+    type: Static Content
+
+  source: 
+    html-code: |
+      <ul>
+          <li>Inactive tests will not be automatically exported or shared</li>
+          <li>Inactive tests will not be run. Violations related to inactive tests will be removed when the regular job runs</li>
+      </ul>
+
+  layout: 
+    sequence: 20
+    parent-region: Update Standard Test # 198848628130243437
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Breadcrumb ==================================
   id: 191506192652792030
   identification: 
@@ -300,7 +396,7 @@ regions:
     breadcrumb: ' Breadcrumb' # 11984537740102947250
 
   layout: 
-    sequence: 50
+    sequence: 10
     parent-region: No Parent
     position: REGION_POSITION_01
     start-new-layout: false
@@ -335,6 +431,53 @@ regions:
       breadcrumb-template: Breadcrumb # 7573688177511144054
       template-options: 
       - '#DEFAULT#'
+
+- # ====== Region: Update Standard Test ========================
+  id: 198848628130243437
+  identification: 
+    title: Update Standard Test
+    type: Static Content
+
+  layout: 
+    sequence: 130
+    parent-region: No Parent
+    position: REGION_POSITION_05
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Drawer # 50155276726329210
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-class-t-Drawer--pullOutEnd
+    - js-dialog-class-t-Drawer--md
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: UPDATETEST
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
 
 - # ====== Region: Live Test results ===========================
   id: 223434012666172342
@@ -1388,7 +1531,7 @@ regions:
   id: 7704162009767699433
   identification: 
     title: Tests
-    type: Classic Report
+    type: Interactive Report
 
   source: 
     location: Local Database
@@ -1396,12 +1539,11 @@ regions:
     table-owner: Parsing Schema
     table-name: V_EBA_STDS_STANDARD_TESTS_EXPORT
     include-rowid-column: false
-    where-clause: 'test_id = :P14_ID'
+    where-clause: |
+      test_id = :P14_ID
+      and active_yn = 'Y'
     page-items-to-submit: 
     - P14_ID
-
-  order-by: 
-    type: None
 
   layout: 
     sequence: 120
@@ -1409,9 +1551,9 @@ regions:
     position: BODY
     start-new-layout: false
     start-new-row: false
-    column: Automatic
+    column: 3
     new-column: true
-    column-span: Automatic
+    column-span: 4
 
   appearance: 
     template: Standard # 7573670342594143998
@@ -1421,7 +1563,7 @@ regions:
     - t-Region--removeHeader js-removeLandmark
     - t-Region--noUI
     - t-Region--scrollBody
-    - margin-top-md
+    - margin-top-sm
     render-components: Above Content
 
   accessibility: 
@@ -1440,428 +1582,626 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    layout: 
-      number-of-rows-type: Static Value
-      number-of-rows: 15
-
-    appearance: 
-      template-type: Theme
-      template: Standard # 7573676953099144016
-      template-options: 
-      - '#DEFAULT#'
-      - t-Report--altRowsDefault
-      - t-Report--rowHighlight
+    id: 143448934484206704
+    link: 
+      link-column: Exclude Link Column
 
     pagination: 
-      type: No Pagination (Show All Rows)
-      partial-page-refresh: true
+      type: None
 
     performance: 
       lazy-loading: false
+      maximum-rows-to-process: 1000000
 
-    break-formatting: 
-      break-columns: No Break
+    messages: 
+      when-no-data-found: <small>Activate your test to download it</small>
 
-    advanced: 
-      strip-html: false
-      sort-nulls: Last
+    search-bar: 
+      include-search-bar: false
 
     heading: 
-      type: None
+      fixed-to: None
 
-    download: 
-      csv-export-enabled: false
+    icon-view: 
+      show: false
 
-    printing: 
-      enabled: false
+    detail-view: 
+      show: false
 
-  columns: 
-  - # ====== Column: STANDARD_ID =================================
-    id: 142692463562493222
-    identification: 
-      column-name: STANDARD_ID
-      type: Hidden Column
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 144336654139999629
+      identification: 
+        name: Primary Report
+        alias: 1443367
 
-    layout: 
-      sequence: 10
+    columns: 
+    - # ====== Column: STANDARD_ID =================================
+      id: 143449098377206705
+      identification: 
+        column-name: STANDARD_ID
+        type: Hidden Column
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      heading: 
+        heading: Standard ID
 
-    security: 
-      escape-special-characters: true
+      layout: 
+        sequence: 30
 
-  - # ====== Column: TEST_ID =====================================
-    id: 142692531635493223
-    identification: 
-      column-name: TEST_ID
-      type: Hidden Column
+      source: 
+        primary-key: false
 
-    layout: 
-      sequence: 20
+      security: 
+        escape-special-characters: true
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+    - # ====== Column: TEST_ID =====================================
+      id: 143449166616206706
+      identification: 
+        column-name: TEST_ID
+        type: Hidden Column
 
-    security: 
-      escape-special-characters: true
+      heading: 
+        heading: Test ID
 
-  - # ====== Column: URGENCY =====================================
-    id: 142692666475493224
-    identification: 
-      column-name: URGENCY
-      type: Hidden Column
+      layout: 
+        sequence: 40
 
-    layout: 
-      sequence: 30
+      source: 
+        primary-key: false
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      security: 
+        escape-special-characters: true
 
-    security: 
-      escape-special-characters: true
+    - # ====== Column: URGENCY =====================================
+      id: 143449272497206707
+      identification: 
+        column-name: URGENCY
+        type: Hidden Column
 
-  - # ====== Column: URGENCY_LEVEL ===============================
-    id: 142692777245493225
-    identification: 
-      column-name: URGENCY_LEVEL
-      type: Hidden Column
+      heading: 
+        heading: Urgency
 
-    layout: 
-      sequence: 40
+      layout: 
+        sequence: 50
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      source: 
+        primary-key: false
 
-    security: 
-      escape-special-characters: true
+      security: 
+        escape-special-characters: true
 
-  - # ====== Column: TEST_NAME ===================================
-    id: 142692884716493226
-    identification: 
-      column-name: TEST_NAME
-      type: Hidden Column
+    - # ====== Column: URGENCY_LEVEL ===============================
+      id: 143449305172206708
+      identification: 
+        column-name: URGENCY_LEVEL
+        type: Hidden Column
 
-    layout: 
-      sequence: 50
+      heading: 
+        heading: Urgency Level
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      layout: 
+        sequence: 60
 
-    security: 
-      escape-special-characters: true
+      source: 
+        primary-key: false
 
-  - # ====== Column: STANDARD_CODE ===============================
-    id: 142692968351493227
-    identification: 
-      column-name: STANDARD_CODE
-      type: Hidden Column
+      security: 
+        escape-special-characters: true
 
-    layout: 
-      sequence: 60
+    - # ====== Column: TEST_NAME ===================================
+      id: 143449476511206709
+      identification: 
+        column-name: TEST_NAME
+        type: Hidden Column
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      heading: 
+        heading: Test Name
 
-    security: 
-      escape-special-characters: true
+      layout: 
+        sequence: 70
 
-  - # ====== Column: TEST_TYPE ===================================
-    id: 142693027885493228
-    identification: 
-      column-name: TEST_TYPE
-      type: Hidden Column
+      source: 
+        primary-key: false
 
-    layout: 
-      sequence: 70
+      security: 
+        escape-special-characters: true
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+    - # ====== Column: STANDARD_CODE ===============================
+      id: 143449553844206710
+      identification: 
+        column-name: STANDARD_CODE
+        type: Hidden Column
 
-    security: 
-      escape-special-characters: true
+      heading: 
+        heading: Standard Code
 
-  - # ====== Column: STANDARD_CATEGORY_NAME ======================
-    id: 142693136323493229
-    identification: 
-      column-name: STANDARD_CATEGORY_NAME
-      type: Hidden Column
+      layout: 
+        sequence: 80
 
-    layout: 
-      sequence: 80
+      source: 
+        primary-key: false
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      security: 
+        escape-special-characters: true
 
-    security: 
-      escape-special-characters: true
+    - # ====== Column: STANDARD_CATEGORY_NAME ======================
+      id: 143449609112206711
+      identification: 
+        column-name: STANDARD_CATEGORY_NAME
+        type: Hidden Column
 
-  - # ====== Column: ACTIVE_YN ===================================
-    id: 142693256247493230
-    identification: 
-      column-name: ACTIVE_YN
-      type: Hidden Column
+      heading: 
+        heading: Standard Category Name
 
-    layout: 
-      sequence: 90
+      layout: 
+        sequence: 90
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      source: 
+        primary-key: false
 
-    security: 
-      escape-special-characters: true
+      security: 
+        escape-special-characters: true
 
-  - # ====== Column: NT_NAME =====================================
-    id: 142693397969493231
-    identification: 
-      column-name: NT_NAME
-      type: Hidden Column
+    - # ====== Column: ACTIVE_YN ===================================
+      id: 143449722860206712
+      identification: 
+        column-name: ACTIVE_YN
+        type: Hidden Column
 
-    layout: 
-      sequence: 100
+      heading: 
+        heading: Active Yn
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      layout: 
+        sequence: 100
 
-    security: 
-      escape-special-characters: true
+      source: 
+        primary-key: false
 
-  - # ====== Column: QUERY_CLOB ==================================
-    id: 142693429145493232
-    identification: 
-      column-name: QUERY_CLOB
-      type: Hidden Column
+      security: 
+        escape-special-characters: true
 
-    layout: 
-      sequence: 110
+    - # ====== Column: NT_NAME =====================================
+      id: 143449895960206713
+      identification: 
+        column-name: NT_NAME
+        type: Hidden Column
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      heading: 
+        heading: Nt Name
 
-    security: 
-      escape-special-characters: true
+      layout: 
+        sequence: 110
 
-  - # ====== Column: STD_CREATION_DATE ===========================
-    id: 142693556127493233
-    identification: 
-      column-name: STD_CREATION_DATE
-      type: Hidden Column
+      source: 
+        primary-key: false
 
-    layout: 
-      sequence: 120
+      security: 
+        escape-special-characters: true
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+    - # ====== Column: QUERY_CLOB ==================================
+      id: 143449951858206714
+      identification: 
+        column-name: QUERY_CLOB
+        type: Hidden Column
 
-    security: 
-      escape-special-characters: true
+      heading: 
+        heading: Query Clob
 
-  - # ====== Column: MV_DEPENDENCY ===============================
-    id: 142693604923493234
-    identification: 
-      column-name: MV_DEPENDENCY
-      type: Hidden Column
+      layout: 
+        sequence: 120
 
-    layout: 
-      sequence: 130
+      source: 
+        primary-key: false
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      security: 
+        escape-special-characters: true
 
-    security: 
-      escape-special-characters: true
+    - # ====== Column: STD_CREATION_DATE ===========================
+      id: 143450068475206715
+      identification: 
+        column-name: STD_CREATION_DATE
+        type: Hidden Column
 
-  - # ====== Column: AST_COMPONENT_TYPE_ID =======================
-    id: 142693733546493235
-    identification: 
-      column-name: AST_COMPONENT_TYPE_ID
-      type: Hidden Column
+      heading: 
+        heading: Std Creation Date
 
-    layout: 
-      sequence: 140
+      layout: 
+        sequence: 130
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      source: 
+        primary-key: false
 
-    security: 
-      escape-special-characters: true
+      security: 
+        escape-special-characters: true
 
-  - # ====== Column: COMPONENT_NAME ==============================
-    id: 142693877485493236
-    identification: 
-      column-name: COMPONENT_NAME
-      type: Hidden Column
+    - # ====== Column: MV_DEPENDENCY ===============================
+      id: 143450153525206716
+      identification: 
+        column-name: MV_DEPENDENCY
+        type: Hidden Column
 
-    layout: 
-      sequence: 150
+      heading: 
+        heading: Mv Dependency
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      layout: 
+        sequence: 140
 
-    security: 
-      escape-special-characters: true
+      source: 
+        primary-key: false
 
-  - # ====== Column: STANDARD_ACTIVE_YN ==========================
-    id: 142693900653493237
-    identification: 
-      column-name: STANDARD_ACTIVE_YN
-      type: Hidden Column
+      security: 
+        escape-special-characters: true
 
-    layout: 
-      sequence: 160
+    - # ====== Column: AST_COMPONENT_TYPE_ID =======================
+      id: 143450229421206717
+      identification: 
+        column-name: AST_COMPONENT_TYPE_ID
+        type: Hidden Column
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      heading: 
+        heading: Ast Component Type ID
 
-    security: 
-      escape-special-characters: true
+      layout: 
+        sequence: 150
 
-  - # ====== Column: EXPLANATION =================================
-    id: 142694022622493238
-    identification: 
-      column-name: EXPLANATION
-      type: Hidden Column
+      source: 
+        primary-key: false
 
-    layout: 
-      sequence: 170
+      security: 
+        escape-special-characters: true
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+    - # ====== Column: COMPONENT_NAME ==============================
+      id: 143450307803206718
+      identification: 
+        column-name: COMPONENT_NAME
+        type: Hidden Column
 
-    security: 
-      escape-special-characters: true
+      heading: 
+        heading: Component Name
 
-  - # ====== Column: FIX =========================================
-    id: 142694134780493239
-    identification: 
-      column-name: FIX
-      type: Hidden Column
+      layout: 
+        sequence: 160
 
-    layout: 
-      sequence: 180
+      source: 
+        primary-key: false
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      security: 
+        escape-special-characters: true
 
-    security: 
-      escape-special-characters: true
+    - # ====== Column: STANDARD_ACTIVE_YN ==========================
+      id: 143450408357206719
+      identification: 
+        column-name: STANDARD_ACTIVE_YN
+        type: Hidden Column
 
-  - # ====== Column: DOWNLOAD ====================================
-    id: 142694266630493240
-    identification: 
-      column-name: DOWNLOAD
-      type: Download BLOB
+      heading: 
+        heading: Standard Active Yn
 
-    heading: 
-      heading: Export
-      alignment: end
+      layout: 
+        sequence: 170
 
-    layout: 
-      sequence: 190
-      column-alignment: end
+      source: 
+        primary-key: false
 
-    accessibility: 
-      value-identifies-row: false
+      security: 
+        escape-special-characters: true
 
-    blob-attributes: 
-      table-owner: Parsing Schema
-      table-name: V_EBA_STDS_STANDARD_TESTS_EXPORT
-      blob-column: FILE_BLOB
-      primary-key-column-1: TEST_ID
-      mime-type-column: MIME_TYPE
-      filename-column: FILE_NAME
-      character-set-column: CHARACTER_SET
+    - # ====== Column: EXPLANATION =================================
+      id: 143450503026206720
+      identification: 
+        column-name: EXPLANATION
+        type: Hidden Column
 
-    appearance: 
-      download-text: Download V&P14_VERSION_NUMBER. <span aria-hidden="true" class="fa fa-file-arrow-down"></span>
-      content-disposition: Attachment
+      heading: 
+        heading: Explanation
 
-    sorting: 
-      sortable: true
+      layout: 
+        sequence: 180
 
-    export-/-printing: 
-      include-in-export-/-print: true
+      source: 
+        primary-key: false
 
-    advanced: 
-      compute-sum: false
+      security: 
+        escape-special-characters: true
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+    - # ====== Column: FIX =========================================
+      id: 143450634113206721
+      identification: 
+        column-name: FIX
+        type: Hidden Column
 
-  - # ====== Column: FILE_BLOB ===================================
-    id: 142694394944493241
-    identification: 
-      column-name: FILE_BLOB
-      type: Hidden Column
+      heading: 
+        heading: Fix
 
-    layout: 
-      sequence: 200
+      layout: 
+        sequence: 190
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      source: 
+        primary-key: false
 
-    security: 
-      escape-special-characters: true
+      security: 
+        escape-special-characters: true
 
-  - # ====== Column: MIME_TYPE ===================================
-    id: 142694405495493242
-    identification: 
-      column-name: MIME_TYPE
-      type: Hidden Column
+    - # ====== Column: DOWNLOAD ====================================
+      id: 143450719379206722
+      identification: 
+        column-name: DOWNLOAD
+        type: Download BLOB
 
-    layout: 
-      sequence: 210
+      heading: 
+        heading: Download
+        alignment: end
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      single-row-view: 
+        use-column-heading: true
 
-    security: 
-      escape-special-characters: true
+      layout: 
+        sequence: 10
+        column-alignment: start
 
-  - # ====== Column: FILE_NAME ===================================
-    id: 142694583522493243
-    identification: 
-      column-name: FILE_NAME
-      type: Hidden Column
+      accessibility: 
+        value-identifies-row: false
 
-    layout: 
-      sequence: 220
+      blob-attributes: 
+        table-owner: Parsing Schema
+        table-name: V_EBA_STDS_STANDARD_TESTS_EXPORT
+        blob-column: FILE_BLOB
+        primary-key-column-1: TEST_ID
+        mime-type-column: MIME_TYPE
+        filename-column: FILE_NAME
+        character-set-column: CHARACTER_SET
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      source: 
+        primary-key: false
 
-    security: 
-      escape-special-characters: true
+      column-filter: 
+        type: Default Based on Column Type
 
-  - # ====== Column: CHARACTER_SET ===============================
-    id: 142694616057493244
-    identification: 
-      column-name: CHARACTER_SET
-      type: Hidden Column
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
 
-    layout: 
-      sequence: 230
+      appearance: 
+        download-text: '<span class="#DLCLSS#"> <span aria-hidden="true" class="fa fa-file-arrow-down"></span> Download #VSN# </span>'
+        content-disposition: Attachment
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+    - # ====== Column: FILE_BLOB ===================================
+      id: 143450812267206723
+      identification: 
+        column-name: FILE_BLOB
+        type: Hidden Column
 
-    security: 
-      escape-special-characters: true
+      heading: 
+        heading: File Blob
 
-  - # ====== Column: VERSION_NUMBER ==============================
-    id: 142694706998493245
-    identification: 
-      column-name: VERSION_NUMBER
-      type: Hidden Column
+      layout: 
+        sequence: 210
 
-    layout: 
-      sequence: 240
+      source: 
+        primary-key: false
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+      security: 
+        escape-special-characters: true
 
-    security: 
-      escape-special-characters: true
+    - # ====== Column: MIME_TYPE ===================================
+      id: 143450914673206724
+      identification: 
+        column-name: MIME_TYPE
+        type: Hidden Column
+
+      heading: 
+        heading: Mime Type
+
+      layout: 
+        sequence: 220
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FILE_NAME ===================================
+      id: 143451088501206725
+      identification: 
+        column-name: FILE_NAME
+        type: Hidden Column
+
+      heading: 
+        heading: File Name
+
+      layout: 
+        sequence: 230
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CHARACTER_SET ===============================
+      id: 143451146719206726
+      identification: 
+        column-name: CHARACTER_SET
+        type: Hidden Column
+
+      heading: 
+        heading: Character Set
+
+      layout: 
+        sequence: 240
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: RECORD_MD5 ==================================
+      id: 143451308679206728
+      identification: 
+        column-name: RECORD_MD5
+        type: Hidden Column
+
+      heading: 
+        heading: Record Md5
+
+      layout: 
+        sequence: 260
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ESTL_MD5 ====================================
+      id: 143451494053206729
+      identification: 
+        column-name: ESTL_MD5
+        type: Hidden Column
+
+      heading: 
+        heading: Estl Md5
+
+      layout: 
+        sequence: 270
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISHED_YN ================================
+      id: 143451513377206730
+      identification: 
+        column-name: PUBLISHED_YN
+        type: Hidden Column
+
+      heading: 
+        heading: Published Yn
+
+      layout: 
+        sequence: 280
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISH_BUTTON_HTML =========================
+      id: 143451692807206731
+      identification: 
+        column-name: PUBLISH_BUTTON_HTML
+        type: Plain Text
+
+      heading: 
+        heading: Publish
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          <button type="button" 
+                  class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft publishRpt #PUBLISH_CLSS#"
+                  data-stdcd="#STANDARD_CODE#">
+          <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-print"></span>
+          Publish
+          </button>
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: DLCLSS ======================================
+      id: 143452156346206736
+      identification: 
+        column-name: DLCLSS
+        type: Hidden Column
+
+      heading: 
+        heading: Dlclss
+
+      layout: 
+        sequence: 290
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VSN =========================================
+      id: 143452297036206737
+      identification: 
+        column-name: VSN
+        type: Hidden Column
+
+      heading: 
+        heading: Vsn
+
+      layout: 
+        sequence: 300
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISH_CLSS ================================
+      id: 144375741487069503
+      identification: 
+        column-name: PUBLISH_CLSS
+        type: Hidden Column
+
+      heading: 
+        heading: Publish Clss
+
+      layout: 
+        sequence: 310
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
 
 page-items: 
 - # ====== Page Item: P14_COMPONENT_TYPE_ID ====================
@@ -2036,7 +2376,7 @@ page-items:
   settings: 
     library: TinyMCE
     format: Markdown
-    minimum-height: 180
+    minimum-height: 100
 
   layout: 
     sequence: 80
@@ -2093,7 +2433,7 @@ page-items:
   settings: 
     library: TinyMCE
     format: Markdown
-    minimum-height: 180
+    minimum-height: 100
 
   layout: 
     sequence: 100
@@ -2285,7 +2625,7 @@ page-items:
     validate-code: false
 
   layout: 
-    sequence: 70
+    sequence: 80
     region: Query # 115236181819846913
     position: BODY
     start-new-layout: false
@@ -2450,7 +2790,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 130
+    sequence: 140
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2587,18 +2927,18 @@ page-items:
   id: 139352872090506106
   identification: 
     name: P14_TEST_NAME
-    type: Text Field
+    type: Text Field with autocomplete
 
   label: 
     label: Test Name
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    search: Contains & Ignore Case
+    fetch-on-type: true
+    cache: true
+    maximum-values-in-list: 7
+    minimum-search: 1
 
   layout: 
     sequence: 30
@@ -2622,6 +2962,11 @@ page-items:
     value-required: true
     maximum-length: 64
 
+  list-of-values: 
+    type: SQL Query
+    sql-query: select test_name from eba_stds_standard_tests
+    display-extra-values: true
+
   advanced: 
     warn-on-unsaved-changes: Page Default
 
@@ -2634,9 +2979,6 @@ page-items:
 
   session-state: 
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
@@ -2944,46 +3286,6 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P14_TEST_TYPE ============================
-  id: 7721083766890634290
-  identification: 
-    name: P14_TEST_TYPE
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 70
-    region: Configuration # 115235287601846904
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Standard Test # 7562693978314107360
-    column: TEST_TYPE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  default: 
-    type: Static
-    static-value: FAIL_REPORT
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: "'Report' types will make a report available to detail full pass/fail detail. 'Pass/fail' describes a test that is evaluated at the application level."
-
 buttons: 
 - # ====== Button: DUPLICATE ===================================
   id: 42938546386017748
@@ -2994,7 +3296,7 @@ buttons:
   layout: 
     sequence: 10
     region: Buttons # 7094082318946085125
-    position: EDIT
+    position: CHANGE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3039,7 +3341,7 @@ buttons:
   layout: 
     sequence: 10
     region: Breadcrumb # 191506192652792030
-    position: HELP
+    position: PREVIOUS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3074,9 +3376,9 @@ buttons:
     label: Current Violations
 
   layout: 
-    sequence: 20
-    region: Menu # 115235002622846902
-    position: CHANGE
+    sequence: 30
+    region: Breadcrumb # 191506192652792030
+    position: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3111,6 +3413,68 @@ buttons:
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+- # ====== Button: SAVE ========================================
+  id: 143064123846412524
+  identification: 
+    button-name: SAVE
+    label: Save
+
+  layout: 
+    sequence: 10
+    region: Buttons # 7094082318946085125
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-user-slash
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P14_ID
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: Cancel ======================================
+  id: 143064559638412524
+  identification: 
+    button-name: Cancel
+    label: Cancel
+
+  layout: 
+    sequence: 30
+    region: Update Standard Test # 198848628130243437
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
 
 - # ====== Button: Refresh_MV ==================================
   id: 151926461893453515
@@ -3155,9 +3519,9 @@ buttons:
     label: Rerun audit for standard
 
   layout: 
-    sequence: 40
-    region: Menu # 115235002622846902
-    position: CHANGE
+    sequence: 50
+    region: Breadcrumb # 191506192652792030
+    position: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3194,9 +3558,9 @@ buttons:
     label: Initialize Standard
 
   layout: 
-    sequence: 30
-    region: Menu # 115235002622846902
-    position: CHANGE
+    sequence: 40
+    region: Breadcrumb # 191506192652792030
+    position: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3300,14 +3664,14 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-- # ====== Button: SAVE ========================================
+- # ====== Button: open_update_dialo ===========================
   id: 7562694283280107360
   identification: 
-    button-name: SAVE
+    button-name: open_update_dialo
     label: Apply Changes
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Buttons # 7094082318946085125
     position: EDIT
     start-new-layout: false
@@ -3324,9 +3688,8 @@ buttons:
     - t-Button--gapLeft
 
   behavior: 
-    action: Submit Page
+    action: Defined by Dynamic Action
     execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
     database-action: SQL UPDATE action
 
   server-side-condition: 
@@ -3335,6 +3698,9 @@ buttons:
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Button: DELETE ======================================
   id: 7562694374183107360
@@ -3562,6 +3928,240 @@ dynamic-actions:
       event: Hide/show query clob # 115640677075775444
       fire-when-event-result-is: False
       fire-on-initialization: true
+
+- # ====== Dynamic Action: Open Update Test Dialog =============
+  id: 142991903298948629
+  identification: 
+    name: Open Update Test Dialog
+
+  execution: 
+    sequence: 100
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: open_update_dialo # 7562694283280107360
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Open Region =================================
+    id: 142992004242948630
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Update Standard Test # 198848628130243437
+
+    execution: 
+      sequence: 10
+      event: Open Update Test Dialog # 142991903298948629
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Show ========================================
+    id: 142992209290948632
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Do you want to publish your change? # 142992155007948631
+
+    execution: 
+      sequence: 30
+      event: Open Update Test Dialog # 142991903298948629
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item = Value
+      item: P14_ACTIVE_YN
+      value: Y
+
+  - # ====== Action: Hide ========================================
+    id: 142992362345948633
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Do you want to publish your change? # 142992155007948631
+
+    execution: 
+      sequence: 50
+      event: Open Update Test Dialog # 142991903298948629
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item = Value
+      item: P14_ACTIVE_YN
+      value: N
+
+  - # ====== Action: Set Value ===================================
+    id: 142992676181948636
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: Static Assignment
+      value: N
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P14_PUBLISH_YN
+
+    execution: 
+      sequence: 20
+      event: Open Update Test Dialog # 142991903298948629
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Show ========================================
+    id: 142992954912948639
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Inactivating your test # 142992818447948638
+
+    execution: 
+      sequence: 70
+      event: Open Update Test Dialog # 142991903298948629
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item = Value
+      item: P14_ACTIVE_YN
+      value: N
+
+  - # ====== Action: Hide ========================================
+    id: 142993009837948640
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Inactivating your test # 142992818447948638
+
+    execution: 
+      sequence: 60
+      event: Open Update Test Dialog # 142991903298948629
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item = Value
+      item: P14_ACTIVE_YN
+      value: Y
+
+- # ====== Dynamic Action: Cancel Save =========================
+  id: 142992403671948634
+  identification: 
+    name: Cancel Save
+
+  execution: 
+    sequence: 110
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: Cancel # 143064559638412524
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Close Region ================================
+    id: 142992571704948635
+    identification: 
+      action: Close Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Update Standard Test # 198848628130243437
+
+    execution: 
+      sequence: 10
+      event: Cancel Save # 142992403671948634
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Hide 1st row of Tests report ========
+  id: 143451866935206733
+  identification: 
+    name: Hide 1st row of Tests report
+
+  execution: 
+    sequence: 120
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 143451961281206734
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        $('#STANDARD_TEST_RPT').find('tbody tr:first').hide();
+        $('#STANDARD_TEST_RPT').find('td').css("border-style", "none"); 
+        
+
+    execution: 
+      sequence: 10
+      event: Hide 1st row of Tests report # 143451866935206733
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Publish Test ========================
+  id: 143452574469206740
+  identification: 
+    name: Publish Test
+
+  execution: 
+    sequence: 130
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: jQuery Selector
+    jquery-selector: .publishRpt
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Submit Page =================================
+    id: 143452658223206741
+    identification: 
+      action: Submit Page
+
+    settings: 
+      request-/-button-name: PUBLISH
+      show-processing: true
+
+    execution: 
+      sequence: 20
+      event: Publish Test # 143452574469206740
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 
 - # ====== Dynamic Action: seed on refresh =====================
   id: 244345268015923148
@@ -3982,6 +4582,30 @@ processes:
     type: Item is NULL
     item: P14_COMPONENT_TYPE_ID
 
+- # ====== Process: Publish test ===============================
+  id: 143452847319206743
+  identification: 
+    name: Publish test
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: 'eba_stds_standard_tests_api.publish_test(p_standard_code => :P14_STANDARD_CODE);'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request = Value
+    value: PUBLISH
+
 - # ====== Process: initialize standard ========================
   id: 240632400689034441
   identification: 
@@ -3998,7 +4622,7 @@ processes:
       
 
   execution: 
-    sequence: 40
+    sequence: 50
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -4038,7 +4662,6 @@ processes:
             :P14_ID := eba_stds_standard_tests_api.insert_test(
                         p_id                    => :P14_ID,
                         p_standard_id           => :P14_STANDARD_ID,
-                        p_test_type             => :P14_TEST_TYPE,
                         p_test_name             => :P14_TEST_NAME,
                         p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                         p_query_clob            => :P14_QUERY_CLOB,
@@ -4055,7 +4678,6 @@ processes:
             eba_stds_standard_tests_api.update_test(
                                 p_id                    => :P14_ID,
                                 p_standard_id           => :P14_STANDARD_ID,
-                                p_test_type             => :P14_TEST_TYPE,
                                 p_test_name             => :P14_TEST_NAME,
                                 p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                                 p_query_clob            => :P14_QUERY_CLOB,
@@ -4066,7 +4688,8 @@ processes:
                                 p_mv_dependency         => :P14_MV_DEPENDENCY,
                                 p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
                                 p_explanation           => :P14_EXPLANATION,
-                                p_fix                   => :P14_FIX
+                                p_fix                   => :P14_FIX,
+                                p_version_number        => :P14_VERSION_NUMBER
                               );
           when 'D' then
             eba_stds_standard_tests_api.delete_test(p_id => :P14_ID);
@@ -4104,7 +4727,7 @@ processes:
     type: Clear all Items on the Current Page
 
   execution: 
-    sequence: 50
+    sequence: 60
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -4127,7 +4750,7 @@ processes:
     pl/sql-code: 'ast_apex_issue_util.refresh_for_standard_app_page (:P14_STANDARD_CODE);'
 
   execution: 
-    sequence: 30
+    sequence: 40
     point: Processing
     run-process: Once Per Page Visit (default)
 

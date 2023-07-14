@@ -1,10 +1,10 @@
 ---
-# ====== Page: EBA_TEST_HELP_LIB =============================
+# ====== Page: Application Report Card =======================
 id: 21
 identification: 
-  name: EBA_TEST_HELP_LIB
-  alias: TEST-HELP-LIBRARY
-  title: '&APPLICATION_TITLE. Test Help Library'
+  name: Application Report Card
+  alias: APPLICATION-REPORT-CARD
+  title: Application Report Card
 
 appearance: 
   page-mode: Normal
@@ -39,7 +39,7 @@ server-cache:
 
 regions: 
 - # ====== Region: Breadcrumb ==================================
-  id: 53757834363995800
+  id: 143085082410011159
   identification: 
     title: Breadcrumb
     type: Breadcrumb
@@ -84,17 +84,17 @@ regions:
       template-options: 
       - '#DEFAULT#'
 
-- # ====== Region: Test Help Library ===========================
-  id: 53758496690995801
+- # ====== Region: Application Report Card =====================
+  id: 143085687619011160
   identification: 
-    title: Test Help Library
+    title: Application Report Card
     type: Interactive Report
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_TEST_HELP_LIB
+    table-name: V_AST_APPLICATION_REPORT_CARD
     include-rowid-column: false
 
   layout: 
@@ -118,6 +118,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
+    static-id: RPTCRD
     region-display-selector: false
     exclude-title-from-translation: false
 
@@ -128,18 +129,9 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 53758544200995801
+    id: 143085706454011160
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:46:&SESSION.::&DEBUG.:46:P46_ID:#ID#'
-        page: 46 # Manage Test Help Library
-        clear-cache: 46
-        values: 
-          p46_id: '#ID#'
-
-      link-icon: <img src="#APEX_FILES#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
-      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y
@@ -199,20 +191,61 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 53762010505996480
+      id: 143087676308011729
       identification: 
         name: Primary Report
-        alias: 537621
+        alias: 1430877
 
     columns: 
-    - # ====== Column: ID ==========================================
-      id: 53758837582995956
+    - # ====== Column: VIOLATION_COUNT =============================
+      id: 142993194742948641
       identification: 
-        column-name: ID
+        column-name: VIOLATION_COUNT
         type: Plain Text
 
       heading: 
-        heading: ID
+        heading: Violation Count
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 14
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_ID ==============================
+      id: 143086051096011313
+      identification: 
+        column-name: APPLICATION_ID
+        type: Plain Text
+
+      heading: 
+        heading: Application ID
         alignment: end
 
       single-row-view: 
@@ -246,25 +279,36 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: WORKSPACE ===================================
-      id: 53759281786995957
+    - # ====== Column: CRITICAL_URGENCY ============================
+      id: 143086426822011314
       identification: 
-        column-name: WORKSPACE
-        type: Plain Text
+        column-name: CRITICAL_URGENCY
+        type: Link
 
       heading: 
-        heading: Workspace
-        alignment: start
+        heading: Critical
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 2
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_APPLICATION_ID,IG[AUDIT_RPT]EQ_URGENCY:#APPLICATION_ID#,Critical'
+          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          clear-cache: CR,1
+          values: 
+            ig[audit_rpt]eq_application_id: '#APPLICATION_ID#'
+            ig[audit_rpt]eq_urgency: Critical
+
+        link-text: '#CRITICAL_URGENCY#'
 
       source: 
         primary-key: false
@@ -285,16 +329,17 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
         escape-special-characters: true
 
-    - # ====== Column: TEST_ID =====================================
-      id: 53759665518995958
+    - # ====== Column: HIGH_URGENCY ================================
+      id: 143086819001011314
       identification: 
-        column-name: TEST_ID
-        type: Plain Text
+        column-name: HIGH_URGENCY
+        type: Link
 
       heading: 
-        heading: Test ID
+        heading: High
         alignment: end
 
       single-row-view: 
@@ -307,6 +352,17 @@ regions:
       accessibility: 
         value-identifies-row: false
 
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_APPLICATION_ID,IG[AUDIT_RPT]EQ_URGENCY:#APPLICATION_ID#,High'
+          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          clear-cache: CR,1
+          values: 
+            ig[audit_rpt]eq_application_id: '#APPLICATION_ID#'
+            ig[audit_rpt]eq_urgency: High
+
+        link-text: '#HIGH_URGENCY#'
+
       source: 
         primary-key: false
 
@@ -326,120 +382,39 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
         escape-special-characters: true
 
-    - # ====== Column: TEST_NAME ===================================
-      id: 53760002925995958
+    - # ====== Column: MED_URGENCY =================================
+      id: 143087243511011314
       identification: 
-        column-name: TEST_NAME
-        type: Plain Text
+        column-name: MED_URGENCY
+        type: Link
 
       heading: 
-        heading: Test Name
-        alignment: start
+        heading: Medium
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 4
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: STANDARD_CODE ===============================
-      id: 53760425380995958
-      identification: 
-        column-name: STANDARD_CODE
-        type: Link
-
-      heading: 
-        heading: Standard Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 5
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
 
       link: 
         target: 
-          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_STANDARD_CODE:#STANDARD_CODE#'
-          page: 14 # Manage Standard
-          clear-cache: 14
+          url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_APPLICATION_ID,IG[AUDIT_RPT]EQ_URGENCY:#APPLICATION_ID#,Medium'
+          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          clear-cache: CR,1
           values: 
-            p14_standard_code: '#STANDARD_CODE#'
+            ig[audit_rpt]eq_application_id: '#APPLICATION_ID#'
+            ig[audit_rpt]eq_urgency: Medium
 
-        link-text: '#STANDARD_CODE#'
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        authorization-scheme: READER RIGHTS # 48893993399820863
-        escape-special-characters: true
-
-    - # ====== Column: SUB_CODE ====================================
-      id: 53760841481995959
-      identification: 
-        column-name: SUB_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Sub Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 6
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
+        link-text: '#MED_URGENCY#'
 
       source: 
         primary-key: false
@@ -460,130 +435,8 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
         escape-special-characters: true
-
-    - # ====== Column: EXPLANATION =================================
-      id: 53761223037995959
-      identification: 
-        column-name: EXPLANATION
-        type: Plain Text
-
-      heading: 
-        heading: Explanation
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 7
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: FIX =========================================
-      id: 53761608624995959
-      identification: 
-        column-name: FIX
-        type: Plain Text
-
-      heading: 
-        heading: Fix
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 8
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: None
-
-      enable-users-to: 
-        hide: true
-        sort: false
-        filter: true
-        highlight: true
-        control-break: false
-        aggregate: false
-        compute: false
-        chart: false
-        group-by: false
-        pivot: false
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: INSTALLED_YN ================================
-      id: 54726719559995731
-      identification: 
-        column-name: INSTALLED_YN
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: YES NO # 10458821105493383260
-
-      heading: 
-        heading: Installed
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 18
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
 
     printing: 
       output: 
@@ -604,7 +457,7 @@ regions:
         font-size: 12
         font-color: '#000000'
         alignment: center
-        page-header-text: Test Help Library
+        page-header-text: Application Report Card
 
       column-headings: 
         font: Helvetica
@@ -628,15 +481,15 @@ regions:
         alignment: center
 
 buttons: 
-- # ====== Button: RESET =======================================
-  id: 53642394823011915
+- # ====== Button: reset =======================================
+  id: 143114427514075821
   identification: 
-    button-name: RESET
+    button-name: reset
     label: Reset
 
   layout: 
-    sequence: 20
-    region: Test Help Library # 53758496690995801
+    sequence: 10
+    region: Application Report Card # 143085687619011160
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -658,48 +511,8 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.:RR,::'
-      page: 21 # EBA_TEST_HELP_LIB
+      page: 21 # Application Report Card
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
-
-- # ====== Button: Merge_sample_data ===========================
-  id: 53769929564079726
-  identification: 
-    button-name: Merge_sample_data
-    label: Available Sample Data
-
-  layout: 
-    sequence: 10
-    region: Test Help Library # 53758496690995801
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--success
-    - t-Button--simple
-    - t-Button--iconLeft
-    icon: fa-filter
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:EBA_TEST_HELP_LIB'
-      page: 44 # Inspect Static File contents
-      clear-cache: CR,44
-      values: 
-        p44_table_name: EBA_TEST_HELP_LIB
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
