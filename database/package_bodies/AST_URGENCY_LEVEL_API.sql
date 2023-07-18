@@ -31,12 +31,13 @@ create or replace package body AST_URGENCY_LEVEL_API as
     select id 
     into l_level_id
     from ast_standards_urgency_level
-    where urgency_level = 100;
+    where urgency_level = 30;
 
     exception when no_data_found then
       select id 
       into l_level_id
       from ast_standards_urgency_level
+      order by urgency_level
       fetch first 1 rows only;
     end attempt1;
 

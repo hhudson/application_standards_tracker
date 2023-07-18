@@ -369,7 +369,7 @@ select case
 ;
 
 --- Interactive Grid column alias for the page (across all IGs) are unique
--- IG_COL_UNQ_ALIAS HHH
+-- IG_COL_UNQ_ALIAs
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -574,6 +574,7 @@ select case
 ;
 
 --- Check application temp lists
+-- NOTIMPLEMENTED LOWPRIORITY
  select case
           when (lower(trim(inline_css)) like '%blink%'
                 or lower(trim(inline_css)) like '%animation%') then 'N' 
@@ -584,6 +585,7 @@ select case
 ;
 
 --- Check CSS in theme roller
+-- THEME_STL_INACC
  select case
           when (lower(trim(THEME_ROLLER_CONFIG)) like '%blink%'
                  or lower(trim(THEME_ROLLER_CONFIG)) like '%animation%') then 'N' 
@@ -595,6 +597,7 @@ select case
 
 
 ---- check page for js that is setting intervals or timeouts
+-- PAGE_JS_INTRVL_TIMT
 select case
           when ((lower(trim(JAVASCRIPT_CODE)) like '%setinterval%'
                  or lower(trim(JAVASCRIPT_CODE)) like '%settimeout%'
@@ -607,6 +610,7 @@ from apex_application_pages a
 ;
 
 --- checking DA for js that is setting intervals or timeouts
+-- DA_JS_INTRVL_TIMT
 select case
           when ((lower(trim(attribute_01)) like '%setinterval%'
                  or lower(trim(attribute_01)) like '%settimeout%'
@@ -620,11 +624,14 @@ from apex_application_page_da_acts a
 where action_code = 'NATIVE_JAVASCRIPT_CODE';
 
 ---*************************************************************************
----- WCAG 2.0/2.1 - 2.4.2 Page Titled
----- Checking page title for uniqueness and provide list of page titles
-----  to be manual checked if they are descriptive of topic or purpose
-----  ** trimming out whitespace and converting to lower case for uniqueness
+/*
+WCAG 2.0/2.1 - 2.4.2 Page Titled
+Checking page title for uniqueness and provide list of page titles
+ to be manual checked if they are descriptive of topic or purpose
+ ** trimming out whitespace and converting to lower case for uniqueness
+ */
 ---*************************************************************************
+-- PG_NAME_UNQ
  select case
           when value_dup_cnt > 1 then 'N' 
           else 'Y'
@@ -636,196 +643,286 @@ where action_code = 'NATIVE_JAVASCRIPT_CODE';
            ;
   
 ---*************************************************************************
----- WCAG 2.0/2.1 - 2.4.3 Focus Order
----- Checking application where tabindex has been added to an attribute that
-----   have negative impact on tab/focus order
+/*
+WCAG 2.0/2.1 - 2.4.3 Focus Order
+Checking application where tabindex has been added to an attribute that
+  have negative impact on tab/focus order
+*/
 ---*************************************************************************
+-- LE_TABINDX
 select case
-         when (lower(trim(ENTRY_ATTRIBUTE_08)) like '%tabindex%'
-                or lower(trim(ENTRY_IMAGE_ALT_ATTRIBUTE)) like '%tabindex%'
-                or lower(trim(TRANSLATE_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_05)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_10)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_09)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_06)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_07)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_03)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_02)) like '%tabindex%'
-                or lower(trim(ENTRY_IMAGE_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_01)) like '%tabindex%'
-                or lower(trim(ENTRY_ATTRIBUTE_04)) like '%tabindex%') then 'N' 
+         when (lower(trim(entry_attribute_08)) like '%tabindex%'
+                or lower(trim(entry_image_alt_attribute)) like '%tabindex%'
+                or lower(trim(translate_attributes)) like '%tabindex%'
+                or lower(trim(entry_attribute_05)) like '%tabindex%'
+                or lower(trim(entry_attribute_10)) like '%tabindex%'
+                or lower(trim(entry_attribute_09)) like '%tabindex%'
+                or lower(trim(entry_attribute_06)) like '%tabindex%'
+                or lower(trim(entry_attribute_07)) like '%tabindex%'
+                or lower(trim(entry_attribute_03)) like '%tabindex%'
+                or lower(trim(entry_attribute_02)) like '%tabindex%'
+                or lower(trim(entry_image_attributes)) like '%tabindex%'
+                or lower(trim(entry_attribute_01)) like '%tabindex%'
+                or lower(trim(entry_attribute_04)) like '%tabindex%') then 'N' 
          else 'Y'
        end pass_yn,
-       application_id,application_name,ENTRY_IMAGE_ATTRIBUTES,ENTRY_IMAGE_ALT_ATTRIBUTE,ENTRY_ATTRIBUTE_01,
-       ENTRY_ATTRIBUTE_02,ENTRY_ATTRIBUTE_03,ENTRY_ATTRIBUTE_04,
-       ENTRY_ATTRIBUTE_05,ENTRY_ATTRIBUTE_06,ENTRY_ATTRIBUTE_07,
-       ENTRY_ATTRIBUTE_08,ENTRY_ATTRIBUTE_09,
-       ENTRY_ATTRIBUTE_10,TRANSLATE_ATTRIBUTES
- from APEX_APPLICATION_LIST_ENTRIES
+       application_id,
+       entry_image_attributes,
+       entry_image_alt_attribute,
+       entry_attribute_01,
+       entry_attribute_02,
+       entry_attribute_03,
+       entry_attribute_04,
+       entry_attribute_05,
+       entry_attribute_06,
+       entry_attribute_07,
+       entry_attribute_08,
+       entry_attribute_09,
+       entry_attribute_10,
+       translate_attributes
+ from apex_application_list_entries
  ;
 
 ---- checking pages for added tabindex attributes
+-- PAGE_TABINDX
 select case
-         when lower(trim(DIALOG_ATTRIBUTES)) like '%tabindex%' then 'N' 
+         when lower(trim(dialog_attributes)) like '%tabindex%' then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,DIALOG_ATTRIBUTES
- from APEX_APPLICATION_PAGES
+       page_id,
+       page_name,
+       application_id,
+       dialog_attributes
+ from apex_application_pages
  ;
 
 ---- checking page buttons for added tabindex attributes
+-- BTN_TABINDX
 select case
-         when (lower(trim(BUTTON_ATTRIBUTES)) like '%tabindex%'
-               or lower(trim(GRID_COLUMN_ATTRIBUTES)) like '%tabindex%'
-               or lower(trim(IMAGE_ATTRIBUTES)) like '%tabindex%' ) then 'N' 
+         when (lower(trim(button_attributes)) like '%tabindex%'
+               or lower(trim(grid_column_attributes)) like '%tabindex%'
+               or lower(trim(image_attributes)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,
-       GRID_COLUMN_ATTRIBUTES,IMAGE_ATTRIBUTES,BUTTON_ATTRIBUTES
-  from APEX_APPLICATION_PAGE_BUTTONS
+       page_id,
+       application_id,
+       grid_column_attributes,
+       image_attributes,
+       button_attributes
+  from apex_application_page_buttons
  ;
 
 ---- checking IR region for added tabindex attributes
+-- IR_TABINDX
 select case
-         when (lower(trim(DETAIL_LINK_ATTRIBUTES)) like '%tabindex%'
-               or lower(trim(ICON_VIEW_IMG_ATTR_TEXT)) like '%tabindex%' ) then 'N' 
+         when (lower(trim(detail_link_attributes)) like '%tabindex%'
+               or lower(trim(icon_view_img_attr_text)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,application_id,application_name,
-       DETAIL_LINK_ATTRIBUTES,ICON_VIEW_IMG_ATTR_TEXT
- from APEX_APPLICATION_PAGE_IR
+       page_id,
+       application_id,
+       detail_link_attributes,
+       icon_view_img_attr_text
+ from apex_application_page_ir
  ;
 
 ---- checking ir columns for added tabindex attributes
+-- IR_COL_TABINDX
 select case
-         when (lower(trim(COLUMN_LINK_ATTR)) like '%tabindex%' ) then 'N' 
+         when (lower(trim(column_link_attr)) like '%tabindex%' ) 
+         then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,application_id,application_name,COLUMN_LINK_ATTR
-  from APEX_APPLICATION_PAGE_IR_COL
+       page_id,
+       application_id,
+       column_link_attr
+  from apex_application_page_ir_col
  ;
 
+-- PI_TABINDX
 select case
-         when (lower(trim(HTML_FORM_ELEMENT_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_12)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_04)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_03)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_13)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_07)) like '%tabindex%'
-                or lower(trim(ITEM_BUTTON_IMAGE_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_02)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_09)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_15)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_01)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_05)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_14)) like '%tabindex%'
-                or lower(trim(HTML_TABLE_CELL_ATTR_LABEL)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_10)) like '%tabindex%'
-                or lower(trim(QUICK_PICK_LINK_ATTR)) like '%tabindex%'
-                or lower(trim(HTML_TABLE_CELL_ATTR_ELEMENT)) like '%tabindex%'
-                or lower(trim(READ_ONLY_DISPLAY_ATTR)) like '%tabindex%'
-                or lower(trim(GRID_COLUMN_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_11)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_08)) like '%tabindex%'
-                or lower(trim(FORM_ELEMENT_OPTION_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_06)) like '%tabindex%' ) then 'N' 
+         when (    lower(trim(html_form_element_attributes)) like '%tabindex%'
+                or lower(trim(attribute_12)) like '%tabindex%'
+                or lower(trim(attribute_04)) like '%tabindex%'
+                or lower(trim(attribute_03)) like '%tabindex%'
+                or lower(trim(attribute_13)) like '%tabindex%'
+                or lower(trim(attribute_07)) like '%tabindex%'
+                or lower(trim(item_button_image_attributes)) like '%tabindex%'
+                or lower(trim(attribute_02)) like '%tabindex%'
+                or lower(trim(attribute_09)) like '%tabindex%'
+                or lower(trim(attribute_15)) like '%tabindex%'
+                or lower(trim(attribute_01)) like '%tabindex%'
+                or lower(trim(attribute_05)) like '%tabindex%'
+                or lower(trim(attribute_14)) like '%tabindex%'
+                or lower(trim(html_table_cell_attr_label)) like '%tabindex%'
+                or lower(trim(attribute_10)) like '%tabindex%'
+                or lower(trim(quick_pick_link_attr)) like '%tabindex%'
+                or lower(trim(html_table_cell_attr_element)) like '%tabindex%'
+                or lower(trim(read_only_display_attr)) like '%tabindex%'
+                or lower(trim(grid_column_attributes)) like '%tabindex%'
+                or lower(trim(attribute_11)) like '%tabindex%'
+                or lower(trim(attribute_08)) like '%tabindex%'
+                or lower(trim(form_element_option_attributes)) like '%tabindex%'
+                or lower(trim(attribute_06)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,
-       quick_pick_link_attr,attribute_01,attribute_02,attribute_03,
-       attribute_04,attribute_05,attribute_06,attribute_07,attribute_08,
-       attribute_09,attribute_10,attribute_11,attribute_12,attribute_13,
-       attribute_14,attribute_15,read_only_display_attr,
-       html_table_cell_attr_label,html_table_cell_attr_element,
-       html_form_element_attributes,form_element_option_attributes,
-       item_button_image_attributes,grid_column_attributes
+       page_id,
+       application_id,
+       quick_pick_link_attr,
+       attribute_01,
+       attribute_02,
+       attribute_03,
+       attribute_04,
+       attribute_05,
+       attribute_06,
+       attribute_07,
+       attribute_08,
+       attribute_09,
+       attribute_10,
+       attribute_11,
+       attribute_12,
+       attribute_13,
+       attribute_14,
+       attribute_15,
+       read_only_display_attr,
+       html_table_cell_attr_label,
+       html_table_cell_attr_element,
+       html_form_element_attributes,
+       form_element_option_attributes,
+       item_button_image_attributes,
+       grid_column_attributes
  from apex_application_page_items
  ;
 
+-- PG_RGN_TABINDX
 select case
-         when (lower(trim(ATTRIBUTE_22)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_20)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_09)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_21)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_03)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_11)) like '%tabindex%'
-                or lower(trim(ASCENDING_IMAGE_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(DESCENDING_IMAGE_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_01)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_05)) like '%tabindex%'
-                or lower(trim(GRID_COLUMN_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_13)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_06)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_25)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_24)) like '%tabindex%'
-                or lower(trim(HTML_TABLE_CELL_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_12)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_18)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_07)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_19)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_16)) like '%tabindex%'
-                or lower(trim(REGION_ATTRIBUTES_SUBSTITUTION)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_14)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_17)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_08)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_10)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_02)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_15)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_04)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_23)) like '%tabindex%' ) then 'N' 
+         when (    lower(trim(attribute_22)) like '%tabindex%'
+                or lower(trim(attribute_20)) like '%tabindex%'
+                or lower(trim(attribute_09)) like '%tabindex%'
+                or lower(trim(attribute_21)) like '%tabindex%'
+                or lower(trim(attribute_03)) like '%tabindex%'
+                or lower(trim(attribute_11)) like '%tabindex%'
+                or lower(trim(ascending_image_attributes)) like '%tabindex%'
+                or lower(trim(descending_image_attributes)) like '%tabindex%'
+                or lower(trim(attribute_01)) like '%tabindex%'
+                or lower(trim(attribute_05)) like '%tabindex%'
+                or lower(trim(grid_column_attributes)) like '%tabindex%'
+                or lower(trim(attribute_13)) like '%tabindex%'
+                or lower(trim(attribute_06)) like '%tabindex%'
+                or lower(trim(attribute_25)) like '%tabindex%'
+                or lower(trim(attribute_24)) like '%tabindex%'
+                or lower(trim(html_table_cell_attributes)) like '%tabindex%'
+                or lower(trim(attribute_12)) like '%tabindex%'
+                or lower(trim(attribute_18)) like '%tabindex%'
+                or lower(trim(attribute_07)) like '%tabindex%'
+                or lower(trim(attribute_19)) like '%tabindex%'
+                or lower(trim(attribute_16)) like '%tabindex%'
+                or lower(trim(region_attributes_substitution)) like '%tabindex%'
+                or lower(trim(attribute_14)) like '%tabindex%'
+                or lower(trim(attribute_17)) like '%tabindex%'
+                or lower(trim(attribute_08)) like '%tabindex%'
+                or lower(trim(attribute_10)) like '%tabindex%'
+                or lower(trim(attribute_02)) like '%tabindex%'
+                or lower(trim(attribute_15)) like '%tabindex%'
+                or lower(trim(attribute_04)) like '%tabindex%'
+                or lower(trim(attribute_23)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,
-       region_attributes_substitution,attribute_25,
-       attribute_24,ascending_image_attributes,
-       descending_image_attributes,html_table_cell_attributes,
-       attribute_01,attribute_02,attribute_03,attribute_04,
-       attribute_05,attribute_06,attribute_07,attribute_08,
-       attribute_09,attribute_10,attribute_11,attribute_12,
-       attribute_13,attribute_14,attribute_15,attribute_16,
-       attribute_17,attribute_18,attribute_19,attribute_20,
-       attribute_21,attribute_22,attribute_23,grid_column_attributes
+       page_id,
+       application_id,
+       region_attributes_substitution,
+       attribute_25,
+       attribute_24,
+       ascending_image_attributes,
+       descending_image_attributes,
+       html_table_cell_attributes,
+       attribute_01,
+       attribute_02,
+       attribute_03,
+       attribute_04,
+       attribute_05,
+       attribute_06,
+       attribute_07,
+       attribute_08,
+       attribute_09,
+       attribute_10,
+       attribute_11,
+       attribute_12,
+       attribute_13,
+       attribute_14,
+       attribute_15,
+       attribute_16,
+       attribute_17,
+       attribute_18,
+       attribute_19,
+       attribute_20,
+       attribute_21,
+       attribute_22,
+       attribute_23,
+       grid_column_attributes
   from apex_application_page_regions;
 
+-- PG_RGN_COL_TABINDX
 select case
-         when (lower(trim(ATTRIBUTE_17)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_24)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_11)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_02)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_05)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_10)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_14)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_22)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_06)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_21)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_25)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_16)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_01)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_19)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_09)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_08)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_04)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_20)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_18)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_12)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_03)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_07)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_15)) like '%tabindex%'
-                or lower(trim(VALUE_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_23)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_13)) like '%tabindex%' ) then 'N' 
+         when (    lower(trim(attribute_17)) like '%tabindex%'
+                or lower(trim(attribute_24)) like '%tabindex%'
+                or lower(trim(attribute_11)) like '%tabindex%'
+                or lower(trim(attribute_02)) like '%tabindex%'
+                or lower(trim(attribute_05)) like '%tabindex%'
+                or lower(trim(attribute_10)) like '%tabindex%'
+                or lower(trim(attribute_14)) like '%tabindex%'
+                or lower(trim(attribute_22)) like '%tabindex%'
+                or lower(trim(attribute_06)) like '%tabindex%'
+                or lower(trim(attribute_21)) like '%tabindex%'
+                or lower(trim(attribute_25)) like '%tabindex%'
+                or lower(trim(attribute_16)) like '%tabindex%'
+                or lower(trim(attribute_01)) like '%tabindex%'
+                or lower(trim(attribute_19)) like '%tabindex%'
+                or lower(trim(attribute_09)) like '%tabindex%'
+                or lower(trim(attribute_08)) like '%tabindex%'
+                or lower(trim(attribute_04)) like '%tabindex%'
+                or lower(trim(attribute_20)) like '%tabindex%'
+                or lower(trim(attribute_18)) like '%tabindex%'
+                or lower(trim(attribute_12)) like '%tabindex%'
+                or lower(trim(attribute_03)) like '%tabindex%'
+                or lower(trim(attribute_07)) like '%tabindex%'
+                or lower(trim(attribute_15)) like '%tabindex%'
+                or lower(trim(value_attributes)) like '%tabindex%'
+                or lower(trim(attribute_23)) like '%tabindex%'
+                or lower(trim(attribute_13)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,
-       value_attributes,attribute_01,attribute_02,attribute_03,
-       attribute_04,attribute_05,attribute_06,attribute_07,
-       attribute_08,attribute_09,attribute_10,attribute_11,
-       attribute_12,attribute_13,attribute_14,attribute_15,
-       attribute_16,attribute_17,attribute_18,attribute_19,
-       attribute_20,attribute_21,attribute_22,attribute_23,
-       attribute_24,attribute_25
+       page_id,
+       application_id,
+       value_attributes,
+       attribute_01,
+       attribute_02,
+       attribute_03,
+       attribute_04,
+       attribute_05,
+       attribute_06,
+       attribute_07,
+       attribute_08,
+       attribute_09,
+       attribute_10,
+       attribute_11,
+       attribute_12,
+       attribute_13,
+       attribute_14,
+       attribute_15,
+       attribute_16,
+       attribute_17,
+       attribute_18,
+       attribute_19,
+       attribute_20,
+       attribute_21,
+       attribute_22,
+       attribute_23,
+       attribute_24,
+       attribute_25
  from apex_application_page_reg_cols;
 
+-- PG_RPT_COL_INDX
 select case
          when (lower(trim(ATTRIBUTE_09)) like '%tabindex%'
                 or lower(trim(ATTRIBUTE_06)) like '%tabindex%'
@@ -847,22 +944,48 @@ select case
                 or lower(trim(ATTRIBUTE_05)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,
-       column_link_attributes,form_element_attributes,
-       form_element_option_attributes,attribute_01,
-       attribute_02,attribute_03,attribute_04,attribute_05,
-       attribute_06,attribute_07,attribute_08,attribute_09,
-       attribute_10,attribute_11,attribute_12,
-       attribute_13,attribute_14,attribute_15
+       page_id,
+       application_id,
+       column_link_attributes,
+       form_element_attributes,
+       form_element_option_attributes,
+       attribute_01,
+       attribute_02,
+       attribute_03,
+       attribute_04,
+       attribute_05,
+       attribute_06,
+       attribute_07,
+       attribute_08,
+       attribute_09,
+       attribute_10,
+       attribute_11,
+       attribute_12,
+       attribute_13,
+       attribute_14,
+       attribute_15
  from apex_application_page_rpt_cols;
 
+/*
+WCAG 2.0/2.1 - 2.4.3 Focus Order
+Checking application where tabindex has been added to an attribute that
+  have negative impact on tab/focus order
+  */
+  -- PRNT_TAB_INDX
 select case
-         when (lower(trim(IMAGE_ATTRIBUTES)) like '%tabindex%' ) then 'N' 
+         when (lower(trim(image_attributes)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       application_id,application_name,image_attributes
+       application_id,
+       image_attributes
  from apex_application_parent_tabs;
 
+/*
+WCAG 2.0/2.1 - 2.4.3 Focus Order
+Checking application where tabindex has been added to an attribute that
+  have negative impact on tab/focus order
+  */
+  -- NOTIMPLEMENTED LOWPRIORITY
 select case
          when (lower(trim(TAB_IMAGE_ATTRIBUTES)) like '%tabindex%' ) then 'N' 
          else 'Y'
@@ -870,13 +993,26 @@ select case
        application_id,application_name,tab_image_attributes
  from apex_application_tabs ;
 
+/*
+WCAG 2.0/2.1 - 2.4.3 Focus Order
+Checking application where tabindex has been added to an attribute that
+  have negative impact on tab/focus order
+  */
+-- CRD_ACTNS_TAB_INDX
 select case
-         when (lower(trim(LINK_ATTRIBUTES)) like '%tabindex%' ) then 'N' 
+         when (lower(trim(link_attributes)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,link_attributes
+       page_id,
+       application_id,
+       link_attributes
  from apex_appl_page_card_actions ;
 
+/*
+WCAG 2.0/2.1 - 2.4.3 Focus Order
+Checking application where tabindex has been added to an attribute that
+  have negative impact on tab/focus order
+  */
 select case
          when (lower(trim(ICON_VIEW_ICON_ATTRIBUTES)) like '%tabindex%'
                 or lower(trim(ICON_VIEW_LINK_ATTRIBUTES)) like '%tabindex%' ) then 'N' 
@@ -885,6 +1021,11 @@ select case
        page_id,page_name,application_id,application_name,ICON_VIEW_LINK_ATTRIBUTES,ICON_VIEW_ICON_ATTRIBUTES
  from APEX_APPL_PAGE_IGS ;
 
+/*
+WCAG 2.0/2.1 - 2.4.3 Focus Order
+Checking application where tabindex has been added to an attribute that
+  have negative impact on tab/focus order
+  */
 select case
          when (lower(trim(ATTRIBUTE_02)) like '%tabindex%'
                 or lower(trim(LINK_ATTRIBUTES)) like '%tabindex%'
