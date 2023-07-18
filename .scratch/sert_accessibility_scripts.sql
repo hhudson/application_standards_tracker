@@ -165,13 +165,15 @@ where attribute_01 like '%<img%';
   
   
 ---*************************************************************************
----- WCAG 2.0/2.1 - 'Y'.3.1 Info and Relationships, 
-----                2.4.6 Headings and Labels,
-----                2.5.3 Label in Name,
-----                3.3.2 Labels or Instructions,
-----                4.1.2 Name, Role, Value
----- Checking that all apex object (regions, items, report column headings) 
-----  are labeled appropriately
+/*
+WCAG 2.0/2.1 - 'Y'.3.1 Info and Relationships, 
+               2.4.6 Headings and Labels,
+               2.5.3 Label in Name,
+               3.3.2 Labels or Instructions,
+               4.1.2 Name, Role, Value
+Checking that all apex object (regions, items, report column headings) 
+ are labeled appropriately
+ */
 ---*************************************************************************
 ---- confirm all pages have name, title and not a blank space
 set define off;
@@ -198,6 +200,7 @@ select case
   from apex_application_page_regions;
     
 --- confirm all Regions on a page are unique
+-- RGN_UNQ
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -211,6 +214,7 @@ select case
  ;
 
 -- Confirm all page items have unique labels by default apex force unique item names
+--PI_LBL_UNQ
 select case
          when (trim(label) is null
            or lower(trim(label)) = '&nbsp;') then 'N' 
@@ -218,13 +222,14 @@ select case
          else 'Y'
        end pass_yn,
        application_id,application_name, page_id, page_name, item_name,label
-  from (select ROW_NUMBER( ) OVER (PARTITION BY application_id,page_id,trim(lower(label)) ORDER BY DISPLAY_SEQUENCE NULLS LAST) value_dup_cnt,
+  from (select row_number( ) over (partition by application_id,page_id,trim(lower(label)) order by display_sequence nulls last) value_dup_cnt,
        application_id,application_name, page_id, page_name, item_name,label,DISPLAY_SEQUENCE
   from apex_application_page_items a
  where DISPLAY_AS_CODE not in ('NATIVE_HIDDEN') )
 ;
 
 --- Confirm all page items have valid label and no blank spaces;
+-- PI_VLD_LBL
 select case
          when (trim(label) is null
            or lower(trim(label)) = '&nbsp;') then 'N' 
@@ -232,10 +237,12 @@ select case
        end pass_yn,
        application_id,application_name, page_id, page_name, item_name,label,display_sequence
   from apex_application_page_items a
- where DISPLAY_AS_CODE not in ('NATIVE_HIDDEN') 
+ where display_as_code not in ('NATIVE_HIDDEN') 
 ;
+
 set define off;
 --- Classic Report col header check - all columns have a header defined
+-- C_COL_VLD_HEADNG
 select case
          when (trim(heading) is null or
                lower(trim(heading)) = '&nbsp;') then 'N' 
@@ -247,6 +254,7 @@ from apex_application_page_rpt_cols
 
 
 --- Classic Report col header check - column headings are unqiue per region
+-- C_COL_UNQ_HEADNG
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -259,6 +267,7 @@ where COLUMN_IS_HIDDEN = 'No')
 ;
 
 --- Classic Report col header check - column alias are unqiue per region
+-- REDUNDANT (NOTIMPLEMENTED) didn't do this one in favor of the one below (-- C_COL_UNQ_LBL)
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -271,6 +280,7 @@ where COLUMN_IS_HIDDEN = 'No')
 ;
 
 --- Classic Report col header check - column alias are unqiue per page
+-- C_COL_UNQ_LBL
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -284,6 +294,7 @@ where COLUMN_IS_HIDDEN = 'No')
 
   
 --- Interactive Report all columns have a header defined
+-- IR_COL_VLD_HEADNG
 select case
          when (trim(report_label) is null
         or lower(trim(report_label)) = '&nbsp;'
@@ -296,6 +307,7 @@ from apex_application_page_ir_col a
 ;
 
 --- Interactive Report all column_alias per page are unique (this determines html id value)
+-- IR_COL_UNQ
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -307,6 +319,7 @@ select case
          )
 ;
 --- Interactive Report all report labels(column headers) per region are unique
+-- REDUNDANT to IR_COL_UNQ (NOTIMPLEMENTED)
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -319,6 +332,7 @@ select case
 ;
 
 --- Interactive Report all form labels(column headers) per region are unique
+-- IR_COL_UNQ_LBL
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -331,6 +345,7 @@ select case
 ;
   
 --- Interactive Grid column headers all have a value defined
+-- IG_COL_VLD
 select case
          when (trim(heading) is null
         or lower(trim(heading)) = '&nbsp;') then 'N' 
@@ -341,6 +356,7 @@ select case
 ;
 
 --- Interactive Grid column headers for a region are unique
+-- IG_COL_UNQ_HEADNG
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -353,6 +369,7 @@ select case
 ;
 
 --- Interactive Grid column alias for the page (across all IGs) are unique
+-- IG_COL_UNQ_ALIAS HHH
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -364,6 +381,7 @@ select case
          )
 ;
 --- Interactive Grid form labels for a region are unique
+-- REDUNDANT TO IG_COL_UNQ_ALIAS (NOTIMPLEMENTED)
 select case
          when value_dup_cnt > 1 then 'N' 
          else 'Y'
@@ -377,6 +395,7 @@ select case
 
 --- Check that IG has at least one column set as a row header per region ; 
 --- ***( Will be available in 22.1 for IR and classic report
+-- ROW_HEADER
 select case
          when USE_AS_ROW_HEADER_cnt = 0 then 'N' 
          else 'Y'
@@ -393,6 +412,7 @@ select case
 
 
 --- check that IR report has at least one column flag as row header
+-- ROW_HEADER
 select case
          when USE_AS_ROW_HEADER_cnt = 0 then 'N' 
          else 'Y'
@@ -408,12 +428,13 @@ select case
 ;
 
 --- check classic report has at least one column flaged as row header
+-- ROW_HEADER
 select case
          when USE_AS_ROW_HEADER_cnt = 0 then 'N' 
          else 'Y'
        end pass_yn,
        application_id,page_id,region_id,region_name
-  from (select sum(case
+  from (select count(case
                when upper(USE_AS_ROW_HEADER) = 'Y' then 'N' 
                else 'Y'
              end) USE_AS_ROW_HEADER_cnt, 
@@ -431,6 +452,7 @@ select case
 -- Once autocomplete added as option will likely have to check that column directly
 -- if autocomplete is not present then fail.  add exception to items that don't need it
 --    this approach my have big impacts and require many overrides.  may have to change in future
+-- NOTIMPLEMENTED  -- not sure about this one
 select --* 
        case
          when (lower(trim(HTML_FORM_ELEMENT_ATTRIBUTES)) not like '%autocomplete%'
@@ -446,6 +468,7 @@ select --*
 
 
 ---- Checking editable IG regions and columns that are not set as Query Only
+-- NOTIMPLEMENTED  -- not sure about this one
 select --b.*
        case
          when (lower(trim(b.item_attributes)) not like '%autocomplete%'
@@ -468,6 +491,7 @@ where a.application_id = b.application_id
 ----  
 ---*************************************************************************
 -- check IG javascript initialization code for references to keyboard shortcuts.
+-- NOTIMPLEMENTED  -- not sure about this one
 select case
          when lower(trim(javascript_code)) like '%shortcut%' then 'N' 
          else 'Y'
@@ -484,6 +508,7 @@ from apex_appl_page_igs
 ---- Checking for js blur listening events or 
 ---*************************************************************************
 --- Checking page DAs for Lose Focus or Get Focus triggering events
+-- DA_FOCUS
 select case
          when WHEN_EVENT_NAME in ('Lose Focus','Get Focus') then 'N' 
          else 'Y'
@@ -494,6 +519,7 @@ from apex_application_page_da
   
   
 --- Check page JS for on blur events
+-- DA_BLUR
 select case
          when (lower(trim(JAVASCRIPT_CODE)) like '%blur%'
                or lower(trim(JAVASCRIPT_CODE)) like '%focusout%'
@@ -506,12 +532,15 @@ from apex_application_pages
 ;
 
 ---*************************************************************************
----- WCAG 2.0/2.1 - 2.2.2 Pause, Stop, Hide
-----              - 2.3.1 Three Flashes or Below Threshold
----- Checking pages for inline CSS for blinking or animation logic
+/*
+WCAG 2.0/2.1 - 2.2.2 Pause, Stop, Hide
+             - 2.3.1 Three Flashes or Below Threshold
+Checking pages for inline CSS for blinking or animation logic
+*/
 ---*************************************************************************
 
 --- Check page level for inline CSS
+-- PAGE_INACC_CSS
 select case
          when (lower(trim(inline_css)) like '%blink%'
                or lower(trim(inline_css)) like '%animation%') then 'N' 
@@ -523,6 +552,7 @@ select case
 ;
 
 --- Check classic report columns for CSS
+-- C_COL_INACC_CSS
  select case
           when (lower(trim(CSS_STYLE)) like '%blink%'
                 or lower(trim(CSS_STYLE)) like '%animation%') then 'N' 
@@ -533,6 +563,7 @@ select case
 ;
 
 --- Check application temp pages
+-- NOTIMPLEMENTED LOWPRIORITY
  select case
           when (lower(trim(inline_css)) like '%blink%'
                 or lower(trim(inline_css)) like '%animation%') then 'N' 
