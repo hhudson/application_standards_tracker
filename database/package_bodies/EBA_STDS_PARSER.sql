@@ -758,7 +758,7 @@ is
 
 
         l_initials := case when l_view is not null
-                           then lower(apex_string.get_initials(l_view,4))
+                           then lower(apex_string.get_initials(l_view,5))
                            else 'st'
                            end;
         
@@ -808,7 +808,7 @@ is
                                                                         else 'null '
                                                                         end
                                   );
-        l_example_query := replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` (app %3%5) ...', 
+        l_example_query := replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` (app %3%5) REPLACEME', 
         p0 => %0.%4, 
         p1 => %0.application_id%6]',
                                                                         p0 => l_initials,

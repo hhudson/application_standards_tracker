@@ -1013,126 +1013,172 @@ WCAG 2.0/2.1 - 2.4.3 Focus Order
 Checking application where tabindex has been added to an attribute that
   have negative impact on tab/focus order
   */
+-- IG_TABINDX
 select case
-         when (lower(trim(ICON_VIEW_ICON_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ICON_VIEW_LINK_ATTRIBUTES)) like '%tabindex%' ) then 'N' 
+         when (lower(trim(icon_view_icon_attributes)) like '%tabindex%'
+                or lower(trim(icon_view_link_attributes)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,ICON_VIEW_LINK_ATTRIBUTES,ICON_VIEW_ICON_ATTRIBUTES
- from APEX_APPL_PAGE_IGS ;
+       page_id,
+       application_id,
+       icon_view_link_attributes,
+       icon_view_icon_attributes
+ from apex_appl_page_igs ;
 
 /*
 WCAG 2.0/2.1 - 2.4.3 Focus Order
 Checking application where tabindex has been added to an attribute that
   have negative impact on tab/focus order
   */
+-- IG_COL_TABINDX
 select case
-         when (lower(trim(ATTRIBUTE_02)) like '%tabindex%'
-                or lower(trim(LINK_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(VALUE_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_12)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_21)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_11)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_08)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_03)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_17)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_06)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_22)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_04)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_23)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_14)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_16)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_18)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_10)) like '%tabindex%'
-                or lower(trim(ITEM_ATTRIBUTES)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_09)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_01)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_05)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_13)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_07)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_25)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_15)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_19)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_20)) like '%tabindex%'
-                or lower(trim(ATTRIBUTE_24)) like '%tabindex%' ) then 'N' 
+         when (    lower(trim(attribute_02)) like '%tabindex%'
+                or lower(trim(link_attributes)) like '%tabindex%'
+                or lower(trim(value_attributes)) like '%tabindex%'
+                or lower(trim(attribute_12)) like '%tabindex%'
+                or lower(trim(attribute_21)) like '%tabindex%'
+                or lower(trim(attribute_11)) like '%tabindex%'
+                or lower(trim(attribute_08)) like '%tabindex%'
+                or lower(trim(attribute_03)) like '%tabindex%'
+                or lower(trim(attribute_17)) like '%tabindex%'
+                or lower(trim(attribute_06)) like '%tabindex%'
+                or lower(trim(attribute_22)) like '%tabindex%'
+                or lower(trim(attribute_04)) like '%tabindex%'
+                or lower(trim(attribute_23)) like '%tabindex%'
+                or lower(trim(attribute_14)) like '%tabindex%'
+                or lower(trim(attribute_16)) like '%tabindex%'
+                or lower(trim(attribute_18)) like '%tabindex%'
+                or lower(trim(attribute_10)) like '%tabindex%'
+                or lower(trim(item_attributes)) like '%tabindex%'
+                or lower(trim(attribute_09)) like '%tabindex%'
+                or lower(trim(attribute_01)) like '%tabindex%'
+                or lower(trim(attribute_05)) like '%tabindex%'
+                or lower(trim(attribute_13)) like '%tabindex%'
+                or lower(trim(attribute_07)) like '%tabindex%'
+                or lower(trim(attribute_25)) like '%tabindex%'
+                or lower(trim(attribute_15)) like '%tabindex%'
+                or lower(trim(attribute_19)) like '%tabindex%'
+                or lower(trim(attribute_20)) like '%tabindex%'
+                or lower(trim(attribute_24)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,ATTRIBUTE_12,
-       ATTRIBUTE_13,ATTRIBUTE_14,ATTRIBUTE_15,ATTRIBUTE_16,
-       ATTRIBUTE_17,ATTRIBUTE_18,ATTRIBUTE_19,ATTRIBUTE_20,
-       ATTRIBUTE_21,ATTRIBUTE_22,ATTRIBUTE_23,ATTRIBUTE_24,
-       ATTRIBUTE_25,ITEM_ATTRIBUTES,LINK_ATTRIBUTES,
-       VALUE_ATTRIBUTES,ATTRIBUTE_01,ATTRIBUTE_02,ATTRIBUTE_03,
-       ATTRIBUTE_04,ATTRIBUTE_05,ATTRIBUTE_06,ATTRIBUTE_07,
-       ATTRIBUTE_08,ATTRIBUTE_09,ATTRIBUTE_10,ATTRIBUTE_11
- from APEX_APPL_PAGE_IG_COLUMNS;
+       page_id,
+       application_id,
+       attribute_12,
+       attribute_13,
+       attribute_14,
+       attribute_15,
+       attribute_16,
+       attribute_17,
+       attribute_18,
+       attribute_19,
+       attribute_20,
+       attribute_21,
+       attribute_22,
+       attribute_23,
+       attribute_24,
+       attribute_25,
+       item_attributes,
+       link_attributes,
+       value_attributes,
+       attribute_01,
+       attribute_02,
+       attribute_03,
+       attribute_04,
+       attribute_05,
+       attribute_06,
+       attribute_07,
+       attribute_08,
+       attribute_09,
+       attribute_10,
+       attribute_11
+ from apex_appl_page_ig_columns;
  
 
 
 ---*************************************************************************
----- WCAG 2.0/2.1 - 2.4.4 Link Purpose (In Context)
----- Checking link text is meaning as well as have alt setting.
+/*
+WCAG 2.0/2.1 - 2.4.4 Link Purpose (In Context)
+Checking link text is meaning as well as have alt setting.
+*/
 ---*************************************************************************
 
 --- look into region source for href and column html expression areas
 
 --- checking IR default links
+-- IR_DETL_LINK
 select case
-         when ((lower(trim(DETAIL_LINK_ATTRIBUTES)) not like '%aria-%'
-                and lower(trim(DETAIL_LINK_ATTRIBUTES)) not like '%title%')
-                or trim(DETAIL_LINK_ATTRIBUTES) is null ) then 'N' 
+         when ((lower(trim(detail_link_attributes)) not like '%aria-%'
+                and lower(trim(detail_link_attributes)) not like '%title%')
+                or trim(detail_link_attributes) is null ) then 'N' 
          else 'Y'
        end pass_yn,
        --* alt tag could be in link icon
-      page_id,application_id,application_name,region_name,DETAIL_LINK_ATTRIBUTES
- from APEX_APPLICATION_PAGE_IR
- where DETAIL_LINK_TARGET is not null;
+      page_id,application_id,application_name,region_name,detail_link_attributes
+ from apex_application_page_ir
+ where detail_link_target is not null;
 
 --- checking IR column links 
+-- IR_COL_LINK
 select case
-         when column_link is not null and ((lower(trim(COLUMN_LINK_ATTR)) not like '%aria-%'
-                and lower(trim(COLUMN_LINK_ATTR)) not like '%title%')
-                or trim(COLUMN_LINK_ATTR) is null) then 'N' 
+         when column_link is not null and ((lower(trim(column_link_attr)) not like '%aria-%'
+                and lower(trim(column_link_attr)) not like '%title%')
+                or trim(column_link_attr) is null) then 'N' 
          when html_expression is not null and lower(trim(html_expression)) like '%<a%' then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,application_id,application_name,COLUMN_LINK_ATTR,html_expression
- from APEX_APPLICATION_PAGE_IR_COL
+       page_id,
+       application_id,
+       column_link_attr,
+       html_expression
+ from apex_application_page_ir_col
  where  (column_link is not null
      or html_expression is not null);
 
 --- checking quick pick links 
+-- NOTIMPLEMENTED LOWPRIORITY
 select case
-         when ((lower(trim(QUICK_PICK_LINK_ATTR)) not like '%aria-%'
-                and lower(trim(QUICK_PICK_LINK_ATTR)) not like '%title%')
-                or trim(QUICK_PICK_LINK_ATTR) is null ) then 'N' 
+         when ((lower(trim(quick_pick_link_attr)) not like '%aria-%'
+                and lower(trim(quick_pick_link_attr)) not like '%title%')
+                or trim(quick_pick_link_attr) is null ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,a.item_name,a.item_id,QUICK_PICK_LINK_ATTR
- from APEX_APPLICATION_PAGE_ITEMS a
+       page_id,page_name,application_id,application_name,a.item_name,a.item_id,quick_pick_link_attr
+ from apex_application_page_items a
  where show_quick_picks = 'Y';
 
 --- checking Classic report column links 
+-- C_COL_LINK
 select case
-         when ((lower(trim(COLUMN_LINK_ATTRIBUTES)) not like '%aria-%'
-                and lower(trim(COLUMN_LINK_ATTRIBUTES)) not like '%title%')
-                or trim(COLUMN_LINK_ATTRIBUTES) is null ) then 'N' 
+         when ((lower(trim(column_link_attributes)) not like '%aria-%'
+                and lower(trim(column_link_attributes)) not like '%title%')
+                or trim(column_link_attributes) is null ) then 'N' 
          else 'Y'
        end pass_yn,
-      page_id,page_name,application_id,application_name,a.region_name,a.column_alias, COLUMN_LINK_ATTRIBUTES
- from APEX_APPLICATION_PAGE_RPT_COLS a
- where COLUMN_LINK_URL is not null;
+      page_id,
+      application_id,
+      region_name,
+      column_alias, 
+      column_link_attributes
+ from apex_application_page_rpt_cols a
+ where column_link_url is not null;
 
 ---- checking Card Region links
+-- ACC_CARD_LINK
 select case
-         when ((lower(trim(LINK_ATTRIBUTES)) not like '%aria-%'
-                and lower(trim(LINK_ATTRIBUTES)) not like '%title%')
-                or trim(LINK_ATTRIBUTES) is null ) then 'N' 
+         when ((lower(trim(link_attributes)) not like '%aria-%'
+                and lower(trim(link_attributes)) not like '%title%')
+                or trim(link_attributes) is null ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,region_id,region_name,application_id,application_name,LINK_ATTRIBUTES
- from APEX_APPL_PAGE_CARD_ACTIONS a;
+       page_id,
+       region_id,
+       region_name,
+       application_id,
+       link_attributes
+ from apex_appl_page_card_actions;
 
+-- NOTIMPLEMENTED
 select case
          when (lower(trim(ICON_VIEW_LINK_ATTRIBUTES)) not like '%aria-%'
                 and lower(trim(ICON_VIEW_LINK_ATTRIBUTES)) not like '%title%') then 'N' 
@@ -1142,62 +1188,80 @@ select case
  from apex_appl_page_igs
  where icon_view_icon_attributes is not null;
 
+-- ACC_IG_COL_LINK
 select case
          when ((item_type = 'NATIVE_LINK' 
-                and ((lower(trim(LINK_ATTRIBUTES)) not like '%aria-%' or lower(trim(LINK_ATTRIBUTES)) not like '%title%')
-                     or trim(LINK_ATTRIBUTES) is null))
+                and ((lower(trim(link_attributes)) not like '%aria-%' or lower(trim(link_attributes)) not like '%title%')
+                     or trim(link_attributes) is null))
                 or (lower(trim(attribute_01)) like '%<a%' and 
                      (lower(trim(attribute_01)) not like '%aria-%' and lower(trim(attribute_01)) not like '%title%') ) ) then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,application_id,application_name,link_attributes,attribute_01
+       page_id,
+       application_id,
+       link_attributes,
+       attribute_01
  from apex_appl_page_ig_columns;
     
     
 
 ---*************************************************************************
----- WCAG 2.0/2.1 - 2.5.2 Pointer Cancellation
----- Checking DA and JS for on down clicks events
+/*
+WCAG 2.0/2.1 - 2.5.2 Pointer Cancellation
+Checking DA and JS for on down clicks events
+*/
 ---*************************************************************************
 --- Checking page DAs for mouse down or up triggering events
+-- ACC_DA_MOUSE_EVNT
 select case
-         when WHEN_EVENT_NAME in ('Mouse Button Release','Mouse Button Press') then 'N' 
+         when when_event_name in ('Mouse Button Release','Mouse Button Press') then 'N' 
          else 'Y'
        end pass_yn,
-       a.application_id,application_name,page_id,page_name,dynamic_action_name,DYNAMIC_ACTION_ID
+       application_id,
+       page_id,
+       dynamic_action_name,
+       dynamic_action_id
 from apex_application_page_da a;
   
 --- Check page JS for mouse down/up events
+-- ACC_PAGE_MOUSE_EVNT
 select case
-         when (lower(trim(JAVASCRIPT_CODE)) like '%mousedown%'
-           or lower(trim(JAVASCRIPT_CODE)) like '%mouseup%'
-           or lower(trim(JAVASCRIPT_CODE_ONLOAD)) like '%mousedown%'
-           or lower(trim(JAVASCRIPT_CODE_ONLOAD)) like '%mouseup%') then 'N' 
+         when (lower(trim(javascript_code)) like '%mousedown%'
+           or  lower(trim(javascript_code)) like '%mouseup%'
+           or  lower(trim(javascript_code_onload)) like '%mousedown%'
+           or  lower(trim(javascript_code_onload)) like '%mouseup%') then 'N' 
          else 'Y'
        end pass_yn,
-     a.application_id,application_name,page_id,page_name
-from apex_application_pages a;
+     application_id,
+     page_id
+from apex_application_pages;
 
 
 ---- *************************************************************************
----- WCAG 2.0/2.1 - 3.2.1 On Focus
----- Check for onfocus events in javascript and dynamic actions
+/*
+WCAG 2.0/2.1 - 3.2.1 On Focus. Check for onfocus events in javascript and dynamic actions
+*/
 ---- *************************************************************************
 --- Checking page DAs for On Focus triggering events
+--  ACC_DA_FOCUS
 select case
-         when WHEN_EVENT_NAME in ('Get Focus') then 'N' 
+         when when_event_name in ('Get Focus') then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,dynamic_action_name
+       page_id,
+       dynamic_action_name
  from apex_application_page_da a;
   
 --- Check page JS for onfocus events
+-- ACC_PG_JS_FOCUS
 select case
-         when (lower(trim(JAVASCRIPT_CODE)) like '%focus%'
-                or lower(trim(JAVASCRIPT_CODE_ONLOAD)) like '%focus%') then 'N' 
+         when (lower(trim(javascript_code)) like '%focus%'
+                or lower(trim(javascript_code_onload)) like '%focus%') then 'N' 
          else 'Y'
        end pass_yn,
-       page_id,page_name,JAVASCRIPT_CODE,JAVASCRIPT_CODE_ONLOAD
+       page_id,
+       javascript_code,
+       javascript_code_onload
   from apex_application_pages
 ;
 
@@ -1210,6 +1274,7 @@ select case
 
 ---  Checking if lists tagged as navigation menu and bar are dynamic.  
 ---   if so they need to be checked
+-- NOTIMPLEMENTED
 select 1 pass_yn, --always fail developer needs to run code and evaluate results
        list_name,
        list_type,
@@ -1217,6 +1282,7 @@ select 1 pass_yn, --always fail developer needs to run code and evaluate results
 from apex_application_lists a
 where a.LIST_TYPE_CODE != 'STATIC';
 
+-- NOTIMPLEMENTED
 select 1 pass_yn, --- always fail as each entry needs to be reviewed
        list_name,
        entry_text,
@@ -1229,6 +1295,7 @@ from apex_application_list_entries b;
 ---- Provide list of components by type and name (strip off PXX_)
 ---- *************************************************************************
 --   Get list of page items (non-buttons)
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'Page Items' type,
        substr(item_name,instr(item_name,'_')+1) adj_name, 
@@ -1238,6 +1305,7 @@ select 1 pass_yn,
 from apex_application_page_items a
 ;
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'Buttons',button_name, 
        label,button_template,icon_css_classes,
@@ -1245,6 +1313,7 @@ select 1 pass_yn,
  from APEX_APPLICATION_PAGE_BUTTONS
 ;
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'IR Region Links' type, DETAIL_LINK_TEXT, 
        DETAIL_LINK_ATTRIBUTES,
@@ -1255,12 +1324,14 @@ select 1 pass_yn,
  ;
 
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'IR Column Links' type, COLUMN_LINKTEXT, COLUMN_LINK_ATTR,
        page_id,application_id,application_name,page_id,region_name 
   from APEX_APPLICATION_PAGE_IR_COL
  where column_link is not null;
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'Page Items Quick Links' type,
        substr(item_name,instr(item_name,'_')+1) adj_name, 
@@ -1280,6 +1351,7 @@ select 1 pass_yn,
    from APEX_APPLICATION_PAGE_ITEMS
   where show_quick_picks = 'Y';
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'Classic Report Column Links' type, 
        column_alias, COLUMN_LINK_URL,COLUMN_LINK_ATTRIBUTES
@@ -1287,11 +1359,13 @@ select 1 pass_yn,
   from APEX_APPLICATION_PAGE_RPT_COLS
  where COLUMN_LINK_URL is not null;
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'Breadcrumbs' type,theme_class,
        template_name,BREADCRUMB_LINK_ATTRIBUTES
   from APEX_APPLICATION_TEMP_BC;
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'Cards Actions' type,action_type,
        label,LINK_ATTRIBUTES,link_target, 
@@ -1299,12 +1373,14 @@ select 1 pass_yn,
   from APEX_APPL_PAGE_CARD_ACTIONS
  ;
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'IG Region Links' type, ICON_VIEW_LINK_ATTRIBUTES,
        page_id,page_name,application_id,application_name,region_name
   from APEX_APPL_PAGE_IGS
  where ICON_VIEW_ICON_ATTRIBUTES is not null;
 
+-- NOTIMPLEMENTED
 select 1 pass_yn,
        'IG Column Links' type,name column_name,heading,label, item_type,LINK_ATTRIBUTES,attribute_01,
        page_id,page_name,application_id,application_name,region_name
@@ -1319,6 +1395,7 @@ select 1 pass_yn,
 ---- WCAG 2.0/2.1 - 3.3.1 Error Identification
 ---- Look for validations where Display Location is set to Inline with Field
 ---- *************************************************************************
+--  NOTIMPLEMENTED  Not sure about this one
  select case 
           when ERROR_DISPLAY_LOCATION = 'INLINE_WITH_FIELD' then 'N' 
           else 'Y'
@@ -1332,6 +1409,7 @@ select 1 pass_yn,
 ---- WCAG 2.0/2.1 - 3.3.3 Error Suggestion
 ---- Look at validations and provide list of error messages
 ---- *************************************************************************
+-- NOTIMPLEMENTED
  select 1 pass_yn,
         page_id,page_name, 
         validation_name,VALIDATION_FAILURE_TEXT
@@ -1345,6 +1423,7 @@ select 1 pass_yn,
 ----   list to be checked for open/close tags,brackets or quotes.
 ---- *************************************************************************
 --- check region sources for html references
+-- NOTIMPLEMENTED
  select case
           when (REGION_SOURCE like '%<%') then 'N' 
           else 'Y'
@@ -1353,6 +1432,7 @@ select 1 pass_yn,
    from apex_application_page_regions;
 
 --- Check IR Columns in html_expression
+-- NOTIMPLEMENTED
 select case
           when ((column_link is not null and lower(trim(COLUMN_LINK_ATTR)) is not null)
                  or lower(trim(html_expression)) is not null
@@ -1369,6 +1449,7 @@ select case
  from APEX_APPLICATION_PAGE_IR_COL;
       
 --- Check classic Columns in html_expression
+-- NOTIMPLEMENTED
 select case
           when (lower(trim(html_expression)) is not null
                  or lower(trim(css_style)) is not null
@@ -1388,6 +1469,7 @@ select case
  from APEX_APPLICATION_PAGE_rpt_cols;
 
 --- Check IG Columns in html_expression
+-- NOTIMPLEMENTED
 select case
           when (item_type = 'NATIVE_HTML_EXPRESSION' 
                  or trim(link_text) is not null
@@ -1405,6 +1487,3 @@ select case
         attribute_01,
         heading
  from APEX_APPL_page_ig_columns;
-
-
-

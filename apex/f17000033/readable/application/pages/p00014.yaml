@@ -1,9 +1,9 @@
 ---
-# ====== Page: Manage Standard ===============================
+# ====== Page: Manage Standard Test ==========================
 id: 14
 identification: 
-  name: Manage Standard
-  alias: AUTOMATED-TEST
+  name: Manage Standard Test
+  alias: STANDARD-TEST
   title: '&APPLICATION_TITLE. Manage Standard'
 
 appearance: 
@@ -479,10 +479,10 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Live Test results ===========================
+- # ====== Region: Live Test results report ====================
   id: 223434012666172342
   identification: 
-    title: Live Test results
+    title: Live Test results report
     type: Interactive Report
 
   source: 
@@ -3133,8 +3133,7 @@ page-items:
   help: 
     help-text: |
       <ul>
-          <li>urgency levels higher than 100 will not be tracked in the audit table</li>
-          <li>only urgency levels lower than 100 are eligible to included in the daily notification email</li>
+          <li>Low / Lowest urgency levels will not count against the application report card </li>
       <ul>
 
 - # ====== Page Item: P14_ID ===================================
@@ -3484,7 +3483,7 @@ buttons:
 
   layout: 
     sequence: 30
-    region: Live Test results # 223434012666172342
+    region: Live Test results report # 223434012666172342
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -3601,7 +3600,7 @@ buttons:
 
   layout: 
     sequence: 40
-    region: Live Test results # 223434012666172342
+    region: Live Test results report # 223434012666172342
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -3623,7 +3622,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,::'
-      page: 14 # Manage Standard
+      page: 14 # Manage Standard Test
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
@@ -4186,6 +4185,36 @@ dynamic-actions:
     type: Immediate
 
   actions: 
+  - # ====== Action: Disable =====================================
+    id: 144375810978069504
+    identification: 
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: CREATE_TEST # 7562694189181107360
+
+    execution: 
+      sequence: 10
+      event: seed on refresh # 244345268015923148
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Enable ======================================
+    id: 144375982016069505
+    identification: 
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: CREATE_TEST # 7562694189181107360
+
+    execution: 
+      sequence: 40
+      event: seed on refresh # 244345268015923148
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
   - # ====== Action: seed default query ==========================
     id: 244345320358923149
     identification: 
@@ -4206,7 +4235,7 @@ dynamic-actions:
       - P14_QUERY_CLOB
 
     execution: 
-      sequence: 10
+      sequence: 30
       event: seed on refresh # 244345268015923148
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4822,7 +4851,7 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.::P14_STANDARD_CODE,P14_ID:&P14_STANDARD_CODE.,&P14_ID.&success_msg=#SUCCESS_MSG#'
-      page: 14 # Manage Standard
+      page: 14 # Manage Standard Test
       values: 
         p14_standard_code: '&P14_STANDARD_CODE.'
         p14_id: '&P14_ID.'
