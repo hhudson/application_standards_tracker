@@ -1264,7 +1264,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-side-condition: 
@@ -1272,6 +1272,7 @@ regions:
     sql-query: |
       select 1 
       from V_AUTOMATIONS_PROBLEMS
+      where :APP_PAGE_ID not in (15)
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1544,6 +1545,67 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: Super Breadcrumb ============================
+  id: 144377177445069517
+  identification: 
+    title: Super Breadcrumb
+    type: Super Breadcrumb
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 7573672802698144003
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      declare
+      
+      l_page_mode     varchar2(200);
+      begin
+        select page_mode 
+          into l_page_mode
+          from apex_application_pages
+          where application_id = :APP_ID
+            and page_id = :APP_PAGE_ID;
+      
+        return l_page_mode = 'Normal' and :APP_PAGE_ID not in (9999,101); -- 9999 is the login page
+      end;
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      max-levels: 6
+      breadcrumb-source: Page View History
+      collection-name: SVT_SUPER_BREADCRUMB
+      rewind-style: Never Rewind
+
 page-items: 
 - # ====== Page Item: P0_APX_BLDR_SESSION ======================
   id: 42936391191017726
@@ -1767,6 +1829,40 @@ buttons:
 
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: DEBUG_JOB ===================================
+  id: 144376191090069507
+  identification: 
+    button-name: DEBUG_JOB
+    label: Debug Job
+
+  layout: 
+    sequence: 10
+    region: Unsuccessful Jobs # 107607600563604720
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-bug-slash
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:15:&SESSION.:DEBUG:&DEBUG.:15::#YES'
+      page: 15 # Run Jobs in Debug mode
+      request: DEBUG
+      clear-cache: 15
+
+    warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
 - # ====== Dynamic Action: Popup Search ========================

@@ -1422,3 +1422,434 @@
       end validate_simple_checkbox;
       
 
+- # ====== Plugin: Super Breadcrumb ============================
+  id: 41247888181364984345
+  identification: 
+    name: Super Breadcrumb
+
+  source: 
+    pl/sql-code: |
+      function do_substitutions(  p_string        in varchar,
+                                  p_name          in varchar2,
+                                  p_link          in varchar2,
+                                  p_css_classes   in varchar2 default null) return varchar2 is
+      l_new_string    varchar2(32767) := p_string;
+      begin
+          l_new_string := replace(l_new_string, '#NAME#', p_name);
+          l_new_string := replace(l_new_string, '#LINK#', p_link);
+          l_new_string := replace(l_new_string, '#COMPONENT_CSS_CLASSES#', p_css_classes);
+      
+          return l_new_string;
+      end;
+      --
+      --
+      function render_from_nav_menu(
+                      p_region              in apex_plugin.t_region,
+                      p_plugin              in apex_plugin.t_plugin,
+                      p_is_printer_friendly in boolean ) return apex_plugin.t_region_render_result is
+      
+          l_additional_items  varchar2(32767) := p_region.ajax_items_to_submit;
+          c_region_static_id  constant varchar2(255)  := apex_escape.html_attribute( p_region.static_id );
+      
+      
+          l_max_levels        p_region.attribute_01%type := p_region.attribute_01;
+          l_nav_or_collection p_region.attribute_02%type := p_region.attribute_02;
+          l_css_classes       p_region.attribute_04%type := p_region.attribute_04;
+        
+          l_bc_rec            apex_application_temp_bc%rowtype;
+          l_target            varchar2(4000);
+      
+      begin
+      
+          --debug
+          if apex_application.g_debug then
+              apex_debug.message('Super Breadcrumb: render_from_nav_menu');
+          end if;
+      
+          select bc.*
+            into l_bc_rec
+            from apex_application_themes theme
+            join apex_application_templates temp
+              on temp.theme_number = theme.theme_number  
+              and temp.application_id = theme.application_id
+            join apex_application_temp_bc bc 
+              on bc.breadcrumb_template_id = temp.template_id
+            where theme.application_id = :APP_TRANSLATION_ID
+              and temp.internal_name = 'BREADCRUMB'
+              and temp.is_default = 'Yes';
+      
+          sys.htp.p(do_substitutions( p_string        =>  l_bc_rec.before_first,
+                                  p_name          => null,
+                                  p_link          => null,
+                                  p_css_classes   => l_css_classes)
+                              );
+      
+          for page_rec in (
+              with my_list as (
+              select plist.list_entry_id,
+                     plist.entry_text  label,
+                     plist.ENTRY_TARGET   entry_target,
+                     plist.ENTRY_TARGET   target,
+                     plist.list_entry_parent_id,
+                     null is_current_list_entry,
+                     plist.ENTRY_IMAGE   image,
+                     plist.ENTRY_IMAGE_ATTRIBUTES   image_attribute,
+                     plist.ENTRY_IMAGE_ALT_ATTRIBUTE   image_alt_attribute,
+                     plist.ENTRY_ATTRIBUTE_01   attribute1,
+                     plist.ENTRY_ATTRIBUTE_02   attribute2,
+                     plist.ENTRY_ATTRIBUTE_03   attribute3,
+                     plist.ENTRY_ATTRIBUTE_04   attribute4,
+                     plist.ENTRY_ATTRIBUTE_05   attribute5,
+                     plist.ENTRY_ATTRIBUTE_06   attribute6,
+                     plist.ENTRY_ATTRIBUTE_07   attribute7,
+                     plist.ENTRY_ATTRIBUTE_08   attribute8,
+                     plist.ENTRY_ATTRIBUTE_09   attribute9,
+                     plist.ENTRY_ATTRIBUTE_10   attribute10,
+                     cbo.build_option_id,
+                     plist.authorization_scheme_id,
+                     plist.condition_type_code,
+                     plist.condition_expression1,
+                     plist.condition_expression2
+                  from apex_applications aa
+                  join apex_application_list_entries plist on plist.list_id = aa.navigation_list_id
+                  left outer join APEX_APPLICATION_BUILD_OPTIONS cbo -- child build option
+                    on (cbo.build_option_name = plist.build_option
+                        and cbo.application_id = plist.application_id)  
+                  where aa.application_id = :APP_TRANSLATION_ID
+              )            
+                select level the_level, 
+                       my_list.label,
+                       my_list.target,
+                       my_list.build_option_id,
+                       my_list.authorization_scheme_id,
+                       my_list.condition_type_code,
+                       my_list.condition_expression1,
+                       my_list.condition_expression2 
+                  from my_list
+                  start with ( 
+                         my_list.entry_target like  'f?p=&' || 'APP_ID' ||'.:' || :app_page_id || ':%'
+                      or my_list.entry_target like  'f?p=' || :APP_ALIAS || ':' || :app_page_id || ':%'
+                      or my_list.entry_target like  'f?p=' || lower(:APP_ALIAS)  || ':' || :app_page_id || ':%'
+                      or my_list.entry_target like  'f?p=' || :APP_ID || ':' || :app_page_id || ':%'                 
+                      )    
+                  connect by nocycle  my_list.list_entry_id = prior my_list.list_entry_parent_id   
+                  order by level desc
+              ) loop
+      
+              l_target := apex_util.prepare_url(apex_plugin_util.replace_substitutions(p_value => page_rec.target ));
+      
+              if apex_plugin_util.is_component_used (
+                          p_build_option_id           => page_rec.build_option_id,
+                          p_authorization_scheme_id   => page_rec.authorization_scheme_id,
+                          p_condition_type            => page_rec.condition_type_code,
+                          p_condition_expression1     => page_rec.condition_expression1,
+                          p_condition_expression2     => page_rec.condition_expression2) then
+                  if page_rec.the_level = 1 then
+                      sys.htp.p(do_substitutions( p_string        => l_bc_rec.current_page_option,
+                                              p_name          => page_rec.label,
+                                              p_link          => l_target,
+                                              p_css_classes   => l_css_classes));
+                  elsif page_rec.the_level <= to_number(l_max_levels) then
+                      sys.htp.p(do_substitutions( p_string        => l_bc_rec.non_current_page_option,
+                                              p_name          => page_rec.label,
+                                              p_link          => l_target,
+                                              p_css_classes   => l_css_classes));
+      
+                      sys.htp.p(l_bc_rec.between_levels);
+                  end if;
+              end if;    
+          end loop;    
+      
+          sys.htp.p(l_bc_rec.after_last);
+      
+          return null;
+      
+      end render_from_nav_menu;          
+      --
+      --
+      function render_from_collection(
+                      p_region              in apex_plugin.t_region,
+                      p_plugin              in apex_plugin.t_plugin,
+                      p_is_printer_friendly in boolean ) return apex_plugin.t_region_render_result is
+      
+          l_additional_items  varchar2(32767) := p_region.ajax_items_to_submit;
+          c_region_static_id  constant varchar2(255)  := apex_escape.html_attribute( p_region.static_id );
+      
+      
+          l_max_levels        p_region.attribute_01%type := p_region.attribute_01;
+          l_nav_or_collection p_region.attribute_02%type := p_region.attribute_02;
+          l_collection_name   p_region.attribute_03%type := p_region.attribute_03;
+          l_css_classes       p_region.attribute_04%type := p_region.attribute_04;
+          l_rewind_method     p_region.attribute_05%type := p_region.attribute_05;
+          l_no_rewind_page_list  p_region.attribute_06%type := p_region.attribute_06;
+          l_max_seq_id        number;
+          l_latest_app_id     number;
+          l_latest_page_id    number;
+          l_latest_title      varchar2(4000);
+          l_show_latest_page  boolean := true;
+          l_minus_if_reload   number := 0;
+        
+          l_bc_rec            apex_application_temp_bc%rowtype;
+          l_target            varchar2(4000);
+          l_title             varchar2(4000);
+          l_page_mode         varchar2(4000);
+          l_rewind_id         number;
+      
+          l_javascript        clob :=
+      '
+      apex.server.plugin (
+          "' || apex_plugin.get_ajax_identifier ||'"
+          ,{
+          x01: window.location,
+          x02: document.title,
+          }
+          );
+      ';    
+      
+      begin
+      
+          --debug
+          if apex_application.g_debug then
+              apex_debug.message('Super Breadcrumb: render_from_nav_menu');
+          end if;
+      
+          select page_mode
+            into l_page_mode 
+            from apex_application_pages p
+            where p.application_id = :APP_ID
+              and p.page_id = :APP_PAGE_ID;
+      
+          if l_page_mode = 'Normal' then
+              
+              -- current page
+              select ap.page_title
+                into l_title
+                from apex_application_pages ap 
+                where ap.application_id = :APP_TRANSLATION_ID
+                  and ap.page_id = :APP_PAGE_ID;    
+      
+              l_title := apex_plugin_util.replace_substitutions (p_value => l_title);  
+      
+              apex_debug.message('Super Breadcrumb %s: %s', 'l_title', l_title);  
+      
+              begin
+                  select max(seq_id)    
+                    into l_max_seq_id
+                    from apex_collections ac
+                    where ac.collection_name = l_collection_name;
+              exception when no_data_found then null;
+              end;      
+      
+              if l_max_seq_id is not null then 
+      
+                  apex_debug.message('Super Breadcrumb %s: %s', 'l_max_seq_id', l_max_seq_id);
+                    
+                  select c002     link_label,
+                         n001     app_id,
+                         n002     page_id
+                    into l_latest_title,
+                         l_latest_app_id,
+                         l_latest_page_id
+                    from apex_collections ac
+                    where ac.collection_name = l_collection_name
+                      and ac.seq_id = l_max_seq_id;
+      
+                  if l_latest_app_id = :APP_ID and l_latest_page_id = :APP_PAGE_ID and l_latest_title = l_title then
+                      -- in this case the user like hit refresh, don't show the same page again   
+                      l_show_latest_page := false;
+                      -- subtract one from the level number on a reload
+                      l_minus_if_reload := 1;
+                  end if;  
+              end if;       
+      
+              -- rewind
+              if l_rewind_method != 'DO_NOT_REWIND' 
+                  and instr(',' || l_no_rewind_page_list ||','  ,',' ||:APP_PAGE_ID ||',' )  = 0
+                  then    
+                  if l_rewind_method = 'PAGE_AND_TITLE' then
+                      begin
+                          select min(seq_id)
+                            into l_rewind_id
+                            from apex_collections
+                            where collection_name = l_collection_name
+                              and n001 = :APP_ID
+                              and n002 = :APP_PAGE_ID
+                              and c002 = l_title;    
+                      exception when no_data_found then null;
+                      end;     
+                  elsif l_rewind_method = 'PAGE' then
+                      begin
+                          select min(seq_id)
+                            into l_rewind_id
+                            from apex_collections
+                            where collection_name = l_collection_name
+                              and n001 = :APP_ID
+                              and n002 = :APP_PAGE_ID;    
+                      exception when no_data_found then null;
+                      end;   
+                  end if;
+      
+                  if l_rewind_id is not null then
+                      for rewind in (select seq_id from apex_collections
+                                      where collection_name = l_collection_name
+                                        and seq_id >= l_rewind_id) loop
+                          apex_collection.delete_member(
+                              p_collection_name   => l_collection_name,
+                              p_seq               => rewind.seq_id);
+                      end loop;  
+                  end if; 
+              end if;        
+              -- end rewind
+      
+              select bc.*
+                into l_bc_rec
+                from apex_application_themes theme
+                join apex_application_templates temp
+                  on temp.theme_number = theme.theme_number  
+                  and temp.application_id = theme.application_id
+                join apex_application_temp_bc bc 
+                  on bc.breadcrumb_template_id = temp.template_id
+                where theme.application_id = :APP_TRANSLATION_ID
+                  and temp.internal_name = 'BREADCRUMB'
+                  and temp.is_default = 'Yes';
+      
+              sys.htp.p(do_substitutions( p_string        =>  l_bc_rec.before_first,
+                                  p_name          => null,
+                                  p_link          => null,
+                                  p_css_classes   => l_css_classes)
+                              );
+      
+              for page_rec in (
+                  select c001     link_target,
+                         c002     link_label,
+                         n001     app_id,
+                         n002     page_id,
+                         row_number() over (order by seq_id desc) rn,
+                         seq_id
+                    from apex_collections ac
+                    where ac.collection_name = l_collection_name 
+                    order by seq_id
+                  ) loop
+      
+                  if page_rec.rn - l_minus_if_reload < l_max_levels then
+                      if page_rec.seq_id != l_max_seq_id or l_show_latest_page then
+                          sys.htp.p(do_substitutions( p_string     => l_bc_rec.non_current_page_option,
+                                                      p_name       => page_rec.link_label,
+                                                      p_link       => page_rec.link_target,
+                                                      p_css_classes   => l_css_classes));
+      
+                          sys.htp.p(l_bc_rec.between_levels);
+                      end if;    
+                  end if;
+              end loop;    
+              
+              sys.htp.p(do_substitutions( p_string     => l_bc_rec.current_page_option,
+                                      p_name       => l_title,
+                                      p_link       => null,
+                                      p_css_classes   => l_css_classes));
+      
+              sys.htp.p(l_bc_rec.after_last);
+      
+              apex_javascript.add_onload_code (p_code => l_javascript);
+          end if; -- it is a Normal page
+      
+          return null;
+      
+      end render_from_collection;          
+      --
+      --
+      function render (p_region              in apex_plugin.t_region,
+                       p_plugin              in apex_plugin.t_plugin,
+                       p_is_printer_friendly in boolean ) return apex_plugin.t_region_render_result is
+      
+          l_result            apex_plugin.t_region_render_result;
+      
+          l_additional_items  varchar2(32767) := p_region.ajax_items_to_submit;
+          c_region_static_id  constant varchar2(255)  := apex_escape.html_attribute( p_region.static_id );
+      
+          l_nav_or_collection p_region.attribute_02%type := p_region.attribute_02;
+      
+      begin
+      
+          --debug
+          if apex_application.g_debug then
+              apex_plugin_util.debug_region (p_plugin => p_plugin,
+                                             p_region => p_region 
+              );
+          end if;
+      
+          if l_nav_or_collection = 'NAV' then
+              l_result := render_from_nav_menu(
+                          p_region              => p_region,
+                          p_plugin              => p_plugin,
+                          p_is_printer_friendly => p_is_printer_friendly);
+          elsif l_nav_or_collection = 'COLLECTION' then   
+              l_result := render_from_collection(
+                          p_region              => p_region,
+                          p_plugin              => p_plugin,
+                          p_is_printer_friendly => p_is_printer_friendly);          
+          end if;                
+      
+      
+          return l_result;
+      
+      end render;
+      --
+      --
+      
+      function ajax  (p_region in apex_plugin.t_region,
+                      p_plugin in apex_plugin.t_plugin ) return apex_plugin.t_region_ajax_result is
+      
+          l_url               varchar2(4000) := apex_application.g_x01;
+          l_title             varchar2(4000) := apex_application.g_x02;
+      
+          l_max_levels        p_region.attribute_01%type := p_region.attribute_01;
+          l_nav_or_collection p_region.attribute_02%type := p_region.attribute_02;
+          l_collection_name   p_region.attribute_03%type := p_region.attribute_03;
+      
+          l_latest_url        varchar2(4000);
+      
+      begin
+      
+          --debug
+          if apex_application.g_debug then
+              apex_plugin_util.debug_region (p_plugin => p_plugin,
+                                             p_region => p_region);
+          end if;
+      
+          if not apex_collection.collection_exists(l_collection_name) then
+              apex_collection.create_collection(l_collection_name);
+          end if;
+                
+          begin      
+              select c001
+                  into l_latest_url
+                from apex_collections ac
+                where ac.collection_name = l_collection_name
+                  and ac.seq_id = (select max(ac2.seq_id) 
+                                      from apex_collections ac2
+                                      where ac2.collection_name = l_collection_name );
+          exception when no_data_found then null;
+          end;                            
+      
+          if l_url != l_latest_url or l_latest_url is null then                        
+      
+              apex_collection.add_member(
+                  p_collection_name => l_collection_name,
+                  p_c001            => l_url,
+                  p_c002            => l_title,
+                  p_n001            => :APP_ID,
+                  p_n002            => :APP_PAGE_ID);
+          end if;
+      
+          --sys.htp.p('{success: true}');
+          apex_json.open_object;
+          apex_json.write('success', true);
+          --apex_json.write('x01', apex_application.g_x01);
+          apex_json.close_object;
+      
+          return null;
+      
+      end ajax;   
+      
+

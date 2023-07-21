@@ -1,10 +1,10 @@
 ---
-# ====== Page: Manage Standard Test ==========================
+# ====== Page: &P14_HIDDEN_NAME. =============================
 id: 14
 identification: 
-  name: Manage Standard Test
+  name: '&P14_HIDDEN_NAME.'
   alias: STANDARD-TEST
-  title: '&APPLICATION_TITLE. Manage Standard'
+  title: Manage Standard &P14_HIDDEN_NAME.
 
 appearance: 
   page-mode: Normal
@@ -204,6 +204,7 @@ regions:
     template: Standard # 7573670342594143998
     template-options: 
     - '#DEFAULT#'
+    - js-showMaximizeButton
     - t-Region--hideHeader
     - t-Region--scrollBody
     render-components: Above Content
@@ -385,52 +386,6 @@ regions:
     settings: 
       output-as: HTML
       expand-shortcuts: false
-
-- # ====== Region: Breadcrumb ==================================
-  id: 191506192652792030
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
 
 - # ====== Region: Update Standard Test ========================
   id: 198848628130243437
@@ -2394,6 +2349,7 @@ page-items:
     template: Optional - Floating # 6411715103038685265
     template-options: 
     - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
 
   validation: 
     value-required: false
@@ -2796,9 +2752,9 @@ page-items:
     alignment: Left
     start-new-layout: false
     start-new-row: false
-    column: 12
+    column: 11
     new-column: true
-    column-span: Automatic
+    column-span: 2
     label-column-span: Page Template Default
 
   appearance: 
@@ -3339,7 +3295,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Breadcrumb # 191506192652792030
+    region: Super Breadcrumb # 144377177445069517
     position: PREVIOUS
     start-new-layout: false
     start-new-row: true
@@ -3376,7 +3332,7 @@ buttons:
 
   layout: 
     sequence: 30
-    region: Breadcrumb # 191506192652792030
+    region: Super Breadcrumb # 144377177445069517
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -3519,7 +3475,7 @@ buttons:
 
   layout: 
     sequence: 50
-    region: Breadcrumb # 191506192652792030
+    region: Super Breadcrumb # 144377177445069517
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -3558,7 +3514,7 @@ buttons:
 
   layout: 
     sequence: 40
-    region: Breadcrumb # 191506192652792030
+    region: Super Breadcrumb # 144377177445069517
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -3622,7 +3578,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,::'
-      page: 14 # Manage Standard Test
+      page: 14 # &P14_HIDDEN_NAME.
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
@@ -4510,6 +4466,31 @@ validations:
     type: Request is contained in Value
     value: SAVE,CREATE_TEST
 
+- # ====== Validation: replace REPLACEME =======================
+  id: 144376063843069506
+  identification: 
+    name: replace REPLACEME
+
+  execution: 
+    sequence: 30
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P14_QUERY_CLOB not like '%REPLACEME%'"
+    always-execute: false
+
+  error: 
+    error-message: Query still contains 'REPLACEME' strings
+    display-location: Inline with Field and in Notification
+    associated-item: P14_QUERY_CLOB # 115235979728846911
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 143064123846412524
+    type: Item = Value
+    item: P14_ACTIVE_YN
+    value: Y
+
 computations: 
 - # ====== Computation: P5_STANDARD ============================
   id: 48675810207802914
@@ -4851,7 +4832,7 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.::P14_STANDARD_CODE,P14_ID:&P14_STANDARD_CODE.,&P14_ID.&success_msg=#SUCCESS_MSG#'
-      page: 14 # Manage Standard Test
+      page: 14 # &P14_HIDDEN_NAME.
       values: 
         p14_standard_code: '&P14_STANDARD_CODE.'
         p14_id: '&P14_ID.'

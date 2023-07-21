@@ -4,7 +4,7 @@ id: 42
 identification: 
   name: Audit Issue &P42_AUDIT_ID.
   alias: INSPECT-AUDIT-ISSUE
-  title: '&APPLICATION_TITLE.  Audit Issue &P42_AUDIT_ID.'
+  title: '&P42_ISSUE_TITLE. [Audit ID &P42_AUDIT_ID.]'
 
 appearance: 
   page-mode: Normal
@@ -417,52 +417,6 @@ regions:
       - Update Row
       - Delete Row
       lost-update-type: Row Values
-
-- # ====== Region: Breadcrumb ==================================
-  id: 244273633786812325
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
 
 - # ====== Region: Live Test Results Report ====================
   id: 244342221991923118
@@ -1470,8 +1424,8 @@ regions:
     html-code: '&P42_VALIDATION_FAILURE_MESSAGE.'
 
   layout: 
-    sequence: 30
-    parent-region: Breadcrumb # 244273633786812325
+    sequence: 10
+    parent-region: Super Breadcrumb # 144377177445069517
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -3611,70 +3565,6 @@ page-items:
 
   help: 
     help-text: the primary key of audit table
-
-- # ====== Page Item: P42_ISSUE_DESC ===========================
-  id: 458447200365308308
-  identification: 
-    name: P42_ISSUE_DESC
-    type: Textarea
-
-  label: 
-    label: Issue Desc
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
-
-  layout: 
-    sequence: 40
-    region: General Virtual Cols # 458830432779448205
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-    height: 5
-
-  validation: 
-    value-required: false
-    maximum-length: 4000
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 458446618000308302
-    column: ISSUE_DESC
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: a description of the violation
 
 - # ====== Page Item: P42_TEST_ID ==============================
   id: 458447513692308311

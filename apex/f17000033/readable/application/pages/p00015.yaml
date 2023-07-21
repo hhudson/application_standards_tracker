@@ -1,10 +1,10 @@
 ---
-# ====== Page: run jobs ======================================
+# ====== Page: Run Jobs in Debug mode ========================
 id: 15
 identification: 
-  name: run jobs
+  name: Run Jobs in Debug mode
   alias: RUN-JOBS
-  title: '&APPLICATION_TITLE. Run jobs'
+  title: Run jobs in Debug Mode
 
 appearance: 
   page-mode: Normal
@@ -38,10 +38,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Processes ===================================
+- # ====== Region: 3. [Hourly - 40 min past] Manage APEX Issues 
   id: 42934066734017703
   identification: 
-    title: Processes
+    title: 3. [Hourly - 40 min past] Manage APEX Issues
     type: Static Content
 
   layout: 
@@ -55,9 +55,12 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Alert # 7573654784682143972
     template-options: 
     - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
     render-components: Above Content
 
   accessibility: 
@@ -125,16 +128,423 @@ regions:
       template-options: 
       - '#DEFAULT#'
 
+- # ====== Region: Debug report ================================
+  id: 144376361399069509
+  identification: 
+    title: Debug report
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT id, message, message_timestamp, call_stack, message_level
+      FROM apex_debug_messages
+      WHERE application_id = :APP_ID
+      AND lower(message) LIKE 'ast_apex_issue_util%'
+      --AND message_timestamp = to_timestamp_tz('16-DEC-22 08.38.57.641413 PM +00:00', 'DD-MON-YY HH.MI.SS.FF PM TZH:TZM')
+      ORDER BY message_timestamp DESC
+
+  layout: 
+    sequence: 20
+    parent-region: View Debug report # 144377090527069516
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7573669835761143993
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 144376481038069510
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 145143972173958042
+      identification: 
+        name: Primary Report
+        alias: 1451440
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 144376511073069511
+      identification: 
+        column-name: ID
+        type: Plain Text
+
+      heading: 
+        heading: Id
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MESSAGE =====================================
+      id: 144376612297069512
+      identification: 
+        column-name: MESSAGE
+        type: Plain Text
+
+      heading: 
+        heading: Message
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MESSAGE_TIMESTAMP ===========================
+      id: 144376799794069513
+      identification: 
+        column-name: MESSAGE_TIMESTAMP
+        type: Plain Text
+
+      heading: 
+        heading: Message Timestamp
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CALL_STACK ==================================
+      id: 144376873878069514
+      identification: 
+        column-name: CALL_STACK
+        type: Plain Text
+
+      heading: 
+        heading: Call Stack
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MESSAGE_LEVEL ===============================
+      id: 144376915839069515
+      identification: 
+        column-name: MESSAGE_LEVEL
+        type: Plain Text
+
+      heading: 
+        heading: Message Level
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Debug report
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: View Debug report ===========================
+  id: 144377090527069516
+  identification: 
+    title: View Debug report
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: 3. [Hourly - 40 min past] Manage APEX Issues # 42934066734017703
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7573667094242143990
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--scrollBody
+    - margin-top-md
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 buttons: 
 - # ====== Button: manage_apex_issues ==========================
   id: 42934182388017704
   identification: 
     button-name: manage_apex_issues
-    label: Manage Apex Issues
+    label: Run job in Debug mode
 
   layout: 
     sequence: 10
-    region: Processes # 42934066734017703
+    region: 3. [Hourly - 40 min past] Manage APEX Issues # 42934066734017703
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -171,6 +581,26 @@ processes:
       begin
       ast_apex_issue_util.manage_apex_issues;
       end;
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: set debug level ============================
+  id: 144376294384069508
+  identification: 
+    name: set debug level
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: 'apex_debug.enable(p_level => apex_debug.c_log_level_info); '
 
   execution: 
     sequence: 10
