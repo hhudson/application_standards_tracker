@@ -2,9 +2,9 @@ set serveroutput on
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:  ast_create_apex_issues.sql
+-- Script name:  SVT_create_apex_issues.sql
 --        Date:  
---     Purpose:  Job ast_create_apex_issues
+--     Purpose:  Job SVT_create_apex_issues
 --
 --------------------------------------------------------------------------------
 
@@ -15,9 +15,9 @@ BEGIN
     $if oracle_apex_version.version < 21
     $then 
         DBMS_SCHEDULER.CREATE_JOB (
-                job_name => 'AST_CREATE_APEX_ISSUES',
+                job_name => 'SVT_CREATE_APEX_ISSUES',
                 job_type => 'PLSQL_BLOCK',
-                job_action => 'ast_apex_issue_util.manage_apex_issues;',
+                job_action => 'SVT_apex_issue_util.manage_apex_issues;',
                 number_of_arguments => 0,
                 start_date => NULL,
                 repeat_interval => 'FREQ=DAILY;BYTIME=040000',
@@ -27,7 +27,7 @@ BEGIN
                 comments => '');
         
         DBMS_SCHEDULER.enable(
-                name => 'AST_CREATE_APEX_ISSUES');
+                name => 'SVT_CREATE_APEX_ISSUES');
    $else
         dbms_output.put_line('use automations not db job');
    $end

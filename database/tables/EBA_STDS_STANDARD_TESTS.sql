@@ -27,6 +27,8 @@
       FIX CLOB,
       ACTIVE_YN VARCHAR2(1) DEFAULT 'Y', 
       VERSION_NUMBER NUMBER,
+      MV_DEPENDENCY VARCHAR2(100),
+      SVT_COMPONENT_TYPE_ID NUMBER,
       CREATED TIMESTAMP (6) WITH LOCAL TIME ZONE, 
       CREATED_BY VARCHAR2(255), 
       UPDATED TIMESTAMP (6) WITH LOCAL TIME ZONE, 
@@ -104,13 +106,13 @@ alter table EBA_STDS_STANDARD_TESTS add MV_DEPENDENCY varchar2(100)
 /
 
 --liquibase formatted sql
---changeset table_script:EBA_STDS_STANDARD_TESTS.AST_COMPONENT_TYPE_ID stripComments:false 
+--changeset table_script:EBA_STDS_STANDARD_TESTS.SVT_COMPONENT_TYPE_ID stripComments:false 
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where upper(table_name) = 'EBA_STDS_STANDARD_TESTS' and column_name = 'AST_COMPONENT_TYPE_ID';
+--precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where upper(table_name) = 'EBA_STDS_STANDARD_TESTS' and column_name = 'SVT_COMPONENT_TYPE_ID';
 
-alter table EBA_STDS_STANDARD_TESTS add ast_component_type_id number
+alter table EBA_STDS_STANDARD_TESTS add SVT_COMPONENT_TYPE_ID number
 /
-ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (ast_component_type_id NOT NULL ENABLE)
+ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (SVT_COMPONENT_TYPE_ID NOT NULL ENABLE)
 /
 
 ALTER TABLE EBA_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STDS_STANDARD_TESTS_UK2 UNIQUE (standard_code)
@@ -122,8 +124,8 @@ alter table EBA_STDS_STANDARD_TESTS add EXPLANATION VARCHAR2(4000 CHAR)
 alter table EBA_STDS_STANDARD_TESTS add FIX CLOB
 /
 
-alter table eba_stds_standard_tests add version_number number
+alter table eba_stds_standard_tests add VERSION_NUMBER number
 /
 
-  ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (version_number NOT NULL ENABLE)
+  ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (VERSION_NUMBER NOT NULL ENABLE)
 /

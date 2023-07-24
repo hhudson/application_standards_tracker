@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:   v_eba_stds_standard_tests_ot.sql
+-- Script name:   V_EBA_STDS_STANDARD_TESTS_OT.sql
 --        Date:  2023-Jun-21
 --     Purpose:  Type creation DDL
 --
@@ -31,7 +31,7 @@
         QUERY_CLOB              CLOB,
         STD_CREATION_DATE       TIMESTAMP(6) WITH LOCAL TIME ZONE,
         MV_DEPENDENCY           VARCHAR2(100),
-        AST_COMPONENT_TYPE_ID   NUMBER,
+        SVT_COMPONENT_TYPE_ID   NUMBER,
         COMPONENT_NAME          VARCHAR2(50),
         STANDARD_ACTIVE_YN      VARCHAR2(1),
         EXPLANATION             VARCHAR2(4000 CHAR),

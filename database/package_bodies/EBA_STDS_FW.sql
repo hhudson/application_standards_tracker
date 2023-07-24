@@ -117,7 +117,7 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
         l_tag := l_tags_a.first;
         while l_tag is not null loop
             l_tags_string := l_tags_string||l_tag;
-            if l_tag != l_tags_a.last then
+            if l_tag != l_tags_a.LAST then
                 l_tags_string := l_tags_string || ', ';
             end if;
             l_tag := l_tags_a.next(l_tag);

@@ -6,24 +6,14 @@
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:   v_eba_stds_standard_tests_nt.sql
+-- Script name:   V_EBA_STDS_STANDARD_TESTS_NT.sql
 --        Date:  2023-Jun-21
 --     Purpose:  Type creation DDL
 --
--- used in package ast_standard_view
+-- used in package SVT_standard_view
 --------------------------------------------------------------------------------
 -- prompt  v_eba_stds_standard_tests_nt.sql
 
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
-    create type v_eba_stds_standard_tests_nt as table of v_eba_stds_standard_tests_ot
-     ]';
-  dbms_output.put_line(q'[ type v_eba_stds_standard_tests_nt created ]');
-exception
-  when already_exists then null;
-end;
+create type v_eba_stds_standard_tests_nt as table of v_eba_stds_standard_tests_ot
 /
 --rollback drop type V_EBA_STDS_STANDARD_TESTS_NT;

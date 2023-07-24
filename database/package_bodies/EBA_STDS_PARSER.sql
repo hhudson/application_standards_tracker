@@ -6,6 +6,8 @@ is
     gc_scope_prefix         constant varchar2(31) := lower($$plsql_unit) || '.';
     gc_default_app_id       constant apex_applications.application_id%type := 17000033;
     gc_userenv_current_user constant varchar2(100) :=  sys_context('userenv', 'current_user');
+    gc_y                    constant varchar2(1) := 'Y';
+    gc_n                    constant varchar2(1) := 'N';
 
 
     function view_sql (p_view_name in user_views.view_name%type,
@@ -15,8 +17,8 @@ is
     c_debug_template varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
 
     l_view_name user_views.view_name%type := upper(p_view_name);
-    l_owner     all_views.owner%type := upper(nvl(p_owner, case when gc_userenv_current_user = 'AST'
-                                                                then ast_ctx_util.get_default_user
+    l_owner     all_views.owner%type := upper(nvl(p_owner, case when gc_userenv_current_user = 'SVT'
+                                                                then SVT_ctx_util.get_default_user
                                                                 else gc_userenv_current_user
                                                                 end));
     l_sql_long  user_views.text%type;
@@ -122,7 +124,7 @@ is
     begin
         apex_debug.message(c_debug_template,'START');
 
-        return ast_preferences.get_preference ('AST_BASE_URL');
+        return SVT_preferences.get_preference ('SVT_BASE_URL');
 
     exception when others then 
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -361,7 +363,7 @@ is
     c_debug_template varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
 
     l_url varchar2(1026) := upper(p_url);
-    l_valid_app_and_page_yn varchar2(1) := 'Y';
+    l_valid_app_and_page_yn varchar2(1) := gc_y;
     l_application_id apex_applications.application_id%type;
     l_page_id apex_application_pages.page_id%type;                                                               
     begin
@@ -369,33 +371,33 @@ is
                                                      'p_url', p_url
                                                      );
         case when l_url is null 
-             then return 'Y';
+             then return gc_y;
              when l_url = 'SEPARATOR'
-             then return 'Y';
+             then return gc_y;
              when l_url = '#' 
-             then return 'Y';
+             then return gc_y;
              when l_url = '/SIGNOUT' 
-             then return 'Y';
+             then return gc_y;
              when l_url like '&LOGOUT_URL%' 
-             then return 'Y';
+             then return gc_y;
              when l_url like '#%#' 
-             then return 'Y';
+             then return gc_y;
              when l_url like '#ACTION$%' -- eg #action$a-pwa-install
-             then return 'Y';
+             then return gc_y;
              when l_url like 'F?P=&REPORTING_APP_ID.%' 
-             then return 'Y';
+             then return gc_y;
              when l_url like 'F?P=&LAST_APP.%' 
-             then return 'Y';
+             then return gc_y;
              when l_url like 'F?P=&G_CALLED_FROM_APP.%' 
-             then return 'Y';
+             then return gc_y;
              when l_url like 'F?P=&P%' 
-             then return 'Y';
+             then return gc_y;
              when l_url like 'JAVASCRIPT%' 
-             then return 'Y';
+             then return gc_y;
              when l_url like 'TEL:%' 
-             then return 'Y';
+             then return gc_y;
              when l_url like 'HTTPS://%' 
-             then return 'Y';
+             then return gc_y;
              else 
                 l_application_id := app_from_url ( p_origin_app_id => p_origin_app_id,
                                                    p_url => l_url);
@@ -403,8 +405,8 @@ is
                                              p_url => l_url);
 
                 select case when count(*) = 1
-                                then 'Y'
-                                else 'N'
+                                then gc_y
+                                else gc_n
                                 end into l_valid_app_and_page_yn
                 from sys.dual where exists (
                     select aap.page_id 
@@ -425,26 +427,26 @@ is
     end is_valid_url;
 
     procedure get_component_type_rec (
-                        p_ast_component_type_id in ast_component_types.id%type,
-                        p_component_name        out nocopy ast_component_types.component_name%type,
-                        p_component_type_id     out nocopy v_ast_flow_dictionary_views.component_type_id%type,
-                        p_template_url          out nocopy v_ast_flow_dictionary_views.link_url%type
+                        p_SVT_component_type_id in SVT_component_types.id%type,
+                        p_component_name        out nocopy SVT_component_types.component_name%type,
+                        p_component_type_id     out nocopy v_SVT_flow_dictionary_views.component_type_id%type,
+                        p_template_url          out nocopy v_SVT_flow_dictionary_views.link_url%type
                     )
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_component_type_rec';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
-        apex_debug.message(c_debug_template,'START', 'p_ast_component_type_id', p_ast_component_type_id);
+        apex_debug.message(c_debug_template,'START', 'p_SVT_component_type_id', p_SVT_component_type_id);
 
         select act.component_name, fdv.component_type_id, coalesce(fdv.link_url, act.template_url) link_url
         into p_component_name, p_component_type_id, p_template_url
-        from  ast_component_types act
-        left join v_ast_flow_dictionary_views fdv on fdv.view_name = act.component_name
-        where act.id = p_ast_component_type_id;
+        from  SVT_component_types act
+        left join v_SVT_flow_dictionary_views fdv on fdv.view_name = act.component_name
+        where act.id = p_SVT_component_type_id;
 
     exception 
         when no_data_found then
-            apex_debug.message(c_debug_template, 'No data found', p_ast_component_type_id);
+            apex_debug.message(c_debug_template, 'No data found', p_SVT_component_type_id);
         when others then 
             apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
             raise;
@@ -588,24 +590,24 @@ is
     --         raise;
     -- end build_link;
 
-    function build_url( p_template_url          in v_ast_flow_dictionary_views.link_url%type,
-                        p_app_id                in ast_plsql_apex_audit.application_id%type,
-                        p_page_id               in ast_plsql_apex_audit.page_id%type,
-                        p_pk_value              in ast_plsql_apex_audit.component_id%type,
-                        p_parent_pk_value       in ast_plsql_apex_audit.object_name%type,
-                        p_opt_parent_pk_value   in ast_plsql_apex_audit.object_type%type default null,
+    function build_url( p_template_url          in v_SVT_flow_dictionary_views.link_url%type,
+                        p_app_id                in SVT_plsql_apex_audit.application_id%type,
+                        p_page_id               in SVT_plsql_apex_audit.page_id%type,
+                        p_pk_value              in SVT_plsql_apex_audit.component_id%type,
+                        p_parent_pk_value       in SVT_plsql_apex_audit.object_name%type,
+                        p_opt_parent_pk_value   in SVT_plsql_apex_audit.object_type%type default null,
                         p_builder_session       in number default null)
     return varchar2 deterministic result_cache
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'build_url';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15';
-    c_app_id constant ast_plsql_apex_audit.application_id%type := p_app_id;
-    c_page_id constant ast_plsql_apex_audit.page_id%type := p_page_id;
-    c_pk_value constant ast_plsql_apex_audit.component_id%type := p_pk_value;
+    c_app_id constant SVT_plsql_apex_audit.application_id%type := p_app_id;
+    c_page_id constant SVT_plsql_apex_audit.page_id%type := p_page_id;
+    c_pk_value constant SVT_plsql_apex_audit.component_id%type := p_pk_value;
     c_parent_pk_value constant varchar2(100) := p_parent_pk_value;
     c_opt_parent_pk_value constant varchar2(100) := p_opt_parent_pk_value;
     c_builder_session constant number := coalesce(v('APX_BLDR_SESSION'),p_builder_session);
-    c_template_url v_ast_flow_dictionary_views.link_url%type := p_template_url;
+    c_template_url v_SVT_flow_dictionary_views.link_url%type := p_template_url;
     l_url varchar2(2000);
     begin
         apex_debug.message(c_debug_template,'START', 
@@ -653,26 +655,26 @@ is
 ------------------------------------------------------------------------------
 
     function assemble_addlcols( p_initials              in varchar2,
-                                p_ast_component_type_id in ast_component_types.id%type) 
-    return ast_component_types.addl_cols%type
+                                p_SVT_component_type_id in SVT_component_types.id%type) 
+    return SVT_component_types.addl_cols%type
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_addlcols';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    l_addl_cols        ast_component_types.addl_cols%type;
-    l_addl_cols_final  ast_component_types.addl_cols%type;
-    l_name_column      ast_component_types.name_column%type;
+    l_addl_cols        SVT_component_types.addl_cols%type;
+    l_addl_cols_final  SVT_component_types.addl_cols%type;
+    l_name_column      SVT_component_types.name_column%type;
     l_count pls_integer := 0;
     c_padding constant varchar2(20) := '       ';
     begin
         apex_debug.message(c_debug_template,'START', 
                                             'p_initials', p_initials, 
-                                            'p_ast_component_type_id', p_ast_component_type_id);
+                                            'p_SVT_component_type_id', p_SVT_component_type_id);
 
         select lower(act.addl_cols), lower(act.name_column)
         into l_addl_cols, l_name_column
-        from ast_nested_table_types antt
-        inner join ast_component_types act on act.nt_type_id = antt.id
-        where act.id = p_ast_component_type_id;
+        from SVT_nested_table_types antt
+        inner join SVT_component_types act on act.nt_type_id = antt.id
+        where act.id = p_SVT_component_type_id;
         
         l_addl_cols_final := chr(10)||c_padding||p_initials||'.'||l_name_column; --||','||chr(10);
 
@@ -692,17 +694,17 @@ is
         raise;
     end assemble_addlcols;
 
-    function seed_default_query(p_ast_component_type_id in ast_component_types.id%type)
+    function seed_default_query(p_SVT_component_type_id in SVT_component_types.id%type)
     return varchar2
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'seed_default_query';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15';
-    l_example_query ast_nested_table_types.example_query%type;
-    l_view             ast_component_types.component_name%type;
-    l_pk_value         ast_component_types.pk_value%type;
-    l_parent_pk_value  ast_component_types.parent_pk_value%type;
-    l_friendly_name    ast_component_types.friendly_name%type;
-    l_name_column      ast_component_types.name_column%type;
+    l_example_query SVT_nested_table_types.example_query%type;
+    l_view             SVT_component_types.component_name%type;
+    l_pk_value         SVT_component_types.pk_value%type;
+    l_parent_pk_value  SVT_component_types.parent_pk_value%type;
+    l_friendly_name    SVT_component_types.friendly_name%type;
+    l_name_column      SVT_component_types.name_column%type;
     l_opt_parent_pk_value  all_objects.object_type%type;
     l_initials varchar2(5);
     l_app_id all_tab_cols.column_name%type;
@@ -712,17 +714,17 @@ is
     c_created_on      constant varchar2(25) := 'created_on';
     c_updated_by      constant varchar2(25) := 'updated_by';
     c_updated_on      constant varchar2(25) := 'updated_on';
-    c_last_updated_by constant varchar2(25) := 'last_updated_by';
-    c_last_updated_on constant varchar2(25) := 'last_updated_on';
+    c_LAST_updated_by constant varchar2(25) := 'LAST_updated_by';
+    c_LAST_updated_on constant varchar2(25) := 'LAST_updated_on';
     c_build_option    constant varchar2(25) := 'build_option';
 
         function column_exists (p_column_name in varchar2) return boolean
         as 
-        l_column_exists_yn varchar2(1) := 'N';
+        l_column_exists_yn varchar2(1) := gc_n;
         begin
             select case when count(*) = 1
-                            then 'Y'
-                            else 'N'
+                            then gc_y
+                            else gc_n
                             end into l_column_exists_yn
                     from sys.dual where exists (
                         select 1
@@ -730,7 +732,7 @@ is
                             where lower(table_name) = l_view
                             and lower(column_name) = p_column_name
                     );
-            return case when l_column_exists_yn = 'Y'
+            return case when l_column_exists_yn = gc_y
                         then true 
                         else false
                         end;
@@ -752,9 +754,9 @@ is
              l_opt_parent_pk_value,
              l_friendly_name,
              l_name_column
-        from ast_nested_table_types antt
-        inner join ast_component_types act on act.nt_type_id = antt.id
-        where act.id = p_ast_component_type_id;
+        from SVT_nested_table_types antt
+        inner join SVT_component_types act on act.nt_type_id = antt.id
+        where act.id = p_SVT_component_type_id;
 
 
         l_initials := case when l_view is not null
@@ -762,7 +764,7 @@ is
                            else 'st'
                            end;
         
-        l_example_query := replace(l_example_query, '%astview%', coalesce(l_view, 'dual')||' '||l_initials);
+        l_example_query := replace(l_example_query, '%SVTview%', coalesce(l_view, 'dual')||' '||l_initials);
         l_example_query := replace(l_example_query, '%pk_value%', case when l_pk_value is not null 
                                                                        then l_initials||'.'||l_pk_value
                                                                        else 'null'
@@ -794,14 +796,14 @@ is
                                                                         else 'null '
                                                                         end
                                   );
-        l_example_query := replace(l_example_query, '%updatedby%', case when column_exists (c_last_updated_by)
+        l_example_query := replace(l_example_query, '%updatedby%', case when column_exists (c_LAST_updated_by)
                                                                         then l_initials||'.'
                                                                         when column_exists (c_updated_by)
                                                                         then l_initials||'.'||c_updated_by||' '
                                                                         else 'null '
                                                                         end
                                   );
-        l_example_query := replace(l_example_query, '%updatedon%', case when column_exists (c_last_updated_on)
+        l_example_query := replace(l_example_query, '%updatedon%', case when column_exists (c_LAST_updated_on)
                                                                         then l_initials||'.'
                                                                         when column_exists (c_updated_on)
                                                                         then l_initials||'.'||c_updated_on||' '
@@ -827,7 +829,7 @@ is
                                     );
         l_example_query := replace(l_example_query, '%addl_cols%', 
                                     assemble_addlcols(p_initials              => l_initials,
-                                                      p_ast_component_type_id => p_ast_component_type_id));
+                                                      p_SVT_component_type_id => p_SVT_component_type_id));
         l_example_query := l_example_query||case when column_exists (c_page_id) and l_view != 'apex_application_pages'
                                                  then chr(10)||'inner join apex_application_pages aap on aap.page_id = '||l_initials||'.'||c_page_id
                                                                                                   ||' and aap.application_id = '||l_initials||'.'||c_application_id
@@ -852,12 +854,37 @@ is
 
     exception 
         when no_data_found then 
-            apex_debug.message(c_debug_template, 'no data found', p_ast_component_type_id);
+            apex_debug.message(c_debug_template, 'no data found', p_SVT_component_type_id);
             return null;
         when others then 
             apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
             raise;
     end seed_default_query;
+
+    function valid_html_yn (p_html in clob) return varchar2 
+    is
+    c_scope constant varchar2(128) := gc_scope_prefix || 'valid_html_yn';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+
+    c_html constant clob := replace(p_html, '&');
+    l_xml xmltype;
+    e_malformed_xml exception;
+    pragma exception_init(e_malformed_xml, -31011);
+    begin
+        apex_debug.message(c_debug_template,'START', 'p_html', p_html);
+
+        select xmlparse(content c_html) as po
+        into l_xml 
+        from dual;
+
+        return gc_y;
+    exception 
+        when e_malformed_xml then 
+            return gc_n;
+        when others then 
+            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+            raise;
+    end valid_html_yn;
 
 
 end eba_stds_parser;

@@ -1,6 +1,6 @@
 begin
     -- eba_stds_data.load_initial_data();
-    ast_audit_util.set_workspace;
+    SVT_audit_util.set_workspace;
 
    insert into eba_stds_applications( apex_app_id)
    select aa.application_id

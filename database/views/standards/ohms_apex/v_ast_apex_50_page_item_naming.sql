@@ -1,4 +1,4 @@
-create or replace force view v_ast_apex_50_page_item_naming
+create or replace force view v_SVT_apex_50_page_item_naming
 as
 select pass_yn,
        unqid, --reference_code,
@@ -6,12 +6,12 @@ select pass_yn,
        page_id,
        created_by,
        created_on,
-       last_updated_by,
-       last_updated_on,
+       LAST_updated_by,
+       LAST_updated_on,
        validation_failure_message,
        issue_title,
        standard_code
-from ast_standard_view.v_ast_apex(
+from SVT_standard_view.v_SVT_apex(
                         p_standard_code => 'PAGE_ITEM_NAMING',
                         p_failures_only => 'Y')
 /

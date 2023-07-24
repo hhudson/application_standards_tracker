@@ -23,7 +23,7 @@ select  st.id test_id,
             else 'N'
             end src_recent_change_yn,
        st.mv_dependency,
-       st.ast_component_type_id,
+       st.svt_component_type_id,
        act.component_name,
        ess.active_yn standard_active_yn,
        st.explanation,
@@ -31,8 +31,8 @@ select  st.id test_id,
        st.version_number
 from eba_stds_standard_tests st
 inner join eba_stds_standards ess on st.standard_id = ess.id
-inner join ast_component_types act on act.id = st.ast_component_type_id
-inner join ast_nested_table_types antt on act.nt_type_id = antt.id
-inner join ast_standards_urgency_level asul on asul.id = st.level_id
+inner join svt_component_types act on act.id = st.svt_component_type_id
+inner join svt_nested_table_types antt on act.nt_type_id = antt.id
+inner join svt_standards_urgency_level asul on asul.id = st.level_id
 /
 --rollback drop view v_eba_stds_standard_tests;

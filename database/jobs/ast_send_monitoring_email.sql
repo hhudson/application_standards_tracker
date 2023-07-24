@@ -4,9 +4,9 @@ set serveroutput on
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:  ast_send_monitoring_email.sql
+-- Script name:  SVT_send_monitoring_email.sql
 --        Date:  
---     Purpose:  Job ast_send_monitoring_email
+--     Purpose:  Job SVT_send_monitoring_email
 --
 --------------------------------------------------------------------------------
 
@@ -17,9 +17,9 @@ BEGIN
     $if oracle_apex_version.version < 21
     $then 
         DBMS_SCHEDULER.CREATE_JOB (
-                job_name => 'AST_SEND_MONITORING_EMAIL',
+                job_name => 'SVT_SEND_MONITORING_EMAIL',
                 job_type => 'PLSQL_BLOCK',
-                job_action => 'ast_monitoring.send_update(p_days_since => 2);',
+                job_action => 'SVT_monitoring.send_update(p_days_since => 2);',
                 number_of_arguments => 0,
                 start_date => NULL,
                 repeat_interval => 'FREQ=DAILY;BYTIME=060000',
@@ -29,7 +29,7 @@ BEGIN
                 comments => '');
         
         DBMS_SCHEDULER.enable(
-                name => 'AST_SEND_MONITORING_EMAIL');
+                name => 'SVT_SEND_MONITORING_EMAIL');
    $else
         dbms_output.put_line('use automations not db job');
    $end

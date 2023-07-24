@@ -4,12 +4,12 @@ begin
     apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>c_user);   
     
     apex_util.set_preference(        
-            p_preference => 'AST_APPLY_SERT_STANDARDS',
+            p_preference => 'SVT_APPLY_SERT_STANDARDS',
             p_value      => 'N',     
             p_user       => c_user);
 
     apex_util.set_preference(        
-            p_preference => 'AST_CREATE_APEX_ISSUES',
+            p_preference => 'SVT_CREATE_APEX_ISSUES',
             p_value      => 'N',      
             p_user       => c_user);
 end;

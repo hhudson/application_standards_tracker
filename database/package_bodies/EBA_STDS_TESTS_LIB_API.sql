@@ -28,7 +28,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_standard_code         in eba_stds_tests_lib.standard_code%type,
         p_active_yn             in eba_stds_tests_lib.active_yn%type,
         p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
-        p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type,
+        p_svt_component_type_id in eba_stds_tests_lib.svt_component_type_id%type,
         p_explanation           in eba_stds_tests_lib.explanation%type,
         p_fix                   in eba_stds_tests_lib.fix%type,
         p_level_id              in eba_stds_tests_lib.level_id%type,
@@ -47,7 +47,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                                         'p_standard_code', p_standard_code,
                                         'p_active_yn', p_active_yn,
                                         'p_mv_dependency', p_mv_dependency,
-                                        'p_ast_component_type_id', p_ast_component_type_id
+                                        'p_svt_component_type_id', p_svt_component_type_id
                                         );
 
     merge into eba_stds_tests_lib e
@@ -59,7 +59,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_standard_code         standard_code,
                   p_active_yn             active_yn,
                   p_mv_dependency         mv_dependency,
-                  p_ast_component_type_id ast_component_type_id,
+                  p_svt_component_type_id svt_component_type_id,
                   p_explanation           explanation,
                   p_fix                   fix,
                   p_level_id              level_id,
@@ -73,7 +73,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                e.query_clob            = h.query_clob,
                e.active_yn             = h.active_yn,
                e.mv_dependency         = h.mv_dependency,
-               e.ast_component_type_id = h.ast_component_type_id,
+               e.svt_component_type_id = h.svt_component_type_id,
                e.explanation           = h.explanation,
                e.fix                   = h.fix,
                e.level_id              = h.level_id,
@@ -87,7 +87,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             query_clob,
             active_yn,
             mv_dependency,
-            ast_component_type_id,
+            svt_component_type_id,
             explanation,
             fix,
             level_id,
@@ -100,7 +100,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             h.query_clob,
             h.active_yn,
             h.mv_dependency,
-            h.ast_component_type_id,
+            h.svt_component_type_id,
             h.explanation,
             h.fix,
             h.level_id,
@@ -116,7 +116,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'take_snapshot';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_workspace constant apex_workspace_preferences.preference_value%type := ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE');
+  c_workspace constant apex_workspace_preferences.preference_value%type := svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE');
   begin
     apex_debug.message(c_debug_template,'START');
 
@@ -128,7 +128,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
              standard_code,
              active_yn,
              mv_dependency,
-             ast_component_type_id,
+             svt_component_type_id,
              explanation,
              fix,
              level_id,
@@ -145,7 +145,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_standard_code         => rec.standard_code,
         p_active_yn             => rec.active_yn,
         p_mv_dependency         => rec.mv_dependency,
-        p_ast_component_type_id => rec.ast_component_type_id,
+        p_svt_component_type_id => rec.svt_component_type_id,
         p_explanation           => rec.explanation,
         p_fix                   => rec.fix,
         p_level_id              => rec.level_id,
@@ -181,12 +181,12 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                 p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
                 p_test_name             => l_lib_rec.test_name,
                 p_query_clob            => l_lib_rec.query_clob,
-                p_owner                 => ast_preferences.get_preference ('AST_DEFAULT_SCHEMA'),
+                p_owner                 => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'),
                 p_standard_code         => l_lib_rec.standard_code,
                 p_active_yn             => 'N',
-                p_level_id              => coalesce(p_urgency_level_id, ast_urgency_level_api.get_default_level_id),
+                p_level_id              => coalesce(p_urgency_level_id, svt_urgency_level_api.get_default_level_id),
                 p_mv_dependency         => l_lib_rec.mv_dependency,
-                p_ast_component_type_id => l_lib_rec.ast_component_type_id,
+                p_svt_component_type_id => l_lib_rec.svt_component_type_id,
                 p_explanation           => l_lib_rec.explanation,
                 p_fix                   => l_lib_rec.fix,
                 p_version_number        => l_lib_rec.version_number
@@ -209,7 +209,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
 
-    ast_deployment.upsert_static_file(p_table_name => 'EBA_STDS_TESTS_LIB');
+    svt_deployment.upsert_static_file(p_table_name => 'EBA_STDS_TESTS_LIB');
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -268,7 +268,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                       l_lib_rec.active_yn,
                       l_lib_rec.level_id,
                       l_lib_rec.mv_dependency,
-                      l_lib_rec.ast_component_type_id,
+                      l_lib_rec.svt_component_type_id,
                       l_lib_rec.explanation,
                       l_lib_rec.fix
                   );

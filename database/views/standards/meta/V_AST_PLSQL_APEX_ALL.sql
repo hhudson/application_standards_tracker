@@ -1,9 +1,9 @@
 --------------------------------------------------------
---  DDL for View v_ast_db_apex_all
--- used in eba_stds_data.merge_audit_tbl to populate the ast_plsql_apex_audit table
+--  DDL for View v_SVT_db_apex_all
+-- used in eba_stds_data.merge_audit_tbl to populate the SVT_plsql_apex_audit table
 --------------------------------------------------------
 
-create or replace force editionable view V_AST_PLSQL_APEX_ALL as
+create or replace force editionable view V_SVT_PLSQL_APEX_ALL as
 select aaa.unqid,  
        'APEX' issue_category,
        'NA' issue_subcategory,
@@ -22,10 +22,10 @@ select aaa.unqid,
        aaa.issue_title,
        aaa.created_by apex_created_by, 
        aaa.created_on apex_created_on, 
-       aaa.last_updated_by apex_last_updated_by, 
-       aaa.last_updated_on apex_last_updated_on,
+       aaa.LAST_updated_by apex_LAST_updated_by, 
+       aaa.LAST_updated_on apex_LAST_updated_on,
        aaa.standard_code
-from v_ast_apex_all aaa
+from v_SVT_apex_all aaa
 union all
 select asa.unqid, 
        'SERT' issue_category,
@@ -45,10 +45,10 @@ select asa.unqid,
        asa.issue_title,
        asa.created_by apex_created_by, 
        asa.created_on apex_created_on, 
-       asa.last_updated_by apex_last_updated_by, 
-       asa.last_updated_on apex_last_updated_on,
+       asa.LAST_updated_by apex_LAST_updated_by, 
+       asa.LAST_updated_on apex_LAST_updated_on,
        asa.standard_code
-from v_ast_sert__all asa
+from v_SVT_sert__all asa
 union all
 select dpa.unqid, 
        'DB_PLSQL' issue_category,
@@ -68,10 +68,10 @@ select dpa.unqid,
        null issue_title,
        null apex_created_by, 
        null apex_created_on, 
-       null apex_last_updated_by, 
-       null apex_last_updated_on,
+       null apex_LAST_updated_by, 
+       null apex_LAST_updated_on,
        dpa.standard_code
-from v_ast_db_plsql_all dpa
+from v_SVT_db_plsql_all dpa
 union all
 select dva.unqid,
        'VIEW' issue_category,
@@ -91,8 +91,8 @@ select dva.unqid,
        null issue_title,
        null apex_created_by, 
        null apex_created_on, 
-       null apex_last_updated_by, 
-       null apex_last_updated_on,
+       null apex_LAST_updated_by, 
+       null apex_LAST_updated_on,
        dva.standard_code
-from v_ast_db_view_all dva
+from v_SVT_db_view_all dva
 /

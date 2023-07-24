@@ -65,7 +65,7 @@ Initialize this table with the a2_initial_data_load script
 --liquibase formatted sql
 --changeset table_script:EBA_STDS_APPLICATIONS.default_developper stripComments:false runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where table_name = 'AST_AUDIT_ON_AUDIT' and column_name = 'DEFAULT_DEVELOPER';
+--precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where table_name = 'SVT_AUDIT_ON_AUDIT' and column_name = 'DEFAULT_DEVELOPER';
 
 alter table EBA_STDS_APPLICATIONS add DEFAULT_DEVELOPER varchar2(100)
 /

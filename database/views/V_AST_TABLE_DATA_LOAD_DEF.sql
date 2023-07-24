@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:v_ast_table_data_load_def stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:v_SVT_table_data_load_def stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View v_ast_table_data_load_def
+--  DDL for View v_SVT_table_data_load_def
 --------------------------------------------------------
 
-create or replace force editionable view v_ast_table_data_load_def as
+create or replace force editionable view v_SVT_table_data_load_def as
 select table_name,
        implicit_table,
        file_blob,
@@ -22,14 +22,14 @@ select table_name,
        application_file_id,
        zip_file_size,
        zip_download,
-       table_last_updated_on,
+       table_LAST_updated_on,
        static_file_created_on,
        stale_yn,
        zip_blob,
        zip_mime_type,
        zip_charset,
        zip_updated_on
-  from ast_deployment.v_ast_table_data_load_def(p_application_id => v('APP_ID'))
+  from SVT_deployment.v_SVT_table_data_load_def(p_application_id => v('APP_ID'))
 /
 
---rollback drop view v_ast_table_data_load_def;
+--rollback drop view v_SVT_table_data_load_def;

@@ -66,8 +66,8 @@ end;
 */
 ------------------------------------------------------------------------------
     function display_initialize_button (
-        p_standard_code in ast_plsql_apex_audit.standard_code%type,
-        p_level_id      in ast_standards_urgency_level.id%type
+        p_standard_code in SVT_plsql_apex_audit.standard_code%type,
+        p_level_id      in SVT_standards_urgency_level.id%type
     ) return boolean;
 
 end eba_stds;

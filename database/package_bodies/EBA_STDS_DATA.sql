@@ -202,29 +202,29 @@ create or replace package body eba_stds_data is
         --   -- 7: failure_help_text
 
         --   -- Template
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_APP_AUTH', 'Application has Authorization scheme', 10, 'FAIL_REPORT', c_general_standard, 'APPLICATION', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_APP_AUTH', 'Application has Authorization scheme', 10, 'FAIL_REPORT', c_general_standard, 'APPLICATION', 
         --                                     'Application authorization schemes are defined for an application for the purpose of controlling access. Setting a required authorization scheme here at the application level will require all pages of the application to pass the defined authorization check.');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_PAGE_AUTH', 'Application Pages have authentication schemes', 15, 'FAIL_REPORT', c_general_standard, 'PAGE', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_PAGE_AUTH', 'Application Pages have authentication schemes', 15, 'FAIL_REPORT', c_general_standard, 'PAGE', 
         --                                     'All Application Pages should have an authentication schemes.');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_APP_ITEM_NAMING', 'Application Item correctly prefixed', 20, 'FAIL_REPORT', c_general_standard, 'APP_ITEM', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_APP_ITEM_NAMING', 'Application Item correctly prefixed', 20, 'FAIL_REPORT', c_general_standard, 'APP_ITEM', 
         --                                     'All Application Item should be prefixed with "G_".');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_HTML_ESCAPING_COLS', 'Report Columns escape HTML', 30, 'FAIL_REPORT', c_general_standard, 'REGION', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_HTML_ESCAPING_COLS', 'Report Columns escape HTML', 30, 'FAIL_REPORT', c_general_standard, 'REGION', 
         --                                     'Interactive Reports and Grids should escape HTML to protect against XSS attacks.');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_ITEM_HELP', 'Page Items have help', 40, 'FAIL_REPORT', c_general_standard, 'PAGE_ITEM', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_ITEM_HELP', 'Page Items have help', 40, 'FAIL_REPORT', c_general_standard, 'PAGE_ITEM', 
         --                                     'Page Items should provide Help Text to users.');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_PAGE_HELP', 'Pages have help', 50, 'FAIL_REPORT', c_general_standard, 'PAGE', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_PAGE_HELP', 'Pages have help', 50, 'FAIL_REPORT', c_general_standard, 'PAGE', 
         --                                     'Pages should provide Help Text to users.');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_PAGE_ITEM_NAMING', 'Page Items correctly prefixed', 60, 'FAIL_REPORT', c_general_standard, 'PAGE_ITEM', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_PAGE_ITEM_NAMING', 'Page Items correctly prefixed', 60, 'FAIL_REPORT', c_general_standard, 'PAGE_ITEM', 
         --                                     'Page Items should be prefixed "P" and the [page id], e.g. "P1_ITEM".');
 
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_ACCESSIBILITY_THEME', 'Theme Style tested for accessibility', 100, 'FAIL_REPORT', c_accessible_standard, 'APPLICATION', 
-        --                                     'Is your app using a Theme Style that has been tested for accessibility? Theme Styles that have not been accessibility tested may contain more issues, such as insufficient color contrast.');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_ACCESSIBILITY_ITEM_LABEL', 'Page item has label', 110, 'FAIL_REPORT', c_accessible_standard, 'PAGE_ITEM', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_ACCESSIBILITY_THEME', 'Theme Style tested for accessibility', 100, 'FAIL_REPORT', c_accessible_standard, 'APPLICATION', 
+        --                                     'Is your app using a Theme Style that has been tested for accessibility? Theme Styles that have not been accessibility tested may contain more issues, such as insufficient color contrSVT.');
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_ACCESSIBILITY_ITEM_LABEL', 'Page item has label', 110, 'FAIL_REPORT', c_accessible_standard, 'PAGE_ITEM', 
         --                                     'Does the item have a label defined? For example just defining the "Value Placeholder" text is not sufficient in labelling an item for accessibility.');
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_APEX_ACCESSIBILITY_PAGE_TITLE', 'Page has page title', 120, 'FAIL_REPORT', c_accessible_standard, 'PAGE', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_APEX_ACCESSIBILITY_PAGE_TITLE', 'Page has page title', 120, 'FAIL_REPORT', c_accessible_standard, 'PAGE', 
         --                                     'Does the page have a title? Meaningful page titles are important for accessibility, to help users understand the content and purpose of the current page. Note: Global pages, and pages with no regions are excluded from this check.');
 
-        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_AST_DB_PLSQL_ALL', 'PL/SQL code standards', 200, 'FAIL_REPORT', c_db_object_standard, 'DB_SUPPORTING_OBJECT', 
+        --   l_st_data(l_st_data.count + 1) := rec_t_data('V_SVT_DB_PLSQL_ALL', 'PL/SQL code standards', 200, 'FAIL_REPORT', c_db_object_standard, 'DB_SUPPORTING_OBJECT', 
         --                                     'Enforcing PL/SQL code standards.');
 
 

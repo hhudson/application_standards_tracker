@@ -8,8 +8,8 @@ create or replace force editionable view v_user_views as
 select owner, 
        view_name
 from all_views
-where owner = case when sys_context('userenv', 'current_user') = 'AST'
-                   then ast_ctx_util.get_default_user
+where owner = case when sys_context('userenv', 'current_user') = svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
+                   then SVT_ctx_util.get_default_user
                    else sys_context('userenv', 'current_user')
                    end
 and view_name not like 'XXX%'

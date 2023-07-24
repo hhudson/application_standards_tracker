@@ -15,7 +15,7 @@ create or replace trigger EBA_STDS_USERS_BD
 declare
     pragma autonomous_transaction;
 begin
-    -- Disallow deletes to a user's own record unless last one.
+    -- Disallow deletes to a user's own record unless LAST one.
     if v('APP_USER') = upper(:old.username) then
        for c1 in (
           select count(*) cnt

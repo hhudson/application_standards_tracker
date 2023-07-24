@@ -1,19 +1,19 @@
 --liquibase formatted sql
---changeset object_type_script:V_AST_PLSQL_APEX_ALL_OT stripComments:false endDelimiter:/
+--changeset object_type_script:V_SVT_PLSQL_APEX_ALL_OT stripComments:false endDelimiter:/
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(1) from all_types where upper(type_name) = upper('V_AST_PLSQL_APEX_ALL_OT');
+--precondition-sql-check expectedResult:0 select count(1) from all_types where upper(type_name) = upper('V_SVT_PLSQL_APEX_ALL_OT');
 -- set serveroutput on
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:   v_ast_plsql_apex_all_ot.sql
+-- Script name:   v_SVT_plsql_apex_all_ot.sql
 --        Date:  2023-Jan-26
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
-drop type v_ast_plsql_apex_all_nt
+drop type v_SVT_plsql_apex_all_nt
 /
-drop type v_ast_plsql_apex_all_ot
+drop type v_SVT_plsql_apex_all_ot
 /
 
 declare
@@ -21,7 +21,7 @@ declare
   pragma exception_init (already_exists, -00955);
 begin
   execute immediate q'[
-  create type v_ast_plsql_apex_all_ot as object
+  create type v_SVT_plsql_apex_all_ot as object
     (
         UNQID                      VARCHAR2(5000 CHAR),
         ISSUE_CATEGORY             VARCHAR2(8 CHAR),
@@ -51,9 +51,9 @@ begin
         APEX_LAST_UPDATED_ON       DATE,
         STANDARD_CODE              VARCHAR2(100)
     ) ]';
-  dbms_output.put_line(q'[ type v_ast_plsql_apex_all_ot created ]');
+  dbms_output.put_line(q'[ type v_SVT_plsql_apex_all_ot created ]');
 exception
   when already_exists then null;
 end;
 /
---rollback drop type V_AST_PLSQL_APEX_ALL_OT;
+--rollback drop type V_SVT_PLSQL_APEX_ALL_OT;

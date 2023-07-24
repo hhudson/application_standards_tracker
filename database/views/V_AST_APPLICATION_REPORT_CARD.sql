@@ -1,16 +1,16 @@
 --liquibase formatted sql
---changeset view_script:V_AST_APPLICATION_REPORT_CARD stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_APPLICATION_REPORT_CARD stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_AST_APPLICATION_REPORT_CARD
+--  DDL for View V_SVT_APPLICATION_REPORT_CARD
 --------------------------------------------------------
 
-create or replace force editionable view v_ast_application_report_card as
+create or replace force editionable view v_SVT_application_report_card as
 with rptcrd as (select application_id, critical_urgency, high_urgency, med_urgency
                     from (
                       select paa.application_id, esst.urgency
-                        from ast_plsql_apex_audit paa
+                        from SVT_plsql_apex_audit paa
                         inner join v_eba_stds_standard_tests esst on paa.standard_code = esst.standard_code
-                        left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+                        left outer join SVT_audit_actions aaa on paa.action_id = aaa.id
                         where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
                     )
                     pivot ( count(*) for urgency in 
@@ -29,4 +29,4 @@ left outer join rptcrd on esa.apex_app_id = rptcrd.application_id
 --order by critical_urgency desc, high_urgency desc, med_urgency desc
 /
 
---rollback drop view V_AST_APPLICATION_REPORT_CARD;
+--rollback drop view V_SVT_APPLICATION_REPORT_CARD;

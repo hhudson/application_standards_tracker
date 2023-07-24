@@ -20,7 +20,7 @@ select
        (select valid_name_format from v_dev_table_abbreviations a
          where a.table_name = ta.table_name)     as valid_name_format,
        (select created from all_objects where object_name = ta.table_name and owner = ta.schema_name) as table_created,
-       (select last_ddl_time from all_objects where object_name = ta.table_name and owner = ta.schema_name) as last_ddl_time,
+       (select LAST_ddl_time from all_objects where object_name = ta.table_name and owner = ta.schema_name) as LAST_ddl_time,
        (select sysdate - created from all_objects where object_name = ta.table_name and owner = ta.schema_name) as table_days_old,
        (select count(*) from user_tab_comments c where c.table_name = ta.table_name and c.comments is not null) as tab_comments_count,
        (select count(*) from user_col_comments c where c.table_name = ta.table_name and c.comments is not null) as col_comments_count

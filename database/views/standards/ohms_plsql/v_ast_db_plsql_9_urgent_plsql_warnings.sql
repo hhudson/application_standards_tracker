@@ -1,4 +1,4 @@
-/* this view is referenced in v_ast_db_plsql_all 
+/* this view is referenced in v_SVT_db_plsql_all 
 
 
 Not all PLSQL_WARNINGS are equal. By and and large, the following holds true:
@@ -11,7 +11,7 @@ documentation :
 • 5000 - 7207 docs : https://docs.oracle.com/en/database/oracle/oracle-database/21/errmg/PLW-05000.html#GUID-CEC1E0B9-84FA-402B-918B-3DADFA012F26
 */
 
-create or replace force view v_ast_db_plsql_9_urgent_plsql_warnings as
+create or replace force view v_SVT_db_plsql_9_urgent_plsql_warnings as
 select  pass_yn,
         object_name,
         object_type,
@@ -19,6 +19,6 @@ select  pass_yn,
         code,
         unqid,
         standard_code
-from ast_standard_view.v_ast_db_plsql(p_standard_code => 'URGENT_PLSQL_WARNINGS',
+from SVT_standard_view.v_SVT_db_plsql(p_standard_code => 'URGENT_PLSQL_WARNINGS',
                                       p_failures_only => 'Y')
 /

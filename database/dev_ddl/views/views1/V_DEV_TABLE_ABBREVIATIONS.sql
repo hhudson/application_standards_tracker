@@ -26,7 +26,7 @@ select nvl(r.schema_name, u.owner) schema_name
     , r.inc_cssap_compliance
     , r.production_table
     , r.comments
-    , o.created, o.last_ddl_time
+    , o.created, o.LAST_ddl_time
     , r.created_on
     , r.created_by
     , r.updated_on

@@ -16,7 +16,7 @@ declare
   already_exists EXCEPTION;
   pragma exception_init (already_exists, -00955);
 begin
-  execute immediate 'create public synonym V_USER_CONS_COLUMNS for ast.V_USER_CONS_COLUMNS';
+  execute immediate 'create public synonym V_USER_CONS_COLUMNS for SVT.V_USER_CONS_COLUMNS';
   dbms_output.put_line(q'[ synonym V_USER_CONS_COLUMNS created ]');
 exception
   when already_exists then null;

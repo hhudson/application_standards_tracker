@@ -17,7 +17,7 @@ declare
   c_create_stmt varchar2(250) := 
     apex_string.format(
         p_message => 'create synonym afw_messaging for %0.afw_messaging',
-        p0 => ast_preferences.get_preference ('AST_DEFAULT_SCHEMA')
+        p0 => SVT_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
   );
 begin
   execute immediate c_create_stmt;

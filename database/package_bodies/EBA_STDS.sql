@@ -81,8 +81,8 @@ create or replace package body eba_stds as
     end get_mv_dependency;
 
     function display_initialize_button (
-        p_standard_code in ast_plsql_apex_audit.standard_code%type,
-        p_level_id      in ast_standards_urgency_level.id%type
+        p_standard_code in SVT_plsql_apex_audit.standard_code%type,
+        p_level_id      in SVT_standards_urgency_level.id%type
     ) return boolean
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'display_initialize_button';
@@ -98,7 +98,7 @@ create or replace package body eba_stds as
                                             );
         select count(1)
         into l_issue_count
-        from ast_plsql_apex_audit
+        from SVT_plsql_apex_audit
         where standard_code = p_standard_code;
 
         select count(1)
@@ -112,7 +112,7 @@ create or replace package body eba_stds as
                 else 'N'
                 end 
         into l_urgent_yn
-        from ast_standards_urgency_level
+        from SVT_standards_urgency_level
         where id = p_level_id;
 
         if l_issue_count = 0 

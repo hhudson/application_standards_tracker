@@ -63,9 +63,11 @@ drop package  eba_stds_fw;
 drop package  eba_stds_security;
 drop package  eba_stds_data;
 
--- select apex_string.format('drop view %0;',lower(view_name)) stmt
--- from user_views
--- where (lower(view_name) like '%ast%' ) or  (lower(view_name) like 'v_eba%' )
+/*
+select apex_string.format('drop view %0;',lower(view_name)) stmt
+from user_views
+where (lower(view_name) like '%ast%' ) or  (lower(view_name) like 'v_eba%' )
+*/
 
 drop view v_ast_apex_accessibility_item_label;
 drop view v_ast_apex_accessibility_page_title;

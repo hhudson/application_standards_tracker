@@ -28,7 +28,7 @@ select aaa.name ||
        aaa.workspace, 
        aaa.trigger_type, 
        aaa.polling_interval, 
-       aaa.polling_last_run_timestamp, 
+       aaa.polling_LAST_run_timestamp, 
        aaa.polling_next_run_timestamp, 
        aaa.polling_status_code,
        aal.end_timestamp,
@@ -38,7 +38,7 @@ from apex_appl_automations aaa
 inner join aal on aaa.automation_id = aal.automation_id
                   and aal.therank = 1
 where aaa.application_id = 17000033
-and aaa.workspace != 'AST' -- do not install the application in the AST schema, it belongs in the schema of objects being reviewed
+and aaa.workspace != svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') -- do not install the application in the AST schema, it belongs in the schema of objects being reviewed
 /
 
 --rollback drop view V_AUTOMATIONS_STATUS;

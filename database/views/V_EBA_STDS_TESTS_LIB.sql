@@ -13,7 +13,7 @@ select estl.id,
        estl.standard_code,
        estl.active_yn,
        estl.mv_dependency,
-       estl.ast_component_type_id,
+       estl.svt_component_type_id,
        coalesce(act.component_code, '[MISSING COMPONENT]') component_code,
        estl.workspace,
        estl.test_id,
@@ -42,15 +42,15 @@ select estl.id,
           p_active_yn             => estl.active_yn,
           p_level_id              => estl.level_id,
           p_mv_dependency         => estl.mv_dependency,
-          p_ast_component_type_id => estl.ast_component_type_id,
+          p_svt_component_type_id => estl.svt_component_type_id,
           p_explanation           => estl.explanation,
           p_fix                   => estl.fix
        ) estl_md5
   from eba_stds_tests_lib estl
   left outer join eba_stds_standard_tests esst on estl.standard_code = esst.standard_code
   left outer join eba_stds_standards ess on ess.id = estl.standard_id
-  left outer join ast_component_types act on act.id = estl.ast_component_type_id
-  left outer join ast_standards_urgency_level asul on asul.id = estl.level_id
+  left outer join svt_component_types act on act.id = estl.svt_component_type_id
+  left outer join svt_standards_urgency_level asul on asul.id = estl.level_id
 /
 
 --rollback drop view V_EBA_STDS_TESTS_LIB;

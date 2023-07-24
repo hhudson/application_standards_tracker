@@ -2,9 +2,9 @@ set serveroutput on
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:  ast_clear_apex_issues.sql
+-- Script name:  SVT_clear_apex_issues.sql
 --        Date:  
---     Purpose:  Job ast_clear_apex_issues
+--     Purpose:  Job SVT_clear_apex_issues
 --
 --------------------------------------------------------------------------------
 
@@ -15,9 +15,9 @@ BEGIN
     $if oracle_apex_version.version < 21
     $then 
         DBMS_SCHEDULER.CREATE_JOB (
-                job_name => 'AST_CLEAR_APEX_ISSUES',
+                job_name => 'SVT_CLEAR_APEX_ISSUES',
                 job_type => 'PLSQL_BLOCK',
-                job_action => 'ast_plsql_review.clear_invalid_exceptions;',
+                job_action => 'SVT_plsql_review.clear_invalid_exceptions;',
                 number_of_arguments => 0,
                 start_date => NULL,
                 repeat_interval => 'FREQ=DAILY;BYTIME=050000',
@@ -27,7 +27,7 @@ BEGIN
                 comments => '');
         
         DBMS_SCHEDULER.enable(
-                name => 'AST_CLEAR_APEX_ISSUES');
+                name => 'SVT_CLEAR_APEX_ISSUES');
    $else
         dbms_output.put_line('use automations not db job');
    $end

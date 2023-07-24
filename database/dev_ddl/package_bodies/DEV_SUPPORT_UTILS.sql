@@ -696,7 +696,7 @@ create or replace PACKAGE BODY dev_support_utils AS
   c_create_code  constant varchar2(50) := 'create or replace ';
 
   l_package_script clob;
-  l_last_line      clob;
+  l_LAST_line      clob;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_package_name', p_package_name,
@@ -711,11 +711,11 @@ create or replace PACKAGE BODY dev_support_utils AS
                 order by line)
       loop
         l_package_script := l_package_script || crec.text;
-        l_last_line := crec.text;
+        l_LAST_line := crec.text;
       end loop;
 
       l_package_script := l_package_script||
-                          case when instr(l_last_line,chr(10),1) = 0 
+                          case when instr(l_LAST_line,chr(10),1) = 0 
                                then chr(10)||'/'
                                else '/'
                                end;
@@ -1906,7 +1906,7 @@ apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 =
                                   ------------------------------------
                                   --  Now we need to check to see if
                                   -- our alias is unique, if not we
-                                  -- will modify the last character,
+                                  -- will modify the LAST character,
                                   -- by implementing an index.
                                   ------------------------------------
       if alias_in_use ( p_table_domain => l_table_domain
@@ -2367,7 +2367,7 @@ apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 =
           p_sqlcode  := sqlcode;
       when others then
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-        n_sql_error_pos := dbms_sql.last_error_position;
+        n_sql_error_pos := dbms_sql.LAST_error_position;
         if n_sql_error_pos > 1
         then
           c_feedback := 'SQL error at character position ' || n_sql_error_pos;

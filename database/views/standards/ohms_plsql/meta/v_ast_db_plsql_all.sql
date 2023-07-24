@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_AST_DB_PLSQL_ALL stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_DB_PLSQL_ALL stripComments:false endDelimiter:/ runOnChange:true
 /*
  * Enforcing standards from https://gbuconfluence.us.oracle.com/display/HCGBUDev/SQL+and+PLSQL
  */
  
-create or replace force view v_ast_db_plsql_all as
+create or replace force view v_SVT_db_plsql_all as
 select 
 'N' pass_yn,
 a.unqid,
@@ -20,7 +20,7 @@ asrc.urgency,
 asrc.urgency_level,
 asrc.test_id,
 a.standard_code
-from v_ast_db_plsql__0 a
+from v_SVT_db_plsql__0 a
 inner join v_eba_stds_standard_tests asrc on a.standard_code = asrc.standard_code
 /
---rollback drop view V_AST_DB_PLSQL_ALL;
+--rollback drop view V_SVT_DB_PLSQL_ALL;

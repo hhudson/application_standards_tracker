@@ -1,8 +1,8 @@
 --------------------------------------------------------
---  DDL for View v_ast_job_status
+--  DDL for View v_SVT_job_status
 --------------------------------------------------------
 
-create or replace force editionable view v_ast_job_status as
+create or replace force editionable view v_SVT_job_status as
 select z.log_date, z.status
 from (
     select log_date, status

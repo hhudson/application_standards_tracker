@@ -15,7 +15,7 @@ select application_id,
        updated_by,
        updated_on,
        column_id
-from ast_apex_view.apex_application_page_ir_col() 
+from svt_apex_view.apex_application_page_ir_col() 
 /
 
 --rollback drop view v_apex_application_page_ir_col;

@@ -17,7 +17,7 @@ BEGIN
         DBMS_SCHEDULER.CREATE_JOB (
                 job_name => 'EBA_STDS_DATA_RECORD_DAILY_ISSUE_SNAPSHOT',
                 job_type => 'PLSQL_BLOCK',
-                job_action => 'ast_audit_util.record_daily_issue_snapshot;',
+                job_action => 'SVT_audit_util.record_daily_issue_snapshot;',
                 number_of_arguments => 0,
                 start_date => NULL,
                 repeat_interval => 'FREQ=DAILY;BYTIME=030000',

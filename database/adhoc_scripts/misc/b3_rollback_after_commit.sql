@@ -36,10 +36,10 @@ from eba_stds_test_validations AS OF TIMESTAMP
 /
 
 MERGE
-INTO    ast_plsql_apex_audit trg
+INTO    SVT_plsql_apex_audit trg
 USING   (
         select reference_code, notes, action_id, created
-        from ast_plsql_apex_audit AS OF TIMESTAMP 
+        from SVT_plsql_apex_audit AS OF TIMESTAMP 
            TO_TIMESTAMP('2022-09-26 15:30:00', 'YYYY-MM-DD HH24:MI:SS')
            where issue_category = 'APEX'
         ) src

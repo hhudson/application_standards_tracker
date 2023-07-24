@@ -19,7 +19,10 @@ end;
 */
 --------------------------------------------------------------------------------
 
-create materialized view mv_issues_created_by_day
+-- drop materialized view MV_ISSUES_CREATED_BY_DAY
+-- /
+
+create materialized view MV_ISSUES_CREATED_BY_DAY
     -- refresh complete
     -- start   with sysdate --needs to be refreshed with SVT_audit_util.set_workspace
     -- next  (sysdate + 1/24) -- refreshed by apex automation (2023-May-22)

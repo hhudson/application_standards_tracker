@@ -102,7 +102,7 @@ begin
          select preference_value
          into l_access_to_sert_yn
          from apex_workspace_preferences
-         where preference_name = 'AST_SERT_YN'
+         where preference_name = 'SVT_SERT_YN'
          order by user_name
          fetch first 1 rows only;
       exception when no_data_found then
@@ -127,7 +127,7 @@ begin
          select preference_value
          into l_access_to_apex_issues_yn
          from apex_workspace_preferences
-         where preference_name = 'AST_APEX_ISSUES_YN'
+         where preference_name = 'SVT_APEX_ISSUES_YN'
          order by user_name
          fetch first 1 rows only;
       exception when no_data_found then
@@ -152,7 +152,7 @@ begin
          select preference_value
          into l_scm_utility_yn
          from apex_workspace_preferences
-         where preference_name = 'AST_SCM_YN'
+         where preference_name = 'SVT_SCM_YN'
          order by user_name
          fetch first 1 rows only;
       exception when no_data_found then
@@ -178,7 +178,7 @@ begin
          select preference_value
          into l_email_api
          from apex_workspace_preferences
-         where preference_name = 'AST_EMAIL_API'
+         where preference_name = 'SVT_EMAIL_API'
          order by user_name
          fetch first 1 rows only;
       exception when no_data_found then

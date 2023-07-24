@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_AST_SERT stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_SERT stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_AST_SERT
+--  DDL for View V_SVT_SERT
 --------------------------------------------------------
 
-create or replace force editionable view v_ast_sert as
+create or replace force editionable view v_SVT_sert as
 select 
       collection_name,
       collection_sql,
@@ -22,7 +22,7 @@ select
       info,
       category_id,
       category_key
-from ast_apex_sert_util.v_ast_sert()
+from SVT_apex_sert_util.v_SVT_sert()
 /
 
---rollback drop view v_ast_sert;
+--rollback drop view v_SVT_sert;
