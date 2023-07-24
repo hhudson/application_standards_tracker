@@ -1,8 +1,8 @@
 --------------------------------------------------------
---  DDL for Materialized View MV_AST_IR_COLS
+--  DDL for Materialized View MV_SVT_IR_COLS
 --------------------------------------------------------
 
-create materialized view MV_AST_IR_COLS
+create materialized view MV_SVT_IR_COLS
 refresh on demand
 evaluate using current edition
 as
@@ -60,8 +60,8 @@ with parsed_urls as (
         aap.application_name destination_app_name,
         pu.created_by,
         pu.created_on,
-        pu.updated_by last_updated_by,
-        pu.updated_on last_updated_on,
+        pu.updated_by LAST_updated_by,
+        pu.updated_on LAST_updated_on,
         pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id

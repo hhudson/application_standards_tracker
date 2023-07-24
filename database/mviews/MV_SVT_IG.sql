@@ -1,8 +1,8 @@
 --------------------------------------------------------
---  DDL for Materialized View MV_AST_IG
+--  DDL for Materialized View MV_SVT_IG
 --------------------------------------------------------
 
-create materialized view MV_AST_IG
+create materialized view MV_SVT_IG
 refresh on demand
     evaluate using current edition
     as
@@ -21,8 +21,8 @@ refresh on demand
         aa.authorization_scheme as page_authorization,
         eba_stds_parser.app_from_url  (p_origin_app_id => pig.application_id, p_url => pig.icon_view_link_target) destination_app_id,
         eba_stds_parser.page_from_url (p_origin_app_id => pig.application_id, p_url => pig.icon_view_link_target) destination_page_id,
-        pig.last_updated_by,
-        pig.last_updated_on,
+        pig.LAST_updated_by,
+        pig.LAST_updated_on,
         apg.page_mode
         from apex_appl_page_igs pig
         inner join v_eba_stds_applications esa on pig.application_id = esa.apex_app_id
@@ -54,8 +54,8 @@ refresh on demand
         aap.application_name destination_app_name,
         -- pu.created_by,
         -- pu.created_on,
-        pu.last_updated_by,
-        pu.last_updated_on,
+        pu.LAST_updated_by,
+        pu.LAST_updated_on,
         pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id

@@ -1,31 +1,31 @@
 --------------------------------------------------------
---  DDL for Materialized View MV_AST_SEARCH_CONFIG
+--  DDL for Materialized View MV_SVT_HOME_LINK
 --------------------------------------------------------
 
-create materialized view MV_AST_SEARCH_CONFIG
-refresh on demand
+create materialized view MV_SVT_HOME_LINK
+    refresh on demand
     evaluate using current edition
     as
     with parsed_urls as (
         select
-        aasc.application_id,
-        aasc.application_name,
-        'SEARCH_CONFIG' as url_type,
-        aasc.link_target element_url,
-        aasc.search_config_id as element_id,
-        aasc.label element_label,
-        aasc.static_id element_name,
-        aasc.authorization_scheme element_authorization,
-        aasc.authorization_scheme parent_element_authorization,
-        aasc.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_page_id,
-        aasc.last_updated_by,
-        aasc.last_updated_on
-        from  apex_appl_search_configs aasc
-        inner join v_eba_stds_applications esa on aasc.application_id = esa.apex_app_id
-        where aasc.link_target is not null
-    )
+        aa.application_id,
+        aa.application_name,
+        'HOME_LINK' as url_type,
+        aa.home_link element_url,
+        aa.application_id as element_id,
+        aa.alias element_label,
+        aa.application_name element_name,
+        aa.authorization_scheme element_authorization,
+        aa.authorization_scheme parent_element_authorization,
+        aa.authorization_scheme as page_authorization,
+        eba_stds_parser.app_from_url  (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_app_id,
+        eba_stds_parser.page_from_url (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_page_id,
+        aa.LAST_updated_by,
+        aa.LAST_updated_on
+        from  apex_applications aa
+        inner join v_eba_stds_applications esa on aa.application_id = esa.apex_app_id
+        where aa.home_link is not null
+)
     select
         pu.application_id, 
         pu.application_name,
@@ -48,8 +48,8 @@ refresh on demand
         aap.application_name destination_app_name,
         -- pu.created_by,
         -- pu.created_on,
-        pu.last_updated_by,
-        pu.last_updated_on
+        pu.LAST_updated_by,
+        pu.LAST_updated_on
         -- pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id

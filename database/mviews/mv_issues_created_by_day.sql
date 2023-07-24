@@ -21,7 +21,7 @@ end;
 
 create materialized view mv_issues_created_by_day
     -- refresh complete
-    -- start   with sysdate --needs to be refreshed with ast_audit_util.set_workspace
+    -- start   with sysdate --needs to be refreshed with SVT_audit_util.set_workspace
     -- next  (sysdate + 1/24) -- refreshed by apex automation (2023-May-22)
     refresh on demand
     evaluate using current edition
@@ -32,7 +32,7 @@ create materialized view mv_issues_created_by_day
                          then count(*) 
                          else count(*) * -1
                          end quantity
-                from AST_AUDIT_ON_AUDIT
+                from SVT_AUDIT_ON_AUDIT
                 group by trunc(created), action_name)
     select action_date, quantity, action_name,
         sum ( quantity ) over ( 
