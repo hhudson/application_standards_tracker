@@ -16,7 +16,7 @@ availability:
 
 error-handling: 
   default-display-location: Inline with Field and in Notification
-  error-handling-function: ast_error_handler_api.error_handler
+  error-handling-function: svt_error_handler_api.error_handler
 
 report-printing: 
   type: Use Instance Settings
@@ -33,7 +33,7 @@ authentication:
   authentication-scheme: Application Express Accounts # 11984536357708947236
 
 authorization: 
-  authorization-scheme: APPLICATION SENTRY # 10780233005961370815
+  authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
   run-on-public-pages: false
   run-on-background-job: true
   source-for-role-or-group-schemes: Access Control User Role Assignments
@@ -59,7 +59,6 @@ advanced:
 
 database-session: 
   parsing-schema: AST
-  initialization-pl/sql-code: ast.ast_ctx_util.set_review_schema (ast.ast_preferences.get_preference ('AST_DEFAULT_SCHEMA'));
 
 globalization: 
   primary-language: English (en)
@@ -85,7 +84,7 @@ progressive-web-app:
 navigation: 
   home-url: 
     url: 'f?p=&APP_ID.:1:&SESSION.'
-    page: 1 # V_AST_PLSQL_APEX_AUDIT
+    page: 1 # V_SVT_PLSQL_APEX_AUDIT
 
 navigation-menu: 
   list-template: Side Navigation Menu # 7573686090332144038
@@ -106,13 +105,13 @@ navigation-bar:
 
 javascript: 
   file-urls: 
-  - '#APP_IMAGES#js/ast.min.js'
+  - '#APP_IMAGES#js/svt.min.js'
   include-jquery-migrate: false
 
 css: 
   file-urls: 
   - '#IMAGE_PREFIX#pkgapp_ui/css/5.0#MIN#.css'
-  - '#APP_IMAGES#css/astStyle.min.css'
+  - '#APP_IMAGES#css/svtStyle.min.css'
 
 attributes: 
   theme: Universal Theme # 42

@@ -128,7 +128,7 @@ create or replace package body SVT_STANDARD_VIEW as
                 from sys.dual where exists (
                     select * 
                     from eba_stds_standard_tests rc 
-                    inner join SVT_standards_urgency_level ul on ul.id = rc.level_id
+                    inner join svt_standards_urgency_level ul on ul.id = rc.level_id
                                                               and ul.urgency_level <= c_max_urgency
                     where rc.standard_code = upper(p_standard_code)
                 );
@@ -154,7 +154,7 @@ create or replace package body SVT_STANDARD_VIEW as
 --
 ------------------------------------------------------------------------------
   function get_query_clob (p_standard_code in eba_stds_standard_tests.standard_code%type,
-                           p_nt_name       in SVT_nested_table_types.nt_name%type,
+                           p_nt_name       in svt_nested_table_types.nt_name%type,
                            p_select_stmt   in varchar2
   ) return eba_stds_standard_tests.query_clob%type deterministic
   is
@@ -186,15 +186,15 @@ create or replace package body SVT_STANDARD_VIEW as
     raise;
   end get_query_clob;
 
-  function v_SVT_db_plsql(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_plsql(p_standard_code in eba_stds_standard_tests.standard_code%type,
                           p_failures_only in varchar2 default 'N',
-                          p_object_name   in SVT_plsql_apex_audit.object_name%type default null)
-  return v_SVT_db_plsql_ref_nt pipelined
+                          p_object_name   in svt_plsql_apex_audit.object_name%type default null)
+  return v_svt_db_plsql_ref_nt pipelined
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT_db_plsql';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_db_plsql';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  cur_v_SVT_db_plsql sys_refcursor;
+  cur_v_svt_db_plsql sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
   c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
   begin
@@ -205,7 +205,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                         'current_user', sys_context('userenv', 'current_user'));
 
     l_query_clob := get_query_clob (p_standard_code => p_standard_code,
-                                    p_nt_name => gc_v_SVT_db_plsql_nt,
+                                    p_nt_name => gc_v_svt_db_plsql_nt,
                                     p_select_stmt => gc_db_plsql_select_stmt);
 
     l_query_clob := l_query_clob||q'[ where 1=1]';
@@ -220,22 +220,22 @@ create or replace package body SVT_STANDARD_VIEW as
                          else l_query_clob 
                          end;
 
-    open cur_v_SVT_db_plsql for l_query_clob;
+    open cur_v_svt_db_plsql for l_query_clob;
 
     loop
-      fetch cur_v_SVT_db_plsql bulk collect into l_v_SVT_db_plsql limit 1000;
+      fetch cur_v_svt_db_plsql bulk collect into l_v_svt_db_plsql limit 1000;
 
-      exit when l_v_SVT_db_plsql.count = 0;
+      exit when l_v_svt_db_plsql.count = 0;
 
-      for rec in 1 .. l_v_SVT_db_plsql.count
+      for rec in 1 .. l_v_svt_db_plsql.count
       loop
-        pipe row (v_SVT_db_plsql_ref_ot (
-                      l_v_SVT_db_plsql (rec).pass_yn,
-                      l_v_SVT_db_plsql (rec).object_name,
-                      l_v_SVT_db_plsql (rec).object_type,
-                      l_v_SVT_db_plsql (rec).line,
-                      l_v_SVT_db_plsql (rec).code,
-                      l_v_SVT_db_plsql (rec).unqid,
+        pipe row (v_svt_db_plsql_ref_ot (
+                      l_v_svt_db_plsql (rec).pass_yn,
+                      l_v_svt_db_plsql (rec).object_name,
+                      l_v_svt_db_plsql (rec).object_type,
+                      l_v_svt_db_plsql (rec).line,
+                      l_v_svt_db_plsql (rec).code,
+                      l_v_svt_db_plsql (rec).unqid,
                       c_standard_code
                     )
                 );
@@ -252,16 +252,16 @@ create or replace package body SVT_STANDARD_VIEW as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end v_SVT_db_plsql;
+  end v_svt_db_plsql;
 
-  function v_SVT_sert__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_sert__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
                          p_failures_only in varchar2 default 'N')
-  return v_SVT_sert__0_nt pipelined
+  return v_svt_sert__0_nt pipelined
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT_sert__0';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_sert__0';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  cur_v_SVT_sert__0 sys_refcursor;
+  cur_v_svt_sert__0 sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
 
   begin
@@ -270,7 +270,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                         'p_failures_only', p_failures_only);
 
     l_query_clob := get_query_clob (p_standard_code => p_standard_code,
-                                    p_nt_name => gc_v_SVT_sert__0_nt,
+                                    p_nt_name => gc_v_svt_sert__0_nt,
                                     p_select_stmt => gc_sert_select_stmt);
 
     l_query_clob := case when p_failures_only = 'Y'
@@ -278,29 +278,29 @@ create or replace package body SVT_STANDARD_VIEW as
                          else l_query_clob 
                          end;
 
-    open cur_v_SVT_sert__0 for l_query_clob;
+    open cur_v_svt_sert__0 for l_query_clob;
 
     loop
-      fetch cur_v_SVT_sert__0 bulk collect into l_v_SVT_sert__0 limit 1000;
+      fetch cur_v_svt_sert__0 bulk collect into l_v_svt_sert__0 limit 1000;
 
-      exit when l_v_SVT_sert__0.count = 0;
+      exit when l_v_svt_sert__0.count = 0;
 
-      for rec in 1 .. l_v_SVT_sert__0.count
+      for rec in 1 .. l_v_svt_sert__0.count
       loop
-        pipe row (v_SVT_sert__0_ot (
-                      l_v_SVT_sert__0 (rec).application_id,
-                      l_v_SVT_sert__0 (rec).attribute_id,
-                      l_v_SVT_sert__0 (rec).category_key,
-                      l_v_SVT_sert__0 (rec).collection_name,
-                      l_v_SVT_sert__0 (rec).component_signature,
-                      l_v_SVT_sert__0 (rec).issue_title,
-                      l_v_SVT_sert__0 (rec).LAST_updated_by,
-                      l_v_SVT_sert__0 (rec).LAST_updated_on,
-                      l_v_SVT_sert__0 (rec).link,
-                      l_v_SVT_sert__0 (rec).link_desc,
-                      l_v_SVT_sert__0 (rec).page_id,
-                      l_v_SVT_sert__0 (rec).result,
-                      l_v_SVT_sert__0 (rec).validation_failure_message
+        pipe row (v_svt_sert__0_ot (
+                      l_v_svt_sert__0 (rec).application_id,
+                      l_v_svt_sert__0 (rec).attribute_id,
+                      l_v_svt_sert__0 (rec).category_key,
+                      l_v_svt_sert__0 (rec).collection_name,
+                      l_v_svt_sert__0 (rec).component_signature,
+                      l_v_svt_sert__0 (rec).issue_title,
+                      l_v_svt_sert__0 (rec).last_updated_by,
+                      l_v_svt_sert__0 (rec).last_updated_on,
+                      l_v_svt_sert__0 (rec).link,
+                      l_v_svt_sert__0 (rec).link_desc,
+                      l_v_svt_sert__0 (rec).page_id,
+                      l_v_svt_sert__0 (rec).result,
+                      l_v_svt_sert__0 (rec).validation_failure_message
                     )
                 );
       end loop;
@@ -316,17 +316,17 @@ create or replace package body SVT_STANDARD_VIEW as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end v_SVT_sert__0;
+  end v_svt_sert__0;
 
-  function v_SVT_apex(p_standard_code        in eba_stds_standard_tests.standard_code%type,
+  function v_svt_apex(p_standard_code        in eba_stds_standard_tests.standard_code%type,
                       p_failures_only        in varchar2 default 'N',
                       p_production_apps_only in varchar2 default 'N')
-  return v_SVT_apex_nt pipelined
+  return v_svt_apex_nt pipelined
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT_apex';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_apex';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  cur_v_SVT_apex sys_refcursor;
+  cur_v_svt_apex sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
   c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
 
@@ -337,7 +337,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                         'p_production_apps_only', p_production_apps_only);
 
     l_query_clob := get_query_clob (p_standard_code => c_standard_code,
-                                    p_nt_name => gc_v_SVT_apex_nt,
+                                    p_nt_name => gc_v_svt_apex_nt,
                                     p_select_stmt => gc_apex_select_stmt);
 
     l_query_clob := case when p_production_apps_only = 'Y'
@@ -350,35 +350,35 @@ create or replace package body SVT_STANDARD_VIEW as
                          else l_query_clob 
                          end;
 
-    open cur_v_SVT_apex for l_query_clob;
+    open cur_v_svt_apex for l_query_clob;
 
     loop
-      fetch cur_v_SVT_apex bulk collect into l_v_SVT_apex limit 1000;
+      fetch cur_v_svt_apex bulk collect into l_v_svt_apex limit 1000;
 
-      exit when l_v_SVT_apex.count = 0;
+      exit when l_v_svt_apex.count = 0;
 
-      for rec in 1 .. l_v_SVT_apex.count
+      for rec in 1 .. l_v_svt_apex.count
       loop
-        pipe row (v_SVT_apex_ot (
-                      l_v_SVT_apex (rec).pass_yn,
-                      l_v_SVT_apex (rec).application_id||
-                      case when l_v_SVT_apex (rec).parent_component_id is not null 
-                           then ':'||l_v_SVT_apex (rec).parent_component_id||':'||l_v_SVT_apex (rec).component_id
-                           else case when  l_v_SVT_apex (rec).component_id != l_v_SVT_apex (rec).application_id
-                                     then ':'||l_v_SVT_apex (rec).component_id
+        pipe row (v_svt_apex_ot (
+                      l_v_svt_apex (rec).pass_yn,
+                      l_v_svt_apex (rec).application_id||
+                      case when l_v_svt_apex (rec).parent_component_id is not null 
+                           then ':'||l_v_svt_apex (rec).parent_component_id||':'||l_v_svt_apex (rec).component_id
+                           else case when  l_v_svt_apex (rec).component_id != l_v_svt_apex (rec).application_id
+                                     then ':'||l_v_svt_apex (rec).component_id
                                      end
                            end,
-                      l_v_SVT_apex (rec).application_id,
-                      l_v_SVT_apex (rec).page_id,
-                      l_v_SVT_apex (rec).created_by,
-                      l_v_SVT_apex (rec).created_on,
-                      l_v_SVT_apex (rec).LAST_updated_by,
-                      l_v_SVT_apex (rec).LAST_updated_on,
-                      l_v_SVT_apex (rec).validation_failure_message,
-                      l_v_SVT_apex (rec).issue_title,
+                      l_v_svt_apex (rec).application_id,
+                      l_v_svt_apex (rec).page_id,
+                      l_v_svt_apex (rec).created_by,
+                      l_v_svt_apex (rec).created_on,
+                      l_v_svt_apex (rec).last_updated_by,
+                      l_v_svt_apex (rec).last_updated_on,
+                      l_v_svt_apex (rec).validation_failure_message,
+                      l_v_svt_apex (rec).issue_title,
                       c_standard_code,
-                      l_v_SVT_apex (rec).component_id,
-                      l_v_SVT_apex (rec).parent_component_id
+                      l_v_svt_apex (rec).component_id,
+                      l_v_svt_apex (rec).parent_component_id
                     )
                 );
       end loop;
@@ -394,16 +394,16 @@ create or replace package body SVT_STANDARD_VIEW as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end v_SVT_apex;
+  end v_svt_apex;
 
-  function v_SVT_db_view__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_view__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
                             p_failures_only in varchar2 default 'N')
-  return v_SVT_db_view__0_nt pipelined
+  return v_svt_db_view__0_nt pipelined
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT_db_view__0';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_db_view__0';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  cur_v_SVT_db_view__0 sys_refcursor;
+  cur_v_svt_db_view__0 sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
   c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
 
@@ -413,7 +413,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                         'p_failures_only', p_failures_only);
 
     l_query_clob := get_query_clob (p_standard_code => c_standard_code,
-                                    p_nt_name => gc_v_SVT_db_view__0_nt,
+                                    p_nt_name => gc_v_svt_db_view__0_nt,
                                     p_select_stmt => gc_view_select_stmt);
 
     l_query_clob := case when p_failures_only = 'Y'
@@ -421,19 +421,19 @@ create or replace package body SVT_STANDARD_VIEW as
                          else l_query_clob 
                          end;  
 
-    open cur_v_SVT_db_view__0 for l_query_clob;
+    open cur_v_svt_db_view__0 for l_query_clob;
 
     loop
-      fetch cur_v_SVT_db_view__0 bulk collect into l_v_SVT_db_view__0 limit 1000;
+      fetch cur_v_svt_db_view__0 bulk collect into l_v_svt_db_view__0 limit 1000;
 
-      exit when l_v_SVT_db_view__0.count = 0;
+      exit when l_v_svt_db_view__0.count = 0;
 
-      for rec in 1 .. l_v_SVT_db_view__0.count
+      for rec in 1 .. l_v_svt_db_view__0.count
       loop
-        pipe row (v_SVT_db_view__0_ot (
-                      l_v_SVT_db_view__0 (rec).pass_yn,
-                      l_v_SVT_db_view__0 (rec).view_name,
-                      l_v_SVT_db_view__0 (rec).unqid
+        pipe row (v_svt_db_view__0_ot (
+                      l_v_svt_db_view__0 (rec).pass_yn,
+                      l_v_svt_db_view__0 (rec).view_name,
+                      l_v_svt_db_view__0 (rec).unqid
                     )
                 );
       end loop;
@@ -449,7 +449,7 @@ create or replace package body SVT_STANDARD_VIEW as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end v_SVT_db_view__0;
+  end v_svt_db_view__0;
 
   function v_svt_db_tbl__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
                            p_failures_only in varchar2 default 'N')
@@ -506,24 +506,24 @@ create or replace package body SVT_STANDARD_VIEW as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end v_SVT_db_tbl__0;
+  end v_svt_db_tbl__0;
 
-  function v_SVT(p_standard_code        in eba_stds_standard_tests.standard_code%type,
+  function v_svt(p_standard_code        in eba_stds_standard_tests.standard_code%type,
                  p_failures_only        in varchar2 default 'N',
                  p_urgent_only          in varchar2 default 'N',
                  p_production_apps_only in varchar2 default 'N',
-                 p_unqid                in SVT_plsql_apex_audit.unqid%type default null,
-                 p_audit_id             in SVT_plsql_apex_audit.id%type default null
+                 p_unqid                in svt_plsql_apex_audit.unqid%type default null,
+                 p_audit_id             in svt_plsql_apex_audit.id%type default null
                  )
-  return v_SVT_plsql_apex__0_nt pipelined
+  return v_svt_plsql_apex__0_nt pipelined
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  cur_v_SVT sys_refcursor;
+  cur_v_svt sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
   c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
-  l_nt_name SVT_nested_table_types.nt_name%type;
+  l_nt_name svt_nested_table_types.nt_name%type;
 
   ------------------------------------------------------------------------------
   -- v_svt_plsql_apex__0 identifiers
@@ -551,11 +551,11 @@ create or replace package body SVT_STANDARD_VIEW as
   type t_v_svt_plsql_apex__0 is table of r_v_svt_plsql_apex__0 index by pls_integer;
   l_v_svt_plsql_apex__0 t_v_svt_plsql_apex__0;
   l_failure_predicate varchar2(31) := q'[ and pass_yn = 'N']';
-  c_unqid constant SVT_plsql_apex_audit.unqid%type := 
+  c_unqid constant svt_plsql_apex_audit.unqid%type := 
                                              case when p_unqid is not null 
                                                   then p_unqid 
                                                   when p_audit_id is not null 
-                                                  then SVT_plsql_apex_audit_api.get_unqid(p_audit_id => p_audit_id)
+                                                  then svt_plsql_apex_audit_api.get_unqid(p_audit_id => p_audit_id)
                                                   end;
   l_unqid_predicate varchar2(1200) := apex_string.format(q'^ and unqid = '%s' ^', c_unqid);
   begin
@@ -593,8 +593,8 @@ create or replace package body SVT_STANDARD_VIEW as
                                         end issue_title,
                                    null apex_created_by,
                                    null apex_created_on,
-                                   null apex_LAST_updated_by,
-                                   null apex_LAST_updated_on,
+                                   null apex_last_updated_by,
+                                   null apex_last_updated_on,
                                    null standard_code,
                                    null component_id,
                                    null parent_component_id
@@ -617,8 +617,8 @@ create or replace package body SVT_STANDARD_VIEW as
                                    view_name issue_title,
                                    null apex_created_by,
                                    null apex_created_on,
-                                   null apex_LAST_updated_by,
-                                   null apex_LAST_updated_on,
+                                   null apex_last_updated_by,
+                                   null apex_last_updated_on,
                                    null standard_code,
                                    null component_id,
                                    null parent_component_id
@@ -641,8 +641,8 @@ create or replace package body SVT_STANDARD_VIEW as
                                    code issue_title,
                                    null apex_created_by,
                                    null apex_created_on,
-                                   null apex_LAST_updated_by,
-                                   null apex_LAST_updated_on,
+                                   null apex_last_updated_by,
+                                   null apex_last_updated_on,
                                    null standard_code,
                                    object_id component_id,
                                    null parent_component_id
@@ -669,14 +669,14 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null code,
                                    validation_failure_message,
                                    issue_title,
-                                   case when created_by not in ('ORDS_PUBLIC_USER',SVT_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                                   case when created_by not in ('ORDS_PUBLIC_USER',svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
                                         then created_by
                                         end apex_created_by,
                                    created_on apex_created_on,
-                                   case when LAST_updated_by not in ('ORDS_PUBLIC_USER',SVT_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
-                                        then LAST_updated_by
-                                        end apex_LAST_updated_by,
-                                   LAST_updated_on apex_LAST_updated_on,
+                                   case when last_updated_by not in ('ORDS_PUBLIC_USER',svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                                        then last_updated_by
+                                        end apex_last_updated_by,
+                                   last_updated_on apex_last_updated_on,
                                    null standard_code,
                                    component_id,
                                    parent_component_id
@@ -745,17 +745,17 @@ create or replace package body SVT_STANDARD_VIEW as
                             then l_unqid_predicate
                             end;
 
-    open cur_v_SVT for l_query_clob;
+    open cur_v_svt for l_query_clob;
 
     loop
-      fetch cur_v_SVT bulk collect into l_v_svt_plsql_apex__0 limit 1000;
+      fetch cur_v_svt bulk collect into l_v_svt_plsql_apex__0 limit 1000;
       apex_debug.message(c_debug_template, 'l_v_svt_plsql_apex__0.count', l_v_svt_plsql_apex__0.count);
 
       exit when l_v_svt_plsql_apex__0.count = 0;
 
       for rec in 1 .. l_v_svt_plsql_apex__0.count
       loop
-        pipe row (v_SVT_plsql_apex__0_ot (
+        pipe row (v_svt_plsql_apex__0_ot (
                     c_standard_code||':'||l_v_svt_plsql_apex__0 (rec).unqid,
                     l_v_svt_plsql_apex__0 (rec).issue_category,
                     l_v_svt_plsql_apex__0 (rec).application_id,
@@ -773,8 +773,8 @@ create or replace package body SVT_STANDARD_VIEW as
                          end,
                     l_v_svt_plsql_apex__0 (rec).apex_created_by,
                     l_v_svt_plsql_apex__0 (rec).apex_created_on,
-                    l_v_svt_plsql_apex__0 (rec).apex_LAST_updated_by,
-                    l_v_svt_plsql_apex__0 (rec).apex_LAST_updated_on,
+                    l_v_svt_plsql_apex__0 (rec).apex_last_updated_by,
+                    l_v_svt_plsql_apex__0 (rec).apex_last_updated_on,
                     c_standard_code,
                     l_v_svt_plsql_apex__0 (rec).component_id,
                     l_v_svt_plsql_apex__0 (rec).parent_component_id
@@ -783,11 +783,21 @@ create or replace package body SVT_STANDARD_VIEW as
       end loop;
     end loop;  
 
-    close cur_v_SVT;
+    close cur_v_svt;
 
   exception 
+    when e_table_or_view_does_not_exist then 
+      apex_debug.error(p_message => c_debug_template, 
+                       p0 =>'Unknown table or view: ', 
+                       p1 => sqlerrm, 
+                       p2 => c_standard_code,
+                       p5 => sqlcode, 
+                       p6 => dbms_utility.format_error_stack, 
+                       p7 => dbms_utility.format_error_backtrace, 
+                       p_max_length => 4096);
+      raise_application_error(-20904, 'Error processing ' ||c_standard_code|| ': '||sqlerrm);
     when no_data_needed then 
-      close cur_v_SVT;
+      close cur_v_svt;
     when e_missing_field then
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
@@ -797,7 +807,7 @@ create or replace package body SVT_STANDARD_VIEW as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end v_SVT;
+  end v_svt;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -807,18 +817,18 @@ create or replace package body SVT_STANDARD_VIEW as
 -- private function to return the name of a nest table type id
 --
 ------------------------------------------------------------------------------
-  function get_nt_type_name (p_nt_type_id in SVT_nested_table_types.id%type) return SVT_nested_table_types.nt_name%type
+  function get_nt_type_name (p_nt_type_id in svt_nested_table_types.id%type) return svt_nested_table_types.nt_name%type
   is
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'get_nt_type_name';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
 
-  l_nt_name SVT_nested_table_types.nt_name%type;
+  l_nt_name svt_nested_table_types.nt_name%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_nt_type_id', p_nt_type_id);
 
     select lower(nt_name)
     into l_nt_name
-    from SVT_nested_table_types
+    from svt_nested_table_types
     where id = p_nt_type_id;
 
     return l_nt_name;
@@ -832,18 +842,18 @@ create or replace package body SVT_STANDARD_VIEW as
       raise;
   end get_nt_type_name;
 
-  function get_nt_type_id (p_nt_name in SVT_nested_table_types.nt_name%type) return SVT_nested_table_types.id%type
+  function get_nt_type_id (p_nt_name in svt_nested_table_types.nt_name%type) return svt_nested_table_types.id%type
   is
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'get_nt_type_id';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
 
-  l_id SVT_nested_table_types.id%type;
+  l_id svt_nested_table_types.id%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_nt_name', p_nt_name);
 
     select id
     into l_id
-    from SVT_nested_table_types
+    from svt_nested_table_types
     where lower(nt_name) = lower(p_nt_name);
 
     return l_id;
@@ -921,7 +931,7 @@ create or replace package body SVT_STANDARD_VIEW as
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'query_feedback';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  l_nt_type_id SVT_nested_table_types.id%type;
+  l_nt_type_id svt_nested_table_types.id%type;
   cur_query sys_refcursor;
   l_error   varchar2(100);
   begin
@@ -933,21 +943,21 @@ create or replace package body SVT_STANDARD_VIEW as
     where id = p_SVT_component_type_id;
 
     if p_query_code is not null  and l_nt_type_id is not null then
-      if get_nt_type_name (l_nt_type_id) =  gc_v_SVT_db_plsql_nt then
+      if get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_plsql_nt then
         open cur_query for gc_db_plsql_select_stmt||p_query_code||')';
-        fetch cur_query bulk collect into l_v_SVT_db_plsql limit 1;
-      elsif get_nt_type_name (l_nt_type_id) =  gc_v_SVT_sert__0_nt then
+        fetch cur_query bulk collect into l_v_svt_db_plsql limit 1;
+      elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_sert__0_nt then
         open cur_query for gc_sert_select_stmt||p_query_code||')';
-        fetch cur_query bulk collect into l_v_SVT_sert__0 limit 1;
-      elsif get_nt_type_name (l_nt_type_id) =  gc_v_SVT_apex_nt then
+        fetch cur_query bulk collect into l_v_svt_sert__0 limit 1;
+      elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_apex_nt then
         open cur_query for gc_apex_select_stmt||p_query_code||')';
-        fetch cur_query bulk collect into l_v_SVT_apex limit 1;
-      elsif get_nt_type_name (l_nt_type_id) =  gc_v_SVT_db_view__0_nt then
+        fetch cur_query bulk collect into l_v_svt_apex limit 1;
+      elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_view__0_nt then
         open cur_query for gc_view_select_stmt||p_query_code||')';
-        fetch cur_query bulk collect into l_v_SVT_db_view__0 limit 1;
-      elsif get_nt_type_name (l_nt_type_id) =  gc_v_SVT_db_tbl__0_nt then
+        fetch cur_query bulk collect into l_v_svt_db_view__0 limit 1;
+      elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_tbl__0_nt then
         open cur_query for gc_tbl_select_stmt||p_query_code||')';
-        fetch cur_query bulk collect into l_v_SVT_db_tbl__0 limit 1;
+        fetch cur_query bulk collect into l_v_svt_db_tbl__0 limit 1;
       else 
         l_error := 'Unrecognized nested table type';
       end if;

@@ -1,8 +1,8 @@
 ---
-# ====== Page: AST_SERT_HOW_TO_FIX ===========================
+# ====== Page: SVT_SERT_HOW_TO_FIX ===========================
 id: 57
 identification: 
-  name: AST_SERT_HOW_TO_FIX
+  name: SVT_SERT_HOW_TO_FIX
   alias: HOW-TO-FIX
   title: How to Fix
 
@@ -38,6 +38,54 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: SERT Warning ================================
+  id: 146338729845906247
+  identification: 
+    title: SERT Warning
+    type: Static Content
+
+  source: 
+    html-code: '&P57_STMT.'
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: How to Fix ==================================
   id: 378921515157707374
   identification: 
@@ -48,11 +96,11 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_SERT_HOW_TO_FIX
+    table-name: SVT_SERT_HOW_TO_FIX
     include-rowid-column: false
 
   layout: 
-    sequence: 10
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -610,6 +658,37 @@ regions:
         font-color: '#000000'
         alignment: center
 
+page-items: 
+- # ====== Page Item: P57_STMT =================================
+  id: 146338800401906248
+  identification: 
+    name: P57_STMT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: SERT Warning # 146338729845906247
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: reset =======================================
   id: 282803349815565223
@@ -641,7 +720,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:57:&SESSION.::&DEBUG.:RR,::'
-      page: 57 # AST_SERT_HOW_TO_FIX
+      page: 57 # SVT_SERT_HOW_TO_FIX
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
@@ -715,4 +794,22 @@ dynamic-actions:
       event: Edit Report - Dialog Closed # 378925943116707385
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P57_STMT ===============================
+  id: 146338904363906249
+  identification: 
+    item-name: P57_STMT
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case when svt_preferences.get_preference ('SVT_SCM_YN') = 'N'
+           then 'SERT is not enabled for this application'
+           end
 

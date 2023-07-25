@@ -376,7 +376,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_PLSQL_APEX_AUDIT
+    table-name: SVT_PLSQL_APEX_AUDIT
     include-rowid-column: false
 
   layout: 
@@ -427,7 +427,7 @@ regions:
   source: 
     location: Local Database
     type: SQL Query
-    sql-query: 'select * from ast.ast_standard_view.v_ast(p_standard_code => :P42_STANDARD_CODE , p_audit_id => :P42_ID)'
+    sql-query: 'select * from svt_standard_view.v_svt(p_standard_code => :P42_STANDARD_CODE , p_audit_id => :P42_ID)'
     page-items-to-submit: 
     - P42_STANDARD_CODE
     - P42_ID
@@ -1527,7 +1527,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_PLSQL_APEX_AUDIT
+    table-name: V_SVT_PLSQL_APEX_AUDIT
     include-rowid-column: false
 
   layout: 
@@ -2118,10 +2118,76 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P42_AST_COMPONENT_TYPE_ID ================
-  id: 44219443198509646
+- # ====== Page Item: P42_ISSUE_CATEGORY_1 =====================
+  id: 146439565116364604
   identification: 
-    name: P42_AST_COMPONENT_TYPE_ID
+    name: P42_ISSUE_CATEGORY_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 890
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ISSUE_CATEGORY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APPLICATION_ID_1 =====================
+  id: 146439606908364605
+  identification: 
+    name: P42_APPLICATION_ID_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 900
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APPLICATION_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APPLICATION_NAME_1 ===================
+  id: 146439718702364606
+  identification: 
+    name: P42_APPLICATION_NAME_1
     type: Hidden
 
   settings: 
@@ -2137,7 +2203,40 @@ page-items:
 
   source: 
     form-region: Virtual Cols # 458446618000308302
-    column: AST_COMPONENT_TYPE_ID
+    column: APPLICATION_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_PAGE_ID_1 ============================
+  id: 146439893556364607
+  identification: 
+    name: P42_PAGE_ID_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 920
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: PAGE_ID
     data-type: NUMBER
     query-only: false
     primary-key: false
@@ -2145,6 +2244,821 @@ page-items:
   session-state: 
     data-type: VARCHAR2
     storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_PASS_YN_1 ============================
+  id: 146439928217364608
+  identification: 
+    name: P42_PASS_YN_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 930
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: PASS_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_LINE_1 ===============================
+  id: 146440013403364609
+  identification: 
+    name: P42_LINE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 940
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: LINE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_OBJECT_NAME_1 ========================
+  id: 146440163538364610
+  identification: 
+    name: P42_OBJECT_NAME_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 950
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: OBJECT_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_OBJECT_TYPE_1 ========================
+  id: 146440216865364611
+  identification: 
+    name: P42_OBJECT_TYPE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 960
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: OBJECT_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_CODE_1 ===============================
+  id: 146440369444364612
+  identification: 
+    name: P42_CODE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 970
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_VALIDATION_FAILURE_MESSAGE_1 =========
+  id: 146440466248364613
+  identification: 
+    name: P42_VALIDATION_FAILURE_MESSAGE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 980
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: VALIDATION_FAILURE_MESSAGE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ISSUE_TITLE_1 ========================
+  id: 146440562806364614
+  identification: 
+    name: P42_ISSUE_TITLE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 990
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ISSUE_TITLE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_CREATED_BY_1 ====================
+  id: 146440626863364615
+  identification: 
+    name: P42_APEX_CREATED_BY_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1000
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_CREATED_ON_1 ====================
+  id: 146440763131364616
+  identification: 
+    name: P42_APEX_CREATED_ON_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1010
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_CREATED_ON
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_LAST_UPDATED_BY_1 ===============
+  id: 146440829882364617
+  identification: 
+    name: P42_APEX_LAST_UPDATED_BY_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1020
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_LAST_UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_LAST_UPDATED_ON_1 ===============
+  id: 146440981787364618
+  identification: 
+    name: P42_APEX_LAST_UPDATED_ON_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1030
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_LAST_UPDATED_ON
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_NOTES_1 ==============================
+  id: 146441048846364619
+  identification: 
+    name: P42_NOTES_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1040
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: NOTES
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ACTION_ID_1 ==========================
+  id: 146441142917364620
+  identification: 
+    name: P42_ACTION_ID_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1050
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ACTION_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_CREATED_1 ============================
+  id: 146441238428364621
+  identification: 
+    name: P42_CREATED_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1060
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: CREATED
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ASSIGNEE_1 ===========================
+  id: 146441351346364622
+  identification: 
+    name: P42_ASSIGNEE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1070
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: ASSIGNEE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_ISSUE_ID_1 ======================
+  id: 146441497702364623
+  identification: 
+    name: P42_APEX_ISSUE_ID_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1080
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_ISSUE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_ISSUE_TITLE_SUFFIX_1 ============
+  id: 146441574348364624
+  identification: 
+    name: P42_APEX_ISSUE_TITLE_SUFFIX_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1090
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APEX_ISSUE_TITLE_SUFFIX
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_STANDARD_CODE_1 ======================
+  id: 146441680412364625
+  identification: 
+    name: P42_STANDARD_CODE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1100
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: STANDARD_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_LEGACY_YN_1 ==========================
+  id: 146441794593364626
+  identification: 
+    name: P42_LEGACY_YN_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1110
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: LEGACY_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_UNQID_1 ==============================
+  id: 146441803695364627
+  identification: 
+    name: P42_UNQID_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1120
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: UNQID
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_OWNER_1 ==============================
+  id: 146441980417364628
+  identification: 
+    name: P42_OWNER_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1130
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: OWNER
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_COMPONENT_ID_1 =======================
+  id: 146442093682364629
+  identification: 
+    name: P42_COMPONENT_ID_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1140
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: COMPONENT_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_PARENT_COMPONENT_ID_1 ================
+  id: 146442122184364630
+  identification: 
+    name: P42_PARENT_COMPONENT_ID_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1150
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: PARENT_COMPONENT_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_SVT_COMPONENT_TYPE_ID ================
+  id: 146442215535364631
+  identification: 
+    name: P42_SVT_COMPONENT_TYPE_ID
+    type: Number Field
+
+  label: 
+    label: SVT Component Type ID
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 1160
+    region: General Virtual Cols # 458830432779448205
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7573687128199144043
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: SVT_COMPONENT_TYPE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
@@ -3206,7 +4120,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_AUDIT_ACTIONS # 412818797667761448
+    list-of-values: SVT_AUDIT_ACTIONS # 412818797667761448
     display-extra-values: false
     display-null-value: false
 
@@ -4750,7 +5664,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1::'
-      page: 1 # V_AST_PLSQL_APEX_AUDIT
+      page: 1 # V_SVT_PLSQL_APEX_AUDIT
       clear-cache: 1
 
     warn-on-unsaved-changes: Do Not Check
@@ -5121,7 +6035,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'ast_apex_issue_util.refresh_for_audit_id (:P42_AUDIT_ID);'
+    pl/sql-code: 'svt_apex_issue_util.refresh_for_audit_id (:P42_AUDIT_ID);'
 
   execution: 
     sequence: 20
@@ -5144,7 +6058,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'AST_AUDIT_UTIL.refresh_mv(:P42_MV_DEPENDENCY);'
+    pl/sql-code: 'SVT_AUDIT_UTIL.refresh_mv(:P42_MV_DEPENDENCY);'
 
   execution: 
     sequence: 30
@@ -5184,7 +6098,7 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
-      page: 1 # V_AST_PLSQL_APEX_AUDIT
+      page: 1 # V_SVT_PLSQL_APEX_AUDIT
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER

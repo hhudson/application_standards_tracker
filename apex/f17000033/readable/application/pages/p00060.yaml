@@ -411,7 +411,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Editable # 52758854672756848
     position: BODY
     alignment: Left
@@ -429,7 +429,7 @@ page-items:
     width: 30
 
   validation: 
-    value-required: true
+    value-required: false
 
   list-of-values: 
     type: Shared Component
@@ -777,79 +777,6 @@ page-items:
   help: 
     help-text: A materialized view referenced in the query
 
-- # ====== Page Item: P60_AST_COMPONENT_TYPE_ID ================
-  id: 53152173171876952
-  identification: 
-    name: P60_AST_COMPONENT_TYPE_ID
-    type: Popup LOV
-
-  label: 
-    label: Component
-    alignment: Left
-
-  settings: 
-    display-as: Inline Popup
-    initial-fetch: Automatic
-    multiple-values: false
-    manual-entry: false
-    search-as-you-type: true
-    minimum-characters: No minimum (0)
-
-  layout: 
-    sequence: 10
-    region: Query # 52757733800756837
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: true
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: AST_COMPONENT_CODES # 42942039391075235
-    display-extra-values: false
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Load Sample Standard Test # 53148245846876947
-    column: AST_COMPONENT_TYPE_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  read-only: 
-    type: Item is NOT NULL
-    item: P60_COMPONENT_CODE
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: The APEX element type that is being targeted by the test
-
 - # ====== Page Item: P60_COMPONENT_CODE =======================
   id: 53152501753876953
   identification: 
@@ -1114,7 +1041,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Editable # 52758854672756848
     position: BODY
     alignment: Left
@@ -1132,7 +1059,7 @@ page-items:
     width: 30
 
   validation: 
-    value-required: true
+    value-required: false
 
   list-of-values: 
     type: Shared Component
@@ -1416,6 +1343,104 @@ page-items:
   help: 
     help-text: Is the latest version of this standard test installed locally?
 
+- # ====== Page Item: P60_SVT_COMPONENT_TYPE_ID ================
+  id: 146442454082364633
+  identification: 
+    name: P60_SVT_COMPONENT_TYPE_ID
+    type: Popup LOV
+
+  label: 
+    label: Component Type
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: false
+
+  layout: 
+    sequence: 10
+    region: Editable # 52758854672756848
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SVT_COMPONENT_CODES # 42942039391075235
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: SVT_COMPONENT_TYPE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_ESTL_MD5 =============================
+  id: 146442543311364634
+  identification: 
+    name: P60_ESTL_MD5
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 240
+    region: Load Sample Standard Test # 53148245846876947
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: ESTL_MD5
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: INSTALL =====================================
   id: 52757800228756838
@@ -1666,24 +1691,6 @@ validations:
     error-message: You must pick an urgency level
     display-location: Inline with Field and in Notification
     associated-item: P60_LEVEL_ID # 139354712242506125
-
-- # ====== Validation: Component must not be null ==============
-  id: 139356540988506143
-  identification: 
-    name: Component must not be null
-
-  execution: 
-    sequence: 30
-
-  validation: 
-    type: Item is NOT NULL
-    item: P60_AST_COMPONENT_TYPE_ID
-    always-execute: false
-
-  error: 
-    error-message: Component type must not be null
-    display-location: Inline with Field and in Notification
-    associated-item: P60_AST_COMPONENT_TYPE_ID # 53152173171876952
 
 computations: 
 - # ====== Computation: P60_ID =================================

@@ -30,8 +30,18 @@ create or replace package SVT_PREFERENCES authid definer as
 
 Instructions : Set the values of these preference in the Admin section of the application (p36)
 
-select svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') schema,
-       svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE') workspace
+select svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') default_schema,
+       svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE') default_workspace,
+       svt_preferences.get_preference ('SVT_DB_NAME') db_name,
+       svt_preferences.get_preference ('SVT_EMAIL_API') email_api,
+       svt_preferences.get_preference ('SVT_BASE_URL') base_url,
+       svt_preferences.get_preference ('SVT_SERT_YN') sert_yn,
+       svt_preferences.get_preference ('SVT_APEX_ISSUES_YN') apex_issues_yn,
+       svt_preferences.get_preference ('SVT_SCM_YN') scm_yn,
+       svt_preferences.get_preference ('SVT_FROM_EMAIL') from_email,
+       svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') default_assignee,
+       svt_preferences.get_preference ('SVT_SRC_EDIT_DELAY') src_edit_delay,
+       svt_preferences.get_preference ('SVT_CLEANUP_DELAY') cleanup_delay
 from dual;
 */
 ------------------------------------------------------------------------------

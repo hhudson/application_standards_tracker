@@ -8,24 +8,29 @@ function get_query( p_table_name    in varchar2,
 l_query         clob;
 l_table_name    varchar2(4000) := nvl(p_table_name, 'DUAL');
 begin
-    select  listagg(case 
-                when column_name is null
-                then case 
-                    when ct_val = 'NUMBER' then 'to_number(null)'
-                    when ct_val = 'DATE' then 'to_date(null)'
-                    else 'null'
+    if p_table_name is not null then
+        select  listagg(case 
+                    when column_name is null
+                    then case 
+                        when ct_val = 'NUMBER' then 'to_number(null)'
+                        when ct_val = 'DATE' then 'to_date(null)'
+                        else 'null'
+                        end
+                    else sys.dbms_assert.enquote_name(column_name)
                     end
-                else sys.dbms_assert.enquote_name(column_name)
-                end
             || ' ' ||
                     column_alias
             , ', ' || chr(13)  
                 ) col_names
         into l_query
-        from SVT_one_report_macro.user_tab_col_macro(p_table_name => l_table_name, p_schema_name => p_schema_name)
+        from SVT_ONE_REPORT_MACRO.user_tab_col_macro(p_table_name => l_table_name, p_schema_name => p_schema_name)
         where column_name not in ('CREATED','CREATED_BY','UPDATED','UPDATED_BY')
         order by alias_rn ;
-    l_query := 'select ' || l_query || chr(13) || ' from ' || sys.dbms_assert.enquote_name(l_table_name, false);
+        
+        l_query := 'select ' || l_query || chr(13) || ' from ' || sys.dbms_assert.enquote_name(l_table_name, false);
+    else 
+        l_query := 'select 1 blerg from dual';
+    end if;
     return l_query;
 end get_query;
 --

@@ -48,7 +48,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_APPLICATION_REPORT_CARD
+    table-name: V_SVT_APPLICATION_REPORT_CARD
     include-rowid-column: false
 
   layout: 
@@ -256,7 +256,7 @@ regions:
       link: 
         target: 
           url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_APPLICATION_ID,IG[AUDIT_RPT]EQ_URGENCY:#APPLICATION_ID#,Critical'
-          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          page: 1 # V_SVT_PLSQL_APEX_AUDIT
           clear-cache: CR,1
           values: 
             ig[audit_rpt]eq_application_id: '#APPLICATION_ID#'
@@ -309,7 +309,7 @@ regions:
       link: 
         target: 
           url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_APPLICATION_ID,IG[AUDIT_RPT]EQ_URGENCY:#APPLICATION_ID#,High'
-          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          page: 1 # V_SVT_PLSQL_APEX_AUDIT
           clear-cache: CR,1
           values: 
             ig[audit_rpt]eq_application_id: '#APPLICATION_ID#'
@@ -362,7 +362,7 @@ regions:
       link: 
         target: 
           url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_APPLICATION_ID,IG[AUDIT_RPT]EQ_URGENCY:#APPLICATION_ID#,Medium'
-          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          page: 1 # V_SVT_PLSQL_APEX_AUDIT
           clear-cache: CR,1
           values: 
             ig[audit_rpt]eq_application_id: '#APPLICATION_ID#'
@@ -390,6 +390,88 @@ regions:
 
       security: 
         authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+        escape-special-characters: true
+
+    - # ====== Column: DEFAULT_DEVELOPER ===========================
+      id: 146337952054906239
+      identification: 
+        column-name: DEFAULT_DEVELOPER
+        type: Plain Text
+
+      heading: 
+        heading: Default Developer
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 24
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_NAME ============================
+      id: 146338045012906240
+      identification: 
+        column-name: APPLICATION_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Application Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 34
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
         escape-special-characters: true
 
     printing: 

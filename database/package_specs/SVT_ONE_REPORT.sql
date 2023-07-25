@@ -24,7 +24,7 @@ procedure set_ir_columns_headers(   p_table_name        in varchar2,
                                     p_base_item_name    in varchar2,
                                     p_pretty_yn         in varchar2 default 'Y',
                                     p_schema_name   in  varchar2 default sys_context('USERENV', 'CURRENT_USER')) ;  
-end SVT_one_report;
+end SVT_ONE_REPORT;
 /
 
 --rollback drop package SVT_ONE_REPORT;

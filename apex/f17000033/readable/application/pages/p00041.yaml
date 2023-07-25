@@ -124,10 +124,10 @@ regions:
         type: SQL Query
         sql-query: |
           select ess.standard_name standard_name, src.standard_id, count(*) issue_count
-          from ast_plsql_apex_audit paa
+          from svt_plsql_apex_audit paa
           inner join eba_stds_standard_tests src on paa.standard_code  = src.standard_code
           inner join eba_stds_standards ess on src.standard_id = ess.id
-          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
           group by ess.standard_name, src.standard_id
 
@@ -243,8 +243,8 @@ regions:
         type: SQL Query
         sql-query: |
           select paa.standard_code, count(*) issue_count
-          from ast_plsql_apex_audit paa
-          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          from svt_plsql_apex_audit paa
+          left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
           group by paa.standard_code
           order by count(*) desc
@@ -362,9 +362,9 @@ regions:
         type: SQL Query
         sql-query: |
           select paa.assignee, count(*) issue_count
-          from ast_plsql_apex_audit paa
+          from svt_plsql_apex_audit paa
           inner join eba_stds_standard_tests esst on esst.standard_code = paa.standard_code
-          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
           group by paa.assignee
           order by count(*) desc
@@ -378,7 +378,7 @@ regions:
         type: Redirect to Page in this Application
         target: 
           url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_ASSIGNEE:&ASSIGNEE.'
-          page: 1 # V_AST_PLSQL_APEX_AUDIT
+          page: 1 # V_SVT_PLSQL_APEX_AUDIT
           clear-cache: CR,1
           values: 
             ig[audit_rpt]eq_assignee: '&ASSIGNEE.'
@@ -477,10 +477,10 @@ regions:
         type: SQL Query
         sql-query: |
           select src.standard_code, count(*) issue_count
-          from ast_plsql_apex_audit paa
+          from svt_plsql_apex_audit paa
           inner join eba_stds_standard_tests src on paa.standard_code  = src.standard_code
           inner join eba_stds_standards ess on src.standard_id = ess.id
-          left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+          left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'N'
           group by src.standard_code
 
@@ -591,7 +591,7 @@ regions:
         type: SQL Query
         sql-query: |
           select aarc.application_id, aarc.application_name, aarc.violation_count
-          from V_AST_APPLICATION_REPORT_CARD aarc
+          from V_SVT_APPLICATION_REPORT_CARD aarc
           order by aarc.violation_count desc
           fetch first 10 rows only
 

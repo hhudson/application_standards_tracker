@@ -4,7 +4,7 @@ id: 40
 identification: 
   name: APEX SERT
   alias: APEX-SERT
-  title: '&APPLICATION_TITLE.  APEX SERT'
+  title: APEX SERT
 
 appearance: 
   page-mode: Normal
@@ -38,19 +38,19 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Breadcrumb ==================================
-  id: 566523626710073000
+- # ====== Region: SERT Warning ================================
+  id: 292769732145210499
   identification: 
-    title: Breadcrumb
-    type: Breadcrumb
+    title: SERT Warning
+    type: Static Content
 
   source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
+    html-code: '&P40_STMT.'
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
-    position: REGION_POSITION_01
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -58,10 +58,13 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7573672802698144003
+    template: Alert # 7573654784682143972
     template-options: 
     - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
     render-components: Above Content
 
   accessibility: 
@@ -79,10 +82,9 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
 
 - # ====== Region: APEX SERT ===================================
   id: 566524166255073002
@@ -94,11 +96,11 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_SERT
+    table-name: V_SVT_SERT
     include-rowid-column: false
 
   layout: 
-    sequence: 10
+    sequence: 30
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -868,6 +870,37 @@ regions:
         font-color: '#000000'
         alignment: center
 
+page-items: 
+- # ====== Page Item: P40_STMT =================================
+  id: 292770177999210511
+  identification: 
+    name: P40_STMT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: SERT Warning # 292769732145210499
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: Reset =======================================
   id: 282803116780565221
@@ -903,4 +936,22 @@ buttons:
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
+
+computations: 
+- # ====== Computation: P40_STMT ===============================
+  id: 146339014694906250
+  identification: 
+    item-name: P40_STMT
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case when svt_preferences.get_preference ('SVT_SCM_YN') = 'N'
+           then 'SERT is not enabled for this application'
+           end
 

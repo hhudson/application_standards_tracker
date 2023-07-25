@@ -458,7 +458,7 @@ regions:
                               p_opt_parent_pk_value   => a.object_type,
                               p_builder_session       => :APX_BLDR_SESSION
              ) link_url
-      from ast_standard_view.v_ast(p_standard_code => :P14_STANDARD_CODE, 
+      from svt_standard_view.v_svt(p_standard_code => :P14_STANDARD_CODE, 
                                    p_failures_only => 'Y',
                                    p_production_apps_only => 'Y') a
       )
@@ -1787,24 +1787,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: AST_COMPONENT_TYPE_ID =======================
-      id: 143450229421206717
-      identification: 
-        column-name: AST_COMPONENT_TYPE_ID
-        type: Hidden Column
-
-      heading: 
-        heading: Ast Component Type ID
-
-      layout: 
-        sequence: 150
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: COMPONENT_NAME ==============================
       id: 143450307803206718
       identification: 
@@ -2158,6 +2140,47 @@ regions:
       security: 
         escape-special-characters: true
 
+    - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+      id: 146337829549906238
+      identification: 
+        column-name: SVT_COMPONENT_TYPE_ID
+        type: Plain Text
+
+      heading: 
+        heading: Svt Component Type Id
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 320
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
 page-items: 
 - # ====== Page Item: P14_COMPONENT_TYPE_ID ====================
   id: 42935161289017714
@@ -2249,10 +2272,10 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P14_AST_COMPONENT_TYPE_ID ================
+- # ====== Page Item: P14_SVT_COMPONENT_TYPE_ID ================
   id: 42936953942017732
   identification: 
-    name: P14_AST_COMPONENT_TYPE_ID
+    name: P14_SVT_COMPONENT_TYPE_ID
     type: Popup LOV
 
   label: 
@@ -2290,7 +2313,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_COMPONENT_CODES # 42942039391075235
+    list-of-values: SVT_COMPONENT_CODES # 42942039391075235
     display-extra-values: false
     display-null-value: false
 
@@ -2299,7 +2322,7 @@ page-items:
 
   source: 
     form-region: Standard Test # 7562693978314107360
-    column: AST_COMPONENT_TYPE_ID
+    column: SVT_COMPONENT_TYPE_ID
     data-type: NUMBER
     query-only: false
     primary-key: false
@@ -2987,7 +3010,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_MATERIALIZED_VIEWS # 268601580890474363
+    list-of-values: SVT_MATERIALIZED_VIEWS # 268601580890474363
     display-extra-values: false
     display-null-value: true
 
@@ -3073,7 +3096,7 @@ page-items:
   default: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: AST_URGENCY_LEVEL_API.get_default_level_id
+    pl/sql-expression: SVT_URGENCY_LEVEL_API.get_default_level_id
 
   session-state: 
     storage: Per Session (Persistent)
@@ -3090,7 +3113,7 @@ page-items:
     help-text: |
       <ul>
           <li>Low / Lowest urgency levels will not count against the application report card </li>
-      <ul>
+      </ul>
 
 - # ====== Page Item: P14_ID ===================================
   id: 7562695404019107367
@@ -3345,7 +3368,6 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--primary
     - t-Button--simple
     - t-Button--iconLeft
     icon: fa-eye
@@ -3354,7 +3376,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
-      page: 1 # V_AST_PLSQL_APEX_AUDIT
+      page: 1 # V_SVT_PLSQL_APEX_AUDIT
       clear-cache: CR,1
       values: 
         ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
@@ -3502,7 +3524,7 @@ buttons:
     type: Rows returned
     sql-query: |
       select 1
-      from AST_PLSQL_APEX_AUDIT
+      from SVT_PLSQL_APEX_AUDIT
       where standard_code = :P14_STANDARD_CODE
       and :P14_ACTIVE_YN = 'Y'
 
@@ -3788,7 +3810,7 @@ dynamic-actions:
     event: EVENT.EVENT.BROWSER.CHANGE
     selection-type: Item(s)
     item(s): 
-    - P14_AST_COMPONENT_TYPE_ID
+    - P14_SVT_COMPONENT_TYPE_ID
 
   execution: 
     event-scope: Static
@@ -3804,13 +3826,13 @@ dynamic-actions:
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
         eba_stds_parser.get_component_type_rec (
-                                p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
+                                p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
                                 p_component_name        => :P14_COMPONENT_NAME,
                                 p_component_type_id     => :P14_COMPONENT_TYPE_ID,
                                 p_template_url          => :P14_TEMPLATE_URL
         );
       items-to-submit: 
-      - P14_AST_COMPONENT_TYPE_ID
+      - P14_SVT_COMPONENT_TYPE_ID
       items-to-return: 
       - P14_COMPONENT_TYPE_ID
       - P14_COMPONENT_NAME
@@ -3827,7 +3849,7 @@ dynamic-actions:
 
     server-side-condition: 
       type: Item is NOT NULL
-      item: P14_AST_COMPONENT_TYPE_ID
+      item: P14_SVT_COMPONENT_TYPE_ID
 
 - # ====== Dynamic Action: Hide/show query clob ================
   id: 115640677075775444
@@ -4130,7 +4152,7 @@ dynamic-actions:
     event: EVENT.EVENT.BROWSER.CHANGE
     selection-type: Item(s)
     item(s): 
-    - P14_AST_COMPONENT_TYPE_ID
+    - P14_SVT_COMPONENT_TYPE_ID
 
   client-side-condition: 
     type: Item is null
@@ -4179,9 +4201,9 @@ dynamic-actions:
 
     settings: 
       set-type: PL/SQL Expression
-      pl/sql-expression: 'eba_stds_parser.seed_default_query(p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID)'
+      pl/sql-expression: 'eba_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID)'
       items-to-submit: 
-      - P14_AST_COMPONENT_TYPE_ID
+      - P14_SVT_COMPONENT_TYPE_ID
       escape-special-characters: false
       suppress-change-event: false
 
@@ -4453,9 +4475,9 @@ validations:
     type: Function Body (returning Error Text)
     language: PL/SQL
     pl/sql-function-body-returning-error-text: |
-      return ast_standard_view.query_feedback (
+      return svt_standard_view.query_feedback (
                       p_query_code => :P14_QUERY_CLOB,
-                      p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID
+                      p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID
               );
     always-execute: true
 
@@ -4577,7 +4599,7 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       eba_stds_parser.get_component_type_rec (
-                              p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
+                              p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
                               p_component_name        => :P14_COMPONENT_NAME,
                               p_component_type_id     => :P14_COMPONENT_TYPE_ID,
                               p_template_url          => :P14_TEMPLATE_URL
@@ -4627,8 +4649,8 @@ processes:
     location: Local Database
     language: PL/SQL
     pl/sql-code: |
-      ast_ctx_util.set_review_schema (ast_preferences.get_preference ('AST_DEFAULT_SCHEMA'));
-      ast_audit_util.initialize_standard(p_standard_code => :P14_STANDARD_CODE);
+      svt_ctx_util.set_review_schema (svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
+      svt_audit_util.initialize_standard(p_standard_code => :P14_STANDARD_CODE);
       
 
   execution: 
@@ -4680,7 +4702,7 @@ processes:
                         p_active_yn             => :P14_ACTIVE_YN,
                         p_level_id              => :P14_LEVEL_ID,
                         p_mv_dependency         => :P14_MV_DEPENDENCY,
-                        p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
+                        p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
                         p_explanation           => :P14_EXPLANATION,
                         p_fix                   => :P14_FIX
                       );
@@ -4696,7 +4718,7 @@ processes:
                                 p_active_yn             => :P14_ACTIVE_YN,
                                 p_level_id              => :P14_LEVEL_ID,
                                 p_mv_dependency         => :P14_MV_DEPENDENCY,
-                                p_ast_component_type_id => :P14_AST_COMPONENT_TYPE_ID,
+                                p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
                                 p_explanation           => :P14_EXPLANATION,
                                 p_fix                   => :P14_FIX,
                                 p_version_number        => :P14_VERSION_NUMBER
@@ -4757,7 +4779,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'ast_apex_issue_util.refresh_for_standard_app_page (:P14_STANDARD_CODE);'
+    pl/sql-code: 'svt_apex_issue_util.refresh_for_standard_app_page (:P14_STANDARD_CODE);'
 
   execution: 
     sequence: 40
@@ -4784,7 +4806,7 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
-      page: 1 # V_AST_PLSQL_APEX_AUDIT
+      page: 1 # V_SVT_PLSQL_APEX_AUDIT
       clear-cache: 1
       values: 
         ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
@@ -4808,7 +4830,7 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
-      page: 1 # V_AST_PLSQL_APEX_AUDIT
+      page: 1 # V_SVT_PLSQL_APEX_AUDIT
       clear-cache: 1
       values: 
         ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
@@ -4853,7 +4875,7 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:RR,1::'
-      page: 1 # V_AST_PLSQL_APEX_AUDIT
+      page: 1 # V_SVT_PLSQL_APEX_AUDIT
       clear-cache: RR,1
 
   server-side-condition: 

@@ -1,14 +1,14 @@
 ---
-- # ====== List of Values: AST_COMPONENTS ======================
+- # ====== List of Values: SVT_COMPONENTS ======================
   id: 42827838486136519
   identification: 
-    name: AST_COMPONENTS
+    name: SVT_COMPONENTS
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_FLOW_DICTIONARY_VIEWS
+    table-name: V_SVT_FLOW_DICTIONARY_VIEWS
 
   column-mapping: 
     return: VIEW_NAME
@@ -16,16 +16,16 @@
     default-sort: COMPONENT_DESC
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_COMPONENT_CODES =================
+- # ====== List of Values: SVT_COMPONENT_CODES =================
   id: 42942039391075235
   identification: 
-    name: AST_COMPONENT_CODES
+    name: SVT_COMPONENT_CODES
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_COMPONENT_TYPES
+    table-name: V_SVT_COMPONENT_TYPES
 
   column-mapping: 
     return: ID
@@ -52,16 +52,16 @@
     display: D
     default-sort: Use Order By from Query
 
-- # ====== List of Values: AST_COMPONENT_DESC ==================
+- # ====== List of Values: SVT_COMPONENT_DESC ==================
   id: 55674547808522032
   identification: 
-    name: AST_COMPONENT_DESC
+    name: SVT_COMPONENT_DESC
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_COMPONENT_TYPES
+    table-name: V_SVT_COMPONENT_TYPES
 
   column-mapping: 
     return: COMPONENT_NAME
@@ -69,10 +69,10 @@
     default-sort: DESCRIPTION
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_APPLICATIONS ====================
+- # ====== List of Values: SVT_APPLICATIONS ====================
   id: 115581983406705754
   identification: 
-    name: AST_APPLICATIONS
+    name: SVT_APPLICATIONS
 
   source: 
     location: Local Database
@@ -80,7 +80,7 @@
     sql-query: |
       select application_id r, apex_string.format('%s (%s)',  application_name, application_id) d
       from apex_applications
-      where workspace = ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE')
+      where workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
       order by 1
 
   column-mapping: 
@@ -88,10 +88,10 @@
     display: D
     default-sort: Use Order By from Query
 
-- # ====== List of Values: AST_FROM_EMAIL ======================
+- # ====== List of Values: SVT_FROM_EMAIL ======================
   id: 115887574838451264
   identification: 
-    name: AST_FROM_EMAIL
+    name: SVT_FROM_EMAIL
 
   source: 
     location: Static Values
@@ -128,16 +128,16 @@
     default-sort: STANDARD_NAME
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_NESTED_TABLE_TYPES ==============
+- # ====== List of Values: SVT_NESTED_TABLE_TYPES ==============
   id: 177247708904487436
   identification: 
-    name: AST_NESTED_TABLE_TYPES
+    name: SVT_NESTED_TABLE_TYPES
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_NESTED_TABLE_TYPES
+    table-name: SVT_NESTED_TABLE_TYPES
 
   column-mapping: 
     return: ID
@@ -145,27 +145,10 @@
     default-sort: OBJECT_TYPE
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: STANDARD_CODES ======================
-  id: 190058900112492663
-  identification: 
-    name: STANDARD_CODES
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_STANDARDS_REFERENCE_CODES
-
-  column-mapping: 
-    return: ID
-    display: STANDARD_CODE
-    default-sort: STANDARD_CODE
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: AST_MATERIALIZED_VIEWS ==============
+- # ====== List of Values: SVT_MATERIALIZED_VIEWS ==============
   id: 268601580890474363
   identification: 
-    name: AST_MATERIALIZED_VIEWS
+    name: SVT_MATERIALIZED_VIEWS
 
   source: 
     location: Local Database
@@ -175,7 +158,7 @@
       from user_objects
       where object_type = 'MATERIALIZED VIEW'
       union all
-      select 'V_MV_AST' d, 'V_MV_AST' r
+      select 'V_MV_SVT' d, 'V_MV_SVT' r
       from dual
       order by 1
 
@@ -252,23 +235,6 @@
     default-sort: ICON
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_STANDARDS_REFERENCE_CODES.ISSUE_D
-  id: 378910553684707355
-  identification: 
-    name: AST_STANDARDS_REFERENCE_CODES.ISSUE_DESC
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_STANDARDS_REFERENCE_CODES
-
-  column-mapping: 
-    return: ID
-    display: ISSUE_DESC
-    default-sort: ISSUE_DESC
-    sort-direction: Ascending (Nulls Last)
-
 - # ====== List of Values: ASSIGNEES ===========================
   id: 401672094243787964
   identification: 
@@ -281,11 +247,12 @@
       select lower(email) d, upper(email) r
       from apex_workspace_developers awd
       where is_application_developer = 'Yes'
-      and workspace_name = ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE')
+      and workspace_name = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
       order by user_name
 
   column-mapping: 
     return: R
+    display: D
     default-sort: Use Order By from Query
 
 - # ====== List of Values: EBA_STDS_STANDARD_TESTS =============
@@ -305,16 +272,16 @@
     default-sort: NAME
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_AUDIT_ACTIONS ===================
+- # ====== List of Values: SVT_AUDIT_ACTIONS ===================
   id: 412818797667761448
   identification: 
-    name: AST_AUDIT_ACTIONS
+    name: SVT_AUDIT_ACTIONS
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_AUDIT_ACTIONS
+    table-name: SVT_AUDIT_ACTIONS
 
   column-mapping: 
     return: ID
@@ -322,10 +289,10 @@
     default-sort: ACTION_NAME
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_EMAIL_SOLNS =====================
+- # ====== List of Values: SVT_EMAIL_SOLNS =====================
   id: 431229033725035394
   identification: 
-    name: AST_EMAIL_SOLNS
+    name: SVT_EMAIL_SOLNS
 
   source: 
     location: Static Values
@@ -352,10 +319,10 @@
       display: No Email
       return: NA
 
-- # ====== List of Values: AST_DB_NAMES ========================
+- # ====== List of Values: SVT_DB_NAMES ========================
   id: 431230733486067167
   identification: 
-    name: AST_DB_NAMES
+    name: SVT_DB_NAMES
 
   source: 
     location: Static Values
@@ -375,10 +342,10 @@
       display: CARS DEV
       return: CARS DEV
 
-- # ====== List of Values: AST_BASE_URL ========================
+- # ====== List of Values: SVT_BASE_URL ========================
   id: 431427881171167911
   identification: 
-    name: AST_BASE_URL
+    name: SVT_BASE_URL
 
   source: 
     location: Static Values
@@ -398,10 +365,10 @@
       display: 'https://ohms-apex.unstable.hcgbu.oraclecorp.com/ords/'
       return: 'https://ohms-apex.unstable.hcgbu.oraclecorp.com/ords/'
 
-- # ====== List of Values: AST_WORKSPACES ======================
+- # ====== List of Values: SVT_WORKSPACES ======================
   id: 431432284904408281
   identification: 
-    name: AST_WORKSPACES
+    name: SVT_WORKSPACES
 
   source: 
     location: Static Values
@@ -465,7 +432,7 @@
     type: SQL Query
     sql-query: |
       select id r, apex_string.format('[%1] %0', urgency_name, urgency_level) d
-      from AST_STANDARDS_URGENCY_LEVEL
+      from SVT_STANDARDS_URGENCY_LEVEL
       order by urgency_level
 
   column-mapping: 

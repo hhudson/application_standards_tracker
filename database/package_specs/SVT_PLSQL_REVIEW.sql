@@ -21,6 +21,21 @@ create or replace package SVT_PLSQL_REVIEW authid current_user as
                     )
     return svt_db_plsql_issue_nt pipelined;
 
+        ------------------------------------------------------------------------------
+    --  Creator: Hayden Hudson
+    --     Date: August 19, 2022
+    -- Synopsis:
+    --
+    -- Procedure to delete non-existant reference codes
+    --
+    /*
+    begin
+        ast_plsql_review.clear_invalid_exceptions;
+    end;
+    */
+    ------------------------------------------------------------------------------
+    procedure clear_invalid_exceptions;
+
 end SVT_PLSQL_REVIEW;
 /
 

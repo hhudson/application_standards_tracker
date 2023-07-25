@@ -161,11 +161,11 @@ end;
 --
 /*
 begin
-  SVT_apex_issue_util.hard_correct_SVT_issues;
+  SVT_apex_issue_util.hard_correct_svt_issues;
 end;
 */
 ------------------------------------------------------------------------------
-  procedure hard_correct_SVT_issues;
+  procedure hard_correct_svt_issues;
 
 
 $end

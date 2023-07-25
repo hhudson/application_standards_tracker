@@ -27,7 +27,7 @@
     source: 
       location: Local Database
       language: PL/SQL
-      pl/sql-code: ast_apex_issue_util.manage_apex_issues;
+      pl/sql-code: svt_apex_issue_util.manage_apex_issues;
 
     execution: 
       sequence: 10
@@ -64,7 +64,7 @@
       from: '&APP_EMAIL.'
       to: hayden.h.hudson@oracle.com
       subject: The Oracle APEX Version is out-of-date
-      body-plain-text: You must update oracle_apex_version & ast_flow_issues.
+      body-plain-text: You must update oracle_apex_version & svt_flow_issues.
       send-immediately: false
 
     execution: 
@@ -78,7 +78,7 @@
       language: PL/SQL
       pl/sql-function-body: |
         begin
-        ast_apex_issue_util.hard_correct_ast_issues;
+        svt_apex_issue_util.hard_correct_svt_issues;
         return false;
         exception when others then
         return true;
@@ -115,7 +115,7 @@
       language: PL/SQL
       pl/sql-code: |
         begin
-          AST_MV_UTIL.refresh_mv();
+          SVT_MV_UTIL.refresh_mv();
         end;
 
     execution: 
@@ -163,45 +163,6 @@
     error: 
       stop-execution-on-error: true
 
-- # ====== Automation: 4. [Hourly - 50 min past] Clear Invalid E
-  id: 181629050155860116
-  identification: 
-    name: 4. [Hourly - 50 min past] Clear Invalid Exceptions
-    static-id: clear-invalid-exceptions
-
-  execution: 
-    type: Scheduled
-    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=50
-    schedule-status: Active
-    actions-initiated-on: Always
-
-  action-execution: 
-    action-error-handling: Disable Automation
-
-  comments: 
-    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=50
-
-  actions: 
-  - # ====== Action: clear_invalid_exceptions ====================
-    id: 181629312029860121
-    identification: 
-      name: clear_invalid_exceptions
-      type: Execute Code
-
-    source: 
-      location: Local Database
-      language: PL/SQL
-      pl/sql-code: |
-        begin
-        ast_plsql_review.clear_invalid_exceptions;
-        end;
-
-    execution: 
-      sequence: 10
-
-    error: 
-      stop-execution-on-error: true
-
 - # ====== Automation: 2. [Hourly  - 10 min past] Issue Snapshot
   id: 325704980825337043
   identification: 
@@ -230,7 +191,7 @@
     source: 
       location: Local Database
       language: PL/SQL
-      pl/sql-code: ast_audit_util.record_daily_issue_snapshot;
+      pl/sql-code: svt_audit_util.record_daily_issue_snapshot;
 
     execution: 
       sequence: 10
@@ -268,7 +229,7 @@
       language: PL/SQL
       pl/sql-code: |
         begin
-            ast_monitoring.send_update(p_days_since => 2,
+            svt_monitoring.send_update(p_days_since => 2,
                                        p_override_email => 'hayden.h.hudson@oracle.com');
         end;
 

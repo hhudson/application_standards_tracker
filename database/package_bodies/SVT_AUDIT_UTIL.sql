@@ -518,8 +518,8 @@ create or replace package body SVT_AUDIT_UTIL as
       for rec in ( select paa.id audit_id, 
                           case when awd.email is not null 
                                then awd.email
-                               when paa.apex_LAST_updated_by like '%@%'
-                               then paa.apex_LAST_updated_by
+                               when paa.apex_last_updated_by like '%@%'
+                               then paa.apex_last_updated_by
                                when paa.apex_created_by like '%@%'
                                then paa.apex_created_by
                                end assignee
@@ -620,7 +620,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                             'p_standard_code', p_standard_code
                                             );
 
-        SVT_ctx_util.set_review_schema;
+        svt_ctx_util.set_review_schema;
 
         recompile_w_plscope;
 

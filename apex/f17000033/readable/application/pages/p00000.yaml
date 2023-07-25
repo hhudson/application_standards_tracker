@@ -61,7 +61,7 @@ regions:
     id: 52094203026500522
     identification: 
       name: SEARCH
-      search-configuration: V_AST_NAV_MENU # 52465087916389448
+      search-configuration: V_SVT_NAV_MENU # 52465087916389448
       use-as-initial-result: false
 
     layout: 
@@ -144,7 +144,7 @@ regions:
              static_file_created_on event_desc,
              stale_yn,
              apex_string.get_initials(table_name) user_avatar
-      from ast_deployment.v_ast_table_data_load_def(p_application_id => :APP_ID) 
+      from svt_deployment.v_svt_table_data_load_def(p_application_id => :APP_ID) 
       where stale_yn = 'Y'
 
   layout: 
@@ -179,7 +179,7 @@ regions:
     type: Rows returned
     sql-query: |
       select 1
-      from ast_deployment.v_ast_table_data_load_def(p_application_id => :APP_ID) 
+      from svt_deployment.v_svt_table_data_load_def(p_application_id => :APP_ID) 
       where stale_yn = 'Y'
 
   security: 
@@ -1603,8 +1603,12 @@ regions:
     settings: 
       max-levels: 6
       breadcrumb-source: Page View History
+
+    history-options: 
       collection-name: SVT_SUPER_BREADCRUMB
-      rewind-style: Never Rewind
+
+    rewind-options: 
+      rewind-style: Matching Page ID
 
 page-items: 
 - # ====== Page Item: P0_APX_BLDR_SESSION ======================
@@ -1863,6 +1867,9 @@ buttons:
       clear-cache: 15
 
     warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
 dynamic-actions: 
 - # ====== Dynamic Action: Popup Search ========================

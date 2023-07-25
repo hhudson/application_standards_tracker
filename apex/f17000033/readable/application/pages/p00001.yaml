@@ -1,8 +1,8 @@
 ---
-# ====== Page: V_AST_PLSQL_APEX_AUDIT ========================
+# ====== Page: V_SVT_PLSQL_APEX_AUDIT ========================
 id: 1
 identification: 
-  name: V_AST_PLSQL_APEX_AUDIT
+  name: V_SVT_PLSQL_APEX_AUDIT
   alias: HOME
   title: Home
   page-group: Home # 8901801817215772344
@@ -121,9 +121,6 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
 
   attributes: 
     layout: 
@@ -486,6 +483,9 @@ regions:
   identification: 
     title: Issues
     type: Static Content
+
+  source: 
+    html-code: <span></span>
 
   layout: 
     sequence: 41
@@ -862,7 +862,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_PLSQL_APEX_AUDIT
+    table-name: V_SVT_PLSQL_APEX_AUDIT
     include-rowid-column: false
 
   layout: 
@@ -3011,37 +3011,6 @@ regions:
     enable-users-to: 
       sort: false
 
-  - # ====== Column: AST_COMPONENT_TYPE_ID =======================
-    id: 105507597708911952
-    identification: 
-      column-name: AST_COMPONENT_TYPE_ID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 600
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: AST_COMPONENT_TYPE_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
   - # ====== Column: APEX$ROW_SELECTOR ===========================
     id: 105507781843911954
     identification: 
@@ -3058,6 +3027,53 @@ regions:
 
     security: 
       authorization-scheme: READER RIGHTS # 48893993399820863
+
+  - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+    id: 144377427068069520
+    identification: 
+      column-name: SVT_COMPONENT_TYPE_ID
+      type: Number Field
+
+    heading: 
+      heading: Svt Component Type Id
+      alignment: end
+
+    settings: 
+      number-alignment: Start
+      virtual-keyboard: Decimal
+
+    layout: 
+      sequence: 600
+      column-alignment: end
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: true
+
+    source: 
+      type: Database Column
+      database-column: SVT_COMPONENT_TYPE_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      lov-type: None
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
 
   printing: 
     page: 
@@ -3359,6 +3375,9 @@ regions:
 
     accessibility: 
       value-identifies-row: false
+
+    column-formatting: 
+      html-expression: <span>#ALERT_TYPE#</span>
 
     sorting: 
       sortable: false
@@ -4005,7 +4024,7 @@ dynamic-actions:
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'ast_apex_issue_util.mark_as_exception (p_audit_id => :P1_AUDIT_ID);'
+      pl/sql-code: 'svt_apex_issue_util.mark_as_exception (p_audit_id => :P1_AUDIT_ID);'
       items-to-submit: 
       - P1_AUDIT_ID
 
@@ -4249,7 +4268,7 @@ dynamic-actions:
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'ast_apex_issue_util.bulk_mark_as_exception (p_audit_ids => :P1_SELECTED_IDS);'
+      pl/sql-code: 'svt_apex_issue_util.bulk_mark_as_exception (p_audit_ids => :P1_SELECTED_IDS);'
       items-to-submit: 
       - P1_SELECTED_IDS
 
@@ -4530,8 +4549,8 @@ dynamic-actions:
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: |2
-         ast_plsql_apex_audit_api.bulk_reassign (
+      pl/sql-code: |
+        svt_plsql_apex_audit_api.bulk_reassign (
                                  p_audit_ids  => :P1_SELECTED_IDS,
                                  p_assignee   => :P1_NEW_ASSIGNEE );
       items-to-submit: 
@@ -4650,7 +4669,7 @@ dynamic-actions:
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'ast_apex_issue_util.refresh_for_audit_id (:P1_AUDIT_ID);'
+      pl/sql-code: 'svt_apex_issue_util.refresh_for_audit_id (:P1_AUDIT_ID);'
       items-to-submit: 
       - P1_AUDIT_ID
 
@@ -4691,8 +4710,8 @@ computations:
     type: SQL Query (return single value)
     sql-query: |
       select count(*)
-      from ast_plsql_apex_audit paa
-      left outer join ast_audit_actions aaa on paa.action_id = aaa.id
+      from svt_plsql_apex_audit paa
+      left outer join svt_audit_actions aaa on paa.action_id = aaa.id
       where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
 
   security: 

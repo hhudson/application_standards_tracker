@@ -45,8 +45,8 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
+    sequence: 70
+    parent-region: Available jobs # 144378020010069526
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -82,52 +82,6 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Breadcrumb ==================================
-  id: 43308658516806029
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
-
 - # ====== Region: Debug report ================================
   id: 144376361399069509
   identification: 
@@ -141,7 +95,7 @@ regions:
       SELECT id, message, message_timestamp, call_stack, message_level
       FROM apex_debug_messages
       WHERE application_id = :APP_ID
-      AND lower(message) LIKE 'ast_apex_issue_util%'
+      AND lower(message) LIKE 'svt_apex_issue_util%'
       --AND message_timestamp = to_timestamp_tz('16-DEC-22 08.38.57.641413 PM +00:00', 'DD-MON-YY HH.MI.SS.FF PM TZH:TZM')
       ORDER BY message_timestamp DESC
 
@@ -185,7 +139,7 @@ regions:
       display-position: Bottom - Right
 
     performance: 
-      lazy-loading: false
+      lazy-loading: true
       maximum-rows-to-process: 1000
 
     search-bar: 
@@ -248,7 +202,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Id
+        heading: ID
         alignment: end
 
       single-row-view: 
@@ -535,6 +489,146 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: 2. [Hourly  - 10 min past] Issue Snapshot in 
+  id: 144377541438069521
+  identification: 
+    title: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table
+    type: Static Content
+
+  layout: 
+    sequence: 60
+    parent-region: Available jobs # 144378020010069526
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Enable debug ================================
+  id: 144377830190069524
+  identification: 
+    title: Enable debug
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item = Value
+    item: DEBUG
+    value: NO
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Available jobs ==============================
+  id: 144378020010069526
+  identification: 
+    title: Available jobs
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item = Value
+    item: DEBUG
+    value: YES
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 buttons: 
 - # ====== Button: manage_apex_issues ==========================
   id: 42934182388017704
@@ -566,6 +660,102 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
+- # ====== Button: Reset =======================================
+  id: 144377369804069519
+  identification: 
+    button-name: Reset
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Debug report # 144376361399069509
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:15:&SESSION.::&DEBUG.:RR,::'
+      page: 15 # Run Jobs in Debug mode
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: record_daily_issue_snapshot =================
+  id: 144377691551069522
+  identification: 
+    button-name: record_daily_issue_snapshot
+    label: Run job in Debug mode
+
+  layout: 
+    sequence: 10
+    region: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table # 144377541438069521
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-apex
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: ENABLE_DEBUG ================================
+  id: 144377967881069525
+  identification: 
+    button-name: ENABLE_DEBUG
+    label: Enable Debug
+
+  layout: 
+    sequence: 10
+    region: Enable debug # 144377830190069524
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-bug
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
 processes: 
 - # ====== Process: manage_apex_issues =========================
   id: 42934217046017705
@@ -579,7 +769,7 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-      ast_apex_issue_util.manage_apex_issues;
+      svt_apex_issue_util.manage_apex_issues;
       end;
 
   execution: 
@@ -589,6 +779,9 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: manage_apex_issues # 42934182388017704
 
 - # ====== Process: set debug level ============================
   id: 144376294384069508
@@ -609,4 +802,33 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ENABLE_DEBUG # 144377967881069525
+
+- # ====== Process: record_daily_issue_snapshot ================
+  id: 144377716537069523
+  identification: 
+    name: record_daily_issue_snapshot
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+      svt_audit_util.record_daily_issue_snapshot;
+      end;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: record_daily_issue_snapshot # 144377691551069522
 
