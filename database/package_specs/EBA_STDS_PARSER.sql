@@ -122,8 +122,6 @@ end;
 
 
 
-    procedure run_all_tests (p_standard_id in eba_stds_standards.id%type);
-
     procedure add_applications;
 
     function default_app_id  

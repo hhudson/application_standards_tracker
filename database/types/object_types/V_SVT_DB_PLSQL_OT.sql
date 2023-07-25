@@ -20,7 +20,7 @@ declare
   pragma exception_init (already_exists, -00955);
 begin
   execute immediate q'[
-  create type v_SVT_db_plsql_ot as object
+  create type V_SVT_DB_PLSQL_OT as object
     (
       PASS_YN        VARCHAR2(1 CHAR),
       OBJECT_NAME    VARCHAR2(128 CHAR),

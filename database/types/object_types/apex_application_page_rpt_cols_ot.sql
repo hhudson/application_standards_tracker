@@ -11,11 +11,11 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
-drop type apex_application_page_rpt_cols_nt
-/
-drop type apex_application_page_rpt_cols_ot
-/
-create type apex_application_page_rpt_cols_ot as object
+-- drop type apex_application_page_rpt_cols_nt
+-- /
+-- drop type apex_application_page_rpt_cols_ot
+-- /
+create type APEX_APPLICATION_PAGE_RPT_COLS_OT as object
     (   application_id number,
         page_id number, 
         region_name varchar2(255), 

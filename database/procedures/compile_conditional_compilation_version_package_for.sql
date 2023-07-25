@@ -13,7 +13,7 @@
 --    );
 -- end;
 
-create or replace procedure compile_conditional_compilation_version_package_for (
+create or replace procedure COMPILE_CONDITIONAL_COMPILATION_VERSION_PACKAGE_FOR (
    p_product_name             in varchar2,
    p_product_version_function in varchar2,
    p_min_version_number       in integer,

@@ -56,54 +56,11 @@ create or replace package body eba_stds_data is
             end loop;
         end load_eba_stds_types;
 
-        procedure load_eba_stds_app_statuses is 
-        l_data_as tab_data;
-        l_row_as eba_stds_app_statuses%rowtype;
-        begin
-             l_data_as(l_data_as.count + 1) := rec_data(1, 'Test Application', 10);
-             l_data_as(l_data_as.count + 1) := rec_data(2, 'Initial Development', 20);
-             l_data_as(l_data_as.count + 1) := rec_data(3, 'Releasable', 30);
-             l_data_as(l_data_as.count + 1) := rec_data(4, 'Production', 40);
-
-            for i in 1..l_data_as.count loop
-              l_row_as.id := l_data_as(i)(1);
-              l_row_as.status_name := l_data_as(i)(2);
-              l_row_as.display_sequence := l_data_as(i)(3);
-
-              merge into eba_stds_app_statuses dest
-                using (
-                  select
-                    l_row_as.id id
-                  from dual
-                ) src
-                on (1=1
-                  and dest.id = src.id
-                )
-              when matched then
-                update
-                  set
-                    -- Don't update the value as it's probably a key/secure value
-                    -- Deletions are handled above
-                    dest.status_name = l_row_as.status_name,
-                    dest.display_sequence = l_row_as.display_sequence
-              when not matched then
-                insert (
-                  id,
-                  status_name,
-                  display_sequence)
-                values(
-                  l_row_as.id,
-                  l_row_as.status_name,
-                  l_row_as.display_sequence)
-              ;
-            end loop;
-        end load_eba_stds_app_statuses;
     begin
         apex_debug.message(c_debug_template,'START');
 
         if not is_initial_data_loaded() then
             load_eba_stds_types;
-            load_eba_stds_app_statuses;
         end if;
 
     exception when others then 
@@ -121,10 +78,7 @@ create or replace package body eba_stds_data is
         for c1 in ( select 1
                     from eba_stds_types
                     where id < 100
-                    union
-                    select 1
-                    from eba_stds_app_statuses
-                    where id < 100 ) loop
+                     ) loop
             return true;
         end loop;
         return false;

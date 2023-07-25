@@ -20,7 +20,7 @@ declare
   pragma exception_init (already_exists, -00955);
 begin
   execute immediate q'[
-  create type v_SVT_apex__0_ot as object
+  create type V_SVT_APEX__0_OT as object
     (
       PASS_YN                          VARCHAR2(1 CHAR),
       UNQID                            VARCHAR2(5000 CHAR),

@@ -18,7 +18,7 @@ declare
   pragma exception_init (already_exists, -00955);
 begin
   execute immediate q'[
-    create type v_SVT_db_plsql_nt as table of v_SVT_db_plsql_ot
+    create type V_SVT_DB_PLSQL_NT as table of v_SVT_db_plsql_ot
      ]';
   dbms_output.put_line(q'[ type v_SVT_db_plsql_nt created ]');
 exception

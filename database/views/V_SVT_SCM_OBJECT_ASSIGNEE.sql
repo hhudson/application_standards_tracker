@@ -6,7 +6,7 @@
 --  DDL for View V_SVT_SCM_OBJECT_ASSIGNEE
 --------------------------------------------------------
 
-create or replace view v_SVT_scm_object_assignee as 
+create or replace view V_SVT_SCM_OBJECT_ASSIGNEE as 
 select object_name,
        email,
        folder_name 

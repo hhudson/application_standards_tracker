@@ -131,26 +131,6 @@ is
         raise;
     end get_base_url;
 
-
-    procedure run_all_tests (p_standard_id in eba_stds_standards.id%type)
-    is 
-    c_scope varchar2(50) := gc_scope_prefix || 'run_all_tests';
-    c_debug_template varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
-    begin
-        apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
-
-        delete from eba_stds_standard_statuses
-            where standard_id = p_standard_id;
-
-        --select uses_plscope_yn
-        --    from eba_stds_standard_tests
-        --    where standard_id = p_standard_id;
-
-    exception when others then
-            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
-            raise;
-    end run_all_tests;
-
     procedure add_applications
     is
     c_scope varchar2(128) := gc_scope_prefix || 'add_applications';
@@ -887,7 +867,7 @@ is
     end valid_html_yn;
 
 
-end eba_stds_parser;
+end EBA_STDS_PARSER;
 /
 
 --rollback drop package EBA_STDS_PARSER;
