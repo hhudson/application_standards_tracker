@@ -5,7 +5,7 @@ create or replace package body SVT_APEX_ISSUE_LINK as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_apex_issue_link
+--   svt_apex_issue_link
 --
 -- DESCRIPTION
 --

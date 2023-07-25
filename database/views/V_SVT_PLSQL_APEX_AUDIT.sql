@@ -30,7 +30,7 @@ with aspaa as (
            paa.action_id,
            paa.created,
            paa.assignee,
-           (select SVT_apex_issue_link.build_link_to_apex_issue(
+           (select svt_apex_issue_link.build_link_to_apex_issue(
                    p_app_id => paa.application_id,
                    p_id => paa.apex_issue_id ) 
            from dual ) link_to_apex_issue,

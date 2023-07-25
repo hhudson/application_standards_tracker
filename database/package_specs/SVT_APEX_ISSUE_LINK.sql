@@ -28,7 +28,7 @@ create or replace package SVT_APEX_ISSUE_LINK authid current_user as
 -- Build link to apex issue (must be run from an apex builder session)
 --
 /*
-select SVT_apex_issue_link.build_link_to_apex_issue(
+select svt_apex_issue_link.build_link_to_apex_issue(
           p_app_id => 100,
           p_id => 123
         )
