@@ -6,10 +6,20 @@ create or replace PACKAGE BODY SVT_ONE_REPORT is
 function get_query( p_table_name    in varchar2,
                     p_schema_name   in  varchar2 default sys_context('USERENV', 'CURRENT_USER')) return clob is
 l_query         clob;
-l_table_name    varchar2(4000) := nvl(p_table_name, 'DUAL');
+l_table_name    varchar2(4000) := p_table_name;
 begin
-    if p_table_name is not null then
-        select  listagg(case 
+    case when p_table_name is not null then 
+        l_table_name := p_table_name;
+    else 
+        -- fetch a random table
+        select table_name
+        into l_table_name
+        from user_tables
+        order by table_name
+        fetch first 1 rows only;
+    end case; 
+
+    select  listagg(case 
                     when column_name is null
                     then case 
                         when ct_val = 'NUMBER' then 'to_number(null)'
@@ -22,15 +32,12 @@ begin
                     column_alias
             , ', ' || chr(13)  
                 ) col_names
-        into l_query
-        from SVT_ONE_REPORT_MACRO.user_tab_col_macro(p_table_name => l_table_name, p_schema_name => p_schema_name)
-        where column_name not in ('CREATED','CREATED_BY','UPDATED','UPDATED_BY')
-        order by alias_rn ;
-        
-        l_query := 'select ' || l_query || chr(13) || ' from ' || sys.dbms_assert.enquote_name(l_table_name, false);
-    else 
-        l_query := 'select 1 blerg from dual';
-    end if;
+    into l_query
+    from SVT_ONE_REPORT_MACRO.user_tab_col_macro(p_table_name => l_table_name, p_schema_name => p_schema_name)
+    where column_name not in ('CREATED','CREATED_BY','UPDATED','UPDATED_BY')
+    order by alias_rn ;
+
+    l_query := 'select ' || l_query || chr(13) || ' from ' || sys.dbms_assert.enquote_name(l_table_name, false);
     return l_query;
 end get_query;
 --

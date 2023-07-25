@@ -20,8 +20,8 @@ create materialized view MV_SVT_HOME_LINK
         aa.authorization_scheme as page_authorization,
         eba_stds_parser.app_from_url  (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_app_id,
         eba_stds_parser.page_from_url (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_page_id,
-        aa.LAST_updated_by,
-        aa.LAST_updated_on
+        aa.last_updated_by,
+        aa.last_updated_on
         from  apex_applications aa
         inner join v_eba_stds_applications esa on aa.application_id = esa.apex_app_id
         where aa.home_link is not null
@@ -48,8 +48,8 @@ create materialized view MV_SVT_HOME_LINK
         aap.application_name destination_app_name,
         -- pu.created_by,
         -- pu.created_on,
-        pu.LAST_updated_by,
-        pu.LAST_updated_on
+        pu.last_updated_by,
+        pu.last_updated_on
         -- pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id

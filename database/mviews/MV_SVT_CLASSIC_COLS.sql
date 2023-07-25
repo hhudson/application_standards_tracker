@@ -25,8 +25,8 @@ as
         pg.authorization_scheme as page_authorization,
         eba_stds_parser.app_from_url  (p_origin_app_id => prc.application_id, p_url => prc.column_link_url) destination_app_id,
         eba_stds_parser.page_from_url (p_origin_app_id => prc.application_id, p_url => prc.column_link_url) destination_page_id,
-        prc.LAST_updated_by,
-        prc.LAST_updated_on,
+        prc.last_updated_by,
+        prc.last_updated_on,
         pg.page_mode
         from  apex_application_page_rpt_cols prc
         inner join v_eba_stds_applications esa on prc.application_id = esa.apex_app_id
@@ -59,8 +59,8 @@ as
         aap.application_name destination_app_name,
         --pu.created_by,
         --pu.created_on,
-        pu.LAST_updated_by,
-        pu.LAST_updated_on,
+        pu.last_updated_by,
+        pu.last_updated_on,
         pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id

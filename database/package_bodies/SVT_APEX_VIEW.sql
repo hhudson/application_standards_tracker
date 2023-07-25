@@ -19,7 +19,7 @@ create or replace package body SVT_APEX_VIEW as
 
 
   function apex_applications (p_user in all_users.username%type default null)
-  return SVT_apex_applications_nt pipelined
+  return svt_apex_applications_nt pipelined
   as
     c_scope          constant varchar2(128) := gc_scope_prefix || 'apex_applications';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -50,8 +50,8 @@ create or replace package body SVT_APEX_VIEW as
           null created_by, 
           null created_on, 
         $end
-        LAST_updated_by, 
-        LAST_updated_on
+        last_updated_by, 
+        last_updated_on
         from apex_applications
         where owner = c_user;
 
@@ -64,8 +64,8 @@ create or replace package body SVT_APEX_VIEW as
       authorization_scheme varchar2(259 char),
       created_by varchar2(255 char),
       created_on date,
-      LAST_updated_by varchar2(255 char),
-      LAST_updated_on date
+      last_updated_by varchar2(255 char),
+      last_updated_on date
     );
     type t_aa is table of r_aa index by pls_integer;
     l_aat t_aa;
@@ -89,8 +89,8 @@ create or replace package body SVT_APEX_VIEW as
                       l_aat (rec).authorization_scheme, 
                       l_aat (rec).created_by, 
                       l_aat (rec).created_on, 
-                      l_aat (rec).LAST_updated_by, 
-                      l_aat (rec).LAST_updated_on
+                      l_aat (rec).last_updated_by, 
+                      l_aat (rec).last_updated_on
                     )
                 );
       end loop;
@@ -195,8 +195,8 @@ create or replace package body SVT_APEX_VIEW as
        region_id, 
        null created_by,
        null created_on,
-       LAST_updated_by updated_by,
-       LAST_updated_on updated_on,
+       last_updated_by updated_by,
+       last_updated_on updated_on,
        column_id
     from apex_appl_page_ig_columns;
 

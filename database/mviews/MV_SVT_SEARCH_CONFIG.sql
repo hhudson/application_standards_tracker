@@ -20,8 +20,8 @@ refresh on demand
         aasc.authorization_scheme as page_authorization,
         eba_stds_parser.app_from_url  (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_app_id,
         eba_stds_parser.page_from_url (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_page_id,
-        aasc.LAST_updated_by,
-        aasc.LAST_updated_on
+        aasc.last_updated_by,
+        aasc.last_updated_on
         from  apex_appl_search_configs aasc
         inner join v_eba_stds_applications esa on aasc.application_id = esa.apex_app_id
         where aasc.link_target is not null
@@ -48,8 +48,8 @@ refresh on demand
         aap.application_name destination_app_name,
         -- pu.created_by,
         -- pu.created_on,
-        pu.LAST_updated_by,
-        pu.LAST_updated_on
+        pu.last_updated_by,
+        pu.last_updated_on
         -- pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id

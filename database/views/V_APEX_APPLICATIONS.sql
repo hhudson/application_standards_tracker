@@ -16,4 +16,5 @@ from svt_apex_view.apex_applications(p_user => case when sys_context('userenv', 
                                                     then svt_ctx_util.get_default_user
                                                     else sys_context('userenv', 'current_user')
                                                     end) 
+                                                    
 /

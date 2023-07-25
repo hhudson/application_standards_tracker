@@ -137,7 +137,7 @@ Audit id : %3
     a.assignee,
     a.link_url,
     '<button type="button" 
-             class="a-Button edit-button t-Button t-Button--icon t-Button--hot t-Button--primary t-Button--noUI t-Button--iconLeft"
+             class="a-Button edit-button t-Button t-Button--icon t-Button--primary t-Button--simple t-Button--iconLeft"
              data-link="' ||
        wwv_flow_utilities.prepare_url( a.link_url ) || '"' ||
        case when a.component_type_id is not null then

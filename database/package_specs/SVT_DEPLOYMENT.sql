@@ -95,11 +95,11 @@ end;
 -- Function to return the date of the latest date audit value of a given table
 --
 /*
-select SVT_deployment.table_LAST_updated_on('SVT_AUDIT_ACTIONS')
+select SVT_deployment.table_last_updated_on('SVT_AUDIT_ACTIONS')
 from dual
 */
 ------------------------------------------------------------------------------
-    function table_LAST_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type;
+    function table_last_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

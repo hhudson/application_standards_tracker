@@ -56,7 +56,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                           p_issue_text     in  apex_issues.issue_text%type, 
                           p_application_id in  apex_issues.related_application_id%type, 
                           p_page_id        in  apex_issues.related_page_id%type,
-                          p_audit_id       in  SVT_plsql_apex_audit.id%type
+                          p_audit_id       in  svt_plsql_apex_audit.id%type
                         )
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'create_issue';
@@ -210,8 +210,8 @@ $if oracle_apex_version.c_apex_issue_access $then
 
     apex_debug.message(c_debug_template, 'deleted from apex_issues :', sql%rowcount);
 
-    SVT_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => p_id);
-    apex_debug.message(c_debug_template, 'updated SVT_plsql_apex_audit :', sql%rowcount);
+    svt_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => p_id);
+    apex_debug.message(c_debug_template, 'updated svt_plsql_apex_audit :', sql%rowcount);
 
   exception when others then 
     apex_debug.error(p_message => c_debug_template, 
@@ -242,21 +242,21 @@ $if oracle_apex_version.c_apex_issue_access $then
       apex_debug.message(c_debug_template, 'apex session active');
     end if;
 
-    delete from SVT_flow_issues
+    delete from svt_flow_issues
     -- where title like '[SVT]%'
     where title like '[%'
     and id not in (select apex_issue_id
-                   from SVT_plsql_apex_audit
+                   from svt_plsql_apex_audit
                    where apex_issue_id is not null);
-    apex_debug.message(c_debug_template, 'deleted expired issues in SVT_flow_issues:', sql%rowcount);
+    apex_debug.message(c_debug_template, 'deleted expired issues in svt_flow_issues:', sql%rowcount);
 
-    delete from SVT_flow_issues
+    delete from svt_flow_issues
     -- where title like '[SVT]%'
     where title like '[%'
     and id in (select apex_issue_id
-               from SVT_plsql_apex_audit
+               from svt_plsql_apex_audit
                where action_id = gc_false_positive_id);
-    apex_debug.message(c_debug_template, 'deleted valid exceptions in SVT_flow_issues:', sql%rowcount);
+    apex_debug.message(c_debug_template, 'deleted valid exceptions in svt_flow_issues:', sql%rowcount);
 
 
   exception when others then
@@ -264,10 +264,10 @@ $if oracle_apex_version.c_apex_issue_access $then
     raise;
   end drop_irrelevant_issues;
 
-  procedure merge_from_audit_tbl(p_issue_category in SVT_plsql_apex_audit.issue_category%type default null,
-                                 p_application_id in SVT_plsql_apex_audit.application_id%type default null,
-                                 p_page_id        in SVT_plsql_apex_audit.page_id%type default null,
-                                 p_audit_id       in SVT_plsql_apex_audit.id%type default null,
+  procedure merge_from_audit_tbl(p_issue_category in svt_plsql_apex_audit.issue_category%type default null,
+                                 p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                                 p_page_id        in svt_plsql_apex_audit.page_id%type default null,
+                                 p_audit_id       in svt_plsql_apex_audit.id%type default null,
                                  p_standard_code  in eba_stds_standard_tests.standard_code%type default null)
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'merge_from_audit_tbl';
@@ -277,7 +277,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   cursor cur_issues
     is
     select audit_id, application_id, page_id, issue_title, issue_text, unqid, apex_issue_id, apex_issue_title_suffix
-      from v_SVT_plsql_apex_audit
+      from v_svt_plsql_apex_audit
       where application_id != 0
       and issue_category in ('APEX','SERT')
       and (issue_category = upper(p_issue_category) or p_issue_category is null)
@@ -292,19 +292,19 @@ $if oracle_apex_version.c_apex_issue_access $then
       ;
 
   type r_issues is record (
-    audit_id           SVT_plsql_apex_audit.id%type, 
-    application_id     SVT_plsql_apex_audit.application_id%type, 
-    page_id            SVT_plsql_apex_audit.page_id%type, 
-    issue_title        SVT_plsql_apex_audit.issue_title%type, 
-    issue_text         SVT_plsql_apex_audit.validation_failure_message%type,
-    unqid              SVT_plsql_apex_audit.unqid%type,
-    apex_issue_id      SVT_plsql_apex_audit.apex_issue_id%type,
-    issue_title_suffix SVT_plsql_apex_audit.apex_issue_title_suffix%type
+    audit_id           svt_plsql_apex_audit.id%type, 
+    application_id     svt_plsql_apex_audit.application_id%type, 
+    page_id            svt_plsql_apex_audit.page_id%type, 
+    issue_title        svt_plsql_apex_audit.issue_title%type, 
+    issue_text         svt_plsql_apex_audit.validation_failure_message%type,
+    unqid              svt_plsql_apex_audit.unqid%type,
+    apex_issue_id      svt_plsql_apex_audit.apex_issue_id%type,
+    issue_title_suffix svt_plsql_apex_audit.apex_issue_title_suffix%type
   );
   type t_issue_rec is table of r_issues; 
   l_issues_t   t_issue_rec;
   l_issue_id    apex_issues.issue_id%type;
-  l_issue_title_suffix SVT_plsql_apex_audit.apex_issue_title_suffix%type := null;
+  l_issue_title_suffix svt_plsql_apex_audit.apex_issue_title_suffix%type := null;
   l_counter pls_integer := 2;
   begin
     apex_debug.message(c_debug_template,'START',
@@ -365,7 +365,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                           end if;
 
                           if l_issue_id is not null then
-                            update SVT_plsql_apex_audit
+                            update svt_plsql_apex_audit
                             set apex_issue_id = l_issue_id,
                                 apex_issue_title_suffix = l_issue_title_suffix
                             where id = l_issues_t(i).audit_id;
@@ -386,7 +386,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                         );
                       exception when dup_val_on_index then
                         l_issue_title_suffix := null;
-                        update SVT_plsql_apex_audit
+                        update svt_plsql_apex_audit
                         set apex_issue_title_suffix = ' #'||to_number(
                                                               to_number(replace(apex_issue_title_suffix,' #')
                                                                         ) + 10)
@@ -430,7 +430,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   begin
     apex_debug.message(c_debug_template,'START');
 
-    merge into SVT_plsql_apex_audit dest
+    merge into svt_plsql_apex_audit dest
       using (
         select issue_id apex_issue_id
         from apex_issues
@@ -445,7 +445,7 @@ $if oracle_apex_version.c_apex_issue_access $then
         set
           dest.action_id = gc_false_positive_id,
           dest.notes = 'Automatically updated from apex_issues';
-    apex_debug.message(c_debug_template, 'udpated SVT_plsql_apex_audit:', sql%rowcount);
+    apex_debug.message(c_debug_template, 'udpated svt_plsql_apex_audit:', sql%rowcount);
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -460,7 +460,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   begin
     apex_debug.message(c_debug_template,'START');
 
-    delete from SVT_flow_issues
+    delete from svt_flow_issues
     where title like '[SVT]%';
     apex_debug.message(c_debug_template, 'deleted from apex_issues:', sql%rowcount);
 
@@ -475,16 +475,16 @@ $if oracle_apex_version.c_apex_issue_access $then
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     delete
-    from SVT_flow_issues
+    from svt_flow_issues
     where security_group_id = 0;
 
     for rec in (select paa.id audit_id
-                  from SVT_plsql_apex_audit paa 
+                  from svt_plsql_apex_audit paa 
                   left outer join apex_issues ai on paa.apex_issue_id = ai.issue_id
                   where paa.apex_issue_id is not null
                   and ai.issue_id is null)
     loop 
-      SVT_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => rec.audit_id);
+      svt_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => rec.audit_id);
     end loop;
     
     drop_irrelevant_issues;
@@ -494,9 +494,9 @@ $if oracle_apex_version.c_apex_issue_access $then
 $end
   
   procedure refresh_for_standard_app_page (
-                p_standard_code in SVT_plsql_apex_audit.standard_code%type,
-                p_app_id        in SVT_plsql_apex_audit.application_id%type default null,
-                p_page_id       in SVT_plsql_apex_audit.page_id%type default null)
+                p_standard_code in svt_plsql_apex_audit.standard_code%type,
+                p_app_id        in svt_plsql_apex_audit.application_id%type default null,
+                p_page_id       in svt_plsql_apex_audit.page_id%type default null)
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_app_page';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -530,37 +530,37 @@ $end
     raise;
   end refresh_for_standard_app_page;
 
-  procedure refresh_for_audit_id (p_audit_id in SVT_plsql_apex_audit.id%type)
+  procedure refresh_for_audit_id (p_audit_id in svt_plsql_apex_audit.id%type)
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_audit_id';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  l_SVT_plsql_apex_audit_rec SVT_plsql_apex_audit%rowtype 
-                             := SVT_plsql_apex_audit_api.get_audit_record (p_audit_id);
-  l_apex_issue_id SVT_plsql_apex_audit.apex_issue_id%type;
+  l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype 
+                             := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
+  l_apex_issue_id svt_plsql_apex_audit.apex_issue_id%type;
   c_mv_dependency eba_stds_standard_tests.mv_dependency%type 
-                    := eba_stds.get_mv_dependency(p_standard_code => l_SVT_plsql_apex_audit_rec.standard_code);
+                    := eba_stds.get_mv_dependency(p_standard_code => l_svt_plsql_apex_audit_rec.standard_code);
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
-    if l_SVT_plsql_apex_audit_rec.id is not null then
+    if l_svt_plsql_apex_audit_rec.id is not null then
       
       if c_mv_dependency is not null then
         SVT_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
       end if;
 
-      l_apex_issue_id := l_SVT_plsql_apex_audit_rec.apex_issue_id;
+      l_apex_issue_id := l_svt_plsql_apex_audit_rec.apex_issue_id;
       SVT_audit_util.merge_audit_tbl (
-                        p_standard_code  => l_SVT_plsql_apex_audit_rec.standard_code,
-                        p_application_id => l_SVT_plsql_apex_audit_rec.application_id,
-                        p_page_id        => l_SVT_plsql_apex_audit_rec.page_id,
+                        p_standard_code  => l_svt_plsql_apex_audit_rec.standard_code,
+                        p_application_id => l_svt_plsql_apex_audit_rec.application_id,
+                        p_page_id        => l_svt_plsql_apex_audit_rec.page_id,
                         p_audit_id       => p_audit_id
                     );
       
 
-      l_SVT_plsql_apex_audit_rec := SVT_plsql_apex_audit_api.get_audit_record (p_audit_id);
+      l_svt_plsql_apex_audit_rec := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
 
-      if l_SVT_plsql_apex_audit_rec.id is not null then
+      if l_svt_plsql_apex_audit_rec.id is not null then
         apex_debug.message(c_debug_template, 'violation has not been fixed');
         $if oracle_apex_version.c_apex_issue_access $then
         SVT_apex_issue_util.merge_from_audit_tbl(p_audit_id => p_audit_id);
@@ -646,23 +646,23 @@ $end
     raise;  
   end check_apex_version_up2date;
 
-  procedure mark_as_exception (p_audit_id in SVT_plsql_apex_audit.id%type)
+  procedure mark_as_exception (p_audit_id in svt_plsql_apex_audit.id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'mark_as_exception';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_ignore_legacy constant SVT_audit_actions.id%type := 2;
-  l_SVT_plsql_apex_audit_rec SVT_plsql_apex_audit%rowtype;
+  l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
     if p_audit_id is not null then
 
-      SVT_plsql_apex_audit_api.mark_as_exception (p_audit_id  => p_audit_id);
+      svt_plsql_apex_audit_api.mark_as_exception (p_audit_id  => p_audit_id);
     
       $if oracle_apex_version.c_apex_issue_access $then
-      l_SVT_plsql_apex_audit_rec := SVT_plsql_apex_audit_api.get_audit_record (p_audit_id);
-      SVT_apex_issue_util.drop_issue (p_id => l_SVT_plsql_apex_audit_rec.apex_issue_id);
-      SVT_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => p_audit_id);
+      l_svt_plsql_apex_audit_rec := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
+      SVT_apex_issue_util.drop_issue (p_id => l_svt_plsql_apex_audit_rec.apex_issue_id);
+      svt_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => p_audit_id);
       $end
 
     end if;

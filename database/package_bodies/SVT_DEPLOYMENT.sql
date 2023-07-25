@@ -203,7 +203,7 @@ create or replace package body SVT_DEPLOYMENT as
 
   function table_last_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type
   as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'table_LAST_updated_on';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'table_last_updated_on';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   l_most_recent_date apex_application_static_files.created_on%type;
@@ -228,7 +228,7 @@ create or replace package body SVT_DEPLOYMENT as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end table_LAST_updated_on;
+  end table_last_updated_on;
 
   function v_SVT_table_data_load_def (p_application_id in apex_applications.application_id%type)
   return v_SVT_table_data_load_def_nt pipelined
@@ -268,7 +268,7 @@ create or replace package body SVT_DEPLOYMENT as
           aasf.file_content zip_blob,
           aasf.mime_type zip_mime_type, 
           aasf.file_charset zip_charset, 
-          aasf.LAST_updated_on zip_updated_on,
+          aasf.last_updated_on zip_updated_on,
           aasf.created_on static_file_created_on
     from std
     left outer join apex_appl_data_loads aadl on aadl.table_name = std.table_name
@@ -322,7 +322,7 @@ create or replace package body SVT_DEPLOYMENT as
         c_file_blob constant blob := SVT_deployment.sample_template_file (p_table_name => l_aat (rec).table_name);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
         c_zip_size  constant pls_integer := sys.dbms_lob.getlength(l_aat (rec).zip_blob);
-        c_table_LAST_updated_on constant date := SVT_deployment.table_LAST_updated_on(c_overwrite_table_name);
+        c_table_last_updated_on constant date := SVT_deployment.table_last_updated_on(c_overwrite_table_name);
         begin
         pipe row (v_SVT_table_data_load_def_ot (
                       c_overwrite_table_name,
@@ -346,11 +346,11 @@ create or replace package body SVT_DEPLOYMENT as
                       l_aat (rec).zip_mime_type,
                       l_aat (rec).zip_charset,
                       l_aat (rec).zip_updated_on,
-                      c_table_LAST_updated_on,
+                      c_table_last_updated_on,
                       l_aat (rec).static_file_created_on,
-                      case when c_table_LAST_updated_on is not null 
+                      case when c_table_last_updated_on is not null 
                            and l_aat (rec).zip_updated_on is not null
-                           then case when c_table_LAST_updated_on > l_aat (rec).zip_updated_on
+                           then case when c_table_last_updated_on > l_aat (rec).zip_updated_on
                                      then 'Y'
                                      else 'N'
                                      end

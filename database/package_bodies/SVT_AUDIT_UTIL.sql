@@ -216,8 +216,8 @@ create or replace package body SVT_AUDIT_UTIL as
         standard_code              svt_plsql_apex_audit.standard_code%type,
         apex_created_by            svt_plsql_apex_audit.apex_created_by%type,
         apex_created_on            svt_plsql_apex_audit.apex_created_on%type,
-        apex_LAST_updated_by       svt_plsql_apex_audit.apex_LAST_updated_by%type,
-        apex_LAST_updated_on       svt_plsql_apex_audit.apex_LAST_updated_on%type,
+        apex_last_updated_by       svt_plsql_apex_audit.apex_last_updated_by%type,
+        apex_last_updated_on       svt_plsql_apex_audit.apex_last_updated_on%type,
         owner                      svt_plsql_apex_audit.owner%type,
         component_id               svt_plsql_apex_audit.component_id%type,
         parent_component_id        svt_plsql_apex_audit.parent_component_id%type
@@ -258,8 +258,8 @@ create or replace package body SVT_AUDIT_UTIL as
                     a.standard_code,
                     a.apex_created_by,
                     a.apex_created_on,
-                    a.apex_LAST_updated_by,
-                    a.apex_LAST_updated_on,
+                    a.apex_last_updated_by,
+                    a.apex_last_updated_on,
                     svt_ctx_util.get_default_user owner,
                     a.component_id,
                     a.parent_component_id 
@@ -291,8 +291,8 @@ create or replace package body SVT_AUDIT_UTIL as
                                             rec.standard_code,
                                             rec.apex_created_by,
                                             rec.apex_created_on,
-                                            rec.apex_LAST_updated_by,
-                                            rec.apex_LAST_updated_on,
+                                            rec.apex_last_updated_by,
+                                            rec.apex_last_updated_on,
                                             rec.owner,
                                             rec.component_id,
                                             rec.parent_component_id 
@@ -327,8 +327,8 @@ create or replace package body SVT_AUDIT_UTIL as
                           l_issues_t(l_unqid).standard_code              standard_code,
                           l_issues_t(l_unqid).apex_created_by            apex_created_by,
                           l_issues_t(l_unqid).apex_created_on            apex_created_on,
-                          l_issues_t(l_unqid).apex_LAST_updated_by       apex_LAST_updated_by,
-                          l_issues_t(l_unqid).apex_LAST_updated_on       apex_LAST_updated_on,
+                          l_issues_t(l_unqid).apex_last_updated_by       apex_last_updated_by,
+                          l_issues_t(l_unqid).apex_last_updated_on       apex_last_updated_on,
                           l_issues_t(l_unqid).owner                      owner,
                           l_issues_t(l_unqid).component_id               component_id,
                           l_issues_t(l_unqid).parent_component_id        parent_component_id
@@ -349,8 +349,8 @@ create or replace package body SVT_AUDIT_UTIL as
                        aa.legacy_yn                  = coalesce(aa.legacy_yn, c_legacy_yn),
                        aa.apex_created_by            = lit.apex_created_by,
                        aa.apex_created_on            = lit.apex_created_on,
-                       aa.apex_LAST_updated_by       = lit.apex_LAST_updated_by,
-                       aa.apex_LAST_updated_on       = lit.apex_LAST_updated_on,
+                       aa.apex_last_updated_by       = lit.apex_last_updated_by,
+                       aa.apex_last_updated_on       = lit.apex_last_updated_on,
                        aa.owner                      = lit.owner,
                        aa.component_id               = lit.component_id,
                        aa.parent_component_id        = lit.parent_component_id
@@ -370,8 +370,8 @@ create or replace package body SVT_AUDIT_UTIL as
                     aa.legacy_yn, 
                     aa.apex_created_by, 
                     aa.apex_created_on, 
-                    aa.apex_LAST_updated_by, 
-                    aa.apex_LAST_updated_on, 
+                    aa.apex_last_updated_by, 
+                    aa.apex_last_updated_on, 
                     aa.owner,
                     aa.component_id,
                     aa.parent_component_id
@@ -391,8 +391,8 @@ create or replace package body SVT_AUDIT_UTIL as
                     c_legacy_yn,
                     lit.apex_created_by,
                     lit.apex_created_on,
-                    lit.apex_LAST_updated_by,
-                    lit.apex_LAST_updated_on,
+                    lit.apex_last_updated_by,
+                    lit.apex_last_updated_on,
                     lit.owner,
                     lit.component_id,
                     lit.parent_component_id);
@@ -524,7 +524,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                then paa.apex_created_by
                                end assignee
                     from SVT_plsql_apex_audit paa
-                    left join v_apex_workspace_developers awd on coalesce(paa.apex_LAST_updated_by, paa.apex_created_by) = awd.user_name
+                    left join v_apex_workspace_developers awd on coalesce(paa.apex_last_updated_by, paa.apex_created_by) = awd.user_name
                     where issue_category in ('APEX', 'SERT')
                     and paa.assignee is null
                   )

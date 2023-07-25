@@ -55,13 +55,13 @@ $then
 --
 -- Generate view from category key (overloaded)
 /*
-select SVT_apex_sert_util.generate_SVT_view (p_collection_name => 'SV_XSS_PLSQL_OUTPUT',
+select SVT_apex_sert_util.generate_svt_view (p_collection_name => 'SV_XSS_PLSQL_OUTPUT',
                                              p_author => 'hayden.h.hudson@oracle.com') stmt
 from dual
 */
 --
 ------------------------------------------------------------------------------
-function generate_SVT_view (p_collection_name     in sv_sert_apex.sv_sec_score_collections.collection_name%type,
+function generate_svt_view (p_collection_name     in sv_sert_apex.sv_sec_score_collections.collection_name%type,
                             p_author              in varchar2 default null,
                             p_select_stmt_only_yn in varchar2 default 'N')
 return varchar2;
@@ -73,13 +73,13 @@ return varchar2;
 --
 -- Generate view from view name (overloaded)
 /*
-select SVT_apex_sert_util.generate_SVT_view (p_view_name => 'V_SVT_APEX_SERT_59_SV_XSS_UNESCAPED_REGIONS',
+select SVT_apex_sert_util.generate_svt_view (p_view_name => 'V_SVT_APEX_SERT_59_SV_XSS_UNESCAPED_REGIONS',
                                              p_author => 'hayden.h.hudson@oracle.com') stmt
 from dual
 */
 --
 ------------------------------------------------------------------------------
-function generate_SVT_view (p_view_name in varchar2, 
+function generate_svt_view (p_view_name in varchar2, 
                             p_author    in varchar2 default null)
 return varchar2;
 

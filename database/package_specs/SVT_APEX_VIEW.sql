@@ -29,8 +29,8 @@ create or replace package SVT_APEX_VIEW authid current_user as
 --        authorization_scheme, 
 --        created_by, 
 --        created_on, 
---        LAST_updated_by, 
---        LAST_updated_on
+--        last_updated_by, 
+--        last_updated_on
 -- from SVT_apex_view.apex_applications() 
 ------------------------------------------------------------------------------
 function apex_applications(p_user in all_users.username%type default null)

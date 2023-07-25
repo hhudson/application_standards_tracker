@@ -16,8 +16,8 @@ select a.issue_category,
        a.issue_title,
        a.apex_created_by, 
        a.apex_created_on, 
-       a.apex_LAST_updated_by, 
-       a.apex_LAST_updated_on,
+       a.apex_last_updated_by, 
+       a.apex_last_updated_on,
        esst.standard_code,
        a.unqid
 from v_eba_stds_standard_tests esst

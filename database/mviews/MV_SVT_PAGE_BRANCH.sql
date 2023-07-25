@@ -21,8 +21,8 @@ refresh on demand
         pg.authorization_scheme page_authorization,
         eba_stds_parser.app_from_url  (p_origin_app_id => apb.application_id, p_url => apb.branch_action) destination_app_id,
         eba_stds_parser.page_from_url (p_origin_app_id => apb.application_id, p_url => apb.branch_action) destination_page_id,
-        apb.LAST_updated_by,
-        apb.LAST_updated_on,
+        apb.last_updated_by,
+        apb.last_updated_on,
         pg.page_mode
         from apex_application_page_branches apb
         inner join v_eba_stds_applications esa on apb.application_id = esa.apex_app_id
@@ -53,8 +53,8 @@ refresh on demand
         aap.application_name destination_app_name,
         --pu.created_by,
         --pu.created_on,
-        pu.LAST_updated_by,
-        pu.LAST_updated_on,
+        pu.last_updated_by,
+        pu.last_updated_on,
         pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
