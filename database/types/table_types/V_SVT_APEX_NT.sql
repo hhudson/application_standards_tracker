@@ -10,20 +10,10 @@
 --        Date:  2023-Jan-25
 --     Purpose:  Type creation DDL
 --
--- used in package SVT_standard_view
+-- used in package svt_standard_view
 --------------------------------------------------------------------------------
--- prompt  v_SVT_apex_nt.sql
+-- prompt  v_svt_apex_nt.sql
 
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
-    create type V_SVT_APEX_NT as table of V_SVT_APEX_OT
-     ]';
-  dbms_output.put_line(q'[ type V_SVT_APEX_NT created ]');
-exception
-  when already_exists then null;
-end;
+create type V_SVT_APEX_NT as table of V_SVT_APEX_OT
 /
 --rollback drop type V_SVT_APEX_NT;

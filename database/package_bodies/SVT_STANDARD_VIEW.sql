@@ -5,7 +5,7 @@ create or replace package body SVT_STANDARD_VIEW as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_standard_view
+--   svt_standard_view
 --
 -- DESCRIPTION
 --
@@ -68,12 +68,13 @@ create or replace package body SVT_STANDARD_VIEW as
     validation_failure_message varchar2(15000 char),
     issue_title                varchar2(5000 char),
     component_id               number,
-    parent_component_id        number
+    parent_component_id        number,
+    workspace                  varchar2(255)
   );
   type t_v_svt_apex is table of r_v_svt_apex index by pls_integer;
   l_v_svt_apex t_v_svt_apex;
   gc_apex_select_stmt constant varchar2(255) 
-    := 'select pass_yn, application_id, page_id, created_by, created_on, last_updated_by, last_updated_on, validation_failure_message, issue_title, component_id, parent_component_id from (';
+    := 'select pass_yn, application_id, page_id, created_by, created_on, last_updated_by, last_updated_on, validation_failure_message, issue_title, component_id, parent_component_id, workspace from (';
   gc_v_svt_apex_nt  constant svt_nested_table_types.nt_name%type:= 'v_svt_apex__0_nt';
   ------------------------------------------------------------------------------
   -- v_svt_db_view__0 identifiers
@@ -378,7 +379,8 @@ create or replace package body SVT_STANDARD_VIEW as
                       l_v_svt_apex (rec).issue_title,
                       c_standard_code,
                       l_v_svt_apex (rec).component_id,
-                      l_v_svt_apex (rec).parent_component_id
+                      l_v_svt_apex (rec).parent_component_id,
+                      l_v_svt_apex (rec).workspace
                     )
                 );
       end loop;

@@ -2,6 +2,10 @@
 --changeset object_type_script:SVT_APEX_APPLICATIONS_OT stripComments:false
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(1) from all_types where upper(type_name) = upper('SVT_APEX_APPLICATIONS_OT');
+-- drop type svt_apex_applications_nt
+-- /
+-- drop type svt_apex_applications_ot
+-- /
 create type SVT_APEX_APPLICATIONS_OT as object
     (
         APPLICATION_ID NUMBER,
@@ -12,7 +16,8 @@ create type SVT_APEX_APPLICATIONS_OT as object
         CREATED_BY VARCHAR2(255 CHAR),
         CREATED_ON DATE,
         LAST_UPDATED_BY VARCHAR2(255 CHAR),
-        LAST_UPDATED_ON DATE
+        LAST_UPDATED_ON DATE,
+        WORKSPACE VARCHAR2(255 CHAR)
     )
 /
 --rollback drop type SVT_APEX_APPLICATIONS_OT;

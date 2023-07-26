@@ -697,6 +697,13 @@ is
     c_last_updated_by constant varchar2(25) := 'last_updated_by';
     c_last_updated_on constant varchar2(25) := 'last_updated_on';
     c_build_option    constant varchar2(25) := 'build_option';
+    c_workspace       constant varchar2(25) := 'workspace';
+    c_3_spaces        constant varchar2(100) := chr(32)||chr(32)||chr(32);
+    c_7_spaces        constant varchar2(100) := c_3_spaces||c_3_spaces||chr(32);
+    c_10_spaces       constant varchar2(100) := c_7_spaces||chr(32)||chr(32)||chr(32);
+    c_20_spaces       constant varchar2(100) := c_10_spaces||c_10_spaces;
+    c_30_spaces       constant varchar2(100) := c_20_spaces||c_10_spaces;
+    c_50_spaces       constant varchar2(100) := c_20_spaces||c_20_spaces||c_10_spaces;
 
         function column_exists (p_column_name in varchar2) return boolean
         as 
@@ -790,6 +797,11 @@ is
                                                                         else 'null '
                                                                         end
                                   );
+        l_example_query := replace(l_example_query, '%wrkspc%', case when column_exists (c_workspace)
+                                                                     then l_initials||'.'||c_workspace||' '
+                                                                     else 'null '
+                                                                     end
+                                  );
         l_example_query := replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` (app %3%5) REPLACEME', 
         p0 => %0.%4, 
         p1 => %0.application_id%6]',
@@ -812,13 +824,15 @@ is
                                                       p_SVT_component_type_id => p_SVT_component_type_id));
         l_example_query := l_example_query||case when column_exists (c_page_id) and l_view != 'apex_application_pages'
                                                  then chr(10)||'inner join apex_application_pages aap on aap.page_id = '||l_initials||'.'||c_page_id
-                                                                                                  ||' and aap.application_id = '||l_initials||'.'||c_application_id
-                                                    ||chr(10)||'left outer join apex_application_build_options aabo1 on aabo1.build_option_name = aap.'||c_build_option
+                                                    ||chr(10)||c_30_spaces||c_7_spaces||' and aap.application_id = '||l_initials||'.'||c_application_id
+                                                    ||chr(10)||'left outer join apex_application_build_options aabo1 on  aabo1.build_option_name = aap.'||c_build_option
+                                                    ||chr(10)||c_50_spaces||c_3_spaces||'and aabo1.application_id = aap.application_id'
                                                  end;
         l_example_query := l_example_query||case when column_exists (c_build_option)
-                                                 then chr(10)||'left outer join apex_application_build_options aabo2 on aabo2.build_option_name = '||l_initials||'.'||c_build_option
+                                                 then chr(10)||'left outer join apex_application_build_options aabo2 on  aabo2.build_option_name = '||l_initials||'.'||c_build_option
+                                                    ||chr(10)||c_50_spaces||c_3_spaces||'and aabo2.application_id = '||l_initials||'.application_id'
                                                  end;
-        l_example_query := l_example_query||chr(10)||'where 1=1';
+        l_example_query := l_example_query||chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')]', l_initials);
         l_example_query := l_example_query||case when column_exists (c_page_id) and l_view != 'apex_application_pages'
                                                  then chr(10)||q'[and coalesce(aabo1.status_on_export,'NA') != 'Exclude']'
                                                  end;

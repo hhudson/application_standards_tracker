@@ -25,7 +25,8 @@ create type APEX_APPLICATION_PAGE_RPT_COLS_OT as object
         created_on date,
         updated_by varchar2(255 char),
         updated_on date,
-        column_id  number
+        column_id  number,
+        workspace  varchar2(255 char)
     )
 /
 --rollback drop type APEX_APPLICATION_PAGE_RPT_COLS_OT;

@@ -81,7 +81,7 @@ create or replace package body SVT_APEX_VIEW as
 
       for rec in 1 .. l_aat.count
       loop
-        pipe row (SVT_apex_applications_ot (
+        pipe row (svt_apex_applications_ot (
                       l_aat (rec).application_id, 
                       l_aat (rec).application_name, 
                       l_aat (rec).application_group, 
@@ -90,7 +90,8 @@ create or replace package body SVT_APEX_VIEW as
                       l_aat (rec).created_by, 
                       l_aat (rec).created_on, 
                       l_aat (rec).last_updated_by, 
-                      l_aat (rec).last_updated_on
+                      l_aat (rec).last_updated_on,
+                      l_aat (rec).workspace
                     )
                 );
       end loop;
@@ -124,7 +125,8 @@ create or replace package body SVT_APEX_VIEW as
        created_on,
        updated_by,
        updated_on,
-       column_id
+       column_id,
+       workspace
     from apex_application_page_ir_col;
 
     type r_ir is record (
@@ -137,7 +139,8 @@ create or replace package body SVT_APEX_VIEW as
       created_on date,
       updated_by varchar2(255 char),
       updated_on date,
-      column_id  number
+      column_id  number,
+      workspace  varchar2(255 char)
     );
     type t_ir is table of r_ir index by pls_integer;
     l_irt t_ir;
@@ -164,7 +167,8 @@ create or replace package body SVT_APEX_VIEW as
                       l_irt (rec).created_on,
                       l_irt (rec).updated_by,
                       l_irt (rec).updated_on,
-                      l_irt (rec).column_id
+                      l_irt (rec).column_id,
+                      l_irt (rec).workspace
                     )
                 );
       end loop;
@@ -197,7 +201,8 @@ create or replace package body SVT_APEX_VIEW as
        null created_on,
        last_updated_by updated_by,
        last_updated_on updated_on,
-       column_id
+       column_id,
+       workspace
     from apex_appl_page_ig_columns;
 
     type r_ig is record (
@@ -210,7 +215,8 @@ create or replace package body SVT_APEX_VIEW as
       created_on date,
       updated_by varchar2(255 char),
       updated_on date,
-      column_id  number
+      column_id  number,
+      workspace  varchar2(255 char)
     );
     type t_ig is table of r_ig index by pls_integer;
     l_igt t_ig;
@@ -237,7 +243,8 @@ create or replace package body SVT_APEX_VIEW as
                       l_igt (rec).created_on,
                       l_igt (rec).updated_by,
                       l_igt (rec).updated_on,
-                      l_igt (rec).column_id
+                      l_igt (rec).column_id,
+                      l_igt (rec).workspace
                     )
                 );
       end loop;

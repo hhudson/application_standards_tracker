@@ -1,7 +1,8 @@
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_PAGE_BRANCH
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_PAGE_BRANCH
+-- /
 create materialized view MV_SVT_PAGE_BRANCH
 refresh on demand
     evaluate using current edition
@@ -23,7 +24,8 @@ refresh on demand
         eba_stds_parser.page_from_url (p_origin_app_id => apb.application_id, p_url => apb.branch_action) destination_page_id,
         apb.last_updated_by,
         apb.last_updated_on,
-        pg.page_mode
+        pg.page_mode,
+        apb.workspace
         from apex_application_page_branches apb
         inner join v_eba_stds_applications esa on apb.application_id = esa.apex_app_id
         inner join apex_application_pages pg on apb.application_id = pg.application_id
@@ -55,7 +57,8 @@ refresh on demand
         --pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
-        pu.page_mode
+        pu.page_mode,
+        pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id

@@ -10,7 +10,7 @@
 --        Date:  2023-Jun-21
 --     Purpose:  Type creation DDL
 --
--- used in package SVT_standard_view
+-- used in package svt_standard_view
 --------------------------------------------------------------------------------
 -- prompt  v_eba_stds_standard_tests_nt.sql
 

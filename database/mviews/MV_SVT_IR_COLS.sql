@@ -1,7 +1,8 @@
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_IR_COLS
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_IR_COLS
+-- /
 create materialized view MV_SVT_IR_COLS
 refresh on demand
 evaluate using current edition
@@ -28,7 +29,8 @@ with parsed_urls as (
         pic.created_on,
         pic.updated_by,
         pic.updated_on,
-        pg.page_mode
+        pg.page_mode,
+        pic.workspace
         from apex_application_page_ir_col pic
         inner join v_eba_stds_applications esa on pic.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  pic.application_id = apr.application_id
@@ -62,7 +64,8 @@ with parsed_urls as (
         pu.created_on,
         pu.updated_by last_updated_by,
         pu.updated_on last_updated_on,
-        pu.page_mode
+        pu.page_mode,
+        pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id

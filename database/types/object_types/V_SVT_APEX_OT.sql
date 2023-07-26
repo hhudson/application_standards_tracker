@@ -10,7 +10,7 @@
 --        Date:  2023-Jan-25
 --     Purpose:  Type creation DDL
 --
--- used in package v_SVT_apex_nt
+-- used in package v_svt_apex_nt
 --------------------------------------------------------------------------------
 -- drop type V_SVT_APEX_NT
 -- /
@@ -30,7 +30,8 @@ create type V_SVT_APEX_OT as object
       ISSUE_TITLE                      VARCHAR2(5000 CHAR),
       STANDARD_CODE                    VARCHAR2(100),
       COMPONENT_ID                     NUMBER,
-      PARENT_COMPONENT_ID              NUMBER
+      PARENT_COMPONENT_ID              NUMBER,
+      WORKSPACE                        VARCHAR2(255 CHAR)
     )
 /
 --rollback drop type V_SVT_APEX_OT;

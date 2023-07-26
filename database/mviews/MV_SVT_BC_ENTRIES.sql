@@ -1,7 +1,8 @@
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_BC_ENTRIES
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_BC_ENTRIES
+-- /
 create materialized view MV_SVT_BC_ENTRIES
     refresh on demand
     evaluate using current edition
@@ -23,7 +24,8 @@ create materialized view MV_SVT_BC_ENTRIES
         eba_stds_parser.page_from_url (p_origin_app_id => bce.application_id, p_url => bce.url) destination_page_id,
         bce.last_updated_by,
         bce.last_updated_on,
-        null page_mode
+        null page_mode,
+        bce.workspace
         from apex_application_bc_entries bce
         inner join apex_application_breadcrumbs aab on bce.breadcrumb_id = aab.breadcrumb_id
                                                     and bce.application_id = aab.application_id
@@ -53,8 +55,9 @@ create materialized view MV_SVT_BC_ENTRIES
         -- pu.created_by,
         -- pu.created_on,
         pu.last_updated_by,
-        pu.last_updated_on
+        pu.last_updated_on,
         -- pu.page_mode
+        pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id

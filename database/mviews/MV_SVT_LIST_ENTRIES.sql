@@ -1,7 +1,8 @@
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_LIST_ENTRIES
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_LIST_ENTRIES
+-- /
 create materialized view MV_SVT_LIST_ENTRIES
 refresh on demand
 evaluate using current edition
@@ -22,7 +23,8 @@ with parsed_urls as (
         eba_stds_parser.app_from_url  (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_app_id,
         eba_stds_parser.page_from_url (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_page_id,
         ale.last_updated_by,
-        ale.last_updated_on
+        ale.last_updated_on,
+        ale.workspace
         from apex_application_list_entries ale
         inner join v_eba_stds_applications esa on ale.application_id = esa.apex_app_id
         where ale.entry_text is not null
@@ -50,8 +52,9 @@ with parsed_urls as (
         --pu.created_by,
         --pu.created_on,
         pu.last_updated_by,
-        pu.last_updated_on
+        pu.last_updated_on,
         --pu.page_mode
+        pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id

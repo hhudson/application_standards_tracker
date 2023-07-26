@@ -14,7 +14,8 @@ select application_id,
        created_on,
        updated_by,
        updated_on,
-       column_id
+       column_id,
+       workspace
 from svt_apex_view.apex_application_page_ir_col() 
 /
 

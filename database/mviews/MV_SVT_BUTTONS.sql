@@ -1,7 +1,8 @@
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_BUTTONS
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_BUTTONS
+-- /
 create materialized view MV_SVT_BUTTONS
 refresh on demand
 evaluate using current edition
@@ -26,7 +27,8 @@ as
         eba_stds_parser.page_from_url (p_origin_app_id => bl.application_id, p_url => bl.redirect_url) destination_page_id,
         bl.last_updated_by,
         bl.last_updated_on,
-        pg.page_mode
+        pg.page_mode,
+        bl.workspace
         from apex_application_page_buttons bl
         inner join v_eba_stds_applications esa on bl.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  bl.application_id = apr.application_id
@@ -59,7 +61,8 @@ as
         --pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
-        pu.page_mode
+        pu.page_mode,
+        pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id

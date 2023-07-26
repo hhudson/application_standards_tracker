@@ -1,7 +1,8 @@
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_IG_COLS
 --------------------------------------------------------
-
+drop materialized view MV_SVT_IG_COLS
+/
 create materialized view MV_SVT_IG_COLS
 refresh on demand
 evaluate using current edition
@@ -26,7 +27,8 @@ with parsed_urls as (
         eba_stds_parser.page_from_url (p_origin_app_id => pigc.application_id, p_url => pigc.link_target) destination_page_id,
         pigc.last_updated_by,
         pigc.last_updated_on,
-        pg.page_mode
+        pg.page_mode,
+        pigc.workspace
         from apex_appl_page_ig_columns pigc
         inner join v_eba_stds_applications esa on pigc.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  pigc.application_id = apr.application_id
@@ -60,7 +62,8 @@ with parsed_urls as (
         -- pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
-        pu.page_mode
+        pu.page_mode,
+        pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id

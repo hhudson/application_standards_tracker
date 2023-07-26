@@ -638,7 +638,7 @@ $then
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   c_standard_id          constant eba_stds_standard_tests.standard_id%type := eba_stds.get_standard_id ('APEX SERT');
-  c_nt_type_id           constant eba_stds_standard_tests.nt_type_id%type := SVT_standard_view.get_nt_type_id('v_SVT_sert__0_nt');
+  c_nt_type_id           constant eba_stds_standard_tests.nt_type_id%type := svt_standard_view.get_nt_type_id('v_SVT_sert__0_nt');
   c_db_supporting_object constant eba_stds_standard_tests.SVT_component_type_id%type := 0; --'DB_SUPPORTING_OBJECT';
   c_y                    constant eba_stds_standard_tests.active_yn%type := 'Y';
   begin

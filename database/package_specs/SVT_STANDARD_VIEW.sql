@@ -5,7 +5,7 @@ create or replace package SVT_STANDARD_VIEW authid current_user as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_standard_view
+--   svt_standard_view
 --
 -- DESCRIPTION
 --
@@ -106,7 +106,7 @@ from svt_standard_view.v_svt_apex(
 --
 /*
 select view_name
-from SVT_standard_view.v_svt_db_view__0(
+from svt_standard_view.v_svt_db_view__0(
                         p_standard_code => 'VIEW_NAME'); 
 */
 ------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ from svt_standard_view.v_svt(p_standard_code => 'MISSING_COMMENT');
 -- Function to determine if a given query clob will error when pipelined
 --
 /*
-return SVT_standard_view.query_feedback (
+return svt_standard_view.query_feedback (
                 p_query_code => :P14_QUERY_CLOB,
                 p_SVT_component_type_id => :P14_SVT_COMPONENT_TYPE_ID
               );
@@ -179,7 +179,7 @@ return SVT_standard_view.query_feedback (
 -- private function to return the id of a nest table type name
 --
 /*
-select SVT_standard_view.get_nt_type_id('v_SVT_sert__0_nt')
+select svt_standard_view.get_nt_type_id('v_SVT_sert__0_nt')
 from dual;
 */
 ------------------------------------------------------------------------------

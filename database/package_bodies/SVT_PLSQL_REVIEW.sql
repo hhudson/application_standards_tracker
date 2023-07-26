@@ -153,7 +153,7 @@ create or replace package body SVT_PLSQL_REVIEW as
         esst.urgency_level,
         esst.standard_code
       from v_eba_stds_standard_tests esst
-      join SVT_standard_view.v_SVT_db_plsql(p_standard_code => esst.standard_code, 
+      join svt_standard_view.v_SVT_db_plsql(p_standard_code => esst.standard_code, 
                                             p_failures_only => gc_y,
                                             p_object_name => c_object_name) dp
         on  esst.nt_name = 'V_SVT_DB_PLSQL_NT'

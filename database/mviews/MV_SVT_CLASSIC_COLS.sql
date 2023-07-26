@@ -1,9 +1,9 @@
 --------------------------------------------------------
---  DDL for Materialized View mv_SVT_classic_cols
+--  DDL for Materialized View mv_svt_classic_cols
 --------------------------------------------------------
---drop materialized view mv_SVT_classic_cols
---/
-create materialized view mv_SVT_classic_cols
+drop materialized view mv_svt_classic_cols
+/
+create materialized view mv_svt_classic_cols
 refresh on demand
 evaluate using current edition
 as
@@ -27,7 +27,8 @@ as
         eba_stds_parser.page_from_url (p_origin_app_id => prc.application_id, p_url => prc.column_link_url) destination_page_id,
         prc.last_updated_by,
         prc.last_updated_on,
-        pg.page_mode
+        pg.page_mode,
+        prc.workspace
         from  apex_application_page_rpt_cols prc
         inner join v_eba_stds_applications esa on prc.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  prc.application_id = apr.application_id
@@ -61,7 +62,8 @@ as
         --pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
-        pu.page_mode
+        pu.page_mode,
+        pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id
