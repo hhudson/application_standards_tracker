@@ -9,7 +9,8 @@ with aspaa as (
     select paa.id audit_id,
            paa.issue_category,
            paa.application_id,
-           vaa.application_name,
+           coalesce(vaa.application_name, 'NA') application_name,
+           coalesce(vaa.application_type, 'NA') application_type,
            src.test_name,
            paa.page_id,
            paa.pass_yn,
@@ -59,17 +60,17 @@ with aspaa as (
            fdv.component_type_id, 
            fdv.link_url template_url
     from svt_plsql_apex_audit paa
-    left  join v_apex_applications vaa on paa.application_id = vaa.application_id
+    left join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
     inner join v_eba_stds_standard_tests src on paa.standard_code  = src.standard_code
     left join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
 )
 select 
     a.audit_id,
-    -- a.reference_code,
     a.issue_category,
     a.application_id,
     a.application_name,
+    a.application_type,
     a.page_id,
     a.pass_yn,
     a.test_id,

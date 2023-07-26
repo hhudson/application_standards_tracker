@@ -182,7 +182,8 @@ $if oracle_apex_version.c_apex_issue_access $then
                        p7 => dbms_utility.format_error_backtrace, 
                        p_max_length => 4096);
       -- drop_issue (p_id => p_id);
-      raise;
+      -- raise;
+      raise_application_error(-20126, 'Duplicate issue title:'||p_title||' '||p_title_suffix);
     when others then 
       apex_debug.error(p_message => c_debug_template, 
                        p0 =>'Unhandled Exception', 
@@ -375,7 +376,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                           raise;
                         end insert_section;
                    else 
-                      begin <<SVT_upd>>
+                      begin <<svt_upd>>
                       update_issue (
                           p_id             => l_issues_t(i).apex_issue_id,
                           p_title          => l_issues_t(i).issue_title,
@@ -402,7 +403,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                           p_page_id        => l_issues_t(i).page_id,
                           p_title_suffix   => l_issue_title_suffix
                         );
-                      end SVT_upd;
+                      end svt_upd;
               end case;
             end loop;
 

@@ -22,9 +22,11 @@ select esa.apex_app_id application_id,
        coalesce(rptcrd.med_urgency,0) med_urgency,
        coalesce(rptcrd.critical_urgency,0) + coalesce(rptcrd.high_urgency,0) + coalesce(rptcrd.med_urgency,0) violation_count,
        esa.default_developer,
-       apex_string.format('%s (%s)', aa.application_name, esa.apex_app_id) application_name
+       apex_string.format('%s (%s)', aa.application_name, esa.apex_app_id) application_name,
+       est.type_name application_type
 from eba_stds_applications esa
 inner join apex_applications aa on aa.application_id = esa.apex_app_id
+inner join eba_stds_types est on est.id = esa.type_id
 left outer join rptcrd on esa.apex_app_id = rptcrd.application_id
 --order by critical_urgency desc, high_urgency desc, med_urgency desc
 /
