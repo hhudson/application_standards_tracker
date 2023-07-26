@@ -453,6 +453,11 @@ select case
 -- if autocomplete is not present then fail.  add exception to items that don't need it
 --    this approach my have big impacts and require many overrides.  may have to change in future
 -- NOTIMPLEMENTED  -- not sure about this one
+/*
+looking for autocomplete="given-name" in "custom attributes"
+https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html
+https://www.w3.org/TR/WCAG21/#input-purposes
+*/
 select --* 
        case
          when (lower(trim(HTML_FORM_ELEMENT_ATTRIBUTES)) not like '%autocomplete%'
@@ -492,6 +497,10 @@ where a.application_id = b.application_id
 ---*************************************************************************
 -- check IG javascript initialization code for references to keyboard shortcuts.
 -- NOTIMPLEMENTED  -- not sure about this one
+/*
+you don't want to interfere with the shortcuts for screen readers
+https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts.html
+*/
 select case
          when lower(trim(javascript_code)) like '%shortcut%' then 'N' 
          else 'Y'
@@ -1296,6 +1305,9 @@ from apex_application_list_entries b;
 ---- *************************************************************************
 --   Get list of page items (non-buttons)
 -- NOTIMPLEMENTED
+/*
+eg consistent 'save' buttons 
+*/
 select 1 pass_yn,
        'Page Items' type,
        substr(item_name,instr(item_name,'_')+1) adj_name, 
@@ -1396,6 +1408,10 @@ select 1 pass_yn,
 ---- Look for validations where Display Location is set to Inline with Field
 ---- *************************************************************************
 --  NOTIMPLEMENTED  Not sure about this one
+/*
+bug in apex? inline with field is insufficient (lacks proper aria tags)
+hhh : this is where we left off 2023-Jul-26
+*/
  select case 
           when ERROR_DISPLAY_LOCATION = 'INLINE_WITH_FIELD' then 'N' 
           else 'Y'
