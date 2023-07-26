@@ -1,7 +1,7 @@
 --liquibase formatted sql
---changeset view_script:v_SVT_table_data_load_def stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:v_svt_table_data_load_def stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View v_SVT_table_data_load_def
+--  DDL for View v_svt_table_data_load_def
 --------------------------------------------------------
 
 create or replace force editionable view V_SVT_TABLE_DATA_LOAD_DEF as
@@ -32,4 +32,4 @@ select table_name,
   from SVT_DEPLOYMENT.V_SVT_TABLE_DATA_LOAD_DEF(P_APPLICATION_ID => V('APP_ID'))
 /
 
---rollback drop view v_SVT_table_data_load_def;
+--rollback drop view v_svt_table_data_load_def;

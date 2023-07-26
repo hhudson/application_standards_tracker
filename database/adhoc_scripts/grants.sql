@@ -5,7 +5,7 @@
 
 grant execute on SVT_plsql_review to ${grant_to_schema}
 /
-grant execute on SVT_preferences to ${grant_to_schema}
+grant execute on svt_preferences to ${grant_to_schema}
 /
 grant execute on SVT_ctx_util to ${grant_to_schema}
 /

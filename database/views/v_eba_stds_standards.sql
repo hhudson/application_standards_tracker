@@ -23,7 +23,7 @@ with jcb as (select id standard_id,
                                         )
                         ) file_name,
                     'UTF-8' character_set,
-                    SVT_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS',
+                    svt_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS',
                                                       p_standard_id => id) file_blob
             from eba_stds_standards)
 select jcb.standard_id, 

@@ -91,7 +91,7 @@ create or replace package body SVT_DEPLOYMENT as
                  then apex_string.format(q'[where standard_code = '%s']', c_standard_code)
                  end,
       p4 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS'
-                 then apex_string.format(q'[, '%s' workspace]', SVT_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
+                 then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
                  end,
       p5 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
                  then apex_string.format(q'[where standard_id = %s and active_yn = 'Y']', p_standard_id)
@@ -230,10 +230,10 @@ create or replace package body SVT_DEPLOYMENT as
       raise;
   end table_last_updated_on;
 
-  function v_SVT_table_data_load_def (p_application_id in apex_applications.application_id%type)
-  return v_SVT_table_data_load_def_nt pipelined
+  function v_svt_table_data_load_def (p_application_id in apex_applications.application_id%type)
+  return v_svt_table_data_load_def_nt pipelined
   as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT_table_data_load_def';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_table_data_load_def';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   
   cursor cur_aa
@@ -319,12 +319,12 @@ create or replace package body SVT_DEPLOYMENT as
               --         then 'EBA_STDS_STANDARD_TESTS'
               --         else l_aat (rec).table_name
               --         end;
-        c_file_blob constant blob := SVT_deployment.sample_template_file (p_table_name => l_aat (rec).table_name);
+        c_file_blob constant blob := svt_deployment.sample_template_file (p_table_name => l_aat (rec).table_name);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
         c_zip_size  constant pls_integer := sys.dbms_lob.getlength(l_aat (rec).zip_blob);
-        c_table_last_updated_on constant date := SVT_deployment.table_last_updated_on(c_overwrite_table_name);
+        c_table_last_updated_on constant date := svt_deployment.table_last_updated_on(c_overwrite_table_name);
         begin
-        pipe row (v_SVT_table_data_load_def_ot (
+        pipe row (v_svt_table_data_load_def_ot (
                       c_overwrite_table_name,
                       l_aat (rec).table_name,
                       c_file_blob, --file_blob
@@ -366,7 +366,7 @@ create or replace package body SVT_DEPLOYMENT as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end v_SVT_table_data_load_def;
+  end v_svt_table_data_load_def;
 
   
 

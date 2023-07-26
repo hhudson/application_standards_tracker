@@ -35,10 +35,10 @@ create or replace package body SVT_AUDIT_UTIL as
                          end object_name,
                     upper(cfo.folder_name) folder_name,
                     cfi.checked_out_by,
-                    case when cfi.created_by not in ('UT_CARS', 'CARS', 'APEX_SCM', SVT_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                    case when cfi.created_by not in ('UT_CARS', 'CARS', 'APEX_SCM', svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
                          then cfi.created_by
                          end created_by, 
-                    case when cfi.updated_by not in ('UT_CARS', 'CARS', 'APEX_SCM', SVT_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                    case when cfi.updated_by not in ('UT_CARS', 'CARS', 'APEX_SCM', svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
                          then cfi.updated_by
                          end updated_by
                from apex_scm.ccs_files_vw cfi
@@ -576,9 +576,9 @@ create or replace package body SVT_AUDIT_UTIL as
       when matched then
       update set e.assignee = h.default_developer;
 
-      if SVT_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') is not null then 
+      if svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') is not null then 
         update SVT_plsql_apex_audit
-        set assignee = SVT_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE')
+        set assignee = svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE')
         where assignee is null;
       end if;
 

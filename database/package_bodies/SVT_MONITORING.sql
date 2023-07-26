@@ -157,8 +157,8 @@ create or replace package body SVT_MONITORING as
     apex_debug.message(c_debug_template,'START');
 
     return case 
-           when SVT_preferences.get_preference (p_preference_name => 'SVT_DB_NAME') is not null 
-           then SVT_preferences.get_preference (p_preference_name => 'SVT_DB_NAME')
+           when svt_preferences.get_preference (p_preference_name => 'SVT_DB_NAME') is not null 
+           then svt_preferences.get_preference (p_preference_name => 'SVT_DB_NAME')
            else 'Unspecified DB Name'
            end;
 
@@ -388,7 +388,7 @@ create or replace package body SVT_MONITORING as
               );
     $end
     
-    if SVT_preferences.get_preference ('SVT_EMAIL_API') = gc_apex then
+    if svt_preferences.get_preference ('SVT_EMAIL_API') = gc_apex then
       <<apx_ml>>
       declare 
       l_id number;
@@ -423,7 +423,7 @@ create or replace package body SVT_MONITORING as
       afw_messaging.push (p_type => 'EMAIL');
     $end
     
-    if SVT_preferences.get_preference ('SVT_EMAIL_API') = gc_apex then
+    if svt_preferences.get_preference ('SVT_EMAIL_API') = gc_apex then
       apex_mail.push_queue;
     end if;
 
@@ -438,7 +438,7 @@ create or replace package body SVT_MONITORING as
   c_scope constant varchar2(128) := gc_scope_prefix || 'send_update';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  c_from_email constant varchar2(50) := SVT_preferences.get_preference ('SVT_FROM_EMAIL');
+  c_from_email constant varchar2(50) := svt_preferences.get_preference ('SVT_FROM_EMAIL');
   l_subject     varchar2(4000);
   l_html        clob;
   l_text        clob;

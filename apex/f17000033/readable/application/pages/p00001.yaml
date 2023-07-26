@@ -24,19 +24,6 @@ javascript:
   file-urls: 
   - '#APP_FILES#js/f4000_searchResults#MIN#.js'
 
-css: 
-  inline: |
-    .subInfoTextRegion {
-    font-size: 11px;
-    line-height: 16px;
-    color: #707070;
-    }
-    
-    .scrollInside div.uRegionContent {
-    height: 220px;
-    overflow: auto;
-    }
-
 security: 
   authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
   authentication: Page Requires Authentication
@@ -911,12 +898,15 @@ regions:
       lazy-loading: false
 
     appearance: 
-      select-first-row: false
+      select-first-row: true
       fixed-row-height: false
 
     pagination: 
       type: Page
       show-total-count: true
+
+    messages: 
+      when-no-data-found: No Violations Found! (yet)
 
     toolbar: 
       show: true
@@ -3032,26 +3022,16 @@ regions:
     id: 144377427068069520
     identification: 
       column-name: SVT_COMPONENT_TYPE_ID
-      type: Number Field
-
-    heading: 
-      heading: Svt Component Type Id
-      alignment: end
+      type: Hidden
 
     settings: 
-      number-alignment: Start
-      virtual-keyboard: Decimal
+      value-protected: true
 
     layout: 
       sequence: 600
-      column-alignment: end
-      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
-
-    validation: 
-      value-required: true
 
     source: 
       type: Database Column
@@ -3063,9 +3043,61 @@ regions:
     default: 
       duplicate-copies-existing-value: true
 
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: APPLICATION_TYPE ============================
+    id: 146555155826303725
+    identification: 
+      column-name: APPLICATION_TYPE
+      type: Text Field
+
+    heading: 
+      heading: Application Type
+      alignment: start
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 610
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+      maximum-length: 32
+
+    source: 
+      type: Database Column
+      database-column: APPLICATION_TYPE
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
     column-filter: 
       enabled: true
-      lov-type: None
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -3642,6 +3674,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The developer to whom you wish to reassign the violation
 
 - # ====== Page Item: P1_SELECTED_IDS ==========================
   id: 105720528380542216

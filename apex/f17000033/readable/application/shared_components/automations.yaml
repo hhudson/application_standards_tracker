@@ -163,6 +163,39 @@
     error: 
       stop-execution-on-error: true
 
+- # ====== Automation: 4. [Hourly 50 min past the hour] Drop irr
+  id: 146584697229494689
+  identification: 
+    name: 4. [Hourly 50 min past the hour] Drop irrelevant issues from audit table
+    static-id: 4-drop-irrelevant-issues-from-audit-table
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=50
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  actions: 
+  - # ====== Action: drop_irrelevant_issues ======================
+    id: 146584982913494691
+    identification: 
+      name: drop_irrelevant_issues
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: svt_apex_issue_util.drop_irrelevant_issues;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
 - # ====== Automation: 2. [Hourly  - 10 min past] Issue Snapshot
   id: 325704980825337043
   identification: 

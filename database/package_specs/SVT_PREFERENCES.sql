@@ -60,7 +60,7 @@ return apex_workspace_preferences.preference_value%type deterministic;
 begin
     apex_util.set_workspace('REDWOOD');
     apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>'hayden.h.hudson@oracle.com');   
-    SVT_preferences.set_preference (p_preference_name  => 'SVT_DEFAULT_SCHEMA',
+    svt_preferences.set_preference (p_preference_name  => 'SVT_DEFAULT_SCHEMA',
                                     p_value => 'REDWOOD'); 
 end;
 */

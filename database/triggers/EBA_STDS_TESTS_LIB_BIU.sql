@@ -11,7 +11,7 @@ create or replace editionable trigger EBA_STDS_TESTS_LIB_BIU_biu
 begin
   if inserting then 
     :new.workspace := case when :new.workspace is null 
-                           then SVT_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
+                           then svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
                            else :new.workspace
                            end;
   end if; 

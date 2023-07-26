@@ -27,7 +27,7 @@ create or replace package SVT_DEPLOYMENT authid definer as
 -- function to return a blob of the json output of a table
 --
 /*
-select SVT_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS')
+select svt_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS')
 from dual
 */
 ------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ from dual
 -- Synopsis:
 --
 -- Function to return json blob template file for a given table (for the purpose of uploading to Data Load Definition)
--- v_SVT_table_data_load_definition
+-- v_svt_table_data_load_definition
 /*
 select SVT_DEPLOYMENT.sample_template_file (p_table_name => 'SVT_COMPONENT_TYPES') thblob
 from dual
@@ -95,7 +95,7 @@ end;
 -- Function to return the date of the latest date audit value of a given table
 --
 /*
-select SVT_deployment.table_last_updated_on('SVT_AUDIT_ACTIONS')
+select svt_deployment.table_last_updated_on('SVT_AUDIT_ACTIONS')
 from dual
 */
 ------------------------------------------------------------------------------

@@ -252,7 +252,7 @@ create or replace package body eba_stds_standard_tests_api as
         eba_stds_tests_lib_api.upsert (
           p_standard_id           => l_test_rec.standard_id,
           p_test_name             => l_test_rec.test_name,
-          p_workspace             => SVT_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'),
+          p_workspace             => svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'),
           p_test_id               => l_test_rec.id,
           p_query_clob            => l_test_rec.query_clob,
           p_standard_code         => l_test_rec.standard_code,
@@ -510,7 +510,7 @@ create or replace package body eba_stds_standard_tests_api as
       loop
         <<load_block>>
         declare
-        c_file_blob constant blob := SVT_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS',
+        c_file_blob constant blob := svt_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS',
                                                                        p_standard_code => l_aat (rec).standard_code);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
         c_mime_type constant varchar2(25) := 'application/json';
