@@ -288,153 +288,6 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Do you want to publish your change? =========
-  id: 142992155007948631
-  identification: 
-    title: Do you want to publish your change?
-    type: Static Content
-
-  source: 
-    html-code: Select 'Yes' to indicate that you are updating your test in a significant way. 'Yes' will increase the test version number and will signal to other deployments of this test that they should update their local version with this one.
-
-  layout: 
-    sequence: 10
-    parent-region: Update Standard Test # 198848628130243437
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7573654784682143972
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--colorBG
-    - t-Alert--wizard
-    - t-Alert--defaultIcons
-    - t-Alert--success
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: Inactivating your test ======================
-  id: 142992818447948638
-  identification: 
-    title: Inactivating your test
-    type: Static Content
-
-  source: 
-    html-code: |
-      <ul>
-          <li>Inactive tests will not be automatically exported or shared</li>
-          <li>Inactive tests will not be run. Violations related to inactive tests will be removed when the regular job runs</li>
-      </ul>
-
-  layout: 
-    sequence: 20
-    parent-region: Update Standard Test # 198848628130243437
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7573654784682143972
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--colorBG
-    - t-Alert--wizard
-    - t-Alert--defaultIcons
-    - t-Alert--warning
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: Update Standard Test ========================
-  id: 198848628130243437
-  identification: 
-    title: Update Standard Test
-    type: Static Content
-
-  layout: 
-    sequence: 130
-    parent-region: No Parent
-    position: REGION_POSITION_05
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Inline Drawer # 50155276726329210
-    template-options: 
-    - '#DEFAULT#'
-    - js-dialog-class-t-Drawer--pullOutEnd
-    - js-dialog-class-t-Drawer--md
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    static-id: UPDATETEST
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 - # ====== Region: Live Test results report ====================
   id: 223434012666172342
   identification: 
@@ -605,14 +458,14 @@ regions:
 
       heading: 
         heading: Component ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 440
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -646,14 +499,14 @@ regions:
 
       heading: 
         heading: Parent Component ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 450
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -814,14 +667,14 @@ regions:
 
       heading: 
         heading: Application ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 40
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -855,14 +708,14 @@ regions:
 
       heading: 
         heading: Page ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 80
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -1868,14 +1721,14 @@ regions:
 
       heading: 
         heading: Download
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 10
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -3354,9 +3207,8 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.::IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
       page: 1 # V_SVT_PLSQL_APEX_AUDIT
-      clear-cache: CR,1
       values: 
         ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
 
@@ -3407,14 +3259,14 @@ buttons:
     authorization-scheme: READER RIGHTS # 48893993399820863
 
 - # ====== Button: Cancel ======================================
-  id: 143064559638412524
+  id: 146556144506303735
   identification: 
     button-name: Cancel
     label: Cancel
 
   layout: 
-    sequence: 30
-    region: Update Standard Test # 198848628130243437
+    sequence: 10
+    region: Buttons # 7094082318946085125
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -3427,10 +3279,18 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
 
   behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:&P14_STANDARD_ID.'
+      page: 5 # V_EBA_STDS_STANDARD_TESTS
+      clear-cache: 5
+      values: 
+        p5_id: '&P14_STANDARD_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: Refresh_MV ==================================
   id: 151926461893453515
@@ -3489,11 +3349,10 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--warning
     - t-Button--simple
     - t-Button--iconLeft
     - t-Button--hoverIconPush
-    icon: fa-refresh
+    icon: fa-play-circle-o
 
   behavior: 
     action: Defined by Dynamic Action
@@ -3903,61 +3762,6 @@ dynamic-actions:
     type: Immediate
 
   actions: 
-  - # ====== Action: Open Region =================================
-    id: 142992004242948630
-    identification: 
-      action: Open Region
-
-    affected-elements: 
-      selection-type: Region
-      region: Update Standard Test # 198848628130243437
-
-    execution: 
-      sequence: 10
-      event: Open Update Test Dialog # 142991903298948629
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-  - # ====== Action: Show ========================================
-    id: 142992209290948632
-    identification: 
-      action: Show
-
-    affected-elements: 
-      selection-type: Region
-      region: Do you want to publish your change? # 142992155007948631
-
-    execution: 
-      sequence: 30
-      event: Open Update Test Dialog # 142991903298948629
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item = Value
-      item: P14_ACTIVE_YN
-      value: Y
-
-  - # ====== Action: Hide ========================================
-    id: 142992362345948633
-    identification: 
-      action: Hide
-
-    affected-elements: 
-      selection-type: Region
-      region: Do you want to publish your change? # 142992155007948631
-
-    execution: 
-      sequence: 50
-      event: Open Update Test Dialog # 142991903298948629
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item = Value
-      item: P14_ACTIVE_YN
-      value: N
-
   - # ====== Action: Set Value ===================================
     id: 142992676181948636
     identification: 
@@ -3980,79 +3784,6 @@ dynamic-actions:
       fire-on-initialization: true
       stop-execution-on-error: true
       wait-for-result: true
-
-  - # ====== Action: Show ========================================
-    id: 142992954912948639
-    identification: 
-      action: Show
-
-    affected-elements: 
-      selection-type: Region
-      region: Inactivating your test # 142992818447948638
-
-    execution: 
-      sequence: 70
-      event: Open Update Test Dialog # 142991903298948629
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item = Value
-      item: P14_ACTIVE_YN
-      value: N
-
-  - # ====== Action: Hide ========================================
-    id: 142993009837948640
-    identification: 
-      action: Hide
-
-    affected-elements: 
-      selection-type: Region
-      region: Inactivating your test # 142992818447948638
-
-    execution: 
-      sequence: 60
-      event: Open Update Test Dialog # 142991903298948629
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item = Value
-      item: P14_ACTIVE_YN
-      value: Y
-
-- # ====== Dynamic Action: Cancel Save =========================
-  id: 142992403671948634
-  identification: 
-    name: Cancel Save
-
-  execution: 
-    sequence: 110
-
-  when: 
-    event: EVENT.EVENT.BROWSER.CLICK
-    selection-type: Button
-    button: Cancel # 143064559638412524
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Close Region ================================
-    id: 142992571704948635
-    identification: 
-      action: Close Region
-
-    affected-elements: 
-      selection-type: Region
-      region: Update Standard Test # 198848628130243437
-
-    execution: 
-      sequence: 10
-      event: Cancel Save # 142992403671948634
-      fire-when-event-result-is: True
-      fire-on-initialization: false
 
 - # ====== Dynamic Action: Hide 1st row of Tests report ========
   id: 143451866935206733

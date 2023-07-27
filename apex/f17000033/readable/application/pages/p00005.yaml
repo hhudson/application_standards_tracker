@@ -4,7 +4,7 @@ id: 5
 identification: 
   name: V_EBA_STDS_STANDARD_TESTS
   alias: STANDARD-TESTS
-  title: '&P5_STANDARD.'
+  title: '&P5_STANDARD_PAGE_NAME.'
 
 appearance: 
   page-mode: Normal
@@ -1049,14 +1049,14 @@ regions:
 
       heading: 
         heading: Component Type
-        alignment: end
+        alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 160
-        column-alignment: end
+        column-alignment: start
 
       accessibility: 
         value-identifies-row: false
@@ -1257,14 +1257,14 @@ regions:
 
       heading: 
         heading: Download
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 210
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -2157,6 +2157,36 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P5_STANDARD_PAGE_NAME ====================
+  id: 146555872323303732
+  identification: 
+    name: P5_STANDARD_PAGE_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Hidden Items # 7561455298262065562
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P5_ID ====================================
   id: 7561455492187065562
   identification: 
@@ -2672,6 +2702,20 @@ dynamic-actions:
       wait-for-result: true
 
 computations: 
+- # ====== Computation: P5_STANDARD_PAGE_NAME ==================
+  id: 146555965026303733
+  identification: 
+    item-name: P5_STANDARD_PAGE_NAME
+
+  execution: 
+    sequence: 30
+    point: Before Header
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "coalesce(:P5_STANDARD,'All')"
+
 - # ====== Computation: P5_STANDARD ============================
   id: 7655768881301229252
   identification: 

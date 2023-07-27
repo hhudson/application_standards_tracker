@@ -58,7 +58,8 @@ with aspaa as (
            src.svt_component_type_id,
            src.component_name, 
            fdv.component_type_id, 
-           fdv.link_url template_url
+           fdv.link_url template_url,
+           src.standard_category_name
     from svt_plsql_apex_audit paa
     left join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
@@ -192,7 +193,8 @@ Audit id : %3
     null mark_as_exception,
     a.component_id,
     a.parent_component_id,
-    a.svt_component_type_id
+    a.svt_component_type_id,
+    a.standard_category_name
 from aspaa a
 left outer join apex_issues ai on a.apex_issue_id = ai.issue_id
 left outer join svt_sert_how_to_fix ahtf on ahtf.collection_name = a.standard_code
