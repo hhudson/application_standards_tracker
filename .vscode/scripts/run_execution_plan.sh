@@ -9,9 +9,11 @@ echo "Load Helper for explain_plan"
 source $SCRIPT_DIR/../../.local/scripts/helper.sh
 
 # File can be referenced either as a full path or relative path
-VIEW_NAME=$3
-FILE_FULL_PATH=$2
-FILE_RELATIVE_PATH=$1
+FILE_DIR="$4"
+VIEW_NAME="$3"
+FILE_FULL_PATH="$2"
+FILE_RELATIVE_PATH="$1"
+
 UVIEW_NAME=$(echo $VIEW_NAME | tr 'a-z' 'A-Z')
 EP_FILE_NAME='EP_'$UVIEW_NAME$(date +"_%d%b%Y_%H:%M")
 UEP_FILE_NAME=$(echo $EP_FILE_NAME | tr 'a-z' 'A-Z')

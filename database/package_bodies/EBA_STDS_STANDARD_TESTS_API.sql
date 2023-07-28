@@ -243,7 +243,10 @@ create or replace package body eba_stds_standard_tests_api as
         from eba_stds_standard_tests
         where standard_code = p_standard_code;
 
-        l_version_number := l_test_rec.version_number + c_minor_version_increment;
+        l_version_number := case when l_test_rec.version_number = 0
+                                 then 1
+                                 else l_test_rec.version_number + c_minor_version_increment
+                                 end;
       
         update eba_stds_standard_tests
         set version_number = l_version_number
