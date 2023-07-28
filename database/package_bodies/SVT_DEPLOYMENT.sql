@@ -48,18 +48,20 @@ create or replace package body SVT_DEPLOYMENT as
     raise;
   end exclude_id_yn;
 
-  function json_content_blob (p_table_name    in user_tables.table_name%type,
-                              p_row_limit     in number default null,
-                              p_standard_code in eba_stds_standard_tests.standard_code%type default null,
-                              p_standard_id   in eba_stds_standards.id%type default null)
-  return blob
+  function assemble_json_query (
+                p_table_name    in user_tables.table_name%type,
+                p_row_limit     in number default null,
+                p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                p_standard_id   in eba_stds_standards.id%type default null,
+                p_datatype      in varchar2 default 'blob')
+  return clob 
   as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_blob';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_query';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_table_name constant user_tables.table_name%type := upper(p_table_name);
   c_exclude_id_yn varchar2(1) := exclude_id_yn (p_table_name => c_table_name);
   c_query_template constant varchar2(1000) := 
-  'select json_arrayagg(json_object (jn.* returning clob) returning blob)
+  'select json_arrayagg(json_object (jn.* returning clob) returning %6)
    from (select asrc.* %4
         from   except_cols (  
           %0,  
@@ -69,14 +71,12 @@ create or replace package body SVT_DEPLOYMENT as
         %2) jn';
   c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
   l_query clob;
-  l_file_blob blob;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name,
                                         'p_row_limit', p_row_limit,
                                         'p_standard_code', p_standard_code,
                                         'p_standard_id', p_standard_id);
-    
 
     l_query := apex_string.format(
       p_message =>   c_query_template,
@@ -95,8 +95,39 @@ create or replace package body SVT_DEPLOYMENT as
                  end,
       p5 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT' and p_standard_id is not null
                  then apex_string.format(q'[where standard_id = %s and published_yn = 'Y']', p_standard_id)
-                 end
+                 end,
+      p6 => p_datatype
     );
+    
+    return l_query;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end assemble_json_query;
+
+  function json_content_blob (p_table_name    in user_tables.table_name%type,
+                              p_row_limit     in number default null,
+                              p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                              p_standard_id   in eba_stds_standards.id%type default null)
+  return blob
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_blob';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_query     clob;
+  l_file_blob blob;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_table_name', p_table_name,
+                                        'p_row_limit', p_row_limit,
+                                        'p_standard_code', p_standard_code,
+                                        'p_standard_id', p_standard_id);
+
+    l_query := assemble_json_query (
+                    p_table_name    => p_table_name,
+                    p_row_limit     => p_row_limit,
+                    p_standard_code => p_standard_code,
+                    p_standard_id   => p_standard_id,
+                    p_datatype      => 'blob');
 
     execute immediate l_query into l_file_blob;
 
@@ -106,6 +137,39 @@ create or replace package body SVT_DEPLOYMENT as
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end json_content_blob;
+
+  function json_content_clob (p_table_name    in user_tables.table_name%type,
+                              p_row_limit     in number default null,
+                              p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                              p_standard_id   in eba_stds_standards.id%type default null)
+  return clob
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_clob';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_query     clob;
+  l_file_clob clob;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_table_name', p_table_name,
+                                        'p_row_limit', p_row_limit,
+                                        'p_standard_code', p_standard_code,
+                                        'p_standard_id', p_standard_id);
+
+    l_query := assemble_json_query (
+                    p_table_name    => p_table_name,
+                    p_row_limit     => p_row_limit,
+                    p_standard_code => p_standard_code,
+                    p_standard_id   => p_standard_id,
+                    p_datatype      => 'clob');
+
+    execute immediate l_query into l_file_clob;
+
+    return l_file_clob;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end json_content_clob;
 
   function sample_template_file (p_table_name in user_tables.table_name%type)
   return blob

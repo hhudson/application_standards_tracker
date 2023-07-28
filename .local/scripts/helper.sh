@@ -616,6 +616,15 @@ EOF
 
 } # compile_code
 
+export_tests() {
+  # echo "log : export_tests"
+  
+  echo exit | $VSCODE_TASK_COMPILE_BIN $DB_CONN -s $SCRIPT_DIR/export_tests_script.sql
+
+  rm standard_tests/temp_script.sql
+
+} # export_tests
+
 run_test() {
   # echo "log : run test"
   # Parameters

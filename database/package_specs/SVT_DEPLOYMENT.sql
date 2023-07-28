@@ -18,6 +18,29 @@ create or replace package SVT_DEPLOYMENT authid definer as
 -- MODIFIED  (YYYY-MON-DD)
 -- change_me  YYYY-MON-DD - created
 ---------------------------------------------------------------------------- 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 28, 2023
+-- Synopsis:
+--
+-- Assemble to query to return the json that is used in json_content_blob
+--
+/*
+select svt_deployment.assemble_json_query (
+                p_table_name => 'EBA_STDS_STANDARD_TESTS',
+                p_row_limit => 2,
+                p_datatype => 'clob') thejson
+from dual
+*/
+------------------------------------------------------------------------------
+    function assemble_json_query (
+                p_table_name    in user_tables.table_name%type,
+                p_row_limit     in number default null,
+                p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                p_standard_id   in eba_stds_standards.id%type default null,
+                p_datatype      in varchar2 default 'blob')
+    return clob;
     
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -35,7 +58,26 @@ from dual
                                 p_row_limit      in number default null,
                                 p_standard_code  in eba_stds_standard_tests.standard_code%type default null,
                                 p_standard_id    in eba_stds_standards.id%type default null)
-     return blob;
+    return blob;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 28, 2023
+-- Synopsis:
+--
+-- function to return a clob of the json output of a table
+--
+/*
+select svt_deployment.json_content_clob (p_table_name => 'EBA_STDS_STANDARD_TESTS',
+                                         p_standard_code => 'PG_NAME_TITLE') thejsonclob
+from dual
+*/
+------------------------------------------------------------------------------
+    function json_content_clob (p_table_name    in user_tables.table_name%type,
+                                p_row_limit     in number default null,
+                                p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                                p_standard_id   in eba_stds_standards.id%type default null)
+    return clob;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
