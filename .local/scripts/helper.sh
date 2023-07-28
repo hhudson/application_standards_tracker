@@ -618,6 +618,8 @@ EOF
 
 export_tests() {
   # echo "log : export_tests"
+
+  cd $PROJECT_DIR
   
   echo exit | $VSCODE_TASK_COMPILE_BIN $DB_CONN -s $SCRIPT_DIR/export_tests_script.sql
 
