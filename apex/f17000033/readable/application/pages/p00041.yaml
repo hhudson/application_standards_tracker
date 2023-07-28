@@ -38,10 +38,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Open Violation Count by Standard Group ======
+- # ====== Region: Open Violation Counts by Standard Group =====
   id: 54381742004573198
   identification: 
-    title: Open Violation Count by Standard Group
+    title: Open Violation Counts by Standard Group
     type: Chart
 
   layout: 
@@ -152,10 +152,10 @@ regions:
       performance: 
         maximum-rows-to-process: 20
 
-- # ====== Region: Top Standard Test Codes by Open Violation Cou
+- # ====== Region: Top 10 Standard Test Codes by Open Violation 
   id: 54383234770573199
   identification: 
-    title: Top Standard Test Codes by Open Violation Count
+    title: Top 10 Standard Test Codes by Open Violation Count
     type: Chart
 
   layout: 
@@ -271,10 +271,10 @@ regions:
       performance: 
         maximum-rows-to-process: 20
 
-- # ====== Region: Top Assignees by Open Violation count =======
+- # ====== Region: Top 10 Assignees by Open Violation count ====
   id: 54725337171995717
   identification: 
-    title: Top Assignees by Open Violation count
+    title: Top 10 Assignees by Open Violation count
     type: Chart
 
   layout: 
@@ -391,10 +391,10 @@ regions:
       performance: 
         maximum-rows-to-process: 20
 
-- # ====== Region: Exception Count by Standard Group ===========
+- # ====== Region: Top 10 Exception Counts by Standard Group ===
   id: 55816689477479639
   identification: 
-    title: Exception Count by Standard Group
+    title: Top 10 Exception Counts by Standard Group
     type: Chart
 
   layout: 
@@ -483,6 +483,8 @@ regions:
           left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'N'
           group by src.standard_code
+          order by count(*) desc
+          fetch first 10 rows only
 
       column-mapping: 
         label: STANDARD_CODE
@@ -505,10 +507,10 @@ regions:
       performance: 
         maximum-rows-to-process: 20
 
-- # ====== Region: Violation Count by Application ==============
+- # ====== Region: Top 5 Violation Count by Application ========
   id: 142993241229948642
   identification: 
-    title: Violation Count by Application
+    title: Top 5 Violation Count by Application
     type: Chart
 
   layout: 
@@ -593,7 +595,7 @@ regions:
           select aarc.application_id, aarc.application_name, aarc.violation_count
           from V_SVT_APPLICATION_REPORT_CARD aarc
           order by aarc.violation_count desc
-          fetch first 10 rows only
+          fetch first 5 rows only
 
       column-mapping: 
         label: APPLICATION_NAME

@@ -115,7 +115,7 @@ regions:
       partial-page-refresh: true
 
     performance: 
-      lazy-loading: false
+      lazy-loading: true
 
     break-formatting: 
       break-columns: No Break
@@ -326,7 +326,7 @@ regions:
       character-set-column: CHARACTER_SET
 
     appearance: 
-      download-text: Download active `&P5_STANDARD.` tests   <span class="fa fa-download" aria-hidden="true"></span>
+      download-text: Download up-to-date published `&P5_STANDARD.` tests   <span class="fa fa-download" aria-hidden="true"></span>
       content-disposition: Attachment
 
     sorting: 
@@ -474,16 +474,22 @@ regions:
         values: 
           p14_standard_code: '#STANDARD_CODE#'
 
-      link-icon: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="Edit Test Link">
+      link-icon: |
+        <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" 
+             class="apex-edit-pencil" 
+             alt="Edit Test Link"
+             title ="Edit Standard Test #STANDARD_CODE#"
+             aria-label ="Edit Standard Test #STANDARD_CODE#"
+        >
       authorization-scheme: APPLICATION SENTRY # 10780233005961370815
 
     pagination: 
-      type: Row Ranges X to Y of Z
+      type: Row Ranges X to Y
       display-position: Bottom - Right
 
     performance: 
-      lazy-loading: false
-      maximum-rows-to-process: 1000000
+      lazy-loading: true
+      maximum-rows-to-process: 100
 
     search-bar: 
       include-search-bar: true
@@ -1297,7 +1303,7 @@ regions:
         pivot: true
 
       appearance: 
-        download-text: '<span class="#DLCLSS#"> <span aria-hidden="true" class="fa fa-file-arrow-down"></span> Download #VSN# </span>'
+        download-text: '<span class="#DLCLSS#"> <span aria-hidden="true" class="fa fa-file-arrow-down"></span> #VSN# </span>'
         content-disposition: Attachment
 
     - # ====== Column: FILE_BLOB ===================================
@@ -1654,7 +1660,7 @@ regions:
                   class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft publishRpt #PUBLISH_CLSS#"
                   data-stdcd="#STANDARD_CODE#">
           <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-print"></span>
-          Publish
+          #PUBLISH_TEXT#
           </button>
 
       source: 
@@ -1734,6 +1740,47 @@ regions:
 
       layout: 
         sequence: 320
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISH_TEXT ================================
+      id: 146557314410303747
+      identification: 
+        column-name: PUBLISH_TEXT
+        type: Plain Text
+
+      heading: 
+        heading: Publish Text
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 360
         column-alignment: start
 
       accessibility: 
@@ -2194,7 +2241,7 @@ page-items:
     type: Hidden
 
   settings: 
-    value-protected: true
+    value-protected: false
 
   layout: 
     sequence: 10
@@ -2213,7 +2260,7 @@ page-items:
     storage: Per Session (Persistent)
 
   security: 
-    session-state-protection: Checksum Required - Session Level
+    session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
@@ -2552,7 +2599,8 @@ dynamic-actions:
     jquery-selector: .publishRpt
 
   execution: 
-    event-scope: Static
+    event-scope: Dynamic
+    static-container-(jquery-selector): '#STANDARD_TEST_RPT'
     type: Immediate
 
   actions: 

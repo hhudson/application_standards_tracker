@@ -41,6 +41,43 @@ advanced:
 server-cache: 
   caching: Disabled
 
+help: 
+  help-text: |
+    <ol>
+        <li><h2>Creating a new test</h2>
+            <ol>
+                <li><h3>From Scratch</h3>
+                    <ol>
+                        <li>Pick a unique, descriptive and brief 'standard code' (no spaces or special characters)</li>
+                        <li>Describe the test in a short phrase. Terms like 'should' are encouraged.</li>
+                        <li>etc</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+        <li><h2>How to Export & Share your test</h2>
+            <ol>
+                <li><h3>For the 1st time</h3>
+                    <p>
+                        On the `Configuration` tab, you will see that you test has a Version of 0. Click `Publish`. 
+                        This will submit the page. After refresh, you will see that your test has progressed to Version 1.
+                        Now, your test will automatically be published to the Git library via a scheduled job. 
+                        If you want to export and share your test sooner, simply click 'Download'.
+                    </p>
+                </li>
+                 <li><h3>Updating an already published test</h3>
+                    <p>
+                        On the `Configuration` tab, you will see that you test has a Version of 1 or more. 
+                        If you have made any changes to your test since publishing, you will see a `Publish` button. 
+                        If you click the `Pubish` button, this will submit the page and, after the refresh, you will see that 
+                        your version number has incremented upwards. This new version will automatically be published to the Git library via a scheduled job. 
+                        If you want to export and share your test sooner, simply click 'Download'.
+                    </p>
+                </li>
+            </ol>
+        </li>
+    </ol>
+
 regions: 
 - # ====== Region: Live Test Results ===========================
   id: 53643144549011923
@@ -1400,7 +1437,7 @@ regions:
 
     performance: 
       lazy-loading: false
-      maximum-rows-to-process: 1000000
+      maximum-rows-to-process: 100
 
     messages: 
       when-no-data-found: <small>Activate your test to download it</small>
@@ -1916,7 +1953,7 @@ regions:
                   class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft publishRpt #PUBLISH_CLSS#"
                   data-stdcd="#STANDARD_CODE#">
           <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-print"></span>
-          Publish
+          #PUBLISH_TEXT#
           </button>
 
       source: 
@@ -2005,6 +2042,24 @@ regions:
 
       layout: 
         sequence: 320
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PUBLISH_TEXT ================================
+      id: 147812692767836202
+      identification: 
+        column-name: PUBLISH_TEXT
+        type: Hidden Column
+
+      heading: 
+        heading: Publish Text
+
+      layout: 
+        sequence: 360
 
       source: 
         primary-key: false
@@ -3150,7 +3205,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Super Breadcrumb # 144377177445069517
+    region: Buttons # 7094082318946085125
     position: PREVIOUS
     start-new-layout: false
     start-new-row: true
@@ -3177,7 +3232,10 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Button: CURRENT_VIOLATIONS ==========================
   id: 54726858435995732
@@ -3279,7 +3337,6 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--simple
 
   behavior: 
     action: Redirect to Page in this Application
@@ -3289,6 +3346,44 @@ buttons:
       clear-cache: 5
       values: 
         p5_id: '&P14_STANDARD_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Button: Help ========================================
+  id: 147812953109836205
+  identification: 
+    button-name: Help
+    label: Help
+
+  layout: 
+    sequence: 10
+    region: Super Breadcrumb # 144377177445069517
+    position: HELP
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-question-circle-o
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:1001:&SESSION.::&DEBUG.:1001:P1001_PAGE_ID:&APP_PAGE_ID.'
+      page: 1001 # Page Help Dialog
+      clear-cache: 1001
+      values: 
+        p1001_page_id: '&APP_PAGE_ID.'
 
     warn-on-unsaved-changes: Do Not Check
 
@@ -3831,7 +3926,8 @@ dynamic-actions:
     jquery-selector: .publishRpt
 
   execution: 
-    event-scope: Static
+    event-scope: Dynamic
+    static-container-(jquery-selector): '#STANDARD_TEST_RPT'
     type: Immediate
 
   actions: 

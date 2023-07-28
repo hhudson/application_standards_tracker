@@ -57,15 +57,35 @@ regions:
       sort-direction: Ascending
 
   search-sources: 
-  - # ====== Search Source: SEARCH ===============================
+  - # ====== Search Source: Navigation Search ====================
     id: 52094203026500522
     identification: 
-      name: SEARCH
+      name: Navigation Search
       search-configuration: V_SVT_NAV_MENU # 52465087916389448
       use-as-initial-result: false
 
     layout: 
       sequence: 10
+
+  - # ====== Search Source: Standard Groups ======================
+    id: 146556866390303742
+    identification: 
+      name: Standard Groups
+      search-configuration: Standard Groups # 147803942933237929
+      use-as-initial-result: false
+
+    layout: 
+      sequence: 20
+
+  - # ====== Search Source: Tests ================================
+    id: 146556994400303743
+    identification: 
+      name: Tests
+      search-configuration: Tests # 147805726929267423
+      use-as-initial-result: false
+
+    layout: 
+      sequence: 30
 
 - # ====== Region: Container ===================================
   id: 52094495467500524
@@ -1877,6 +1897,32 @@ buttons:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
+- # ====== Button: Cancel ======================================
+  id: 146556593504303739
+  identification: 
+    button-name: Cancel
+    label: Cancel
+
+  layout: 
+    sequence: 20
+    region: Navigate through application # 52094181675500421
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
 dynamic-actions: 
 - # ====== Dynamic Action: Popup Search ========================
   id: 52094656218500526
@@ -1887,7 +1933,7 @@ dynamic-actions:
     sequence: 10
 
   when: 
-    event: EVENT.EVENT.BROWSER.CLICK
+    event: EVENT.EVENT.BROWSER.MOUSEDOWN
     selection-type: Item(s)
     item(s): 
     - P0_SEARCH_BAR
@@ -1933,4 +1979,37 @@ dynamic-actions:
       fire-on-initialization: true
       stop-execution-on-error: true
       wait-for-result: true
+
+- # ====== Dynamic Action: Cancel Search =======================
+  id: 146556627996303740
+  identification: 
+    name: Cancel Search
+
+  execution: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: Cancel # 146556593504303739
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Close Region ================================
+    id: 146556765882303741
+    identification: 
+      action: Close Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Navigate through application # 52094181675500421
+
+    execution: 
+      sequence: 10
+      event: Cancel Search # 146556627996303740
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 

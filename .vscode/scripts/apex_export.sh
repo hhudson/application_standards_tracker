@@ -29,7 +29,7 @@ elif [[ "$EXP_OPTION" == "3 - Export published standard tests" ]]; then
 
 elif [[ "$EXP_OPTION" == "4 - All of the above" ]]; then
 
-    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file + Readable YAML ${COLOR_RESET}"
+    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file + Readable YAML + Published tests${COLOR_RESET}"
     export_apex_app
     export_apex_app_readable_yaml
     export_tests
