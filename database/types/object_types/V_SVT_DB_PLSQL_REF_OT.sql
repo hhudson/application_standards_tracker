@@ -11,16 +11,11 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
-drop type V_SVT_DB_PLSQL_REF_NT
-/
-drop type V_SVT_DB_PLSQL_REF_OT
-/
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
-  create type V_SVT_DB_PLSQL_REF_OT as object
+-- drop type V_SVT_DB_PLSQL_REF_NT
+-- /
+-- drop type V_SVT_DB_PLSQL_REF_OT
+-- /
+create type V_SVT_DB_PLSQL_REF_OT as object
     (
       PASS_YN        VARCHAR2(1 CHAR),
       OBJECT_NAME    VARCHAR2(128 CHAR),
@@ -28,11 +23,7 @@ begin
       LINE           NUMBER,
       CODE           VARCHAR2(5000 CHAR),
       UNQID          VARCHAR2(5000 CHAR),
-      STANDARD_CODE  VARCHAR2(100 CHAR)
-    ) ]';
-  dbms_output.put_line(q'[ type V_SVT_DB_PLSQL_REF_OT created ]');
-exception
-  when already_exists then null;
-end;
+      TEST_CODE      VARCHAR2(100 CHAR)
+    ) 
 /
 --rollback drop type V_SVT_DB_PLSQL_REF_OT;

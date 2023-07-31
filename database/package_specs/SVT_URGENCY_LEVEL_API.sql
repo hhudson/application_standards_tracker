@@ -31,7 +31,7 @@ select SVT_URGENCY_LEVEL_API.get_default_level_id
 from dual
 */
 ------------------------------------------------------------------------------
-function get_default_level_id return SVT_standards_urgency_level.id%type;
+function get_default_level_id return svt_standards_urgency_level.id%type;
 
 end SVT_URGENCY_LEVEL_API;
 /

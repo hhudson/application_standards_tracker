@@ -25,7 +25,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_workspace             in eba_stds_tests_lib.workspace%type,
         p_test_id               in eba_stds_tests_lib.test_id%type,
         p_query_clob            in eba_stds_tests_lib.query_clob%type,
-        p_standard_code         in eba_stds_tests_lib.standard_code%type,
+        p_test_code             in eba_stds_tests_lib.test_code%type,
         p_active_yn             in eba_stds_tests_lib.active_yn%type,
         p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
         p_svt_component_type_id in eba_stds_tests_lib.svt_component_type_id%type,
@@ -44,7 +44,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                                         'p_workspace', p_workspace,
                                         'p_test_id', p_test_id,
                                         'p_query_clob', p_query_clob,
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_active_yn', p_active_yn,
                                         'p_mv_dependency', p_mv_dependency,
                                         'p_svt_component_type_id', p_svt_component_type_id
@@ -56,7 +56,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_workspace             workspace,
                   p_test_id               test_id,
                   p_query_clob            query_clob,
-                  p_standard_code         standard_code,
+                  p_test_code             test_code,
                   p_active_yn             active_yn,
                   p_mv_dependency         mv_dependency,
                   p_svt_component_type_id svt_component_type_id,
@@ -65,7 +65,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_level_id              level_id,
                   p_version_number        version_number
            from dual) h
-    on (e.standard_code = h.standard_code and e.workspace = h.workspace)
+    on (e.test_code = h.test_code and e.workspace = h.workspace)
     when matched then
     update set e.standard_id           = h.standard_id,
                e.test_name             = h.test_name,
@@ -79,7 +79,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                e.level_id              = h.level_id,
                e.version_number        = h.version_number
     when not matched then
-    insert (standard_code,
+    insert (test_code,
             workspace,
             standard_id,
             test_name,
@@ -92,7 +92,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             fix,
             level_id,
             version_number)
-    values (h.standard_code,
+    values (h.test_code,
             h.workspace,
             h.standard_id,
             h.test_name,
@@ -125,7 +125,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
              standard_id,
              test_name,
              query_clob,
-             standard_code,
+             test_code,
              active_yn,
              mv_dependency,
              svt_component_type_id,
@@ -142,7 +142,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_workspace             => c_workspace,
         p_test_id               => rec.test_id,
         p_query_clob            => rec.query_clob,
-        p_standard_code         => rec.standard_code,
+        p_test_code             => rec.test_code,
         p_active_yn             => rec.active_yn,
         p_mv_dependency         => rec.mv_dependency,
         p_svt_component_type_id => rec.svt_component_type_id,
@@ -182,7 +182,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                 p_test_name             => l_lib_rec.test_name,
                 p_query_clob            => l_lib_rec.query_clob,
                 p_owner                 => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'),
-                p_standard_code         => l_lib_rec.standard_code,
+                p_test_code             => l_lib_rec.test_code,
                 p_active_yn             => 'N',
                 p_level_id              => coalesce(p_urgency_level_id, svt_urgency_level_api.get_default_level_id),
                 p_mv_dependency         => l_lib_rec.mv_dependency,
@@ -216,25 +216,25 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     raise;
    end delete_test_from_lib;
 
-   function get_id(p_standard_code in eba_stds_tests_lib.standard_code%type)
+   function get_id(p_test_code in eba_stds_tests_lib.test_code%type)
    return eba_stds_tests_lib.id%type
    as 
    c_scope constant varchar2(128) := gc_scope_prefix || 'get_id';
    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-   c_space_index constant number := instr(p_standard_code,' ');
-   c_standard_code constant eba_stds_tests_lib.standard_code%type 
+   c_space_index constant number := instr(p_test_code,' ');
+   c_test_code constant eba_stds_tests_lib.test_code%type 
                     := case when c_space_index = 0
-                            then upper(p_standard_code)
-                            else substr (upper(p_standard_code), 1,c_space_index - 1)
+                            then upper(p_test_code)
+                            else substr (upper(p_test_code), 1,c_space_index - 1)
                             end;
    l_id eba_stds_tests_lib.id%type;
    begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+    apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
     
     select id
     into l_id
     from eba_stds_tests_lib
-    where standard_code = c_standard_code;
+    where test_code = c_test_code;
 
     return l_id;
   
@@ -246,25 +246,25 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
       raise;
    end get_id;
 
-  function current_md5(p_standard_code in eba_stds_tests_lib.standard_code%type)
+  function current_md5(p_test_code in eba_stds_tests_lib.test_code%type)
   return varchar2
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'current_md5';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_lib_rec eba_stds_tests_lib%rowtype;
   begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+    apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
     select *
     into l_lib_rec
     from eba_stds_tests_lib
-    where standard_code = p_standard_code;
+    where test_code = p_test_code;
 
     return eba_stds_standard_tests_api.build_test_md5(
                       l_lib_rec.standard_id,
                       l_lib_rec.test_name,
                       l_lib_rec.query_clob,
-                      l_lib_rec.standard_code,
+                      l_lib_rec.test_code,
                       l_lib_rec.active_yn,
                       l_lib_rec.level_id,
                       l_lib_rec.mv_dependency,

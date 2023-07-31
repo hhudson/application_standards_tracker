@@ -56,19 +56,19 @@ create or replace package body eba_stds as
         raise;
     end get_standard_id;
 
-    function get_mv_dependency(p_standard_code in eba_stds_standard_tests.standard_code%type) 
+    function get_mv_dependency(p_test_code in eba_stds_standard_tests.test_code%type) 
     return eba_stds_standard_tests.mv_dependency%type
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_mv_dependency';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     l_mv_dependency eba_stds_standard_tests.mv_dependency%type;
     begin
-      apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+      apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
       select mv_dependency 
       into l_mv_dependency
       from eba_stds_standard_tests
-      where standard_code = p_standard_code;
+      where test_code = p_test_code;
 
       return l_mv_dependency;
     
@@ -81,8 +81,8 @@ create or replace package body eba_stds as
     end get_mv_dependency;
 
     function display_initialize_button (
-        p_standard_code in SVT_plsql_apex_audit.standard_code%type,
-        p_level_id      in SVT_standards_urgency_level.id%type
+        p_test_code     in svt_plsql_apex_audit.test_code%type,
+        p_level_id      in svt_standards_urgency_level.id%type
     ) return boolean
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'display_initialize_button';
@@ -93,18 +93,18 @@ create or replace package body eba_stds as
     l_urgent_yn varchar2(1);
     begin
         apex_debug.message(c_debug_template,'START', 
-                                            'p_standard_code', p_standard_code,
+                                            'p_test_code', p_test_code,
                                             'p_level_id', p_level_id
                                             );
         select count(1)
         into l_issue_count
-        from SVT_plsql_apex_audit
-        where standard_code = p_standard_code;
+        from svt_plsql_apex_audit
+        where test_code = p_test_code;
 
         select count(1)
         into l_standard_count
         from eba_stds_standard_tests
-        where standard_code = p_standard_code
+        where test_code = p_test_code
         and active_yn = 'Y';
 
         select case when urgency_level <= 100
@@ -112,7 +112,7 @@ create or replace package body eba_stds as
                 else 'N'
                 end 
         into l_urgent_yn
-        from SVT_standards_urgency_level
+        from svt_standards_urgency_level
         where id = p_level_id;
 
         if l_issue_count = 0 

@@ -11,16 +11,11 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- drop type v_SVT_db_plsql_nt
+-- drop type v_svt_db_plsql_nt
 -- /
--- drop type v_SVT_db_plsql_ot
+-- drop type v_svt_db_plsql_ot
 -- /
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
-  create type V_SVT_DB_PLSQL_OT as object
+create type V_SVT_DB_PLSQL_OT as object
     (
       PASS_YN        VARCHAR2(1 CHAR),
       OBJECT_NAME    VARCHAR2(128 CHAR),
@@ -28,11 +23,7 @@ begin
       LINE           NUMBER,
       CODE           VARCHAR2(5000 CHAR),
       UNQID          VARCHAR2(5000 CHAR),
-      STANDARD_CODE  VARCHAR2(100 CHAR)
-    ) ]';
-  dbms_output.put_line(q'[ type v_SVT_db_plsql_ot created ]');
-exception
-  when already_exists then null;
-end;
+      TEST_CODE      VARCHAR2(100 CHAR)
+    )
 /
 --rollback drop type V_SVT_DB_PLSQL_OT;

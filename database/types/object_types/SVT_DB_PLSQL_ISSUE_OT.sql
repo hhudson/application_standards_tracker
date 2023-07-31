@@ -11,12 +11,11 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
-  create type SVT_DB_PLSQL_ISSUE_OT as object
+-- drop type SVT_DB_PLSQL_ISSUE_NT
+-- /
+-- drop type SVT_DB_PLSQL_ISSUE_OT
+-- /
+create type SVT_DB_PLSQL_ISSUE_OT as object
     (
         issue_desc              varchar2(511   char),
         object_name             varchar2(128   char),  
@@ -25,11 +24,7 @@ begin
         code                    varchar2(1000 char),
         urgency                 varchar2(255  char),
         urgency_level           number,
-        standard_code           varchar2(100 char)
-    ) ]';
-  dbms_output.put_line(q'[ type SVT_DB_PLSQL_ISSUE_OT created ]');
-exception
-  when already_exists then null;
-end;
+        test_code               varchar2(100 char)
+    )
 /
 --rollback drop type SVT_DB_PLSQL_ISSUE_OT;

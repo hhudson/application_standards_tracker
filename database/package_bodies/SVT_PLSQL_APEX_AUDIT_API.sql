@@ -6,7 +6,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_plsql_apex_audit_api
+--   svt_plsql_apex_audit_api
 --
 -- DESCRIPTION
 --
@@ -19,15 +19,15 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
 
 
-  procedure mark_as_exception (p_audit_id in SVT_plsql_apex_audit.id%type)
+  procedure mark_as_exception (p_audit_id in svt_plsql_apex_audit.id%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'mark_as_exception';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_ignore_legacy  constant SVT_audit_actions.id%type := 2;
+  c_ignore_legacy  constant svt_audit_actions.id%type := 2;
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
-    update SVT_plsql_apex_audit
+    update svt_plsql_apex_audit
     set action_id = c_ignore_legacy
     where id = p_audit_id;
   
@@ -37,15 +37,15 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       raise;
   end mark_as_exception;
 
-  procedure null_out_apex_issue (p_audit_id in SVT_plsql_apex_audit.id%type)
+  procedure null_out_apex_issue (p_audit_id in svt_plsql_apex_audit.id%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'null_out_apex_issue';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_ignore_legacy  constant SVT_audit_actions.id%type := 2;
+  c_ignore_legacy  constant svt_audit_actions.id%type := 2;
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
-    update SVT_plsql_apex_audit
+    update svt_plsql_apex_audit
     set apex_issue_id = null, apex_issue_title_suffix = null
     where id = p_audit_id;
   
@@ -55,19 +55,19 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       raise;
   end null_out_apex_issue;
 
-  procedure assign_violation (p_audit_id in SVT_plsql_apex_audit.id%type,
-                              p_assignee in SVT_plsql_apex_audit.assignee%type)
+  procedure assign_violation (p_audit_id in svt_plsql_apex_audit.id%type,
+                              p_assignee in svt_plsql_apex_audit.assignee%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'assign_violation';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_assignee constant SVT_plsql_apex_audit.assignee%type := coalesce(lower(p_assignee),svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE'));
+  c_assignee constant svt_plsql_apex_audit.assignee%type := coalesce(lower(p_assignee),svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE'));
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_audit_id', p_audit_id,
                                         'p_assignee', p_assignee,
                                         'c_assignee', c_assignee);
     
-    update SVT_plsql_apex_audit
+    update svt_plsql_apex_audit
     set assignee = c_assignee
     where id = p_audit_id;
     apex_debug.message(c_debug_template, 'updated', sql%rowcount);
@@ -79,7 +79,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   end assign_violation;
 
   procedure bulk_reassign (p_audit_ids in varchar2,
-                           p_assignee  in SVT_plsql_apex_audit.assignee%type)
+                           p_assignee  in svt_plsql_apex_audit.assignee%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_reassign';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -99,37 +99,37 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     raise;  
   end bulk_reassign;
 
-  function get_audit_record (p_audit_id in SVT_plsql_apex_audit.id%type) 
-    return SVT_plsql_apex_audit%rowtype
+  function get_audit_record (p_audit_id in svt_plsql_apex_audit.id%type) 
+    return svt_plsql_apex_audit%rowtype
     is 
     c_scope          constant varchar2(128)  := gc_scope_prefix || 'get_audit_record';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    l_SVT_plsql_apex_audit_rec SVT_plsql_apex_audit%rowtype;
+    l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
     begin
       apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
       select *
-      into l_SVT_plsql_apex_audit_rec
-      from SVT_plsql_apex_audit
+      into l_svt_plsql_apex_audit_rec
+      from svt_plsql_apex_audit
       where id = p_audit_id;
 
-      return l_SVT_plsql_apex_audit_rec;
+      return l_svt_plsql_apex_audit_rec;
 
     exception 
       when no_data_found then 
-        return l_SVT_plsql_apex_audit_rec;
+        return l_svt_plsql_apex_audit_rec;
       when others then
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
         raise;
   end get_audit_record;
 
-  function get_unqid(p_audit_id in SVT_plsql_apex_audit.id%type) 
-    return SVT_plsql_apex_audit.unqid%type
+  function get_unqid(p_audit_id in svt_plsql_apex_audit.id%type) 
+    return svt_plsql_apex_audit.unqid%type
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_unqid';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    l_unqid SVT_plsql_apex_audit.unqid%type;
+    l_unqid svt_plsql_apex_audit.unqid%type;
     begin
       apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
@@ -152,4 +152,4 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
 end SVT_PLSQL_APEX_AUDIT_API;
 /
---rollback drop package body SVT_plsql_apex_audit_api;
+--rollback drop package body svt_plsql_apex_audit_api;

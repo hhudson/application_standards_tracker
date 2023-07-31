@@ -34,7 +34,7 @@ begin
         p_workspace             => p_workspace,
         p_test_id               => p_test_id,
         p_query_clob            => p_query_clob,
-        p_standard_code         => p_standard_code,
+        p_test_code             => p_test_code,
         p_active_yn             => p_active_yn,
         p_mv_dependency         => p_mv_dependency,
         p_svt_component_type_id => p_svt_component_type_id,
@@ -52,7 +52,7 @@ end;
         p_workspace             in eba_stds_tests_lib.workspace%type,
         p_test_id               in eba_stds_tests_lib.test_id%type,
         p_query_clob            in eba_stds_tests_lib.query_clob%type,
-        p_standard_code         in eba_stds_tests_lib.standard_code%type,
+        p_test_code             in eba_stds_tests_lib.test_code%type,
         p_active_yn             in eba_stds_tests_lib.active_yn%type,
         p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
         p_svt_component_type_id in eba_stds_tests_lib.svt_component_type_id%type,
@@ -121,14 +121,14 @@ end;
 --     Date: July 11, 2023
 -- Synopsis:
 --
--- Function to get the primary key of eba_stds_tests_lib from a given standard_code
+-- Function to get the primary key of eba_stds_tests_lib from a given test_code
 --
 /*
-        select eba_stds_tests_lib_api.get_id(:P60_STANDARD_CODE)
+        select eba_stds_tests_lib_api.get_id(:P60_TEST_CODE)
         from dual
 */
 ------------------------------------------------------------------------------
-   function get_id(p_standard_code in eba_stds_tests_lib.standard_code%type)
+   function get_id(p_test_code in eba_stds_tests_lib.test_code%type)
    return eba_stds_tests_lib.id%type;
 
 ------------------------------------------------------------------------------
@@ -139,11 +139,11 @@ end;
 -- Function to return the md5 of a eba_stds_tests_lib for comparison with a eba_stds_standard_tests record
 --
 /*
-select eba_stds_tests_lib_api.current_md5(p_standard_code)
+select eba_stds_tests_lib_api.current_md5(p_test_code)
 from dual
 */
 ------------------------------------------------------------------------------
-   function current_md5(p_standard_code in eba_stds_tests_lib.standard_code%type)
+   function current_md5(p_test_code in eba_stds_tests_lib.test_code%type)
    return varchar2;
 
 end EBA_STDS_TESTS_LIB_API;

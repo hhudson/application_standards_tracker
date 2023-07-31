@@ -4,12 +4,12 @@
 create or replace force view V_EBA_STDS_STANDARD_TESTS_EXPORT as 
 with  estl as (
             select version_number imported_version_number,
-                   standard_code,
+                   test_code,
                    eba_stds_standard_tests_api.build_test_md5 (
                         p_standard_id           => standard_id,
                         p_test_name             => test_name,
                         p_query_clob            => query_clob,
-                        p_standard_code         => standard_code,
+                        p_test_code             => test_code,
                         p_active_yn             => active_yn,
                         p_level_id              => level_id,
                         p_mv_dependency         => mv_dependency,
@@ -25,7 +25,7 @@ with  estl as (
                   esst.urgency,
                   esst.urgency_level,
                   esst.test_name,
-                  esst.standard_code,
+                  esst.test_code,
                   esst.standard_category_name,
                   esst.active_yn,
                   esst.nt_name,
@@ -53,14 +53,14 @@ with  estl as (
                         else 'N'
                         end published_yn
             from eba_stds_standard_tests_api.v_eba_stds_standard_tests() esst
-            left outer join estl on estl.standard_code = esst.standard_code
+            left outer join estl on estl.test_code = esst.test_code
 )
 select standard_id,
        test_id,
        urgency,
        urgency_level,
        test_name,
-       standard_code,
+       test_code,
        standard_category_name,
        active_yn,
        nt_name,

@@ -57,18 +57,18 @@ end;
 begin
  svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('svt_default_schema'));
  svt_audit_util.merge_audit_tbl(
-                    p_standard_code => 'SERT',
+                    p_test_code => 'SERT',
                     p_application_id => 17000033,
                     p_page_id => 1);
  commit;
 end;
 */
 ------------------------------------------------------------------------------
-    procedure merge_audit_tbl (p_application_id in SVT_plsql_apex_audit.application_id%type default null,
-                               p_page_id        in SVT_plsql_apex_audit.page_id%type default null,
-                               p_standard_code  in eba_stds_standard_tests.standard_code%type default null,
-                               p_legacy_yn      in SVT_plsql_apex_audit.legacy_yn%type default 'N',
-                               p_audit_id       in SVT_plsql_apex_audit.id%type default null
+    procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                               p_page_id        in svt_plsql_apex_audit.page_id%type default null,
+                               p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                               p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
+                               p_audit_id       in svt_plsql_apex_audit.id%type default null
                               );
 
 ------------------------------------------------------------------------------
@@ -87,9 +87,9 @@ end;
 */
 --
 ------------------------------------------------------------------------------
-   procedure record_daily_issue_snapshot(p_application_id in SVT_plsql_apex_audit.application_id%type default null,
-                                         p_page_id        in SVT_plsql_apex_audit.page_id%type default null,
-                                         p_standard_code  in eba_stds_standard_tests.standard_code%type default null
+   procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                                         p_page_id        in svt_plsql_apex_audit.page_id%type default null,
+                                         p_test_code      in eba_stds_standard_tests.test_code%type default null
                                         );
 
 
@@ -123,9 +123,9 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure delete_obsolete_violations (
-                p_standard_code  in eba_stds_standard_tests.standard_code%type default null,
-                p_application_id in SVT_plsql_apex_audit.application_id%type default null,
-                p_page_id        in SVT_plsql_apex_audit.page_id%type default null);
+                p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                p_page_id        in svt_plsql_apex_audit.page_id%type default null);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -137,12 +137,12 @@ procedure delete_obsolete_violations (
 /*
 begin
     SVT_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
-    SVT_audit_util.initialize_standard(p_standard_code => 'HTML_ESCAPING_COLS');
+    SVT_audit_util.initialize_standard(p_test_code => 'HTML_ESCAPING_COLS');
     commit;
 end;
 */
 ------------------------------------------------------------------------------
-procedure initialize_standard(p_standard_code  in eba_stds_standard_tests.standard_code%type);
+procedure initialize_standard(p_test_code  in eba_stds_standard_tests.test_code%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

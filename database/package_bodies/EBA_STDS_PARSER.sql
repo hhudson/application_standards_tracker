@@ -571,19 +571,19 @@ is
     -- end build_link;
 
     function build_url( p_template_url          in v_SVT_flow_dictionary_views.link_url%type,
-                        p_app_id                in SVT_plsql_apex_audit.application_id%type,
-                        p_page_id               in SVT_plsql_apex_audit.page_id%type,
-                        p_pk_value              in SVT_plsql_apex_audit.component_id%type,
-                        p_parent_pk_value       in SVT_plsql_apex_audit.object_name%type,
-                        p_opt_parent_pk_value   in SVT_plsql_apex_audit.object_type%type default null,
+                        p_app_id                in svt_plsql_apex_audit.application_id%type,
+                        p_page_id               in svt_plsql_apex_audit.page_id%type,
+                        p_pk_value              in svt_plsql_apex_audit.component_id%type,
+                        p_parent_pk_value       in svt_plsql_apex_audit.object_name%type,
+                        p_opt_parent_pk_value   in svt_plsql_apex_audit.object_type%type default null,
                         p_builder_session       in number default null)
     return varchar2 deterministic result_cache
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'build_url';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15';
-    c_app_id constant SVT_plsql_apex_audit.application_id%type := p_app_id;
-    c_page_id constant SVT_plsql_apex_audit.page_id%type := p_page_id;
-    c_pk_value constant SVT_plsql_apex_audit.component_id%type := p_pk_value;
+    c_app_id constant svt_plsql_apex_audit.application_id%type := p_app_id;
+    c_page_id constant svt_plsql_apex_audit.page_id%type := p_page_id;
+    c_pk_value constant svt_plsql_apex_audit.component_id%type := p_pk_value;
     c_parent_pk_value constant varchar2(100) := p_parent_pk_value;
     c_opt_parent_pk_value constant varchar2(100) := p_opt_parent_pk_value;
     c_builder_session constant number := coalesce(v('APX_BLDR_SESSION'),p_builder_session);

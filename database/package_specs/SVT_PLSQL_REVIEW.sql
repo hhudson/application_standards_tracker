@@ -15,26 +15,11 @@ create or replace package SVT_PLSQL_REVIEW authid current_user as
     ------------------------------------------------------------------------------
     function issues (p_object_name             in user_plsql_object_settings.name%type default null,
                      p_object_type             in user_plsql_object_settings.type%type default null,
-                     p_max_standard_code_count in number default null,
+                     p_max_test_code_count     in number default null,
                      p_max_issue_count         in number default null,
                      p_file_dirname            in varchar2 default null
                     )
     return svt_db_plsql_issue_nt pipelined;
-
-        ------------------------------------------------------------------------------
-    --  Creator: Hayden Hudson
-    --     Date: August 19, 2022
-    -- Synopsis:
-    --
-    -- Procedure to delete non-existant reference codes
-    --
-    /*
-    begin
-        ast_plsql_review.clear_invalid_exceptions;
-    end;
-    */
-    ------------------------------------------------------------------------------
-    procedure clear_invalid_exceptions;
 
 end SVT_PLSQL_REVIEW;
 /

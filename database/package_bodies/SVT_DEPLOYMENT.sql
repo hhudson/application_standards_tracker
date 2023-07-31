@@ -51,7 +51,7 @@ create or replace package body SVT_DEPLOYMENT as
   function assemble_json_query (
                 p_table_name    in user_tables.table_name%type,
                 p_row_limit     in number default null,
-                p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                p_test_code     in eba_stds_standard_tests.test_code%type default null,
                 p_standard_id   in eba_stds_standards.id%type default null,
                 p_datatype      in varchar2 default 'blob')
   return clob 
@@ -69,13 +69,13 @@ create or replace package body SVT_DEPLOYMENT as
         ) asrc
         %3%5
         %2) jn';
-  c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
+  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
   l_query clob;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name,
                                         'p_row_limit', p_row_limit,
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_standard_id', p_standard_id);
 
     l_query := apex_string.format(
@@ -87,8 +87,8 @@ create or replace package body SVT_DEPLOYMENT as
       p2 => case when p_row_limit is not null
                  then 'fetch first '||p_row_limit||' rows only'
                  end,
-      p3 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_standard_code is not null
-                 then apex_string.format(q'[where standard_code = '%s']', c_standard_code)
+      p3 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_test_code is not null
+                 then apex_string.format(q'[where test_code = '%s']', c_test_code)
                  end,
       p4 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS'
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
@@ -107,7 +107,7 @@ create or replace package body SVT_DEPLOYMENT as
 
   function json_content_blob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
-                              p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                              p_test_code     in eba_stds_standard_tests.test_code%type default null,
                               p_standard_id   in eba_stds_standards.id%type default null)
   return blob
   as 
@@ -119,13 +119,13 @@ create or replace package body SVT_DEPLOYMENT as
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name,
                                         'p_row_limit', p_row_limit,
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_standard_id', p_standard_id);
 
     l_query := assemble_json_query (
                     p_table_name    => p_table_name,
                     p_row_limit     => p_row_limit,
-                    p_standard_code => p_standard_code,
+                    p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
                     p_datatype      => 'blob');
 
@@ -140,7 +140,7 @@ create or replace package body SVT_DEPLOYMENT as
 
   function json_content_clob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
-                              p_standard_code in eba_stds_standard_tests.standard_code%type default null,
+                              p_test_code     in eba_stds_standard_tests.test_code%type default null,
                               p_standard_id   in eba_stds_standards.id%type default null)
   return clob
   as 
@@ -152,13 +152,13 @@ create or replace package body SVT_DEPLOYMENT as
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name,
                                         'p_row_limit', p_row_limit,
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_standard_id', p_standard_id);
 
     l_query := assemble_json_query (
                     p_table_name    => p_table_name,
                     p_row_limit     => p_row_limit,
-                    p_standard_code => p_standard_code,
+                    p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
                     p_datatype      => 'clob');
 

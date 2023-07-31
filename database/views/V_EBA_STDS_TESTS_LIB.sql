@@ -10,7 +10,7 @@ select estl.id,
        ess.standard_name,
        estl.test_name,
        estl.query_clob,
-       estl.standard_code,
+       estl.test_code,
        estl.active_yn,
        estl.mv_dependency,
        estl.svt_component_type_id,
@@ -20,7 +20,7 @@ select estl.id,
        case when esst.id is null 
             then 'N'
             else 'Y'
-            end standard_code_in_db_yn,
+            end test_code_in_db_yn,
        ess.active_yn standard_active_yn,
        estl.explanation,
        estl.fix,
@@ -38,7 +38,7 @@ select estl.id,
           p_standard_id           => estl.standard_id,
           p_test_name             => estl.test_name,
           p_query_clob            => estl.query_clob,
-          p_standard_code         => estl.standard_code,
+          p_test_code             => estl.test_code,
           p_active_yn             => estl.active_yn,
           p_level_id              => estl.level_id,
           p_mv_dependency         => estl.mv_dependency,
@@ -47,7 +47,7 @@ select estl.id,
           p_fix                   => estl.fix
        ) estl_md5
   from eba_stds_tests_lib estl
-  left outer join eba_stds_standard_tests esst on estl.standard_code = esst.standard_code
+  left outer join eba_stds_standard_tests esst on estl.test_code = esst.test_code
   left outer join eba_stds_standards ess on ess.id = estl.standard_id
   left outer join svt_component_types act on act.id = estl.svt_component_type_id
   left outer join svt_standards_urgency_level asul on asul.id = estl.level_id

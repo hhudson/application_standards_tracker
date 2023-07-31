@@ -14,7 +14,7 @@ CREATE OR REPLACE EDITIONABLE TRIGGER EBA_STDS_STANDARD_TESTS_BIU
     before insert or update on eba_stds_standard_tests
     for each row
 begin
-    :new.standard_code := upper(replace(:new.standard_code, ' ', '_'));
+    :new.test_code := upper(replace(:new.test_code, ' ', '_'));
     if :new.id is null then
         :new.id := eba_stds.gen_id();
     end if;

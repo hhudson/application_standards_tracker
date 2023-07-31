@@ -13,7 +13,7 @@ comment on table SVT_PLSQL_APEX_AUDIT is q'[table to capture standard violations
 comment on column SVT_PLSQL_APEX_AUDIT.UNQID                                         is q'[]';
 comment on column SVT_PLSQL_APEX_AUDIT.LEGACY_YN                                     is q'[]';
 comment on column SVT_PLSQL_APEX_AUDIT.OWNER                                         is q'[]';
-comment on column SVT_PLSQL_APEX_AUDIT.STANDARD_CODE                                 is q'[]';
+comment on column SVT_PLSQL_APEX_AUDIT.TEST_CODE                                 is q'[]';
 comment on column SVT_PLSQL_APEX_AUDIT.ID                                            is q'[Primary Key]';
 comment on column SVT_PLSQL_APEX_AUDIT.REFERENCE_CODE                                is q'[candidate for deletion]';
 comment on column SVT_PLSQL_APEX_AUDIT.ISSUE_CATEGORY                                is q'[APEX/SERT/PLSQL]';

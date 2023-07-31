@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset package_script:SVT_plsql_apex_audit_api stripComments:false endDelimiter:/ runOnChange:true
+--changeset package_script:svt_plsql_apex_audit_api stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
 --  DDL for Package SVT_PLSQL_APEX_AUDIT_API
 --------------------------------------------------------
@@ -9,7 +9,7 @@ create or replace package SVT_PLSQL_APEX_AUDIT_API authid definer as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_plsql_apex_audit_api
+--   svt_plsql_apex_audit_api
 --
 -- DESCRIPTION
 --
@@ -117,4 +117,4 @@ return svt_plsql_apex_audit.unqid%type;
 
 end SVT_PLSQL_APEX_AUDIT_API;
 /
---rollback drop package SVT_plsql_apex_audit_api;
+--rollback drop package svt_plsql_apex_audit_api;

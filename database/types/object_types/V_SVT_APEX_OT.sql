@@ -28,7 +28,7 @@ create type V_SVT_APEX_OT as object
       LAST_UPDATED_ON                  DATE,
       VALIDATION_FAILURE_MESSAGE       VARCHAR2(15000 CHAR),
       ISSUE_TITLE                      VARCHAR2(5000 CHAR),
-      STANDARD_CODE                    VARCHAR2(100),
+      TEST_CODE                        VARCHAR2(100),
       COMPONENT_ID                     NUMBER,
       PARENT_COMPONENT_ID              NUMBER,
       WORKSPACE                        VARCHAR2(255 CHAR)

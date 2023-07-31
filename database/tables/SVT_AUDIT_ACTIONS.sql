@@ -55,7 +55,7 @@
 --changeset table_script:SVT_AUDIT_ACTIONS.include_in_report_yn stripComments:false 
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where upper(table_name) = 'SVT_AUDIT_ACTIONS' and upper(column_name) = 'INCLUDE_IN_REPORT_YN';
-alter table SVT_audit_actions add (include_in_report_yn varchar2(1) default 'Y')
+alter table svt_audit_actions add (include_in_report_yn varchar2(1) default 'Y')
 /
 
---rollback alter table SVT_audit_actions drop column include_in_report_yn;
+--rollback alter table svt_audit_actions drop column include_in_report_yn;

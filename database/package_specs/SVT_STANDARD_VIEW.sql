@@ -30,13 +30,13 @@ select  object_name,
         unqid,
         ref_code
 from svt_standard_view.v_svt_db_plsql(
-                        p_standard_code    => 'IDENTIFIER_NAMING',
+                        p_test_code     => 'IDENTIFIER_NAMING',
                         p_failures_only => 'Y'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_db_plsql(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_plsql(p_test_code     in eba_stds_standard_tests.test_code%type,
                           p_failures_only in varchar2 default 'N',
-                          p_object_name   in SVT_plsql_apex_audit.object_name%type default null )
+                          p_object_name   in svt_plsql_apex_audit.object_name%type default null )
   return v_svt_db_plsql_ref_nt pipelined;
 
 ------------------------------------------------------------------------------
@@ -61,11 +61,11 @@ select application_id,
        result, 
        validation_failure_message
 from svt_standard_view.v_svt_sert__0(
-                        p_standard_code    => 'SV_PS_DEEP_LINKING',
+                        p_test_code    => 'SV_PS_DEEP_LINKING',
                         p_failures_only => 'Y'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_sert__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_sert__0(p_test_code     in eba_stds_standard_tests.test_code%type,
                          p_failures_only in varchar2 default 'N')
   return v_svt_sert__0_nt pipelined;
 
@@ -86,13 +86,13 @@ select pass_yn,
        last_updated_on,
        validation_failure_message,
        issue_title,
-       standard_code
+       test_code
 from svt_standard_view.v_svt_apex(
-                        p_standard_code => 'APP_AUTH',
+                        p_test_code => 'APP_AUTH',
                         p_failures_only => 'Y'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_apex(p_standard_code        in eba_stds_standard_tests.standard_code%type,
+  function v_svt_apex(p_test_code            in eba_stds_standard_tests.test_code%type,
                       p_failures_only        in varchar2 default 'N',
                       p_production_apps_only in varchar2 default 'N' )
   return v_svt_apex_nt pipelined;
@@ -107,10 +107,10 @@ from svt_standard_view.v_svt_apex(
 /*
 select view_name
 from svt_standard_view.v_svt_db_view__0(
-                        p_standard_code => 'VIEW_NAME'); 
+                        p_test_code => 'VIEW_NAME'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_db_view__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_view__0(p_test_code     in eba_stds_standard_tests.test_code%type,
                             p_failures_only in varchar2 default 'N')
   return v_svt_db_view__0_nt pipelined;
 
@@ -124,10 +124,10 @@ from svt_standard_view.v_svt_db_view__0(
 /*
 select *
 from svt_standard_view.v_svt_db_tbl__0(
-                        p_standard_code => 'fk_indexed'); 
+                        p_test_code => 'fk_indexed'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_db_tbl__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_tbl__0(p_test_code     in eba_stds_standard_tests.test_code%type,
                            p_failures_only in varchar2 default 'N')
   return v_svt_db_tbl__0_nt pipelined;
 
@@ -140,15 +140,15 @@ from svt_standard_view.v_svt_db_tbl__0(
 --
 /*
 select *
-from svt_standard_view.v_svt(p_standard_code => 'MISSING_COMMENT'); 
+from svt_standard_view.v_svt(p_test_code => 'MISSING_COMMENT'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt(p_standard_code        in eba_stds_standard_tests.standard_code%type,
+  function v_svt(p_test_code            in eba_stds_standard_tests.test_code%type,
                  p_failures_only        in varchar2 default 'N',
                  p_urgent_only          in varchar2 default 'N',
                  p_production_apps_only in varchar2 default 'N',
-                 p_unqid                in SVT_plsql_apex_audit.unqid%type default null,
-                 p_audit_id             in SVT_plsql_apex_audit.id%type default null
+                 p_unqid                in svt_plsql_apex_audit.unqid%type default null,
+                 p_audit_id             in svt_plsql_apex_audit.id%type default null
                  )
   return v_SVT_plsql_apex__0_nt pipelined;
 

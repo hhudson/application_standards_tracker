@@ -8,9 +8,9 @@ create or replace force editionable view V_SVT_APPLICATION_REPORT_CARD as
 with rptcrd as (select application_id, critical_urgency, high_urgency, med_urgency
                     from (
                       select paa.application_id, esst.urgency
-                        from SVT_plsql_apex_audit paa
-                        inner join v_eba_stds_standard_tests esst on paa.standard_code = esst.standard_code
-                        left outer join SVT_audit_actions aaa on paa.action_id = aaa.id
+                        from svt_plsql_apex_audit paa
+                        inner join v_eba_stds_standard_tests esst on paa.test_code = esst.test_code
+                        left outer join svt_audit_actions aaa on paa.action_id = aaa.id
                         where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
                     )
                     pivot ( count(*) for urgency in 

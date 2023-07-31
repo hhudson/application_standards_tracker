@@ -20,7 +20,7 @@ create or replace package eba_stds_parser authid definer as
 --
 /*
 -- select test_id, reference_code param, owner
--- from v_SVT_plsql_apex_audit
+-- from v_svt_plsql_apex_audit
 -- fetch first 1 rows;
 select eba_stds_parser.build_link( 
                 p_test_id         => 
@@ -73,17 +73,17 @@ select audit_id, test_id,
                         p_parent_pk_value       => parent_component_id,
                         p_builder_session       => v('APX_BLDR_SESSION')
        ) the_url
-from v_SVT_plsql_apex_audit
+from v_svt_plsql_apex_audit
 where audit_id = 78318
 */
 ------------------------------------------------------------------------------
     
     function build_url( p_template_url          in v_SVT_flow_dictionary_views.link_url%type,
-                        p_app_id                in SVT_plsql_apex_audit.application_id%type,
-                        p_page_id               in SVT_plsql_apex_audit.page_id%type,
-                        p_pk_value              in SVT_plsql_apex_audit.component_id%type,
-                        p_parent_pk_value       in SVT_plsql_apex_audit.object_name%type,
-                        p_opt_parent_pk_value   in SVT_plsql_apex_audit.object_type%type default null,
+                        p_app_id                in svt_plsql_apex_audit.application_id%type,
+                        p_page_id               in svt_plsql_apex_audit.page_id%type,
+                        p_pk_value              in svt_plsql_apex_audit.component_id%type,
+                        p_parent_pk_value       in svt_plsql_apex_audit.object_name%type,
+                        p_opt_parent_pk_value   in svt_plsql_apex_audit.object_type%type default null,
                         p_builder_session       in number default null)
     return varchar2 deterministic result_cache;
 

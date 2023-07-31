@@ -663,7 +663,7 @@ $then
                  name,
                  SVT_component_type_id,
                  query_clob,
-                 standard_code,
+                 test_code,
                  active_yn,
                  nt_type_id)
           values(c_standard_id,
@@ -676,7 +676,7 @@ $then
         exception when dup_val_on_index then
           update eba_stds_standard_tests
           set query_clob = rec.stmt, nt_type_id  = c_nt_type_id
-          where standard_code = rec.collection_name;
+          where test_code = rec.collection_name;
         end eba_merge;
       end loop;
 

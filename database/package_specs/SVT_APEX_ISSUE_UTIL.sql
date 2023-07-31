@@ -87,7 +87,7 @@ procedure merge_from_audit_tbl(p_issue_category in svt_plsql_apex_audit.issue_ca
                                p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                               p_standard_code  in eba_stds_standard_tests.standard_code%type default null);
+                               p_test_code      in eba_stds_standard_tests.test_code%type default null);
 
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
@@ -181,14 +181,14 @@ $end
 begin
   svt_ctx_util.set_review_schema (p_schema => 'cars');
   svt_apex_issue_util.refresh_for_standard_app_page (
-                        p_standard_code => 'sv_url_item_protect',
+                        p_test_code => 'sv_url_item_protect',
                         p_app_id  => 17000033,
                         p_page_id => 14);
 end;
 */
 ------------------------------------------------------------------------------
   procedure refresh_for_standard_app_page (
-                                  p_standard_code in svt_plsql_apex_audit.standard_code%type,
+                                  p_test_code     in svt_plsql_apex_audit.test_code%type,
                                   p_app_id        in svt_plsql_apex_audit.application_id%type default null,
                                   p_page_id       in svt_plsql_apex_audit.page_id%type default null);
 

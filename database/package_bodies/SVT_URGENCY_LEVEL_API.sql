@@ -19,24 +19,24 @@ create or replace package body SVT_URGENCY_LEVEL_API as
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
 
 
-  function get_default_level_id return SVT_standards_urgency_level.id%type
+  function get_default_level_id return svt_standards_urgency_level.id%type
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'get_default_level_id';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_level_id SVT_standards_urgency_level.id%type;
+  l_level_id svt_standards_urgency_level.id%type;
   begin
     apex_debug.message(c_debug_template,'START');
 
     begin <<attempt1>>
     select id 
     into l_level_id
-    from SVT_standards_urgency_level
+    from svt_standards_urgency_level
     where urgency_level = 30;
 
     exception when no_data_found then
       select id 
       into l_level_id
-      from SVT_standards_urgency_level
+      from svt_standards_urgency_level
       order by urgency_level
       fetch first 1 rows only;
     end attempt1;

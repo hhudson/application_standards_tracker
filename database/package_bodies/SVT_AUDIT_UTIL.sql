@@ -16,6 +16,8 @@ create or replace package body SVT_AUDIT_UTIL as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_y            constant varchar2(1) := 'Y';
+  gc_n            constant varchar2(1) := 'N';
 
   function v_svt_scm_object_assignee
   return v_svt_scm_object_assignee_nt pipelined
@@ -152,15 +154,15 @@ create or replace package body SVT_AUDIT_UTIL as
     end recompile_w_plscope;
 
     procedure delete_obsolete_violations (
-                  p_standard_code  in eba_stds_standard_tests.standard_code%type default null,
-                  p_application_id in SVT_plsql_apex_audit.application_id%type default null,
-                  p_page_id        in SVT_plsql_apex_audit.page_id%type default null)
+                  p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                  p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                  p_page_id        in svt_plsql_apex_audit.page_id%type default null)
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'delete_obsolete_violations';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
       apex_debug.message(c_debug_template,'START', 
-                                          'p_standard_code', p_standard_code,
+                                          'p_test_code', p_test_code,
                                           'p_application_id', p_application_id,
                                           'p_page_id', p_page_id);
 
@@ -170,7 +172,7 @@ create or replace package body SVT_AUDIT_UTIL as
                        then svt_ctx_util.get_default_user
                        else sys_context('userenv', 'current_user')
                        end
-      and (issue_category = p_standard_code or p_standard_code is null)
+      and (issue_category = p_test_code or p_test_code is null)
       and (application_id = p_application_id or p_application_id is null)
       and (page_id        = p_page_id or p_page_id is null)
       and unqid not in  (
@@ -190,7 +192,7 @@ create or replace package body SVT_AUDIT_UTIL as
     ------------------------------------------------------------------------------
     procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                               p_standard_code  in eba_stds_standard_tests.standard_code%type,
+                               p_test_code      in eba_stds_standard_tests.test_code%type,
                                p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
                                p_audit_id       in svt_plsql_apex_audit.id%type default null
                                )
@@ -198,7 +200,7 @@ create or replace package body SVT_AUDIT_UTIL as
     c_scope constant varchar2(128) := gc_scope_prefix || 'merge_audit_tbl';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
+    c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
     c_limit         constant pls_integer := 100;
 
     type r_issues is record (
@@ -213,7 +215,7 @@ create or replace package body SVT_AUDIT_UTIL as
         code                       svt_plsql_apex_audit.code%type,
         validation_failure_message svt_plsql_apex_audit.validation_failure_message%type,
         issue_title                svt_plsql_apex_audit.issue_title%type,
-        standard_code              svt_plsql_apex_audit.standard_code%type,
+        test_code                  svt_plsql_apex_audit.test_code%type,
         apex_created_by            svt_plsql_apex_audit.apex_created_by%type,
         apex_created_on            svt_plsql_apex_audit.apex_created_on%type,
         apex_last_updated_by       svt_plsql_apex_audit.apex_last_updated_by%type,
@@ -226,16 +228,16 @@ create or replace package body SVT_AUDIT_UTIL as
     l_issues_t            t_issue_rec;
     type t_unqid_rec is table of svt_plsql_apex_audit.unqid%type; 
     l_current_issues_t    t_unqid_rec := t_unqid_rec();
-    c_legacy_yn  constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = 'Y'
-                                                                      then 'Y'
-                                                                      else 'N'
+    c_legacy_yn  constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = gc_y
+                                                                      then gc_y
+                                                                      else gc_n
                                                                       end;
     l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
     begin
       apex_debug.message(c_debug_template,'START',
                                           'p_application_id', p_application_id,
                                           'p_page_id', p_page_id,
-                                          'p_standard_code', p_standard_code,
+                                          'p_test_code', p_test_code,
                                           'p_legacy_yn', p_legacy_yn,
                                           'p_audit_id', p_audit_id
                                           );
@@ -255,7 +257,7 @@ create or replace package body SVT_AUDIT_UTIL as
                     a.code,
                     a.validation_failure_message,
                     a.issue_title,
-                    a.standard_code,
+                    a.test_code,
                     a.apex_created_by,
                     a.apex_created_on,
                     a.apex_last_updated_by,
@@ -264,16 +266,16 @@ create or replace package body SVT_AUDIT_UTIL as
                     a.component_id,
                     a.parent_component_id 
                   from v_eba_stds_standard_tests esst
-                  join svt_standard_view.v_svt(p_standard_code => esst.standard_code, 
-                                               p_failures_only => 'Y', 
-                                               p_urgent_only => 'Y',
-                                               p_production_apps_only => 'Y',
+                  join svt_standard_view.v_svt(p_test_code => esst.test_code, 
+                                               p_failures_only => gc_y, 
+                                               p_urgent_only => gc_y,
+                                               p_production_apps_only => gc_y,
                                                p_unqid => l_svt_plsql_apex_audit_rec.unqid
                                                ) a
                           on  esst.query_clob is not null
-                          and esst.active_yn = 'Y'
-                          and esst.standard_active_yn = 'Y'
-                          and (esst.standard_code = c_standard_code or p_standard_code is null)
+                          and esst.active_yn = gc_y
+                          and esst.standard_active_yn = gc_y
+                          and (esst.test_code = c_test_code or p_test_code is null)
                   where (a.application_id  = p_application_id or p_application_id is null)
                   and   (a.page_id  = p_page_id or p_page_id is null))
         loop
@@ -288,7 +290,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                             rec.code,
                                             rec.validation_failure_message,
                                             rec.issue_title,
-                                            rec.standard_code,
+                                            rec.test_code,
                                             rec.apex_created_by,
                                             rec.apex_created_on,
                                             rec.apex_last_updated_by,
@@ -324,7 +326,7 @@ create or replace package body SVT_AUDIT_UTIL as
                           l_issues_t(l_unqid).code                       code,
                           l_issues_t(l_unqid).validation_failure_message validation_failure_message,
                           l_issues_t(l_unqid).issue_title                issue_title,
-                          l_issues_t(l_unqid).standard_code              standard_code,
+                          l_issues_t(l_unqid).test_code                  test_code,
                           l_issues_t(l_unqid).apex_created_by            apex_created_by,
                           l_issues_t(l_unqid).apex_created_on            apex_created_on,
                           l_issues_t(l_unqid).apex_last_updated_by       apex_last_updated_by,
@@ -345,7 +347,7 @@ create or replace package body SVT_AUDIT_UTIL as
                        aa.code                       = lit.code,
                        aa.validation_failure_message = lit.validation_failure_message,
                        aa.issue_title                = lit.issue_title,
-                       aa.standard_code              = lit.standard_code,
+                       aa.test_code                  = lit.test_code,
                        aa.legacy_yn                  = coalesce(aa.legacy_yn, c_legacy_yn),
                        aa.apex_created_by            = lit.apex_created_by,
                        aa.apex_created_on            = lit.apex_created_on,
@@ -366,7 +368,7 @@ create or replace package body SVT_AUDIT_UTIL as
                     aa.code, 
                     aa.validation_failure_message, 
                     aa.issue_title, 
-                    aa.standard_code, 
+                    aa.test_code, 
                     aa.legacy_yn, 
                     aa.apex_created_by, 
                     aa.apex_created_on, 
@@ -387,7 +389,7 @@ create or replace package body SVT_AUDIT_UTIL as
                     lit.code,
                     lit.validation_failure_message,
                     lit.issue_title,
-                    lit.standard_code,
+                    lit.test_code,
                     c_legacy_yn,
                     lit.apex_created_by,
                     lit.apex_created_on,
@@ -409,7 +411,7 @@ create or replace package body SVT_AUDIT_UTIL as
           select aap.unqid
             bulk collect into l_recorded_issues_t
             from svt_plsql_apex_audit aap
-            where (aap.standard_code = c_standard_code or p_standard_code is null)
+            where (aap.test_code = c_test_code or p_test_code is null)
             and   (aap.application_id  = p_application_id or p_application_id is null)
             and   (aap.page_id  = p_page_id or p_page_id is null)
             and   (aap.id = p_audit_id or p_audit_id is null);
@@ -464,9 +466,9 @@ create or replace package body SVT_AUDIT_UTIL as
     -- c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_scm';
     -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    -- type t_object_assignee is table of SVT_plsql_apex_audit.assignee%type index by SVT_plsql_apex_audit.object_name%type;
+    -- type t_object_assignee is table of svt_plsql_apex_audit.assignee%type index by svt_plsql_apex_audit.object_name%type;
     -- l_object_assignee t_object_assignee;
-    -- l_object SVT_plsql_apex_audit.object_name%type;
+    -- l_object svt_plsql_apex_audit.object_name%type;
     -- begin
     --   apex_debug.message(c_debug_template,'START');
 
@@ -481,7 +483,7 @@ create or replace package body SVT_AUDIT_UTIL as
     --   loop
     --     exit when l_object is null;
 
-    --     update SVT_plsql_apex_audit
+    --     update svt_plsql_apex_audit
     --     set assignee = l_object_assignee(l_object)
     --     where object_name = l_object
     --     and issue_category in ('DB_PLSQL','VIEW')
@@ -509,7 +511,7 @@ create or replace package body SVT_AUDIT_UTIL as
     c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_apex_audit';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    type t_auditid_email is table of SVT_plsql_apex_audit.assignee%type index by pls_integer;
+    type t_auditid_email is table of svt_plsql_apex_audit.assignee%type index by pls_integer;
     l_auditid_email t_auditid_email;
     l_auditid svt_plsql_apex_audit.id%type;
     begin
@@ -523,7 +525,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                when paa.apex_created_by like '%@%'
                                then paa.apex_created_by
                                end assignee
-                    from SVT_plsql_apex_audit paa
+                    from svt_plsql_apex_audit paa
                     left join v_apex_workspace_developers awd on coalesce(paa.apex_last_updated_by, paa.apex_created_by) = awd.user_name
                     where issue_category in ('APEX', 'SERT')
                     and paa.assignee is null
@@ -536,7 +538,7 @@ create or replace package body SVT_AUDIT_UTIL as
       loop
         exit when l_auditid is null;
 
-        update SVT_plsql_apex_audit
+        update svt_plsql_apex_audit
         set assignee = l_auditid_email(l_auditid)
         where id = l_auditid
         and issue_category in ('APEX','SERT')
@@ -567,7 +569,7 @@ create or replace package body SVT_AUDIT_UTIL as
     begin
 
       merge into (select application_id, assignee
-                  from SVT_plsql_apex_audit 
+                  from svt_plsql_apex_audit 
                   where assignee is null) e
       using (select apex_app_id, default_developer
              from v_eba_stds_applications
@@ -577,7 +579,7 @@ create or replace package body SVT_AUDIT_UTIL as
       update set e.assignee = h.default_developer;
 
       if svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') is not null then 
-        update SVT_plsql_apex_audit
+        update svt_plsql_apex_audit
         set assignee = svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE')
         where assignee is null;
       end if;
@@ -605,9 +607,9 @@ create or replace package body SVT_AUDIT_UTIL as
       raise;
     end assign_violations;
 
-    procedure record_daily_issue_snapshot(p_application_id in SVT_plsql_apex_audit.application_id%type default null,
-                                          p_page_id        in SVT_plsql_apex_audit.page_id%type default null,
-                                          p_standard_code  in eba_stds_standard_tests.standard_code%type default null
+    procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                                          p_page_id        in svt_plsql_apex_audit.page_id%type default null,
+                                          p_test_code      in eba_stds_standard_tests.test_code%type default null
                                          )
      is
      c_scope constant varchar2(128) := gc_scope_prefix || 'record_daily_issue_snapshot'; 
@@ -617,7 +619,7 @@ create or replace package body SVT_AUDIT_UTIL as
         apex_debug.message(c_debug_template,'START',
                                             'p_application_id', p_application_id,
                                             'p_page_id', p_page_id,
-                                            'p_standard_code', p_standard_code
+                                            'p_test_code', p_test_code
                                             );
 
         svt_ctx_util.set_review_schema;
@@ -628,7 +630,7 @@ create or replace package body SVT_AUDIT_UTIL as
 
         merge_audit_tbl (p_application_id => p_application_id,
                          p_page_id        => p_page_id,
-                         p_standard_code  => p_standard_code
+                         p_test_code      => p_test_code
                          );
 
         assign_violations;
@@ -638,15 +640,15 @@ create or replace package body SVT_AUDIT_UTIL as
        raise;
     end record_daily_issue_snapshot;
 
-    procedure initialize_standard(p_standard_code  in eba_stds_standard_tests.standard_code%type)
+    procedure initialize_standard(p_test_code  in eba_stds_standard_tests.test_code%type)
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'initialize_standard';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
-      apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+      apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
-      merge_audit_tbl ( p_standard_code  => p_standard_code,
-                        p_legacy_yn      => 'Y'
+      merge_audit_tbl ( p_test_code  => p_test_code,
+                        p_legacy_yn  => gc_y
                       );
       
       SVT_audit_util.assign_violations;

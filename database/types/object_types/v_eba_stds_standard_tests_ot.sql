@@ -24,7 +24,7 @@
         URGENCY                 VARCHAR2(255),
         URGENCY_LEVEL           NUMBER,
         TEST_NAME               VARCHAR2(64),
-        STANDARD_CODE           VARCHAR2(100),
+        TEST_CODE               VARCHAR2(100),
         STANDARD_CATEGORY_NAME  VARCHAR2(64),
         ACTIVE_YN               VARCHAR2(1),
         NT_NAME                 VARCHAR2(255 CHAR),

@@ -22,8 +22,8 @@ create or replace package SVT_MONITORING authid definer as
 --
 -- function to generate html table for email 
 /*
-select SVT_monitoring.unassigned_src_html (
-                  p_standard_code  => 'DBMS_ASSERT',
+select svt_monitoring.unassigned_src_html (
+                  p_test_code  => 'DBMS_ASSERT',
                   p_days_since => 9,
                   p_fetch_rows => 2
               ) thehtml
@@ -31,7 +31,7 @@ from dual;
 */
 ------------------------------------------------------------------------------
 function unassigned_src_html 
-    (p_standard_code in eba_stds_standard_tests.standard_code%type,
+    (p_test_code     in eba_stds_standard_tests.test_code%type,
      p_days_since    in number default 1,
      p_fetch_rows    in number default null
     )
@@ -48,7 +48,7 @@ function unassigned_src_html
 /*
 begin
     apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>'HAYHUDSO');
-    SVT_monitoring.send_update(
+    svt_monitoring.send_update(
                 p_days_since => 2,
                 p_override_email => 'hayden.h.hudson@oracle.com');
 end;
@@ -65,7 +65,7 @@ procedure send_update(p_days_since     in number default 1,
   -- function to get the url to the SVT application
   --
   /*
-  select SVT_monitoring.app_url
+  select svt_monitoring.app_url
   from dual;
   */
   ------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ procedure send_update(p_days_since     in number default 1,
 --  function to get a human readable database name
 --
 /*
-select SVT_monitoring.get_db_name
+select svt_monitoring.get_db_name
 from dual;
 */
 ------------------------------------------------------------------------------
@@ -101,14 +101,14 @@ l_subj      varchar2(100) := 'hello';
 l_body      clob := 'hello';
 l_body_html clob := 'hello';
 begin
-  SVT_monitoring.send_email (
+  svt_monitoring.send_email (
     p_to        => l_to,
     p_from      => l_from,
     p_subj      => l_subj,
     p_body      => l_body,
     p_body_html => l_body_html
   );
-  SVT_monitoring.push_email;
+  svt_monitoring.push_email;
 end;
 */
 ------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ end;
 -- Public function to build html for unassigned issues
 --
 /*
-select SVT_monitoring.unassigned_html_by_src
+select svt_monitoring.unassigned_html_by_src
                         (p_days_since => 2) uhbs
 from dual;
 */
@@ -160,7 +160,7 @@ declare
 l_assigned_report_html clob;
 l_list_of_assignees clob;
 begin
-  SVT_monitoring.assigned_html (
+  svt_monitoring.assigned_html (
         p_days_since           => 2,
         p_assigned_report_html => l_assigned_report_html,
         p_list_of_assignees    => l_list_of_assignees);
@@ -182,7 +182,7 @@ end;
 -- function to return a value to uniquely identify the database
 --
 /*
-select SVT_monitoring.db_unique_name
+select svt_monitoring.db_unique_name
 from dual
 */
 ------------------------------------------------------------------------------

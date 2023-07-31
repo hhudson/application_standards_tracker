@@ -11,7 +11,7 @@
 
   CREATE OR REPLACE EDITIONABLE TRIGGER SVT_AUDIT_ACTIONS_BIU 
     before insert or update 
-    on SVT_audit_actions
+    on svt_audit_actions
     for each row
 begin
     if inserting then
@@ -20,7 +20,7 @@ begin
     end if;
     :new.updated := sysdate;
     :new.updated_by := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
-end SVT_audit_actions_biu;
+end svt_audit_actions_biu;
 /
 ALTER TRIGGER SVT_AUDIT_ACTIONS_BIU ENABLE
 /

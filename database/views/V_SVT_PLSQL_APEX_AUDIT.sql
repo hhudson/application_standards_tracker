@@ -45,7 +45,7 @@ with aspaa as (
            from dual) link_url,
            paa.apex_issue_id,
            paa.apex_issue_title_suffix,
-           paa.standard_code,
+           paa.test_code,
            src.src_recent_change_yn,
            paa.legacy_yn,
            paa.unqid,
@@ -63,7 +63,7 @@ with aspaa as (
     from svt_plsql_apex_audit paa
     left join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
-    inner join v_eba_stds_standard_tests src on paa.standard_code  = src.standard_code
+    inner join v_eba_stds_standard_tests src on paa.test_code  = src.test_code
     left join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
 )
 select 
@@ -115,8 +115,8 @@ Audit id : %3
     p5 => case when a.assignee is not null 
                 then 'Assignee : '||a.assignee
                 end,
-    p6 => a.standard_code,
-    p7 => '[General info on issue + fix]('||eba_stds_parser.get_base_url()||'f?p=17000033:14::::14:P14_STANDARD_CODE:'||a.standard_code||')',
+    p6 => a.test_code,
+    p7 => '[General info on issue + fix]('||eba_stds_parser.get_base_url()||'f?p=17000033:14::::14:P14_TEST_CODE:'||a.test_code||')',
     p8 => a.application_id,
     p9 => a.page_id,
     p10 => '[Manage Issue]('||eba_stds_parser.get_base_url()||'f?p=17000033:42::::42:P42_ID:'||a.audit_id||')'
@@ -178,7 +178,7 @@ Audit id : %3
         then 'Y'
         else 'N'
         end urgent_yn,
-    a.standard_code,
+    a.test_code,
     a.src_recent_change_yn,
     a.legacy_yn,
     a.unqid,
@@ -197,7 +197,7 @@ Audit id : %3
     a.standard_category_name
 from aspaa a
 left outer join apex_issues ai on a.apex_issue_id = ai.issue_id
-left outer join svt_sert_how_to_fix ahtf on ahtf.collection_name = a.standard_code
+left outer join svt_sert_how_to_fix ahtf on ahtf.collection_name = a.test_code
 where a.include_in_report_yn = 'Y'
 /
 --rollback drop view V_SVT_PLSQL_APEX_AUDIT;

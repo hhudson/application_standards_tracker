@@ -11,18 +11,8 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- prompt  SVT_db_plsql_issue_nt.sql
+-- prompt  svt_db_plsql_issue_nt.sql
 
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
-    create type SVT_DB_PLSQL_ISSUE_NT as table of SVT_DB_PLSQL_ISSUE_OT
-     ]';
-  dbms_output.put_line(q'[ type SVT_db_plsql_issue_nt created ]');
-exception
-  when already_exists then null;
-end;
+create type SVT_DB_PLSQL_ISSUE_NT as table of SVT_DB_PLSQL_ISSUE_OT
 /
 --rollback drop type SVT_DB_PLSQL_ISSUE_NT;

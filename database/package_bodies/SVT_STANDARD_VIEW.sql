@@ -112,7 +112,7 @@ create or replace package body SVT_STANDARD_VIEW as
 -- private function to determine whether a function is urgent
 --
 ------------------------------------------------------------------------------
-    function standard_is_urgent (p_standard_code in eba_stds_standard_tests.standard_code%type) 
+    function standard_is_urgent (p_test_code in eba_stds_standard_tests.test_code%type) 
     return boolean deterministic
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'standard_is_urgent';
@@ -120,7 +120,7 @@ create or replace package body SVT_STANDARD_VIEW as
     c_max_urgency constant number := 100;
     l_is_urgent_yn varchar2(1) := 'Y';
     begin
-      apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+      apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
       select case when count(*) = 1
                         then 'Y'
@@ -131,7 +131,7 @@ create or replace package body SVT_STANDARD_VIEW as
                     from eba_stds_standard_tests rc 
                     inner join svt_standards_urgency_level ul on ul.id = rc.level_id
                                                               and ul.urgency_level <= c_max_urgency
-                    where rc.standard_code = upper(p_standard_code)
+                    where rc.test_code = upper(p_test_code)
                 );
 
       apex_debug.message(c_debug_template, 'l_is_urgent_yn', l_is_urgent_yn);
@@ -154,7 +154,7 @@ create or replace package body SVT_STANDARD_VIEW as
 -- private function to get the query clob for a given standard code 
 --
 ------------------------------------------------------------------------------
-  function get_query_clob (p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function get_query_clob (p_test_code     in eba_stds_standard_tests.test_code%type,
                            p_nt_name       in svt_nested_table_types.nt_name%type,
                            p_select_stmt   in varchar2
   ) return eba_stds_standard_tests.query_clob%type deterministic
@@ -165,7 +165,7 @@ create or replace package body SVT_STANDARD_VIEW as
   l_query_clob eba_stds_standard_tests.query_clob%type;
   begin
     apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_nt_name', p_nt_name,
                                         'p_select_stmt', p_select_stmt);
 
@@ -175,7 +175,7 @@ create or replace package body SVT_STANDARD_VIEW as
     inner join svt_component_types act on esst.svt_component_type_id = act.id
     inner join svt_nested_table_types antt on act.nt_type_id = antt.id 
                                            and lower(antt.nt_name) = p_nt_name
-    where esst.standard_code = p_standard_code
+    where esst.test_code = p_test_code
     and esst.query_clob is not null
     --and esst.active_yn = 'Y'
     ;
@@ -187,7 +187,7 @@ create or replace package body SVT_STANDARD_VIEW as
     raise;
   end get_query_clob;
 
-  function v_svt_db_plsql(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_plsql(p_test_code     in eba_stds_standard_tests.test_code%type,
                           p_failures_only in varchar2 default 'N',
                           p_object_name   in svt_plsql_apex_audit.object_name%type default null)
   return v_svt_db_plsql_ref_nt pipelined
@@ -197,16 +197,16 @@ create or replace package body SVT_STANDARD_VIEW as
 
   cur_v_svt_db_plsql sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
+  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
   begin
     apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_failures_only', p_failures_only,
                                         'p_object_name', p_object_name,
                                         'current_user', sys_context('userenv', 'current_user'));
 
-    l_query_clob := get_query_clob (p_standard_code => p_standard_code,
-                                    p_nt_name => gc_v_svt_db_plsql_nt,
+    l_query_clob := get_query_clob (p_test_code   => p_test_code,
+                                    p_nt_name     => gc_v_svt_db_plsql_nt,
                                     p_select_stmt => gc_db_plsql_select_stmt);
 
     l_query_clob := l_query_clob||q'[ where 1=1]';
@@ -237,7 +237,7 @@ create or replace package body SVT_STANDARD_VIEW as
                       l_v_svt_db_plsql (rec).line,
                       l_v_svt_db_plsql (rec).code,
                       l_v_svt_db_plsql (rec).unqid,
-                      c_standard_code
+                      c_test_code
                     )
                 );
       end loop;
@@ -248,14 +248,14 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_standard_code);
+      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_db_plsql;
 
-  function v_svt_sert__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_sert__0(p_test_code     in eba_stds_standard_tests.test_code%type,
                          p_failures_only in varchar2 default 'N')
   return v_svt_sert__0_nt pipelined
   is
@@ -267,11 +267,11 @@ create or replace package body SVT_STANDARD_VIEW as
 
   begin
     apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_failures_only', p_failures_only);
 
-    l_query_clob := get_query_clob (p_standard_code => p_standard_code,
-                                    p_nt_name => gc_v_svt_sert__0_nt,
+    l_query_clob := get_query_clob (p_test_code   => p_test_code,
+                                    p_nt_name     => gc_v_svt_sert__0_nt,
                                     p_select_stmt => gc_sert_select_stmt);
 
     l_query_clob := case when p_failures_only = 'Y'
@@ -312,14 +312,14 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_standard_code);
+      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_sert__0;
 
-  function v_svt_apex(p_standard_code        in eba_stds_standard_tests.standard_code%type,
+  function v_svt_apex(p_test_code            in eba_stds_standard_tests.test_code%type,
                       p_failures_only        in varchar2 default 'N',
                       p_production_apps_only in varchar2 default 'N')
   return v_svt_apex_nt pipelined
@@ -329,16 +329,16 @@ create or replace package body SVT_STANDARD_VIEW as
 
   cur_v_svt_apex sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
+  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
 
   begin
     apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_failures_only', p_failures_only,
                                         'p_production_apps_only', p_production_apps_only);
 
-    l_query_clob := get_query_clob (p_standard_code => c_standard_code,
-                                    p_nt_name => gc_v_svt_apex_nt,
+    l_query_clob := get_query_clob (p_test_code   => c_test_code,
+                                    p_nt_name     => gc_v_svt_apex_nt,
                                     p_select_stmt => gc_apex_select_stmt);
 
     l_query_clob := case when p_production_apps_only = 'Y'
@@ -377,7 +377,7 @@ create or replace package body SVT_STANDARD_VIEW as
                       l_v_svt_apex (rec).last_updated_on,
                       l_v_svt_apex (rec).validation_failure_message,
                       l_v_svt_apex (rec).issue_title,
-                      c_standard_code,
+                      c_test_code,
                       l_v_svt_apex (rec).component_id,
                       l_v_svt_apex (rec).parent_component_id,
                       l_v_svt_apex (rec).workspace
@@ -391,14 +391,14 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_standard_code);
+      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_apex;
 
-  function v_svt_db_view__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_view__0(p_test_code     in eba_stds_standard_tests.test_code%type,
                             p_failures_only in varchar2 default 'N')
   return v_svt_db_view__0_nt pipelined
   is
@@ -407,15 +407,15 @@ create or replace package body SVT_STANDARD_VIEW as
 
   cur_v_svt_db_view__0 sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
+  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
 
   begin
     apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_failures_only', p_failures_only);
 
-    l_query_clob := get_query_clob (p_standard_code => c_standard_code,
-                                    p_nt_name => gc_v_svt_db_view__0_nt,
+    l_query_clob := get_query_clob (p_test_code   => c_test_code,
+                                    p_nt_name     => gc_v_svt_db_view__0_nt,
                                     p_select_stmt => gc_view_select_stmt);
 
     l_query_clob := case when p_failures_only = 'Y'
@@ -446,14 +446,14 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_standard_code);
+      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_db_view__0;
 
-  function v_svt_db_tbl__0(p_standard_code in eba_stds_standard_tests.standard_code%type,
+  function v_svt_db_tbl__0(p_test_code     in eba_stds_standard_tests.test_code%type,
                            p_failures_only in varchar2 default 'N')
   return v_svt_db_tbl__0_nt pipelined
   is
@@ -462,15 +462,15 @@ create or replace package body SVT_STANDARD_VIEW as
 
   cur_v_svt_db_tbl__0 sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
+  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
 
   begin
     apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_failures_only', p_failures_only);
 
-    l_query_clob := get_query_clob (p_standard_code => c_standard_code,
-                                    p_nt_name => gc_v_svt_db_tbl__0_nt,
+    l_query_clob := get_query_clob (p_test_code   => c_test_code,
+                                    p_nt_name     => gc_v_svt_db_tbl__0_nt,
                                     p_select_stmt => gc_tbl_select_stmt);
 
     l_query_clob := case when p_failures_only = 'Y'
@@ -503,14 +503,14 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_standard_code);
+      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_db_tbl__0;
 
-  function v_svt(p_standard_code        in eba_stds_standard_tests.standard_code%type,
+  function v_svt(p_test_code            in eba_stds_standard_tests.test_code%type,
                  p_failures_only        in varchar2 default 'N',
                  p_urgent_only          in varchar2 default 'N',
                  p_production_apps_only in varchar2 default 'N',
@@ -524,7 +524,7 @@ create or replace package body SVT_STANDARD_VIEW as
 
   cur_v_svt sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_standard_code constant eba_stds_standard_tests.standard_code%type := upper(p_standard_code);
+  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
   l_nt_name svt_nested_table_types.nt_name%type;
 
   ------------------------------------------------------------------------------
@@ -546,7 +546,7 @@ create or replace package body SVT_STANDARD_VIEW as
     apex_created_on            date,
     apex_last_updated_by       varchar2(4080),
     apex_last_updated_on       date,
-    standard_code              varchar2(100),
+    test_code                  varchar2(100),
     component_id               number,
     parent_component_id        number
   );
@@ -563,7 +563,7 @@ create or replace package body SVT_STANDARD_VIEW as
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'current_user', sys_context('userenv', 'current_user'),
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_failures_only', p_failures_only,
                                         'p_urgent_only', p_urgent_only,
                                         'p_production_apps_only', p_production_apps_only,
@@ -573,11 +573,11 @@ create or replace package body SVT_STANDARD_VIEW as
     select lower(nt_name)
     into l_nt_name
     from v_eba_stds_standard_tests
-    where standard_code = c_standard_code;
+    where test_code = c_test_code;
 
     if l_nt_name = gc_v_svt_db_plsql_nt then
       l_query_clob := get_query_clob (
-        p_standard_code => c_standard_code,
+        p_test_code => c_test_code,
         p_nt_name => l_nt_name,
         p_select_stmt => q'[select unqid,
                                    'DB_PLSQL' issue_category,
@@ -597,14 +597,14 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null apex_created_on,
                                    null apex_last_updated_by,
                                    null apex_last_updated_on,
-                                   null standard_code,
+                                   null test_code,
                                    null component_id,
                                    null parent_component_id
                           from (]'
       );
     elsif l_nt_name = gc_v_svt_db_view__0_nt then 
       l_query_clob := get_query_clob (
-        p_standard_code => c_standard_code,
+        p_test_code => c_test_code,
         p_nt_name => l_nt_name,
         p_select_stmt => q'[select unqid,
                                    'VIEW' issue_category,
@@ -621,14 +621,14 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null apex_created_on,
                                    null apex_last_updated_by,
                                    null apex_last_updated_on,
-                                   null standard_code,
+                                   null test_code,
                                    null component_id,
                                    null parent_component_id
                           from (]'
       );
     elsif l_nt_name = gc_v_svt_db_tbl__0_nt then 
       l_query_clob := get_query_clob (
-        p_standard_code => c_standard_code,
+        p_test_code => c_test_code,
         p_nt_name => l_nt_name,
         p_select_stmt => q'[select unqid,
                                    'TABLE' issue_category,
@@ -645,14 +645,14 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null apex_created_on,
                                    null apex_last_updated_by,
                                    null apex_last_updated_on,
-                                   null standard_code,
+                                   null test_code,
                                    object_id component_id,
                                    null parent_component_id
                           from (]'
       );
     elsif l_nt_name = gc_v_svt_apex_nt then
       l_query_clob := get_query_clob (
-        p_standard_code => c_standard_code,
+        p_test_code => c_test_code,
         p_nt_name => l_nt_name,
         p_select_stmt => q'[select application_id||
                                    case when parent_component_id is not null 
@@ -679,7 +679,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                         then last_updated_by
                                         end apex_last_updated_by,
                                    last_updated_on apex_last_updated_on,
-                                   null standard_code,
+                                   null test_code,
                                    component_id,
                                    parent_component_id
                           from (]'
@@ -695,10 +695,10 @@ create or replace package body SVT_STANDARD_VIEW as
                                                            else case when  component_id != application_id
                                                                      then ':'||component_id
                                                                      end
-                                                           end = '%1' ^', c_standard_code, c_unqid);
+                                                           end = '%1' ^', c_test_code, c_unqid);
     elsif l_nt_name = gc_v_svt_sert__0_nt then
       l_query_clob := get_query_clob (
-        p_standard_code => c_standard_code,
+        p_test_code => c_test_code,
         p_nt_name => l_nt_name,
         p_select_stmt => q'[select collection_name||'__'||application_id||'__'||page_id||'__'||component_signature unqid,
                                    'SERT' issue_category,
@@ -718,7 +718,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null apex_created_on,
                                    last_updated_by apex_last_updated_by,
                                    last_updated_on apex_last_updated_on,
-                                   null standard_code,
+                                   null test_code,
                                    null component_id,
                                    null parent_component_id
                           from (]'
@@ -736,7 +736,7 @@ create or replace package body SVT_STANDARD_VIEW as
     l_query_clob := l_query_clob
                     ||' where 1=1 '
                     ||case  when p_urgent_only = 'Y'
-                            then case when not standard_is_urgent(c_standard_code)
+                            then case when not standard_is_urgent(c_test_code)
                                       then ' and 1=2 '
                                       end 
                             end
@@ -758,7 +758,7 @@ create or replace package body SVT_STANDARD_VIEW as
       for rec in 1 .. l_v_svt_plsql_apex__0.count
       loop
         pipe row (v_svt_plsql_apex__0_ot (
-                    c_standard_code||':'||l_v_svt_plsql_apex__0 (rec).unqid,
+                    c_test_code||':'||l_v_svt_plsql_apex__0 (rec).unqid,
                     l_v_svt_plsql_apex__0 (rec).issue_category,
                     l_v_svt_plsql_apex__0 (rec).application_id,
                     l_v_svt_plsql_apex__0 (rec).page_id,
@@ -777,7 +777,7 @@ create or replace package body SVT_STANDARD_VIEW as
                     l_v_svt_plsql_apex__0 (rec).apex_created_on,
                     l_v_svt_plsql_apex__0 (rec).apex_last_updated_by,
                     l_v_svt_plsql_apex__0 (rec).apex_last_updated_on,
-                    c_standard_code,
+                    c_test_code,
                     l_v_svt_plsql_apex__0 (rec).component_id,
                     l_v_svt_plsql_apex__0 (rec).parent_component_id
                   )
@@ -792,19 +792,19 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, 
                        p0 =>'Unknown table or view: ', 
                        p1 => sqlerrm, 
-                       p2 => c_standard_code,
+                       p2 => c_test_code,
                        p5 => sqlcode, 
                        p6 => dbms_utility.format_error_stack, 
                        p7 => dbms_utility.format_error_backtrace, 
                        p_max_length => 4096);
-      raise_application_error(-20904, 'Error processing ' ||c_standard_code|| ': '||sqlerrm);
+      raise_application_error(-20904, 'Error processing ' ||c_test_code|| ': '||sqlerrm);
     when no_data_needed then 
       close cur_v_svt;
     when e_missing_field then
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_standard_code);
+      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);

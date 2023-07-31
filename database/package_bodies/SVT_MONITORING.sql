@@ -62,7 +62,7 @@ create or replace package body SVT_MONITORING as
   end db_unique_name;
 
   function unassigned_src_html 
-    (p_standard_code in eba_stds_standard_tests.standard_code%type,
+    (p_test_code  in eba_stds_standard_tests.test_code%type,
      p_days_since in number default 1,
      p_fetch_rows in number default null
     ) return varchar2
@@ -73,14 +73,14 @@ create or replace package body SVT_MONITORING as
   c_limit     constant pls_integer := 110;
   c_fetch_rows constant number :=coalesce(p_fetch_rows, gc_fetch_rows);
 
-  cursor cur_SVT (p_standard_code varchar2) is 
+  cursor cur_SVT (p_test_code varchar2) is 
   select  case when length(pad.issue_title) > gc_max_title_length 
                then substr(pad.issue_title, 1,gc_max_title_length)||'...'
                else pad.issue_title
                end issue_title, 
          pad.audit_id
-  from v_SVT_plsql_apex_audit pad
-  where pad.standard_code = p_standard_code
+  from v_svt_plsql_apex_audit pad
+  where pad.test_code = p_test_code
   and created > 
       case when to_char(sysdate, 'fmdy') not in ('mon')
           then sysdate - p_days_since
@@ -92,8 +92,8 @@ create or replace package body SVT_MONITORING as
   fetch first c_fetch_rows rows only;
 
   type r_issues is record (
-    issue_title SVT_plsql_apex_audit.issue_title%type,
-    audit_id    SVT_plsql_apex_audit.id%type
+    issue_title svt_plsql_apex_audit.issue_title%type,
+    audit_id    svt_plsql_apex_audit.id%type
   ); 
 
   type t_issue_rec is table of r_issues; 
@@ -102,14 +102,14 @@ create or replace package body SVT_MONITORING as
     ------------------------------------------------------------------------------
     -- nested function to add html rows
     ------------------------------------------------------------------------------
-    function html_rows(p_standard_code in eba_stds_standard_tests.standard_code%type) 
+    function html_rows(p_test_code in eba_stds_standard_tests.test_code%type) 
     return varchar2
     is 
     l_row_count pls_integer := 0;
     l_row_html varchar2(4000);
     begin
 
-      open cur_SVT (p_standard_code);
+      open cur_SVT (p_test_code);
       loop
         fetch cur_SVT
         bulk collect into l_issues_t
@@ -139,10 +139,9 @@ create or replace package body SVT_MONITORING as
     end html_rows;
 
   begin
-    apex_debug.message(c_debug_template,'START', 
-                      'p_standard_code', p_standard_code);
+    apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
-    return html_rows(p_standard_code);
+    return html_rows(p_test_code);
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -246,10 +245,10 @@ create or replace package body SVT_MONITORING as
   begin
     apex_debug.message(c_debug_template,'START', 'p_days_since', p_days_since);
 
-    for rec in (select src.standard_code
+    for rec in (select src.test_code
                 from v_eba_stds_standard_tests src
                 where src.urgency_level <= gc_max_urgency
-                order by src.urgency_level, src.standard_code
+                order by src.urgency_level, src.test_code
                 -- fetch first gc_max_row_count rows only
                 )
     loop
@@ -257,7 +256,7 @@ create or replace package body SVT_MONITORING as
       exit when l_row_count > gc_max_row_count;
       l_unassigned_report_html := l_unassigned_report_html||
                                    unassigned_src_html (
-                                            p_standard_code => rec.standard_code,
+                                            p_test_code => rec.test_code,
                                             p_days_since    => p_days_since);
     end loop;     
 
@@ -294,9 +293,9 @@ create or replace package body SVT_MONITORING as
                   end issue_title, 
          pad.audit_id,
          pad.assignee,
-         pad.standard_code,
-         dense_rank() over ( partition by assignee, standard_code order by audit_id desc) print_rank
-      from v_SVT_plsql_apex_audit pad
+         pad.test_code,
+         dense_rank() over ( partition by assignee, test_code order by audit_id desc) print_rank
+      from v_svt_plsql_apex_audit pad
       where created > 
               case when to_char(sysdate, 'fmdy') not in ('mon')
                   then sysdate - p_days_since
@@ -487,7 +486,7 @@ create or replace package body SVT_MONITORING as
               p_body_html    => l_html
             );
           end loop;
-          SVT_monitoring.push_email;
+          svt_monitoring.push_email;
         else 
           apex_debug.message(c_debug_template, 'No standard violations found', p_days_since);
     end case; 

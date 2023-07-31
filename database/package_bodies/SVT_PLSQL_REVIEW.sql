@@ -103,11 +103,11 @@ create or replace package body SVT_PLSQL_REVIEW as
 
   function issues (p_object_name             in user_plsql_object_settings.name%type default null,
                    p_object_type             in user_plsql_object_settings.type%type default null,
-                   p_max_standard_code_count in number default null,
+                   p_max_test_code_count     in number default null,
                    p_max_issue_count         in number default null,
                    p_file_dirname            in varchar2 default null
                    )
-  return SVT_db_plsql_issue_nt pipelined
+  return svt_db_plsql_issue_nt pipelined
   is 
   pragma autonomous_transaction;
 
@@ -133,10 +133,10 @@ create or replace package body SVT_PLSQL_REVIEW as
                         end;
 
   c_plsql_stmt      constant varchar2(512) := q'[ALTER SESSION SET PLSCOPE_SETTINGS = 'IDENTIFIERS:ALL, STATEMENTS:ALL']';
-  l_standard_code   eba_stds_standard_tests.standard_code%type := 'blank';
-  c_max_standard_code_count   constant pls_integer := coalesce(p_max_standard_code_count, 50);
-  c_max_issue_count constant pls_integer := coalesce(p_max_issue_count, 999999);
-  l_standard_code_count    pls_integer   := 0;
+  l_test_code       eba_stds_standard_tests.test_code%type := 'blank';
+  c_max_test_code_count    constant pls_integer := coalesce(p_max_test_code_count, 50);
+  c_max_issue_count        constant pls_integer := coalesce(p_max_issue_count, 999999);
+  l_test_code_count        pls_integer   := 0;
   l_issue_count            pls_integer   := 0;
   l_issue_shown_count      pls_integer   := 0;
   l_not_shown_count_msg    varchar2(500) := '';
@@ -151,9 +151,9 @@ create or replace package body SVT_PLSQL_REVIEW as
         dp.code,
         esst.urgency,
         esst.urgency_level,
-        esst.standard_code
+        esst.test_code
       from v_eba_stds_standard_tests esst
-      join svt_standard_view.v_SVT_db_plsql(p_standard_code => esst.standard_code, 
+      join svt_standard_view.v_SVT_db_plsql(p_test_code => esst.test_code, 
                                             p_failures_only => gc_y,
                                             p_object_name => c_object_name) dp
         on  esst.nt_name = 'V_SVT_DB_PLSQL_NT'
@@ -169,7 +169,7 @@ create or replace package body SVT_PLSQL_REVIEW as
     code                    varchar2(1000 char),
     urgency                 varchar2(255   char),
     urgency_level           number,
-    standard_code           varchar2(100 char)
+    test_code           varchar2(100 char)
   );
   type t_SVT_db_plsql_issue is table of r_v_SVT_db_plsql index by pls_integer;
   l_pkg_issue_t t_SVT_db_plsql_issue;
@@ -286,15 +286,15 @@ create or replace package body SVT_PLSQL_REVIEW as
         l_issue_count := l_issue_count + 1;
         case when l_issue_count <= c_max_issue_count then 
 
-          case  when l_standard_code = l_pkg_issue_t (rec).standard_code then
-            l_standard_code_count := l_standard_code_count + 1;
+          case  when l_test_code = l_pkg_issue_t (rec).test_code then
+            l_test_code_count := l_test_code_count + 1;
           else 
-            l_standard_code_count := 1;
+            l_test_code_count := 1;
           end case;
 
-          l_standard_code := l_pkg_issue_t (rec).standard_code;
+          l_test_code := l_pkg_issue_t (rec).test_code;
 
-          case when l_standard_code_count <= c_max_standard_code_count then
+          case when l_test_code_count <= c_max_test_code_count then
 
             l_issue_shown_count := l_issue_shown_count + 1;
 
@@ -306,11 +306,11 @@ create or replace package body SVT_PLSQL_REVIEW as
                           l_pkg_issue_t (rec).code,
                           l_pkg_issue_t (rec).urgency,
                           l_pkg_issue_t (rec).urgency_level,
-                          l_pkg_issue_t (rec).standard_code
+                          l_pkg_issue_t (rec).test_code
                         )
                     );
           else 
-            apex_debug.message(c_debug_template, 'max standard_code count / standard_code has been exceeded');
+            apex_debug.message(c_debug_template, 'max test_code count / test_code has been exceeded');
           end case;
 
         else 
@@ -360,7 +360,7 @@ create or replace package body SVT_PLSQL_REVIEW as
                           null,
                           l_vw_issue_t (rec).urgency,
                           l_vw_issue_t (rec).urgency_level,
-                          l_vw_issue_t (rec).standard_code
+                          l_vw_issue_t (rec).test_code
                         )
                     );
 
@@ -385,7 +385,7 @@ create or replace package body SVT_PLSQL_REVIEW as
                           l_tbl_issue_t (rec).code,
                           l_tbl_issue_t (rec).urgency,
                           l_tbl_issue_t (rec).urgency_level,
-                          l_tbl_issue_t (rec).standard_code
+                          l_tbl_issue_t (rec).test_code
                         )
                     );
 

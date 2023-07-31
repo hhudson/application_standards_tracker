@@ -13,16 +13,6 @@
 --------------------------------------------------------------------------------
 -- prompt  V_SVT_DB_PLSQL_REF_NT.sql
 
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
-    create type V_SVT_DB_PLSQL_REF_NT as table of V_SVT_DB_PLSQL_REF_OT
-     ]';
-  dbms_output.put_line(q'[ type V_SVT_DB_PLSQL_REF_NT created ]');
-exception
-  when already_exists then null;
-end;
+create type V_SVT_DB_PLSQL_REF_NT as table of V_SVT_DB_PLSQL_REF_OT
 /
 --rollback drop type V_SVT_DB_plsql_REF_NT;

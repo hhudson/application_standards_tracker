@@ -11,7 +11,7 @@
 
   CREATE OR REPLACE EDITIONABLE TRIGGER SVT_PLSQL_APEX_AUDIT_BIU 
     before insert or update 
-    on SVT_plsql_apex_audit
+    on svt_plsql_apex_audit
     for each row
 declare 
     c_user constant varchar2(100) := coalesce(sys_context('APEX$SESSION','APP_USER'),user,'nobody');
@@ -27,7 +27,7 @@ begin
         :new.updated_by := c_user;
     end if;
     :new.assignee := lower(:new.assignee);
-end SVT_plsql_apex_audit_biu;
+end svt_plsql_apex_audit_biu;
 /
 
 ALTER TRIGGER SVT_PLSQL_APEX_AUDIT_BIU ENABLE

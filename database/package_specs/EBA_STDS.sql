@@ -34,11 +34,11 @@ from dual
 -- function to get eba_stds_standard_tests.mv_dependency for a given standard code
 --
 /*
-select eba_stds.get_mv_dependency(p_standard_code => 'UNREACHABLE_PAGE') mv
+select eba_stds.get_mv_dependency(p_test_code => 'UNREACHABLE_PAGE') mv
 from dual;
 */
 ------------------------------------------------------------------------------
-    function get_mv_dependency(p_standard_code in eba_stds_standard_tests.standard_code%type) 
+    function get_mv_dependency(p_test_code in eba_stds_standard_tests.test_code%type) 
     return eba_stds_standard_tests.mv_dependency%type;
 
 ------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ declare
 l_boolean boolean;
 begin
     l_boolean := eba_stds.display_initialize_button (
-                    p_standard_code => :P14_STANDARD_CODE,
+                    p_test_code     => :P14_TEST_CODE,
                     p_level_id      => :P14_LEVEL_ID
                 );
     if l_boolean then 
@@ -66,8 +66,8 @@ end;
 */
 ------------------------------------------------------------------------------
     function display_initialize_button (
-        p_standard_code in SVT_plsql_apex_audit.standard_code%type,
-        p_level_id      in SVT_standards_urgency_level.id%type
+        p_test_code     in svt_plsql_apex_audit.test_code%type,
+        p_level_id      in svt_standards_urgency_level.id%type
     ) return boolean;
 
 end eba_stds;

@@ -16,12 +16,12 @@ create or replace trigger SVT_PLSQL_APEX_AUDIT_BIUD
 begin
     if inserting then
        insert into SVT_AUDIT_ON_AUDIT 
-              (     unqid, action_name,      standard_code, audit_id,      validation_failure_message)
-       values (:new.unqid, 'INSERT'   , :new.standard_code,  :new.id, :new.validation_failure_message);
+              (     unqid, action_name,      test_code, audit_id,      validation_failure_message)
+       values (:new.unqid, 'INSERT'   , :new.test_code,  :new.id, :new.validation_failure_message);
     elsif deleting then
-       insert into SVT_audit_on_audit 
-              (     unqid, action_name,      standard_code, audit_id,      validation_failure_message)
-       values (:old.unqid, 'DELETE'   , :old.standard_code,  :old.id, :old.validation_failure_message);
+       insert into svt_audit_on_audit 
+              (     unqid, action_name,      test_code, audit_id,      validation_failure_message)
+       values (:old.unqid, 'DELETE'   , :old.test_code,  :old.id, :old.validation_failure_message);
     end if;
 end SVT_PLSQL_APEX_AUDIT_BIUD;
 /

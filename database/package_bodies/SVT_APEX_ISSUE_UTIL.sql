@@ -16,7 +16,7 @@ create or replace package body SVT_APEX_ISSUE_UTIL as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix      constant varchar2(31) := lower($$plsql_unit) || '.';
-  gc_false_positive_id constant SVT_audit_actions.id%type := 2;
+  gc_false_positive_id constant svt_audit_actions.id%type := 2;
   -- https://docs.oracle.com/en/database/oracle/application-express/21.2/aeapi/SUBMIT_FEEDBACK_FOLLOWUP-Procedure.html#GUID-C6F4E4A8-7E40-498F-8E8F-7D99D98527B0
 
 $if oracle_apex_version.c_apex_issue_access $then
@@ -269,7 +269,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                                  p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                  p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                  p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                                 p_standard_code  in eba_stds_standard_tests.standard_code%type default null)
+                                 p_test_code      in eba_stds_standard_tests.test_code%type default null)
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'merge_from_audit_tbl';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -285,7 +285,7 @@ $if oracle_apex_version.c_apex_issue_access $then
       and (application_id = upper(p_application_id) or p_application_id is null)
       and (page_id = upper(p_page_id) or p_page_id is null)
       and (audit_id = upper(p_audit_id) or p_audit_id is null)
-      and (standard_code = upper(p_standard_code) or p_standard_code is null)
+      and (test_code = upper(p_test_code) or p_test_code is null)
       and page_id is not null
       and issue_title is not null
       and issue_text is not null
@@ -313,7 +313,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                                           'p_application_id', p_application_id,
                                           'p_page_id', p_page_id,
                                           'p_audit_id', p_audit_id,
-                                          'p_standard_code', p_standard_code
+                                          'p_test_code', p_test_code
                                           );
     if v('APP_ID') is null then
       apex_debug.message(c_debug_template, 'creating apex session');
@@ -495,17 +495,17 @@ $if oracle_apex_version.c_apex_issue_access $then
 $end
   
   procedure refresh_for_standard_app_page (
-                p_standard_code in svt_plsql_apex_audit.standard_code%type,
+                p_test_code     in svt_plsql_apex_audit.test_code%type,
                 p_app_id        in svt_plsql_apex_audit.application_id%type default null,
                 p_page_id       in svt_plsql_apex_audit.page_id%type default null)
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_app_page';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_mv_dependency eba_stds_standard_tests.mv_dependency%type 
-                    := eba_stds.get_mv_dependency(p_standard_code => p_standard_code);
+                    := eba_stds.get_mv_dependency(p_test_code => p_test_code);
   begin
     apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_code', p_standard_code,
+                                        'p_test_code', p_test_code,
                                         'p_app_id', p_app_id,
                                         'p_page_id', p_page_id);
 
@@ -514,7 +514,7 @@ $end
     end if;
 
     SVT_audit_util.merge_audit_tbl (
-                        p_standard_code  => p_standard_code,
+                        p_test_code      => p_test_code,
                         p_application_id => p_app_id,
                         p_page_id        => p_page_id
                     );
@@ -540,7 +540,7 @@ $end
                              := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
   l_apex_issue_id svt_plsql_apex_audit.apex_issue_id%type;
   c_mv_dependency eba_stds_standard_tests.mv_dependency%type 
-                    := eba_stds.get_mv_dependency(p_standard_code => l_svt_plsql_apex_audit_rec.standard_code);
+                    := eba_stds.get_mv_dependency(p_test_code => l_svt_plsql_apex_audit_rec.test_code);
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
@@ -552,7 +552,7 @@ $end
 
       l_apex_issue_id := l_svt_plsql_apex_audit_rec.apex_issue_id;
       SVT_audit_util.merge_audit_tbl (
-                        p_standard_code  => l_svt_plsql_apex_audit_rec.standard_code,
+                        p_test_code  => l_svt_plsql_apex_audit_rec.test_code,
                         p_application_id => l_svt_plsql_apex_audit_rec.application_id,
                         p_page_id        => l_svt_plsql_apex_audit_rec.page_id,
                         p_audit_id       => p_audit_id
@@ -651,7 +651,7 @@ $end
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'mark_as_exception';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_ignore_legacy constant SVT_audit_actions.id%type := 2;
+  c_ignore_legacy constant svt_audit_actions.id%type := 2;
   l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
