@@ -239,7 +239,7 @@ regions:
              p.col004 test_name, 
              p.col005 workspace,
              p.col007 standard_id,
-             p.col009 standard_code, 
+             p.col009 test_code, 
              p.col010 svt_component_type_id, 
              p.col012 explanation,
              p.col013 level_id,
@@ -555,22 +555,37 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: STANDARD_CODE ===============================
-    id: 142990180140948611
+  - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+    id: 146439481459364603
     identification: 
-      column-name: STANDARD_CODE
+      column-name: SVT_COMPONENT_TYPE_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 121
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TEST_CODE ===================================
+    id: 147813784122836213
+    identification: 
+      column-name: TEST_CODE
       type: Plain Text
 
     heading: 
-      heading: Standard Code
+      heading: Test Code
       alignment: start
 
     layout: 
-      sequence: 11
+      sequence: 131
       column-alignment: start
 
     accessibility: 
-      value-identifies-row: true
+      value-identifies-row: false
 
     sorting: 
       sortable: true
@@ -587,26 +602,11 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
-    id: 146439481459364603
-    identification: 
-      column-name: SVT_COMPONENT_TYPE_ID
-      type: Hidden Column
-
-    layout: 
-      sequence: 121
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
 page-items: 
-- # ====== Page Item: P34_STANDARD_CODE ========================
+- # ====== Page Item: P34_TEST_CODE ============================
   id: 139354396224506121
   identification: 
-    name: P34_STANDARD_CODE
+    name: P34_TEST_CODE
     type: Hidden
 
   settings: 
@@ -1028,10 +1028,10 @@ computations:
                         p_max_rows          => 100 ) ) p
        where f.name = :P34_FILE
 
-- # ====== Computation: P34_STANDARD_CODE ======================
+- # ====== Computation: P34_TEST_CODE ==========================
   id: 142990618559948616
   identification: 
-    item-name: P34_STANDARD_CODE
+    item-name: P34_TEST_CODE
 
   execution: 
     sequence: 20
@@ -1051,7 +1051,7 @@ computations:
        fetch first 1 rows only
 
   error: 
-    error-message: failure to get standard code
+    error-message: failure to get test code
 
   server-side-condition: 
     type: Item = Value
@@ -1146,17 +1146,17 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:60:&SESSION.::&DEBUG.:60:P60_STANDARD_CODE:&P34_STANDARD_CODE.&success_msg=#SUCCESS_MSG#'
+      url: 'f?p=&APP_ID.:60:&SESSION.::&DEBUG.:60:P60_TEST_CODE:&P34_TEST_CODE.&success_msg=#SUCCESS_MSG#'
       page: 60 # Load Standard Test
       clear-cache: 60
       values: 
-        p60_standard_code: '&P34_STANDARD_CODE.'
+        p60_test_code: '&P34_TEST_CODE.'
 
   server-side-condition: 
     when-button-pressed: LOAD # 139374373993261896
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_STANDARD_CODE is not null and :P34_PROCESSED_ROW_COUNT = 1'
+    pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_TEST_CODE is not null and :P34_PROCESSED_ROW_COUNT = 1'
 
 - # ====== Branch: go to page 17 ===============================
   id: 142750757444835319

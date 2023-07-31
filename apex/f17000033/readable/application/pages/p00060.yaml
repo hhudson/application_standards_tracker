@@ -429,7 +429,7 @@ page-items:
     width: 30
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
@@ -519,7 +519,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 60
+    sequence: 50
     region: Non-Editable # 52758944684756849
     position: BODY
     alignment: Left
@@ -617,69 +617,6 @@ page-items:
 
   help: 
     help-text: SQL query defining pass/fail conditions
-
-- # ====== Page Item: P60_STANDARD_CODE ========================
-  id: 53150525897876951
-  identification: 
-    name: P60_STANDARD_CODE
-    type: Text Field
-
-  label: 
-    label: Standard Code
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: None
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 50
-    region: Non-Editable # 52758944684756849
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: true
-    maximum-length: 100
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Load Sample Standard Test # 53148245846876947
-    column: STANDARD_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: 'A brief, unique, descriptive moniker '
 
 - # ====== Page Item: P60_ACTIVE_YN ============================
   id: 53150959749876951
@@ -929,7 +866,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 70
+    sequence: 60
     region: Non-Editable # 52758944684756849
     position: BODY
     alignment: Left
@@ -984,7 +921,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 80
+    sequence: 70
     region: Non-Editable # 52758944684756849
     position: BODY
     alignment: Left
@@ -1059,7 +996,7 @@ page-items:
     width: 30
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
@@ -1122,44 +1059,6 @@ page-items:
   session-state: 
     data-type: VARCHAR2
     storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P60_STANDARD_CODE_IN_DB_YN ===============
-  id: 139355919554506137
-  identification: 
-    name: P60_STANDARD_CODE_IN_DB_YN
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Non-Editable # 52758944684756849
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Load Sample Standard Test # 53148245846876947
-    column: STANDARD_CODE_IN_DB_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  server-side-condition: 
-    type: Item = Value
-    item: P60_STANDARD_CODE_IN_DB_YN
-    value: Y
 
   security: 
     session-state-protection: Unrestricted
@@ -1444,6 +1343,99 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P60_TEST_CODE ============================
+  id: 147814322917836219
+  identification: 
+    name: P60_TEST_CODE
+    type: Text Field
+
+  label: 
+    label: Test Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Non-Editable # 52758944684756849
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: TEST_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_TEST_CODE_IN_DB_YN ===================
+  id: 147814451083836220
+  identification: 
+    name: P60_TEST_CODE_IN_DB_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 260
+    region: Load Sample Standard Test # 53148245846876947
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 53148245846876947
+    column: TEST_CODE_IN_DB_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: INSTALL =====================================
   id: 52757800228756838
@@ -1534,17 +1526,17 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_STANDARD_CODE:&P60_STANDARD_CODE.'
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:&P60_TEST_CODE.'
       page: 14 # &P14_HIDDEN_NAME.
       clear-cache: 14
       values: 
-        p14_standard_code: '&P60_STANDARD_CODE.'
+        p14_test_code: '&P60_TEST_CODE.'
 
     warn-on-unsaved-changes: Do Not Check
 
   server-side-condition: 
     type: Item = Value
-    item: P60_STANDARD_CODE_IN_DB_YN
+    item: P60_TEST_CODE
     value: Y
 
   security: 
@@ -1658,43 +1650,6 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-validations: 
-- # ====== Validation: standard not null =======================
-  id: 139356321962506141
-  identification: 
-    name: standard not null
-
-  execution: 
-    sequence: 10
-
-  validation: 
-    type: Item is NOT NULL
-    item: P60_STANDARD_ID
-    always-execute: true
-
-  error: 
-    error-message: You must associate it with a Standard
-    display-location: Inline with Field and in Notification
-    associated-item: P60_STANDARD_ID # 53148979462876949
-
-- # ====== Validation: Urgency is not null =====================
-  id: 139356467088506142
-  identification: 
-    name: Urgency is not null
-
-  execution: 
-    sequence: 20
-
-  validation: 
-    type: Item is NOT NULL
-    item: P60_LEVEL_ID
-    always-execute: true
-
-  error: 
-    error-message: You must pick an urgency level
-    display-location: Inline with Field and in Notification
-    associated-item: P60_LEVEL_ID # 139354712242506125
-
 computations: 
 - # ====== Computation: P60_ID =================================
   id: 139354647048506124
@@ -1708,12 +1663,12 @@ computations:
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'eba_stds_tests_lib_api.get_id(:P60_STANDARD_CODE)'
+    pl/sql-expression: 'eba_stds_tests_lib_api.get_id(:P60_TEST_CODE)'
 
   server-side-condition: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P60_ID is null and :P60_STANDARD_CODE is not null'
+    pl/sql-expression: ':P60_ID is null and :P60_TEST_CODE is not null'
 
 processes: 
 - # ====== Process: Install ====================================
@@ -1820,11 +1775,11 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_STANDARD_CODE:&P60_STANDARD_CODE.&success_msg=#SUCCESS_MSG#'
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:&P60_TEST_CODE.&success_msg=#SUCCESS_MSG#'
       page: 14 # &P14_HIDDEN_NAME.
       clear-cache: 14
       values: 
-        p14_standard_code: '&P60_STANDARD_CODE.'
+        p14_test_code: '&P60_TEST_CODE.'
 
   server-side-condition: 
     when-button-pressed: INSTALL # 52757800228756838

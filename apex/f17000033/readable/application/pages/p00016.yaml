@@ -128,14 +128,14 @@ regions:
       expand-shortcuts: false
 
 page-items: 
-- # ====== Page Item: P16_FROM_STANDARD_CODE ===================
+- # ====== Page Item: P16_FROM_TEST_CODE =======================
   id: 44215558578509607
   identification: 
-    name: P16_FROM_STANDARD_CODE
+    name: P16_FROM_TEST_CODE
     type: Text Field
 
   label: 
-    label: From Standard Code
+    label: From Test Code
     alignment: Left
 
   settings: 
@@ -181,7 +181,7 @@ page-items:
 
   read-only: 
     type: Item is NOT NULL
-    item: P16_FROM_STANDARD_CODE
+    item: P16_FROM_TEST_CODE
 
   security: 
     session-state-protection: Unrestricted
@@ -191,14 +191,14 @@ page-items:
   help: 
     help-text: The test you are copying
 
-- # ====== Page Item: P16_TO_STANDARD_CODE =====================
+- # ====== Page Item: P16_TO_TEST_CODE =========================
   id: 44215675987509608
   identification: 
-    name: P16_TO_STANDARD_CODE
+    name: P16_TO_TEST_CODE
     type: Text Field
 
   label: 
-    label: To Standard Code
+    label: To Test Code
     alignment: Left
 
   settings: 
@@ -296,8 +296,8 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       eba_stds_standard_tests_api.duplicate_standard (
-                                          p_from_standard_code  => :P16_FROM_STANDARD_CODE,
-                                          p_to_standard_code    => :P16_TO_STANDARD_CODE
+                                          p_from_test_code  => :P16_FROM_TEST_CODE,
+                                          p_to_test_code    => :P16_TO_TEST_CODE
                                       );
 
   execution: 
@@ -327,9 +327,9 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_STANDARD_CODE:&P16_TO_STANDARD_CODE.&success_msg=#SUCCESS_MSG#'
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_TEST_CODE:&P16_TO_TEST_CODE.&success_msg=#SUCCESS_MSG#'
       page: 14 # &P14_HIDDEN_NAME.
       clear-cache: CR,14
       values: 
-        p14_standard_code: '&P16_TO_STANDARD_CODE.'
+        p14_test_code: '&P16_TO_TEST_CODE.'
 

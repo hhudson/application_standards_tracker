@@ -14,8 +14,8 @@ prompt set feedback off
 prompt set echo off
 
 select distinct apex_string.format(q'[spool standard_tests/%0.json
-select svt_deployment.json_content_clob (p_table_name => 'EBA_STDS_STANDARD_TESTS', p_standard_code => '%0') thejsonclob from dual;]', standard_code ) stmt
-from V_EBA_STDS_STANDARD_TESTS_EXPORT
+select svt_deployment.json_content_clob (p_table_name => 'EBA_STDS_STANDARD_TESTS', p_test_code => '%0') thejsonclob from dual;]', test_code ) stmt
+from v_eba_stds_standard_tests_export
 where published_yn = 'Y'
 order by 1;
 

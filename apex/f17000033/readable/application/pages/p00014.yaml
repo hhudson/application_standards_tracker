@@ -48,7 +48,7 @@ help:
             <ol>
                 <li><h3>From Scratch</h3>
                     <ol>
-                        <li>Pick a unique, descriptive and brief 'standard code' (no spaces or special characters)</li>
+                        <li>Pick a unique, descriptive and brief 'test code' (no spaces or special characters)</li>
                         <li>Describe the test in a short phrase. Terms like 'should' are encouraged.</li>
                         <li>etc</li>
                     </ol>
@@ -112,7 +112,7 @@ regions:
   server-side-condition: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P14_STANDARD_CODE is not null and :P14_QUERY_CLOB is not null'
+    pl/sql-expression: ':P14_TEST_CODE is not null and :P14_QUERY_CLOB is not null'
 
   server-cache: 
     caching: Disabled
@@ -349,7 +349,7 @@ regions:
                               p_opt_parent_pk_value   => a.object_type,
                               p_builder_session       => :APX_BLDR_SESSION
              ) link_url
-      from svt_standard_view.v_svt(p_standard_code => :P14_STANDARD_CODE, 
+      from svt_standard_view.v_svt(p_test_code => :P14_TEST_CODE, 
                                    p_failures_only => 'Y',
                                    p_production_apps_only => 'Y') a
       )
@@ -385,7 +385,6 @@ regions:
              || wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button
       from std
     page-items-to-submit: 
-    - P14_STANDARD_CODE
     - P14_COMPONENT_TYPE_ID
 
   layout: 
@@ -441,7 +440,7 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
       maximum-rows-per-page: 5
 
     actions-menu: 
@@ -459,7 +458,7 @@ regions:
       pivot: true
       flashback: true
       save-report: true
-      save-public-report: false
+      save-public-report: true
       reset: true
       help: true
       download: false
@@ -1392,7 +1391,7 @@ regions:
     - P14_ID
 
   layout: 
-    sequence: 120
+    sequence: 100
     parent-region: Configuration # 115235287601846904
     position: BODY
     start-new-layout: false
@@ -1545,24 +1544,6 @@ regions:
 
       layout: 
         sequence: 70
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: STANDARD_CODE ===============================
-      id: 143449553844206710
-      identification: 
-        column-name: STANDARD_CODE
-        type: Hidden Column
-
-      heading: 
-        heading: Standard Code
-
-      layout: 
-        sequence: 80
 
       source: 
         primary-key: false
@@ -1951,7 +1932,7 @@ regions:
         html-expression: |
           <button type="button" 
                   class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft publishRpt #PUBLISH_CLSS#"
-                  data-stdcd="#STANDARD_CODE#">
+                  data-stdcd="#TEST_CODE#">
           <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-print"></span>
           #PUBLISH_TEXT#
           </button>
@@ -2060,6 +2041,24 @@ regions:
 
       layout: 
         sequence: 360
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 147813377162836209
+      identification: 
+        column-name: TEST_CODE
+        type: Hidden Column
+
+      heading: 
+        heading: Test Code
+
+      layout: 
+        sequence: 370
 
       source: 
         primary-key: false
@@ -2243,7 +2242,7 @@ page-items:
     minimum-height: 100
 
   layout: 
-    sequence: 80
+    sequence: 60
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2301,7 +2300,7 @@ page-items:
     minimum-height: 100
 
   layout: 
-    sequence: 100
+    sequence: 70
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2508,7 +2507,7 @@ page-items:
     - t-Form-fieldContainer--xlarge
 
   validation: 
-    value-required: true
+    value-required: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -2573,75 +2572,6 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P14_STANDARD_CODE ========================
-  id: 115236298414846914
-  identification: 
-    name: P14_STANDARD_CODE
-    type: Text Field with autocomplete
-
-  label: 
-    label: Standard Code
-    alignment: Left
-
-  settings: 
-    search: Contains & Ignore Case
-    fetch-on-type: true
-    cache: true
-    maximum-values-in-list: 7
-    minimum-search: 1
-
-  layout: 
-    sequence: 20
-    region: Configuration # 115235287601846904
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: true
-    maximum-length: 100
-
-  list-of-values: 
-    type: SQL Query
-    sql-query: select standard_code from eba_stds_standard_tests
-    display-extra-values: true
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Standard Test # 7562693978314107360
-    column: STANDARD_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  read-only: 
-    type: Item is NOT NULL
-    item: P14_ID
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Give your test a unique, brief but descriptive moniker (all caps, no spaces)
-
 - # ====== Page Item: P14_ACTIVE_YN ============================
   id: 115236448278846916
   identification: 
@@ -2656,7 +2586,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 140
+    sequence: 110
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2751,7 +2681,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 110
+    sequence: 80
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2807,7 +2737,7 @@ page-items:
     minimum-search: 1
 
   layout: 
-    sequence: 30
+    sequence: 20
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2853,6 +2783,66 @@ page-items:
 
   help: 
     help-text: A short, descriptive sentence describing the test
+
+- # ====== Page Item: P14_TEST_CODE ============================
+  id: 147813037864836206
+  identification: 
+    name: P14_TEST_CODE
+    type: Text Field
+
+  label: 
+    label: Test Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Configuration # 115235287601846904
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Standard Test # 7562693978314107360
+    column: TEST_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: true
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P14_MV_DEPENDENCY ========================
   id: 151926358380453514
@@ -2944,7 +2934,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 40
+    sequence: 30
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -3054,7 +3044,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 50
+    sequence: 40
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -3114,7 +3104,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
+    sequence: 50
     region: Configuration # 115235287601846904
     position: BODY
 
@@ -3181,11 +3171,11 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:16:&SESSION.::&DEBUG.:CR,16:P16_FROM_STANDARD_CODE:&P14_STANDARD_CODE.'
+      url: 'f?p=&APP_ID.:16:&SESSION.::&DEBUG.:CR,16:P16_FROM_TEST_CODE:&P14_TEST_CODE.'
       page: 16 # Duplicate Standard Test
       clear-cache: CR,16
       values: 
-        p16_from_standard_code: '&P14_STANDARD_CODE.'
+        p16_from_test_code: '&P14_TEST_CODE.'
 
     warn-on-unsaved-changes: Do Not Check
     database-action: SQL UPDATE action
@@ -3265,10 +3255,10 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.::IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.::IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
       page: 1 # V_SVT_PLSQL_APEX_AUDIT
       values: 
-        ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
+        ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
     warn-on-unsaved-changes: Do Not Check
 
@@ -3458,7 +3448,7 @@ buttons:
     sql-query: |
       select 1
       from SVT_PLSQL_APEX_AUDIT
-      where standard_code = :P14_STANDARD_CODE
+      where test_code = :P14_TEST_CODE
       and :P14_ACTIVE_YN = 'Y'
 
 - # ====== Button: initialize_standard =========================
@@ -3496,8 +3486,8 @@ buttons:
     language: PL/SQL
     pl/sql-function-body: |
       return eba_stds.display_initialize_button (
-                          p_standard_code => :P14_STANDARD_CODE,
-                          p_level_id      => :P14_LEVEL_ID
+                          p_test_code => :P14_TEST_CODE,
+                          p_level_id  => :P14_LEVEL_ID
                       );
 
   security: 
@@ -4390,7 +4380,7 @@ computations:
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'eba_stds_standard_tests_api.get_test_id (p_standard_code => :P14_STANDARD_CODE)'
+    pl/sql-expression: 'eba_stds_standard_tests_api.get_test_id (p_test_code => :P14_TEST_CODE)'
 
 processes: 
 - # ====== Process: Set COMPONENT_TYPE_ID on load ==============
@@ -4430,7 +4420,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'eba_stds_standard_tests_api.publish_test(p_standard_code => :P14_STANDARD_CODE);'
+    pl/sql-code: 'eba_stds_standard_tests_api.publish_test(p_test_code => :P14_TEST_CODE);'
 
   execution: 
     sequence: 30
@@ -4456,7 +4446,7 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       svt_ctx_util.set_review_schema (svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
-      svt_audit_util.initialize_standard(p_standard_code => :P14_STANDARD_CODE);
+      svt_audit_util.initialize_standard(p_test_code => :P14_TEST_CODE);
       
 
   execution: 
@@ -4504,7 +4494,7 @@ processes:
                         p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                         p_query_clob            => :P14_QUERY_CLOB,
                         p_owner                 => :P14_OWNER,
-                        p_standard_code         => :P14_STANDARD_CODE,
+                        p_test_code             => :P14_TEST_CODE,
                         p_active_yn             => :P14_ACTIVE_YN,
                         p_level_id              => :P14_LEVEL_ID,
                         p_mv_dependency         => :P14_MV_DEPENDENCY,
@@ -4520,7 +4510,7 @@ processes:
                                 p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                                 p_query_clob            => :P14_QUERY_CLOB,
                                 p_owner                 => :P14_OWNER,
-                                p_standard_code         => :P14_STANDARD_CODE,
+                                p_test_code             => :P14_TEST_CODE,
                                 p_active_yn             => :P14_ACTIVE_YN,
                                 p_level_id              => :P14_LEVEL_ID,
                                 p_mv_dependency         => :P14_MV_DEPENDENCY,
@@ -4585,7 +4575,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'svt_apex_issue_util.refresh_for_standard_app_page (:P14_STANDARD_CODE);'
+    pl/sql-code: 'svt_apex_issue_util.refresh_for_standard_app_page (:P14_TEST_CODE);'
 
   execution: 
     sequence: 40
@@ -4611,11 +4601,11 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
       page: 1 # V_SVT_PLSQL_APEX_AUDIT
       clear-cache: 1
       values: 
-        ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
+        ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
   server-side-condition: 
     when-button-pressed: Rerun_audit # 240632191206034438
@@ -4635,11 +4625,11 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_STANDARD_CODE:&P14_STANDARD_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
       page: 1 # V_SVT_PLSQL_APEX_AUDIT
       clear-cache: 1
       values: 
-        ig[audit_rpt]eq_standard_code: '&P14_STANDARD_CODE.'
+        ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
   server-side-condition: 
     when-button-pressed: initialize_standard # 240632333443034440
@@ -4659,10 +4649,10 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.::P14_STANDARD_CODE,P14_ID:&P14_STANDARD_CODE.,&P14_ID.&success_msg=#SUCCESS_MSG#'
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.::P14_TEST_CODE,P14_ID:&P14_TEST_CODE.,&P14_ID.&success_msg=#SUCCESS_MSG#'
       page: 14 # &P14_HIDDEN_NAME.
       values: 
-        p14_standard_code: '&P14_STANDARD_CODE.'
+        p14_test_code: '&P14_TEST_CODE.'
         p14_id: '&P14_ID.'
 
   server-side-condition: 

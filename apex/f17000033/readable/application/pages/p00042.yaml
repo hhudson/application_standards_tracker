@@ -427,9 +427,10 @@ regions:
   source: 
     location: Local Database
     type: SQL Query
-    sql-query: 'select * from svt_standard_view.v_svt(p_standard_code => :P42_STANDARD_CODE , p_audit_id => :P42_ID)'
+    sql-query: |
+      select * from svt_standard_view.v_svt(p_test_code => :P42_TEST_CODE , 
+                                            p_audit_id => :P42_ID)
     page-items-to-submit: 
-    - P42_STANDARD_CODE
     - P42_ID
 
   layout: 
@@ -484,14 +485,14 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
       maximum-rows-per-page: 10
 
     actions-menu: 
       include-actions-menu: true
       filter: true
       select-columns: true
-      rows-per-page: true
+      rows-per-page: false
       sort: true
       control-break: true
       highlight: true
@@ -502,7 +503,7 @@ regions:
       pivot: true
       flashback: true
       save-report: true
-      save-public-report: false
+      save-public-report: true
       reset: true
       help: true
       download: false
@@ -581,6 +582,47 @@ regions:
       layout: 
         sequence: 200
         column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 147814283896836218
+      identification: 
+        column-name: TEST_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Test Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 210
+        column-alignment: start
 
       accessibility: 
         value-identifies-row: false
@@ -1207,47 +1249,6 @@ regions:
       column-filter: 
         type: Default Based on Column Type
         date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: STANDARD_CODE ===============================
-      id: 244344069850923136
-      identification: 
-        column-name: STANDARD_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Standard Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 170
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
 
       enable-users-to: 
         hide: true
@@ -2028,7 +2029,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 850
+    sequence: 800
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2061,7 +2062,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 870
+    sequence: 810
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2094,7 +2095,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 880
+    sequence: 820
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2127,7 +2128,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 890
+    sequence: 830
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2160,7 +2161,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 900
+    sequence: 840
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2193,7 +2194,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 910
+    sequence: 850
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2226,7 +2227,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 920
+    sequence: 860
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2259,7 +2260,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 930
+    sequence: 870
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2292,7 +2293,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 940
+    sequence: 880
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2325,7 +2326,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 950
+    sequence: 890
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2358,7 +2359,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 960
+    sequence: 900
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2391,7 +2392,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 970
+    sequence: 910
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2424,7 +2425,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 980
+    sequence: 920
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2457,7 +2458,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 990
+    sequence: 940
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2490,7 +2491,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1000
+    sequence: 950
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2523,7 +2524,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1010
+    sequence: 960
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2556,7 +2557,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1020
+    sequence: 970
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2589,7 +2590,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1030
+    sequence: 980
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2622,7 +2623,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1040
+    sequence: 990
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2655,7 +2656,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1050
+    sequence: 1000
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2688,7 +2689,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1060
+    sequence: 1010
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2721,7 +2722,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1070
+    sequence: 1020
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2754,7 +2755,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1080
+    sequence: 1030
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2787,7 +2788,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1090
+    sequence: 1040
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2797,39 +2798,6 @@ page-items:
   source: 
     form-region: Virtual Cols # 458446618000308302
     column: APEX_ISSUE_TITLE_SUFFIX
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_STANDARD_CODE_1 ======================
-  id: 146441680412364625
-  identification: 
-    name: P42_STANDARD_CODE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1100
-    region: Virtual Cols # 458446618000308302
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 458446618000308302
-    column: STANDARD_CODE
     data-type: VARCHAR2
     query-only: false
     primary-key: false
@@ -2853,7 +2821,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1110
+    sequence: 1050
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2886,7 +2854,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1120
+    sequence: 1060
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2919,7 +2887,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1130
+    sequence: 1070
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2952,7 +2920,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1140
+    sequence: 1080
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -2985,7 +2953,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 1150
+    sequence: 1090
     region: Virtual Cols # 458446618000308302
     position: BODY
 
@@ -3023,7 +2991,7 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 1160
+    sequence: 130
     region: General Virtual Cols # 458830432779448205
     position: BODY
     alignment: Left
@@ -3066,6 +3034,219 @@ page-items:
 
   help: 
     help-text: An internal ID designating the type of component being targeted by the test
+
+- # ====== Page Item: P42_TEST_CODE ============================
+  id: 147813895072836214
+  identification: 
+    name: P42_TEST_CODE
+    type: Text Field
+
+  label: 
+    label: Test Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 244233668686812261
+    column: TEST_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APPLICATION_TYPE =====================
+  id: 147813992429836215
+  identification: 
+    name: P42_APPLICATION_TYPE
+    type: Text Field
+
+  label: 
+    label: Application Type
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 120
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 32
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: APPLICATION_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_TEST_CODE_1 ==========================
+  id: 147814074468836216
+  identification: 
+    name: P42_TEST_CODE_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1100
+    region: Virtual Cols # 458446618000308302
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: TEST_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_STANDARD_CATEGORY_NAME ===============
+  id: 147814158015836217
+  identification: 
+    name: P42_STANDARD_CATEGORY_NAME
+    type: Text Field
+
+  label: 
+    label: Standard Category Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 130
+    region: General Table Cols # 458830536617448206
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6411714809400685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+    maximum-length: 64
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 458446618000308302
+    column: STANDARD_CATEGORY_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P42_ISSUE_CATEGORY =======================
   id: 244234838430812273
@@ -3287,7 +3468,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 70
+    sequence: 50
     region: General Table Cols # 458830536617448206
     position: BODY
     alignment: Left
@@ -3342,7 +3523,7 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Database Info # 240632894901034445
     position: BODY
     alignment: Left
@@ -3405,7 +3586,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 10
+    sequence: 30
     region: Database Info # 240632894901034445
     position: BODY
     alignment: Left
@@ -3468,7 +3649,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 10
+    sequence: 40
     region: Database Info # 240632894901034445
     position: BODY
     alignment: Left
@@ -3530,7 +3711,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 10
+    sequence: 50
     region: Database Info # 240632894901034445
     position: BODY
     alignment: Left
@@ -4039,7 +4220,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 140
+    sequence: 110
     region: General Table Cols # 458830536617448206
     position: BODY
     alignment: Left
@@ -4181,69 +4362,6 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P42_STANDARD_CODE ========================
-  id: 244244856424812281
-  identification: 
-    name: P42_STANDARD_CODE
-    type: Text Field
-
-  label: 
-    label: Standard Code
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 50
-    region: General Table Cols # 458830536617448206
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 60
-
-  validation: 
-    value-required: false
-    maximum-length: 100
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Inspect Audit Issue # 244233668686812261
-    column: STANDARD_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: a code to describe the test being applied
-
 - # ====== Page Item: P42_LEGACY_YN ============================
   id: 244246053392812281
   identification: 
@@ -4258,7 +4376,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 150
+    sequence: 140
     region: General Table Cols # 458830536617448206
     position: BODY
     alignment: Left
@@ -4316,7 +4434,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 130
+    sequence: 100
     region: General Table Cols # 458830536617448206
     position: BODY
     alignment: Left
@@ -4492,7 +4610,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 50
+    sequence: 40
     region: General Virtual Cols # 458830432779448205
     position: BODY
 
@@ -4532,7 +4650,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 60
+    sequence: 50
     region: General Virtual Cols # 458830432779448205
     position: BODY
     alignment: Left
@@ -4589,7 +4707,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 70
+    sequence: 60
     region: General Virtual Cols # 458830432779448205
     position: BODY
 
@@ -4622,7 +4740,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
+    sequence: 70
     region: General Virtual Cols # 458830432779448205
     position: BODY
 
@@ -4728,7 +4846,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 10
+    sequence: 30
     region: Apex info virtual cols # 458831041938448211
     position: BODY
     alignment: Left
@@ -4792,7 +4910,7 @@ page-items:
     allow-custom-html: false
 
   layout: 
-    sequence: 10
+    sequence: 40
     region: Apex info virtual cols # 458831041938448211
     position: BODY
     alignment: Left
@@ -4854,7 +4972,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 10
+    sequence: 50
     region: Apex info virtual cols # 458831041938448211
     position: BODY
     alignment: Left
@@ -4916,7 +5034,7 @@ page-items:
     allow-custom-html: false
 
   layout: 
-    sequence: 90
+    sequence: 80
     region: General Virtual Cols # 458830432779448205
     position: BODY
     alignment: Left
@@ -4974,7 +5092,7 @@ page-items:
     allow-custom-html: false
 
   layout: 
-    sequence: 100
+    sequence: 90
     region: General Virtual Cols # 458830432779448205
     position: BODY
     alignment: Left
@@ -5033,7 +5151,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 110
+    sequence: 100
     region: General Virtual Cols # 458830432779448205
     position: BODY
     alignment: Left
@@ -5103,7 +5221,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 120
+    sequence: 110
     region: General Virtual Cols # 458830432779448205
     position: BODY
     alignment: Left
@@ -5166,7 +5284,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 130
+    sequence: 120
     region: General Virtual Cols # 458830432779448205
     position: BODY
     alignment: Left
@@ -5254,7 +5372,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
+    sequence: 60
     region: General Table Cols # 458830536617448206
     position: BODY
 
@@ -5296,7 +5414,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 90
+    sequence: 70
     region: General Table Cols # 458830536617448206
     position: BODY
     alignment: Left
@@ -5357,7 +5475,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 100
+    sequence: 80
     region: General Table Cols # 458830536617448206
     position: BODY
     alignment: Left
@@ -5550,7 +5668,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 120
+    sequence: 90
     region: General Table Cols # 458830536617448206
     position: BODY
     alignment: Left
@@ -5736,7 +5854,7 @@ buttons:
 
   behavior: 
     action: Redirect to URL
-    target: "javascript:window.open('f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_STANDARD_CODE:&P42_STANDARD_CODE.');"
+    target: "javascript:window.open('f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_TEST_CODE:&P42_TEST_CODE.');"
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
