@@ -61,7 +61,7 @@ create or replace package body SVT_DEPLOYMENT as
   c_table_name constant user_tables.table_name%type := upper(p_table_name);
   c_exclude_id_yn varchar2(1) := exclude_id_yn (p_table_name => c_table_name);
   c_query_template constant varchar2(1000) := 
-  'select json_arrayagg(json_object (jn.* returning clob) returning %6)
+  'select json_arrayagg(json_object (jn.* returning %6) returning %6)
    from (select asrc.* %4
         from   except_cols (  
           %0,  
@@ -83,14 +83,17 @@ create or replace package body SVT_DEPLOYMENT as
       p0 => c_table_name,
       p1 => case when c_exclude_id_yn = 'Y'
                  then 'id, '
-                 end||'created, created_by, updated, updated_by, date_started, row_version_number, account_locked',
+                 end||'created, created_by, updated, updated_by, date_started, row_version_number, account_locked, '
+                    ||'download, file_blob, mime_type, file_name, character_set, record_md5, estl_md5, '
+                    ||'publish_button_html, dlclss, publish_clss, publish_text, vsn, imported_version_number, '
+                    ||'standard_active_yn, urgency, std_creation_date, owner, urgency_level',
       p2 => case when p_row_limit is not null
                  then 'fetch first '||p_row_limit||' rows only'
                  end,
       p3 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_test_code is not null
                  then apex_string.format(q'[where test_code = '%s']', c_test_code)
                  end,
-      p4 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS'
+      p4 => case when c_table_name in ('EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
                  end,
       p5 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT' and p_standard_id is not null

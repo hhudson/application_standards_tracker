@@ -21,37 +21,39 @@ with  estl as (
     ),
       std as (
             select esst.standard_id,
-                  esst.test_id,
-                  esst.urgency,
-                  esst.urgency_level,
-                  esst.test_name,
-                  esst.test_code,
-                  esst.standard_category_name,
-                  esst.active_yn,
-                  esst.nt_name,
-                  esst.query_clob,
-                  esst.std_creation_date,
-                  esst.mv_dependency,
-                  esst.svt_component_type_id,
-                  esst.component_name,
-                  esst.standard_active_yn,
-                  esst.explanation,
-                  esst.fix,
-                  esst.download,
-                  esst.file_blob,
-                  esst.mime_type,
-                  esst.file_name,
-                  esst.character_set,
-                  'V'||esst.version_number vsn,
-                  esst.record_md5,
-                  estl.estl_md5,
-                  estl.imported_version_number,
-                  case when estl.estl_md5 is null 
-                        then 'N'
-                        when esst.record_md5 = estl.estl_md5
-                        then 'Y'
-                        else 'N'
-                        end published_yn
+                   esst.test_id,
+                   esst.urgency,
+                   esst.urgency_level,
+                   esst.level_id,
+                   esst.test_name,
+                   esst.test_code,
+                   esst.standard_category_name,
+                   esst.active_yn,
+                   esst.nt_name,
+                   esst.query_clob,
+                   esst.std_creation_date,
+                   esst.mv_dependency,
+                   esst.svt_component_type_id,
+                   esst.component_name,
+                   esst.standard_active_yn,
+                   esst.explanation,
+                   esst.fix,
+                   esst.download,
+                   esst.file_blob,
+                   esst.mime_type,
+                   esst.file_name,
+                   esst.character_set,
+                   'V'||esst.version_number vsn,
+                   esst.version_number,
+                   esst.record_md5,
+                   estl.estl_md5,
+                   estl.imported_version_number,
+                   case when estl.estl_md5 is null 
+                         then 'N'
+                         when esst.record_md5 = estl.estl_md5
+                         then 'Y'
+                         else 'N'
+                         end published_yn
             from eba_stds_standard_tests_api.v_eba_stds_standard_tests() esst
             left outer join estl on estl.test_code = esst.test_code
 )
@@ -59,6 +61,7 @@ select standard_id,
        test_id,
        urgency,
        urgency_level,
+       level_id,
        test_name,
        test_code,
        standard_category_name,
@@ -78,6 +81,7 @@ select standard_id,
        file_name,
        character_set,
        vsn,
+       version_number,
        record_md5,
        estl_md5,
        published_yn,
