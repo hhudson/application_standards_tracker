@@ -427,7 +427,7 @@ regions:
       column-alignment: start
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     sorting: 
       sortable: true
@@ -602,6 +602,47 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: buttons footer ==============================
+  id: 148177605018813606
+  identification: 
+    title: buttons footer
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7573656789854143977
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 page-items: 
 - # ====== Page Item: P34_TEST_CODE ============================
   id: 139354396224506121
@@ -610,11 +651,11 @@ page-items:
     type: Hidden
 
   settings: 
-    value-protected: true
+    value-protected: false
 
   layout: 
-    sequence: 40
-    region: Loaded File # 139378056436261899
+    sequence: 10
+    region: Preview # 139379674873261900
     position: BODY
 
   advanced: 
@@ -809,8 +850,8 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 50
-    region: Loaded File # 139378056436261899
+    sequence: 20
+    region: Preview # 139379674873261900
     position: BODY
 
   advanced: 
@@ -828,6 +869,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Page Item: P34_ROW_COUNT ============================
   id: 142990401654948614
@@ -868,8 +912,8 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Button Bar # 139373571564261895
-    position: NEXT
+    region: buttons footer # 148177605018813606
+    position: PREVIOUS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -890,6 +934,10 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
 - # ====== Button: LOAD ========================================
   id: 139374373993261896
   identification: 
@@ -898,7 +946,7 @@ buttons:
 
   layout: 
     sequence: 20
-    region: Button Bar # 139373571564261895
+    region: buttons footer # 148177605018813606
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -918,6 +966,36 @@ buttons:
     action: Submit Page
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+- # ====== Button: Cancel ======================================
+  id: 148177743524813607
+  identification: 
+    button-name: Cancel
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: buttons footer # 148177605018813606
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
 
 dynamic-actions: 
 - # ====== Dynamic Action: Upload a File =======================
@@ -956,6 +1034,126 @@ dynamic-actions:
       event: Upload a File # 139377135307261898
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+- # ====== Dynamic Action: Cancel ==============================
+  id: 148177884138813608
+  identification: 
+    name: Cancel
+
+  execution: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: Cancel # 148177743524813607
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 148177948599813609
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel # 148177884138813608
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: extract values ======================
+  id: 148178441183813614
+  identification: 
+    name: extract values
+
+  execution: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+  actions: 
+  - # ====== Action: set test_code ===============================
+    id: 148178540754813615
+    identification: 
+      name: set test_code
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col009
+          into :P34_TEST_CODE
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P34_FILE
+         fetch first 1 rows only;
+      items-to-return: 
+      - P34_TEST_CODE
+      suppress-change-event: false
+
+    execution: 
+      sequence: 10
+      event: extract values # 148178441183813614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+    server-side-condition: 
+      type: Item = Value
+      item: P34_ROW_COUNT
+      value: 1
+
+  - # ====== Action: set standard_id =============================
+    id: 148178623902813616
+    identification: 
+      name: set standard_id
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col007
+          into :P34_STANDARD_ID
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P34_FILE
+         fetch first 1 rows only;
+      items-to-return: 
+      - P34_STANDARD_ID
+      suppress-change-event: false
+
+    execution: 
+      sequence: 20
+      event: extract values # 148178441183813614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: ':P34_ROW_COUNT > 1'
 
 validations: 
 - # ====== Validation: Is valid file type ======================
@@ -1028,36 +1226,6 @@ computations:
                         p_max_rows          => 100 ) ) p
        where f.name = :P34_FILE
 
-- # ====== Computation: P34_TEST_CODE ==========================
-  id: 142990618559948616
-  identification: 
-    item-name: P34_TEST_CODE
-
-  execution: 
-    sequence: 20
-    point: Before Regions
-
-  computation: 
-    type: SQL Query (return single value)
-    sql-query: |
-      select p.col009
-        from apex_application_temp_files f, 
-             table( apex_data_parser.parse(
-                        p_content           => f.blob_content,
-                        p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
-                        p_max_rows          => 2 ) ) p
-       where f.name = :P34_FILE
-       fetch first 1 rows only
-
-  error: 
-    error-message: failure to get test code
-
-  server-side-condition: 
-    type: Item = Value
-    item: P34_ROW_COUNT
-    value: 1
-
 - # ====== Computation: P34_STANDARD_ID ========================
   id: 142990799335948617
   identification: 
@@ -1084,6 +1252,9 @@ computations:
     type: Expression
     language: PL/SQL
     pl/sql-expression: ':P34_ROW_COUNT > 1'
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
 
 processes: 
 - # ====== Process: Load Data ==================================

@@ -7,10 +7,15 @@ identification:
   title: Manage Standard &P14_HIDDEN_NAME.
 
 appearance: 
-  page-mode: Normal
-  page-template: Minimal (No Navigation) # 7743754092087833593
+  page-mode: Modal Dialog
+  dialog-template: Drawer # 49917157161329006
   template-options: 
   - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--xl
+
+dialog: 
+  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -52,6 +57,19 @@ help:
                         <li>Describe the test in a short phrase. Terms like 'should' are encouraged.</li>
                         <li>etc</li>
                     </ol>
+                </li>
+            </ol>
+        </li>
+        <li><h2>Button Definitions</h2>
+            <ol>
+                <li><h5>Initialize</h5> This will run your test and acknowledge that existing violations pre-ceded the creation of this standard.
+                If you don't pick this option, the violations will be recorded at the time of the next scheduled job as new violations. If you are seeing this button even though the test is not new, it is because there are no existing violations for this test.
+                </li>
+                <li><h5>Rerun</h5> This will simply run the audit, just as the scheduled job would.
+                </li>
+                <li><h5>Rerun</h5> This will simply run the audit, just as the scheduled job would.
+                </li>
+                 <li><h5>Current Violations</h5> This will re-direct to the home page with a filter on this violation
                 </li>
             </ol>
         </li>
@@ -180,9 +198,9 @@ regions:
     type: Region Display Selector
 
   layout: 
-    sequence: 20
+    sequence: 60
     parent-region: No Parent
-    position: BODY
+    position: REGION_POSITION_01
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1280,7 +1298,7 @@ regions:
   layout: 
     sequence: 20
     parent-region: No Parent
-    position: REGION_POSITION_05
+    position: REGION_POSITION_03
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1508,24 +1526,6 @@ regions:
 
       layout: 
         sequence: 50
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: URGENCY_LEVEL ===============================
-      id: 143449305172206708
-      identification: 
-        column-name: URGENCY_LEVEL
-        type: Hidden Column
-
-      heading: 
-        heading: Urgency Level
-
-      layout: 
-        sequence: 60
 
       source: 
         primary-key: false
@@ -2059,6 +2059,42 @@ regions:
 
       layout: 
         sequence: 370
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LEVEL_ID ====================================
+      id: 148178024450813610
+      identification: 
+        column-name: LEVEL_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Level Id
+
+      layout: 
+        sequence: 380
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VERSION_NUMBER ==============================
+      id: 148178120527813611
+      identification: 
+        column-name: VERSION_NUMBER
+        type: Hidden Column
+
+      heading: 
+        heading: Version Number
+
+      layout: 
+        sequence: 390
 
       source: 
         primary-key: false
@@ -3149,7 +3185,7 @@ buttons:
     label: Duplicate Test
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Buttons # 7094082318946085125
     position: CHANGE
     start-new-layout: false
@@ -3235,8 +3271,8 @@ buttons:
 
   layout: 
     sequence: 30
-    region: Super Breadcrumb # 144377177445069517
-    position: NEXT
+    region: Buttons # 7094082318946085125
+    position: CLOSE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3277,7 +3313,7 @@ buttons:
     label: Save
 
   layout: 
-    sequence: 10
+    sequence: 30
     region: Buttons # 7094082318946085125
     position: EDIT
     start-new-layout: false
@@ -3329,15 +3365,8 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:&P14_STANDARD_ID.'
-      page: 5 # V_EBA_STDS_STANDARD_TESTS
-      clear-cache: 5
-      values: 
-        p5_id: '&P14_STANDARD_ID.'
-
-    warn-on-unsaved-changes: Do Not Check
+    action: Defined by Dynamic Action
+    execute-validations: true
 
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
@@ -3350,8 +3379,8 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Super Breadcrumb # 144377177445069517
-    position: HELP
+    region: Buttons # 7094082318946085125
+    position: CHANGE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3363,6 +3392,7 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-question-circle-o
 
@@ -3376,6 +3406,9 @@ buttons:
         p1001_page_id: '&APP_PAGE_ID.'
 
     warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
 - # ====== Button: Refresh_MV ==================================
   id: 151926461893453515
@@ -3417,12 +3450,12 @@ buttons:
   id: 240632191206034438
   identification: 
     button-name: Rerun_audit
-    label: Rerun audit for standard
+    label: Run Test
 
   layout: 
-    sequence: 50
-    region: Super Breadcrumb # 144377177445069517
-    position: NEXT
+    sequence: 20
+    region: Buttons # 7094082318946085125
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3455,12 +3488,12 @@ buttons:
   id: 240632333443034440
   identification: 
     button-name: initialize_standard
-    label: Initialize Standard
+    label: Initialize
 
   layout: 
-    sequence: 40
-    region: Super Breadcrumb # 144377177445069517
-    position: NEXT
+    sequence: 10
+    region: Buttons # 7094082318946085125
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3571,7 +3604,7 @@ buttons:
     label: Apply Changes
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: Buttons # 7094082318946085125
     position: EDIT
     start-new-layout: false
@@ -3933,6 +3966,64 @@ dynamic-actions:
     execution: 
       sequence: 20
       event: Publish Test # 143452574469206740
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: cancel ==============================
+  id: 147814966088836225
+  identification: 
+    name: cancel
+
+  execution: 
+    sequence: 140
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: Cancel # 146556144506303735
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 147815047123836226
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: cancel # 147814966088836225
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: set dialog title ====================
+  id: 148592370243719827
+  identification: 
+    name: set dialog title
+
+  execution: 
+    sequence: 150
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 148592444578719828
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.util.getTopApex().jQuery('.ui-dialog-title').text('Edit '+$v('P14_HIDDEN_NAME'))
+
+    execution: 
+      sequence: 10
+      event: set dialog title # 148592370243719827
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -4434,6 +4525,49 @@ processes:
     type: Request = Value
     value: PUBLISH
 
+- # ====== Process: Close Dialog ===============================
+  id: 147815836720836234
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    items-to-return-: 
+    - P0_SUCCESS
+
+  execution: 
+    sequence: 90
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: SAVE,DELETE
+
+- # ====== Process: Set Success Message (P0_SUCCESS) ===========
+  id: 147816639731836242
+  identification: 
+    name: Set Success Message (P0_SUCCESS)
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 70
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: initialize standard ========================
   id: 240632400689034441
   identification: 
@@ -4657,26 +4791,4 @@ branches:
 
   server-side-condition: 
     when-button-pressed: CREATE_TEST # 7562694189181107360
-
-- # ====== Branch: go to page 1 on delete ======================
-  id: 240632288108034439
-  identification: 
-    name: go to page 1 on delete
-
-  execution: 
-    sequence: 11
-    point: After Processing
-
-  behavior: 
-    type: Page or URL (Redirect)
-    target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:RR,1::'
-      page: 1 # V_SVT_PLSQL_APEX_AUDIT
-      clear-cache: RR,1
-
-  server-side-condition: 
-    when-button-pressed: DELETE # 7562694374183107360
-
-  security: 
-    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 

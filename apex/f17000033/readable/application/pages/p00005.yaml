@@ -44,10 +44,10 @@ help:
     <p>Once a standard has at least one automated test, the status column of the applications section indicates the percentage of the automated test(s) each associated application passes.</p>
 
 regions: 
-- # ====== Region: Download ====================================
+- # ====== Region: Download Rpt ================================
   id: 142694847673493246
   identification: 
-    title: Download
+    title: Download Rpt
     type: Classic Report
 
   source: 
@@ -56,7 +56,9 @@ regions:
     table-owner: Parsing Schema
     table-name: V_EBA_STDS_STANDARDS
     include-rowid-column: false
-    where-clause: 'standard_id = :P5_ID'
+    where-clause: |
+      standard_id = :P5_ID
+      and file_size is not null
     page-items-to-submit: 
     - P5_ID
 
@@ -64,9 +66,9 @@ regions:
     type: None
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_05
+    sequence: 50
+    parent-region: Download region # 148178940875813619
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -115,7 +117,10 @@ regions:
       partial-page-refresh: true
 
     performance: 
-      lazy-loading: true
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: No up-to-date, published tests exist
 
     break-formatting: 
       break-columns: No Break
@@ -310,7 +315,7 @@ regions:
       alignment: end
 
     layout: 
-      sequence: 130
+      sequence: 10
       column-alignment: end
 
     accessibility: 
@@ -326,7 +331,7 @@ regions:
       character-set-column: CHARACTER_SET
 
     appearance: 
-      download-text: Download up-to-date published `&P5_STANDARD.` tests   <span class="fa fa-download" aria-hidden="true"></span>
+      download-text: Download up-to-date & published `&P5_STANDARD.` tests   <span class="fa fa-download" aria-hidden="true"></span>
       content-disposition: Attachment
 
     sorting: 
@@ -416,6 +421,51 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: Download region =============================
+  id: 148178940875813619
+  identification: 
+    title: Download region
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_05
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P5_ID
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Tests =======================================
   id: 7561454687653065561
   identification: 
@@ -433,7 +483,7 @@ regions:
     - P5_ID
 
   layout: 
-    sequence: 40
+    sequence: 70
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -468,9 +518,9 @@ regions:
     link: 
       link-column: Link to Custom Target
       target: 
-        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:#TEST_CODE#'
+        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:#TEST_CODE#'
         page: 14 # &P14_HIDDEN_NAME.
-        clear-cache: 14
+        clear-cache: RR,14
         values: 
           p14_test_code: '#TEST_CODE#'
 
@@ -643,47 +693,6 @@ regions:
       layout: 
         sequence: 70
         column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: URGENCY_LEVEL ===============================
-      id: 146335356975906213
-      identification: 
-        column-name: URGENCY_LEVEL
-        type: Plain Text
-
-      heading: 
-        heading: Urgency Level
-        alignment: end
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 80
-        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -1598,14 +1607,14 @@ regions:
 
       heading: 
         heading: Publish
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 300
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1800,6 +1809,60 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LEVEL_ID ====================================
+      id: 148178219995813612
+      identification: 
+        column-name: LEVEL_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Level Id
+
+      layout: 
+        sequence: 380
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VERSION_NUMBER ==============================
+      id: 148178362860813613
+      identification: 
+        column-name: VERSION_NUMBER
+        type: Hidden Column
+
+      heading: 
+        heading: Version Number
+
+      layout: 
+        sequence: 390
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: URGENCY_LEVEL ===============================
+      id: 148178863407813618
+      identification: 
+        column-name: URGENCY_LEVEL
+        type: Hidden Column
+
+      heading: 
+        heading: Urgency Level
+
+      layout: 
+        sequence: 400
+
+      source: 
+        primary-key: false
 
       security: 
         escape-special-characters: true
@@ -2394,7 +2457,7 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
@@ -2465,6 +2528,38 @@ buttons:
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+- # ====== Button: refresh =====================================
+  id: 148179079473813620
+  identification: 
+    button-name: refresh
+    label: Refresh
+
+  layout: 
+    sequence: 10
+    region: Download region # 148178940875813619
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-refresh
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Button: reset =======================================
   id: 268631833539257434
@@ -2654,9 +2749,10 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-  - # ====== Action: Refresh =====================================
+  - # ====== Action: Refresh tests ===============================
     id: 144375567656069501
     identification: 
+      name: Refresh tests
       action: Refresh
 
     affected-elements: 
@@ -2679,8 +2775,90 @@ dynamic-actions:
       jquery-selector: '#STANDARD_TEST_RPT'
 
     execution: 
+      sequence: 80
+      event: publish test # 143452948946206744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh export ==============================
+    id: 148178700710813617
+    identification: 
+      name: Refresh export
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Download Rpt # 142694847673493246
+
+    execution: 
       sequence: 70
       event: publish test # 143452948946206744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: refresh on dialog close =============
+  id: 147817389628836249
+  identification: 
+    name: refresh on dialog close
+
+  execution: 
+    sequence: 70
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Tests # 7561454687653065561
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 147817403940836250
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tests # 7561454687653065561
+
+    execution: 
+      sequence: 10
+      event: refresh on dialog close # 147817389628836249
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: refresh download ====================
+  id: 148179123611813621
+  identification: 
+    name: refresh download
+
+  execution: 
+    sequence: 80
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: refresh # 148179079473813620
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 148179244090813622
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Download Rpt # 142694847673493246
+
+    execution: 
+      sequence: 10
+      event: refresh download # 148179123611813621
       fire-when-event-result-is: True
       fire-on-initialization: false
 

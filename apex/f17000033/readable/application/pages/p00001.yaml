@@ -109,6 +109,9 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
   attributes: 
     layout: 
       number-of-rows-type: Static Value
@@ -151,27 +154,10 @@ regions:
     id: 53282681362974341
     identification: 
       column-name: ALERT_ACTION
-      type: Plain Text
-
-    heading: 
-      heading: Alert Action
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 30
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -183,27 +169,10 @@ regions:
     id: 53282843322974343
     identification: 
       column-name: EVENT_TITLE
-      type: Plain Text
-
-    heading: 
-      heading: Event Title
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 40
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -215,27 +184,10 @@ regions:
     id: 53282906538974344
     identification: 
       column-name: EVENT_DATE
-      type: Plain Text
-
-    heading: 
-      heading: Event Date
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 50
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -247,27 +199,10 @@ regions:
     id: 53283178117974346
     identification: 
       column-name: USER_AVATAR
-      type: Plain Text
-
-    heading: 
-      heading: User Avatar
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 70
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -279,27 +214,10 @@ regions:
     id: 53283245963974347
     identification: 
       column-name: EVENT_DESC
-      type: Plain Text
-
-    heading: 
-      heading: Event Desc
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 80
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -311,27 +229,10 @@ regions:
     id: 53283396261974348
     identification: 
       column-name: EVENT_TYPE
-      type: Plain Text
-
-    heading: 
-      heading: Event Type
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 90
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -343,27 +244,10 @@ regions:
     id: 53283420487974349
     identification: 
       column-name: USER_NAME
-      type: Plain Text
-
-    heading: 
-      heading: User Name
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 100
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: true
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -3164,6 +3048,7 @@ regions:
       hide: true
 
     security: 
+      authorization-scheme: READER RIGHTS # 48893993399820863
       escape-special-characters: true
 
   printing: 
@@ -3757,6 +3642,66 @@ page-items:
   source: 
     type: Null
     used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_TEST_URL ==============================
+  id: 147815133844836227
+  identification: 
+    name: P1_TEST_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: hidden # 1550078206517095080
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_TEST_CODE =============================
+  id: 147815288135836228
+  identification: 
+    name: P1_TEST_CODE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: hidden # 1550078206517095080
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Always, replacing any existing value in session state
 
   session-state: 
     data-type: VARCHAR2
@@ -4689,6 +4634,39 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+- # ====== Dynamic Action: open test dialog ====================
+  id: 147815554972836231
+  identification: 
+    name: open test dialog
+
+  execution: 
+    sequence: 110
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_TEST_CODE
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 147815641246836232
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.navigation.redirect(apex.item('P1_TEST_URL').getValue())
+
+    execution: 
+      sequence: 10
+      event: open test dialog # 147815554972836231
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: rerun For Audit ID ==================
   id: 268632446998257440
   identification: 
@@ -4810,6 +4788,28 @@ computations:
 
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
+
+- # ====== Computation: P1_TEST_URL ============================
+  id: 147815441885836230
+  identification: 
+    item-name: P1_TEST_URL
+
+  execution: 
+    sequence: 20
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      APEX_PAGE.GET_URL (
+                  p_page   => 14,
+                  p_items  => 'P14_TEST_CODE',
+                  p_values => :P1_TEST_CODE) 
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_TEST_CODE
 
 - # ====== Computation: LAST_VIEW ==============================
   id: 12003105357417809498

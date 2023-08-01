@@ -41,6 +41,56 @@ advanced:
 server-cache: 
   caching: Disabled
 
+help: 
+  help-text: |
+    <ol>
+        <li><h2>Creating a new test</h2>
+            <ol>
+                <li><h3>From Scratch</h3>
+                    <ol>
+                        <li>Pick a unique, descriptive and brief 'test code' (no spaces or special characters)</li>
+                        <li>Describe the test in a short phrase. Terms like 'should' are encouraged.</li>
+                        <li>etc</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+        <li><h2>Button Definitions</h2>
+            <ol>
+                <li><h5>Initialize</h5> This will run your test and acknowledge that existing violations pre-ceded the creation of this standard.
+                If you don't pick this option, the violations will be recorded at the time of the next scheduled job as new violations. If you are seeing this button even though the test is not new, it is because there are no existing violations for this test.
+                </li>
+                <li><h5>Run Test</h5> This will simply run the audit, just as the scheduled job would.
+                </li>
+                <li><h5>Current Violations</h5> This will force a re-direct to the home page with a filter on this violation.
+                </li>
+                <li><h5>Current Violations</h5> This will force a re-direct to the home page with a filter on this violation.
+                </li>
+            </ol>
+        </li>
+        <li><h2>How to Export & Share your test</h2>
+            <ol>
+                <li><h3>For the 1st time</h3>
+                    <p>
+                        On the `Configuration` tab, you will see that you test has a Version of 0. Click `Publish`. 
+                        This will submit the page. After refresh, you will see that your test has progressed to Version 1.
+                        Now, your test will automatically be published to the Git library via a scheduled job. 
+                        If you want to export and share your test sooner, simply click 'Download'.
+                    </p>
+                </li>
+                 <li><h3>Updating an already published test</h3>
+                    <p>
+                        On the `Configuration` tab, you will see that you test has a Version of 1 or more. 
+                        If you have made any changes to your test since publishing, you will see a `Publish` button. 
+                        If you click the `Pubish` button, this will submit the page and, after the refresh, you will see that 
+                        your version number has incremented upwards. This new version will automatically be published to the Git library via a scheduled job. 
+                        If you want to export and share your test sooner, simply click 'Download'.
+                    </p>
+                </li>
+            </ol>
+        </li>
+    </ol>
+
 regions: 
 - # ====== Region: region ======================================
   id: 44215023441509602
@@ -214,7 +264,7 @@ page-items:
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -249,6 +299,36 @@ page-items:
 
   help: 
     help-text: Give your new standard test a unique, descriptive, brief code (all caps, no spaces)
+
+- # ====== Page Item: P16_CORRECTED_TEST_CODE ==================
+  id: 148177497167813604
+  identification: 
+    name: P16_CORRECTED_TEST_CODE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: region # 44215023441509602
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
 
 buttons: 
 - # ====== Button: Duplicate ===================================
@@ -297,13 +377,16 @@ processes:
     pl/sql-code: |
       eba_stds_standard_tests_api.duplicate_standard (
                                           p_from_test_code  => :P16_FROM_TEST_CODE,
-                                          p_to_test_code    => :P16_TO_TEST_CODE
+                                          p_to_test_code    => :P16_CORRECTED_TEST_CODE
                                       );
 
   execution: 
-    sequence: 10
+    sequence: 20
     point: Processing
     run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Test copied!
 
   error: 
     display-location: Inline in Notification
@@ -314,11 +397,73 @@ processes:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
+- # ====== Process: Close Dialog ===============================
+  id: 148177148632813601
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    items-to-return-: 
+    - P0_SUCCESS
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
+- # ====== Process: success message ============================
+  id: 148177222245813602
+  identification: 
+    name: success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: P16_CORRECTED_TEST_CODE ====================
+  id: 148177594635813605
+  identification: 
+    name: P16_CORRECTED_TEST_CODE
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ":P16_CORRECTED_TEST_CODE := upper(replace(:P16_TO_TEST_CODE, ' ', '_'));"
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 branches: 
-- # ====== Branch: Go To Page 14 ===============================
+- # ====== Branch: Go To Page 1 ================================
   id: 44215740711509609
   identification: 
-    name: Go To Page 14
+    name: Go To Page 1
 
   execution: 
     sequence: 10
@@ -327,9 +472,33 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_TEST_CODE:&P16_TO_TEST_CODE.&success_msg=#SUCCESS_MSG#'
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:P1_TEST_CODE:&P16_TO_TEST_CODE.&success_msg=#SUCCESS_MSG#'
+      page: 1 # V_SVT_PLSQL_APEX_AUDIT
+      clear-cache: CR,1
+      values: 
+        p1_test_code: '&P16_TO_TEST_CODE.'
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
+- # ====== Branch: Go To Page 14 ===============================
+  id: 148177325267813603
+  identification: 
+    name: Go To Page 14
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_TEST_CODE:&P16_CORRECTED_TEST_CODE.&success_msg=#SUCCESS_MSG#'
       page: 14 # &P14_HIDDEN_NAME.
       clear-cache: CR,14
       values: 
-        p14_test_code: '&P16_TO_TEST_CODE.'
+        p14_test_code: '&P16_CORRECTED_TEST_CODE.'
+
+  server-side-condition: 
+    when-button-pressed: Duplicate # 44215314000509605
 
