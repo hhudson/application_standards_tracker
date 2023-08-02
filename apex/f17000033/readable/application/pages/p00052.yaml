@@ -84,10 +84,10 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: &nbsp =======================================
+- # ====== Region: button region ===============================
   id: 350109026560653399
   identification: 
-    title: '&nbsp'
+    title: button region
     type: Static Content
 
   layout: 
@@ -178,17 +178,47 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: A periodic email is sent out with a digest of standard violations
+
 buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 148593301347719837
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: button region # 350109026560653399
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
 - # ====== Button: apply_changes ===============================
   id: 350108447758653394
   identification: 
     button-name: apply_changes
-    label: Apply Changes
+    label: Save
 
   layout: 
     sequence: 10
-    region: '&nbsp' # 350109026560653399
-    position: CHANGE
+    region: button region # 350109026560653399
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -205,6 +235,36 @@ buttons:
     action: Submit Page
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel dialog =======================
+  id: 148593415076719838
+  identification: 
+    name: Cancel dialog
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 148593301347719837
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 148593512510719839
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel dialog # 148593415076719838
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 
 processes: 
 - # ====== Process: SVT_EMAIL_SUBSCRIPTION =====================

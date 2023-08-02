@@ -1,10 +1,10 @@
 ---
-# ====== Page: &P14_HIDDEN_NAME. =============================
+# ====== Page: Manage Test ===================================
 id: 14
 identification: 
-  name: '&P14_HIDDEN_NAME.'
+  name: Manage Test
   alias: STANDARD-TEST
-  title: Manage Standard &P14_HIDDEN_NAME.
+  title: Manage Test
 
 appearance: 
   page-mode: Modal Dialog
@@ -15,7 +15,7 @@ appearance:
   - js-dialog-class-t-Drawer--xl
 
 dialog: 
-  chained: true
+  chained: false
 
 navigation-menu: 
   override-user-interface-level: false
@@ -450,7 +450,7 @@ regions:
       display-position: Bottom - Right
 
     performance: 
-      lazy-loading: false
+      lazy-loading: true
       maximum-rows-to-process: 20
 
     search-bar: 
@@ -2880,6 +2880,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: A unique, short hand descriptor. All caps, no spaces, no special characters besides underscore.
+
 - # ====== Page Item: P14_MV_DEPENDENCY ========================
   id: 151926358380453514
   identification: 
@@ -3340,12 +3343,12 @@ buttons:
     item: P14_ID
 
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-- # ====== Button: Cancel ======================================
+- # ====== Button: CANCEL ======================================
   id: 146556144506303735
   identification: 
-    button-name: Cancel
+    button-name: CANCEL
     label: Cancel
 
   layout: 
@@ -3446,11 +3449,11 @@ buttons:
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
 
-- # ====== Button: Rerun_audit =================================
+- # ====== Button: save_rerun_audit ============================
   id: 240632191206034438
   identification: 
-    button-name: Rerun_audit
-    label: Run Test
+    button-name: save_rerun_audit
+    label: Save & Run
 
   layout: 
     sequence: 20
@@ -3483,6 +3486,9 @@ buttons:
       from SVT_PLSQL_APEX_AUDIT
       where test_code = :P14_TEST_CODE
       and :P14_ACTIVE_YN = 'Y'
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
 - # ====== Button: initialize_standard =========================
   id: 240632333443034440
@@ -3556,7 +3562,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,::'
-      page: 14 # &P14_HIDDEN_NAME.
+      page: 14 # Manage Test
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
@@ -3969,10 +3975,10 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-- # ====== Dynamic Action: cancel ==============================
+- # ====== Dynamic Action: Cancel Dialog =======================
   id: 147814966088836225
   identification: 
-    name: cancel
+    name: Cancel Dialog
 
   execution: 
     sequence: 140
@@ -3980,7 +3986,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: Cancel # 146556144506303735
+    button: CANCEL # 146556144506303735
 
   execution: 
     event-scope: Static
@@ -3994,7 +4000,7 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: cancel # 147814966088836225
+      event: Cancel Dialog # 147814966088836225
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -4118,7 +4124,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: Rerun_audit # 240632191206034438
+    button: save_rerun_audit # 240632191206034438
 
   execution: 
     event-scope: Static
@@ -4132,7 +4138,7 @@ dynamic-actions:
 
     affected-elements: 
       selection-type: Button
-      button: Rerun_audit # 240632191206034438
+      button: save_rerun_audit # 240632191206034438
 
     execution: 
       sequence: 10
@@ -4546,7 +4552,7 @@ processes:
 
   server-side-condition: 
     type: Request is contained in Value
-    value: SAVE,DELETE
+    value: CREATE,SAVE,DELETE
 
 - # ====== Process: Set Success Message (P0_SUCCESS) ===========
   id: 147816639731836242
@@ -4594,17 +4600,17 @@ processes:
   server-side-condition: 
     when-button-pressed: initialize_standard # 240632333443034440
 
-- # ====== Process: Fetch Row from EBA_STDS_STANDARD_TESTS =====
+- # ====== Process: Initialize form EBA_STDS_STANDARD_TESTS ====
   id: 7562696775377107384
   identification: 
-    name: Fetch Row from EBA_STDS_STANDARD_TESTS
+    name: Initialize form EBA_STDS_STANDARD_TESTS
     type: Form - Initialization
     execution-chain: None
     form-region: Standard Test # 7562693978314107360
 
   execution: 
     sequence: 20
-    point: After Header
+    point: Before Header
     run-process: Once Per Page Visit (default)
 
 - # ====== Process: Process Row of EBA_STDS_STANDARD_TESTS =====
@@ -4699,17 +4705,37 @@ processes:
   server-side-condition: 
     when-button-pressed: DELETE # 7562694374183107360
 
-- # ====== Process: Force Re-testing of Standard ===============
+- # ====== Process: Save & Re-test =============================
   id: 7580331889372700366
   identification: 
-    name: Force Re-testing of Standard
+    name: Save & Re-test
     type: Execute Code
     execution-chain: None
 
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'svt_apex_issue_util.refresh_for_standard_app_page (:P14_TEST_CODE);'
+    pl/sql-code: |
+      eba_stds_standard_tests_api.update_test(
+                                p_id                    => :P14_ID,
+                                p_standard_id           => :P14_STANDARD_ID,
+                                p_test_name             => :P14_TEST_NAME,
+                                p_display_sequence      => :P14_DISPLAY_SEQUENCE,
+                                p_query_clob            => :P14_QUERY_CLOB,
+                                p_owner                 => :P14_OWNER,
+                                p_test_code             => :P14_TEST_CODE,
+                                p_active_yn             => :P14_ACTIVE_YN,
+                                p_level_id              => :P14_LEVEL_ID,
+                                p_mv_dependency         => :P14_MV_DEPENDENCY,
+                                p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
+                                p_explanation           => :P14_EXPLANATION,
+                                p_fix                   => :P14_FIX,
+                                p_version_number        => :P14_VERSION_NUMBER
+                              );
+                              
+      svt_apex_issue_util.refresh_for_standard_app_page (:P14_TEST_CODE);
+      
+      
 
   execution: 
     sequence: 40
@@ -4720,7 +4746,7 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: Rerun_audit # 240632191206034438
+    when-button-pressed: save_rerun_audit # 240632191206034438
 
 branches: 
 - # ====== Branch: go to page 1 on re-test =====================
@@ -4742,7 +4768,7 @@ branches:
         ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
   server-side-condition: 
-    when-button-pressed: Rerun_audit # 240632191206034438
+    when-button-pressed: save_rerun_audit # 240632191206034438
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
@@ -4784,7 +4810,7 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.::P14_TEST_CODE,P14_ID:&P14_TEST_CODE.,&P14_ID.&success_msg=#SUCCESS_MSG#'
-      page: 14 # &P14_HIDDEN_NAME.
+      page: 14 # Manage Test
       values: 
         p14_test_code: '&P14_TEST_CODE.'
         p14_id: '&P14_ID.'

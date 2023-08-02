@@ -163,7 +163,8 @@ regions:
              table_last_updated_on EVENT_DATE,
              static_file_created_on event_desc,
              stale_yn,
-             apex_string.get_initials(table_name) user_avatar
+             apex_string.get_initials(table_name) user_avatar,
+             null EVENT_LINK
       from svt_deployment.v_svt_table_data_load_def(p_application_id => :APP_ID) 
       where stale_yn = 'Y'
 
@@ -298,27 +299,10 @@ regions:
     id: 53644823683011940
     identification: 
       column-name: ALERT_ACTION
-      type: Plain Text
-
-    heading: 
-      heading: Alert Action (SDF)
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 50
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: true
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -656,6 +640,21 @@ regions:
     security: 
       escape-special-characters: true
 
+  - # ====== Column: EVENT_LINK ==================================
+    id: 148592779038719831
+    identification: 
+      column-name: EVENT_LINK
+      type: Hidden Column
+
+    layout: 
+      sequence: 320
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Missing preferences =========================
   id: 54727433517995738
   identification: 
@@ -858,7 +857,8 @@ regions:
              error_msg EVENT_TITLE ,
              job_initials USER_AVATAR,
              polling_interval EVENT_DESC,
-             status event_type
+             status event_type,
+             null EVENT_LINK
       from V_AUTOMATIONS_PROBLEMS
       order by log_date desc
 
@@ -963,27 +963,10 @@ regions:
     id: 54326206315630388
     identification: 
       column-name: ALERT_ACTION
-      type: Plain Text
-
-    heading: 
-      heading: Alert Action (UJ)
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 30
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: true
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -1059,6 +1042,21 @@ regions:
 
     layout: 
       sequence: 80
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_LINK ==================================
+    id: 148592656386719830
+    identification: 
+      column-name: EVENT_LINK
+      type: Hidden Column
+
+    layout: 
+      sequence: 110
 
     ui-defaults-reference: 
       table-owner: Parsing Schema

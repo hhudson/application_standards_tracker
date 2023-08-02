@@ -1,16 +1,21 @@
 ---
-# ====== Page: Audit Issue &P42_AUDIT_ID. ====================
+# ====== Page: Edit Audit Issue ==============================
 id: 42
 identification: 
-  name: Audit Issue &P42_AUDIT_ID.
+  name: Edit Audit Issue
   alias: INSPECT-AUDIT-ISSUE
-  title: '&P42_ISSUE_TITLE. [Audit ID &P42_AUDIT_ID.]'
+  title: Edit Audit Issue
 
 appearance: 
-  page-mode: Normal
-  page-template: Theme Default
+  page-mode: Modal Dialog
+  dialog-template: Drawer # 49917157161329006
   template-options: 
   - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--xl
+
+dialog: 
+  chained: false
 
 navigation-menu: 
   override-user-interface-level: false
@@ -131,6 +136,47 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: Button region ===============================
+  id: 148592819096719832
+  identification: 
+    title: Button region
+    type: Static Content
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7573656789854143977
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: APEX info ===================================
   id: 240632519864034442
   identification: 
@@ -202,7 +248,9 @@ regions:
     template: Standard # 7573670342594143998
     template-options: 
     - '#DEFAULT#'
+    - t-Region--noPadding
     - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -225,7 +273,7 @@ regions:
       mode: View Single Region
       display-region-icons: false
       include-'show-all': false
-      remember-selection: By Session
+      remember-selection: No
 
 - # ====== Region: General =====================================
   id: 240632778831034444
@@ -432,6 +480,7 @@ regions:
                                             p_audit_id => :P42_ID)
     page-items-to-submit: 
     - P42_ID
+    - P42_TEST_CODE
 
   layout: 
     sequence: 30
@@ -474,7 +523,7 @@ regions:
       display-position: Bottom - Right
 
     performance: 
-      lazy-loading: false
+      lazy-loading: true
       maximum-rows-to-process: 10
 
     messages: 
@@ -3085,15 +3134,18 @@ page-items:
     primary-key: false
 
   session-state: 
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   quick-picks: 
     show-quick-picks: false
 
   security: 
-    session-state-protection: Unrestricted
+    session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The unique, shorthand descriptor of the test
 
 - # ====== Page Item: P42_APPLICATION_TYPE =====================
   id: 147813992429836215
@@ -3154,6 +3206,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The grouping into which the application has been placed by the app admin
 
 - # ====== Page Item: P42_TEST_CODE_1 ==========================
   id: 147814074468836216
@@ -3247,6 +3302,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: the grouping into which this test has been placed by its creator
 
 - # ====== Page Item: P42_ISSUE_CATEGORY =======================
   id: 244234838430812273
@@ -5097,7 +5155,7 @@ page-items:
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -5544,7 +5602,7 @@ page-items:
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -5722,8 +5780,8 @@ buttons:
 
   layout: 
     sequence: 30
-    region: audit regions # 240632601042034443
-    position: PREVIOUS
+    region: Button region # 148592819096719832
+    position: CHANGE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5766,8 +5824,8 @@ buttons:
 
   layout: 
     sequence: 10
-    region: audit regions # 240632601042034443
-    position: PREVIOUS
+    region: Button region # 148592819096719832
+    position: CLOSE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5781,13 +5839,8 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1::'
-      page: 1 # V_SVT_PLSQL_APEX_AUDIT
-      clear-cache: 1
-
-    warn-on-unsaved-changes: Do Not Check
+    action: Defined by Dynamic Action
+    execute-validations: true
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
@@ -5796,12 +5849,12 @@ buttons:
   id: 244256709514812293
   identification: 
     button-name: SAVE
-    label: Apply Changes
+    label: Save
 
   layout: 
-    sequence: 10
-    region: Actions # 240632912402034446
-    position: CHANGE
+    sequence: 20
+    region: Button region # 148592819096719832
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5835,8 +5888,8 @@ buttons:
 
   layout: 
     sequence: 40
-    region: audit regions # 240632601042034443
-    position: PREVIOUS
+    region: Button region # 148592819096719832
+    position: CHANGE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5853,10 +5906,18 @@ buttons:
     icon: fa-info-circle
 
   behavior: 
-    action: Redirect to URL
-    target: "javascript:window.open('f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_TEST_CODE:&P42_TEST_CODE.');"
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:&P42_TEST_CODE.'
+      page: 14 # Manage Test
+      clear-cache: RR,14
+      values: 
+        p14_test_code: '&P42_TEST_CODE.'
+
     warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
 
 - # ====== Button: rerun_test_for_audit_id =====================
   id: 244344227957923138
@@ -5865,9 +5926,9 @@ buttons:
     label: Rerun Test
 
   layout: 
-    sequence: 70
-    region: audit regions # 240632601042034443
-    position: NEXT
+    sequence: 10
+    region: Button region # 148592819096719832
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5901,8 +5962,8 @@ buttons:
 
   layout: 
     sequence: 60
-    region: audit regions # 240632601042034443
-    position: NEXT
+    region: Button region # 148592819096719832
+    position: CHANGE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5993,7 +6054,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:RR,:P42_ID:&P42_ID.'
-      page: 42 # Audit Issue &P42_AUDIT_ID.
+      page: 42 # Edit Audit Issue
       clear-cache: RR
       values: 
         p42_id: '&P42_ID.'
@@ -6073,6 +6134,64 @@ dynamic-actions:
     execution: 
       sequence: 10
       event: navigateInBuilderWindow # 44267476149286842
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Cancel Dialogue =====================
+  id: 148592956294719833
+  identification: 
+    name: Cancel Dialogue
+
+  execution: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 244255712927812290
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 148593015190719834
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialogue # 148592956294719833
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Set Dialog title ====================
+  id: 148593105851719835
+  identification: 
+    name: Set Dialog title
+
+  execution: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 148593277496719836
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.util.getTopApex().jQuery('.ui-dialog-title').text('Edit [Audit ID '+$v('P42_AUDIT_ID')+'] '+$v('P42_ISSUE_TITLE'))
+
+    execution: 
+      sequence: 10
+      event: Set Dialog title # 148593105851719835
       fire-when-event-result-is: True
       fire-on-initialization: false
 

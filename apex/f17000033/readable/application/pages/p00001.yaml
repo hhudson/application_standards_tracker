@@ -46,215 +46,6 @@ help:
   help-text: <p>This application is designed to assist in the development of consistent Oracle Application Express (APEX) applications by analyzing each application for adherence to best practices. Appl ications can be divided into different types, with some standards applying only to specific types of applications. To test for compliance, create a standard and associate it with the appropriate type(s) of application(s), defining at least one test against the APEX Data Dictionary to verify compliance.</p>
 
 regions: 
-- # ====== Region: Unsuccessful Jobs ===========================
-  id: 53282081389974335
-  identification: 
-    title: Unsuccessful Jobs
-    type: Classic Report
-
-  source: 
-    location: Local Database
-    type: SQL Query
-    sql-query: |
-      select job_name user_name, 
-             status ALERT_ACTION, 
-             log_date_char EVENT_DATE, 
-             error_msg EVENT_TITLE ,
-             job_initials USER_AVATAR,
-             polling_interval EVENT_DESC,
-             status event_type
-      from V_AUTOMATIONS_PROBLEMS
-      order by log_date desc
-
-  layout: 
-    sequence: 31
-    parent-region: No Parent
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Standard # 7573670342594143998
-    template-options: 
-    - '#DEFAULT#'
-    - t-Region--noPadding
-    - t-Region--accent12
-    - t-Region--noBorder
-    - t-Region--scrollBody
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Rows returned
-    sql-query: |
-      select 1 
-      from V_AUTOMATIONS_PROBLEMS
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
-
-  attributes: 
-    layout: 
-      number-of-rows-type: Static Value
-      number-of-rows: 15
-
-    appearance: 
-      template-type: Theme
-      template: Timeline # 6322382606148923858
-      template-options: 
-      - '#DEFAULT#'
-      - t-Timeline--compact
-      - t-Report--hideNoPagination
-
-    pagination: 
-      type: Row Ranges X to Y (with next and previous links)
-      display-position: Bottom - Right
-      partial-page-refresh: true
-
-    performance: 
-      lazy-loading: false
-
-    break-formatting: 
-      break-columns: No Break
-
-    advanced: 
-      strip-html: false
-      sort-nulls: Last
-
-    heading: 
-      type: Custom Headings
-
-    download: 
-      csv-export-enabled: false
-
-    printing: 
-      enabled: false
-
-  columns: 
-  - # ====== Column: ALERT_ACTION ================================
-    id: 53282681362974341
-    identification: 
-      column-name: ALERT_ACTION
-      type: Hidden Column
-
-    layout: 
-      sequence: 30
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_TITLE =================================
-    id: 53282843322974343
-    identification: 
-      column-name: EVENT_TITLE
-      type: Hidden Column
-
-    layout: 
-      sequence: 40
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_DATE ==================================
-    id: 53282906538974344
-    identification: 
-      column-name: EVENT_DATE
-      type: Hidden Column
-
-    layout: 
-      sequence: 50
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: USER_AVATAR =================================
-    id: 53283178117974346
-    identification: 
-      column-name: USER_AVATAR
-      type: Hidden Column
-
-    layout: 
-      sequence: 70
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_DESC ==================================
-    id: 53283245963974347
-    identification: 
-      column-name: EVENT_DESC
-      type: Hidden Column
-
-    layout: 
-      sequence: 80
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_TYPE ==================================
-    id: 53283396261974348
-    identification: 
-      column-name: EVENT_TYPE
-      type: Hidden Column
-
-    layout: 
-      sequence: 90
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: USER_NAME ===================================
-    id: 53283420487974349
-    identification: 
-      column-name: USER_NAME
-      type: Hidden Column
-
-    layout: 
-      sequence: 100
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
 - # ====== Region: New Assignment ==============================
   id: 55784791244830914
   identification: 
@@ -415,7 +206,8 @@ regions:
              start_timestamp log_date,
              job_initials user_avatar,
              null event_desc,
-             start_timestamp user_name
+             start_timestamp user_name,
+             null event_link
       from V_AUTOMATIONS_STATUS
       order by start_timestamp desc
 
@@ -688,6 +480,38 @@ regions:
     security: 
       escape-special-characters: true
 
+  - # ====== Column: EVENT_LINK ==================================
+    id: 148593650781719840
+    identification: 
+      column-name: EVENT_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Event Link
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: LOG_DATE ====================================
     id: 434861570999787175
     identification: 
@@ -928,7 +752,7 @@ regions:
     link: 
       target: 
         url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:42:P42_ID:&AUDIT_ID.'
-        page: 42 # Audit Issue &P42_AUDIT_ID.
+        page: 42 # Edit Audit Issue
         clear-cache: 42
         values: 
           p42_id: '&AUDIT_ID.'
@@ -3009,9 +2833,9 @@ regions:
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:&TEST_CODE.'
-        page: 14 # &P14_HIDDEN_NAME.
-        clear-cache: 14
+        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:&TEST_CODE.'
+        page: 14 # Manage Test
+        clear-cache: RR,14
         values: 
           p14_test_code: '&TEST_CODE.'
 
@@ -3022,11 +2846,8 @@ regions:
       type: Database Column
       database-column: TEST_CODE
       data-type: VARCHAR2
-      query-only: false
+      query-only: true
       primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
 
     column-filter: 
       enabled: true
@@ -3712,6 +3533,36 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P1_AUDIT_URL =============================
+  id: 148593966011719843
+  identification: 
+    name: P1_AUDIT_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: hidden # 1550078206517095080
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P1_AUDIT_ID ==============================
   id: 268632702822257443
   identification: 
@@ -3731,7 +3582,7 @@ page-items:
 
   source: 
     type: Null
-    used: Only when current value in session state is null
+    used: Always, replacing any existing value in session state
 
   session-state: 
     data-type: VARCHAR2
@@ -4652,6 +4503,9 @@ dynamic-actions:
     type: Item is NOT NULL
     item: P1_TEST_CODE
 
+  security: 
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
     id: 147815641246836232
@@ -4664,6 +4518,42 @@ dynamic-actions:
     execution: 
       sequence: 10
       event: open test dialog # 147815554972836231
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: open audit dialog ===================
+  id: 148593765129719841
+  identification: 
+    name: open audit dialog
+
+  execution: 
+    sequence: 120
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_AUDIT_ID
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 148593833452719842
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.navigation.redirect(apex.item('P1_AUDIT_URL').getValue())
+
+    execution: 
+      sequence: 10
+      event: open audit dialog # 148593765129719841
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -4807,9 +4697,37 @@ computations:
                   p_items  => 'P14_TEST_CODE',
                   p_values => :P1_TEST_CODE) 
 
+  error: 
+    error-message: failure to generate link to p14
+
   server-side-condition: 
     type: Item is NOT NULL
     item: P1_TEST_CODE
+
+- # ====== Computation: P1_AUDIT_URL ===========================
+  id: 148594025678719844
+  identification: 
+    item-name: P1_AUDIT_URL
+
+  execution: 
+    sequence: 30
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      APEX_PAGE.GET_URL (
+                  p_page   => 42,
+                  p_items  => 'P42_ID',
+                  p_values => :P1_AUDIT_ID) 
+
+  error: 
+    error-message: failure to generate link to p42
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_AUDIT_ID
 
 - # ====== Computation: LAST_VIEW ==============================
   id: 12003105357417809498
