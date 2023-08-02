@@ -70,6 +70,21 @@ end;
         p_level_id      in svt_standards_urgency_level.id%type
     ) return boolean;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 2, 2023
+-- Synopsis:
+--
+-- Convert the name of your standard into something that is compatible with a file / folder name
+--
+/*
+select eba_stds.file_name('Idiosyncratic, workspace specific')
+from dual
+*/
+------------------------------------------------------------------------------
+    function file_name (p_standard_name in eba_stds_standards.standard_name%type)
+    return eba_stds_standards.standard_name%type;
+
 end eba_stds;
 /
 

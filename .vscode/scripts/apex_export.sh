@@ -22,7 +22,7 @@ elif [[ "$EXP_OPTION" == "2 - APEX installation file" ]]; then
     echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file${COLOR_RESET}"
     export_apex_app
 
-elif [[ "$EXP_OPTION" == "3 - Export published standard tests" ]]; then
+elif [[ "$EXP_OPTION" == "3 - Export published tests" ]]; then
 
     echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting published standard tests${COLOR_RESET}"
     export_tests

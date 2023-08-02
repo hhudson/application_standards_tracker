@@ -16,12 +16,8 @@ with jcb as (select id standard_id,
                     active_yn,
                     'application/json' mime_type,
                     apex_string.format('STANDARD-%s.json',
-                                        upper(
-                                            replace(
-                                                regexp_replace(standard_name,'[[:punct:]]')
-                                                , ' ', '_')
-                                        )
-                        ) file_name,
+                                        eba_stds.file_name(standard_name)
+                                      ) file_name,
                     'UTF-8' character_set,
                     svt_deployment.json_content_blob (p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT',
                                                       p_standard_id => id) file_blob
