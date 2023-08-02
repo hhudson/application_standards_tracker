@@ -40,11 +40,11 @@ select
       info,
       category_id,
       category_key
-from SVT_apex_sert_util.v_SVT_sert()
+from SVT_apex_sert_util.v_svt_sert()
 */
 ------------------------------------------------------------------------------
-function v_SVT_sert
-return v_SVT_sert_nt pipelined;
+function v_svt_sert
+return v_svt_sert_nt pipelined;
 
 $if oracle_apex_version.c_sert_access
 $then
@@ -109,7 +109,7 @@ select SVT_apex_sert_util.generate_view_name(p_collection_name => 'SV_XSS_PLSQL_
 from dual
 */
 ------------------------------------------------------------------------------
-function generate_view_name(p_collection_name in v_SVT_sert.collection_name%type)
+function generate_view_name(p_collection_name in v_svt_sert.collection_name%type)
 return varchar2;
 
 ------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ select SVT_apex_sert_util.generate_create_stmt(p_collection_name => 'SV_XSS_PLSQ
 from dual
 */
 ------------------------------------------------------------------------------
-function generate_create_stmt(p_collection_name in v_SVT_sert.collection_name%type,
+function generate_create_stmt(p_collection_name in v_svt_sert.collection_name%type,
                               p_author          in varchar2 default null)
 return varchar2;
 
@@ -141,8 +141,8 @@ from dual
 */
 --
 ------------------------------------------------------------------------------
-function generate_select_stmt (p_collection_name in v_SVT_sert.collection_name%type)
-return v_SVT_sert.collection_sql%type;
+function generate_select_stmt (p_collection_name in v_svt_sert.collection_name%type)
+return v_svt_sert.collection_sql%type;
 
 
 ------------------------------------------------------------------------------

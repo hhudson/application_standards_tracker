@@ -25,4 +25,4 @@ select
 from SVT_APEX_SERT_UTIL.V_SVT_SERT()
 /
 
---rollback drop view v_SVT_sert;
+--rollback drop view v_svt_sert;

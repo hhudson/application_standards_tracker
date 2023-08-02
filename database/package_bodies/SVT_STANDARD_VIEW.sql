@@ -151,7 +151,7 @@ create or replace package body SVT_STANDARD_VIEW as
 --     Date: January 25, 2023
 -- Synopsis:
 --
--- private function to get the query clob for a given standard code 
+-- private function to get the query clob for a given test code 
 --
 ------------------------------------------------------------------------------
   function get_query_clob (p_test_code     in eba_stds_standard_tests.test_code%type,
@@ -248,7 +248,7 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
+      apex_debug.error(c_debug_template, 'no data found for test code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -312,7 +312,7 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
+      apex_debug.error(c_debug_template, 'no data found for test code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -391,7 +391,7 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
+      apex_debug.error(c_debug_template, 'no data found for test code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -446,7 +446,7 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
+      apex_debug.error(c_debug_template, 'no data found for test code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -503,7 +503,7 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
+      apex_debug.error(c_debug_template, 'no data found for test code', p_test_code);
       raise;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -519,7 +519,7 @@ create or replace package body SVT_STANDARD_VIEW as
                  )
   return v_svt_plsql_apex__0_nt pipelined
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   cur_v_svt sys_refcursor;
@@ -804,8 +804,7 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
     when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for standard code', p_test_code);
-      raise;
+      apex_debug.warn(c_debug_template,'no data found for test code', p_test_code);
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;

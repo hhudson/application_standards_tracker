@@ -6,12 +6,12 @@
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:   v_SVT_db_plsql_nt.sql
+-- Script name:   v_svt_db_plsql_nt.sql
 --        Date:  2023-Jan-19
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- prompt  v_SVT_db_plsql_nt.sql
+-- prompt  v_svt_db_plsql_nt.sql
 
 create type V_SVT_DB_PLSQL_NT as table of V_SVT_DB_PLSQL_OT
 /

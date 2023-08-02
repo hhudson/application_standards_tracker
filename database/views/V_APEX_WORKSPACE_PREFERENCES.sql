@@ -3,7 +3,7 @@
 --------------------------------------------------------
 --  DDL for View V_APEX_WORKSPACE_PREFERENCES
 /*
-Note : for SVT_EMAIL_SUBSCRIPTION, use v_SVT_email_subscriptions
+Note : for SVT_EMAIL_SUBSCRIPTION, use v_svt_email_subscriptions
 */
 --------------------------------------------------------
 

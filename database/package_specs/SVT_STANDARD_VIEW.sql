@@ -150,7 +150,7 @@ from svt_standard_view.v_svt(p_test_code => 'MISSING_COMMENT');
                  p_unqid                in svt_plsql_apex_audit.unqid%type default null,
                  p_audit_id             in svt_plsql_apex_audit.id%type default null
                  )
-  return v_SVT_plsql_apex__0_nt pipelined;
+  return v_svt_plsql_apex__0_nt pipelined;
 
 
 ------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ return svt_standard_view.query_feedback (
 -- private function to return the id of a nest table type name
 --
 /*
-select svt_standard_view.get_nt_type_id('v_SVT_sert__0_nt')
+select svt_standard_view.get_nt_type_id('v_svt_sert__0_nt')
 from dual;
 */
 ------------------------------------------------------------------------------

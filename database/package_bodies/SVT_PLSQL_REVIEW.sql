@@ -153,7 +153,7 @@ create or replace package body SVT_PLSQL_REVIEW as
         esst.urgency_level,
         esst.test_code
       from v_eba_stds_standard_tests esst
-      join svt_standard_view.v_SVT_db_plsql(p_test_code => esst.test_code, 
+      join svt_standard_view.v_svt_db_plsql(p_test_code => esst.test_code, 
                                             p_failures_only => gc_y,
                                             p_object_name => c_object_name) dp
         on  esst.nt_name = 'V_SVT_DB_PLSQL_NT'
@@ -161,7 +161,7 @@ create or replace package body SVT_PLSQL_REVIEW as
         and esst.active_yn = gc_y
       order by urgency_level, esst.explanation, object_name, line, code;
 
-  type r_v_SVT_db_plsql is record (
+  type r_v_svt_db_plsql is record (
     test_name               varchar2(511   char),
     object_name             varchar2(128   char),  
     object_type             varchar2(23    char),   
@@ -171,27 +171,27 @@ create or replace package body SVT_PLSQL_REVIEW as
     urgency_level           number,
     test_code           varchar2(100 char)
   );
-  type t_SVT_db_plsql_issue is table of r_v_SVT_db_plsql index by pls_integer;
+  type t_SVT_db_plsql_issue is table of r_v_svt_db_plsql index by pls_integer;
   l_pkg_issue_t t_SVT_db_plsql_issue;
 
   cursor cur_vw_issues
    is
       select *
-      from v_SVT_db_view_all
+      from v_svt_db_view_all
       where (view_name = c_object_name or c_object_name is null)
       order by urgency_level, test_name, view_name;
 
-  type t_SVT_db_view_issue is table of v_SVT_db_view_all%rowtype index by pls_integer;
+  type t_SVT_db_view_issue is table of v_svt_db_view_all%rowtype index by pls_integer;
   l_vw_issue_t t_SVT_db_view_issue;
 
   cursor cur_tbl_issues
    is
       select *
-      from v_SVT_db_tbl_all
+      from v_svt_db_tbl_all
       where (table_name = c_object_name or c_object_name is null)
       order by urgency_level, test_name, table_name;
 
-  type t_SVT_db_tbl_issue is table of v_SVT_db_tbl_all%rowtype index by pls_integer;
+  type t_SVT_db_tbl_issue is table of v_svt_db_tbl_all%rowtype index by pls_integer;
   l_tbl_issue_t t_SVT_db_tbl_issue;
 
   e_incorrect_plscope_settings exception;

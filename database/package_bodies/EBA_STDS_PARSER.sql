@@ -409,8 +409,8 @@ is
     procedure get_component_type_rec (
                         p_SVT_component_type_id in SVT_component_types.id%type,
                         p_component_name        out nocopy SVT_component_types.component_name%type,
-                        p_component_type_id     out nocopy v_SVT_flow_dictionary_views.component_type_id%type,
-                        p_template_url          out nocopy v_SVT_flow_dictionary_views.link_url%type
+                        p_component_type_id     out nocopy v_svt_flow_dictionary_views.component_type_id%type,
+                        p_template_url          out nocopy v_svt_flow_dictionary_views.link_url%type
                     )
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_component_type_rec';
@@ -421,7 +421,7 @@ is
         select act.component_name, fdv.component_type_id, coalesce(fdv.link_url, act.template_url) link_url
         into p_component_name, p_component_type_id, p_template_url
         from  SVT_component_types act
-        left join v_SVT_flow_dictionary_views fdv on fdv.view_name = act.component_name
+        left join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
         where act.id = p_SVT_component_type_id;
 
     exception 
@@ -570,7 +570,7 @@ is
     --         raise;
     -- end build_link;
 
-    function build_url( p_template_url          in v_SVT_flow_dictionary_views.link_url%type,
+    function build_url( p_template_url          in v_svt_flow_dictionary_views.link_url%type,
                         p_app_id                in svt_plsql_apex_audit.application_id%type,
                         p_page_id               in svt_plsql_apex_audit.page_id%type,
                         p_pk_value              in svt_plsql_apex_audit.component_id%type,
@@ -587,7 +587,7 @@ is
     c_parent_pk_value constant varchar2(100) := p_parent_pk_value;
     c_opt_parent_pk_value constant varchar2(100) := p_opt_parent_pk_value;
     c_builder_session constant number := coalesce(v('APX_BLDR_SESSION'),p_builder_session);
-    c_template_url v_SVT_flow_dictionary_views.link_url%type := p_template_url;
+    c_template_url v_svt_flow_dictionary_views.link_url%type := p_template_url;
     l_url varchar2(2000);
     begin
         apex_debug.message(c_debug_template,'START', 

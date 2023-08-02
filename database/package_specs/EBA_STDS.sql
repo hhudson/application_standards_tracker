@@ -31,7 +31,7 @@ from dual
 --     Date: May 16, 2023
 -- Synopsis:
 --
--- function to get eba_stds_standard_tests.mv_dependency for a given standard code
+-- function to get eba_stds_standard_tests.mv_dependency for a given test code
 --
 /*
 select eba_stds.get_mv_dependency(p_test_code => 'UNREACHABLE_PAGE') mv

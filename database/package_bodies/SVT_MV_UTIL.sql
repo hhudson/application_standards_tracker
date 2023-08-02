@@ -19,9 +19,9 @@ create or replace package body SVT_MV_UTIL as
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
 
 
-  function mv_SVT_query return clob
+  function mv_svt_query return clob
   as
-    c_scope          constant varchar2(128) := gc_scope_prefix || 'mv_SVT_query';
+    c_scope          constant varchar2(128) := gc_scope_prefix || 'mv_svt_query';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     l_index          pls_integer := 0;
     l_query_clob     clob;
@@ -77,7 +77,7 @@ create or replace package body SVT_MV_UTIL as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
       raise;
-  end mv_SVT_query;
+  end mv_svt_query;
 
   procedure refresh_mv(p_mv_list in eba_stds_standard_tests.mv_dependency%type default null)
     is 

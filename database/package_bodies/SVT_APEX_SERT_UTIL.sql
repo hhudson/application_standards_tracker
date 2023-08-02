@@ -21,10 +21,10 @@ create or replace package body SVT_APEX_SERT_UTIL as
   gc_final_slash      constant varchar2(10) := chr(10)||'/';
 
 
-function v_SVT_sert
-return v_SVT_sert_nt pipelined
+function v_svt_sert
+return v_svt_sert_nt pipelined
 is
-c_scope constant varchar2(128) := gc_scope_prefix || 'v_SVT_sert';
+c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_sert';
 c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
 cursor cur_aa
@@ -95,7 +95,7 @@ begin
 
       for rec in 1 .. l_aat.count
       loop
-        pipe row (v_SVT_sert_ot (
+        pipe row (v_svt_sert_ot (
                       l_aat (rec).collection_name,
                       l_aat (rec).collection_sql,
                       l_aat (rec).category_name,
@@ -119,7 +119,7 @@ begin
 exception when others then
   apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
   raise;
-end v_SVT_sert;
+end v_svt_sert;
 
 
 $if oracle_apex_version.c_sert_access
@@ -132,19 +132,19 @@ $then
 -- returns a row of sv_sec_score_collections
 --
 ------------------------------------------------------------------------------
-  function get_collection_row(p_collection_name in v_SVT_sert.collection_name%type)
-  return v_SVT_sert%rowtype deterministic
+  function get_collection_row(p_collection_name in v_svt_sert.collection_name%type)
+  return v_svt_sert%rowtype deterministic
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'get_collection_row';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_category_key constant v_SVT_sert.collection_name%type := upper(p_collection_name);
-  l_coll_row v_SVT_sert%rowtype;
+  c_category_key constant v_svt_sert.collection_name%type := upper(p_collection_name);
+  l_coll_row v_svt_sert%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_collection_name', p_collection_name);
 
     select *
     into l_coll_row
-    from v_SVT_sert ssc
+    from v_svt_sert ssc
     where ssc.collection_name = c_category_key;
 
     return l_coll_row;
@@ -154,13 +154,13 @@ $then
     raise;
   end get_collection_row;
 
-  function generate_view_name(p_collection_name in v_SVT_sert.collection_name%type)
+  function generate_view_name(p_collection_name in v_svt_sert.collection_name%type)
   return varchar2
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'generate_view_name';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_category_key constant v_SVT_sert.collection_name%type := upper(p_collection_name);
-  l_coll_row v_SVT_sert%rowtype; 
+  c_category_key constant v_svt_sert.collection_name%type := upper(p_collection_name);
+  l_coll_row v_svt_sert%rowtype; 
   l_view_name    varchar2(50);
   begin
     apex_debug.message(c_debug_template,'START', 'p_collection_name', p_collection_name);
@@ -217,7 +217,7 @@ $then
     raise;
   end generate_banner;
 
-  function generate_create_stmt(p_collection_name in v_SVT_sert.collection_name%type,
+  function generate_create_stmt(p_collection_name in v_svt_sert.collection_name%type,
                                 p_author          in varchar2 default null)
   return varchar2
   is 
@@ -225,9 +225,9 @@ $then
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   l_banner       varchar2(2000);
-  c_category_key constant v_SVT_sert.collection_name%type := upper(p_collection_name);
-  l_coll_row     v_SVT_sert%rowtype; 
-  l_insert_part  v_SVT_sert.collection_sql%type;
+  c_category_key constant v_svt_sert.collection_name%type := upper(p_collection_name);
+  l_coll_row     v_svt_sert%rowtype; 
+  l_insert_part  v_svt_sert.collection_sql%type;
   c_view_name    constant varchar2(50) := generate_view_name(p_collection_name=> c_category_key);
   c_spaces       constant varchar2(10) := '   ';
   c_define_off   constant varchar2(50) := chr(10)||'set define off'||chr(10);
@@ -262,17 +262,17 @@ $then
       raise;
   end generate_create_stmt;
 
-  function generate_select_stmt (p_collection_name in v_SVT_sert.collection_name%type)
-  return v_SVT_sert.collection_sql%type
+  function generate_select_stmt (p_collection_name in v_svt_sert.collection_name%type)
+  return v_svt_sert.collection_sql%type
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'generate_select_stmt';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  c_category_key constant v_SVT_sert.collection_name%type := upper(p_collection_name);
-  l_coll_row    v_SVT_sert%rowtype; 
+  c_category_key constant v_svt_sert.collection_name%type := upper(p_collection_name);
+  l_coll_row    v_svt_sert%rowtype; 
   l_rule_values  varchar2(500);
   l_rule_results varchar2(500);
-  l_select_stmt v_SVT_sert.collection_sql%type;
+  l_select_stmt v_svt_sert.collection_sql%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_collection_name', p_collection_name);
 
@@ -320,17 +320,17 @@ $then
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   c_author       constant varchar2(50) := coalesce(upper(p_author),user);
-  l_create_stmt  v_SVT_sert.collection_sql%type;
-  c_category_key constant v_SVT_sert.collection_name%type := upper(p_collection_name);
-  l_coll_row     v_SVT_sert%rowtype; 
-  l_select_stmt  v_SVT_sert.collection_sql%type;
+  l_create_stmt  v_svt_sert.collection_sql%type;
+  c_category_key constant v_svt_sert.collection_name%type := upper(p_collection_name);
+  l_coll_row     v_svt_sert%rowtype; 
+  l_select_stmt  v_svt_sert.collection_sql%type;
   l_vf_msg_sgmt  varchar2(100);
   l_vf_message   varchar2(1000);
   l_issue_title  varchar2(500);
   type t_sql_segment is table of varchar2(1000);
   l_sql_segment     t_sql_segment;
   l_vf_attributes   t_sql_segment := t_sql_segment();
-  l_corrected_view  v_SVT_sert.collection_sql%type;
+  l_corrected_view  v_svt_sert.collection_sql%type;
   l_collection_field_idx number :=1;
   l_from_idx             number :=1;
   l_counter              number :=0;
@@ -517,7 +517,7 @@ $then
   c_scope constant varchar2(128) := gc_scope_prefix || 'generate_SVT_view (2)';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_view_name constant varchar2(100) := upper(p_view_name);
-  l_collection_name v_SVT_sert.collection_name%type;
+  l_collection_name v_svt_sert.collection_name%type;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_view_name', p_view_name,
@@ -541,7 +541,7 @@ $then
   c_scope constant varchar2(128) := gc_scope_prefix || 'generate_union_view'; 
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  c_view_name   constant varchar2(100) := 'v_SVT_sert__0';
+  c_view_name   constant varchar2(100) := 'v_svt_sert__0';
   l_banner      varchar2(2000);
   c_create_stmt constant varchar2(1000) := apex_string.format('create or replace force view %s as'||chr(10),c_view_name);
   l_view_count  number;
@@ -638,7 +638,7 @@ $then
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   c_standard_id          constant eba_stds_standard_tests.standard_id%type := eba_stds.get_standard_id ('APEX SERT');
-  c_nt_type_id           constant eba_stds_standard_tests.nt_type_id%type := svt_standard_view.get_nt_type_id('v_SVT_sert__0_nt');
+  c_nt_type_id           constant eba_stds_standard_tests.nt_type_id%type := svt_standard_view.get_nt_type_id('v_svt_sert__0_nt');
   c_db_supporting_object constant eba_stds_standard_tests.SVT_component_type_id%type := 0; --'DB_SUPPORTING_OBJECT';
   c_y                    constant eba_stds_standard_tests.active_yn%type := 'Y';
   begin
@@ -650,7 +650,7 @@ $then
                         ) stmt,
                         upper(collection_name) collection_name,
                         attribute_name
-                  from v_SVT_sert
+                  from v_svt_sert
                   where collection_name is not null
                   and SVT_apex_sert_util.generate_select_stmt (
                             p_collection_name => collection_name) is not null

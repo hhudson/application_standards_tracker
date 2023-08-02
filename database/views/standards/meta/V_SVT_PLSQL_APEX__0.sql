@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  DDL for View v_SVT_db_apex__0
+--  DDL for View v_svt_db_apex__0
 -- used in eba_stds_data.merge_audit_tbl to populate the svt_plsql_apex_audit table
 --------------------------------------------------------
 

@@ -470,7 +470,7 @@ create or replace package body SVT_MONITORING as
 
           for rec in (
                 select distinct coalesce(p_override_email, email) email
-                from v_SVT_email_subscriptions
+                from v_svt_email_subscriptions
                 union
                 select coalesce(p_override_email, column_value) email
                 from table(apex_string.split(l_assignees, ':'))

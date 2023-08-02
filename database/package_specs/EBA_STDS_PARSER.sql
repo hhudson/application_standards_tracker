@@ -50,7 +50,7 @@ from dual;
 --     Date: May 25, 2023
 -- Synopsis:
 --
--- function to replace build_link using v_SVT_flow_dictionary_views.link_url/component_type_id 
+-- function to replace build_link using v_svt_flow_dictionary_views.link_url/component_type_id 
 -- see p8000 in app 4000 and f4000_searchResults.js
 /*
 '<button type="button" class="a-Button edit-button" data-link="' ||
@@ -78,7 +78,7 @@ where audit_id = 78318
 */
 ------------------------------------------------------------------------------
     
-    function build_url( p_template_url          in v_SVT_flow_dictionary_views.link_url%type,
+    function build_url( p_template_url          in v_svt_flow_dictionary_views.link_url%type,
                         p_app_id                in svt_plsql_apex_audit.application_id%type,
                         p_page_id               in svt_plsql_apex_audit.page_id%type,
                         p_pk_value              in svt_plsql_apex_audit.component_id%type,

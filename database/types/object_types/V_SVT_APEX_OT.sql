@@ -6,7 +6,7 @@
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:   v_SVT_apex_ot.sql
+-- Script name:   v_svt_apex_ot.sql
 --        Date:  2023-Jan-25
 --     Purpose:  Type creation DDL
 --

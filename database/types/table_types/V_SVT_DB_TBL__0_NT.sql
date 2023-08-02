@@ -11,7 +11,7 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- prompt  v_SVT_db_tbl__0_nt.sql
+-- prompt  v_svt_db_tbl__0_nt.sql
 
 declare
   already_exists EXCEPTION;
@@ -20,7 +20,7 @@ begin
   execute immediate q'[
     create type v_svt_db_tbl__0_nt as table of v_svt_db_tbl__0_ot
      ]';
-  dbms_output.put_line(q'[ type v_SVT_db_tbl__0_nt created ]');
+  dbms_output.put_line(q'[ type v_svt_db_tbl__0_nt created ]');
 exception
   when already_exists then null;
 end;

@@ -6,7 +6,7 @@
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:   v_SVT_db_plsql_ot.sql
+-- Script name:   v_svt_db_plsql_ot.sql
 --        Date:  2023-Jan-23
 --     Purpose:  Type creation DDL
 --

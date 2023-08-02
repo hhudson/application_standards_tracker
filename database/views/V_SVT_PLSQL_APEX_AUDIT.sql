@@ -119,7 +119,7 @@ Audit id : %3
     p7 => '[General info on issue + fix]('||eba_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_TEST_CODE:'||a.test_code||')',
     p8 => a.application_id,
     p9 => a.page_id,
-    p10 => '[Manage Issue]('||eba_stds_parser.get_base_url()||'f?p=17000033:42::::42:P42_ID:'||a.audit_id||')'
+    p10 => '[Manage Issue]('||eba_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_AUDIT_ID:'||a.audit_id||')'
     ) issue_text,
     apex_string.format(
         p_message => '[%0] %1',

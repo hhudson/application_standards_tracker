@@ -257,7 +257,7 @@ end;
 --     Date: May 16, 2023
 -- Synopsis:
 --
--- function to get eba_stds_standard_tests record for a given standard code
+-- function to get eba_stds_standard_tests record for a given test code
 --
 /*
 set serveroutput on;
@@ -299,7 +299,7 @@ end;
 --     Date: June 2, 2023
 -- Synopsis:
 --
--- Function to get the pk of a eba_stds_standard_tests record, given a standard code
+-- Function to get the pk of a eba_stds_standard_tests record, given a test code
 --
 /*
 select eba_stds_standard_tests_api.get_test_id (p_test_code => :P14_TEST_CODE)

@@ -6,14 +6,14 @@
 --------------------------------------------------------------------------------
 --
 --      Author:  hayhudso
--- Script name:   v_SVT_apex__0_ot.sql
+-- Script name:   v_svt_apex__0_ot.sql
 --        Date:  2023-Jan-19
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- drop type v_SVT_apex__0_nt
+-- drop type v_svt_apex__0_nt
 -- /
--- drop type v_SVT_apex__0_ot
+-- drop type v_svt_apex__0_ot
 -- /
 declare
   already_exists EXCEPTION;
@@ -33,7 +33,7 @@ begin
       VALIDATION_FAILURE_MESSAGE       VARCHAR2(15000 CHAR),
       ISSUE_TITLE                      VARCHAR2(5000 CHAR)
     ) ]';
-  dbms_output.put_line(q'[ type v_SVT_apex__0_ot created ]');
+  dbms_output.put_line(q'[ type v_svt_apex__0_ot created ]');
 exception
   when already_exists then null;
 end;

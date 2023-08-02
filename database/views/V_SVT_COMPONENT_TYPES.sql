@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset view_script:v_SVT_component_types stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:v_svt_component_types stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
 --  DDL for View V_SVT_COMPONENT_TYPES
 --------------------------------------------------------
