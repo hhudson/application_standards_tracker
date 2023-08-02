@@ -455,8 +455,9 @@ select case
 -- NOTIMPLEMENTED  -- not sure about this one
 /*
 looking for autocomplete="given-name" in "custom attributes"
+WCAG 2.1 - 1.3.5 Identify Input Purpose. Checking that inputs fields have autocomplete where appropriate
 https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html
-https://www.w3.org/TR/WCAG21/#input-purposes
+https://www.w3.org/TR/WCAG21/#input-purposes 
 */
 select --* 
        case

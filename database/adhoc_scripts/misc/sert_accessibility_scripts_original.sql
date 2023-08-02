@@ -1,3 +1,6 @@
+/*
+script received from David Little 2023-Jul-13
+*/
 ---*************************************************************************
 ---- WCAG 2.0/2.1 - 1.1.1
 ---- searching images and if they have alt text set in html
