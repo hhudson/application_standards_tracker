@@ -18,35 +18,8 @@ create or replace package body SVT_DEPLOYMENT as
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_app_id constant apex_applications.application_id%type := 17000033;
-
-  function exclude_id_yn (p_table_name in user_tables.table_name%type)
-  return varchar2 deterministic
-  as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'exclude_id_yn';
-  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_table_name constant user_tables.table_name%type := upper(p_table_name);
-  l_exclude_id_yn varchar2(1) := 'N';
-  begin
-    apex_debug.message(c_debug_template,'START', 'p_table_name', p_table_name);
-    
-    -- select case when count(*) = 1
-    --             then 'N'
-    --             else 'Y'
-    --             end into l_exclude_id_yn
-    -- from sys.dual where exists (
-    --    select ucp.table_name, ucp.constraint_name pk_constraint, ucr.constraint_name fk_constraint_name
-    --     from user_constraints ucp
-    --     inner join user_constraints ucr on ucr.r_constraint_name = ucp.constraint_name
-    --     where ucp.table_name = c_table_name
-    --     and ucp.constraint_type = 'P'
-    -- );
-    
-    return l_exclude_id_yn;
-  
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
-  end exclude_id_yn;
+  gc_y constant varchar2(1) := 'Y';
+  gc_n constant varchar2(1) := 'N';
 
   function assemble_json_query (
                 p_table_name    in user_tables.table_name%type,
@@ -59,7 +32,6 @@ create or replace package body SVT_DEPLOYMENT as
   c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_query';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_table_name constant user_tables.table_name%type := upper(p_table_name);
-  c_exclude_id_yn varchar2(1) := exclude_id_yn (p_table_name => c_table_name);
   c_query_template constant varchar2(1000) := 
   'select json_arrayagg(json_object (jn.* returning %6) returning %6)
    from (select asrc.* %4
@@ -81,12 +53,10 @@ create or replace package body SVT_DEPLOYMENT as
     l_query := apex_string.format(
       p_message =>   c_query_template,
       p0 => c_table_name,
-      p1 => case when c_exclude_id_yn = 'Y'
-                 then 'id, '
-                 end||'created, created_by, updated, updated_by, date_started, row_version_number, account_locked, '
-                    ||'download, file_blob, mime_type, file_name, character_set, record_md5, estl_md5, '
-                    ||'publish_button_html, dlclss, publish_clss, publish_text, vsn, imported_version_number, '
-                    ||'standard_active_yn, urgency, std_creation_date, owner, urgency_level',
+      p1 =>  'id, created, created_by, updated, updated_by, date_started, row_version_number, account_locked, '
+           ||'download, file_blob, mime_type, file_name, character_set, record_md5, estl_md5, '
+           ||'publish_button_html, dlclss, publish_clss, publish_text, vsn, imported_version_number, '
+           ||'standard_active_yn, urgency, std_creation_date, owner, urgency_level',
       p2 => case when p_row_limit is not null
                  then 'fetch first '||p_row_limit||' rows only'
                  end,
@@ -418,10 +388,10 @@ create or replace package body SVT_DEPLOYMENT as
                       case when c_table_last_updated_on is not null 
                            and l_aat (rec).zip_updated_on is not null
                            then case when c_table_last_updated_on > l_aat (rec).zip_updated_on
-                                     then 'Y'
-                                     else 'N'
+                                     then gc_y
+                                     else gc_n
                                      end
-                           else 'N'
+                           else gc_n
                            end --stale_yn
                     )
                 );
@@ -434,6 +404,72 @@ create or replace package body SVT_DEPLOYMENT as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_table_data_load_def;
+
+  function markdown_summary return clob
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'markdown_summary';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_md_clob clob;
+  c_headers_md clob := chr(10)||
+   '| Test Code | Test Name | Version | Component Type |'||
+   chr(10)||
+   '|-----------|-----------|---------|----------------|'||
+   chr(10);
+  begin
+    apex_debug.message(c_debug_template,'START');
+
+    l_md_clob := '# Published tests'||chr(10)||chr(10);
+
+    for srec in (select id, standard_name, eba_stds.file_name(standard_name) file_name
+                 from eba_stds_standards
+                 where active_yn = gc_y
+                 order by standard_name)
+    loop 
+      apex_debug.message(c_debug_template, 'standard_name', srec.standard_name);
+      l_md_clob := l_md_clob
+                   ||apex_string.format(
+                      '## [%0](%1/STANDARD-%1.json)'||chr(10)||chr(10),
+                      p0 => srec.standard_name,
+                      p1 => srec.file_name)
+                   ||c_headers_md;
+      
+      <<test_sec>>
+      declare
+      l_test_md clob;
+      begin
+        
+        for trec in (select test_code, test_name, vsn, component_name, file_name
+                    from v_eba_stds_standard_tests_export
+                    where standard_id = srec.id
+                    and published_yn = gc_y 
+                    order by test_code)
+        loop 
+          apex_debug.message(c_debug_template, 'test_code', trec.test_code);
+          l_test_md := l_test_md
+          ||apex_string.format(
+            '| [%1](%3/tests/%0) |  %4 | %2 | %5 |',
+            p0 => trec.file_name,
+            p1 => trec.test_code,
+            p2 => trec.vsn,
+            p3 => srec.file_name,
+            p4 => trec.test_name,
+            p5 => trec.component_name
+            )
+          ||chr(10);
+        end loop;
+
+        l_md_clob := l_md_clob || l_test_md || chr(10);
+
+      end test_sec;
+
+    end loop;
+
+    return l_md_clob;
+  
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end markdown_summary;
 
   
 

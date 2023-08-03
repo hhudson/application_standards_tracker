@@ -182,6 +182,20 @@ function v_svt_table_data_load_def (p_application_id in apex_applications.applic
 return v_svt_table_data_load_def_nt pipelined;
 
 ------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 3, 2023
+-- Synopsis:
+--
+-- Function to output the markdown in the github readme summary of published tests 
+--
+/*
+select svt_deployment.markdown_summary() md
+from dual;
+*/
+------------------------------------------------------------------------------
+function markdown_summary return clob;
+
+------------------------------------------------------------------------------
 -- exceptions
 ------------------------------------------------------------------------------
    gc_missing_field constant number := -0904;
