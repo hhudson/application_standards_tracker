@@ -420,7 +420,7 @@ create or replace package body SVT_DEPLOYMENT as
 
     l_md_clob := '# Published tests'||chr(10)||chr(10);
 
-    for srec in (select id, standard_name, eba_stds.file_name(standard_name) file_name
+    for srec in (select id, standard_name, eba_stds.file_name(standard_name) file_name, description
                  from eba_stds_standards
                  where active_yn = gc_y
                  order by standard_name)
@@ -428,9 +428,12 @@ create or replace package body SVT_DEPLOYMENT as
       apex_debug.message(c_debug_template, 'standard_name', srec.standard_name);
       l_md_clob := l_md_clob
                    ||apex_string.format(
-                      '## [%0](%1/STANDARD-%1.json)'||chr(10)||chr(10),
+                      '## [%0](%1/STANDARD-%1.json)',
                       p0 => srec.standard_name,
                       p1 => srec.file_name)
+                   ||chr(10)
+                   ||srec.description
+                   ||chr(10)
                    ||c_headers_md;
       
       <<test_sec>>
