@@ -3226,46 +3226,6 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-- # ====== Button: Create_from_test_lib ========================
-  id: 52757032342756830
-  identification: 
-    button-name: Create_from_test_lib
-    label: View Sample Test Library
-
-  layout: 
-    sequence: 10
-    region: Buttons # 7094082318946085125
-    position: PREVIOUS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--simple
-    - t-Button--iconLeft
-    icon: fa-book
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:17::'
-      page: 17 # EBA_STDS_TESTS_LIB
-      clear-cache: 17
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
-
 - # ====== Button: CURRENT_VIOLATIONS ==========================
   id: 54726858435995732
   identification: 
@@ -3374,10 +3334,10 @@ buttons:
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
 
-- # ====== Button: Help ========================================
+- # ====== Button: HELP ========================================
   id: 147812953109836205
   identification: 
-    button-name: Help
+    button-name: HELP
     label: Help
 
   layout: 
@@ -3449,10 +3409,10 @@ buttons:
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
 
-- # ====== Button: save_rerun_audit ============================
+- # ====== Button: SAVE_RERUN_AUDIT ============================
   id: 240632191206034438
   identification: 
-    button-name: save_rerun_audit
+    button-name: SAVE_RERUN_AUDIT
     label: Save & Run
 
   layout: 
@@ -3490,10 +3450,10 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-- # ====== Button: initialize_standard =========================
+- # ====== Button: INITIALIZE_STANDARD =========================
   id: 240632333443034440
   identification: 
-    button-name: initialize_standard
+    button-name: INITIALIZE_STANDARD
     label: Initialize
 
   layout: 
@@ -3602,44 +3562,6 @@ buttons:
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
-- # ====== Button: open_update_dialo ===========================
-  id: 7562694283280107360
-  identification: 
-    button-name: open_update_dialo
-    label: Apply Changes
-
-  layout: 
-    sequence: 40
-    region: Buttons # 7094082318946085125
-    position: EDIT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7573688007377144053
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--gapLeft
-
-  behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
-    database-action: SQL UPDATE action
-
-  server-side-condition: 
-    type: Item is NOT NULL
-    item: P14_ID
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Button: DELETE ======================================
   id: 7562694374183107360
@@ -3868,47 +3790,6 @@ dynamic-actions:
       fire-when-event-result-is: False
       fire-on-initialization: true
 
-- # ====== Dynamic Action: Open Update Test Dialog =============
-  id: 142991903298948629
-  identification: 
-    name: Open Update Test Dialog
-
-  execution: 
-    sequence: 100
-
-  when: 
-    event: EVENT.EVENT.BROWSER.CLICK
-    selection-type: Button
-    button: open_update_dialo # 7562694283280107360
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Set Value ===================================
-    id: 142992676181948636
-    identification: 
-      action: Set Value
-
-    settings: 
-      set-type: Static Assignment
-      value: N
-      suppress-change-event: false
-
-    affected-elements: 
-      selection-type: Item(s)
-      item(s): 
-      - P14_PUBLISH_YN
-
-    execution: 
-      sequence: 20
-      event: Open Update Test Dialog # 142991903298948629
-      fire-when-event-result-is: True
-      fire-on-initialization: true
-      stop-execution-on-error: true
-      wait-for-result: true
-
 - # ====== Dynamic Action: Hide 1st row of Tests report ========
   id: 143451866935206733
   identification: 
@@ -4124,7 +4005,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: save_rerun_audit # 240632191206034438
+    button: SAVE_RERUN_AUDIT # 240632191206034438
 
   execution: 
     event-scope: Static
@@ -4138,7 +4019,7 @@ dynamic-actions:
 
     affected-elements: 
       selection-type: Button
-      button: save_rerun_audit # 240632191206034438
+      button: SAVE_RERUN_AUDIT # 240632191206034438
 
     execution: 
       sequence: 10
@@ -4152,7 +4033,7 @@ dynamic-actions:
       action: Submit Page
 
     settings: 
-      request-/-button-name: Rerun_audit
+      request-/-button-name: SAVE_RERUN_AUDIT
       show-processing: true
 
     execution: 
@@ -4598,7 +4479,7 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: initialize_standard # 240632333443034440
+    when-button-pressed: INITIALIZE_STANDARD # 240632333443034440
 
 - # ====== Process: Initialize form EBA_STDS_STANDARD_TESTS ====
   id: 7562696775377107384
@@ -4746,7 +4627,7 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: save_rerun_audit # 240632191206034438
+    when-button-pressed: SAVE_RERUN_AUDIT # 240632191206034438
 
 branches: 
 - # ====== Branch: go to page 1 on re-test =====================
@@ -4768,7 +4649,7 @@ branches:
         ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
   server-side-condition: 
-    when-button-pressed: save_rerun_audit # 240632191206034438
+    when-button-pressed: SAVE_RERUN_AUDIT # 240632191206034438
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
@@ -4792,7 +4673,7 @@ branches:
         ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
   server-side-condition: 
-    when-button-pressed: initialize_standard # 240632333443034440
+    when-button-pressed: INITIALIZE_STANDARD # 240632333443034440
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
