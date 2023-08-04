@@ -389,10 +389,12 @@ regions:
              std.component_id,
              std.parent_component_id,
              std.link_url,
+             --wwv_flow_utilities.prepare_url( std.link_url ) prepared_url,
              '<button type="button" 
                    class="a-Button edit-button t-Button t-Button--icon t-Button--hot t-Button--primary t-Button--noUI t-Button--iconLeft"
                    data-link="' ||
              wwv_flow_utilities.prepare_url( std.link_url ) || '"' ||
+             --std.link_url|| '"' ||
              case when :P14_COMPONENT_TYPE_ID is not null then
                ' data-appid="'       || std.application_id || '"' ||
                ' data-pageid="'      || std.page_id || '"' ||
@@ -2885,7 +2887,7 @@ page-items:
     column: TEST_CODE
     data-type: VARCHAR2
     query-only: false
-    primary-key: true
+    primary-key: false
 
   session-state: 
     storage: Per Session (Persistent)
@@ -4059,138 +4061,6 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-- # ====== Dynamic Action: check view ==========================
-  id: 6147719299968732212
-  identification: 
-    name: check view
-
-  execution: 
-    sequence: 30
-
-  when: 
-    event: EVENT.EVENT.BROWSER.CHANGE
-    selection-type: Item(s)
-    item(s): 
-    - P14_QUERY_VIEW
-
-  client-side-condition: 
-    type: Item is not null
-    item: P14_QUERY_VIEW
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  server-side-condition: 
-    type: Never
-
-  actions: 
-  - # ====== Action: Execute JavaScript Code =====================
-    id: 6147719442580732213
-    identification: 
-      action: Execute JavaScript Code
-
-    settings: 
-      code: apex.debug.info('Checking View');
-
-    execution: 
-      sequence: 10
-      event: check view # 6147719299968732212
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-  - # ====== Action: Execute Server-side Code ====================
-    id: 6147719536364732214
-    identification: 
-      action: Execute Server-side Code
-
-    settings: 
-      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: |
-        declare
-        l_pass boolean;
-        begin
-        
-        eba_stds_parser.validate_view( p_view_name => :P14_QUERY_VIEW,
-                                       x_view_sql  => :P14_CHECK_SQL,
-                                       x_feedback  => :P14_FEEDBACK,
-                                       x_pass      => l_pass);
-        end;
-      items-to-submit: 
-      - P14_QUERY_VIEW
-
-    execution: 
-      sequence: 20
-      event: check view # 6147719299968732212
-      fire-when-event-result-is: True
-      fire-on-initialization: true
-      stop-execution-on-error: true
-      wait-for-result: true
-
-  - # ====== Action: Show ========================================
-    id: 6150804979259766219
-    identification: 
-      action: Show
-
-    affected-elements: 
-      selection-type: Item(s)
-      item(s): 
-      - P14_CHECK_SQL
-
-    execution: 
-      sequence: 30
-      event: check view # 6147719299968732212
-      fire-when-event-result-is: True
-      fire-on-initialization: true
-
-  - # ====== Action: Show ========================================
-    id: 6150805011646766220
-    identification: 
-      action: Show
-
-    affected-elements: 
-      selection-type: Item(s)
-      item(s): 
-      - P14_FEEDBACK
-
-    execution: 
-      sequence: 40
-      event: check view # 6147719299968732212
-      fire-when-event-result-is: True
-      fire-on-initialization: true
-
-  - # ====== Action: Hide ========================================
-    id: 6150805098963766221
-    identification: 
-      action: Hide
-
-    affected-elements: 
-      selection-type: Item(s)
-      item(s): 
-      - P14_CHECK_SQL
-
-    execution: 
-      sequence: 20
-      event: check view # 6147719299968732212
-      fire-when-event-result-is: False
-      fire-on-initialization: true
-
-  - # ====== Action: Hide ========================================
-    id: 6150805258800766222
-    identification: 
-      action: Hide
-
-    affected-elements: 
-      selection-type: Item(s)
-      item(s): 
-      - P14_FEEDBACK
-
-    execution: 
-      sequence: 10
-      event: check view # 6147719299968732212
-      fire-when-event-result-is: False
-      fire-on-initialization: true
-
 - # ====== Dynamic Action: Show/Hide Link Type =================
   id: 7721153370583314614
   identification: 
@@ -4452,8 +4322,11 @@ processes:
     type: Expression
     language: PL/SQL
     pl/sql-expression: |
-      :REQUEST IN ('CREATE','SAVE','DELETE')
-      and :P14_ACTIVE_YN = 'Y'
+      eba_stds.close_test_modal (
+                          p_request       => :REQUEST,
+                          p_test_code     => :P14_TEST_CODE,
+                          p_level_id      => :P14_LEVEL_ID
+                      )
 
 - # ====== Process: Set Success Message (P0_SUCCESS) ===========
   id: 147816639731836242

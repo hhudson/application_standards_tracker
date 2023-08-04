@@ -34,6 +34,7 @@ Standards that are *not* general standards
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC/tests/AST_PAGE_AUTH.json) |  SVT Application Pages should have Authorization Schemes | V1 | APEX_APPLICATION_PAGES |
+| [BLERG](APEX_IDIOSYNCRATIC/tests/BLERG.json) |  blerg | V1 | APEX_APPLICATION_PAGE_BUTTONS |
 
 ## [APEX Redwood](APEX_REDWOOD/STANDARD-APEX_REDWOOD.json)
 Standards for correctly implementing Redwood patterns
