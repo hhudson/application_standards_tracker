@@ -70,6 +70,37 @@ end;
         p_level_id      in svt_standards_urgency_level.id%type
     ) return boolean;
 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 4, 2023
+-- Synopsis:
+--
+-- Function to determine whether or not to close the test modal (p14) 
+--
+/*
+set serveroutput on
+declare
+l_boolean boolean;
+begin
+    l_boolean := eba_stds.close_test_modal (
+                    p_request       => :REQUEST,
+                    p_test_code     => :P14_TEST_CODE,
+                    p_level_id      => :P14_LEVEL_ID
+                );
+    if l_boolean then 
+        dbms_output.put_line('display');
+    else 
+        dbms_output.put_line('do not display');
+    end if;
+end;
+*/
+------------------------------------------------------------------------------
+    function close_test_modal (p_request   in varchar2,
+                               p_test_code in svt_plsql_apex_audit.test_code%type,
+                               p_level_id  in svt_standards_urgency_level.id%type
+    ) return boolean;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 2, 2023

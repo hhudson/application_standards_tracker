@@ -1276,10 +1276,10 @@ page-items:
     restricted-characters: All characters can be saved.
 
 buttons: 
-- # ====== Button: reset =======================================
+- # ====== Button: RESET =======================================
   id: 51217870225634547
   identification: 
-    button-name: reset
+    button-name: RESET
     label: Reset
 
   layout: 
@@ -1389,9 +1389,10 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-  - # ====== Action: Refresh =====================================
+  - # ====== Action: refresh v_svt_table_load_def ================
     id: 51217704408634546
     identification: 
+      name: refresh v_svt_table_load_def
       action: Refresh
 
     affected-elements: 
@@ -1400,6 +1401,22 @@ dynamic-actions:
 
     execution: 
       sequence: 40
+      event: refresh Static File # 51217212576634541
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: refresh stale deployment files ==============
+    id: 148969726596209802
+    identification: 
+      name: refresh stale deployment files
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Stale Deployment Files # 53643685971011928
+
+    execution: 
+      sequence: 50
       event: refresh Static File # 51217212576634541
       fire-when-event-result-is: True
       fire-on-initialization: false

@@ -3,6 +3,8 @@
 create or replace package body eba_stds as
 
     gc_scope_prefix constant varchar2(32) := lower($$plsql_unit) || '.';
+    gc_y constant varchar2(1) := 'Y';
+    gc_n constant varchar2(1) := 'N';
 
     -------------------------------------------------------------------------
     -- Generates a unique Identifier
@@ -105,11 +107,11 @@ create or replace package body eba_stds as
         into l_standard_count
         from eba_stds_standard_tests
         where test_code = p_test_code
-        and active_yn = 'Y';
+        and active_yn = gc_y;
 
         select case when urgency_level <= 100
-                then 'Y'
-                else 'N'
+                then gc_y
+                else gc_n
                 end 
         into l_urgent_yn
         from svt_standards_urgency_level
@@ -117,7 +119,7 @@ create or replace package body eba_stds as
 
         if l_issue_count = 0 
         and l_standard_count  = 1 
-        and l_urgent_yn = 'Y'
+        and l_urgent_yn = gc_y
         then
             l_display := true;
         else 
@@ -134,6 +136,38 @@ create or replace package body eba_stds as
             apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
             raise;
     end display_initialize_button;
+
+
+    function close_test_modal (p_request   in varchar2,
+                               p_test_code in svt_plsql_apex_audit.test_code%type,
+                               p_level_id  in svt_standards_urgency_level.id%type
+    ) return boolean
+    as 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'close_test_modal';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    begin
+        apex_debug.message(c_debug_template,'START', 
+                                            'p_request', p_request,
+                                            'p_test_code', p_test_code,
+                                            'p_level_id', p_level_id);
+    
+        return case when p_request in ('DELETE')
+                    then true
+                    when p_request in ('CREATE')
+                    then false
+                    when p_request in ('SAVE') 
+                    and display_initialize_button (
+                            p_test_code  => p_test_code,
+                            p_level_id   => p_level_id
+                        )
+                    then false
+                    else false
+                    end;
+    exception
+        when others then
+            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+            raise;
+    end close_test_modal;
 
     function file_name (p_standard_name in eba_stds_standards.standard_name%type)
     return eba_stds_standards.standard_name%type

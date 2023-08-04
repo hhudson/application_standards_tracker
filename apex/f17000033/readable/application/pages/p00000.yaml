@@ -1342,11 +1342,11 @@ page-items:
     restricted-characters: All characters can be saved.
 
 buttons: 
-- # ====== Button: Manage_deployment_files =====================
+- # ====== Button: MNG_DEP_FILES ===============================
   id: 54725628798995720
   identification: 
-    button-name: Manage_deployment_files
-    label: Manage Deployment Files
+    button-name: MNG_DEP_FILES
+    label: Manag Deployment Files
 
   layout: 
     sequence: 10
@@ -1380,10 +1380,10 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-- # ====== Button: Configure_preferences =======================
+- # ====== Button: CONFIGURE_PREFS =============================
   id: 54727655098995740
   identification: 
-    button-name: Configure_preferences
+    button-name: CONFIGURE_PREFS
     label: Configure Preferences
 
   layout: 
@@ -1456,10 +1456,10 @@ buttons:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
-- # ====== Button: Cancel ======================================
+- # ====== Button: CANCEL ======================================
   id: 146556593504303739
   identification: 
-    button-name: Cancel
+    button-name: CANCEL
     label: Cancel
 
   layout: 
@@ -1528,6 +1528,20 @@ dynamic-actions:
       - P0_SEARCH
 
     execution: 
+      sequence: 40
+      event: Popup Search # 52094656218500526
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 148969820559209803
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.util.getTopApex().jQuery('.ui-dialog-title').text('Search Navigation')
+
+    execution: 
       sequence: 30
       event: Popup Search # 52094656218500526
       fire-when-event-result-is: True
@@ -1544,7 +1558,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: Cancel # 146556593504303739
+    button: CANCEL # 146556593504303739
 
   execution: 
     event-scope: Static

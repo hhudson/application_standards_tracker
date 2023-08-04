@@ -777,11 +777,13 @@ is
                                                                         then l_initials||'.'
                                                                         else 'null '
                                                                         end
+                                                                        ||c_created_by
                                   );
         l_example_query := replace(l_example_query, '%createdon%', case when column_exists (c_created_on)
                                                                         then l_initials||'.'
                                                                         else 'null '
                                                                         end
+                                                                        ||c_created_on
                                   );
         l_example_query := replace(l_example_query, '%updatedby%', case when column_exists (c_last_updated_by)
                                                                         then l_initials||'.'
@@ -789,6 +791,7 @@ is
                                                                         then l_initials||'.'||c_updated_by||' '
                                                                         else 'null '
                                                                         end
+                                                                        ||c_last_updated_by
                                   );
         l_example_query := replace(l_example_query, '%updatedon%', case when column_exists (c_last_updated_on)
                                                                         then l_initials||'.'
@@ -796,11 +799,13 @@ is
                                                                         then l_initials||'.'||c_updated_on||' '
                                                                         else 'null '
                                                                         end
+                                                                        ||c_last_updated_on
                                   );
         l_example_query := replace(l_example_query, '%wrkspc%', case when column_exists (c_workspace)
-                                                                     then l_initials||'.'||c_workspace||' '
+                                                                     then l_initials||'.'
                                                                      else 'null '
                                                                      end
+                                                                     ||c_workspace
                                   );
         l_example_query := replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` (app %3%5) REPLACEME', 
         p0 => %0.%4, 

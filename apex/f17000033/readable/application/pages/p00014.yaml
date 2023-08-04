@@ -3235,7 +3235,6 @@ buttons:
         p16_from_test_code: '&P14_TEST_CODE.'
 
     warn-on-unsaved-changes: Do Not Check
-    database-action: SQL UPDATE action
 
   server-side-condition: 
     type: Item is NOT NULL
@@ -3391,10 +3390,10 @@ buttons:
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
-- # ====== Button: Refresh_MV ==================================
+- # ====== Button: REFRESH_MV ==================================
   id: 151926461893453515
   identification: 
-    button-name: Refresh_MV
+    button-name: REFRESH_MV
     label: Refresh Materialized View
 
   layout: 
@@ -3510,10 +3509,10 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-- # ====== Button: Reset_LTR ===================================
+- # ====== Button: RESET_LTR ===================================
   id: 282801880058565208
   identification: 
-    button-name: Reset_LTR
+    button-name: RESET_LTR
     label: Reset
 
   layout: 
@@ -4450,8 +4449,11 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    type: Request is contained in Value
-    value: CREATE,SAVE,DELETE
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      :REQUEST IN ('CREATE','SAVE','DELETE')
+      and :P14_ACTIVE_YN = 'Y'
 
 - # ====== Process: Set Success Message (P0_SUCCESS) ===========
   id: 147816639731836242

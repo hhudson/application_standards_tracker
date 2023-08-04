@@ -452,12 +452,13 @@ select case
 -- Once autocomplete added as option will likely have to check that column directly
 -- if autocomplete is not present then fail.  add exception to items that don't need it
 --    this approach my have big impacts and require many overrides.  may have to change in future
--- NOTIMPLEMENTED  -- not sure about this one
+--
 /*
 looking for autocomplete="given-name" in "custom attributes"
 WCAG 2.1 - 1.3.5 Identify Input Purpose. Checking that inputs fields have autocomplete where appropriate
 https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html
 https://www.w3.org/TR/WCAG21/#input-purposes 
+ACC_AUTOCOMPLETE
 */
 select --* 
        case
@@ -492,15 +493,13 @@ where a.application_id = b.application_id
 
 
 ---*************************************************************************
----- WCAG 2.1 - 2.1.4 Character Key Shortcuts
----- Checking if shortcut keys have been created
-----  
----*************************************************************************
--- check IG javascript initialization code for references to keyboard shortcuts.
--- NOTIMPLEMENTED  -- not sure about this one
 /*
+WCAG 2.1 - 2.1.4 Character Key Shortcuts
+Checking if shortcut keys have been created
+ check IG javascript initialization code for references to keyboard shortcuts.
 you don't want to interfere with the shortcuts for screen readers
 https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts.html
+ACC_IG_JS_SHORTCUT
 */
 select case
          when lower(trim(javascript_code)) like '%shortcut%' then 'N' 
@@ -573,7 +572,7 @@ select case
 ;
 
 --- Check application temp pages
--- NOTIMPLEMENTED LOWPRIORITY
+-- ACC_PG_TMP_CSS_ANMTN
  select case
           when (lower(trim(inline_css)) like '%blink%'
                 or lower(trim(inline_css)) like '%animation%') then 'N' 
@@ -584,7 +583,7 @@ select case
 ;
 
 --- Check application temp lists
--- NOTIMPLEMENTED LOWPRIORITY
+-- ACC_LST_TMP_CSS_ANMTN
  select case
           when (lower(trim(inline_css)) like '%blink%'
                 or lower(trim(inline_css)) like '%animation%') then 'N' 
@@ -994,13 +993,14 @@ select case
 WCAG 2.0/2.1 - 2.4.3 Focus Order
 Checking application where tabindex has been added to an attribute that
   have negative impact on tab/focus order
+  ACC_TAB_TABINDEX
   */
-  -- NOTIMPLEMENTED LOWPRIORITY
 select case
-         when (lower(trim(TAB_IMAGE_ATTRIBUTES)) like '%tabindex%' ) then 'N' 
+         when (lower(trim(tab_image_attributes)) like '%tabindex%' ) then 'N' 
          else 'Y'
        end pass_yn,
-       application_id,application_name,tab_image_attributes
+       application_id,
+       tab_image_attributes
  from apex_application_tabs ;
 
 /*
