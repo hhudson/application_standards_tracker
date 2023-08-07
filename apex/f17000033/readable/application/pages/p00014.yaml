@@ -3933,6 +3933,42 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+- # ====== Dynamic Action: Hide Live Test Results ==============
+  id: 148970242044209807
+  identification: 
+    name: Hide Live Test Results
+
+  execution: 
+    sequence: 160
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P14_QUERY_CLOB
+    - P14_SVT_COMPONENT_TYPE_ID
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: hide live tests results =====================
+    id: 148970367485209808
+    identification: 
+      name: hide live tests results
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Live Test Results # 53643144549011923
+
+    execution: 
+      sequence: 10
+      event: Hide Live Test Results # 148970242044209807
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: seed on refresh =====================
   id: 244345268015923148
   identification: 
@@ -4434,7 +4470,8 @@ processes:
                                 p_version_number        => :P14_VERSION_NUMBER
                               );
           when 'D' then
-            eba_stds_standard_tests_api.delete_test(p_id => :P14_ID);
+            eba_stds_standard_tests_api.delete_test(p_id => :P14_ID,
+                                                    p_test_code => :P14_TEST_CODE);
         end case;
       end;
     prevent-lost-updates: true
