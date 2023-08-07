@@ -265,7 +265,7 @@ create or replace package body eba_stds_standard_tests_api as
           p_explanation           => l_test_rec.explanation,
           p_fix                   => l_test_rec.fix,
           p_level_id              => l_test_rec.level_id,
-          p_version_number        => l_test_rec.version_number
+          p_version_number        => l_version_number
         );
       end publish_block;
     else 
