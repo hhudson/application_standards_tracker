@@ -29,9 +29,9 @@ create table SVT_COMPONENT_TYPES (
 	updated_by        varchar2(255 char) not null
 )
 /
-ALTER TABLE SVT_component_types ADD CONSTRAINT uk_componentname UNIQUE(component_name);
+ALTER TABLE svt_component_types ADD CONSTRAINT uk_componentname UNIQUE(component_name);
 /
-ALTER TABLE SVT_component_types ADD CONSTRAINT SVT_component_types_pk PRIMARY KEY (id);
+ALTER TABLE svt_component_types ADD CONSTRAINT svt_component_types_pk PRIMARY KEY (id);
 /
 --precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STSTTS_EBA_STDSTN_FK2';
 
@@ -42,22 +42,22 @@ ALTER TABLE SVT_component_types ADD CONSTRAINT SVT_component_types_pk PRIMARY KE
   
  ALTER TABLE SVT_COMPONENT_TYPES MODIFY (NT_TYPE_ID NOT NULL ENABLE)
 /
-ALTER TABLE SVT_component_types
+ALTER TABLE svt_component_types
 ADD CONSTRAINT componentname_uk2 UNIQUE(column_name1, column_nam2)
 /
 
 --precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where table_name = 'SVT_COMPONENT_TYPES' and column_name = 'TEMPLATE_URL';
 
-ALTER TABLE SVT_component_types ADD TEMPLATE_URL varchar2(250)
+ALTER TABLE svt_component_types ADD TEMPLATE_URL varchar2(250)
 /
 
-alter table SVT_component_types add friendly_name varchar2(50)
+alter table svt_component_types add friendly_name varchar2(50)
 /
 ALTER TABLE SVT_COMPONENT_TYPES MODIFY (friendly_name NOT NULL ENABLE)
 /
-alter table SVT_component_types add name_column varchar2(100)
+alter table svt_component_types add name_column varchar2(100)
 /
 ALTER TABLE SVT_COMPONENT_TYPES MODIFY (name_column NOT NULL ENABLE)
 /
-alter table SVT_component_types add addl_cols varchar2(1000)
+alter table svt_component_types add addl_cols varchar2(1000)
 /

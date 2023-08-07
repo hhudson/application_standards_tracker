@@ -1,12 +1,12 @@
 --liquibase formatted sql
---changeset trigger_script:SVT_component_types_biu stripComments:false endDelimiter:/ runOnChange:true
+--changeset trigger_script:svt_component_types_biu stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for Trigger SVT_component_types
+--  DDL for Trigger svt_component_types
 --------------------------------------------------------
 
 create or replace editionable trigger SVT_COMPONENT_TYPES_BIU
     before insert or update 
-    on SVT_component_types
+    on svt_component_types
     for each row
 begin
  
@@ -24,5 +24,5 @@ begin
                             then 'Y'
                             else 'N'
                             end;
-end SVT_component_types_biu;
+end svt_component_types_biu;
 /

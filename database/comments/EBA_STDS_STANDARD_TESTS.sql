@@ -14,7 +14,7 @@ comment on column EBA_STDS_STANDARD_TESTS.ID                                    
 comment on column EBA_STDS_STANDARD_TESTS.STANDARD_ID                                   is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.TEST_NAME                                     is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.DISPLAY_SEQUENCE                              is q'[]';
-comment on column EBA_STDS_STANDARD_TESTS.COMPONENT_CODE                                is q'[points to SVT_component_types.component_code]';
+comment on column EBA_STDS_STANDARD_TESTS.COMPONENT_CODE                                is q'[points to svt_component_types.component_code]';
 comment on column EBA_STDS_STANDARD_TESTS.FAILURE_HELP_TEXT                             is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.CREATED                                       is q'[The date the record was created]';
 comment on column EBA_STDS_STANDARD_TESTS.CREATED_BY                                    is q'[The user who created the record]';

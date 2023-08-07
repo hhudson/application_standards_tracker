@@ -407,8 +407,8 @@ is
     end is_valid_url;
 
     procedure get_component_type_rec (
-                        p_svt_component_type_id in SVT_component_types.id%type,
-                        p_component_name        out nocopy SVT_component_types.component_name%type,
+                        p_svt_component_type_id in svt_component_types.id%type,
+                        p_component_name        out nocopy svt_component_types.component_name%type,
                         p_component_type_id     out nocopy v_svt_flow_dictionary_views.component_type_id%type,
                         p_template_url          out nocopy v_svt_flow_dictionary_views.link_url%type
                     )
@@ -420,7 +420,7 @@ is
 
         select act.component_name, fdv.component_type_id, coalesce(fdv.link_url, act.template_url) link_url
         into p_component_name, p_component_type_id, p_template_url
-        from  SVT_component_types act
+        from  svt_component_types act
         left join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
         where act.id = p_svt_component_type_id;
 
@@ -635,14 +635,14 @@ is
 ------------------------------------------------------------------------------
 
     function assemble_addlcols( p_initials              in varchar2,
-                                p_svt_component_type_id in SVT_component_types.id%type) 
-    return SVT_component_types.addl_cols%type
+                                p_svt_component_type_id in svt_component_types.id%type) 
+    return svt_component_types.addl_cols%type
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_addlcols';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    l_addl_cols        SVT_component_types.addl_cols%type;
-    l_addl_cols_final  SVT_component_types.addl_cols%type;
-    l_name_column      SVT_component_types.name_column%type;
+    l_addl_cols        svt_component_types.addl_cols%type;
+    l_addl_cols_final  svt_component_types.addl_cols%type;
+    l_name_column      svt_component_types.name_column%type;
     l_count pls_integer := 0;
     c_padding constant varchar2(20) := '       ';
     begin
@@ -653,7 +653,7 @@ is
         select lower(act.addl_cols), lower(act.name_column)
         into l_addl_cols, l_name_column
         from SVT_nested_table_types antt
-        inner join SVT_component_types act on act.nt_type_id = antt.id
+        inner join svt_component_types act on act.nt_type_id = antt.id
         where act.id = p_svt_component_type_id;
         
         l_addl_cols_final := chr(10)||c_padding||p_initials||'.'||l_name_column; --||','||chr(10);
@@ -674,17 +674,17 @@ is
         raise;
     end assemble_addlcols;
 
-    function seed_default_query(p_svt_component_type_id in SVT_component_types.id%type)
+    function seed_default_query(p_svt_component_type_id in svt_component_types.id%type)
     return varchar2
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'seed_default_query';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15';
     l_example_query SVT_nested_table_types.example_query%type;
-    l_view             SVT_component_types.component_name%type;
-    l_pk_value         SVT_component_types.pk_value%type;
-    l_parent_pk_value  SVT_component_types.parent_pk_value%type;
-    l_friendly_name    SVT_component_types.friendly_name%type;
-    l_name_column      SVT_component_types.name_column%type;
+    l_view             svt_component_types.component_name%type;
+    l_pk_value         svt_component_types.pk_value%type;
+    l_parent_pk_value  svt_component_types.parent_pk_value%type;
+    l_friendly_name    svt_component_types.friendly_name%type;
+    l_name_column      svt_component_types.name_column%type;
     l_opt_parent_pk_value  all_objects.object_type%type;
     l_initials varchar2(5);
     l_app_id all_tab_cols.column_name%type;

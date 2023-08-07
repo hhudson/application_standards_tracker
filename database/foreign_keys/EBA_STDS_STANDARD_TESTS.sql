@@ -26,6 +26,6 @@
 --precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STSTTS_EBA_STDSTN_FK2';
 
   ALTER TABLE EBA_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STSTTS_SVT_CMPNT_TP_FK1 FOREIGN KEY (component_type_id)
-	  REFERENCES SVT_component_types (ID) ENABLE
+	  REFERENCES svt_component_types (ID) ENABLE
 /
 

@@ -940,7 +940,7 @@ create or replace package body SVT_STANDARD_VIEW as
 
     select nt_type_id
     into l_nt_type_id
-    from SVT_component_types
+    from svt_component_types
     where id = p_svt_component_type_id;
 
     if p_query_code is not null  and l_nt_type_id is not null then

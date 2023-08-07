@@ -210,7 +210,7 @@ select eba_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_CO
 from dual
 */
 ------------------------------------------------------------------------------
-    function seed_default_query(p_svt_component_type_id in SVT_component_types.id%type)
+    function seed_default_query(p_svt_component_type_id in svt_component_types.id%type)
     return varchar2;
 
 ------------------------------------------------------------------------------
