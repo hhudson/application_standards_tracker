@@ -92,7 +92,9 @@ select standard_id,
             then 'hide'
             else 'show t-Button t-Button--icon t-Button--simple'
             end dlclss,
-       case when published_yn = 'N'
+       case when active_yn = 'N'
+            then 'hide'
+            when published_yn = 'N'
             then 'show'
             else 'hide'
             end publish_clss,

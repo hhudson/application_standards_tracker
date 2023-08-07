@@ -418,8 +418,18 @@ is
     begin
         apex_debug.message(c_debug_template,'START', 'p_svt_component_type_id', p_svt_component_type_id);
 
-        select act.component_name, fdv.component_type_id, coalesce(fdv.link_url, act.template_url) link_url
-        into p_component_name, p_component_type_id, p_template_url
+        select act.component_name, 
+               fdv.component_type_id, 
+               case when fdv.link_url is not null 
+                    then case when fdv.view_name in ('APEX_APPL_AUTOMATIONS')
+                              then ''
+                              else '/ords/'
+                              end||fdv.link_url
+                    else act.template_url 
+                    end link_url
+        into   p_component_name, 
+               p_component_type_id, 
+               p_template_url
         from  svt_component_types act
         left join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
         where act.id = p_svt_component_type_id;
@@ -617,6 +627,10 @@ is
                       end;
         
         apex_debug.message(c_debug_template, 'l_url', l_url);
+
+        l_url := apex_util.prepare_url(l_url);
+
+        apex_debug.message(c_debug_template, 'prepared l_url', l_url);
 
         return l_url;
 
