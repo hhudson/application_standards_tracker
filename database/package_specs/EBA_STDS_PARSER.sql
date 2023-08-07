@@ -66,7 +66,7 @@ from dual;
 /*
 select audit_id, test_id,
        eba_stds_parser.build_url(
-                        p_SVT_component_type_id => SVT_component_type_id,
+                        p_svt_component_type_id => SVT_component_type_id,
                         p_app_id                => application_id,
                         p_page_id               => page_id,
                         p_pk_value              => component_id,
@@ -206,11 +206,11 @@ end;
 -- Function to return a default query, given an SVT_component_type_id
 --
 /*
-select eba_stds_parser.seed_default_query(p_SVT_component_type_id => :P14_SVT_COMPONENT_TYPE_ID) stmt
+select eba_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID) stmt
 from dual
 */
 ------------------------------------------------------------------------------
-    function seed_default_query(p_SVT_component_type_id in SVT_component_types.id%type)
+    function seed_default_query(p_svt_component_type_id in SVT_component_types.id%type)
     return varchar2;
 
 ------------------------------------------------------------------------------

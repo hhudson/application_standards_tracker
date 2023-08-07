@@ -163,7 +163,7 @@ from svt_standard_view.v_svt(p_test_code => 'MISSING_COMMENT');
 /*
 return svt_standard_view.query_feedback (
                 p_query_code => :P14_QUERY_CLOB,
-                p_SVT_component_type_id => :P14_SVT_COMPONENT_TYPE_ID
+                p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID
               );
 */
 ------------------------------------------------------------------------------

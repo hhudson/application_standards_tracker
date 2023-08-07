@@ -48,7 +48,9 @@ with  estl as (
                    esst.record_md5,
                    estl.estl_md5,
                    estl.imported_version_number,
-                   case when estl.estl_md5 is null 
+                   case  when esst.active_yn = 'N'
+                         then 'N'
+                         when estl.estl_md5 is null 
                          then 'N'
                          when esst.record_md5 = estl.estl_md5
                          then 'Y'

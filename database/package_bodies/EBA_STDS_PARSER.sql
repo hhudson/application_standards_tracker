@@ -407,7 +407,7 @@ is
     end is_valid_url;
 
     procedure get_component_type_rec (
-                        p_SVT_component_type_id in SVT_component_types.id%type,
+                        p_svt_component_type_id in SVT_component_types.id%type,
                         p_component_name        out nocopy SVT_component_types.component_name%type,
                         p_component_type_id     out nocopy v_svt_flow_dictionary_views.component_type_id%type,
                         p_template_url          out nocopy v_svt_flow_dictionary_views.link_url%type
@@ -416,17 +416,17 @@ is
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_component_type_rec';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
-        apex_debug.message(c_debug_template,'START', 'p_SVT_component_type_id', p_SVT_component_type_id);
+        apex_debug.message(c_debug_template,'START', 'p_svt_component_type_id', p_svt_component_type_id);
 
         select act.component_name, fdv.component_type_id, coalesce(fdv.link_url, act.template_url) link_url
         into p_component_name, p_component_type_id, p_template_url
         from  SVT_component_types act
         left join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
-        where act.id = p_SVT_component_type_id;
+        where act.id = p_svt_component_type_id;
 
     exception 
         when no_data_found then
-            apex_debug.message(c_debug_template, 'No data found', p_SVT_component_type_id);
+            apex_debug.message(c_debug_template, 'No data found', p_svt_component_type_id);
         when others then 
             apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
             raise;
@@ -635,7 +635,7 @@ is
 ------------------------------------------------------------------------------
 
     function assemble_addlcols( p_initials              in varchar2,
-                                p_SVT_component_type_id in SVT_component_types.id%type) 
+                                p_svt_component_type_id in SVT_component_types.id%type) 
     return SVT_component_types.addl_cols%type
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_addlcols';
@@ -648,13 +648,13 @@ is
     begin
         apex_debug.message(c_debug_template,'START', 
                                             'p_initials', p_initials, 
-                                            'p_SVT_component_type_id', p_SVT_component_type_id);
+                                            'p_svt_component_type_id', p_svt_component_type_id);
 
         select lower(act.addl_cols), lower(act.name_column)
         into l_addl_cols, l_name_column
         from SVT_nested_table_types antt
         inner join SVT_component_types act on act.nt_type_id = antt.id
-        where act.id = p_SVT_component_type_id;
+        where act.id = p_svt_component_type_id;
         
         l_addl_cols_final := chr(10)||c_padding||p_initials||'.'||l_name_column; --||','||chr(10);
 
@@ -674,7 +674,7 @@ is
         raise;
     end assemble_addlcols;
 
-    function seed_default_query(p_SVT_component_type_id in SVT_component_types.id%type)
+    function seed_default_query(p_svt_component_type_id in SVT_component_types.id%type)
     return varchar2
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'seed_default_query';
@@ -743,7 +743,7 @@ is
              l_name_column
         from SVT_nested_table_types antt
         inner join svt_component_types act on act.nt_type_id = antt.id
-        where act.id = p_SVT_component_type_id;
+        where act.id = p_svt_component_type_id;
 
 
         l_initials := case when l_view is not null
@@ -826,7 +826,7 @@ is
                                     );
         l_example_query := replace(l_example_query, '%addl_cols%', 
                                     assemble_addlcols(p_initials              => l_initials,
-                                                      p_SVT_component_type_id => p_SVT_component_type_id));
+                                                      p_svt_component_type_id => p_svt_component_type_id));
         l_example_query := l_example_query||case when column_exists (c_page_id) and l_view != 'apex_application_pages'
                                                  then chr(10)||'inner join apex_application_pages aap on aap.page_id = '||l_initials||'.'||c_page_id
                                                     ||chr(10)||c_30_spaces||c_7_spaces||' and aap.application_id = '||l_initials||'.'||c_application_id
@@ -853,7 +853,7 @@ is
 
     exception 
         when no_data_found then 
-            apex_debug.message(c_debug_template, 'no data found', p_SVT_component_type_id);
+            apex_debug.message(c_debug_template, 'no data found', p_svt_component_type_id);
             return null;
         when others then 
             apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);

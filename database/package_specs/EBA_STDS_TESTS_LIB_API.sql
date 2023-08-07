@@ -76,7 +76,7 @@ begin
 end;
 */
 ------------------------------------------------------------------------------
-    procedure take_snapshot;
+    -- procedure take_snapshot;
 
 
 ------------------------------------------------------------------------------
@@ -105,7 +105,8 @@ end;
 --     Date: June 26, 2023
 -- Synopsis:
 --
--- Procedure to delete a given test from the test library and zip file 
+-- Overloaded procedure to delete a given test from the test library and zip file
+-- for a given id 
 --
 /*
 begin  
@@ -115,6 +116,22 @@ end;
 ------------------------------------------------------------------------------
     procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type);
 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 7, 2023
+-- Synopsis:
+--
+-- Procedure to delete a given test from the test library and zip file
+-- for a test_code
+--
+/*
+begin  
+    eba_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_test_from_lib (p_test_code in eba_stds_tests_lib.test_code%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

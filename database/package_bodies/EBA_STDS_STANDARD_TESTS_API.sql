@@ -74,7 +74,7 @@ create or replace package body eba_stds_standard_tests_api as
       p_active_yn,
       p_level_id,
       p_mv_dependency,
-      p_SVT_component_type_id,
+      p_svt_component_type_id,
       p_explanation,
       p_fix,
       coalesce(p_version_number,c_default_version_number)
@@ -98,7 +98,7 @@ create or replace package body eba_stds_standard_tests_api as
                          p_active_yn             in eba_stds_standard_tests.active_yn%type,
                          p_level_id              in eba_stds_standard_tests.level_id%type,
                          p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-                         p_SVT_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
+                         p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
                          p_explanation           in eba_stds_standard_tests.explanation%type,
                          p_fix                   in eba_stds_standard_tests.fix%type,
                          p_version_number        in eba_stds_standard_tests.version_number%type default null)
@@ -116,7 +116,7 @@ create or replace package body eba_stds_standard_tests_api as
                                         'p_active_yn', p_active_yn,
                                         'p_level_id', p_level_id,
                                         'p_mv_dependency', p_mv_dependency,
-                                        'p_SVT_component_type_id', p_SVT_component_type_id
+                                        'p_svt_component_type_id', p_svt_component_type_id
                                         );
 
     l_id := insert_test(p_id                    => p_id,
@@ -129,7 +129,7 @@ create or replace package body eba_stds_standard_tests_api as
                         p_active_yn             => p_active_yn,
                         p_level_id              => p_level_id,
                         p_mv_dependency         => p_mv_dependency,
-                        p_SVT_component_type_id => p_SVT_component_type_id,
+                        p_svt_component_type_id => p_svt_component_type_id,
                         p_explanation           => p_explanation,
                         p_fix                   => p_fix,
                         p_version_number        => p_version_number
@@ -152,7 +152,7 @@ create or replace package body eba_stds_standard_tests_api as
       p_active_yn             in eba_stds_standard_tests.active_yn%type,
       p_level_id              in eba_stds_standard_tests.level_id%type,
       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-      p_SVT_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
+      p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
       p_explanation           in eba_stds_standard_tests.explanation%type,
       p_fix                   in eba_stds_standard_tests.fix%type
   ) return varchar2 is 
@@ -170,7 +170,7 @@ create or replace package body eba_stds_standard_tests_api as
         p_active_yn,
         p_level_id,
         p_mv_dependency,
-        p_SVT_component_type_id,
+        p_svt_component_type_id,
         p_explanation,
         p_fix ));
 
@@ -287,7 +287,7 @@ create or replace package body eba_stds_standard_tests_api as
                         p_active_yn             in eba_stds_standard_tests.active_yn%type,
                         p_level_id              in eba_stds_standard_tests.level_id%type,
                         p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-                        p_SVT_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
+                        p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
                         p_explanation           in eba_stds_standard_tests.explanation%type,
                         p_fix                   in eba_stds_standard_tests.fix%type,
                         p_version_number        in eba_stds_standard_tests.version_number%type)
@@ -311,7 +311,7 @@ create or replace package body eba_stds_standard_tests_api as
                       p_active_yn,
                       p_level_id,
                       p_mv_dependency,
-                      p_SVT_component_type_id,
+                      p_svt_component_type_id,
                       p_explanation,
                       p_fix
                   );
@@ -329,7 +329,7 @@ create or replace package body eba_stds_standard_tests_api as
         active_yn             = p_active_yn,
         level_id              = p_level_id,
         mv_dependency         = p_mv_dependency,
-        SVT_component_type_id = p_SVT_component_type_id,
+        SVT_component_type_id = p_svt_component_type_id,
         explanation           = p_explanation,
         fix                   = p_fix
       where id = p_id;
@@ -340,15 +340,20 @@ create or replace package body eba_stds_standard_tests_api as
     raise;
   end update_test;
 
-  procedure delete_test(p_id in eba_stds_standard_tests.id%type)
+  procedure delete_test(p_id        in eba_stds_standard_tests.id%type,
+                        p_test_code in eba_stds_standard_tests.test_code%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
-    apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_id', p_id,
+                                        'p_test_code', p_test_code);
 
     delete from eba_stds_standard_tests
     where id = p_id;
+
+    eba_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
 
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
     
@@ -409,7 +414,7 @@ create or replace package body eba_stds_standard_tests_api as
                         p_active_yn             => gc_n,
                         p_level_id              => l_test_rec.level_id,
                         p_mv_dependency         => l_test_rec.mv_dependency,
-                        p_SVT_component_type_id => l_test_rec.SVT_component_type_id,
+                        p_svt_component_type_id => l_test_rec.SVT_component_type_id,
                         p_explanation           => l_test_rec.explanation,
                         p_fix                   => l_test_rec.fix
                       );
@@ -526,7 +531,7 @@ create or replace package body eba_stds_standard_tests_api as
                                           p_active_yn             => l_aat (rec).active_yn,
                                           p_level_id              => l_aat (rec).level_id,
                                           p_mv_dependency         => l_aat (rec).mv_dependency,
-                                          p_SVT_component_type_id => l_aat (rec).SVT_component_type_id,
+                                          p_svt_component_type_id => l_aat (rec).SVT_component_type_id,
                                           p_explanation           => l_aat (rec).explanation,
                                           p_fix                   => l_aat (rec).fix
                                       );

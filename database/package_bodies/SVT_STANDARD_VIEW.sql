@@ -926,7 +926,7 @@ create or replace package body SVT_STANDARD_VIEW as
   end improve_error_msg;
 
   function query_feedback (p_query_code            in eba_stds_standard_tests.query_clob%type,
-                           p_SVT_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type)
+                           p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type)
   return varchar2
   is 
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'query_feedback';
@@ -936,12 +936,12 @@ create or replace package body SVT_STANDARD_VIEW as
   cur_query sys_refcursor;
   l_error   varchar2(100);
   begin
-    apex_debug.message(c_debug_template,'START', 'p_SVT_component_type_id', p_SVT_component_type_id);
+    apex_debug.message(c_debug_template,'START', 'p_svt_component_type_id', p_svt_component_type_id);
 
     select nt_type_id
     into l_nt_type_id
     from SVT_component_types
-    where id = p_SVT_component_type_id;
+    where id = p_svt_component_type_id;
 
     if p_query_code is not null  and l_nt_type_id is not null then
       if get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_plsql_nt then
