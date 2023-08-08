@@ -568,9 +568,12 @@ create or replace package body eba_stds_standard_tests_api as
       end loop;
     end loop;  
 
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
+  exception 
+    when no_data_needed then
+      apex_debug.message(c_debug_template, 'No data needed');
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
   end v_eba_stds_standard_tests;
 
 end eba_stds_standard_tests_api;

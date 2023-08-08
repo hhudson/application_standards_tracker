@@ -475,14 +475,19 @@ select --*
 
 
 ---- Checking editable IG regions and columns that are not set as Query Only
--- NOTIMPLEMENTED  -- not sure about this one
-select --b.*
-       case
+-- ACC_IG_COL_AUTOCOMPLETE
+select case
          when (lower(trim(b.item_attributes)) not like '%autocomplete%'
-               or trim(b.item_attributes) is null) then 'N' 
+               or trim(b.item_attributes) is null) 
+         then 'N' 
          else 'Y'
-       end pass_yn,
-       b.application_id,b.application_name, b.page_id, b.page_name,b.region_id,b.region_name, b.source_expression,b.item_attributes
+         end pass_yn,
+       b.application_id,
+       b.page_id, 
+       b.region_id,
+       b.region_name, 
+       b.source_expression,
+       b.item_attributes
 from apex_appl_page_igs a,
      apex_appl_page_ig_columns b
 where a.application_id = b.application_id
@@ -1146,15 +1151,19 @@ select case
      or html_expression is not null);
 
 --- checking quick pick links 
--- NOTIMPLEMENTED LOWPRIORITY
-select case
-         when ((lower(trim(quick_pick_link_attr)) not like '%aria-%'
-                and lower(trim(quick_pick_link_attr)) not like '%title%')
-                or trim(quick_pick_link_attr) is null ) then 'N' 
-         else 'Y'
-       end pass_yn,
-       page_id,page_name,application_id,application_name,a.item_name,a.item_id,quick_pick_link_attr
- from apex_application_page_items a
+-- ACC_PG_ITM_LINK
+select case when ((lower(trim(quick_pick_link_attr)) not like '%aria-%'
+                  and lower(trim(quick_pick_link_attr)) not like '%title%')
+                  or trim(quick_pick_link_attr) is null ) 
+            then 'N' 
+            else 'Y'
+            end pass_yn,
+       page_id,
+       application_id,
+       item_name,
+       item_id,
+       quick_pick_link_attr
+ from apex_application_page_items
  where show_quick_picks = 'Y';
 
 --- checking Classic report column links 
@@ -1188,13 +1197,15 @@ select case
        link_attributes
  from apex_appl_page_card_actions;
 
--- NOTIMPLEMENTED
-select case
-         when (lower(trim(ICON_VIEW_LINK_ATTRIBUTES)) not like '%aria-%'
-                and lower(trim(ICON_VIEW_LINK_ATTRIBUTES)) not like '%title%') then 'N' 
-         else 'Y'
-       end pass_yn,
-       page_id,page_name,application_id,application_name,icon_view_link_attributes
+-- ACC_IG_IV_LINK
+select case when (lower(trim(icon_view_link_attributes)) not like '%aria-%'
+                and lower(trim(icon_view_link_attributes)) not like '%title%') 
+            then 'N' 
+            else 'Y'
+            end pass_yn,
+       page_id,
+       application_id,
+       icon_view_link_attributes
  from apex_appl_page_igs
  where icon_view_icon_attributes is not null;
 
@@ -1284,7 +1295,7 @@ select case
 
 ---  Checking if lists tagged as navigation menu and bar are dynamic.  
 ---   if so they need to be checked
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn, --always fail developer needs to run code and evaluate results
        list_name,
        list_type,
@@ -1292,7 +1303,7 @@ select 1 pass_yn, --always fail developer needs to run code and evaluate results
 from apex_application_lists a
 where a.LIST_TYPE_CODE != 'STATIC';
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn, --- always fail as each entry needs to be reviewed
        list_name,
        entry_text,
@@ -1305,7 +1316,7 @@ from apex_application_list_entries b;
 ---- Provide list of components by type and name (strip off PXX_)
 ---- *************************************************************************
 --   Get list of page items (non-buttons)
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 /*
 eg consistent 'save' buttons 
 */
@@ -1318,7 +1329,7 @@ select 1 pass_yn,
 from apex_application_page_items a
 ;
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'Buttons',button_name, 
        label,button_template,icon_css_classes,
@@ -1326,7 +1337,7 @@ select 1 pass_yn,
  from APEX_APPLICATION_PAGE_BUTTONS
 ;
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'IR Region Links' type, DETAIL_LINK_TEXT, 
        DETAIL_LINK_ATTRIBUTES,
@@ -1337,14 +1348,14 @@ select 1 pass_yn,
  ;
 
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'IR Column Links' type, COLUMN_LINKTEXT, COLUMN_LINK_ATTR,
        page_id,application_id,application_name,page_id,region_name 
   from APEX_APPLICATION_PAGE_IR_COL
  where column_link is not null;
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'Page Items Quick Links' type,
        substr(item_name,instr(item_name,'_')+1) adj_name, 
@@ -1364,7 +1375,7 @@ select 1 pass_yn,
    from APEX_APPLICATION_PAGE_ITEMS
   where show_quick_picks = 'Y';
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'Classic Report Column Links' type, 
        column_alias, COLUMN_LINK_URL,COLUMN_LINK_ATTRIBUTES
@@ -1372,13 +1383,13 @@ select 1 pass_yn,
   from APEX_APPLICATION_PAGE_RPT_COLS
  where COLUMN_LINK_URL is not null;
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'Breadcrumbs' type,theme_class,
        template_name,BREADCRUMB_LINK_ATTRIBUTES
   from APEX_APPLICATION_TEMP_BC;
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'Cards Actions' type,action_type,
        label,LINK_ATTRIBUTES,link_target, 
@@ -1386,14 +1397,14 @@ select 1 pass_yn,
   from APEX_APPL_PAGE_CARD_ACTIONS
  ;
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'IG Region Links' type, ICON_VIEW_LINK_ATTRIBUTES,
        page_id,page_name,application_id,application_name,region_name
   from APEX_APPL_PAGE_IGS
  where ICON_VIEW_ICON_ATTRIBUTES is not null;
 
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
 select 1 pass_yn,
        'IG Column Links' type,name column_name,heading,label, item_type,LINK_ATTRIBUTES,attribute_01,
        page_id,page_name,application_id,application_name,region_name
@@ -1405,19 +1416,23 @@ select 1 pass_yn,
 
 
 ---- *************************************************************************
----- WCAG 2.0/2.1 - 3.3.1 Error Identification
----- Look for validations where Display Location is set to Inline with Field
+/*
+WCAG 2.0/2.1 - 3.3.1 Error Identification
+Look for validations where Display Location is set to Inline with Field
+*/
 ---- *************************************************************************
---  NOTIMPLEMENTED  Not sure about this one
 /*
 bug in apex? inline with field is insufficient (lacks proper aria tags)
 hhh : this is where we left off 2023-Jul-26
+ACC_VAL_DSPLY_LOCN
 */
- select case 
-          when ERROR_DISPLAY_LOCATION = 'INLINE_WITH_FIELD' then 'N' 
-          else 'Y'
-        end pass_yn,
-        application_id,application_name,page_id,page_name, validation_name
+ select case when error_display_location = 'INLINE_WITH_FIELD' 
+             then 'N' 
+             else 'Y'
+             end pass_yn,
+        application_id,
+        page_id, 
+        validation_name
    from apex_application_page_val;
 
 
@@ -1426,7 +1441,7 @@ hhh : this is where we left off 2023-Jul-26
 ---- WCAG 2.0/2.1 - 3.3.3 Error Suggestion
 ---- Look at validations and provide list of error messages
 ---- *************************************************************************
--- NOTIMPLEMENTED
+-- NOTIMPLEMENTED ALWAYSFAIL
  select 1 pass_yn,
         page_id,page_name, 
         validation_name,VALIDATION_FAILURE_TEXT
@@ -1440,7 +1455,7 @@ hhh : this is where we left off 2023-Jul-26
 ----   list to be checked for open/close tags,brackets or quotes.
 ---- *************************************************************************
 --- check region sources for html references
--- NOTIMPLEMENTED
+-- STTC_CNTNT_BAD_HTML
  select case
           when (REGION_SOURCE like '%<%') then 'N' 
           else 'Y'
@@ -1449,7 +1464,7 @@ hhh : this is where we left off 2023-Jul-26
    from apex_application_page_regions;
 
 --- Check IR Columns in html_expression
--- NOTIMPLEMENTED
+-- IR_COL_BAD_HTML
 select case
           when ((column_link is not null and lower(trim(COLUMN_LINK_ATTR)) is not null)
                  or lower(trim(html_expression)) is not null
@@ -1466,7 +1481,7 @@ select case
  from APEX_APPLICATION_PAGE_IR_COL;
       
 --- Check classic Columns in html_expression
--- NOTIMPLEMENTED
+-- C_COL_BAD_HTML
 select case
           when (lower(trim(html_expression)) is not null
                  or lower(trim(css_style)) is not null
@@ -1486,7 +1501,7 @@ select case
  from APEX_APPLICATION_PAGE_rpt_cols;
 
 --- Check IG Columns in html_expression
--- NOTIMPLEMENTED
+-- IG_COL_BAD_HTML
 select case
           when (item_type = 'NATIVE_HTML_EXPRESSION' 
                  or trim(link_text) is not null
