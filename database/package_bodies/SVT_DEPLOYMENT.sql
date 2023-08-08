@@ -67,7 +67,9 @@ create or replace package body SVT_DEPLOYMENT as
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
                  end,
       p5 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT' and p_standard_id is not null
-                 then apex_string.format(q'[where standard_id = %s and published_yn = 'Y']', p_standard_id)
+                 then apex_string.format(q'[where standard_id = %s ]', p_standard_id)
+                    ||q'[and published_yn = 'Y' and active_yn = 'Y' ]'
+                    -- and standard_active_yn = 'Y'
                  end,
       p6 => p_datatype
     );
@@ -447,6 +449,8 @@ create or replace package body SVT_DEPLOYMENT as
                     from v_eba_stds_standard_tests_export
                     where standard_id = srec.id
                     and published_yn = gc_y 
+                    and active_yn = gc_y
+                    and standard_active_yn = gc_y
                     order by test_code)
         loop 
           apex_debug.message(c_debug_template, 'test_code', trec.test_code);
