@@ -967,7 +967,11 @@ create or replace package body SVT_STANDARD_VIEW as
     return l_error;
 
   exception 
-    when e_inconsistent_data_types or e_table_or_view_does_not_exist or e_missing_field               
+    when e_inconsistent_data_types 
+      or e_table_or_view_does_not_exist 
+      or e_missing_field
+      or e_missing_expression
+      or e_ambiguous_column               
     then return improve_error_msg (p_sqlcode => sqlcode,
                                    p_sqlerrm => sqlerrm);
     when others then
