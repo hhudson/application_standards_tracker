@@ -6,13 +6,14 @@ These are standards to maintain Accessibility.
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [C_COL_BAD_HTML](APEX_ACCESSIBILITY/tests/C_COL_BAD_HTML.json) |  Classic Columns have wellformed HTML | V1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [PG_NAME_TITLE](APEX_ACCESSIBILITY/tests/PG_NAME_TITLE.json) |  Pages have name, title and not a blank space | V1 | APEX_APPLICATION_PAGES |
 
 ## [APEX Broken Functionality](APEX_BROKEN_FUNCTIONALITY/STANDARD-APEX_BROKEN_FUNCTIONALITY.json)
 These tests identify functionality that invalid.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [VAL_BUTTON_LINKS](APEX_BROKEN_FUNCTIONALITY/tests/VAL_BUTTON_LINKS.json) |  Invalid Button URL | V1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [VAL_BUTTON_LINKS](APEX_BROKEN_FUNCTIONALITY/tests/VAL_BUTTON_LINKS.json) |  Invalid Button URL | V1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 
 ## [APEX Cleanup](APEX_CLEANUP/STANDARD-APEX_CLEANUP.json)
 Best practices to keep things tidy
