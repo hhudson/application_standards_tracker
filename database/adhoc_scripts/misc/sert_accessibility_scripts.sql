@@ -1296,6 +1296,9 @@ select case
 ---  Checking if lists tagged as navigation menu and bar are dynamic.  
 ---   if so they need to be checked
 -- NOTIMPLEMENTED ALWAYSFAIL
+/*
+menu should be consistent,
+*/
 select 1 pass_yn, --always fail developer needs to run code and evaluate results
        list_name,
        list_type,
@@ -1304,6 +1307,7 @@ from apex_application_lists a
 where a.LIST_TYPE_CODE != 'STATIC';
 
 -- NOTIMPLEMENTED ALWAYSFAIL
+-- make sure a given page is always refered to as the same thing
 select 1 pass_yn, --- always fail as each entry needs to be reviewed
        list_name,
        entry_text,
@@ -1423,7 +1427,7 @@ Look for validations where Display Location is set to Inline with Field
 ---- *************************************************************************
 /*
 bug in apex? inline with field is insufficient (lacks proper aria tags)
-hhh : this is where we left off 2023-Jul-26
+hhh : this is where we left off 2023-Jul-26 (pause / stop)
 ACC_VAL_DSPLY_LOCN
 */
  select case when error_display_location = 'INLINE_WITH_FIELD' 
@@ -1442,6 +1446,9 @@ ACC_VAL_DSPLY_LOCN
 ---- Look at validations and provide list of error messages
 ---- *************************************************************************
 -- NOTIMPLEMENTED ALWAYSFAIL
+/*
+make sure error text is actionable
+*/
  select 1 pass_yn,
         page_id,page_name, 
         validation_name,VALIDATION_FAILURE_TEXT
