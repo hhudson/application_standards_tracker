@@ -1,10 +1,10 @@
 ---
-# ====== Page: Preferences ===================================
+# ====== Page: delete me =====================================
 id: 36
 identification: 
-  name: Preferences
-  alias: PREFERENCES
-  title: '&APPLICATION_TITLE.  Preferences'
+  name: delete me
+  alias: DELETE-ME1
+  title: delete me
 
 appearance: 
   page-mode: Normal
@@ -17,14 +17,13 @@ navigation-menu:
 
 navigation: 
   cursor-focus: Do not focus cursor
-  warn-on-unsaved-changes: false
+  warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: READER RIGHTS # 48893993399820863
   authentication: Page Requires Authentication
   deep-linking: Application Default
-  page-access-protection: Unrestricted
-  form-auto-complete: On
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
   browser-cache: Application Default
 
 session-management: 
@@ -32,26 +31,27 @@ session-management:
 
 advanced: 
   enable-duplicate-page-submissions: Yes - Enable page to be re-posted
-  reload-on-submit: Always
+  reload-on-submit: Only for Success
 
 server-cache: 
   caching: Disabled
 
-help: 
-  help-text: No help is available for this page.
-
 regions: 
-- # ====== Region: Preferences =================================
-  id: 7648215252386058705
+- # ====== Region: New =========================================
+  id: 148971593896209820
   identification: 
-    title: Preferences
-    type: List
+    title: New
+    type: Static Content
 
   source: 
-    list: Preferences # 10792440703667364893
+    html-code: |
+      <ul aria-role="presentation">
+      <li>hello</li>
+      <li>there</li>
+      </ul>
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -64,9 +64,7 @@ regions:
     template: Standard # 7573670342594143998
     template-options: 
     - '#DEFAULT#'
-    - t-Region--noPadding
     - t-Region--scrollBody
-    - t-Region--hideHeader
     render-components: Above Content
 
   accessibility: 
@@ -74,7 +72,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-cache: 
@@ -84,24 +82,20 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      list-template: Media List # 7573683387866144028
-      template-options: 
-      - '#DEFAULT#'
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
 
-- # ====== Region: Breadcrumb ==================================
-  id: 7648215321648058706
+- # ====== Region: Super Breadcrumb ============================
+  id: 294695100073274190
   identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
+    title: Super Breadcrumb
+    type: Super Breadcrumb
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    position: REGION_POSITION_01
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -117,10 +111,15 @@ regions:
 
   accessibility: 
     use-landmark: true
-    landmark-type: Template Default
+    landmark-type: Navigation
+    landmark-label: blerg
 
   advanced: 
-    region-display-selector: true
+    custom-attributes: 
+    - title="bc"
+    - aria-label="bc"
+    - aria-role="navigation"
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-cache: 
@@ -130,8 +129,13 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+    settings: 
+      max-levels: 6
+      breadcrumb-source: Page View History
+
+    history-options: 
+      collection-name: INSUM_SUPER_BREADCRUMB
+
+    rewind-options: 
+      rewind-style: Matching Page ID and Title
 

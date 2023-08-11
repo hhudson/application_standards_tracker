@@ -603,7 +603,7 @@ regions:
       lost-update-type: Row Values
 
     performance: 
-      lazy-loading: false
+      lazy-loading: true
 
     appearance: 
       select-first-row: true
@@ -738,7 +738,7 @@ regions:
       type: Link
 
     heading: 
-      heading: Audit ID
+      heading: Edit
       alignment: center
 
     layout: 
@@ -747,7 +747,7 @@ regions:
       stretch: Use Report Setting
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     link: 
       target: 
@@ -757,7 +757,7 @@ regions:
         values: 
           p42_id: '&AUDIT_ID.'
 
-      link-text: '&AUDIT_ID.'
+      link-text: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
       link-attributes: title="Manage Violation Audit ID &AUDIT_ID." aria-label="Manage Violation Audit ID &AUDIT_ID."
 
     source: 
@@ -854,7 +854,7 @@ regions:
       stretch: Use Report Setting
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     source: 
       type: Database Column
@@ -888,7 +888,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 360
+      sequence: 390
 
     accessibility: 
       value-identifies-row: false
@@ -963,7 +963,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 350
+      sequence: 380
 
     accessibility: 
       value-identifies-row: false
@@ -994,7 +994,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 380
+      sequence: 400
 
     accessibility: 
       value-identifies-row: false
@@ -1309,15 +1309,31 @@ regions:
     id: 105503877989911915
     identification: 
       column-name: VALIDATION_FAILURE_MESSAGE
-      type: Display Only
+      type: HTML Expression
 
     heading: 
       heading: Validation Failure Message
       alignment: start
 
     settings: 
-      format: Plain Text
-      based-on: Item Value
+      html-expression: |
+        &VALIDATION_FAILURE_MESSAGE. 
+        <br/>
+        <span type="button" 
+             class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--warning t-Button--gapTop"
+             >   
+            Audit ID : &AUDIT_ID.
+        </span>
+        <span type="button" 
+              class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--danger t-Button--gapTop"
+              >
+            Urgency : &URGENCY.
+        </span>
+        <span type="button" 
+              class="t-Button t-Button--hot t-Button--tiny t-Button--success t-Button--gapTop"
+              >
+            Created &CREATED.
+        </span>
 
     layout: 
       sequence: 160
@@ -1333,19 +1349,6 @@ regions:
       data-type: VARCHAR2
       query-only: true
       primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -1364,7 +1367,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 400
+      sequence: 420
 
     accessibility: 
       value-identifies-row: false
@@ -1636,7 +1639,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 410
+      sequence: 430
 
     accessibility: 
       value-identifies-row: false
@@ -1667,7 +1670,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 420
+      sequence: 440
 
     accessibility: 
       value-identifies-row: false
@@ -1848,7 +1851,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 430
+      sequence: 450
 
     accessibility: 
       value-identifies-row: false
@@ -1883,7 +1886,7 @@ regions:
       html-expression: '&VIEW_BUTTON.'
 
     layout: 
-      sequence: 340
+      sequence: 370
       column-alignment: center
       stretch: Use Report Setting
 
@@ -1914,7 +1917,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 440
+      sequence: 460
 
     accessibility: 
       value-identifies-row: false
@@ -1989,7 +1992,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 450
+      sequence: 470
 
     accessibility: 
       value-identifies-row: false
@@ -2020,7 +2023,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 460
+      sequence: 480
 
     accessibility: 
       value-identifies-row: false
@@ -2099,7 +2102,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 390
+      sequence: 410
 
     accessibility: 
       value-identifies-row: false
@@ -2130,7 +2133,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 470
+      sequence: 490
 
     accessibility: 
       value-identifies-row: false
@@ -2158,7 +2161,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 480
+      sequence: 500
 
     accessibility: 
       value-identifies-row: false
@@ -2186,7 +2189,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 490
+      sequence: 510
 
     accessibility: 
       value-identifies-row: false
@@ -2268,7 +2271,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 510
+      sequence: 520
 
     accessibility: 
       value-identifies-row: false
@@ -2299,7 +2302,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 530
+      sequence: 540
 
     accessibility: 
       value-identifies-row: false
@@ -2330,7 +2333,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 540
+      sequence: 550
 
     accessibility: 
       value-identifies-row: false
@@ -2361,7 +2364,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 550
+      sequence: 560
 
     accessibility: 
       value-identifies-row: false
@@ -2392,7 +2395,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 560
+      sequence: 570
 
     accessibility: 
       value-identifies-row: false
@@ -2475,7 +2478,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 520
+      sequence: 530
 
     accessibility: 
       value-identifies-row: false
@@ -2519,7 +2522,7 @@ regions:
         </button>
 
     layout: 
-      sequence: 320
+      sequence: 350
       column-alignment: center
       stretch: Use Report Setting
 
@@ -2566,7 +2569,7 @@ regions:
         </button>
 
     layout: 
-      sequence: 330
+      sequence: 360
       column-alignment: center
       stretch: Use Report Setting
 
@@ -2718,7 +2721,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 610
+      sequence: 320
       column-alignment: start
       stretch: Use Report Setting
 
@@ -2769,12 +2772,12 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 630
+      sequence: 330
       column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     link: 
       target: 
@@ -2832,7 +2835,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 640
+      sequence: 340
       column-alignment: start
       stretch: Use Report Setting
 
@@ -4729,10 +4732,10 @@ computations:
     type: Item is NOT NULL
     item: P1_AUDIT_ID
 
-- # ====== Computation: LAST_VIEW ==============================
+- # ====== Computation: A_LAST_VIEW ============================
   id: 12003105357417809498
   identification: 
-    item-name: LAST_VIEW
+    item-name: A_LAST_VIEW
 
   execution: 
     sequence: 10

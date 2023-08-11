@@ -389,12 +389,12 @@ regions:
              std.component_id,
              std.parent_component_id,
              std.link_url,
-             --wwv_flow_utilities.prepare_url( std.link_url ) prepared_url,
              '<button type="button" 
                    class="a-Button edit-button t-Button t-Button--icon t-Button--hot t-Button--primary t-Button--noUI t-Button--iconLeft"
                    data-link="' ||
-             wwv_flow_utilities.prepare_url( std.link_url ) || '"' ||
-             --std.link_url|| '"' ||
+             --wwv_flow_utilities.prepare_url( std.link_url ) ||
+             std.link_url|| 
+             '"' ||
              case when :P14_COMPONENT_TYPE_ID is not null then
                ' data-appid="'       || std.application_id || '"' ||
                ' data-pageid="'      || std.page_id || '"' ||
@@ -1061,7 +1061,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -1733,7 +1733,7 @@ regions:
         column-alignment: center
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       blob-attributes: 
         table-owner: Parsing Schema
@@ -1896,51 +1896,32 @@ regions:
       id: 143451692807206731
       identification: 
         column-name: PUBLISH_BUTTON_HTML
-        type: Plain Text
+        type: Publish Test Button
 
       heading: 
         heading: Publish
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
+      settings: 
+        class: PUBLISH_CLSS
+        label: PUBLISH_TEXT
+        test-code: TEST_CODE
+
       layout: 
         sequence: 20
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
 
-      column-formatting: 
-        html-expression: |
-          <button type="button" 
-                  class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft publishRpt #PUBLISH_CLSS#"
-                  data-stdcd="#TEST_CODE#">
-          <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-print"></span>
-          #PUBLISH_TEXT#
-          </button>
-
       source: 
         primary-key: false
 
-      column-filter: 
-        type: Default Based on Column Type
-
       enable-users-to: 
         hide: false
-        sort: false
-        filter: false
-        highlight: false
-        control-break: false
-        aggregate: false
-        compute: false
-        chart: false
-        group-by: false
-        pivot: false
-
-      security: 
-        escape-special-characters: true
 
     - # ====== Column: DLCLSS ======================================
       id: 143452156346206736
@@ -3945,7 +3926,6 @@ dynamic-actions:
     event: EVENT.EVENT.BROWSER.CHANGE
     selection-type: Item(s)
     item(s): 
-    - P14_QUERY_CLOB
     - P14_SVT_COMPONENT_TYPE_ID
 
   execution: 
