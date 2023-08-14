@@ -53,9 +53,34 @@ help:
             <ol>
                 <li><h3>From Scratch</h3>
                     <ol>
-                        <li>Pick a unique, descriptive and brief 'test code' (no spaces or special characters)</li>
-                        <li>Describe the test in a short phrase. Terms like 'should' are encouraged.</li>
-                        <li>etc</li>
+                        <h4> On the Configuration tab </h4>
+                        <ol>
+                            <li>Pick a unique, descriptive and brief `test code` (no spaces or special characters)</li>
+                            <li>The `test name` should be short and descriptive. Terms like `should` are encouraged.</li>
+                            <li>`Urgency` defaults to `Medium`. Tests with at least this urgency gets counted in the application report.</li>
+                            <li>The `Standard Category` is an opportunity to organize your tests in a grouping that can easily be deployed as a unit.</li>
+                        </ol>
+                        <h4> On the Query tab </h4>
+                        <ol>
+                            <li>The `Component type` identifies the level at which a violation occurs and determines the destination of violation links.</li>
+                            <li>Tip: leave your query blank at the point of picking a `component type` and a starter query will be populated here. 
+                                The starter query, among other things, has the correct component id to enable the violation links to operate.
+                            </li>
+                        </ol>
+                        <h4> On the Live Test Results tab </h4>
+                        <ol>
+                            <li>After saving your initial test configuration, this tab will appear to preview the violations that your test will pick up.</li>
+                        </ol>
+                    </ol>
+                    <h3>As a duplicate of another test</h3>
+                    <ol>
+                        <li>Find a test off of whic you wish to base your test</li>
+                        <li>Follow the prompts from clicking `Duplicate`.</li>
+                    </ol>
+                    <h3>As an import</h3>
+                    <ol>
+                        <li>This option requires you to locate a JSON export of a test</li>
+                        <li>Navigate to the Standards page, click `Import Test(s)` and follow the prompts.</li>
                     </ol>
                 </li>
             </ol>
@@ -67,7 +92,7 @@ help:
                 </li>
                 <li><h5>Rerun</h5> This will simply run the audit, just as the scheduled job would.
                 </li>
-                <li><h5>Rerun</h5> This will simply run the audit, just as the scheduled job would.
+                <li><h5>Duplicate Test</h5> This will open a wizard to allow you to create a new test as a copy of the current test.
                 </li>
                  <li><h5>Current Violations</h5> This will re-direct to the home page with a filter on this violation
                 </li>
@@ -77,7 +102,7 @@ help:
             <ol>
                 <li><h3>For the 1st time</h3>
                     <p>
-                        On the `Configuration` tab, you will see that you test has a Version of 0. Click `Publish`. 
+                        On the `Configuration` tab, you will see that your test has a Version of 0. Click `Publish`. 
                         This will submit the page. After refresh, you will see that your test has progressed to Version 1.
                         Now, your test will automatically be published to the Git library via a scheduled job. 
                         If you want to export and share your test sooner, simply click 'Download'.
@@ -86,8 +111,8 @@ help:
                  <li><h3>Updating an already published test</h3>
                     <p>
                         On the `Configuration` tab, you will see that you test has a Version of 1 or more. 
-                        If you have made any changes to your test since publishing, you will see a `Publish` button. 
-                        If you click the `Pubish` button, this will submit the page and, after the refresh, you will see that 
+                        If you have made any changes to your test since publishing, you will see an `Update` button. 
+                        If you click the `Update` button, this will submit the page and, after the refresh, you will see that 
                         your version number has incremented upwards. This new version will automatically be published to the Git library via a scheduled job. 
                         If you want to export and share your test sooner, simply click 'Download'.
                     </p>
@@ -2573,7 +2598,15 @@ page-items:
       <ul>
           <li>validation_failure_message : human readable, long-form description of violation (for apex issue)</li>
           <li>issue_title : human readable, short-form description of violation (for apex issue)</li>
-          <li>component_id: the primary key of underlying component</li>
+          <li>component_id: the primary key of underlying component. It is very important to get this value correct</li>
+      </ul>
+      Recommendations:
+      <ul>
+          <li>Users should be able to get a pass for the violation by placing the components or its page 
+              under a build-option that excludes the component on export.
+          </li>
+          <li>The query should be predicated with a filter on the target workspace.
+          </li>
       </ul>
 
 - # ====== Page Item: P14_OWNER ================================
