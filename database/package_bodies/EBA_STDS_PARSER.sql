@@ -874,21 +874,39 @@ is
             raise;
     end seed_default_query;
 
-    function valid_html_yn (p_html in clob) return varchar2 
+    function valid_html_yn (p_html in clob) 
+    return varchar2 
+    deterministic
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'valid_html_yn';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    c_html constant clob := replace(p_html, '&');
+    c_html constant clob := replace(
+                            replace(
+                            lower(trim(p_html))
+                            , '&')
+                            , '<br>');
     l_xml xmltype;
     e_malformed_xml exception;
     pragma exception_init(e_malformed_xml, -31011);
+    l_skip_parse_yn varchar2(1) := gc_n;
     begin
         apex_debug.message(c_debug_template,'START', 'p_html', p_html);
 
-        select xmlparse(content c_html) as po
-        into l_xml 
-        from dual;
+        l_skip_parse_yn := case when c_html is null 
+                                then gc_y
+                                when c_html like '<input%'
+                                then gc_y
+                                when c_html like '<img%'
+                                then gc_y
+                                else gc_n
+                                end;
+
+        if l_skip_parse_yn = gc_n then
+            select xmlparse(content c_html) as po
+            into l_xml 
+            from dual;
+        end if;
 
         return gc_y;
     exception 

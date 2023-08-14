@@ -227,6 +227,8 @@ select case
   from apex_application_page_items a
  where DISPLAY_AS_CODE not in ('NATIVE_HIDDEN') )
 ;
+-- missing : ACC_BTN_UNQ
+
 
 --- Confirm all page items have valid label and no blank spaces;
 -- PI_VLD_LBL
@@ -239,6 +241,7 @@ select case
   from apex_application_page_items a
  where display_as_code not in ('NATIVE_HIDDEN') 
 ;
+
 
 set define off;
 --- Classic Report col header check - all columns have a header defined

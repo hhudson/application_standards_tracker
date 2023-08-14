@@ -239,7 +239,9 @@ from dual;
     from dual;
 */
 ------------------------------------------------------------------------------
-    function valid_html_yn (p_html in clob) return varchar2;
+    function valid_html_yn (p_html in clob) 
+    return varchar2
+    deterministic;
 
     e_subscript_beyond_count exception;
     pragma exception_init(e_subscript_beyond_count, -6533);
