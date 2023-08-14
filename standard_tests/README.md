@@ -5,7 +5,6 @@ These are standards to maintain Accessibility.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [C_COL_BAD_HTML](APEX_ACCESSIBILITY/tests/C_COL_BAD_HTML.json) |  Classic Columns have wellformed HTML | V1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [PG_NAME_TITLE](APEX_ACCESSIBILITY/tests/PG_NAME_TITLE.json) |  Pages have name, title and not a blank space | V1 | APEX_APPLICATION_PAGES |
 
 ## [APEX Broken Functionality](APEX_BROKEN_FUNCTIONALITY/STANDARD-APEX_BROKEN_FUNCTIONALITY.json)
