@@ -102,10 +102,10 @@ l_component_type_id v_svt_flow_dictionary_views.component_type_id%type;
 l_template_url      v_svt_flow_dictionary_views.link_url%type;
 begin
     eba_stds_parser.get_component_type_rec (
-                        p_id                => 11,
-                        p_component_name    => l_component_name,
-                        p_component_type_id => l_component_type_id,
-                        p_template_url      => l_template_url
+                        p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID, --11
+                        p_component_name        => l_component_name,
+                        p_component_type_id     => l_component_type_id,
+                        p_template_url          => l_template_url
                     );
     dbms_output.put_line('l_component_name :'||l_component_name);
     dbms_output.put_line('l_component_type_id :'||l_component_type_id);
