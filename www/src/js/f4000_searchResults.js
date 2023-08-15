@@ -9,8 +9,16 @@
 
 function getBuilderInstance() {
     // var bInstance = $( "#pInstance" ).val(); //this is wrong if you are running from the browser
-    var bInstance = apex.item("P0_APX_BLDR_SESSION").getValue(); //this is wrong if you are running from the browser
+    // var bInstance = apex.item("P0_APX_BLDR_SESSION").getValue(); //this is wrong if you are running from the browser
+    var bInstance = apex.util.getTopApex().item("P0_APX_BLDR_SESSION").getValue(); 
     apex.debug.info("getBuilderInstance :", bInstance);
+    
+    if (!bInstance) 
+    {
+        alert("Fatal error : Builder session is null!");
+    } else {
+        apex.debug.info("getBuilderInstance / sesssion :", bInstance);
+    }
     return bInstance;
     };
     

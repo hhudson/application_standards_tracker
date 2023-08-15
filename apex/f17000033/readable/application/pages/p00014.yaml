@@ -390,7 +390,7 @@ regions:
                                                               then a.object_name
                                                               end,
                               p_opt_parent_pk_value   => a.object_type,
-                              p_builder_session       => :APX_BLDR_SESSION
+                              p_builder_session       => :P0_APX_BLDR_SESSION
              ) link_url
       from svt_standard_view.v_svt(p_test_code => :P14_TEST_CODE, 
                                    p_failures_only => 'Y',
@@ -431,6 +431,8 @@ regions:
       from std
     page-items-to-submit: 
     - P14_COMPONENT_TYPE_ID
+    - P0_APX_BLDR_SESSION
+    - P14_TEMPLATE_URL
 
   layout: 
     sequence: 30
@@ -3665,15 +3667,18 @@ dynamic-actions:
 
     settings: 
       code: |
-        debugger;
+        // #APP_FILES#js/f4000_searchResults#MIN#.js
+        //debugger;
         apex.debug.info("DA click event");
         var appId, pageId, componentId, url, match,
         instance = getBuilderInstance(),
+        // instance = apex.util.getTopApex().item("P0_APX_BLDR_SESSION").getValue(),
         typeId = this.triggeringElement.dataset.typeid;  //btn$.attr( "data-typeid" );
         apex.debug.info("DA typeId", typeId);
         
         
         if ( typeId ) {
+            apex.debug.info("instance", instance);
             appId = this.triggeringElement.dataset.appid; //btn$.attr( "data-appid" );
             apex.debug.info("DA appId", appId);
             pageId = this.triggeringElement.dataset.pageid;  //btn$.attr( "data-pageid" );

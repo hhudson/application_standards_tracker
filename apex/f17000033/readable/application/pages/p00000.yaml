@@ -793,9 +793,9 @@ regions:
     html-code: You do not have an active builder session. Important functionality will not be operational until log into the workspace and re-launch this application again.
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_07
+    sequence: 20
+    parent-region: Builder # 148971613574209821
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1130,6 +1130,47 @@ regions:
     rewind-options: 
       rewind-style: Matching Page ID
 
+- # ====== Region: Builder =====================================
+  id: 148971613574209821
+  identification: 
+    title: Builder
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_07
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 page-items: 
 - # ====== Page Item: P0_APX_BLDR_SESSION ======================
   id: 42936391191017726
@@ -1138,11 +1179,11 @@ page-items:
     type: Hidden
 
   settings: 
-    value-protected: true
+    value-protected: false
 
   layout: 
     sequence: 10
-    region: Run from Builder # 91832964075854247
+    region: Builder # 148971613574209821
     position: BODY
 
   advanced: 
@@ -1159,7 +1200,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P0_SEARCH ================================
