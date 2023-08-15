@@ -39,7 +39,7 @@ create or replace package body SVT_DEPLOYMENT as
           %0,  
           columns ( %1 )  
         ) asrc
-        %3%5
+        %3%5%7
         %2) jn';
   c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
   l_query clob;
@@ -66,12 +66,14 @@ create or replace package body SVT_DEPLOYMENT as
       p4 => case when c_table_name in ('EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
                  end,
-      p5 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT' and p_standard_id is not null
-                 then apex_string.format(q'[where standard_id = %s ]', p_standard_id)
-                    ||q'[and published_yn = 'Y' and active_yn = 'Y' ]'
-                    -- and standard_active_yn = 'Y'
+      p5 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT'
+                 then q'[where published_yn = 'Y' and active_yn = 'Y' ]'
                  end,
-      p6 => p_datatype
+      p6 => p_datatype,
+      p7 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT' 
+                 and p_standard_id is not null
+                 then apex_string.format(q'[and standard_id = %s ]', p_standard_id)
+                 end
     );
     
     return l_query;
