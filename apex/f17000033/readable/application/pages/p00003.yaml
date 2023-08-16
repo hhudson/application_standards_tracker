@@ -51,9 +51,33 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
+      select ess.id,
+             ess.standard_name standard,
+             case when ess.active_yn = 'Y'
+                  then 'Yes'
+                  else 'No'
+                  end active_yn,
+             ess.standard_name card_title,
+             ess.description card_text,
+             apex_string.get_initials(ess.standard_name) card_initials,
+             apex_string.format('%s active test(s)', coalesce(esst.test_count,0)) card_subtext,
+             esst.test_count,
+             apex_page.get_url (
+                  p_page   => 5,
+                  p_items  => 'P5_ID',
+                  p_values => ess.ID ) card_link,
+             ess.compatibility_mode,
+             apex_string.format('APEX Version %s', ess.compatibility_mode) card_subtitle
+        from eba_stds_standards ess
+        left outer join 
+        (select standard_id, count(*) test_count
+          from eba_stds_standard_tests
+          where active_yn ='Y'
+          group by standard_id) esst on esst.standard_id = ess.id
+      union all
       select null id,
-              'All' STANDARD,
-              'Y' ACTIVE_YN,
+             'All' standard,
+             'Yes' active_yn,
              'All' card_title,
              'View all the tests' card_text,
              'ALL' card_initials,
@@ -62,30 +86,12 @@ regions:
              apex_page.get_url (
                   p_page   => 5,
                   p_items  => 'P5_ID',
-                  p_values => null ) card_link
+                  p_values => null ) card_link,
+             null compatibility_mode,
+             null card_subtitle
       from (select count(*) test_count
               from eba_stds_standard_tests
               where active_yn ='Y') esst
-      union all 
-      select ess.ID,
-             ess.STANDARD_NAME standard,
-             ess.active_yn,
-             ess.STANDARD_NAME card_title,
-             ess.DESCRIPTION card_text,
-             apex_string.get_initials(ess.STANDARD_NAME) CARD_INITIALS,
-             apex_string.format('%s active test(s)', coalesce(esst.test_count,0)) CARD_SUBTEXT,
-             esst.test_count,
-             APEX_PAGE.GET_URL (
-                  p_page   => 5,
-                  p_items  => 'P5_ID',
-                  p_values => ess.ID ) card_link
-        from EBA_STDS_STANDARDS ess
-        left outer join 
-        (select standard_id, count(*) test_count
-          from eba_stds_standard_tests
-          where active_yn ='Y'
-          group by standard_id) esst on esst.standard_id = ess.id
-        
 
   layout: 
     sequence: 50
@@ -98,13 +104,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Cards Container # 50151743582329207
     template-options: 
-    - '#DEFAULT#'
-    - t-Region--noPadding
-    - t-Region--hideHeader
-    - t-Region--noBorder
-    - t-Region--scrollBody
+    - u-colors
+    - t-CardsRegion--styleC
     render-components: Above Content
 
   accessibility: 
@@ -132,6 +135,7 @@ regions:
       template-options: 
       - '#DEFAULT#'
       - u-colors
+      - t-Cards--displaySubtitle
       - t-Cards--basic
       - t-Cards--displayInitials
       - t-Cards--3cols
@@ -300,7 +304,7 @@ regions:
     id: 53393751590964829
     identification: 
       column-name: ACTIVE_YN
-      type: Plain Text (based on List of Values)
+      type: Plain Text
 
     heading: 
       heading: Active
@@ -312,10 +316,6 @@ regions:
 
     accessibility: 
       value-identifies-row: false
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: YES NO # 10458821105493383260
 
     sorting: 
       sortable: true
@@ -445,6 +445,70 @@ regions:
     security: 
       escape-special-characters: true
 
+  - # ====== Column: CARD_SUBTITLE ===============================
+    id: 148972609969209831
+    identification: 
+      column-name: CARD_SUBTITLE
+      type: Plain Text
+
+    heading: 
+      heading: Card Subtitle
+      alignment: start
+
+    layout: 
+      sequence: 114
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_MODE ==========================
+    id: 148972760862209832
+    identification: 
+      column-name: COMPATIBILITY_MODE
+      type: Plain Text
+
+    heading: 
+      heading: Compatibility Mode
+      alignment: start
+
+    layout: 
+      sequence: 124
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Search ======================================
   id: 106736289757503815
   identification: 
@@ -468,8 +532,6 @@ regions:
     template: Standard # 7573670342594143998
     template-options: 
     - '#DEFAULT#'
-    - t-Region--noPadding
-    - t-Region--hideHeader
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -546,7 +608,7 @@ regions:
 
     default: 
       type: Static
-      static-value: Y
+      static-value: Yes
 
     security: 
       store-value-encrypted-in-session-state: true
@@ -585,22 +647,16 @@ regions:
       show-label-for-current-facet: true
 
     layout: 
-      sequence: 30
+      sequence: 40
 
     list-of-values: 
       type: Distinct Values
       include-null-option: false
 
     list-entries: 
-      compute-counts: true
-      show-counts: true
-      zero-count-entries: Hide
-
-    actions-menu: 
-      chart: true
+      compute-counts: false
 
     advanced: 
-      show-chart-initially: false
       display-toggling: false
       collapsible: false
 
@@ -613,6 +669,56 @@ regions:
 
     security: 
       store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P3_COMPATIBILITY =============================
+    id: 148972556800209830
+    identification: 
+      name: P3_COMPATIBILITY
+      type: Radio Group
+
+    label: 
+      label: Compatibility
+      show-label-for-current-facet: true
+
+    settings: 
+      hide-radio-buttons: false
+
+    layout: 
+      sequence: 30
+
+    list-of-values: 
+      type: Distinct Values
+      include-null-option: true
+      null-display-value: All
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      display-toggling: false
+      collapsible: false
+
+    source: 
+      database-column: COMPATIBILITY_MODE
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
 
   filters: 
   - # ====== Filter: P3_ACTIVE ===================================
@@ -651,7 +757,7 @@ regions:
 
     default: 
       type: Static
-      static-value: Y
+      static-value: Yes
 
     security: 
       store-value-encrypted-in-session-state: true
@@ -689,16 +795,14 @@ regions:
       label: Standard
 
     layout: 
-      sequence: 30
+      sequence: 40
 
     list-of-values: 
       type: Distinct Values
       include-null-option: false
 
     list-entries: 
-      compute-counts: true
-      show-counts: true
-      zero-count-entries: Hide
+      compute-counts: false
 
     suggestions: 
       type: None
@@ -712,6 +816,45 @@ regions:
 
     security: 
       store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P3_COMPATIBILITY ============================
+    id: 148972556800209830
+    identification: 
+      name: P3_COMPATIBILITY
+      type: Radio Group
+
+    label: 
+      label: Compatibility
+
+    layout: 
+      sequence: 30
+
+    list-of-values: 
+      type: Distinct Values
+      include-null-option: true
+      null-display-value: All
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: COMPATIBILITY_MODE
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
 
 - # ====== Region: Button Bar ==================================
   id: 106754371261524786
@@ -780,6 +923,239 @@ regions:
     template-options: 
     - '#DEFAULT#'
     - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Download Rpt ================================
+  id: 302497629343667721
+  identification: 
+    title: Download Rpt
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_DOWNLOAD_ALL_STANDARDS
+    include-rowid-column: false
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 50
+    parent-region: Download region # 307981722545988094
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7573676953099144016
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    messages: 
+      when-no-data-found: No up-to-date, published tests exist
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: FILE_SIZE ===================================
+    id: 159808597456174494
+    identification: 
+      column-name: FILE_SIZE
+      type: Download BLOB
+
+    heading: 
+      heading: Export Standard
+      alignment: end
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: true
+
+    blob-attributes: 
+      table-owner: Parsing Schema
+      table-name: V_DOWNLOAD_ALL_STANDARDS
+      blob-column: FILE_BLOB
+      primary-key-column-1: FILE_SIZE
+      mime-type-column: MIME_TYPE
+      filename-column: FILE_NAME
+      character-set-column: CHARACTER_SET
+
+    appearance: 
+      download-text: Download up-to-date & published tests   <span class="fa fa-download" aria-hidden="true"></span>
+      content-disposition: Attachment
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+  - # ====== Column: FILE_BLOB ===================================
+    id: 159808900708174494
+    identification: 
+      column-name: FILE_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 140
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MIME_TYPE ===================================
+    id: 159809346685174495
+    identification: 
+      column-name: MIME_TYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 150
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_NAME ===================================
+    id: 159809770624174495
+    identification: 
+      column-name: FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 160
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CHARACTER_SET ===============================
+    id: 159810196558174495
+    identification: 
+      column-name: CHARACTER_SET
+      type: Hidden Column
+
+    layout: 
+      sequence: 170
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Download region =============================
+  id: 307981722545988094
+  identification: 
+    title: Download region
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Footer # 142991877472948628
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
     render-components: Above Content
 
   accessibility: 
@@ -988,6 +1364,38 @@ buttons:
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
+- # ====== Button: REFRESH =====================================
+  id: 159803096527174487
+  identification: 
+    button-name: REFRESH
+    label: Refresh
+
+  layout: 
+    sequence: 10
+    region: Download region # 307981722545988094
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-refresh
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Button: CREATE_STANDARD =============================
   id: 7561466994380108836

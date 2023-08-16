@@ -328,7 +328,7 @@ regions:
       character-set-column: CHARACTER_SET
 
     appearance: 
-      download-text: Download up-to-date & published `&P5_STANDARD.` tests   <span class="fa fa-download" aria-hidden="true"></span>
+      download-text: Download up-to-date & published `&P5_STANDARD_NAME.` tests   <span class="fa fa-download" aria-hidden="true"></span>
       content-disposition: Attachment
 
     sorting: 
@@ -480,7 +480,7 @@ regions:
     - P5_ID
 
   layout: 
-    sequence: 70
+    sequence: 80
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -1935,7 +1935,7 @@ regions:
     type: Translated Message
 
   layout: 
-    sequence: 10
+    sequence: 30
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -1983,20 +1983,19 @@ regions:
 
   source: 
     location: Local Database
-    type: SQL Query
-    sql-query: |
-      select std.id,
-          std.standard_name standard,
-          std.description,
-          std.primary_developer,
-          std.date_started,
-          std.created,
-          std.created_by
-      from eba_stds_standards std
-      where std.id = :P5_ID
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARDS
+    include-rowid-column: false
+    where-clause: 'id = :P5_ID'
+    page-items-to-submit: 
+    - P5_ID
+
+  order-by: 
+    type: None
 
   layout: 
-    sequence: 30
+    sequence: 60
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -2069,6 +2068,128 @@ regions:
       enabled: false
 
   columns: 
+  - # ====== Column: STANDARD_NAME ===============================
+    id: 148972853705209833
+    identification: 
+      column-name: STANDARD_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 17
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: IMPLEMENTATION ==============================
+    id: 148972989429209834
+    identification: 
+      column-name: IMPLEMENTATION
+      type: Hidden Column
+
+    layout: 
+      sequence: 27
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED =====================================
+    id: 148973078615209835
+    identification: 
+      column-name: UPDATED
+      type: Hidden Column
+
+    layout: 
+      sequence: 37
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED_BY ==================================
+    id: 148973157253209836
+    identification: 
+      column-name: UPDATED_BY
+      type: Hidden Column
+
+    layout: 
+      sequence: 47
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_GROUP ==============================
+    id: 148973279791209837
+    identification: 
+      column-name: STANDARD_GROUP
+      type: Hidden Column
+
+    layout: 
+      sequence: 57
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIVE_YN ===================================
+    id: 148973359342209838
+    identification: 
+      column-name: ACTIVE_YN
+      type: Hidden Column
+
+    layout: 
+      sequence: 67
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_MODE ==========================
+    id: 148973429778209839
+    identification: 
+      column-name: COMPATIBILITY_MODE
+      type: Plain Text
+
+    heading: 
+      heading: Compatibility Mode
+      alignment: start
+
+    layout: 
+      sequence: 77
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: ID ==========================================
     id: 7561456584151065569
     identification: 
@@ -2107,21 +2228,6 @@ regions:
 
     layout: 
       sequence: 3
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: STANDARD ====================================
-    id: 7561460196032077606
-    identification: 
-      column-name: STANDARD
-      type: Hidden Column
-
-    layout: 
-      sequence: 4
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -2211,6 +2317,58 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: Manage Standard =============================
+  id: 7722092720206959682
+  identification: 
+    title: Manage Standard
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARDS
+    include-rowid-column: false
+
+  layout: 
+    sequence: 90
+    parent-region: Hidden Items # 7561455298262065562
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
 page-items: 
 - # ====== Page Item: P5_TEST_CODE =============================
   id: 143453247760206747
@@ -2272,6 +2430,349 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P5_ACTIVE_YN =============================
+  id: 213911273962833164
+  identification: 
+    name: P5_ACTIVE_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 130
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: ACTIVE_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: Y
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: If inactive, the associated tests will not be run automatically
+
+- # ====== Page Item: P5_DESCRIPTION ===========================
+  id: 276270643071634280
+  identification: 
+    name: P5_DESCRIPTION
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: DESCRIPTION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Detailed description of your standard
+
+- # ====== Page Item: P5_IMPLEMENTATION ========================
+  id: 276270702614634281
+  identification: 
+    name: P5_IMPLEMENTATION
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 60
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: IMPLEMENTATION
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_CREATED ===============================
+  id: 276270806005634282
+  identification: 
+    name: P5_CREATED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 70
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: CREATED
+    data-type: TIMESTAMP WITH LOCAL TIME ZONE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_CREATED_BY ============================
+  id: 276270902766634283
+  identification: 
+    name: P5_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 80
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_UPDATED ===============================
+  id: 276271049764634284
+  identification: 
+    name: P5_UPDATED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 90
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: UPDATED
+    data-type: TIMESTAMP WITH LOCAL TIME ZONE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_UPDATED_BY ============================
+  id: 276271083502634285
+  identification: 
+    name: P5_UPDATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 100
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_STANDARD_GROUP ========================
+  id: 276271197528634286
+  identification: 
+    name: P5_STANDARD_GROUP
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 110
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: STANDARD_GROUP
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_STANDARD_NAME =========================
+  id: 299984596617364960
+  identification: 
+    name: P5_STANDARD_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: STANDARD_NAME
+    data-type: VARCHAR2
+    query-only: true
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Give your standard a descriptive name
+
+- # ====== Page Item: P5_COMPATIBILITY_MODE ====================
+  id: 321240552927672751
+  identification: 
+    name: P5_COMPATIBILITY_MODE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: COMPATIBILITY_MODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P5_ID ====================================
   id: 7561455492187065562
   identification: 
@@ -2283,15 +2784,18 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Hidden Items # 7561455298262065562
+    region: Manage Standard # 7722092720206959682
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    type: Null
-    used: Only when current value in session state is null
+    form-region: Manage Standard # 7722092720206959682
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
 
   session-state: 
     data-type: VARCHAR2
@@ -2302,40 +2806,10 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P5_APPLICATION_ID ========================
-  id: 7572582101356937034
+- # ====== Page Item: P5_PRIMARY_DEVELOPER =====================
+  id: 7722095256989959701
   identification: 
-    name: P5_APPLICATION_ID
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 20
-    region: Hidden Items # 7561455298262065562
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P5_STANDARD ==============================
-  id: 7655768656944225447
-  identification: 
-    name: P5_STANDARD
+    name: P5_PRIMARY_DEVELOPER
     type: Hidden
 
   settings: 
@@ -2343,24 +2817,71 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Hidden Items # 7561455298262065562
+    region: Manage Standard # 7722092720206959682
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    type: Null
-    used: Only when current value in session state is null
+    form-region: Manage Standard # 7722092720206959682
+    column: PRIMARY_DEVELOPER
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Session (Persistent)
+    storage: Per Request (Memory Only)
 
   security: 
     session-state-protection: Checksum Required - Application Level
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: This developer is the primary resource for pursuing this standard
+
+- # ====== Page Item: P5_DATE_STARTED ==========================
+  id: 7722095664266959702
+  identification: 
+    name: P5_DATE_STARTED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: DATE_STARTED
+    data-type: TIMESTAMP WITH LOCAL TIME ZONE
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: 'to_char(localtimestamp,:APP_DATE_TIME_FORMAT)'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Application Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Date when the standard was created
 
 buttons: 
 - # ====== Button: take_snapshot ===============================
@@ -2910,28 +3431,24 @@ computations:
 
   execution: 
     sequence: 30
-    point: Before Header
+    point: After Header
 
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: "coalesce(:P5_STANDARD,'All')"
-
-- # ====== Computation: P5_STANDARD ============================
-  id: 7655768881301229252
-  identification: 
-    item-name: P5_STANDARD
-
-  execution: 
-    sequence: 10
-    point: Before Header
-
-  computation: 
-    type: SQL Query (return single value)
-    sql-query: |
-      select s.standard_name
-      from eba_stds_standards s
-      where s.id = :P5_ID
+    pl/sql-expression: |
+      case when :P5_STANDARD_NAME is null 
+           then 'All'
+           else :P5_STANDARD_NAME
+           end
+           ||
+      case when :P5_COMPATIBILITY_MODE is not null
+           then apex_string.format(' (APEX v%s)', :P5_COMPATIBILITY_MODE)
+           end
+           ||
+      case when :P5_ACTIVE_YN = 'N'
+           then ' [INACTIVE]'
+           end
 
 - # ====== Computation: A_LAST_VIEW ============================
   id: 7721080881438506010
@@ -2977,6 +3494,19 @@ processes:
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== Process: Fetch Row from EBA_STDS_STANDARDS ==========
+  id: 160609610235813906
+  identification: 
+    name: Fetch Row from EBA_STDS_STANDARDS
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Manage Standard # 7722092720206959682
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
 
 - # ====== Process: clear standard _id =========================
   id: 8194366720783349821

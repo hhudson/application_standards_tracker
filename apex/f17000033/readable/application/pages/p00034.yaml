@@ -856,7 +856,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Preview # 139379674873261900
     position: BODY
 
@@ -891,6 +891,36 @@ page-items:
   layout: 
     sequence: 30
     region: Loaded File # 139378056436261899
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_STANDARD_COUNT =======================
+  id: 148972011527209825
+  identification: 
+    name: P34_STANDARD_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 20
+    region: Preview # 139379674873261900
     position: BODY
 
   advanced: 
@@ -1149,6 +1179,45 @@ dynamic-actions:
       suppress-change-event: false
 
     execution: 
+      sequence: 30
+      event: extract values # 148178441183813614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: ':P34_ROW_COUNT > 1 and :P34_STANDARD_COUNT = 1'
+
+  - # ====== Action: set standard_count ==========================
+    id: 148972178952209826
+    identification: 
+      name: set standard_count
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        with stds as (
+            select distinct p.col007
+              from apex_application_temp_files f, 
+                   table( apex_data_parser.parse(
+                              p_content           => f.blob_content,
+                              p_file_name         => f.filename,
+                              p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                              p_max_rows          => 100 ) ) p
+             where f.name = :P34_FILE
+        )
+        select count(*)
+        into :P34_STANDARD_COUNT
+        from stds;
+      items-to-return: 
+      - P34_STANDARD_COUNT
+      suppress-change-event: false
+
+    execution: 
       sequence: 20
       event: extract values # 148178441183813614
       fire-when-event-result-is: True
@@ -1232,36 +1301,6 @@ computations:
                         p_max_rows          => 100 ) ) p
        where f.name = :P34_FILE
 
-- # ====== Computation: P34_STANDARD_ID ========================
-  id: 142990799335948617
-  identification: 
-    item-name: P34_STANDARD_ID
-
-  execution: 
-    sequence: 30
-    point: Before Regions
-
-  computation: 
-    type: SQL Query (return single value)
-    sql-query: |
-      select p.col007
-        from apex_application_temp_files f, 
-             table( apex_data_parser.parse(
-                        p_content           => f.blob_content,
-                        p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
-                        p_max_rows          => 3 ) ) p
-       where f.name = :P34_FILE
-       fetch first 1 rows only
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ':P34_ROW_COUNT > 1'
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
-
 processes: 
 - # ====== Process: Load Data ==================================
   id: 139374850829261896
@@ -1335,10 +1374,10 @@ branches:
     language: PL/SQL
     pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_TEST_CODE is not null and :P34_PROCESSED_ROW_COUNT = 1'
 
-- # ====== Branch: go to page 17 ===============================
+- # ====== Branch: go to page 17 (1 standard) ==================
   id: 142750757444835319
   identification: 
-    name: go to page 17
+    name: go to page 17 (1 standard)
 
   execution: 
     sequence: 20
@@ -1358,4 +1397,26 @@ branches:
     type: Expression
     language: PL/SQL
     pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_STANDARD_ID is not null and :P34_PROCESSED_ROW_COUNT > 0'
+
+- # ====== Branch: go to page 17 (all tests) ===================
+  id: 148972217079209827
+  identification: 
+    name: go to page 17 (all tests)
+
+  execution: 
+    sequence: 30
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:RR,17::&success_msg=#SUCCESS_MSG#'
+      page: 17 # EBA_STDS_TESTS_LIB
+      clear-cache: RR,17
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 139374373993261896
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_STANDARD_COUNT > 1 and :P34_PROCESSED_ROW_COUNT > 0'
 
