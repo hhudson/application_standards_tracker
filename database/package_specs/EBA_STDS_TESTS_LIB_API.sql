@@ -163,6 +163,36 @@ from dual
    function current_md5(p_test_code in eba_stds_tests_lib.test_code%type)
    return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 16, 2023
+-- Synopsis:
+--
+-- Procedure to get the md5 and version number for a given test_code 
+--
+/*
+set serveroutput on
+declare
+p_test_code eba_stds_tests_lib.test_code%type := 'RW_BUTTON_PLACEMENT';
+l_md5 varchar2(250);
+l_version_number  eba_stds_tests_lib.version_number%type;
+begin
+    EBA_STDS_TESTS_LIB_API.md5_imported_vsn_num (
+                p_test_code      => p_test_code,
+                p_md5            => l_md5,
+                p_version_number => l_version_number
+        );
+    dbms_output.put_line('l_md5 :'||l_md5);
+    dbms_output.put_line('l_version_number :'||l_version_number);
+end;
+*/
+------------------------------------------------------------------------------
+   procedure md5_imported_vsn_num (
+                p_test_code      in  eba_stds_tests_lib.test_code%type,
+                p_md5            out nocopy varchar2,
+                p_version_number out nocopy eba_stds_tests_lib.version_number%type
+   );
+
 end EBA_STDS_TESTS_LIB_API;
 /
 --rollback drop package EBA_STDS_TESTS_LIB_API;

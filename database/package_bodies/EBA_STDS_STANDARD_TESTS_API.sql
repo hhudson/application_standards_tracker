@@ -535,7 +535,23 @@ create or replace package body eba_stds_standard_tests_api as
                                           p_explanation           => l_aat (rec).explanation,
                                           p_fix                   => l_aat (rec).fix
                                       );
+        l_lib_md5 varchar2(250);
+        l_lib_version_number eba_stds_tests_lib.version_number%type;
+        l_published_yn varchar2(1) := gc_n;
         begin
+        eba_stds_tests_lib_api.md5_imported_vsn_num (
+                p_test_code      => l_aat (rec).test_code,
+                p_md5            => l_lib_md5,
+                p_version_number => l_lib_version_number
+        );
+        l_published_yn := case  when l_aat (rec).active_yn = gc_n
+                                then gc_n
+                                when l_lib_md5 is null 
+                                then gc_n
+                                when c_md5 = l_lib_md5
+                                then gc_y
+                                else gc_n
+                                end;
         pipe row (v_eba_stds_standard_tests_ot (
                       l_aat (rec).standard_id,
                       l_aat (rec).test_id,
@@ -561,7 +577,15 @@ create or replace package body eba_stds_standard_tests_api as
                       apex_string.format('%s.json',upper(l_aat (rec).test_code)), --FILE_NAME
                       c_character_set,
                       l_aat (rec).version_number,
-                      c_md5 --  RECORD_MD5
+                      'V'||l_aat (rec).version_number, --VSN
+                      c_md5, --  RECORD_MD5
+                      l_lib_md5, --LIB_MD5
+                      l_lib_version_number, --LIB_IMPORTED_VERSION
+                      l_published_yn, --PUBLISHED_YN
+                      case when l_published_yn = gc_n
+                           then 'hide'
+                           else 'show t-Button t-Button--icon t-Button--simple'
+                           end --DOWNLOAD_CSS
                     )
                 );
           end load_block;

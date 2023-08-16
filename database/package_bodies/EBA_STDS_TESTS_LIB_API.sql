@@ -268,21 +268,24 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
       raise;
    end get_id;
 
-  function current_md5(p_test_code in eba_stds_tests_lib.test_code%type)
-  return varchar2
+  procedure md5_imported_vsn_num (
+                p_test_code      in  eba_stds_tests_lib.test_code%type,
+                p_md5            out nocopy varchar2,
+                p_version_number out nocopy eba_stds_tests_lib.version_number%type
+              )
   as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'current_md5';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'md5_imported_vsn_num';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_lib_rec eba_stds_tests_lib%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
-
+  
     select *
     into l_lib_rec
     from eba_stds_tests_lib
     where test_code = p_test_code;
 
-    return eba_stds_standard_tests_api.build_test_md5(
+    p_md5 := eba_stds_standard_tests_api.build_test_md5(
                       l_lib_rec.standard_id,
                       l_lib_rec.test_name,
                       l_lib_rec.query_clob,
@@ -295,6 +298,34 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                       l_lib_rec.fix
                   );
 
+    p_version_number := l_lib_rec.version_number;
+  
+  exception 
+    when no_data_found then
+      apex_debug.message(c_debug_template, 'no data found', p_test_code);
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end md5_imported_vsn_num;
+
+  function current_md5(p_test_code in eba_stds_tests_lib.test_code%type)
+  return varchar2
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'current_md5';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_md5 varchar2(250);
+  l_version_number eba_stds_tests_lib.version_number%type;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
+
+    md5_imported_vsn_num (
+                p_test_code      => p_test_code,
+                p_md5            => l_md5,
+                p_version_number => l_version_number
+              );
+    
+    return l_md5;
+
   exception 
     when no_data_found then
       return null;
@@ -302,6 +333,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end current_md5;
+
 
 end EBA_STDS_TESTS_LIB_API;
 /

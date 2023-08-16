@@ -42,7 +42,12 @@
         FILE_NAME               VARCHAR2(4000), 
         CHARACTER_SET           CHAR(5),
         VERSION_NUMBER          NUMBER,
-        RECORD_MD5              VARCHAR2(250)
+        VSN                     VARCHAR2(5),
+        RECORD_MD5              VARCHAR2(250),
+        LIB_MD5                 VARCHAR2(250),
+        LIB_IMPORTED_VERSION    NUMBER,
+        PUBLISHED_YN            VARCHAR2(1),
+        DOWNLOAD_CSS            VARCHAR2(50)
     )
 /
 --rollback drop type V_EBA_STDS_STANDARD_TESTS_OT;
