@@ -66,7 +66,7 @@ from dual;
 /*
 select audit_id, test_id,
        eba_stds_parser.build_url(
-                        p_svt_component_type_id => SVT_component_type_id,
+                        p_svt_component_type_id => svt_component_type_id,
                         p_app_id                => application_id,
                         p_page_id               => page_id,
                         p_pk_value              => component_id,
@@ -203,7 +203,7 @@ end;
 --     Date: May 30, 2023
 -- Synopsis:
 --
--- Function to return a default query, given an SVT_component_type_id
+-- Function to return a default query, given an svt_component_type_id
 --
 /*
 select eba_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID) stmt

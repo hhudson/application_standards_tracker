@@ -97,7 +97,7 @@ end;
                        p_active_yn             in eba_stds_standard_tests.active_yn%type,
                        p_level_id              in eba_stds_standard_tests.level_id%type,
                        p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-                       p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
+                       p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                        p_explanation           in eba_stds_standard_tests.explanation%type,
                        p_fix                   in eba_stds_standard_tests.fix%type,
                        p_version_number        in eba_stds_standard_tests.version_number%type default null)
@@ -137,7 +137,7 @@ end;
                         p_active_yn             in eba_stds_standard_tests.active_yn%type,
                         p_level_id              in eba_stds_standard_tests.level_id%type,
                         p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-                        p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
+                        p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                         p_explanation           in eba_stds_standard_tests.explanation%type,
                         p_fix                   in eba_stds_standard_tests.fix%type,
                         p_version_number        in eba_stds_standard_tests.version_number%type default null);
@@ -158,7 +158,7 @@ select eba_stds_standard_tests_api.build_test_md5 (
         p_active_yn             => esst.active_yn,
         p_level_id              => esst.level_id,
         p_mv_dependency         => esst.mv_dependency,
-        p_svt_component_type_id => esst.SVT_component_type_id,
+        p_svt_component_type_id => esst.svt_component_type_id,
         p_explanation           => esst.explanation,
         p_fix                   => esst.fix
     ) esst_md5
@@ -173,7 +173,7 @@ from eba_stds_standard_tests esst;
       p_active_yn             in eba_stds_standard_tests.active_yn%type,
       p_level_id              in eba_stds_standard_tests.level_id%type,
       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-      p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
+      p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
       p_explanation           in eba_stds_standard_tests.explanation%type,
       p_fix                   in eba_stds_standard_tests.fix%type
   ) return varchar2;
@@ -216,7 +216,7 @@ end;
                           p_active_yn             in eba_stds_standard_tests.active_yn%type,
                           p_level_id              in eba_stds_standard_tests.level_id%type,
                           p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
-                          p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type,
+                          p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                           p_explanation           in eba_stds_standard_tests.explanation%type,
                           p_fix                   in eba_stds_standard_tests.fix%type,
                           p_version_number        in eba_stds_standard_tests.version_number%type);

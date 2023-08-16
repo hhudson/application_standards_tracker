@@ -926,7 +926,7 @@ create or replace package body SVT_STANDARD_VIEW as
   end improve_error_msg;
 
   function query_feedback (p_query_code            in eba_stds_standard_tests.query_clob%type,
-                           p_svt_component_type_id in eba_stds_standard_tests.SVT_component_type_id%type)
+                           p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type)
   return varchar2
   is 
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'query_feedback';
