@@ -493,13 +493,20 @@ begin
   end get_standard_id;
 
 
-  function v_eba_stds_standard_tests (p_standard_id in eba_stds_standard_tests.standard_id%type default null)
+  function v_eba_stds_standard_tests (
+                p_standard_id        in eba_stds_standard_tests.standard_id%type default null,
+                p_active_yn          in eba_stds_standard_tests.active_yn%type default null,
+                p_published_yn       in varchar2 default null,
+                p_standard_active_yn in varchar2 default null
+            )
   return v_eba_stds_standard_tests_nt pipelined
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'v_eba_stds_standard_tests';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
 
-  cursor cur_aa (p_std_id in number)
+  cursor cur_aa (p_std_id          in number,
+                 p_active          in varchar2,
+                 p_standard_active in varchar2)
   is 
   select o.standard_id,
          o.test_id,
@@ -522,7 +529,9 @@ begin
          o.version_number,
          'N' inherited_yn
   from v_eba_stds_standard_tests o
-  where standard_id = p_std_id or p_std_id is null
+  where (o.standard_id = p_std_id or p_std_id is null)
+  and   (o.active_yn = p_active or p_active is null)
+  and   (o.standard_active_yn = p_standard_active or p_standard_active is null)
   union all
   select i.standard_id,
          i.test_id,
@@ -547,7 +556,9 @@ begin
   from v_eba_stds_standard_tests i
   inner join eba_stds_inherited_tests esit on i.test_id = esit.test_id
                                            and i.standard_id = esit.parent_standard_id
-                                           and esit.standard_id = p_std_id;
+                                           and esit.standard_id = p_std_id
+  where (i.active_yn = p_active or p_active is null)
+  and   (i.standard_active_yn = p_standard_active or p_standard_active is null);
 
   type r_aa is record (
     standard_id             number,
@@ -575,16 +586,16 @@ begin
   l_aat t_aa;
 
   begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_active_yn', p_active_yn,
+                                        'p_published_yn', p_published_yn,
+                                        'p_standard_active_yn', p_standard_active_yn
+                                        );
 
-    <<parent_std>>
-    declare
-    c_std_rec eba_stds_standards%rowtype := eba_stds_standards_api.get_rec (p_standard_id => 1);
-    begin
-      apex_debug.message(c_debug_template, 'parent standard id : ', c_std_rec.parent_standard_id);
-    end parent_std;
-
-    open cur_aa (p_std_id => p_standard_id);
+    open cur_aa (p_std_id          => p_standard_id,
+                 p_active          => p_active_yn,
+                 p_standard_active => p_standard_active_yn);
 
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;
@@ -615,6 +626,7 @@ begin
         l_lib_md5 varchar2(250);
         l_lib_version_number eba_stds_tests_lib.version_number%type;
         l_published_yn varchar2(1) := gc_n;
+        l_piperow_yn varchar2(1) := gc_y;
         begin
         eba_stds_tests_lib_api.md5_imported_vsn_num (
                 p_test_code      => l_aat (rec).test_code,
@@ -629,7 +641,19 @@ begin
                                 then gc_y
                                 else gc_n
                                 end;
-        pipe row (v_eba_stds_standard_tests_ot (
+        l_piperow_yn := case when p_published_yn is null 
+                             then gc_y 
+                             when p_published_yn = gc_n
+                             then case when l_published_yn = gc_n
+                                       then gc_y
+                                       else gc_n
+                                       end
+                             when p_published_yn = gc_y
+                             then l_published_yn
+                             else gc_y 
+                             end;
+        if l_piperow_yn = gc_y then 
+          pipe row (v_eba_stds_standard_tests_ot (
                       l_aat (rec).standard_id,
                       l_aat (rec).test_id,
                       l_aat (rec).level_id,
@@ -666,6 +690,7 @@ begin
                       l_aat (rec).inherited_yn --inherited_yn
                     )
                 );
+              end if;
           end load_block;
       end loop;
     end loop;  

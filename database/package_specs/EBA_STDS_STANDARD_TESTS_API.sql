@@ -360,7 +360,12 @@ select *
 from eba_stds_standard_tests_api.v_eba_stds_standard_tests()
 */
 ------------------------------------------------------------------------------
-  function v_eba_stds_standard_tests (p_standard_id in eba_stds_standard_tests.standard_id%type default null)
+  function v_eba_stds_standard_tests (
+                     p_standard_id        in eba_stds_standard_tests.standard_id%type default null,
+                     p_active_yn          in eba_stds_standard_tests.active_yn%type default null,
+                     p_published_yn       in varchar2 default null,
+                     p_standard_active_yn in varchar2 default null
+              )
   return v_eba_stds_standard_tests_nt pipelined;
 
 end eba_stds_standard_tests_api;

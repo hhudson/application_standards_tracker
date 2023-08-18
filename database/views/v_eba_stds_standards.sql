@@ -37,7 +37,7 @@ select ess.id,
                                      end,
                           p1 => ess.standard_name,
                           p2 => case when sc.type_name != 'NA'
-                                     then ' ('||sc.compatibility_desc||')'
+                                     then ' ('||sc.compatibility_mode||')'
                                      end
                           ) full_standard_name,
        ess.parent_standard_id

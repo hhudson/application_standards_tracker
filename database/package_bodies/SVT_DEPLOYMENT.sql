@@ -31,7 +31,16 @@ create or replace package body SVT_DEPLOYMENT as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_query';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_table_name constant user_tables.table_name%type := upper(p_table_name);
+  c_table_name constant varchar2(500)
+              := case when upper(p_table_name) = 'V_EBA_STDS_STANDARD_TESTS_EXPORT'
+                      then apex_string.format(
+                              q'[eba_stds_standard_tests_api.v_eba_stds_standard_tests(%0p_published_yn => 'Y', p_active_yn => 'Y')]',
+                              p0 => case when p_standard_id is not null 
+                                         then 'p_standard_id => '||p_standard_id||', '
+                                         end
+                        )
+                      else upper(p_table_name)
+                      end;
   c_query_template constant varchar2(1000) := 
   'select json_arrayagg(json_object (jn.* returning %6) returning %6)
    from (select asrc.* %4
@@ -39,7 +48,7 @@ create or replace package body SVT_DEPLOYMENT as
           %0,  
           columns ( %1 )  
         ) asrc
-        %3%5%7
+        %3
         %2) jn';
   c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
   l_query clob;
@@ -66,14 +75,7 @@ create or replace package body SVT_DEPLOYMENT as
       p4 => case when c_table_name in ('EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
                  end,
-      p5 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT'
-                 then q'[where published_yn = 'Y' and active_yn = 'Y' ]'
-                 end,
-      p6 => p_datatype,
-      p7 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS_EXPORT' 
-                 and p_standard_id is not null
-                 then apex_string.format(q'[and standard_id = %s ]', p_standard_id)
-                 end
+      p6 => p_datatype
     );
     
     return l_query;
@@ -426,16 +428,16 @@ create or replace package body SVT_DEPLOYMENT as
 
     l_md_clob := '# Published tests'||chr(10)||chr(10);
 
-    for srec in (select id, standard_name, eba_stds.file_name(standard_name) file_name, description
-                 from eba_stds_standards
+    for srec in (select id, full_standard_name, eba_stds.file_name(full_standard_name) file_name, description
+                 from v_eba_stds_standards
                  where active_yn = gc_y
                  order by standard_name)
     loop 
-      apex_debug.message(c_debug_template, 'standard_name', srec.standard_name);
+      apex_debug.message(c_debug_template, 'full_standard_name', srec.full_standard_name);
       l_md_clob := l_md_clob
                    ||apex_string.format(
                       '## [%0](%1/STANDARD-%1.json)',
-                      p0 => srec.standard_name,
+                      p0 => srec.full_standard_name,
                       p1 => srec.file_name)
                    ||chr(10)
                    ||srec.description
@@ -448,12 +450,13 @@ create or replace package body SVT_DEPLOYMENT as
       begin
         
         for trec in (select test_code, test_name, vsn, component_name, file_name
-                    from v_eba_stds_standard_tests_export
-                    where standard_id = srec.id
-                    and published_yn = gc_y 
-                    and active_yn = gc_y
-                    and standard_active_yn = gc_y
-                    order by test_code)
+                      from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
+                          p_standard_id => srec.id,
+                          p_active_yn => gc_y,
+                          p_standard_active_yn => gc_y,
+                          p_published_yn => gc_y
+                      ) order by test_code
+                    )
         loop 
           apex_debug.message(c_debug_template, 'test_code', trec.test_code);
           l_test_md := l_test_md

@@ -15,19 +15,18 @@ with jcb as (select id standard_id,
                     standard_group, 
                     active_yn,
                     'application/json' mime_type,
-                    apex_string.format('STANDARD-%0%1.json',
-                                        p0 => eba_stds.file_name(standard_name),
-                                        p1 => case when compatibility_mode != 'N/A'
-                                                   then '-v'||compatibility_mode
-                                                   end
+                    apex_string.format('STANDARD-%0.json',
+                                        p0 => eba_stds.file_name(full_standard_name)
                                       ) file_name,
                     'UTF-8' character_set,
                     svt_deployment.json_content_blob (p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT',
                                                       p_standard_id => id) file_blob,
-                    compatibility_mode
+                    compatibility_mode,
+                    full_standard_name
             from v_eba_stds_standards)
 select jcb.standard_id, 
        jcb.standard_name, 
+       jcb.full_standard_name,
        jcb.description, 
        jcb.primary_developer, 
        jcb.implementation, 
