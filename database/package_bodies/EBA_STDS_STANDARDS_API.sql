@@ -157,6 +157,32 @@ create or replace package body eba_stds_standards_api as
       raise;
   end delete_std;
 
+  function get_full_name (p_standard_id in eba_stds_standards.id%type)
+  return eba_stds_standards.standard_name%type
+  deterministic
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_full_name';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_full_name eba_stds_standards.standard_name%type;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
+
+    select full_standard_name
+    into l_full_name
+    from v_eba_stds_standards
+    where id = p_standard_id;
+
+    return l_full_name;
+
+  exception 
+    when no_data_found then 
+      apex_debug.message(c_debug_template, 'no data found ', p_standard_id);
+      return null;
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end get_full_name;
+
 
 end eba_stds_standards_api;
 /

@@ -506,7 +506,8 @@ begin
 
   cursor cur_aa (p_std_id          in number,
                  p_active          in varchar2,
-                 p_standard_active in varchar2)
+                 p_standard_active in varchar2,
+                 p_calling_std     in varchar2)
   is 
   select o.standard_id,
          o.test_id,
@@ -527,7 +528,8 @@ begin
          o.explanation,
          o.fix,
          o.version_number,
-         'N' inherited_yn
+         'N' inherited_yn,
+         o.full_standard_name calling_standard_name
   from v_eba_stds_standard_tests o
   where (o.standard_id = p_std_id or p_std_id is null)
   and   (o.active_yn = p_active or p_active is null)
@@ -552,7 +554,8 @@ begin
          i.explanation,
          i.fix,
          i.version_number,
-         'Y' inherited_yn
+         'Y' inherited_yn,
+         p_calling_std calling_standard_name
   from v_eba_stds_standard_tests i
   inner join eba_stds_inherited_tests esit on i.test_id = esit.test_id
                                            and i.standard_id = esit.parent_standard_id
@@ -580,11 +583,11 @@ begin
     explanation             varchar2(4000 char),
     fix                     clob,
     version_number          number,
-    inherited_yn            varchar2(1)
+    inherited_yn            varchar2(1),
+    calling_std_name        varchar2(64)
   );
   type t_aa is table of r_aa index by pls_integer;
   l_aat t_aa;
-
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
@@ -595,7 +598,8 @@ begin
 
     open cur_aa (p_std_id          => p_standard_id,
                  p_active          => p_active_yn,
-                 p_standard_active => p_standard_active_yn);
+                 p_standard_active => p_standard_active_yn,
+                 p_calling_std     => eba_stds_standards_api.get_full_name (p_standard_id => p_standard_id));
 
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;
@@ -672,22 +676,23 @@ begin
                       l_aat (rec).standard_active_yn,
                       l_aat (rec).explanation,
                       l_aat (rec).fix,
-                      c_file_size,  --DOWNLOAD
+                      c_file_size,  --download
                       c_file_blob,
                       c_mime_type,
-                      apex_string.format('%s.json',upper(l_aat (rec).test_code)), --FILE_NAME
+                      apex_string.format('%s.json',upper(l_aat (rec).test_code)), --file_name
                       c_character_set,
                       l_aat (rec).version_number,
-                      'V'||l_aat (rec).version_number, --VSN
-                      c_md5, --  RECORD_MD5
-                      l_lib_md5, --LIB_MD5
-                      l_lib_version_number, --LIB_IMPORTED_VERSION
-                      l_published_yn, --PUBLISHED_YN
+                      'v'||l_aat (rec).version_number, --vsn
+                      c_md5, --  record_md5
+                      l_lib_md5, --lib_md5
+                      l_lib_version_number, --lib_imported_version
+                      l_published_yn, --published_yn
                       case when l_published_yn = gc_n
                            then 'hide'
                            else 'show t-Button t-Button--icon t-Button--simple'
-                           end, --DOWNLOAD_CSS
-                      l_aat (rec).inherited_yn --inherited_yn
+                           end, --download_css
+                      l_aat (rec).inherited_yn, --inherited_yn,
+                      l_aat (rec).calling_std_name --calling standard
                     )
                 );
               end if;

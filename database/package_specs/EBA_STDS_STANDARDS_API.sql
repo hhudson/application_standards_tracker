@@ -160,6 +160,22 @@ end;
 ------------------------------------------------------------------------------
     procedure delete_std (p_standard_id in eba_stds_standards.id%type);
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 18, 2023
+-- Synopsis:
+--
+-- Function to get the full name (including compatibility description) for a given standard_id 
+--
+/*
+    select eba_stds_standards_api.get_full_name(p_standard_id => 1) fname
+    from dual;
+*/
+------------------------------------------------------------------------------
+    function get_full_name (p_standard_id in eba_stds_standards.id%type)
+    return eba_stds_standards.standard_name%type
+    deterministic;
+
 end eba_stds_standards_api;
 /
 --rollback drop package eba_stds_standards_api;

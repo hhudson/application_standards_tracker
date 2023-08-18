@@ -10,7 +10,7 @@ define PROJECT_DIR = "standard_tests"
 spool &PROJECT_DIR/temp_script.sql
 
 select apex_string.format(q'[spool standard_tests/%1/tests/%0.json
-select svt_deployment.json_content_clob (p_table_name => 'EBA_STDS_STANDARD_TESTS', p_test_code => '%0') thejsonclob from dual;]', vess.test_code, eba_stds.file_name(vess.standard_name) ) stmt
+select svt_deployment.json_content_clob (p_table_name => 'EBA_STDS_STANDARD_TESTS', p_test_code => '%0') thejsonclob from dual;]', vess.test_code, eba_stds.file_name(vess.calling_standard_name) ) stmt
 from eba_stds_standards ess
 cross join eba_stds_standard_tests_api.v_eba_stds_standard_tests(
         p_standard_id => ess.id,
