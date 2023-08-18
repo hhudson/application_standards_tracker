@@ -40,7 +40,8 @@ select ess.id,
                                      then ' ('||sc.compatibility_mode||')'
                                      end
                           ) full_standard_name,
-       ess.parent_standard_id
+       ess.parent_standard_id,
+       sc.display_order
 from eba_stds_standards ess
 inner join svt_compatibility sc on ess.compatibility_mode_id = sc.id
 /
