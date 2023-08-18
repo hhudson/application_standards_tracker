@@ -13,6 +13,7 @@ select  st.id test_id,
         st.test_code,
         st.standard_id,
         ess.standard_name,
+        ess.full_standard_name,
         st.active_yn,
         antt.nt_name,
         st.query_clob,
@@ -30,7 +31,7 @@ select  st.id test_id,
        st.fix,
        st.version_number
 from eba_stds_standard_tests st
-inner join eba_stds_standards ess on st.standard_id = ess.id
+inner join v_eba_stds_standards ess on st.standard_id = ess.id
 inner join svt_component_types act on act.id = st.svt_component_type_id
 inner join svt_nested_table_types antt on act.nt_type_id = antt.id
 inner join svt_standards_urgency_level asul on asul.id = st.level_id

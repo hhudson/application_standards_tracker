@@ -47,7 +47,8 @@
         LIB_MD5                 VARCHAR2(250),
         LIB_IMPORTED_VERSION    NUMBER,
         PUBLISHED_YN            VARCHAR2(1),
-        DOWNLOAD_CSS            VARCHAR2(50)
+        DOWNLOAD_CSS            VARCHAR2(50),
+        INHERITED_YN            VARCHAR2(1)
     )
 /
 --rollback drop type V_EBA_STDS_STANDARD_TESTS_OT;

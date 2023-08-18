@@ -365,7 +365,7 @@ create or replace package body eba_stds_standard_tests_api as
   function get_test_rec(p_test_code in eba_stds_standard_tests.test_code%type) 
   return eba_stds_standard_tests%rowtype
   as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_rec';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_rec 1';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
   l_test_rec eba_stds_standard_tests%rowtype;
@@ -376,6 +376,30 @@ create or replace package body eba_stds_standard_tests_api as
       into l_test_rec
       from eba_stds_standard_tests
       where test_code = c_test_code;
+
+      return l_test_rec;
+      
+  exception
+      when no_data_found then
+          return null;
+      when others then
+          apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+          raise;
+  end get_test_rec;
+
+  function get_test_rec(p_test_id in eba_stds_standard_tests.id%type) 
+  return eba_stds_standard_tests%rowtype
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_rec 2';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_test_rec eba_stds_standard_tests%rowtype;
+  begin
+      apex_debug.message(c_debug_template,'START', 'p_test_id', p_test_id);
+
+      select *
+      into l_test_rec
+      from eba_stds_standard_tests
+      where id = p_test_id;
 
       return l_test_rec;
       
@@ -431,16 +455,13 @@ create or replace package body eba_stds_standard_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_id';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_test_code constant eba_stds_standard_tests.test_code%type := upper(replace(p_test_code, ' ', '_'));
-  l_id eba_stds_standard_tests.id%type;
-  begin
+  l_rec eba_stds_standard_tests%rowtype;
+begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
     
-    select id
-    into l_id
-    from eba_stds_standard_tests
-    where test_code = c_test_code;
+    l_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => c_test_code);
     
-    return l_id;
+    return l_rec.id;
   
   exception 
     when no_data_found then
@@ -450,35 +471,83 @@ create or replace package body eba_stds_standard_tests_api as
       raise;
   end get_test_id;
 
+  function get_standard_id (p_test_id in eba_stds_standard_tests.id%type)
+  return eba_stds_standard_tests.standard_id%type
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_standard_id'; 
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_rec eba_stds_standard_tests%rowtype;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_test_id', p_test_id);
 
-  function v_eba_stds_standard_tests
+    l_rec := eba_stds_standard_tests_api.get_test_rec(p_test_id => p_test_id);
+    
+    return l_rec.standard_id;
+
+  exception 
+    when no_data_found then
+      return null;
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end get_standard_id;
+
+
+  function v_eba_stds_standard_tests (p_standard_id in eba_stds_standard_tests.standard_id%type default null)
   return v_eba_stds_standard_tests_nt pipelined
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'v_eba_stds_standard_tests';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
 
-  cursor cur_aa 
+  cursor cur_aa (p_std_id in number)
   is 
-  select standard_id,
-         test_id,
-         level_id,
-         urgency, 
-         urgency_level,
-         test_name,
-         test_code,
-         standard_name,
-         active_yn,
-         nt_name,
-         query_clob,
-         std_creation_date,
-         mv_dependency,
-         svt_component_type_id,
-         component_name,
-         standard_active_yn,
-         explanation,
-         fix,
-         version_number
-  from v_eba_stds_standard_tests;
+  select o.standard_id,
+         o.test_id,
+         o.level_id,
+         o.urgency, 
+         o.urgency_level,
+         o.test_name,
+         o.test_code,
+         o.full_standard_name,
+         o.active_yn,
+         o.nt_name,
+         o.query_clob,
+         o.std_creation_date,
+         o.mv_dependency,
+         o.svt_component_type_id,
+         o.component_name,
+         o.standard_active_yn,
+         o.explanation,
+         o.fix,
+         o.version_number,
+         'N' inherited_yn
+  from v_eba_stds_standard_tests o
+  where standard_id = p_std_id or p_std_id is null
+  union all
+  select i.standard_id,
+         i.test_id,
+         i.level_id,
+         i.urgency, 
+         i.urgency_level,
+         i.test_name,
+         i.test_code,
+         i.full_standard_name,
+         i.active_yn,
+         i.nt_name,
+         i.query_clob,
+         i.std_creation_date,
+         i.mv_dependency,
+         i.svt_component_type_id,
+         i.component_name,
+         i.standard_active_yn,
+         i.explanation,
+         i.fix,
+         i.version_number,
+         'Y' inherited_yn
+  from v_eba_stds_standard_tests i
+  inner join eba_stds_inherited_tests esit on i.test_id = esit.test_id
+                                           and i.standard_id = esit.parent_standard_id
+                                           and esit.standard_id = p_std_id;
 
   type r_aa is record (
     standard_id             number,
@@ -499,15 +568,23 @@ create or replace package body eba_stds_standard_tests_api as
     standard_active_yn      varchar2(1),
     explanation             varchar2(4000 char),
     fix                     clob,
-    version_number          number
+    version_number          number,
+    inherited_yn            varchar2(1)
   );
   type t_aa is table of r_aa index by pls_integer;
   l_aat t_aa;
 
   begin
-    apex_debug.message(c_debug_template,'START');
+    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
 
-    open cur_aa;
+    <<parent_std>>
+    declare
+    c_std_rec eba_stds_standards%rowtype := eba_stds_standards_api.get_rec (p_standard_id => 1);
+    begin
+      apex_debug.message(c_debug_template, 'parent standard id : ', c_std_rec.parent_standard_id);
+    end parent_std;
+
+    open cur_aa (p_std_id => p_standard_id);
 
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;
@@ -585,12 +662,14 @@ create or replace package body eba_stds_standard_tests_api as
                       case when l_published_yn = gc_n
                            then 'hide'
                            else 'show t-Button t-Button--icon t-Button--simple'
-                           end --DOWNLOAD_CSS
+                           end, --DOWNLOAD_CSS
+                      l_aat (rec).inherited_yn --inherited_yn
                     )
                 );
           end load_block;
       end loop;
     end loop;  
+
 
   exception 
     when no_data_needed then

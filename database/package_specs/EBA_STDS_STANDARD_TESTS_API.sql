@@ -259,7 +259,7 @@ end;
 --     Date: May 16, 2023
 -- Synopsis:
 --
--- function to get eba_stds_standard_tests record for a given test code
+-- overloaded function to get eba_stds_standard_tests record for a given test code
 --
 /*
 set serveroutput on;
@@ -272,6 +272,26 @@ end;
 */
 ------------------------------------------------------------------------------
     function get_test_rec(p_test_code in eba_stds_standard_tests.test_code%type) 
+    return eba_stds_standard_tests%rowtype;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Aug-17
+-- Synopsis:
+--
+-- overloaded function to get eba_stds_standard_tests record for a given test id
+--
+/*
+set serveroutput on;
+declare
+l_rec eba_stds_standard_tests%rowtype;
+begin
+    l_rec := eba_stds_standard_tests_api.get_test_rec(p_test_id => :p_test_id);
+    dbms_output.put_line('code :'||l_rec.test_code);
+end;
+*/
+------------------------------------------------------------------------------
+    function get_test_rec(p_test_id in eba_stds_standard_tests.id%type) 
     return eba_stds_standard_tests%rowtype;
 
 ------------------------------------------------------------------------------
@@ -309,7 +329,22 @@ from dual
 */
 ------------------------------------------------------------------------------
     function get_test_id (p_test_code in eba_stds_standard_tests.test_code%type)
-    return eba_stds_standard_tests.id%type;
+    return eba_stds_standard_tests.id%type deterministic;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Aug-17
+-- Synopsis:
+--
+-- Function to get the standard_id of a eba_stds_standard_tests record, given a test id
+--
+/*
+select eba_stds_standard_tests_api.get_standard_id (p_test_id => :p_test_id)
+from dual
+*/
+------------------------------------------------------------------------------
+    function get_standard_id (p_test_id in eba_stds_standard_tests.id%type)
+    return eba_stds_standard_tests.standard_id%type deterministic;
 
  
  ------------------------------------------------------------------------------
@@ -325,7 +360,7 @@ select *
 from eba_stds_standard_tests_api.v_eba_stds_standard_tests()
 */
 ------------------------------------------------------------------------------
-  function v_eba_stds_standard_tests
+  function v_eba_stds_standard_tests (p_standard_id in eba_stds_standard_tests.standard_id%type default null)
   return v_eba_stds_standard_tests_nt pipelined;
 
 end eba_stds_standard_tests_api;
