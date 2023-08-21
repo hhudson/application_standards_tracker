@@ -71,6 +71,8 @@ create or replace package body SVT_DEPLOYMENT as
                  end,
       p3 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_test_code is not null
                  then apex_string.format(q'[where test_code = '%s']', c_test_code)
+                 when c_table_name = 'EBA_STDS_STANDARDS' and p_standard_id is not null
+                 then apex_string.format(q'[where id = '%s']', p_standard_id)
                  end,
       p4 => case when c_table_name in ('EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
