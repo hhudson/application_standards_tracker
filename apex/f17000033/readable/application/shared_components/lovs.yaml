@@ -111,70 +111,86 @@
       display: hayden.h.hudson@oracle.com
       return: hayden.h.hudson@oracle.com
 
-- # ====== List of Values: APPLICATION.COMPATIBILITY_MODE ======
-  id: 160593452422672247
+- # ====== List of Values: SVT_COMPATILIBILITY.COMPATIBILITY_DES
+  id: 160794022404724950
   identification: 
-    name: APPLICATION.COMPATIBILITY_MODE
+    name: SVT_COMPATILIBILITY.COMPATIBILITY_DESC
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_SVT_COMPATIBILITY
+
+  column-mapping: 
+    return: ID
+    display: COMPATIBILITY_NAME
+    default-sort: DISPLAY_ORDER
+    sort-direction: Descending (Nulls Last)
+
+- # ====== List of Values: SVT_COMPATIBILITY.TYPE_NAME =========
+  id: 160809441641948502
+  identification: 
+    name: SVT_COMPATIBILITY.TYPE_NAME
 
   source: 
     location: Static Values
 
   entries: 
-  - # ====== Entry: 21.2 / 22.1 / 22.2 / 23.1 ====================
-    id: 160593775419672249
+  - # ====== Entry: APEX =========================================
+    id: 160809785467948502
     entry: 
-      sequence: 5
-      display: 21.2 / 22.1 / 22.2 / 23.1
-      return: 21.2
+      sequence: 1
+      display: APEX
+      return: APEX
 
-  - # ====== Entry: 19.2 / 20.1 / 20.2 / 21.1 ====================
-    id: 160594118894672250
+  - # ====== Entry: Database =====================================
+    id: 160810140776948502
     entry: 
-      sequence: 10
-      display: 19.2 / 20.1 / 20.2 / 21.1
-      return: 19.2
+      sequence: 2
+      display: Database
+      return: DB
 
-  - # ====== Entry: 19.1 =========================================
-    id: 160594546292672250
+  - # ====== Entry: N/A ==========================================
+    id: 160810599115948503
     entry: 
-      sequence: 20
-      display: 19.1
-      return: 19.1
+      sequence: 3
+      display: N/A
+      return: NA
 
-  - # ====== Entry: 5.1 / 18.1 / 18.2 ============================
-    id: 160594948536672250
-    entry: 
-      sequence: 30
-      display: 5.1 / 18.1 / 18.2
-      return: 5.1
+- # ====== List of Values: EBA_STDS_STANDARDS.STANDARD_NAME_1 ==
+  id: 161389018067755951
+  identification: 
+    name: EBA_STDS_STANDARDS.STANDARD_NAME_1
 
-  - # ====== Entry: 5.0 ==========================================
-    id: 160595371211672251
-    entry: 
-      sequence: 40
-      display: 5.0
-      return: 5.0
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARDS
 
-  - # ====== Entry: 4.2 ==========================================
-    id: 160595774646672251
-    entry: 
-      sequence: 50
-      display: 4.2
-      return: 4.2
+  column-mapping: 
+    return: PARENT_STANDARD_ID
+    display: STANDARD_NAME
+    default-sort: STANDARD_NAME
+    sort-direction: Ascending (Nulls Last)
 
-  - # ====== Entry: 4.1 ==========================================
-    id: 160596149811672252
-    entry: 
-      sequence: 60
-      display: 4.1
-      return: 4.1
+- # ====== List of Values: EBA_STDS_STANDARD_TESTS.TEST_NAME ===
+  id: 161389229646755952
+  identification: 
+    name: EBA_STDS_STANDARD_TESTS.TEST_NAME
 
-  - # ====== Entry: Pre 4.1 ======================================
-    id: 160596519256672252
-    entry: 
-      sequence: 70
-      display: Pre 4.1
-      return: 4.0
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARD_TESTS
+
+  column-mapping: 
+    return: STANDARD_ID
+    display: TEST_NAME
+    default-sort: TEST_NAME
+    sort-direction: Ascending (Nulls Last)
 
 - # ====== List of Values: EBA_STDS_STANDARDS.STANDARD_NAME ====
   id: 163835793448737572
@@ -586,17 +602,17 @@
       display: Contributors
       return: PUBLIC_CONTRIBUTE
 
-- # ====== List of Values: STANDARDS ===========================
+- # ====== List of Values: V_EBA_STDS_STANDARDS.FULL_STANDARD_NA
   id: 7562706385759203294
   identification: 
-    name: STANDARDS
+    name: V_EBA_STDS_STANDARDS.FULL_STANDARD_NAME
 
   source: 
     location: Local Database
     type: Legacy SQL Query
     sql-query: |
-      select standard_name d, id r
-      from eba_stds_standards
+      select full_standard_name d, id r
+      from v_eba_stds_standards
 
 - # ====== List of Values: APPLICATION STATUSES ================
   id: 7562728802322661593

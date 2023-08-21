@@ -1882,24 +1882,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: ESTL_MD5 ====================================
-      id: 143451494053206729
-      identification: 
-        column-name: ESTL_MD5
-        type: Hidden Column
-
-      heading: 
-        heading: Estl Md5
-
-      layout: 
-        sequence: 270
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: PUBLISHED_YN ================================
       id: 143451513377206730
       identification: 
@@ -1932,9 +1914,10 @@ regions:
         use-column-heading: true
 
       settings: 
-        class: PUBLISH_CLSS
-        label: PUBLISH_TEXT
         test-code: TEST_CODE
+        active-yes/no: ACTIVE_YN
+        published-yes/no: PUBLISHED_YN
+        lib-md5: LIB_MD5
 
       layout: 
         sequence: 20
@@ -1985,24 +1968,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: PUBLISH_CLSS ================================
-      id: 144375741487069503
-      identification: 
-        column-name: PUBLISH_CLSS
-        type: Hidden Column
-
-      heading: 
-        heading: Publish Clss
-
-      layout: 
-        sequence: 310
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
       id: 146337829549906238
       identification: 
@@ -2014,24 +1979,6 @@ regions:
 
       layout: 
         sequence: 320
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: PUBLISH_TEXT ================================
-      id: 147812692767836202
-      identification: 
-        column-name: PUBLISH_TEXT
-        type: Hidden Column
-
-      heading: 
-        heading: Publish Text
-
-      layout: 
-        sequence: 360
 
       source: 
         primary-key: false
@@ -2125,6 +2072,47 @@ regions:
 
       source: 
         primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LIB_MD5 =====================================
+      id: 161497610484565007
+      identification: 
+        column-name: LIB_MD5
+        type: Plain Text
+
+      heading: 
+        heading: Lib Md5
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 420
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
 
       security: 
         escape-special-characters: true
@@ -3140,7 +3128,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: STANDARDS # 7562706385759203294
+    list-of-values: V_EBA_STDS_STANDARDS.FULL_STANDARD_NAME # 7562706385759203294
     display-extra-values: false
     display-null-value: false
 

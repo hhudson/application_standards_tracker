@@ -38,7 +38,7 @@ server-cache:
   caching: Disabled
 
 help: 
-  help-text: <p>This page provides an overview of the standards which have been defined and their implementation across all relevant applications.</p>
+  help-text: This page provides an overview of the standards which have been defined.
 
 regions: 
 - # ====== Region: Search Results ==============================
@@ -60,20 +60,32 @@ regions:
              ess.standard_name card_title,
              ess.description card_text,
              apex_string.get_initials(ess.standard_name) card_initials,
-             apex_string.format('%s active test(s)', coalesce(esst.test_count,0)) card_subtext,
+             apex_string.format('%0 active test(s)%1', 
+                                 p0 => coalesce(esst.test_count,0),
+                                 p1 => case when coalesce(it.test_count,0) > 0
+                                            then ' + '||coalesce(it.test_count,0)||' inherited test(s)'
+                                            end
+                                 ) card_subtext,
              esst.test_count,
              apex_page.get_url (
                   p_page   => 5,
                   p_items  => 'P5_ID',
                   p_values => ess.ID ) card_link,
              ess.compatibility_mode,
-             apex_string.format('APEX Version %s', ess.compatibility_mode) card_subtitle
-        from eba_stds_standards ess
+             ess.compatibility_desc,
+             ess.compatibility_text,
+             ess.compatibility_text card_subtitle,
+             ess.type_name
+        from v_eba_stds_standards ess
         left outer join 
         (select standard_id, count(*) test_count
           from eba_stds_standard_tests
           where active_yn ='Y'
           group by standard_id) esst on esst.standard_id = ess.id
+         left outer join 
+         (select standard_id, count(*) test_count
+          from eba_stds_inherited_tests
+          group by standard_id) it on it.standard_id = ess.id
       union all
       select null id,
              'All' standard,
@@ -88,7 +100,10 @@ regions:
                   p_items  => 'P5_ID',
                   p_values => null ) card_link,
              null compatibility_mode,
-             null card_subtitle
+             null compatibility_mode_desc,
+             null compatibility_text,
+             null card_subtitle,
+             null type_name
       from (select count(*) test_count
               from eba_stds_standard_tests
               where active_yn ='Y') esst
@@ -478,7 +493,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: COMPATIBILITY_MODE ==========================
-    id: 148972760862209832
+    id: 160609894333813908
     identification: 
       column-name: COMPATIBILITY_MODE
       type: Plain Text
@@ -489,6 +504,102 @@ regions:
 
     layout: 
       sequence: 124
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_DESC ==========================
+    id: 160609964584813909
+    identification: 
+      column-name: COMPATIBILITY_DESC
+      type: Plain Text
+
+    heading: 
+      heading: Compatibility Desc
+      alignment: start
+
+    layout: 
+      sequence: 134
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_TEXT ==========================
+    id: 160610987035813919
+    identification: 
+      column-name: COMPATIBILITY_TEXT
+      type: Plain Text
+
+    heading: 
+      heading: Compatibility Text
+      alignment: start
+
+    layout: 
+      sequence: 144
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TYPE_NAME ===================================
+    id: 160611721832813927
+    identification: 
+      column-name: TYPE_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Type Name
+      alignment: start
+
+    layout: 
+      sequence: 154
       column-alignment: start
 
     accessibility: 
@@ -710,7 +821,57 @@ regions:
       collapsible: false
 
     source: 
-      database-column: COMPATIBILITY_MODE
+      database-column: COMPATIBILITY_TEXT
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P3_NEW =======================================
+    id: 160611817475813928
+    identification: 
+      name: P3_NEW
+      type: Radio Group
+
+    label: 
+      label: Type
+      show-label-for-current-facet: true
+
+    settings: 
+      hide-radio-buttons: false
+
+    layout: 
+      sequence: 50
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: SVT_COMPATIBILITY.TYPE_NAME # 160809441641948502
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      display-toggling: false
+      collapsible: false
+
+    source: 
+      database-column: TYPE_NAME
       data-type: VARCHAR2
 
     multiple-values: 
@@ -846,7 +1007,46 @@ regions:
       type: None
 
     source: 
-      database-column: COMPATIBILITY_MODE
+      database-column: COMPATIBILITY_TEXT
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P3_NEW ======================================
+    id: 160611817475813928
+    identification: 
+      name: P3_NEW
+      type: Radio Group
+
+    label: 
+      label: Type
+
+    layout: 
+      sequence: 50
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: SVT_COMPATIBILITY.TYPE_NAME # 160809441641948502
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: TYPE_NAME
       data-type: VARCHAR2
 
     multiple-values: 
@@ -1163,51 +1363,6 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: About this page =============================
-  id: 7576603697885016674
-  identification: 
-    title: About this page
-    type: Static Content
-
-  source: 
-    html-code: <p>This page provides an overview of the standards which have been defined and their implementation across all relevant applications.</p>
-
-  layout: 
-    sequence: 60
-    parent-region: No Parent
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7573656657747143975
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    static-id: about1
     region-display-selector: false
     exclude-title-from-translation: false
 

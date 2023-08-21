@@ -224,6 +224,23 @@
         sequence: 6
         hidden: false
 
+    - # ====== Column: COMPATIBILITY_MODE_ID =======================
+      id: 160817250210052118
+      identification: 
+        column-name: COMPATIBILITY_MODE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: COMPATIBILITY_MODE_ID
+
+      advanced: 
+        sequence: 16
+        hidden: false
+
 - # ====== Data Load Definition: SVT-COMPONENT-TYPES ===========
   id: 52005792555478034
   identification: 
@@ -1005,5 +1022,126 @@
 
       advanced: 
         sequence: 150
+        hidden: false
+
+- # ====== Data Load Definition: SVT-COMPATIBILITY =============
+  id: 160787497822644919
+  identification: 
+    name: SVT-COMPATIBILITY
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SVT_COMPATIBILITY
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: svt_compatibility
+
+  data-profiles: 
+    id: 160786317137644904
+    identification: 
+      name: SVT-COMPATIBILITY
+
+    data-profile: 
+      format: JSON
+
+    advanced: 
+      encoding: Unicode UTF-8
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 160786650752644917
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        path-expression: ID
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: COMPATIBILITY_DESC ==========================
+      id: 160786956817644918
+      identification: 
+        column-name: COMPATIBILITY_DESC
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1600
+        primary-key: false
+
+      parsing: 
+        path-expression: COMPATIBILITY_DESC
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: COMPATIBILITY_MODE ==========================
+      id: 160787243433644919
+      identification: 
+        column-name: COMPATIBILITY_MODE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 16
+        primary-key: false
+
+      parsing: 
+        path-expression: COMPATIBILITY_MODE
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: DISPLAY_ORDER ===============================
+      id: 160796742251786919
+      identification: 
+        column-name: DISPLAY_ORDER
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: DISPLAY_ORDER
+
+      advanced: 
+        sequence: 40
+        hidden: false
+
+    - # ====== Column: TYPE_NAME ===================================
+      id: 160814648203973882
+      identification: 
+        column-name: TYPE_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 10
+        primary-key: false
+
+      parsing: 
+        path-expression: TYPE_NAME
+
+      advanced: 
+        sequence: 50
         hidden: false
 

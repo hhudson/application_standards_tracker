@@ -12,6 +12,7 @@ appearance:
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--lg
 
 dialog: 
   width: 720
@@ -47,6 +48,175 @@ help:
   help-text: No help is available for this page.
 
 regions: 
+- # ====== Region: Create new standard =========================
+  id: 160612054080813930
+  identification: 
+    title: Create new standard
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Content Block # 7194997111919675929
+    template-options: 
+    - '#DEFAULT#'
+    - t-ContentBlock--h1
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P11_ID
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: form container ==============================
+  id: 160612738422813937
+  identification: 
+    title: form container
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: As a copy ===================================
+  id: 160612814409813938
+  identification: 
+    title: As a copy
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Manage Standard # 7561462082831100837
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: From scratch ================================
+  id: 160612996726813939
+  identification: 
+    title: From scratch
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Manage Standard # 7561462082831100837
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Buttons =====================================
   id: 7094082020085085122
   identification: 
@@ -103,8 +273,8 @@ regions:
     include-rowid-column: false
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
+    sequence: 20
+    parent-region: form container # 160612738422813937
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -149,8 +319,8 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 130
-    region: Manage Standard # 7561462082831100837
+    sequence: 100
+    region: From scratch # 160612996726813939
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -213,8 +383,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 50
-    region: Manage Standard # 7561462082831100837
+    sequence: 70
+    region: From scratch # 160612996726813939
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -268,7 +438,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
+    sequence: 120
     region: Manage Standard # 7561462082831100837
     position: BODY
 
@@ -301,7 +471,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 70
+    sequence: 130
     region: Manage Standard # 7561462082831100837
     position: BODY
 
@@ -334,7 +504,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
+    sequence: 140
     region: Manage Standard # 7561462082831100837
     position: BODY
 
@@ -367,7 +537,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 90
+    sequence: 150
     region: Manage Standard # 7561462082831100837
     position: BODY
 
@@ -400,7 +570,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 100
+    sequence: 160
     region: Manage Standard # 7561462082831100837
     position: BODY
 
@@ -433,7 +603,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 110
+    sequence: 170
     region: Manage Standard # 7561462082831100837
     position: BODY
 
@@ -474,8 +644,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 20
-    region: Manage Standard # 7561462082831100837
+    sequence: 50
+    region: From scratch # 160612996726813939
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -511,6 +681,11 @@ page-items:
   quick-picks: 
     show-quick-picks: false
 
+  read-only: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P11_ID is not null and :P11_PARENT_STANDARD_ID is not null'
+
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
@@ -519,26 +694,27 @@ page-items:
   help: 
     help-text: Give your standard a descriptive name
 
-- # ====== Page Item: P11_COMPATIBILITY_MODE ===================
-  id: 160609588997813905
+- # ====== Page Item: P11_COMPATIBILITY_MODE_ID ================
+  id: 160610223594813912
   identification: 
-    name: P11_COMPATIBILITY_MODE
-    type: Text Field
+    name: P11_COMPATIBILITY_MODE_ID
+    type: Popup LOV
 
   label: 
     label: Compatibility Mode
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 120
-    region: Manage Standard # 7561462082831100837
+    sequence: 60
+    region: From scratch # 160612996726813939
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -556,15 +732,20 @@ page-items:
 
   validation: 
     value-required: true
-    maximum-length: 4
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SVT_COMPATILIBILITY.COMPATIBILITY_DESC # 160794022404724950
+    display-extra-values: false
+    display-null-value: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
     form-region: Manage Standard # 7561462082831100837
-    column: COMPATIBILITY_MODE
-    data-type: VARCHAR2
+    column: COMPATIBILITY_MODE_ID
+    data-type: NUMBER
     query-only: false
     primary-key: false
 
@@ -578,6 +759,79 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: With which APEX version is this standard compatible?
+
+- # ====== Page Item: P11_PARENT_STANDARD_ID ===================
+  id: 160611276063813922
+  identification: 
+    name: P11_PARENT_STANDARD_ID
+    type: Popup LOV
+
+  label: 
+    label: Copied Standard
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 20
+    region: As a copy # 160612814409813938
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: V_EBA_STDS_STANDARDS.FULL_STANDARD_NAME # 7562706385759203294
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: No parent standard
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7561462082831100837
+    column: PARENT_STANDARD_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: 'What standard do you want to copy? The imagine use case for this utility is, say, wanting to make a new `Universal Theme` but for a new version of APEX, which has different compatibility considerations than the existing standard. '
 
 - # ====== Page Item: P11_ID ===================================
   id: 7561463502438100842
@@ -631,8 +885,8 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 30
-    region: Manage Standard # 7561462082831100837
+    sequence: 80
+    region: From scratch # 160612996726813939
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -694,7 +948,7 @@ page-items:
     alignment: Left
 
   settings: 
-    show-time: false
+    show-time: true
     display-as: Popup
     minimum-date: None
     maximum-date: None
@@ -702,8 +956,8 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 40
-    region: Manage Standard # 7561462082831100837
+    sequence: 90
+    region: From scratch # 160612996726813939
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -717,12 +971,10 @@ page-items:
     template: Required - Floating # 6411714809400685265
     template-options: 
     - '#DEFAULT#'
-    format-mask: '&APP_DATE_TIME_FORMAT.'
-    width: 64
+    width: 30
 
   validation: 
-    value-required: true
-    maximum-length: 255
+    value-required: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -737,7 +989,7 @@ page-items:
   default: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'to_char(localtimestamp,:APP_DATE_TIME_FORMAT)'
+    pl/sql-expression: 'to_char(sysdate,:APP_DATE_FORMAT)'
 
   session-state: 
     storage: Per Request (Memory Only)
@@ -754,6 +1006,148 @@ page-items:
     help-text: Date when the standard was created
 
 buttons: 
+- # ====== Button: FROM_SCRATCH ================================
+  id: 160612147369813931
+  identification: 
+    button-name: FROM_SCRATCH
+    label: From Scratch
+
+  layout: 
+    sequence: 10
+    region: Create new standard # 160612054080813930
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    - t-Button--stretch
+    icon: fa-layout-blank
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: AS_A_COPY ===================================
+  id: 160612281960813932
+  identification: 
+    button-name: AS_A_COPY
+    label: As a copy of an existing standard
+
+  layout: 
+    sequence: 20
+    region: Create new standard # 160612054080813930
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    - t-Button--stretch
+    icon: fa-copy
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: CREATE_COPY =================================
+  id: 161353915528474716
+  identification: 
+    button-name: CREATE_COPY
+    label: Create Copy
+
+  layout: 
+    sequence: 20
+    region: Buttons # 7094082020085085122
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-copy
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P11_ID
+
+- # ====== Button: MANAGE_INHERITED ============================
+  id: 161438507950020502
+  identification: 
+    button-name: MANAGE_INHERITED
+    label: Manage Inherited Tests
+
+  layout: 
+    sequence: 10
+    region: Buttons # 7094082020085085122
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-copy
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:65:P65_STANDARD_ID,P65_PARENT_STANDARD_ID:&P11_ID.,&P11_PARENT_STANDARD_ID.'
+      page: 65 # Manage Inherited Tests
+      clear-cache: 65
+      values: 
+        p65_standard_id: '&P11_ID.'
+        p65_parent_standard_id: '&P11_PARENT_STANDARD_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P11_ID is not null and :P11_PARENT_STANDARD_ID is not null'
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+
 - # ====== Button: CREATE ======================================
   id: 7561462278941100837
   identification: 
@@ -797,7 +1191,7 @@ buttons:
     label: Save
 
   layout: 
-    sequence: 10
+    sequence: 30
     region: Buttons # 7094082020085085122
     position: EDIT
     start-new-layout: false
@@ -895,6 +1289,610 @@ buttons:
     execute-validations: true
 
 dynamic-actions: 
+- # ====== Dynamic Action: change parent standard ==============
+  id: 160611301158813923
+  identification: 
+    name: change parent standard
+
+  execution: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P11_PARENT_STANDARD_ID
+
+  client-side-condition: 
+    type: Item is not null
+    item: P11_PARENT_STANDARD_ID
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: set name, description and developer =========
+    id: 160611635963813926
+    identification: 
+      name: set name, description and developer
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select standard_name, 
+               description, 
+               primary_developer 
+        into :P11_STANDARD_NAME, 
+             :P11_DESCRIPTION,
+             :P11_PRIMARY_DEVELOPER
+        from eba_stds_standards
+        where id = :P11_PARENT_STANDARD_ID;
+      items-to-submit: 
+      - P11_PARENT_STANDARD_ID
+      items-to-return: 
+      - P11_STANDARD_NAME
+      - P11_DESCRIPTION
+      - P11_PRIMARY_DEVELOPER
+      suppress-change-event: false
+
+    execution: 
+      sequence: 20
+      event: change parent standard # 160611301158813923
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+    client-side-condition: 
+      type: Item is not null
+      item: P11_PARENT_STANDARD_ID
+
+  - # ====== Action: Show buttons ================================
+    id: 161352466030474701
+    identification: 
+      name: Show buttons
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Buttons # 7094082020085085122
+
+    execution: 
+      sequence: 50
+      event: change parent standard # 160611301158813923
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Show from scratch form ======================
+    id: 161352550506474702
+    identification: 
+      name: Show from scratch form
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: From scratch # 160612996726813939
+
+    execution: 
+      sequence: 60
+      event: change parent standard # 160611301158813923
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: make Standard name opaque ===================
+    id: 161352660009474703
+    identification: 
+      name: make Standard name opaque
+      action: Set Style
+
+    settings: 
+      style-name: opacity
+      value: 0.4
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P11_STANDARD_NAME
+
+    execution: 
+      sequence: 30
+      event: change parent standard # 160611301158813923
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: make Standard name readonly =================
+    id: 161352995323474706
+    identification: 
+      name: make Standard name readonly
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        apex.item('P11_STANDARD_NAME').element.attr("readonly",true);
+        apex.item('P11_STANDARD_NAME').element.attr("tabindex",-1);
+        
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P11_STANDARD_NAME
+
+    execution: 
+      sequence: 40
+      event: change parent standard # 160611301158813923
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: hide forms ==========================
+  id: 160612332936813933
+  identification: 
+    name: hide forms
+
+  execution: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P11_ID
+
+  actions: 
+  - # ====== Action: hide as a copy form =========================
+    id: 160612437428813934
+    identification: 
+      name: hide as a copy form
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: As a copy # 160612814409813938
+
+    execution: 
+      sequence: 10
+      event: hide forms # 160612332936813933
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: hide from scratch form ======================
+    id: 160613327657813943
+    identification: 
+      name: hide from scratch form
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: From scratch # 160612996726813939
+
+    execution: 
+      sequence: 20
+      event: hide forms # 160612332936813933
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: hide buttons ================================
+    id: 160613693235813946
+    identification: 
+      name: hide buttons
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Buttons # 7094082020085085122
+
+    execution: 
+      sequence: 30
+      event: hide forms # 160612332936813933
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: from scratch ========================
+  id: 160612504365813935
+  identification: 
+    name: from scratch
+
+  execution: 
+    sequence: 50
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: FROM_SCRATCH # 160612147369813931
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Show from scratch form ======================
+    id: 160612640306813936
+    identification: 
+      name: Show from scratch form
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: From scratch # 160612996726813939
+
+    execution: 
+      sequence: 10
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Show buttons ================================
+    id: 160613708772813947
+    identification: 
+      name: Show buttons
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Buttons # 7094082020085085122
+
+    execution: 
+      sequence: 20
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Hide As a copy form =========================
+    id: 160613848327813948
+    identification: 
+      name: Hide As a copy form
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: As a copy # 160612814409813938
+
+    execution: 
+      sequence: 50
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: null out parent standard id & name ==========
+    id: 161352795833474704
+    identification: 
+      name: null out parent standard id & name
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        :P11_PARENT_STANDARD_ID := null;
+        :P11_STANDARD_NAME := null;
+      items-to-submit: 
+      - P11_PARENT_STANDARD_ID
+      items-to-return: 
+      - P11_PARENT_STANDARD_ID
+      suppress-change-event: false
+
+    execution: 
+      sequence: 60
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+    server-side-condition: 
+      type: Item is NULL
+      item: P11_ID
+
+  - # ====== Action: Show standard name ==========================
+    id: 161352897899474705
+    identification: 
+      name: Show standard name
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P11_STANDARD_NAME
+
+    execution: 
+      sequence: 70
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: make Standard name NOT opaque ===============
+    id: 161353043426474707
+    identification: 
+      name: make Standard name NOT opaque
+      action: Set Style
+
+    settings: 
+      style-name: opacity
+      value: 1
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P11_STANDARD_NAME
+
+    execution: 
+      sequence: 10
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: make Standard name NOT readonly =============
+    id: 161353194329474708
+    identification: 
+      name: make Standard name NOT readonly
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        apex.item('P11_STANDARD_NAME').element.attr("readonly",false);
+        apex.item('P11_STANDARD_NAME').element.attr("tabindex",null);
+        
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P11_STANDARD_NAME
+
+    execution: 
+      sequence: 10
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: grey out as a copy button ===================
+    id: 161353253950474709
+    identification: 
+      name: grey out as a copy button
+      action: Set Style
+
+    settings: 
+      style-name: opacity
+      value: 0.3
+
+    affected-elements: 
+      selection-type: Button
+      button: AS_A_COPY # 160612281960813932
+
+    execution: 
+      sequence: 80
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: ungrey out from scratch button ==============
+    id: 161353443210474711
+    identification: 
+      name: ungrey out from scratch button
+      action: Set Style
+
+    settings: 
+      style-name: opacity
+      value: 1
+
+    affected-elements: 
+      selection-type: Button
+      button: FROM_SCRATCH # 160612147369813931
+
+    execution: 
+      sequence: 90
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Show Create =================================
+    id: 161353717843474714
+    identification: 
+      name: Show Create
+      action: Show
+
+    affected-elements: 
+      selection-type: Button
+      button: CREATE # 7561462278941100837
+
+    execution: 
+      sequence: 30
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Hide Next ===================================
+    id: 161354072287474717
+    identification: 
+      name: Hide Next
+      action: Hide
+
+    affected-elements: 
+      selection-type: Button
+      button: CREATE_COPY # 161353915528474716
+
+    execution: 
+      sequence: 40
+      event: from scratch # 160612504365813935
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: hide new std wizard =================
+  id: 160613130249813941
+  identification: 
+    name: hide new std wizard
+
+  execution: 
+    sequence: 40
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P11_ID
+
+  actions: 
+  - # ====== Action: hide wizard =================================
+    id: 160613287570813942
+    identification: 
+      name: hide wizard
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Create new standard # 160612054080813930
+
+    execution: 
+      sequence: 10
+      event: hide new std wizard # 160613130249813941
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: as a copy ===========================
+  id: 160613432296813944
+  identification: 
+    name: as a copy
+
+  execution: 
+    sequence: 60
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: AS_A_COPY # 160612281960813932
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Show as a copy form =========================
+    id: 160613539843813945
+    identification: 
+      name: Show as a copy form
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: As a copy # 160612814409813938
+
+    execution: 
+      sequence: 50
+      event: as a copy # 160613432296813944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Hide from scratch form ======================
+    id: 160613959296813949
+    identification: 
+      name: Hide from scratch form
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: From scratch # 160612996726813939
+
+    execution: 
+      sequence: 40
+      event: as a copy # 160613432296813944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Hide buttons ================================
+    id: 160614026320813950
+    identification: 
+      name: Hide buttons
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Buttons # 7094082020085085122
+
+    execution: 
+      sequence: 10
+      event: as a copy # 160613432296813944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: grey out from scratch button ================
+    id: 161353306109474710
+    identification: 
+      name: grey out from scratch button
+      action: Set Style
+
+    settings: 
+      style-name: opacity
+      value: 0.3
+
+    affected-elements: 
+      selection-type: Button
+      button: FROM_SCRATCH # 160612147369813931
+
+    execution: 
+      sequence: 60
+      event: as a copy # 160613432296813944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: ungrey out from as a copy button ============
+    id: 161353556081474712
+    identification: 
+      name: ungrey out from as a copy button
+      action: Set Style
+
+    settings: 
+      style-name: opacity
+      value: 1
+
+    affected-elements: 
+      selection-type: Button
+      button: AS_A_COPY # 160612281960813932
+
+    execution: 
+      sequence: 70
+      event: as a copy # 160613432296813944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Hide Create =================================
+    id: 161353605399474713
+    identification: 
+      name: Hide Create
+      action: Hide
+
+    affected-elements: 
+      selection-type: Button
+      button: CREATE # 7561462278941100837
+
+    execution: 
+      sequence: 20
+      event: as a copy # 160613432296813944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Show Next ===================================
+    id: 161353821674474715
+    identification: 
+      name: Show Next
+      action: Show
+
+    affected-elements: 
+      selection-type: Button
+      button: CREATE_COPY # 161353915528474716
+
+    execution: 
+      sequence: 30
+      event: as a copy # 160613432296813944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: Cancel Modal ========================
   id: 6345262214910937922
   identification: 
@@ -924,25 +1922,6 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-validations: 
-- # ====== Validation: P11_DATE_STARTED must be timestamp ======
-  id: 7561464999394100857
-  identification: 
-    name: P11_DATE_STARTED must be timestamp
-
-  execution: 
-    sequence: 10
-
-  validation: 
-    type: Item is a valid timestamp
-    item: P11_DATE_STARTED
-    always-execute: false
-
-  error: 
-    error-message: '#LABEL# must be a valid timestamp.'
-    display-location: Inline with Field and in Notification
-    associated-item: P11_DATE_STARTED # 7561464700337100856
-
 processes: 
 - # ====== Process: Fetch Row from EBA_STDS_STANDARDS ==========
   id: 7561466002563100860
@@ -966,10 +1945,41 @@ processes:
     form-region: Manage Standard # 7561462082831100837
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P11_ID := eba_stds_standards_api.insert_std (
+                      p_standard_name         => :P11_STANDARD_NAME,
+                      p_description           => :P11_DESCRIPTION,
+                      p_primary_developer     => :P11_PRIMARY_DEVELOPER,
+                      p_implementation        => :P11_IMPLEMENTATION,
+                      p_date_started          => :P11_DATE_STARTED,
+                      p_standard_group        => :P11_STANDARD_GROUP,
+                      p_active_yn             => :P11_ACTIVE_YN,
+                      p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
+                      p_parent_standard_id    => :P11_PARENT_STANDARD_ID
+              );
+          when 'U' then
+             eba_stds_standards_api.updated_std (
+                  p_id                    => :P11_ID,
+                  p_standard_name         => :P11_STANDARD_NAME,
+                  p_description           => :P11_DESCRIPTION,
+                  p_primary_developer     => :P11_PRIMARY_DEVELOPER,
+                  p_implementation        => :P11_IMPLEMENTATION,
+                  p_date_started          => :P11_DATE_STARTED,
+                  p_standard_group        => :P11_STANDARD_GROUP,
+                  p_active_yn             => :P11_ACTIVE_YN,
+                  p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
+                  p_parent_standard_id    => :P11_PARENT_STANDARD_ID
+              );
+          when 'D' then
+            eba_stds_standards_api.delete_std(p_standard_id => :P11_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 20
@@ -982,46 +1992,33 @@ processes:
   error: 
     display-location: Inline in Notification
 
-- # ====== Process: Save Shuttle ===============================
-  id: 7561474793668307398
+branches: 
+- # ====== Branch: Branch for Create Copy ======================
+  id: 161354112321474718
   identification: 
-    name: Save Shuttle
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      declare
-          shtl apex_application_global.vc_arr2;
-      begin
-          delete from eba_stds_standard_type_ref
-          where standard_id = :P11_ID;
-      
-          shtl := apex_util.string_to_table( :P11_TYPES );
-          for i in 1..shtl.COUNT loop
-              insert into eba_stds_standard_type_ref ( standard_id, type_id )
-              values ( :P11_ID, shtl(i) );
-          end loop;
-      end;
+    name: Branch for Create Copy
 
   execution: 
-    sequence: 30
-    point: Processing
-    run-process: Once Per Page Visit (default)
+    sequence: 20
+    point: After Processing
 
-  error: 
-    display-location: Inline in Notification
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:65:P65_PARENT_STANDARD_ID,P65_STANDARD_ID:&P11_PARENT_STANDARD_ID.,&P11_ID.&success_msg=#SUCCESS_MSG#'
+      page: 65 # Manage Inherited Tests
+      clear-cache: 65
+      values: 
+        p65_parent_standard_id: '&P11_PARENT_STANDARD_ID.'
+        p65_standard_id: '&P11_ID.'
 
   server-side-condition: 
     type: Request is contained in Value
-    value: SAVE,CREATE
+    value: CREATE_COPY
 
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
-branches: 
 - # ====== Branch: Branch for Deletions ========================
   id: 7094082124895085123
   identification: 
@@ -1041,7 +2038,7 @@ branches:
     when-button-pressed: DELETE # 7561462501140100837
 
   security: 
-    authorization-scheme: APPLICATION SENTRY # 10780233005961370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
 - # ====== Branch: Branch for Update, Create ===================
   id: 7561463283262100839
@@ -1061,6 +2058,10 @@ branches:
       values: 
         p5_id: '&P11_ID.'
 
+  server-side-condition: 
+    type: Request is contained in Value
+    value: SAVE,CREATE
+
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 

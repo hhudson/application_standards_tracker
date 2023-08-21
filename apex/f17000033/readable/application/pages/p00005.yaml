@@ -51,7 +51,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARDS
+    table-name: V_EBA_STDS_STANDARDS_EXPORT
     include-rowid-column: false
     where-clause: |
       standard_id = :P5_ID
@@ -320,7 +320,7 @@ regions:
 
     blob-attributes: 
       table-owner: Parsing Schema
-      table-name: V_EBA_STDS_STANDARDS
+      table-name: V_EBA_STDS_STANDARDS_EXPORT
       blob-column: FILE_BLOB
       primary-key-column-1: STANDARD_ID
       mime-type-column: MIME_TYPE
@@ -328,7 +328,7 @@ regions:
       character-set-column: CHARACTER_SET
 
     appearance: 
-      download-text: Download up-to-date & published `&P5_STANDARD_NAME.` tests   <span class="fa fa-download" aria-hidden="true"></span>
+      download-text: '<span aria-hidden="true" class="fa fa-file-arrow-down"> Download published `&P5_STANDARD_NAME.` tests '
       content-disposition: Attachment
 
     sorting: 
@@ -471,11 +471,42 @@ regions:
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARD_TESTS_EXPORT
-    include-rowid-column: false
-    where-clause: 'standard_id = :P5_ID or :P5_ID is null'
+    type: SQL Query
+    sql-query: |
+      select standard_id,
+             test_id,
+             urgency,
+             urgency_level,
+             level_id,
+             test_name,
+             test_code,
+             standard_name,
+             active_yn,
+             nt_name,
+             query_clob,
+             std_creation_date,
+             mv_dependency,
+             svt_component_type_id,
+             component_name,
+             standard_active_yn,
+             explanation,
+             fix,
+             download,
+             file_blob,
+             mime_type,
+             file_name,
+             character_set,
+             vsn,
+             version_number,
+             record_md5,
+             lib_md5,
+             published_yn,
+             null publish_button_html,
+             download_css dlclss,
+             inherited_yn
+      from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
+          p_standard_id => :P5_ID
+      ) 
     page-items-to-submit: 
     - P5_ID
 
@@ -1473,47 +1504,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: ESTL_MD5 ====================================
-      id: 146337393431906233
-      identification: 
-        column-name: ESTL_MD5
-        type: Plain Text
-
-      heading: 
-        heading: Estl Md5
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 280
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: PUBLISHED_YN ================================
       id: 146337489209906234
       identification: 
@@ -1569,9 +1559,10 @@ regions:
         use-column-heading: true
 
       settings: 
-        class: PUBLISH_CLSS
-        label: PUBLISH_TEXT
         test-code: TEST_CODE
+        active-yes/no: ACTIVE_YN
+        published-yes/no: PUBLISHED_YN
+        lib-md5: LIB_MD5
 
       layout: 
         sequence: 300
@@ -1601,88 +1592,6 @@ regions:
 
       layout: 
         sequence: 310
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: PUBLISH_CLSS ================================
-      id: 146337703253906237
-      identification: 
-        column-name: PUBLISH_CLSS
-        type: Plain Text
-
-      heading: 
-        heading: Publish Clss
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 320
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: PUBLISH_TEXT ================================
-      id: 146557314410303747
-      identification: 
-        column-name: PUBLISH_TEXT
-        type: Plain Text
-
-      heading: 
-        heading: Publish Text
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 360
         column-alignment: start
 
       accessibility: 
@@ -1845,6 +1754,88 @@ regions:
       security: 
         escape-special-characters: true
 
+    - # ====== Column: LIB_MD5 =====================================
+      id: 160611969195813929
+      identification: 
+        column-name: LIB_MD5
+        type: Plain Text
+
+      heading: 
+        heading: Lib Md5
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 420
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: INHERITED_YN ================================
+      id: 161497569514565006
+      identification: 
+        column-name: INHERITED_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
+
+      heading: 
+        heading: Inherited
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 430
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
     printing: 
       output: 
         view-file-as: Attachment
@@ -1985,7 +1976,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_STDS_STANDARDS
+    table-name: V_EBA_STDS_STANDARDS
     include-rowid-column: false
     where-clause: 'id = :P5_ID'
     page-items-to-submit: 
@@ -2158,18 +2149,78 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: COMPATIBILITY_MODE ==========================
-    id: 148973429778209839
+  - # ====== Column: COMPATIBILITY_MODE_ID =======================
+    id: 160610068817813910
     identification: 
-      column-name: COMPATIBILITY_MODE
-      type: Plain Text
-
-    heading: 
-      heading: Compatibility Mode
-      alignment: start
+      column-name: COMPATIBILITY_MODE_ID
+      type: Hidden Column
 
     layout: 
       sequence: 77
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_MODE ==========================
+    id: 160610515664813915
+    identification: 
+      column-name: COMPATIBILITY_MODE
+      type: Hidden Column
+
+    layout: 
+      sequence: 87
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_DESC ==========================
+    id: 160610679551813916
+    identification: 
+      column-name: COMPATIBILITY_DESC
+      type: Hidden Column
+
+    layout: 
+      sequence: 97
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TYPE_NAME ===================================
+    id: 160611068311813920
+    identification: 
+      column-name: TYPE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 107
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_TEXT ==========================
+    id: 160611171013813921
+    identification: 
+      column-name: COMPATIBILITY_TEXT
+      type: Plain Text
+
+    heading: 
+      heading: Compatibility
+      alignment: start
+
+    layout: 
+      sequence: 117
       column-alignment: start
 
     accessibility: 
@@ -2327,7 +2378,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_STDS_STANDARDS
+    table-name: V_EBA_STDS_STANDARDS
     include-rowid-column: false
 
   layout: 
@@ -2424,6 +2475,237 @@ page-items:
   session-state: 
     data-type: VARCHAR2
     storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_COMPATIBILITY_MODE_ID =================
+  id: 160610192520813911
+  identification: 
+    name: P5_COMPATIBILITY_MODE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 140
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: COMPATIBILITY_MODE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_COMPATIBILITY_MODE ====================
+  id: 161497777654565008
+  identification: 
+    name: P5_COMPATIBILITY_MODE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 150
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: COMPATIBILITY_MODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_COMPATIBILITY_DESC ====================
+  id: 161497807904565009
+  identification: 
+    name: P5_COMPATIBILITY_DESC
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 160
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: COMPATIBILITY_DESC
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_TYPE_NAME =============================
+  id: 161497966223565010
+  identification: 
+    name: P5_TYPE_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 170
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: TYPE_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_COMPATIBILITY_TEXT ====================
+  id: 161498035974565011
+  identification: 
+    name: P5_COMPATIBILITY_TEXT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 180
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: COMPATIBILITY_TEXT
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_FULL_STANDARD_NAME ====================
+  id: 161498124766565012
+  identification: 
+    name: P5_FULL_STANDARD_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 190
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: FULL_STANDARD_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_PARENT_STANDARD_ID ====================
+  id: 161498284922565013
+  identification: 
+    name: P5_PARENT_STANDARD_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 200
+    region: Manage Standard # 7722092720206959682
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7722092720206959682
+    column: PARENT_STANDARD_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
 
   security: 
     session-state-protection: Unrestricted
@@ -2740,39 +3022,6 @@ page-items:
   help: 
     help-text: Give your standard a descriptive name
 
-- # ====== Page Item: P5_COMPATIBILITY_MODE ====================
-  id: 321240552927672751
-  identification: 
-    name: P5_COMPATIBILITY_MODE
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 120
-    region: Manage Standard # 7722092720206959682
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Manage Standard # 7722092720206959682
-    column: COMPATIBILITY_MODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
 - # ====== Page Item: P5_ID ====================================
   id: 7561455492187065562
   identification: 
@@ -3059,6 +3308,49 @@ buttons:
 
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
+
+- # ====== Button: VISIT_PARENT ================================
+  id: 161498396819565014
+  identification: 
+    button-name: VISIT_PARENT
+    label: Visit Parent Standard
+
+  layout: 
+    sequence: 10
+    region: Super Breadcrumb # 144377177445069517
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-arrow-up-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:&P5_PARENT_STANDARD_ID.'
+      page: 5 # V_EBA_STDS_STANDARD_TESTS
+      clear-cache: 5
+      values: 
+        p5_id: '&P5_PARENT_STANDARD_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P5_PARENT_STANDARD_ID
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
 
 - # ====== Button: RESET =======================================
   id: 268631833539257434
@@ -3437,13 +3729,9 @@ computations:
     type: Expression
     language: PL/SQL
     pl/sql-expression: |
-      case when :P5_STANDARD_NAME is null 
+      case when :P5_ID is null 
            then 'All'
-           else :P5_STANDARD_NAME
-           end
-           ||
-      case when :P5_COMPATIBILITY_MODE is not null
-           then apex_string.format(' (APEX v%s)', :P5_COMPATIBILITY_MODE)
+           else :P5_FULL_STANDARD_NAME
            end
            ||
       case when :P5_ACTIVE_YN = 'N'
