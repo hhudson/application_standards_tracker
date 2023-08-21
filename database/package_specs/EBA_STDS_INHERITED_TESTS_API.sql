@@ -91,6 +91,21 @@ procedure delete_std (p_standard_id  in eba_stds_inherited_tests.standard_id%typ
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: 2023-Aug-21
+-- Synopsis:
+--
+-- Procedure to delete all records for a given test_id  
+--
+/*
+begin
+    eba_stds_inherited_tests_api.delete_test (p_test_id => p_test_id);
+end;
+*/
+------------------------------------------------------------------------------
+procedure delete_test (p_test_id  in eba_stds_inherited_tests.test_id%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: August 17, 2023
 -- Synopsis:
 --

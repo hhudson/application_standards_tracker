@@ -350,6 +350,8 @@ create or replace package body eba_stds_standard_tests_api as
                                         'p_id', p_id,
                                         'p_test_code', p_test_code);
 
+    eba_stds_inherited_tests_api.delete_test (p_test_id => p_id);
+    
     delete from eba_stds_standard_tests
     where id = p_id;
 

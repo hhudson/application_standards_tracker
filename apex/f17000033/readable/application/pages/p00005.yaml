@@ -328,7 +328,7 @@ regions:
       character-set-column: CHARACTER_SET
 
     appearance: 
-      download-text: '<span aria-hidden="true" class="fa fa-file-arrow-down"> Download published `&P5_STANDARD_NAME.` tests '
+      download-text: '<span aria-hidden="true" class="fa fa-file-arrow-down"> Download published `&P5_FULL_STANDARD_NAME.` tests '
       content-disposition: Attachment
 
     sorting: 
@@ -411,6 +411,21 @@ regions:
 
     layout: 
       sequence: 180
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FULL_STANDARD_NAME ==========================
+    id: 171973949486663608
+    identification: 
+      column-name: FULL_STANDARD_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 190
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -503,7 +518,8 @@ regions:
              published_yn,
              null publish_button_html,
              download_css dlclss,
-             inherited_yn
+             inherited_yn,
+             calling_standard_name
       from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
           p_standard_id => :P5_ID
       ) 
@@ -546,11 +562,12 @@ regions:
     link: 
       link-column: Link to Custom Target
       target: 
-        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:#TEST_CODE#'
+        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE,P14_CALLING_STANDARD_ID:#TEST_CODE#,&P5_ID.'
         page: 14 # Manage Test
         clear-cache: RR,14
         values: 
           p14_test_code: '#TEST_CODE#'
+          p14_calling_standard_id: '&P5_ID.'
 
       link-icon: |
         <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" 
@@ -1836,6 +1853,47 @@ regions:
         group-by: true
         pivot: true
 
+    - # ====== Column: CALLING_STANDARD_NAME =======================
+      id: 161501936665565050
+      identification: 
+        column-name: CALLING_STANDARD_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Calling Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 440
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     printing: 
       output: 
         view-file-as: Attachment
@@ -2672,7 +2730,7 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted

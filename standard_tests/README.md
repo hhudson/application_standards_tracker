@@ -43,7 +43,6 @@ These standards enforce security
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_191/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 
 ## [Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_SECURITY_212/STANDARD-APEX_SECURITY_212.json)
 These standards enforce security
@@ -64,5 +63,6 @@ These are best practices that apply to Universal Theme applications.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [BUTTON_DEFAULT_SIZE](APEX_UNIVERSAL_THEME_212/tests/BUTTON_DEFAULT_SIZE.json) |  Button size should be default | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 
     

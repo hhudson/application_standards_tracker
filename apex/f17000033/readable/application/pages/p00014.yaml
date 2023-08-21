@@ -128,7 +128,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 80
+    sequence: 40
     parent-region: Standard Test # 7562693978314107360
     position: SUB_REGIONS
     start-new-layout: false
@@ -270,7 +270,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 40
+    sequence: 20
     parent-region: Standard Test # 7562693978314107360
     position: SUB_REGIONS
     start-new-layout: false
@@ -322,7 +322,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 60
+    sequence: 30
     parent-region: Standard Test # 7562693978314107360
     position: SUB_REGIONS
     start-new-layout: false
@@ -366,6 +366,129 @@ regions:
     settings: 
       output-as: HTML
       expand-shortcuts: false
+
+- # ====== Region: Test Organization ===========================
+  id: 171973246579663601
+  identification: 
+    title: Test Organization
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: Standard Test # 7562693978314107360
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 
+      from EBA_STDS_INHERITED_TESTS
+      where test_id = :P14_ID
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: This test is shared by the following standard
+  id: 171973311488663602
+  identification: 
+    title: 'This test is shared by the following standard (s): '
+    type: Tree
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_EBA_STDS_INHERITED_TESTS_TREE
+    include-rowid-column: false
+    where-clause: 'TEST_ID = :P14_ID'
+    page-items-to-submit: 
+    - P14_ID
+
+  layout: 
+    sequence: 10
+    parent-region: Test Organization # 171973246579663601
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      node-label-column: STANDARD_NAME
+      node-value-column: STANDARD_ID
+      hierarchy: Computed with SQL
+      node-id-column: STANDARD_ID
+      parent-key-column: PARENT_STANDARD_ID
+      start-tree-with: Value is NULL
+      order-siblings-by: STANDARD_NAME
+      tooltip: None
+      activate-node-link-with: Single Click
+      link: 
+        url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:RR,5:P5_ID,IR[STANDARD_TEST_RPT]EQ_TEST_CODE:&STANDARD_ID.,&P14_TEST_CODE.'
+        page: 5 # V_EBA_STDS_STANDARD_TESTS
+        clear-cache: RR,5
+        values: 
+          p5_id: '&STANDARD_ID.'
+          ir[standard_test_rpt]eq_test_code: '&P14_TEST_CODE.'
+
+      default-icon-css-class: icon-tree-folder
+      icon-type-css-class: a-Icon
+
+    performance: 
+      lazy-loading: true
 
 - # ====== Region: Live Test results report ====================
   id: 223434012666172342
@@ -1437,7 +1560,7 @@ regions:
     - P14_ID
 
   layout: 
-    sequence: 100
+    sequence: 110
     parent-region: Configuration # 115235287601846904
     position: BODY
     start-new-layout: false
@@ -1517,7 +1640,7 @@ regions:
         heading: Standard ID
 
       layout: 
-        sequence: 30
+        sequence: 80
 
       source: 
         primary-key: false
@@ -1535,7 +1658,7 @@ regions:
         heading: Test ID
 
       layout: 
-        sequence: 40
+        sequence: 90
 
       source: 
         primary-key: false
@@ -1553,7 +1676,7 @@ regions:
         heading: Urgency
 
       layout: 
-        sequence: 50
+        sequence: 100
 
       source: 
         primary-key: false
@@ -1571,7 +1694,7 @@ regions:
         heading: Test Name
 
       layout: 
-        sequence: 70
+        sequence: 110
 
       source: 
         primary-key: false
@@ -1583,19 +1706,42 @@ regions:
       id: 143449722860206712
       identification: 
         column-name: ACTIVE_YN
-        type: Hidden Column
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
 
       heading: 
-        heading: Active Yn
+        heading: Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
 
       layout: 
-        sequence: 100
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
 
       source: 
         primary-key: false
 
-      security: 
-        escape-special-characters: true
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
 
     - # ====== Column: NT_NAME =====================================
       id: 143449895960206713
@@ -1607,7 +1753,7 @@ regions:
         heading: Nt Name
 
       layout: 
-        sequence: 110
+        sequence: 120
 
       source: 
         primary-key: false
@@ -1625,7 +1771,7 @@ regions:
         heading: Query Clob
 
       layout: 
-        sequence: 120
+        sequence: 130
 
       source: 
         primary-key: false
@@ -1643,7 +1789,7 @@ regions:
         heading: Std Creation Date
 
       layout: 
-        sequence: 130
+        sequence: 140
 
       source: 
         primary-key: false
@@ -1661,7 +1807,7 @@ regions:
         heading: Mv Dependency
 
       layout: 
-        sequence: 140
+        sequence: 150
 
       source: 
         primary-key: false
@@ -1802,7 +1948,7 @@ regions:
         heading: File Blob
 
       layout: 
-        sequence: 210
+        sequence: 200
 
       source: 
         primary-key: false
@@ -1820,7 +1966,7 @@ regions:
         heading: Mime Type
 
       layout: 
-        sequence: 220
+        sequence: 210
 
       source: 
         primary-key: false
@@ -1838,7 +1984,7 @@ regions:
         heading: File Name
 
       layout: 
-        sequence: 230
+        sequence: 220
 
       source: 
         primary-key: false
@@ -1856,7 +2002,7 @@ regions:
         heading: Character Set
 
       layout: 
-        sequence: 240
+        sequence: 230
 
       source: 
         primary-key: false
@@ -1874,7 +2020,7 @@ regions:
         heading: Record Md5
 
       layout: 
-        sequence: 260
+        sequence: 240
 
       source: 
         primary-key: false
@@ -1886,19 +2032,42 @@ regions:
       id: 143451513377206730
       identification: 
         column-name: PUBLISHED_YN
-        type: Hidden Column
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10458821105493383260
 
       heading: 
-        heading: Published Yn
+        heading: Published
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
 
       layout: 
-        sequence: 280
+        sequence: 70
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
 
       source: 
         primary-key: false
 
-      security: 
-        escape-special-characters: true
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
 
     - # ====== Column: PUBLISH_BUTTON_HTML =========================
       id: 143451692807206731
@@ -1942,7 +2111,7 @@ regions:
         heading: Dlclss
 
       layout: 
-        sequence: 290
+        sequence: 250
 
       source: 
         primary-key: false
@@ -1960,7 +2129,7 @@ regions:
         heading: Vsn
 
       layout: 
-        sequence: 300
+        sequence: 260
 
       source: 
         primary-key: false
@@ -1978,7 +2147,7 @@ regions:
         heading: Svt Component Type Id
 
       layout: 
-        sequence: 320
+        sequence: 270
 
       source: 
         primary-key: false
@@ -1990,16 +2159,39 @@ regions:
       id: 147813377162836209
       identification: 
         column-name: TEST_CODE
-        type: Hidden Column
+        type: Plain Text
 
       heading: 
         heading: Test Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
 
       layout: 
-        sequence: 370
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
 
       source: 
         primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
 
       security: 
         escape-special-characters: true
@@ -2014,7 +2206,7 @@ regions:
         heading: Level Id
 
       layout: 
-        sequence: 380
+        sequence: 280
 
       source: 
         primary-key: false
@@ -2032,7 +2224,7 @@ regions:
         heading: Version Number
 
       layout: 
-        sequence: 390
+        sequence: 290
 
       source: 
         primary-key: false
@@ -2050,7 +2242,7 @@ regions:
         heading: Urgency Level
 
       layout: 
-        sequence: 400
+        sequence: 300
 
       source: 
         primary-key: false
@@ -2068,7 +2260,7 @@ regions:
         heading: Standard Name
 
       layout: 
-        sequence: 410
+        sequence: 310
 
       source: 
         primary-key: false
@@ -2090,7 +2282,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 420
+        sequence: 30
         column-alignment: start
 
       accessibility: 
@@ -2293,7 +2485,7 @@ page-items:
     minimum-height: 100
 
   layout: 
-    sequence: 60
+    sequence: 80
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2351,7 +2543,7 @@ page-items:
     minimum-height: 100
 
   layout: 
-    sequence: 70
+    sequence: 90
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2645,7 +2837,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 110
+    sequence: 30
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2740,7 +2932,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 80
+    sequence: 100
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -2869,7 +3061,7 @@ page-items:
     start-new-row: true
     column: Automatic
     new-column: true
-    column-span: Automatic
+    column-span: 4
     label-column-span: Page Template Default
 
   appearance: 
@@ -2977,6 +3169,36 @@ page-items:
   help: 
     help-text: Identify a materialized view referenced in your query. If provided, the view will be `refreshed` every time the test is run.
 
+- # ====== Page Item: P14_CALLING_STANDARD_ID ==================
+  id: 161501879959565049
+  identification: 
+    name: P14_CALLING_STANDARD_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: Configuration # 115235287601846904
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P14_LEVEL_ID =============================
   id: 223431027879172312
   identification: 
@@ -2996,7 +3218,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -3004,7 +3226,7 @@ page-items:
     start-new-row: true
     column: Automatic
     new-column: true
-    column-span: Automatic
+    column-span: 4
     label-column-span: Page Template Default
 
   appearance: 
@@ -3106,7 +3328,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 40
+    sequence: 50
     region: Configuration # 115235287601846904
     position: BODY
     alignment: Left
@@ -3166,7 +3388,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 50
+    sequence: 70
     region: Configuration # 115235287601846904
     position: BODY
 
@@ -3315,9 +3537,8 @@ buttons:
     icon: fa-user-slash
 
   behavior: 
-    action: Submit Page
+    action: Defined by Dynamic Action
     execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
     database-action: SQL UPDATE action
 
   server-side-condition: 
@@ -3430,6 +3651,54 @@ buttons:
 
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
+
+- # ====== Button: VISIT_STANDARD ==============================
+  id: 161498552187565016
+  identification: 
+    button-name: VISIT_STANDARD
+    label: Visit Standard
+
+  layout: 
+    sequence: 60
+    region: Configuration # 115235287601846904
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: 11
+    new-column: true
+    column-span: 2
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--simple
+    - t-Button--iconLeft
+    - t-Button--stretch
+    - t-Button--gapTop
+    icon: fa-arrow-right-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:RR,5:P5_ID,IR[STANDARD_TEST_RPT]EQ_TEST_CODE:&P14_STANDARD_ID.,&P14_TEST_CODE.'
+      page: 5 # V_EBA_STDS_STANDARD_TESTS
+      clear-cache: RR,5
+      values: 
+        p5_id: '&P14_STANDARD_ID.'
+        ir[standard_test_rpt]eq_test_code: '&P14_TEST_CODE.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P14_STANDARD_ID
+
+  security: 
+    authorization-scheme: READER RIGHTS # 48893993399820863
 
 - # ====== Button: SAVE_RERUN_AUDIT ============================
   id: 240632191206034438
@@ -3611,9 +3880,8 @@ buttons:
     - t-Button--gapLeft
 
   behavior: 
-    action: Submit Page
+    action: Defined by Dynamic Action
     execute-validations: false
-    warn-on-unsaved-changes: Do Not Check
     database-action: SQL DELETE action
 
   confirmation: 
@@ -3974,6 +4242,126 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+- # ====== Dynamic Action: Save ================================
+  id: 171974021159663609
+  identification: 
+    name: Save
+
+  execution: 
+    sequence: 170
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: SAVE # 143064123846412524
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: SAVE ========================================
+    id: 171974168403663610
+    identification: 
+      name: SAVE
+      action: Submit Page
+
+    settings: 
+      request-/-button-name: SAVE
+      show-processing: true
+
+    execution: 
+      sequence: 30
+      event: Save # 171974021159663609
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 171974281300663611
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: This test exists in several standards
+      message: Are you sure you want to make a change that will impact several standards?
+      style: Default
+      icon: fa-warning
+      confirm-label: Proceed
+      cancel-label: Cancel
+
+    execution: 
+      sequence: 10
+      event: Save # 171974021159663609
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select 1
+        from eba_stds_inherited_tests
+        where test_id = :P14_ID
+
+- # ====== Dynamic Action: Delete ==============================
+  id: 171974577561663614
+  identification: 
+    name: Delete
+
+  execution: 
+    sequence: 180
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: DELETE # 7562694374183107360
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Confirm =====================================
+    id: 171974430069663613
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: This test exists in several standards
+      message: Are you sure you want to make a change that will impact several standards?
+      style: Default
+      icon: fa-warning
+      confirm-label: Proceed
+      cancel-label: Cancel
+
+    execution: 
+      sequence: 10
+      event: Delete # 171974577561663614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select 1
+        from eba_stds_inherited_tests
+        where test_id = :P14_ID
+
+  - # ====== Action: DELETE ======================================
+    id: 171974693553663615
+    identification: 
+      name: DELETE
+      action: Submit Page
+
+    settings: 
+      request-/-button-name: DELETE
+      show-processing: true
+
+    execution: 
+      sequence: 20
+      event: Delete # 171974577561663614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: seed on refresh =====================
   id: 244345268015923148
   identification: 
@@ -4072,6 +4460,32 @@ dynamic-actions:
     type: Immediate
 
   actions: 
+  - # ====== Action: Confirm =====================================
+    id: 171974359804663612
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: This test exists in several standards
+      message: Are you sure you want to make a change that will impact several standards?
+      style: Default
+      icon: fa-warning
+      confirm-label: Proceed
+      cancel-label: Cancel
+
+    execution: 
+      sequence: 10
+      event: rerunAudit # 282803581260565225
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select 1
+        from eba_stds_inherited_tests
+        where test_id = :P14_ID
+
   - # ====== Action: Disable =====================================
     id: 282803654895565226
     identification: 
@@ -4082,14 +4496,15 @@ dynamic-actions:
       button: SAVE_RERUN_AUDIT # 240632191206034438
 
     execution: 
-      sequence: 10
+      sequence: 30
       event: rerunAudit # 282803581260565225
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Submit Page =================================
+  - # ====== Action: SAVE_RERUN_AUDIT ============================
     id: 282803758989565227
     identification: 
+      name: SAVE_RERUN_AUDIT
       action: Submit Page
 
     settings: 
@@ -4097,7 +4512,7 @@ dynamic-actions:
       show-processing: true
 
     execution: 
-      sequence: 20
+      sequence: 40
       event: rerunAudit # 282803581260565225
       fire-when-event-result-is: True
       fire-on-initialization: false
