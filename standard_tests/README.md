@@ -2,8 +2,9 @@
 
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are standards to maintain Accessibility.
-[Standard : Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_ACCESSIBILITY_212/STANDARD-APEX_ACCESSIBILITY_212.json)
-[All tests](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
+
+ - [Standard export](APEX_ACCESSIBILITY_212/STANDARD-APEX_ACCESSIBILITY_212.json)
+ - [All tests export](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -12,8 +13,9 @@ These are standards to maintain Accessibility.
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
-[Standard : Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_BROKEN_FUNCTIONALITY_212/STANDARD-APEX_BROKEN_FUNCTIONALITY_212.json)
-[All tests](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
+
+ - [Standard export](APEX_BROKEN_FUNCTIONALITY_212/STANDARD-APEX_BROKEN_FUNCTIONALITY_212.json)
+ - [All tests export](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -21,8 +23,9 @@ These tests identify functionality that invalid.
 
 ## Cleanup (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Best practices to keep things tidy
-[Standard : Cleanup (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_CLEANUP_212/STANDARD-APEX_CLEANUP_212.json)
-[All tests](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
+
+ - [Standard export](APEX_CLEANUP_212/STANDARD-APEX_CLEANUP_212.json)
+ - [All tests export](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -30,8 +33,9 @@ Best practices to keep things tidy
 
 ## Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards that are *not* general standards
-[Standard : Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_IDIOSYNCRATIC_212/STANDARD-APEX_IDIOSYNCRATIC_212.json)
-[All tests](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
+
+ - [Standard export](APEX_IDIOSYNCRATIC_212/STANDARD-APEX_IDIOSYNCRATIC_212.json)
+ - [All tests export](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -39,8 +43,9 @@ Standards that are *not* general standards
 
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
-[Standard : Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_REDWOOD_212/STANDARD-APEX_REDWOOD_212.json)
-[All tests](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
+
+ - [Standard export](APEX_REDWOOD_212/STANDARD-APEX_REDWOOD_212.json)
+ - [All tests export](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -50,16 +55,19 @@ Standards for correctly implementing Redwood patterns
 
 ## Security (APEX Version 19.1)
 These standards enforce security
-[Standard : Security (APEX Version 19.1)](APEX_SECURITY_191/STANDARD-APEX_SECURITY_191.json)
-[All tests](APEX_SECURITY_191/ALL_TESTS-APEX_SECURITY_191.json)
+
+ - [Standard export](APEX_SECURITY_191/STANDARD-APEX_SECURITY_191.json)
+ - [All tests export](APEX_SECURITY_191/ALL_TESTS-APEX_SECURITY_191.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_191/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 
 ## Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These standards enforce security
-[Standard : Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_SECURITY_212/STANDARD-APEX_SECURITY_212.json)
-[All tests](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
+
+ - [Standard export](APEX_SECURITY_212/STANDARD-APEX_SECURITY_212.json)
+ - [All tests export](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -67,8 +75,9 @@ These standards enforce security
 
 ## Security (APEX Version 23.2 +)
 These standards enforce security
-[Standard : Security (APEX Version 23.2 +)](APEX_SECURITY_232/STANDARD-APEX_SECURITY_232.json)
-[All tests](APEX_SECURITY_232/ALL_TESTS-APEX_SECURITY_232.json)
+
+ - [Standard export](APEX_SECURITY_232/STANDARD-APEX_SECURITY_232.json)
+ - [All tests export](APEX_SECURITY_232/ALL_TESTS-APEX_SECURITY_232.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -76,8 +85,9 @@ These standards enforce security
 
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.
-[Standard : Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)](APEX_UNIVERSAL_THEME_212/STANDARD-APEX_UNIVERSAL_THEME_212.json)
-[All tests](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
+
+ - [Standard export](APEX_UNIVERSAL_THEME_212/STANDARD-APEX_UNIVERSAL_THEME_212.json)
+ - [All tests export](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|

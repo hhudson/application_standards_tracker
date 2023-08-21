@@ -460,17 +460,18 @@ create or replace package body SVT_DEPLOYMENT as
                       p2 => srec.compatibility_text)
                    ||chr(10)
                    ||srec.description
+                   ||chr(10)
                    ||chr(10);
       l_md_clob := l_md_clob
                    ||apex_string.format(
-                      '[Standard : %0 (%2)](%1/STANDARD-%1.json)',
+                      ' - [Standard export](%1/STANDARD-%1.json)',
                       p0 => srec.standard_name,
                       p1 => srec.file_name,
                       p2 => srec.compatibility_text)
                    ||chr(10);
       l_md_clob := l_md_clob
                    ||apex_string.format(
-                      '[All tests](%1/ALL_TESTS-%1.json)',
+                      ' - [All tests export](%1/ALL_TESTS-%1.json)',
                       p0 => srec.standard_name,
                       p1 => srec.file_name,
                       p2 => srec.compatibility_text)
