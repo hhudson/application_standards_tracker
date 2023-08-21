@@ -19,7 +19,7 @@ cross join eba_stds_standard_tests_api.v_eba_stds_standard_tests(
         p_published_yn => 'Y'
     ) vess
 union all
-select distinct apex_string.format(q'[spool standard_tests/%1/STANDARD-%1.json
+select distinct apex_string.format(q'[spool standard_tests/%1/ALL_TESTS-%1.json
 select svt_deployment.json_content_clob (p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT', p_standard_id => '%0') thejsonclob from dual;]', standard_id, eba_stds.file_name(full_standard_name) ) stmt
 from v_eba_stds_standards_export tet
 where file_blob is not null

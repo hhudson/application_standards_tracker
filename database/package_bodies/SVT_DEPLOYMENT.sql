@@ -87,19 +87,27 @@ create or replace package body SVT_DEPLOYMENT as
   function json_content_blob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
                               p_test_code     in eba_stds_standard_tests.test_code%type default null,
-                              p_standard_id   in eba_stds_standards.id%type default null)
+                              p_standard_id   in eba_stds_standards.id%type default null,
+                              p_zip_yn        in varchar2 default null)
   return blob
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_blob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_query     clob;
   l_file_blob blob;
+  c_zip_yn varchar2(1) := case when upper(p_zip_yn) = gc_y
+                               then gc_y
+                               else gc_n
+                               end;
+  l_zip_file blob;
+  l_final_blob blob;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name,
                                         'p_row_limit', p_row_limit,
                                         'p_test_code', p_test_code,
-                                        'p_standard_id', p_standard_id);
+                                        'p_standard_id', p_standard_id,
+                                        'p_zip_yn', p_zip_yn);
 
     l_query := assemble_json_query (
                     p_table_name    => p_table_name,
@@ -110,7 +118,17 @@ create or replace package body SVT_DEPLOYMENT as
 
     execute immediate l_query into l_file_blob;
 
-    return l_file_blob;
+    if c_zip_yn = gc_y then
+      apex_zip.add_file (
+              p_zipped_blob => l_zip_file,
+              p_file_name   => 'hayden',
+              p_content     => l_file_blob );
+      l_final_blob := l_zip_file;
+    else 
+      l_final_blob := l_file_blob;
+    end if;
+
+    return l_final_blob;
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -434,17 +452,30 @@ create or replace package body SVT_DEPLOYMENT as
                  order by standard_name, display_order)
     loop 
       apex_debug.message(c_debug_template, 'file_name', srec.file_name);
+      
       l_md_clob := l_md_clob
                    ||apex_string.format(
-                      '## [%0 (%2)](%1/STANDARD-%1.json)',
+                      '## %0 (%2)',
+                      p0 => srec.standard_name,
+                      p2 => srec.compatibility_text)
+                   ||chr(10)
+                   ||srec.description
+                   ||chr(10);
+      l_md_clob := l_md_clob
+                   ||apex_string.format(
+                      '[Standard : %0 (%2)](%1/STANDARD-%1.json)',
+                      p0 => srec.standard_name,
+                      p1 => srec.file_name,
+                      p2 => srec.compatibility_text)
+                   ||chr(10);
+      l_md_clob := l_md_clob
+                   ||apex_string.format(
+                      '[All tests](%1/ALL_TESTS-%1.json)',
                       p0 => srec.standard_name,
                       p1 => srec.file_name,
                       p2 => srec.compatibility_text)
                    ||chr(10)
-                   ||srec.description
-                   ||chr(10)
                    ||c_headers_md;
-      
       <<test_sec>>
       declare
       l_test_md clob;

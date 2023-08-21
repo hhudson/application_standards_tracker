@@ -57,7 +57,8 @@ from dual
     function json_content_blob (p_table_name     in user_tables.table_name%type,
                                 p_row_limit      in number default null,
                                 p_test_code      in eba_stds_standard_tests.test_code%type default null,
-                                p_standard_id    in eba_stds_standards.id%type default null)
+                                p_standard_id    in eba_stds_standards.id%type default null,
+                                p_zip_yn         in varchar2 default null)
     return blob;
 
 ------------------------------------------------------------------------------

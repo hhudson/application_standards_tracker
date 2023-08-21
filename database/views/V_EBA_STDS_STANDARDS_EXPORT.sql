@@ -15,7 +15,7 @@ with jcb as (select id standard_id,
                     standard_group, 
                     active_yn,
                     'application/json' mime_type,
-                    apex_string.format('STANDARD-%0.json',
+                    apex_string.format('ALL_TESTS-%0.json',
                                         p0 => eba_stds.file_name(full_standard_name)
                                       ) file_name,
                     'UTF-8' character_set,
