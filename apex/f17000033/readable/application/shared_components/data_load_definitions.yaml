@@ -132,13 +132,13 @@
         decimal-character: .
 
       advanced: 
-        sequence: 1
+        sequence: 10
         hidden: false
 
-    - # ====== Column: NAME ========================================
+    - # ====== Column: STANDARD_NAME ===============================
       id: 51750429875700986
       identification: 
-        column-name: NAME
+        column-name: STANDARD_NAME
 
       source: 
         type: Data
@@ -147,10 +147,10 @@
         primary-key: false
 
       parsing: 
-        path-expression: NAME
+        path-expression: STANDARD_NAME
 
       advanced: 
-        sequence: 2
+        sequence: 20
         hidden: false
 
     - # ====== Column: DESCRIPTION =================================
@@ -168,7 +168,7 @@
         path-expression: DESCRIPTION
 
       advanced: 
-        sequence: 3
+        sequence: 30
         hidden: false
 
     - # ====== Column: IMPLEMENTATION ==============================
@@ -185,7 +185,7 @@
         path-expression: IMPLEMENTATION
 
       advanced: 
-        sequence: 4
+        sequence: 40
         hidden: false
 
     - # ====== Column: STANDARD_GROUP ==============================
@@ -203,7 +203,7 @@
         path-expression: STANDARD_GROUP
 
       advanced: 
-        sequence: 5
+        sequence: 50
         hidden: false
 
     - # ====== Column: PRIMARY_DEVELOPER ===========================
@@ -221,7 +221,7 @@
         path-expression: PRIMARY_DEVELOPER
 
       advanced: 
-        sequence: 6
+        sequence: 60
         hidden: false
 
     - # ====== Column: COMPATIBILITY_MODE_ID =======================
@@ -238,7 +238,42 @@
         path-expression: COMPATIBILITY_MODE_ID
 
       advanced: 
-        sequence: 16
+        sequence: 70
+        hidden: false
+
+    - # ====== Column: ACTIVE_YN ===================================
+      id: 172364566806742559
+      identification: 
+        column-name: ACTIVE_YN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        path-expression: ACTIVE_YN
+
+      advanced: 
+        sequence: 80
+        hidden: false
+
+    - # ====== Column: PARENT_STANDARD_ID ==========================
+      id: 172364848264746491
+      identification: 
+        column-name: PARENT_STANDARD_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: PARENT_STANDARD_ID
+
+      advanced: 
+        sequence: 90
         hidden: false
 
 - # ====== Data Load Definition: SVT-COMPONENT-TYPES ===========
@@ -838,24 +873,6 @@
         sequence: 40
         hidden: false
 
-    - # ====== Column: WORKSPACE ===================================
-      id: 52072777534449952
-      identification: 
-        column-name: WORKSPACE
-
-      source: 
-        type: Data
-        data-type: VARCHAR2
-        maximum-length: 225
-        primary-key: true
-
-      parsing: 
-        path-expression: WORKSPACE
-
-      advanced: 
-        sequence: 50
-        hidden: false
-
     - # ====== Column: QUERY_CLOB ==================================
       id: 52073382877449952
       identification: 
@@ -1143,5 +1160,202 @@
 
       advanced: 
         sequence: 50
+        hidden: false
+
+- # ====== Data Load Definition: berberb =======================
+  id: 172363938189731048
+  identification: 
+    name: berberb
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARDS
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: berberb
+
+  data-profiles: 
+    id: 172361059559731029
+    identification: 
+      name: berberb
+
+    data-profile: 
+      format: JSON
+
+    advanced: 
+      encoding: Unicode UTF-8
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 172361346455731046
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        path-expression: ID
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: ACTIVE_YN ===================================
+      id: 172361676940731047
+      identification: 
+        column-name: ACTIVE_YN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1
+        primary-key: false
+
+      parsing: 
+        path-expression: ACTIVE_YN
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: DESCRIPTION =================================
+      id: 172361911895731047
+      identification: 
+        column-name: DESCRIPTION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        path-expression: DESCRIPTION
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: STANDARD_NAME ===============================
+      id: 172362205439731047
+      identification: 
+        column-name: STANDARD_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 64
+        primary-key: false
+
+      parsing: 
+        path-expression: STANDARD_NAME
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: IMPLEMENTATION ==============================
+      id: 172362534759731047
+      identification: 
+        column-name: IMPLEMENTATION
+
+      source: 
+        type: Data
+        data-type: CLOB
+        primary-key: false
+
+      parsing: 
+        path-expression: IMPLEMENTATION
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: STANDARD_GROUP ==============================
+      id: 172362824341731048
+      identification: 
+        column-name: STANDARD_GROUP
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32
+        primary-key: false
+
+      parsing: 
+        path-expression: STANDARD_GROUP
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: PRIMARY_DEVELOPER ===========================
+      id: 172363191231731048
+      identification: 
+        column-name: PRIMARY_DEVELOPER
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        path-expression: PRIMARY_DEVELOPER
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: PARENT_STANDARD_ID ==========================
+      id: 172363452370731048
+      identification: 
+        column-name: PARENT_STANDARD_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: PARENT_STANDARD_ID
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: COMPATIBILITY_MODE_ID =======================
+      id: 172363724356731048
+      identification: 
+        column-name: COMPATIBILITY_MODE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: COMPATIBILITY_MODE_ID
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 9
         hidden: false
 

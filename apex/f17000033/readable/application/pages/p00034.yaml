@@ -1150,11 +1150,6 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-    server-side-condition: 
-      type: Item = Value
-      item: P34_ROW_COUNT
-      value: 1
-
   - # ====== Action: set standard_id =============================
     id: 148178623902813616
     identification: 
@@ -1179,7 +1174,7 @@ dynamic-actions:
       suppress-change-event: false
 
     execution: 
-      sequence: 30
+      sequence: 50
       event: extract values # 148178441183813614
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -1218,7 +1213,7 @@ dynamic-actions:
       suppress-change-event: false
 
     execution: 
-      sequence: 20
+      sequence: 30
       event: extract values # 148178441183813614
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -1229,6 +1224,48 @@ dynamic-actions:
       type: Expression
       language: PL/SQL
       pl/sql-expression: ':P34_ROW_COUNT > 1'
+
+  - # ====== Action: alert if no test_code =======================
+    id: 171975988652663628
+    identification: 
+      name: alert if no test_code
+      action: Alert
+
+    settings: 
+      title: This is not a valid test export script
+      message: The file you just loaded does not contain a test_code. Did you mean to import a standard script?
+      style: Default
+      icon: fa-alert
+
+    execution: 
+      sequence: 70
+      event: extract values # 148178441183813614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is null
+      item: P34_TEST_CODE
+
+  - # ====== Action: disable button if no test_code ==============
+    id: 171976025886663629
+    identification: 
+      name: disable button if no test_code
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: LOAD # 139374373993261896
+
+    execution: 
+      sequence: 60
+      event: extract values # 148178441183813614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is null
+      item: P34_TEST_CODE
 
 validations: 
 - # ====== Validation: Is valid file type ======================
@@ -1350,10 +1387,10 @@ processes:
     when-button-pressed: CLEAR # 139374033097261896
 
 branches: 
-- # ====== Branch: go to page 60 ===============================
+- # ====== Branch: go to page 60 (1 test) ======================
   id: 139354221324506120
   identification: 
-    name: go to page 60
+    name: go to page 60 (1 test)
 
   execution: 
     sequence: 10
@@ -1372,7 +1409,11 @@ branches:
     when-button-pressed: LOAD # 139374373993261896
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_TEST_CODE is not null and :P34_PROCESSED_ROW_COUNT = 1'
+    pl/sql-expression: |2
+          :P34_ERROR_ROW_COUNT = 0 
+      and :P34_TEST_CODE is not null 
+      and :P34_STANDARD_ID is null 
+      and :P34_PROCESSED_ROW_COUNT = 1
 
 - # ====== Branch: go to page 17 (1 standard) ==================
   id: 142750757444835319

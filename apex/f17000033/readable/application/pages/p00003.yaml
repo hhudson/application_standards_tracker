@@ -1154,7 +1154,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_DOWNLOAD_ALL_STANDARDS
+    table-name: V_ALL_STANDARDS_EXPORT
     include-rowid-column: false
 
   order-by: 
@@ -1234,63 +1234,6 @@ regions:
       enabled: false
 
   columns: 
-  - # ====== Column: FILE_SIZE ===================================
-    id: 159808597456174494
-    identification: 
-      column-name: FILE_SIZE
-      type: Download BLOB
-
-    heading: 
-      heading: Export Standard
-      alignment: end
-
-    layout: 
-      sequence: 10
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: true
-
-    blob-attributes: 
-      table-owner: Parsing Schema
-      table-name: V_DOWNLOAD_ALL_STANDARDS
-      blob-column: FILE_BLOB
-      primary-key-column-1: FILE_SIZE
-      mime-type-column: MIME_TYPE
-      filename-column: FILE_NAME
-      character-set-column: CHARACTER_SET
-
-    appearance: 
-      download-text: Download up-to-date & published tests   <span class="fa fa-download" aria-hidden="true"></span>
-      content-disposition: Attachment
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-  - # ====== Column: FILE_BLOB ===================================
-    id: 159808900708174494
-    identification: 
-      column-name: FILE_BLOB
-      type: Hidden Column
-
-    layout: 
-      sequence: 140
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
   - # ====== Column: MIME_TYPE ===================================
     id: 159809346685174495
     identification: 
@@ -1298,22 +1241,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 150
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: FILE_NAME ===================================
-    id: 159809770624174495
-    identification: 
-      column-name: FILE_NAME
-      type: Hidden Column
-
-    layout: 
-      sequence: 160
+      sequence: 40
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -1328,7 +1256,151 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 170
+      sequence: 50
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALL_TESTS_FILE_SIZE =========================
+    id: 171975306206663622
+    identification: 
+      column-name: ALL_TESTS_FILE_SIZE
+      type: Download BLOB
+
+    heading: 
+      heading: Downloads tests
+      alignment: end
+
+    layout: 
+      sequence: 20
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    blob-attributes: 
+      table-owner: Parsing Schema
+      table-name: V_ALL_STANDARDS_EXPORT
+      blob-column: ALL_TESTS_FILE_BLOB
+      primary-key-column-1: STD_FILE_SIZE
+      mime-type-column: MIME_TYPE
+      filename-column: ALL_TESTS_FILE_NAME
+      character-set-column: CHARACTER_SET
+
+    appearance: 
+      download-text: Download all tests <span class="fa fa-download" aria-hidden="true"></span>
+      content-disposition: Attachment
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+  - # ====== Column: STD_FILE_SIZE ===============================
+    id: 171975491098663623
+    identification: 
+      column-name: STD_FILE_SIZE
+      type: Download BLOB
+
+    heading: 
+      heading: Downloads standards
+      alignment: end
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: true
+
+    blob-attributes: 
+      table-owner: Parsing Schema
+      table-name: V_ALL_STANDARDS_EXPORT
+      blob-column: STD_FILE_BLOB
+      primary-key-column-1: ALL_TESTS_FILE_SIZE
+      mime-type-column: MIME_TYPE
+      filename-column: STD_FILE_NAME
+      character-set-column: CHARACTER_SET
+
+    appearance: 
+      download-text: Download all standards <span class="fa fa-download" aria-hidden="true"></span>
+      content-disposition: Attachment
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+  - # ====== Column: ALL_TESTS_FILE_BLOB =========================
+    id: 171975596367663624
+    identification: 
+      column-name: ALL_TESTS_FILE_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 60
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STD_FILE_BLOB ===============================
+    id: 171975674634663625
+    identification: 
+      column-name: STD_FILE_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 70
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STD_FILE_NAME ===============================
+    id: 171975700564663626
+    identification: 
+      column-name: STD_FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 80
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALL_TESTS_FILE_NAME =========================
+    id: 171975862976663627
+    identification: 
+      column-name: ALL_TESTS_FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 90
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -1418,6 +1490,9 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
+  configuration: 
+    build-option: TO_DELETE # 6157992149575072830
+
 - # ====== Button: REFRESH =====================================
   id: 53280477259974319
   identification: 
@@ -1490,7 +1565,7 @@ buttons:
     label: Import Test(s)
 
   layout: 
-    sequence: 30
+    sequence: 20
     region: Super Breadcrumb # 144377177445069517
     position: EDIT
     start-new-layout: false
@@ -1551,6 +1626,43 @@ buttons:
 
   configuration: 
     build-option: TO_DELETE # 6157992149575072830
+
+- # ====== Button: IMPORT_STANDARD =============================
+  id: 171976183948663630
+  identification: 
+    button-name: IMPORT_STANDARD
+    label: Import Standard(s)
+
+  layout: 
+    sequence: 10
+    region: Super Breadcrumb # 144377177445069517
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-upload
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:61:&SESSION.::&DEBUG.:61::'
+      page: 61 # Import Standards
+      clear-cache: 61
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
 
 - # ====== Button: CREATE_STANDARD =============================
   id: 7561466994380108836

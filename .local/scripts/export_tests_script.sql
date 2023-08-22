@@ -32,10 +32,10 @@ union all
 select apex_string.format(q'[spool standard_tests/ALL_STANDARDS.json
 select svt_deployment.json_content_clob (p_table_name => 'EBA_STDS_STANDARDS') thejsonclob from dual;]' ) stmt
 from dual
--- union all
--- select distinct apex_string.format(q'[spool standard_tests/ALL_STANDARDS.json
--- select svt_deployment.json_content_clob (p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT') thejsonclob from dual;]') stmt
--- from dual
+union all
+select distinct apex_string.format(q'[spool standard_tests/ALL_TESTS.json
+select svt_deployment.json_content_clob (p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT') thejsonclob from dual;]') stmt
+from dual
 union all 
 select q'[spool standard_tests/README.md
 select svt_deployment.markdown_summary thejsonclob from dual;]' stmt

@@ -419,7 +419,7 @@ regions:
       column-alignment: end
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     blob-attributes: 
       table-owner: Parsing Schema
@@ -3894,9 +3894,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: |
-      eba_stds_tests_lib_api.take_snapshot;
-      SVT_DEPLOYMENT.upsert_static_file(p_table_name => 'EBA_STDS_TESTS_LIB');
+    pl/sql-code: SVT_DEPLOYMENT.upsert_static_file(p_table_name => 'EBA_STDS_TESTS_LIB');
 
   execution: 
     sequence: 20
