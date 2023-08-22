@@ -73,6 +73,8 @@ create or replace package body SVT_DEPLOYMENT as
                  then apex_string.format(q'[where test_code = '%s']', c_test_code)
                  when c_table_name = 'EBA_STDS_STANDARDS' and p_standard_id is not null
                  then apex_string.format(q'[where id = '%s']', p_standard_id)
+                 when c_table_name = 'EBA_STDS_STANDARDS' and p_standard_id is null
+                 then q'[where active_yn = 'Y']'
                  end,
       p4 => case when c_table_name in ('EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
@@ -446,7 +448,11 @@ create or replace package body SVT_DEPLOYMENT as
   begin
     apex_debug.message(c_debug_template,'START');
 
-    l_md_clob := '# Published tests'||chr(10)||chr(10);
+    l_md_clob := '# Published standards & tests'
+                 ||chr(10)
+                 ||'- [Export of all standards](ALL_STANDARDS.json)'
+                 ||chr(10)
+                 ||chr(10);
 
     for srec in (select id, standard_name, eba_stds.file_name(full_standard_name) file_name, description, compatibility_text
                  from v_eba_stds_standards

@@ -1,4 +1,5 @@
-# Published tests
+# Published standards & tests
+- [Export of all standards](ALL_STANDARDS.json)
 
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are standards to maintain Accessibility.
