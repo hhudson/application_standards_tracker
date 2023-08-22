@@ -74,9 +74,15 @@ from dual
 -- function to return a clob of the json output of a table
 --
 /*
-select svt_deployment.json_content_clob (p_table_name => 'EBA_STDS_STANDARD_TESTS',
-                                         p_test_code => 'PG_NAME_TITLE') thejsonclob
-from dual
+set serveroutput on
+declare 
+l_clob clob;
+begin
+    l_clob := svt_deployment.json_content_clob (
+                p_table_name => 'EBA_STDS_STANDARD_TESTS',
+                p_test_code => 'PG_NAME_TITLE');
+    dbms_output.put_line(l_clob);
+end;
 */
 ------------------------------------------------------------------------------
     function json_content_clob (p_table_name    in user_tables.table_name%type,

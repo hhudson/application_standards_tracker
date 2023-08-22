@@ -43,7 +43,7 @@ create or replace package body SVT_DEPLOYMENT as
                       end;
   c_query_template constant varchar2(1000) := 
   'select json_arrayagg(json_object (jn.* returning %6) returning %6)
-   from (select asrc.* %4
+   from (select %7asrc.* %4
         from   except_cols (  
           %0,  
           columns ( %1 )  
@@ -65,7 +65,10 @@ create or replace package body SVT_DEPLOYMENT as
       p1 =>  'created, created_by, updated, updated_by, date_started, row_version_number, account_locked, '
            ||'download, file_blob, mime_type, file_name, character_set, record_md5, estl_md5, '
            ||'publish_button_html, dlclss, publish_clss, publish_text, vsn, imported_version_number, '
-           ||'standard_active_yn, urgency, std_creation_date, owner, urgency_level',
+           ||'standard_active_yn, urgency, std_creation_date, owner, urgency_level'
+           || case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
+                   then ', standard_id'
+                   end,
       p2 => case when p_row_limit is not null
                  then 'fetch first '||p_row_limit||' rows only'
                  end,
@@ -79,7 +82,10 @@ create or replace package body SVT_DEPLOYMENT as
       p4 => case when c_table_name in ('EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
                  end,
-      p6 => p_datatype
+      p6 => p_datatype,
+      p7 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
+                 then p_standard_id||' standard_id, '
+                 end
     );
     
     return l_query;
