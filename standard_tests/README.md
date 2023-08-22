@@ -1,11 +1,11 @@
 # Published standards & tests
-- [Export of all standards](ALL_STANDARDS.json)
+- [Export of all standards](ALL_STANDARDS.json)- [Export of all tests](ALL_TESTS.json)*
 
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are standards to maintain Accessibility.
 
  - [Standard export](APEX_ACCESSIBILITY_212/STANDARD-APEX_ACCESSIBILITY_212.json)
- - [All tests export](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
+ - [Consolidated tests export](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -16,7 +16,7 @@ These are standards to maintain Accessibility.
 These tests identify functionality that invalid.
 
  - [Standard export](APEX_BROKEN_FUNCTIONALITY_212/STANDARD-APEX_BROKEN_FUNCTIONALITY_212.json)
- - [All tests export](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
+ - [Consolidated tests export](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -26,7 +26,7 @@ These tests identify functionality that invalid.
 Best practices to keep things tidy
 
  - [Standard export](APEX_CLEANUP_212/STANDARD-APEX_CLEANUP_212.json)
- - [All tests export](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
+ - [Consolidated tests export](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -36,7 +36,7 @@ Best practices to keep things tidy
 Standards that are *not* general standards
 
  - [Standard export](APEX_IDIOSYNCRATIC_212/STANDARD-APEX_IDIOSYNCRATIC_212.json)
- - [All tests export](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
+ - [Consolidated tests export](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -46,7 +46,7 @@ Standards that are *not* general standards
 Standards for correctly implementing Redwood patterns
 
  - [Standard export](APEX_REDWOOD_212/STANDARD-APEX_REDWOOD_212.json)
- - [All tests export](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
+ - [Consolidated tests export](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -58,17 +58,16 @@ Standards for correctly implementing Redwood patterns
 These standards enforce security
 
  - [Standard export](APEX_SECURITY_191/STANDARD-APEX_SECURITY_191.json)
- - [All tests export](APEX_SECURITY_191/ALL_TESTS-APEX_SECURITY_191.json)
+ - [Consolidated tests export](APEX_SECURITY_191/ALL_TESTS-APEX_SECURITY_191.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_191/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 
 ## Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These standards enforce security
 
  - [Standard export](APEX_SECURITY_212/STANDARD-APEX_SECURITY_212.json)
- - [All tests export](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
+ - [Consolidated tests export](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -78,20 +77,20 @@ These standards enforce security
 These standards enforce security
 
  - [Standard export](APEX_SECURITY_232/STANDARD-APEX_SECURITY_232.json)
- - [All tests export](APEX_SECURITY_232/ALL_TESTS-APEX_SECURITY_232.json)
+ - [Consolidated tests export](APEX_SECURITY_232/ALL_TESTS-APEX_SECURITY_232.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_232/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.
 
  - [Standard export](APEX_UNIVERSAL_THEME_212/STANDARD-APEX_UNIVERSAL_THEME_212.json)
- - [All tests export](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
+ - [Consolidated tests export](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [BUTTON_DEFAULT_SIZE](APEX_UNIVERSAL_THEME_212/tests/BUTTON_DEFAULT_SIZE.json) |  Button size should be default | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 
-    
+
+* This consolidated tests export does not include inherited relationships. You will need to install the individual standards / tests for that purpose.    

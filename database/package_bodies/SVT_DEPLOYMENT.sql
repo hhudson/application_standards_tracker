@@ -445,13 +445,16 @@ create or replace package body SVT_DEPLOYMENT as
    chr(10)||
    '|-----------|-----------|---------|----------------|'||
    chr(10);
+  c_addendum clob := chr(10)||
+  '* This consolidated tests export does not include inherited relationships.'||
+  ' You will need to install the individual standards / tests for that purpose.';
   begin
     apex_debug.message(c_debug_template,'START');
 
     l_md_clob := '# Published standards & tests'
                  ||chr(10)
                  ||'- [Export of all standards](ALL_STANDARDS.json)'
-                 ||'- [Export of all tests](ALL_TESTS.json)'
+                 ||'- [Export of all tests](ALL_TESTS.json)*'
                  ||chr(10)
                  ||chr(10);
 
@@ -480,7 +483,7 @@ create or replace package body SVT_DEPLOYMENT as
                    ||chr(10);
       l_md_clob := l_md_clob
                    ||apex_string.format(
-                      ' - [All tests export](%1/ALL_TESTS-%1.json)',
+                      ' - [Consolidated tests export](%1/ALL_TESTS-%1.json)',
                       p0 => srec.standard_name,
                       p1 => srec.file_name,
                       p2 => srec.compatibility_text)
@@ -519,6 +522,8 @@ create or replace package body SVT_DEPLOYMENT as
       end test_sec;
 
     end loop;
+
+    l_md_clob := l_md_clob || c_addendum;
 
     return l_md_clob;
   
