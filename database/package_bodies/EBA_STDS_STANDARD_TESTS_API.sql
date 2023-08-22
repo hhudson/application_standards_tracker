@@ -255,7 +255,6 @@ create or replace package body eba_stds_standard_tests_api as
         eba_stds_tests_lib_api.upsert (
           p_standard_id           => l_test_rec.standard_id,
           p_test_name             => l_test_rec.test_name,
-          p_workspace             => svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'),
           p_test_id               => l_test_rec.id,
           p_query_clob            => l_test_rec.query_clob,
           p_test_code             => l_test_rec.test_code,

@@ -451,6 +451,7 @@ create or replace package body SVT_DEPLOYMENT as
     l_md_clob := '# Published standards & tests'
                  ||chr(10)
                  ||'- [Export of all standards](ALL_STANDARDS.json)'
+                 ||'- [Export of all tests](ALL_TESTS.json)'
                  ||chr(10)
                  ||chr(10);
 

@@ -22,7 +22,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   procedure upsert (
         p_standard_id           in eba_stds_tests_lib.standard_id%type,
         p_test_name             in eba_stds_tests_lib.test_name%type,
-        p_workspace             in eba_stds_tests_lib.workspace%type,
         p_test_id               in eba_stds_tests_lib.test_id%type,
         p_query_clob            in eba_stds_tests_lib.query_clob%type,
         p_test_code             in eba_stds_tests_lib.test_code%type,
@@ -45,7 +44,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
                                         'p_test_name', p_test_name,
-                                        'p_workspace', p_workspace,
                                         'p_test_id', p_test_id,
                                         'p_query_clob', p_query_clob,
                                         'p_test_code', p_test_code,
@@ -58,7 +56,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     merge into eba_stds_tests_lib e
     using (select p_standard_id           standard_id,
                   p_test_name             test_name,
-                  p_workspace             workspace,
                   p_test_id               test_id,
                   p_query_clob            query_clob,
                   p_test_code             test_code,
@@ -70,7 +67,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_level_id              level_id,
                   c_version_number        version_number
            from dual) h
-    on (e.test_code = h.test_code and e.workspace = h.workspace)
+    on (e.test_code = h.test_code)
     when matched then
     update set e.standard_id           = h.standard_id,
                e.test_name             = h.test_name,
@@ -85,7 +82,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                e.version_number        = h.version_number
     when not matched then
     insert (test_code,
-            workspace,
             standard_id,
             test_name,
             test_id,
@@ -98,7 +94,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             level_id,
             version_number)
     values (h.test_code,
-            h.workspace,
             h.standard_id,
             h.test_name,
             h.test_id,

@@ -31,7 +31,6 @@ begin
     eba_stds_tests_lib_api.upsert (
         p_standard_id           => p_standard_id,
         p_test_name             => p_test_name,
-        p_workspace             => p_workspace,
         p_test_id               => p_test_id,
         p_query_clob            => p_query_clob,
         p_test_code             => p_test_code,
@@ -49,7 +48,6 @@ end;
     procedure upsert (
         p_standard_id           in eba_stds_tests_lib.standard_id%type,
         p_test_name             in eba_stds_tests_lib.test_name%type,
-        p_workspace             in eba_stds_tests_lib.workspace%type,
         p_test_id               in eba_stds_tests_lib.test_id%type,
         p_query_clob            in eba_stds_tests_lib.query_clob%type,
         p_test_code             in eba_stds_tests_lib.test_code%type,

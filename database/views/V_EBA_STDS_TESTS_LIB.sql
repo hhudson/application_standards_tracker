@@ -15,7 +15,6 @@ select estl.id,
        estl.mv_dependency,
        estl.svt_component_type_id,
        coalesce(act.component_code, '[MISSING COMPONENT]') component_code,
-       estl.workspace,
        estl.test_id,
        case when esst.id is null 
             then 'N'
