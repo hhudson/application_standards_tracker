@@ -281,7 +281,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     where test_code = p_test_code;
 
     p_md5 := eba_stds_standard_tests_api.build_test_md5(
-                      l_lib_rec.standard_id,
+                      -- l_lib_rec.standard_id,
                       l_lib_rec.test_name,
                       l_lib_rec.query_clob,
                       l_lib_rec.test_code,

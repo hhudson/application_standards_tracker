@@ -166,7 +166,7 @@ from eba_stds_standard_tests esst;
 */
 ------------------------------------------------------------------------------
   function build_test_md5 (
-      p_standard_id           in eba_stds_standard_tests.standard_id%type,
+      -- p_standard_id           in eba_stds_standard_tests.standard_id%type,
       p_test_name             in eba_stds_standard_tests.test_name%type,
       p_query_clob            in eba_stds_standard_tests.query_clob%type,
       p_test_code             in eba_stds_standard_tests.test_code%type,

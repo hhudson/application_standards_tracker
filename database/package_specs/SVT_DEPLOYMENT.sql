@@ -27,11 +27,16 @@ create or replace package SVT_DEPLOYMENT authid definer as
 -- Assemble to query to return the json that is used in json_content_blob
 --
 /*
-select svt_deployment.assemble_json_query (
-                p_table_name => 'EBA_STDS_STANDARD_TESTS',
-                p_row_limit => 2,
-                p_datatype => 'clob') thejson
-from dual
+set serveroutput on
+declare 
+l_clob clob;
+begin
+    l_clob := svt_deployment.assemble_json_query (
+                p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT',
+                p_standard_id => :p_standard_id,
+                p_datatype => 'clob');
+    dbms_output.put_line(l_clob);
+end;
 */
 ------------------------------------------------------------------------------
     function assemble_json_query (

@@ -145,7 +145,7 @@ create or replace package body eba_stds_standard_tests_api as
 
   -- build md5 function for table eba_stds_standard_tests
   function build_test_md5 (
-      p_standard_id           in eba_stds_standard_tests.standard_id%type,
+      -- p_standard_id           in eba_stds_standard_tests.standard_id%type,
       p_test_name             in eba_stds_standard_tests.test_name%type,
       p_query_clob            in eba_stds_standard_tests.query_clob%type,
       p_test_code             in eba_stds_standard_tests.test_code%type,
@@ -163,7 +163,7 @@ create or replace package body eba_stds_standard_tests_api as
       apex_debug.message(c_debug_template,'build_test_md5', 'p_test_code', p_test_code);
       
       return apex_util.get_hash(apex_t_varchar2(
-        p_standard_id,
+        -- p_standard_id,
         p_test_name,
         p_query_clob,
         p_test_code,
@@ -194,7 +194,7 @@ create or replace package body eba_stds_standard_tests_api as
     where test_code = p_test_code;
 
     return build_test_md5(
-                      l_test_rec.standard_id,
+                      -- l_test_rec.standard_id,
                       l_test_rec.test_name,
                       l_test_rec.query_clob,
                       l_test_rec.test_code,
@@ -303,7 +303,7 @@ create or replace package body eba_stds_standard_tests_api as
     l_current_md5 := current_md5(p_test_code => p_test_code);
 
     l_new_md5 := build_test_md5(
-                      p_standard_id,
+                      -- p_standard_id,
                       p_test_name,
                       p_query_clob,
                       p_test_code,
@@ -536,7 +536,10 @@ begin
   and   (o.active_yn = p_active or p_active is null)
   and   (o.standard_active_yn = p_standard_active or p_standard_active is null)
   union all
-  select i.standard_id,
+  select case when p_std_id is null
+              then i.standard_id
+              else p_std_id
+              end standard_id,
          i.test_id,
          i.level_id,
          i.urgency, 
@@ -617,7 +620,7 @@ begin
         c_mime_type constant varchar2(25) := 'application/json';
         c_character_set constant varchar2(10) := 'UTF-8';
         c_md5 constant varchar2(250) := build_test_md5 (
-                                          p_standard_id           => l_aat (rec).standard_id,
+                                          -- p_standard_id           => l_aat (rec).standard_id,
                                           p_test_name             => l_aat (rec).test_name,
                                           p_query_clob            => l_aat (rec).query_clob,
                                           p_test_code             => l_aat (rec).test_code,

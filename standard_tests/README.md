@@ -62,6 +62,8 @@ These standards enforce security
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [APP_AUTH](APEX_SECURITY_191/tests/APP_AUTH.json) |  Application has Authorization Scheme | v1 | APEX_APPLICATIONS |
+| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_191/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 
 ## Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These standards enforce security
@@ -71,6 +73,7 @@ These standards enforce security
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [APP_AUTH](APEX_SECURITY_212/tests/APP_AUTH.json) |  Application has Authorization Scheme | v1 | APEX_APPLICATIONS |
 | [IG_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 
 ## Security (APEX Version 23.2 +)
@@ -81,6 +84,8 @@ These standards enforce security
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [APP_AUTH](APEX_SECURITY_232/tests/APP_AUTH.json) |  Application has Authorization Scheme | v1 | APEX_APPLICATIONS |
+| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_232/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.
