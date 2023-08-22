@@ -55,7 +55,7 @@ regions:
     include-rowid-column: false
     where-clause: |
       standard_id = :P5_ID
-      and file_size is not null
+      and all_tests_file_size is not null
     page-items-to-submit: 
     - P5_ID
 
@@ -143,7 +143,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 20
+      sequence: 30
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -158,7 +158,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 30
+      sequence: 40
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -173,7 +173,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 40
+      sequence: 50
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -188,7 +188,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 50
+      sequence: 60
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -203,7 +203,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 60
+      sequence: 70
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -218,7 +218,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 70
+      sequence: 80
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -233,7 +233,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 80
+      sequence: 90
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -248,7 +248,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 90
+      sequence: 100
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -263,7 +263,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 100
+      sequence: 110
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -278,7 +278,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 110
+      sequence: 120
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -293,64 +293,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 120
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: FILE_SIZE ===================================
-    id: 142749700726835309
-    identification: 
-      column-name: FILE_SIZE
-      type: Download BLOB
-
-    heading: 
-      heading: Export Standard
-      alignment: end
-
-    layout: 
-      sequence: 10
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: true
-
-    blob-attributes: 
-      table-owner: Parsing Schema
-      table-name: V_EBA_STDS_STANDARDS_EXPORT
-      blob-column: FILE_BLOB
-      primary-key-column-1: STANDARD_ID
-      mime-type-column: MIME_TYPE
-      filename-column: FILE_NAME
-      character-set-column: CHARACTER_SET
-
-    appearance: 
-      download-text: '<span aria-hidden="true" class="fa fa-file-arrow-down"> Download published `&P5_FULL_STANDARD_NAME.` tests '
-      content-disposition: Attachment
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-  - # ====== Column: FILE_BLOB ===================================
-    id: 142749805572835310
-    identification: 
-      column-name: FILE_BLOB
-      type: Hidden Column
-
-    layout: 
-      sequence: 140
+      sequence: 130
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -365,22 +308,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 150
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: FILE_NAME ===================================
-    id: 142750034432835312
-    identification: 
-      column-name: FILE_NAME
-      type: Hidden Column
-
-    layout: 
-      sequence: 160
+      sequence: 140
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -395,7 +323,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 170
+      sequence: 150
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -410,7 +338,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 180
+      sequence: 160
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -425,7 +353,153 @@ regions:
       type: Hidden Column
 
     layout: 
+      sequence: 170
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALL_TESTS_FILE_SIZE =========================
+    id: 171974745712663616
+    identification: 
+      column-name: ALL_TESTS_FILE_SIZE
+      type: Download BLOB
+
+    heading: 
+      heading: All Tests File Size
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    blob-attributes: 
+      table-owner: Parsing Schema
+      table-name: V_EBA_STDS_STANDARDS_EXPORT
+      blob-column: ALL_TESTS_FILE_BLOB
+      primary-key-column-1: STANDARD_ID
+      mime-type-column: MIME_TYPE
+      filename-column: ALL_TESTS_FILE_NAME
+      last-updated-column: UPDATED
+      character-set-column: CHARACTER_SET
+
+    appearance: 
+      download-text: '<span aria-hidden="true" class="fa fa-file-arrow-down"> Download published test(s) '
+      content-disposition: Attachment
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+  - # ====== Column: STD_FILE_SIZE ===============================
+    id: 171974837445663617
+    identification: 
+      column-name: STD_FILE_SIZE
+      type: Download BLOB
+
+    heading: 
+      heading: Std File Size
+      alignment: end
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    blob-attributes: 
+      table-owner: Parsing Schema
+      table-name: V_EBA_STDS_STANDARDS_EXPORT
+      blob-column: STD_FILE_BLOB
+      primary-key-column-1: STANDARD_ID
+      mime-type-column: MIME_TYPE
+      filename-column: STD_FILE_NAME
+      last-updated-column: UPDATED
+      character-set-column: CHARACTER_SET
+
+    appearance: 
+      download-text: '<span aria-hidden="true" class="fa fa-file-arrow-down"> Download `&P5_FULL_STANDARD_NAME.` Standard '
+      content-disposition: Attachment
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+  - # ====== Column: ALL_TESTS_FILE_BLOB =========================
+    id: 171974957899663618
+    identification: 
+      column-name: ALL_TESTS_FILE_BLOB
+      type: Hidden Column
+
+    layout: 
       sequence: 190
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STD_FILE_BLOB ===============================
+    id: 171975079912663619
+    identification: 
+      column-name: STD_FILE_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 200
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALL_TESTS_FILE_NAME =========================
+    id: 171975181871663620
+    identification: 
+      column-name: ALL_TESTS_FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 210
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STD_FILE_NAME ===============================
+    id: 171975236552663621
+    identification: 
+      column-name: STD_FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 220
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
