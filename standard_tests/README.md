@@ -50,7 +50,6 @@ These tests run against the DB objects and therefore may be hard to associate wi
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [ANCHORED_DECLARATION](DB_OBJECT_19C/tests/ANCHORED_DECLARATION.json) |  Use Anchored declarations | v1 | DATABASE SUPPORTING OBJECT |
 | [DBMS_ASSERT](DB_OBJECT_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.1 | DATABASE SUPPORTING OBJECT |
 | [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1 | DATABASE SUPPORTING OBJECT |
 | [DUPLICATE_STATEMENTS](DB_OBJECT_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.1 | DATABASE SUPPORTING OBJECT |

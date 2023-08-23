@@ -9,9 +9,11 @@ create or replace package SVT_PLSQL_REVIEW authid current_user as
     --
     -- Pipelined function to list all programed issues and warnings for a given package
     --
-    -- select issue_desc, object_type, line, code, check_type, urgency, object_name, reference_code
-    -- from SVT_plsql_review.issues(p_object_name   => 'eba_stds')
-    -- order by urgency_level,  issue_desc, object_name, object_type, line, code
+    /*
+    select issue_desc, object_type, line, code, check_type, urgency, object_name, reference_code
+    from svt_plsql_review.issues(p_object_name   => 'eba_stds')
+    order by urgency_level,  issue_desc, object_name, object_type, line, code
+    */
     ------------------------------------------------------------------------------
     function issues (p_object_name             in user_plsql_object_settings.name%type default null,
                      p_object_type             in user_plsql_object_settings.type%type default null,

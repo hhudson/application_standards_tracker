@@ -425,7 +425,7 @@ PRO step 1 : generate view script for $p_view_name
 
 spool $FOLDER_PATH/$p_view_name.$EXT_VIEW
 select column_value
-from apex_string.split(ast_apex_sert_util.generate_ast_view(
+from apex_string.split(svt_apex_sert_util.generate_svt_view(
                               p_view_name => '$p_view_name',
                               p_author => '$p_git_email'), '
 ');
@@ -449,7 +449,7 @@ refresh_meta_sert_view(){
   # echo "log  :FOLDER_PATH = '$FOLDER_PATH'"
   local p_git_email=$1
 
-  local p_meta_view='V_AST_SERT__0'
+  local p_meta_view='V_SVT_SERT__0'
 
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 set define off
@@ -463,7 +463,7 @@ PRO step 2 : generate meta view script for $p_meta_view
 
 spool $FOLDER_PATH/$p_meta_view.$EXT_VIEW
 select column_value
-from apex_string.split(ast_apex_sert_util.generate_union_view(
+from apex_string.split(svt_apex_sert_util.generate_union_view(
                               p_author => '$p_git_email'), '
 ');
 spool off
@@ -570,17 +570,17 @@ compile_code() {
 
   echo -e "Parsing file: ${COLOR_LIGHT_GREEN}$p_file_full_path${COLOR_RESET}"
 
-  # echo "log : AST_SCHEMA_CONFIGURED = '$AST_SCHEMA_CONFIGURED'"
-  if [[ "$AST_SCHEMA_CONFIGURED" == "Y" ]]; then
-  l_ast_command="select issue_desc, line, code, urgency
-                from ast.ast_plsql_review.issues( 
+  # echo "log : SVT_SCHEMA_CONFIGURED = '$SVT_SCHEMA_CONFIGURED'"
+  if [[ "$SVT_SCHEMA_CONFIGURED" == "Y" ]]; then
+  l_svt_command="select issue_desc, line, code, urgency
+                from svt_plsql_review.issues( 
                                   p_object_name     => '$p_file_base_name',
-                                  p_max_standard_code_count   => 3,
+                                  p_max_test_code_count   => 3,
                                   p_max_issue_count => 8,
                                   p_file_dirname => '$p_file_dir')
                 order by urgency_level,  issue_desc, object_name, object_type, line, code"
    else
-   l_ast_command="select 'Standards not configured for this environment' Message from dual"
+   l_svt_command="select 'Standards not configured for this environment' Message from dual"
    fi
 
 # run sqlplus, execute the script, then get the error list and exit
@@ -607,7 +607,7 @@ $VSCODE_TASK_COMPILE_SQL_PREFIX
 set sqlblanklines off
 
 PRO running standards for $p_file_base_name
-$l_ast_command
+$l_svt_command
 
 set define on
 show errors
@@ -708,7 +708,7 @@ gen_table_script() {
 # -- Load user specific commands here
 
 # PRO step 1 : generate table script for $p_utable_name
-# @$SCRIPT_DIR/spool_script.sql database AST_AUDIT_ACTIONS
+# @$SCRIPT_DIR/spool_script.sql database SVT_AUDIT_ACTIONS
 # -- @$SCRIPT_DIR/spool_script.sql 'blerg' '$P_UTABLE_NAME' '$P_AUTHOR'
 # -- spool $p_project_dir/tables/$p_utable_name.sql
 # -- select column_value
@@ -982,11 +982,11 @@ gen_insert_script_tables_sub_reference_codes() {
   # echo "log : p_project_dir = '$p_project_dir'"
   local p_nt_type_name="$3"
   # echo "log : p_nt_type_name = '$p_nt_type_name'"
-  local p_utable_name="AST_SUB_REFERENCE_CODES"
+  local p_utable_name="SVT_SUB_REFERENCE_CODES"
   # echo "log : p_utable_name = '$p_utable_name'"
   local p_filename=$(echo ${p_utable_name}_${p_nt_type_name}.sql)
   # $(echo ${p_file_dir_name/database\/tables/database})
-  # local p_filename="AST_SUB_REFERENCE_CODES_PLSQL.sql"
+  # local p_filename="SVT_SUB_REFERENCE_CODES_PLSQL.sql"
   # echo "log : p_filename = '$p_filename'"
   object_dest_file="$p_project_dir/data/tables3/$p_filename"
 

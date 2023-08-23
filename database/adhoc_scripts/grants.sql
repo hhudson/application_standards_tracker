@@ -3,7 +3,7 @@
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:1 select count(1) from all_users where upper(username) = upper('${grant_to_schema}');
 
-grant execute on SVT_plsql_review to ${grant_to_schema}
+grant execute on svt_plsql_review to ${grant_to_schema}
 /
 grant execute on svt_preferences to ${grant_to_schema}
 /

@@ -20,11 +20,11 @@ create or replace package body SVT_PLSQL_REVIEW as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   l_object_exists_yn varchar2(1);
-  c_review_schema constant varchar2(32) 
-                  := case when sys_context('userenv', 'current_user') = gc_SVT
-                          then SVT_ctx_util.get_default_user
-                          else sys_context('userenv', 'current_user')
-                          end;
+  -- c_review_schema constant varchar2(32) 
+  --                 := case when sys_context('userenv', 'current_user') = gc_SVT
+  --                         then SVT_ctx_util.get_default_user
+  --                         else sys_context('userenv', 'current_user')
+  --                         end;
   begin
     apex_debug.message(c_debug_template,'START', 'p_object_name', p_object_name);
 
