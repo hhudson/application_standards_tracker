@@ -133,3 +133,6 @@ alter table eba_stds_standard_tests add VERSION_NUMBER number
   ALTER TABLE EBA_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STDS_STANDARD_TESTS_UK3 UNIQUE (standard_id, id)
   USING INDEX  ENABLE
 /
+-- constraint eba_ststts_ast_cmpnt_tp_fk1 on column(s) svt_component_type_id is missing an index
+create index eba_stds_standard_tests_idx1 on eba_stds_standard_tests (svt_component_type_id)
+/

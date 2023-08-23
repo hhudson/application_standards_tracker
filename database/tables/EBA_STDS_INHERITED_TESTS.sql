@@ -23,4 +23,8 @@ add constraint eb_std_inh_c1 check (parent_standard_id != standard_id);
   alter table eba_stds_inherited_tests add constraint eb_std_inh_uk1 unique (standard_id, test_id)
   using index  enable
 /
+
+create index eb_std_inh_idx1 on eba_stds_inherited_tests (parent_standard_id,test_id)
+/
+ 
 --rollback drop table eba_stds_inherited_tests;

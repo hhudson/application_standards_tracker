@@ -82,4 +82,11 @@ ALTER TABLE EBA_STDS_STANDARDS ADD CONSTRAINT EBA_STDSTN_UK UNIQUE (STANDARD_NAM
   ALTER TABLE EBA_STDS_STANDARDS ADD CONSTRAINT EBA_STDSTN_UK2 UNIQUE (id, parent_standard_id)
   USING INDEX  ENABLE
 /
+
+create index eba_stdstn_idx1 on eba_stds_standards (compatibility_mode_id)
+/
+
+create index eba_stdstn_idx2 on eba_stds_standards (parent_standard_id)
+/
+
 --rollback drop table EBA_STDS_STANDARDS;

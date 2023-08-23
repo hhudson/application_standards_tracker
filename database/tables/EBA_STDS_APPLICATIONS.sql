@@ -72,3 +72,6 @@ alter table EBA_STDS_APPLICATIONS add DEFAULT_DEVELOPER varchar2(100)
 
 alter table EBA_STDS_APPLICATIONS add type_id number
 /
+
+create index eba_stdapp_idx1 on eba_stds_applications (type_id)
+/
