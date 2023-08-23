@@ -42,6 +42,26 @@ Standards that are *not* general standards
 |-----------|-----------|---------|----------------|
 | [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH.json) |  SVT Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
 
+## Object (Database Version 19C)
+These tests run against the DB objects and therefore may be hard to associate with a given application. They can be associated with the Application Standards Tracker app.
+
+ - [Standard export](DB_OBJECT_19C/STANDARD-DB_OBJECT_19C.json)
+ - [Consolidated tests export](DB_OBJECT_19C/ALL_TESTS-DB_OBJECT_19C.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+| [ANCHORED_DECLARATION](DB_OBJECT_19C/tests/ANCHORED_DECLARATION.json) |  Use Anchored declarations | v1 | DATABASE SUPPORTING OBJECT |
+| [DBMS_ASSERT](DB_OBJECT_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.1 | DATABASE SUPPORTING OBJECT |
+| [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1 | DATABASE SUPPORTING OBJECT |
+| [DUPLICATE_STATEMENTS](DB_OBJECT_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.1 | DATABASE SUPPORTING OBJECT |
+| [FK_INDEXED](DB_OBJECT_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1 | DATABASE TABLE |
+| [IDENTIFIER_NAMING](DB_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1 | DATABASE SUPPORTING OBJECT |
+| [MISSING_COMMENT](DB_OBJECT_19C/tests/MISSING_COMMENT.json) |  Missing Comments | v1 | DATABASE SUPPORTING OBJECT |
+| [UNUSED_IDENTIFIERS](DB_OBJECT_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1 | DATABASE SUPPORTING OBJECT |
+| [URGENT_PLSQL_WARNINGS](DB_OBJECT_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1 | DATABASE SUPPORTING OBJECT |
+| [VALID_OBJECTS](DB_OBJECT_19C/tests/VALID_OBJECTS.json) |  Invalid Object | v1 | DATABASE SUPPORTING OBJECT |
+| [VALID_VIEW](DB_OBJECT_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1 | DATABASE VIEW |
+
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
 

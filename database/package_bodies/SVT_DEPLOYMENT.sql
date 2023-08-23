@@ -352,7 +352,7 @@ create or replace package body SVT_DEPLOYMENT as
                                                       and aasf.file_name like 'data/%'
                                                       and aasf.file_name = 'data/'||lower(std.table_name)||'.zip'
     left outer join apex_application_pages aap on aap.application_id = p_application_id
-                                              and aap.page_name = std.table_name;
+                                              and aap.page_comment = std.table_name;
 
     type r_aa is record (
       table_name                   varchar2(128),
