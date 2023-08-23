@@ -34,7 +34,6 @@ select estl.id,
             else 'N'
             end current_version_installed_yn,
        eba_stds_standard_tests_api.build_test_md5 (
-          p_standard_id           => estl.standard_id,
           p_test_name             => estl.test_name,
           p_query_clob            => estl.query_clob,
           p_test_code             => estl.test_code,

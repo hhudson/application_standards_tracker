@@ -32,7 +32,9 @@ create or replace package body SVT_DEPLOYMENT as
   c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_query';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_table_name constant varchar2(500)
-              := case when upper(p_table_name) = 'V_EBA_STDS_STANDARD_TESTS_EXPORT'
+              := case when upper(p_table_name) = 'EBA_STDS_STANDARD_TESTS'
+                      then 'V_EBA_STDS_STANDARD_TESTS'
+                      when upper(p_table_name) = 'V_EBA_STDS_STANDARD_TESTS_EXPORT'
                       then apex_string.format(
                               q'[eba_stds_standard_tests_api.v_eba_stds_standard_tests(%0p_published_yn => 'Y', p_active_yn => 'Y')]',
                               p0 => case when p_standard_id is not null 
@@ -65,25 +67,26 @@ create or replace package body SVT_DEPLOYMENT as
       p1 =>  'created, created_by, updated, updated_by, date_started, row_version_number, account_locked, '
            ||'download, file_blob, mime_type, file_name, character_set, record_md5, estl_md5, '
            ||'publish_button_html, dlclss, publish_clss, publish_text, vsn, imported_version_number, '
-           ||'standard_active_yn, urgency, std_creation_date, owner, urgency_level'
-           || case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
+           ||'standard_active_yn, urgency, std_creation_date, owner, urgency_level, '
+           ||'display_sequence, full_standard_name'
+           || case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
                    then ', standard_id'
                    end,
       p2 => case when p_row_limit is not null
                  then 'fetch first '||p_row_limit||' rows only'
                  end,
-      p3 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and c_test_code is not null
+      p3 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS' and c_test_code is not null
                  then apex_string.format(q'[where test_code = '%s']', c_test_code)
                  when c_table_name = 'EBA_STDS_STANDARDS' and p_standard_id is not null
                  then apex_string.format(q'[where id = '%s']', p_standard_id)
                  when c_table_name = 'EBA_STDS_STANDARDS' and p_standard_id is null
                  then q'[where active_yn = 'Y']'
                  end,
-      p4 => case when c_table_name in ('EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
+      p4 => case when c_table_name in ('V_EBA_STDS_STANDARD_TESTS','V_EBA_STDS_STANDARD_TESTS_EXPORT')
                  then apex_string.format(q'[, '%s' workspace]', svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE'))
                  end,
       p6 => p_datatype,
-      p7 => case when c_table_name = 'EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
+      p7 => case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS' and p_standard_id is not null
                  then p_standard_id||' standard_id, '
                  end
     );

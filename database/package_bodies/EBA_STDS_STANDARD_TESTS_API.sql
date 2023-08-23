@@ -666,12 +666,12 @@ begin
                       l_aat (rec).test_id,
                       l_aat (rec).level_id,
                       l_aat (rec).urgency, 
-                      l_aat (rec).urgency_level,
+                      l_aat (rec).urgency_level, --5
                       l_aat (rec).test_name,
                       l_aat (rec).test_code,
                       l_aat (rec).standard_name,
                       l_aat (rec).active_yn,
-                      l_aat (rec).nt_name,
+                      l_aat (rec).nt_name, --10
                       l_aat (rec).query_clob,
                       l_aat (rec).std_creation_date,
                       l_aat (rec).mv_dependency,
