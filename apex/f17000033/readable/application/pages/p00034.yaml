@@ -234,16 +234,26 @@ regions:
     type: SQL Query
     sql-query: |
       select p.line_number,
-             p.col001 test_id, 
+             p.col001 c1, 
+             p.col002 test_id,
              p.col003 active_yn, 
              p.col004 test_name, 
-             p.col005 workspace,
-             p.col007 standard_id,
-             p.col009 test_code, 
-             p.col010 svt_component_type_id, 
-             p.col012 explanation,
-             p.col013 level_id,
-             p.col014 version_number
+             p.col005 c5,
+             p.col006 standard_id,
+             p.col007 c7,
+             p.col008 test_code,
+             p.col009 svt_component_type_id, 
+             p.col010 c10, 
+             p.col011 explanation,
+             p.col012 level_id,
+             p.col013 version_number,
+             p.col014 c14,
+             p.col015 c15,
+             p.col016 c16,
+             p.col017 c17,
+             p.col018 c18,
+             p.col019 c19,
+             p.col020 c20
              -- add more columns (col011 to col300) here.
         from apex_application_temp_files f, 
              table( apex_data_parser.parse(
@@ -371,40 +381,27 @@ regions:
     id: 142751334703835325
     identification: 
       column-name: TEST_ID
-      type: Hidden Column
+      type: Plain Text
+
+    heading: 
+      heading: Test Id
+      alignment: start
 
     layout: 
       sequence: 21
+      column-alignment: start
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+    accessibility: 
+      value-identifies-row: false
 
-    security: 
-      escape-special-characters: true
+    sorting: 
+      sortable: true
 
-  - # ====== Column: LEVEL_ID ====================================
-    id: 142752504585835337
-    identification: 
-      column-name: LEVEL_ID
-      type: Hidden Column
+    export-/-printing: 
+      include-in-export-/-print: true
 
-    layout: 
-      sequence: 31
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: WORKSPACE ===================================
-    id: 142752954784835341
-    identification: 
-      column-name: WORKSPACE
-      type: Hidden Column
-
-    layout: 
-      sequence: 41
+    advanced: 
+      compute-sum: false
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -423,7 +420,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 51
+      sequence: 31
       column-alignment: start
 
     accessibility: 
@@ -451,7 +448,7 @@ regions:
       type: Hidden Column
 
     layout: 
-      sequence: 61
+      sequence: 191
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -459,18 +456,33 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: STANDARD_ID =================================
-    id: 142989449158948604
+  - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+    id: 146439481459364603
     identification: 
-      column-name: STANDARD_ID
+      column-name: SVT_COMPONENT_TYPE_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 201
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TEST_CODE ===================================
+    id: 147813784122836213
+    identification: 
+      column-name: TEST_CODE
       type: Plain Text
 
     heading: 
-      heading: Standard ID
+      heading: Test Code
       alignment: start
 
     layout: 
-      sequence: 111
+      sequence: 61
       column-alignment: start
 
     accessibility: 
@@ -491,8 +503,23 @@ regions:
     security: 
       escape-special-characters: true
 
+  - # ====== Column: C7 ==========================================
+    id: 172587570604059729
+    identification: 
+      column-name: C7
+      type: Hidden Column
+
+    layout: 
+      sequence: 101
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: EXPLANATION =================================
-    id: 142989945048948609
+    id: 172587723839059731
     identification: 
       column-name: EXPLANATION
       type: Plain Text
@@ -502,7 +529,189 @@ regions:
       alignment: start
 
     layout: 
+      sequence: 71
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C10 =========================================
+    id: 172587924401059733
+    identification: 
+      column-name: C10
+      type: Hidden Column
+
+    layout: 
+      sequence: 111
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C5 ==========================================
+    id: 172588098389059734
+    identification: 
+      column-name: C5
+      type: Hidden Column
+
+    layout: 
       sequence: 91
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LEVEL_ID ====================================
+    id: 172588147129059735
+    identification: 
+      column-name: LEVEL_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 211
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C14 =========================================
+    id: 172588391327059737
+    identification: 
+      column-name: C14
+      type: Hidden Column
+
+    layout: 
+      sequence: 121
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C15 =========================================
+    id: 172588488371059738
+    identification: 
+      column-name: C15
+      type: Hidden Column
+
+    layout: 
+      sequence: 131
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C16 =========================================
+    id: 172588582544059739
+    identification: 
+      column-name: C16
+      type: Hidden Column
+
+    layout: 
+      sequence: 141
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C17 =========================================
+    id: 172588652479059740
+    identification: 
+      column-name: C17
+      type: Hidden Column
+
+    layout: 
+      sequence: 151
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C18 =========================================
+    id: 172588761124059741
+    identification: 
+      column-name: C18
+      type: Hidden Column
+
+    layout: 
+      sequence: 161
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C19 =========================================
+    id: 172588862913059742
+    identification: 
+      column-name: C19
+      type: Hidden Column
+
+    layout: 
+      sequence: 171
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C20 =========================================
+    id: 172588917167059743
+    identification: 
+      column-name: C20
+      type: Hidden Column
+
+    layout: 
+      sequence: 181
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_ID =================================
+    id: 172589064414059744
+    identification: 
+      column-name: STANDARD_ID
+      type: Plain Text
+
+    heading: 
+      heading: Standard Id
+      alignment: start
+
+    layout: 
+      sequence: 11
       column-alignment: start
 
     accessibility: 
@@ -524,7 +733,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: VERSION_NUMBER ==============================
-    id: 142990079984948610
+    id: 172589393252059747
     identification: 
       column-name: VERSION_NUMBER
       type: Plain Text
@@ -534,7 +743,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 101
+      sequence: 221
       column-alignment: start
 
     accessibility: 
@@ -555,46 +764,14 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
-    id: 146439481459364603
+  - # ====== Column: C1 ==========================================
+    id: 172589442748059748
     identification: 
-      column-name: SVT_COMPONENT_TYPE_ID
+      column-name: C1
       type: Hidden Column
 
     layout: 
-      sequence: 121
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: TEST_CODE ===================================
-    id: 147813784122836213
-    identification: 
-      column-name: TEST_CODE
-      type: Plain Text
-
-    heading: 
-      heading: Test Code
-      alignment: start
-
-    layout: 
-      sequence: 131
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
+      sequence: 81
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -644,6 +821,36 @@ regions:
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P34_TEST_NAME ============================
+  id: 114652483579129946
+  identification: 
+    name: P34_TEST_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 20
+    region: Preview # 139379674873261900
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P34_TEST_CODE ============================
   id: 139354396224506121
   identification: 
@@ -853,10 +1060,10 @@ page-items:
     type: Hidden
 
   settings: 
-    value-protected: true
+    value-protected: false
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: Preview # 139379674873261900
     position: BODY
 
@@ -875,9 +1082,6 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Page Item: P34_ROW_COUNT ============================
   id: 142990401654948614
@@ -919,7 +1123,7 @@ page-items:
     value-protected: false
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Preview # 139379674873261900
     position: BODY
 
@@ -1119,6 +1323,59 @@ dynamic-actions:
     item: P34_FILE
 
   actions: 
+  - # ====== Action: set test_name ===============================
+    id: 114652560114129947
+    identification: 
+      name: set test_name
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col004 test_name
+          into :P34_TEST_NAME
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P34_FILE
+         fetch first 1 rows only;
+      items-to-return: 
+      - P34_TEST_NAME
+      suppress-change-event: false
+
+    execution: 
+      sequence: 60
+      event: extract values # 148178441183813614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: add to session state ========================
+    id: 114652677617129948
+    identification: 
+      name: add to session state
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: null;
+      items-to-submit: 
+      - P34_TEST_CODE
+      - P34_STANDARD_COUNT
+      - P34_TEST_NAME
+
+    execution: 
+      sequence: 70
+      event: extract values # 148178441183813614
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
   - # ====== Action: set test_code ===============================
     id: 148178540754813615
     identification: 
@@ -1128,7 +1385,7 @@ dynamic-actions:
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
-        select p.col009
+        select p.col008
           into :P34_TEST_CODE
           from apex_application_temp_files f, 
                table( apex_data_parser.parse(
@@ -1159,7 +1416,7 @@ dynamic-actions:
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
-        select p.col007
+        select p.col006 standard_id
           into :P34_STANDARD_ID
           from apex_application_temp_files f, 
                table( apex_data_parser.parse(
@@ -1181,11 +1438,6 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-    server-side-condition: 
-      type: Expression
-      language: PL/SQL
-      pl/sql-expression: ':P34_ROW_COUNT > 1 and :P34_STANDARD_COUNT = 1'
-
   - # ====== Action: set standard_count ==========================
     id: 148972178952209826
     identification: 
@@ -1196,7 +1448,7 @@ dynamic-actions:
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
         with stds as (
-            select distinct p.col007
+            select distinct p.col006 standard_id
               from apex_application_temp_files f, 
                    table( apex_data_parser.parse(
                               p_content           => f.blob_content,
@@ -1220,37 +1472,32 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-    server-side-condition: 
-      type: Expression
-      language: PL/SQL
-      pl/sql-expression: ':P34_ROW_COUNT > 1'
-
-  - # ====== Action: alert if no test_code =======================
+  - # ====== Action: alert if no test_name =======================
     id: 171975988652663628
     identification: 
-      name: alert if no test_code
+      name: alert if no test_name
       action: Alert
 
     settings: 
       title: This is not a valid test export script
-      message: The file you just loaded does not contain a test_code. Did you mean to import a standard script?
+      message: The file you just loaded does not contain a test_name. Did you mean to import a standard script?
       style: Default
       icon: fa-alert
 
     execution: 
-      sequence: 70
+      sequence: 90
       event: extract values # 148178441183813614
       fire-when-event-result-is: True
       fire-on-initialization: false
 
     client-side-condition: 
       type: Item is null
-      item: P34_TEST_CODE
+      item: P34_TEST_NAME
 
-  - # ====== Action: disable button if no test_code ==============
+  - # ====== Action: disable button if no test_name ==============
     id: 171976025886663629
     identification: 
-      name: disable button if no test_code
+      name: disable button if no test_name
       action: Disable
 
     affected-elements: 
@@ -1258,14 +1505,14 @@ dynamic-actions:
       button: LOAD # 139374373993261896
 
     execution: 
-      sequence: 60
+      sequence: 80
       event: extract values # 148178441183813614
       fire-when-event-result-is: True
       fire-on-initialization: false
 
     client-side-condition: 
       type: Item is null
-      item: P34_TEST_CODE
+      item: P34_TEST_NAME
 
 validations: 
 - # ====== Validation: Is valid file type ======================
@@ -1412,7 +1659,6 @@ branches:
     pl/sql-expression: |2
           :P34_ERROR_ROW_COUNT = 0 
       and :P34_TEST_CODE is not null 
-      and :P34_STANDARD_ID is null 
       and :P34_PROCESSED_ROW_COUNT = 1
 
 - # ====== Branch: go to page 17 (1 standard) ==================
@@ -1437,7 +1683,11 @@ branches:
     when-button-pressed: LOAD # 139374373993261896
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_STANDARD_ID is not null and :P34_PROCESSED_ROW_COUNT > 0'
+    pl/sql-expression: |2
+          :P34_ERROR_ROW_COUNT = 0 
+      and :P34_STANDARD_ID is not null
+      and :P34_STANDARD_COUNT = 1 
+      and :P34_PROCESSED_ROW_COUNT > 1
 
 - # ====== Branch: go to page 17 (all tests) ===================
   id: 148972217079209827
@@ -1459,5 +1709,8 @@ branches:
     when-button-pressed: LOAD # 139374373993261896
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P34_ERROR_ROW_COUNT = 0 and :P34_STANDARD_COUNT > 1 and :P34_PROCESSED_ROW_COUNT > 0'
+    pl/sql-expression: |2
+          :P34_ERROR_ROW_COUNT = 0 
+      and :P34_STANDARD_COUNT > 1 
+      and :P34_PROCESSED_ROW_COUNT > 1
 

@@ -7138,17 +7138,17 @@ regions:
       expand-shortcuts: false
 
 page-items: 
-- # ====== Page Item: P61_TEST_CODE ============================
-  id: 311738003308469327
+- # ====== Page Item: P61_COMPATIBILITY_MODE_ID ================
+  id: 174723994206628603
   identification: 
-    name: P61_TEST_CODE
+    name: P61_COMPATIBILITY_MODE_ID
     type: Hidden
 
   settings: 
     value-protected: false
 
   layout: 
-    sequence: 10
+    sequence: 50
     region: Preview # 311756676719225068
     position: BODY
 
@@ -7347,7 +7347,7 @@ page-items:
     type: Hidden
 
   settings: 
-    value-protected: true
+    value-protected: false
 
   layout: 
     sequence: 30
@@ -7369,9 +7369,6 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
 
 - # ====== Page Item: P61_ROW_COUNT ============================
   id: 315377958815911827
@@ -7612,9 +7609,6 @@ dynamic-actions:
     type: Item is NOT NULL
     item: P61_FILE
 
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
-
   actions: 
   - # ====== Action: set standard_id =============================
     id: 172393142649963225
@@ -7625,13 +7619,13 @@ dynamic-actions:
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
-        select p.col007
+        select p.col001
           into :P61_STANDARD_ID
           from apex_application_temp_files f, 
                table( apex_data_parser.parse(
                           p_content           => f.blob_content,
                           p_file_name         => f.filename,
-                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
                           p_max_rows          => 1 ) ) p
          where f.name = :P61_FILE
          fetch first 1 rows only;
@@ -7647,68 +7641,32 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-    server-side-condition: 
-      type: Expression
-      language: PL/SQL
-      pl/sql-expression: ':P61_ROW_COUNT > 1 and :P61_STANDARD_COUNT = 1'
-
-  - # ====== Action: set test_code ===============================
-    id: 172393688210963226
-    identification: 
-      name: set test_code
-      action: Execute Server-side Code
-
-    settings: 
-      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: |
-        select p.col009
-          into :P61_TEST_CODE
-          from apex_application_temp_files f, 
-               table( apex_data_parser.parse(
-                          p_content           => f.blob_content,
-                          p_file_name         => f.filename,
-                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
-                          p_max_rows          => 1 ) ) p
-         where f.name = :P61_FILE
-         fetch first 1 rows only;
-      items-to-return: 
-      - P61_TEST_CODE
-      suppress-change-event: false
-
-    execution: 
-      sequence: 10
-      event: extract values # 172392627470963225
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-      stop-execution-on-error: true
-      wait-for-result: true
-
-  - # ====== Action: alert if no test_code =======================
+  - # ====== Action: alert if no compatibility_mode_id ===========
     id: 172394181268963226
     identification: 
-      name: alert if no test_code
+      name: alert if no compatibility_mode_id
       action: Alert
 
     settings: 
-      title: This is not a valid test export script
-      message: The file you just loaded does not contain a test_code. Did you mean to import a standard script?
+      title: This is not a valid standard export script
+      message: The file you just loaded does not contain a compatibility_mode_id. Did you mean to import a test script?
       style: Default
       icon: fa-alert
 
     execution: 
-      sequence: 70
+      sequence: 90
       event: extract values # 172392627470963225
       fire-when-event-result-is: True
       fire-on-initialization: false
 
     client-side-condition: 
       type: Item is null
-      item: P61_TEST_CODE
+      item: P61_COMPATIBILITY_MODE_ID
 
-  - # ====== Action: disable button if no test_code ==============
+  - # ====== Action: disable button if no compatibility_mode_id ==
     id: 172394621304963227
     identification: 
-      name: disable button if no test_code
+      name: disable button if no compatibility_mode_id
       action: Disable
 
     affected-elements: 
@@ -7716,14 +7674,14 @@ dynamic-actions:
       button: LOAD # 172378475042963194
 
     execution: 
-      sequence: 60
+      sequence: 80
       event: extract values # 172392627470963225
       fire-when-event-result-is: True
       fire-on-initialization: false
 
     client-side-condition: 
       type: Item is null
-      item: P61_TEST_CODE
+      item: P61_COMPATIBILITY_MODE_ID
 
   - # ====== Action: set standard_count ==========================
     id: 172395123587963228
@@ -7735,12 +7693,12 @@ dynamic-actions:
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
         with stds as (
-            select distinct p.col007
+            select distinct p.col001
               from apex_application_temp_files f, 
                    table( apex_data_parser.parse(
                               p_content           => f.blob_content,
                               p_file_name         => f.filename,
-                              p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                              p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
                               p_max_rows          => 100 ) ) p
              where f.name = :P61_FILE
         )
@@ -7759,10 +7717,58 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-    server-side-condition: 
-      type: Expression
-      language: PL/SQL
-      pl/sql-expression: ':P61_ROW_COUNT > 1'
+  - # ====== Action: set compatibility_mode_id ===================
+    id: 174723738050628601
+    identification: 
+      name: set compatibility_mode_id
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col007
+          into :P61_COMPATIBILITY_MODE_ID
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P61_FILE
+         fetch first 1 rows only;
+      items-to-return: 
+      - P61_COMPATIBILITY_MODE_ID
+      suppress-change-event: false
+
+    execution: 
+      sequence: 60
+      event: extract values # 172392627470963225
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: add to session state ========================
+    id: 174723874938628602
+    identification: 
+      name: add to session state
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: null;
+      items-to-submit: 
+      - P61_STANDARD_COUNT
+      - P61_STANDARD_ID
+      - P61_COMPATIBILITY_MODE_ID
+
+    execution: 
+      sequence: 70
+      event: extract values # 172392627470963225
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
 
 validations: 
 - # ====== Validation: Is valid file type ======================
@@ -7831,7 +7837,7 @@ computations:
              table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
                         p_max_rows          => 100 ) ) p
        where f.name = :P61_FILE
 
@@ -7844,7 +7850,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: EBA-STDS-TESTS-LIB # 52074736461449953
+    data-load-definition: EBA-STDS-STANDARDS # 51751846535700987
     source-data-type: File Browse Item
     file-browse-item: P61_FILE
     processed-row-count-item: 
@@ -7884,10 +7890,10 @@ processes:
     when-button-pressed: CLEAR # 172378005838963194
 
 branches: 
-- # ====== Branch: go to page 60 (1 test) ======================
+- # ====== Branch: go to page 5 (1 standard) ===================
   id: 172395670810963228
   identification: 
-    name: go to page 60 (1 test)
+    name: go to page 5 (1 standard)
 
   execution: 
     sequence: 10
@@ -7896,11 +7902,11 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:60:&SESSION.::&DEBUG.:60:P60_TEST_CODE:&P61_TEST_CODE.&success_msg=#SUCCESS_MSG#'
-      page: 60 # Load Standard Test
-      clear-cache: 60
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:&P61_STANDARD_ID.&success_msg=#SUCCESS_MSG#'
+      page: 5 # V_EBA_STDS_STANDARD_TESTS
+      clear-cache: 5
       values: 
-        p60_test_code: '&P61_TEST_CODE.'
+        p5_id: '&P61_STANDARD_ID.'
 
   server-side-condition: 
     when-button-pressed: LOAD # 172378475042963194
@@ -7908,14 +7914,13 @@ branches:
     language: PL/SQL
     pl/sql-expression: |2
           :P61_ERROR_ROW_COUNT = 0 
-      and :P61_TEST_CODE is not null 
-      and :P61_STANDARD_ID is null 
+      and :P61_STANDARD_ID is not null 
       and :P61_PROCESSED_ROW_COUNT = 1
 
-- # ====== Branch: go to page 17 (1 standard) ==================
-  id: 172396024427963229
+- # ====== Branch: go to page 3 (+1 standards) =================
+  id: 172589699432059750
   identification: 
-    name: go to page 17 (1 standard)
+    name: go to page 3 (+1 standards)
 
   execution: 
     sequence: 20
@@ -7924,37 +7929,16 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:RR,17:IR[TEST_LIB]EQ_STANDARD_ID:&P61_STANDARD_ID.&success_msg=#SUCCESS_MSG#'
-      page: 17 # EBA_STDS_TESTS_LIB
-      clear-cache: RR,17
-      values: 
-        ir[test_lib]eq_standard_id: '&P61_STANDARD_ID.'
+      url: 'f?p=&APP_ID.:3:&SESSION.::&DEBUG.:3::&success_msg=#SUCCESS_MSG#'
+      page: 3 # EBA_STDS_STANDARDS
+      clear-cache: 3
 
   server-side-condition: 
     when-button-pressed: LOAD # 172378475042963194
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P61_ERROR_ROW_COUNT = 0 and :P61_STANDARD_ID is not null and :P61_PROCESSED_ROW_COUNT > 0'
-
-- # ====== Branch: go to page 17 (all tests) ===================
-  id: 172396404141963229
-  identification: 
-    name: go to page 17 (all tests)
-
-  execution: 
-    sequence: 30
-    point: After Processing
-
-  behavior: 
-    type: Page or URL (Redirect)
-    target: 
-      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:RR,17::&success_msg=#SUCCESS_MSG#'
-      page: 17 # EBA_STDS_TESTS_LIB
-      clear-cache: RR,17
-
-  server-side-condition: 
-    when-button-pressed: LOAD # 172378475042963194
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ':P61_ERROR_ROW_COUNT = 0 and :P61_STANDARD_COUNT > 1 and :P61_PROCESSED_ROW_COUNT > 0'
+    pl/sql-expression: |2
+          :P61_ERROR_ROW_COUNT = 0 
+      and :P61_STANDARD_ID is not null 
+      and :P61_PROCESSED_ROW_COUNT > 1
 
