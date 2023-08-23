@@ -16,7 +16,6 @@ create or replace package body SVT_MONITORING as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
-  gc_SVT_app_id   constant apex_applications.application_id%type := 17000033;
   gc_fetch_rows   constant number := 1;
   gc_table_start constant varchar2(250):= 
       '<table width="600" border="5px solid black">
@@ -39,7 +38,7 @@ create or replace package body SVT_MONITORING as
     return apex_string.format(
             p_message => '%0f?p=%1',
             p0 => eba_stds_parser.get_base_url(),
-            p1 => gc_SVT_app_id
+            p1 => svt_apex_view.gc_svt_app_id
     );
 
   exception when others then
@@ -221,7 +220,7 @@ create or replace package body SVT_MONITORING as
         p5 => 'This email is subscribed to by : '||l_subscriber_list,
         p6 => db_unique_name
       ),
-      p_application_id    => gc_SVT_app_id, 
+      p_application_id    => svt_apex_view.gc_svt_app_id, 
       p_subject           => p_subject,
       p_html              => l_html,
       p_text              => p_text

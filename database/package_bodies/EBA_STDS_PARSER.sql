@@ -4,7 +4,6 @@ create or replace package body eba_stds_parser
 is
 
     gc_scope_prefix         constant varchar2(31) := lower($$plsql_unit) || '.';
-    gc_default_app_id       constant apex_applications.application_id%type := 17000033;
     gc_userenv_current_user constant varchar2(100) :=  sys_context('userenv', 'current_user');
     gc_y                    constant varchar2(1) := 'Y';
     gc_n                    constant varchar2(1) := 'N';
@@ -176,7 +175,7 @@ is
         select application_id 
             into l_app_id
             from apex_applications aa
-            where application_id = gc_default_app_id;
+            where application_id = svt_apex_view.gc_svt_app_id;
 
         return l_app_id;
 

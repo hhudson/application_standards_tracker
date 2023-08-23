@@ -413,7 +413,7 @@ create or replace package body SVT_APEX_VIEW as
     and pir.region_name = 'Tracking issues report'
     and pir.name is not null
     and pir.type = 'ALTERNATIVE'
-    and pir.application_id = 17000033
+    and pir.application_id = svt_apex_view.gc_svt_app_id
     and pir.page_id = 1;
 
     return l_link_request;

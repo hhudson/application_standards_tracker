@@ -128,7 +128,7 @@ function display_position_is_violation (
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
 -- global constants
---
+-- svt_apex_view.gc_svt_app_id
 ------------------------------------------------------------------------------
   gc_svt_app_id constant pls_integer := 17000033;
 

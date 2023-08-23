@@ -317,7 +317,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                                           );
     if v('APP_ID') is null then
       apex_debug.message(c_debug_template, 'creating apex session');
-      apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>'HAYHUDSO');   
+      apex_session.create_session(p_app_id=>svt_apex_view.gc_svt_app_id,p_page_id=>1,p_username=>'HAYHUDSO');   
       apex_debug.enable(p_level => apex_debug.c_log_level_engine_trace);
     else
       apex_debug.message(c_debug_template, 'apex session already active');
