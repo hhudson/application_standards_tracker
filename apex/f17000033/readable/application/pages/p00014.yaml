@@ -3199,6 +3199,66 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P14_ISSUE_CATEGORY =======================
+  id: 174724083345628604
+  identification: 
+    name: P14_ISSUE_CATEGORY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 110
+    region: Standard Test # 7562693978314107360
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P14_IG_LINK_REQUEST ======================
+  id: 174724211220628606
+  identification: 
+    name: P14_IG_LINK_REQUEST
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: Standard Test # 7562693978314107360
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P14_LEVEL_ID =============================
   id: 223431027879172312
   identification: 
@@ -3498,8 +3558,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.::IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.:&P14_IG_LINK_REQUEST.:&DEBUG.::IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
       page: 1 # Issue Tracking
+      request: '&P14_IG_LINK_REQUEST.'
       values: 
         ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
@@ -4668,6 +4729,34 @@ computations:
                   then ' [INACTIVE]'
                   end hidden_name 
        from dual
+
+- # ====== Computation: P14_ISSUE_CATEGORY =====================
+  id: 174724108063628605
+  identification: 
+    item-name: P14_ISSUE_CATEGORY
+
+  execution: 
+    sequence: 40
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: 'svt_nested_table_types_api.issue_category(p_test_code => :P14_TEST_CODE)'
+
+- # ====== Computation: P14_IG_LINK_REQUEST ====================
+  id: 174724305897628607
+  identification: 
+    item-name: P14_IG_LINK_REQUEST
+
+  execution: 
+    sequence: 50
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: 'svt_apex_view.ig_link_request(p_issue_category => :P14_ISSUE_CATEGORY)'
 
 - # ====== Computation: P14_ID =================================
   id: 223431413352172316
