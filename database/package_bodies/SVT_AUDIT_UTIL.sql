@@ -172,7 +172,7 @@ create or replace package body SVT_AUDIT_UTIL as
                        then svt_ctx_util.get_default_user
                        else sys_context('userenv', 'current_user')
                        end
-      and (issue_category = p_test_code or p_test_code is null)
+      and (test_code = p_test_code or p_test_code is null)
       and (application_id = p_application_id or p_application_id is null)
       and (page_id        = p_page_id or p_page_id is null)
       and unqid not in  (

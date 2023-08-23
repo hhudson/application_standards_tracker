@@ -560,6 +560,10 @@ create or replace package body SVT_STANDARD_VIEW as
                                                   then svt_plsql_apex_audit_api.get_unqid(p_audit_id => p_audit_id)
                                                   end;
   l_unqid_predicate varchar2(1200) := apex_string.format(q'^ and unqid = '%s' ^', c_unqid);
+  c_nt_name        constant svt_nested_table_types.nt_name%type
+                   :=  eba_stds_standard_tests_api.nt_name(p_test_code => c_test_code);
+  c_issue_category constant svt_plsql_apex_audit.issue_category%type 
+                   :=  svt_nested_table_types_api.issue_category(p_nt_name => c_nt_name);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'current_user', sys_context('userenv', 'current_user'),
@@ -570,17 +574,15 @@ create or replace package body SVT_STANDARD_VIEW as
                                         'p_unqid', p_unqid,
                                         'p_audit_id', p_audit_id);
 
-    select lower(nt_name)
-    into l_nt_name
-    from v_eba_stds_standard_tests
-    where test_code = c_test_code;
+    apex_debug.message(c_debug_template, 'l_unqid_predicate :', l_unqid_predicate);
 
-    if l_nt_name = gc_v_svt_db_plsql_nt then
+    if c_nt_name = gc_v_svt_db_plsql_nt then
       l_query_clob := get_query_clob (
         p_test_code => c_test_code,
-        p_nt_name => l_nt_name,
-        p_select_stmt => q'[select unqid,
-                                   'DB_PLSQL' issue_category,
+        p_nt_name => c_nt_name,
+        p_select_stmt => apex_string.format(
+                          q'[select unqid,
+                                   '%0' issue_category,
                                    null application_id,
                                    null page_id,
                                    pass_yn,
@@ -600,14 +602,16 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null test_code,
                                    null component_id,
                                    null parent_component_id
-                          from (]'
+                          from (]',
+                          p0 => c_issue_category)
       );
-    elsif l_nt_name = gc_v_svt_db_view__0_nt then 
+    elsif c_nt_name = gc_v_svt_db_view__0_nt then 
       l_query_clob := get_query_clob (
         p_test_code => c_test_code,
-        p_nt_name => l_nt_name,
-        p_select_stmt => q'[select unqid,
-                                   'VIEW' issue_category,
+        p_nt_name => c_nt_name,
+        p_select_stmt => apex_string.format(
+                          q'[select unqid,
+                                   '%0' issue_category,
                                    null application_id,
                                    null page_id,
                                    pass_yn,
@@ -624,14 +628,16 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null test_code,
                                    null component_id,
                                    null parent_component_id
-                          from (]'
+                          from (]',
+                          p0 => c_issue_category)
       );
-    elsif l_nt_name = gc_v_svt_db_tbl__0_nt then 
+    elsif c_nt_name = gc_v_svt_db_tbl__0_nt then 
       l_query_clob := get_query_clob (
         p_test_code => c_test_code,
-        p_nt_name => l_nt_name,
-        p_select_stmt => q'[select unqid,
-                                   'TABLE' issue_category,
+        p_nt_name => c_nt_name,
+        p_select_stmt => apex_string.format(
+                          q'[select unqid,
+                                   '%0' issue_category,
                                    null application_id,
                                    null page_id,
                                    pass_yn,
@@ -648,20 +654,23 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null test_code,
                                    object_id component_id,
                                    null parent_component_id
-                          from (]'
+                          from (]',
+                          p0 => c_issue_category)
       );
-    elsif l_nt_name = gc_v_svt_apex_nt then
+      l_unqid_predicate := apex_string.format(q'^ and '%0:'||unqid = '%1' ^', c_test_code, c_unqid);
+    elsif c_nt_name = gc_v_svt_apex_nt then
       l_query_clob := get_query_clob (
         p_test_code => c_test_code,
-        p_nt_name => l_nt_name,
-        p_select_stmt => q'[select application_id||
+        p_nt_name => c_nt_name,
+        p_select_stmt => apex_string.format(
+                          q'[select application_id||
                                    case when parent_component_id is not null 
                                         then ':'||parent_component_id||':'||component_id
                                         else case when  component_id != application_id
                                                   then ':'||component_id
                                                   end
                                         end unqid,
-                                   'APEX' issue_category,
+                                   '%0' issue_category,
                                    application_id,
                                    page_id,
                                    pass_yn,
@@ -682,7 +691,8 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null test_code,
                                    component_id,
                                    parent_component_id
-                          from (]'
+                          from (]',
+                          p0 => c_issue_category)
       );
       l_query_clob := case when p_production_apps_only = 'Y'
                            then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
@@ -696,12 +706,13 @@ create or replace package body SVT_STANDARD_VIEW as
                                                                      then ':'||component_id
                                                                      end
                                                            end = '%1' ^', c_test_code, c_unqid);
-    elsif l_nt_name = gc_v_svt_sert__0_nt then
+    elsif c_nt_name = gc_v_svt_sert__0_nt then
       l_query_clob := get_query_clob (
         p_test_code => c_test_code,
-        p_nt_name => l_nt_name,
-        p_select_stmt => q'[select collection_name||'__'||application_id||'__'||page_id||'__'||component_signature unqid,
-                                   'SERT' issue_category,
+        p_nt_name => c_nt_name,
+        p_select_stmt => apex_string.format(
+                          q'[select collection_name||'__'||application_id||'__'||page_id||'__'||component_signature unqid,
+                                   '%0' issue_category,
                                    application_id,
                                    page_id,
                                    case when result = 'FAIL'
@@ -721,7 +732,8 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null test_code,
                                    null component_id,
                                    null parent_component_id
-                          from (]'
+                          from (]',
+                          p0 => c_issue_category)
       );
       l_query_clob := case when p_production_apps_only = 'Y'
                            then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
@@ -733,19 +745,34 @@ create or replace package body SVT_STANDARD_VIEW as
       raise_application_error(-20123,'unknown nt type');
     end if;
 
-    l_query_clob := l_query_clob
-                    ||' where 1=1 '
-                    ||case  when p_urgent_only = 'Y'
-                            then case when not standard_is_urgent(c_test_code)
-                                      then ' and 1=2 '
-                                      end 
-                            end
-                    || case when p_failures_only = 'Y'
-                            then l_failure_predicate
-                            end
-                    || case when c_unqid is not null
-                            then l_unqid_predicate
-                            end;
+    <<addl_predicates>>
+    declare
+    l_addl_predicates varchar2(500);
+    begin
+      apex_debug.message(c_debug_template, 'l_unqid_predicate :', l_unqid_predicate);
+      l_addl_predicates :=' where 1=1 '
+                          ||case  when p_urgent_only = 'Y'
+                                  then case when not standard_is_urgent(c_test_code)
+                                            then ' and 1=2 '
+                                            end 
+                                  end
+                          || case when p_failures_only = 'Y'
+                                  then l_failure_predicate
+                                  end
+                          || case when c_unqid is not null
+                                  then l_unqid_predicate
+                                  end;
+      apex_debug.message(c_debug_template, 'l_addl_predicates :', l_addl_predicates);
+      l_query_clob := l_query_clob||l_addl_predicates;
+
+      for rec in (
+        select column_value query_segment
+        from table(apex_string.split( l_query_clob, chr(10)))
+      )
+      loop
+        apex_debug.message(c_debug_template, 'l_query_clob :', rec.query_segment);
+      end loop;
+    end addl_predicates;
 
     open cur_v_svt for l_query_clob;
 

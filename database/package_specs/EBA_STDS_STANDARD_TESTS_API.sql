@@ -368,6 +368,21 @@ from eba_stds_standard_tests_api.v_eba_stds_standard_tests()
               )
   return v_eba_stds_standard_tests_nt pipelined;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 23, 2023
+-- Synopsis:
+--
+-- function to retrieve the nt_name for a given test_code
+--
+/*
+select eba_stds_standard_tests_api.nt_name(p_test_code => 'APP_AUTH')
+from dual
+*/
+------------------------------------------------------------------------------
+  function nt_name(p_test_code in eba_stds_standard_tests.test_code%type)
+  return svt_nested_table_types.nt_name%type;
+
 end eba_stds_standard_tests_api;
 /
 --rollback drop package eba_stds_standard_tests_api;

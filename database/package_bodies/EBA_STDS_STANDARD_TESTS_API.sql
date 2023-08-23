@@ -713,6 +713,28 @@ begin
       raise;
   end v_eba_stds_standard_tests;
 
+  function nt_name(p_test_code in eba_stds_standard_tests.test_code%type)
+  return svt_nested_table_types.nt_name%type
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'nt_name';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_nt_name svt_nested_table_types.nt_name%type;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
+
+       select lower(nt_name)
+        into l_nt_name
+        from v_eba_stds_standard_tests
+        where test_code = p_test_code;
+
+      return l_nt_name;
+
+  exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end nt_name;
+
 end eba_stds_standard_tests_api;
 /
 --rollback drop package body eba_stds_standard_tests_api;
