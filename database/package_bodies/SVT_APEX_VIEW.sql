@@ -5,7 +5,7 @@ create or replace package body SVT_APEX_VIEW as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_apex_view
+--   svt_apex_view
 --
 -- DESCRIPTION
 --
@@ -393,6 +393,38 @@ create or replace package body SVT_APEX_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end display_position_is_violation;
+
+  function link_request(p_issue_category in svt_plsql_apex_audit.issue_category)
+  return varchar2
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'link_request';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_link_request varchar2(50);
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_issue_category', p_issue_category);
+
+    select apex_string.format('IG[%0]_%1', apr.static_id, pir.static_id) link_request
+    into l_link_request
+    from apex_application_page_regions apr
+    inner join APEX_APPL_PAGE_IG_RPTS pir on apr.application_id = pir.application_id
+                                          and apr.page_id = pir.page_id
+                                          and apr.region_id = pir.region_id
+    where 1=1
+    and pir.region_name = 'Tracking issues report'
+    and pir.name is not null
+    and pir.type = 'ALTERNATIVE'
+    and pir.application_id = 17000033
+    and pir.page_id = 1;
+
+    return l_link_request;
+
+  exception 
+    when no_data_found then
+      return null;
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end link_request;
 
 
 end SVT_APEX_VIEW;

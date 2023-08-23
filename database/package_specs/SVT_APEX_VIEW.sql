@@ -5,7 +5,7 @@ create or replace package SVT_APEX_VIEW authid current_user as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_apex_view
+--   svt_apex_view
 --
 -- DESCRIPTION
 --
@@ -31,10 +31,10 @@ create or replace package SVT_APEX_VIEW authid current_user as
 --        created_on, 
 --        last_updated_by, 
 --        last_updated_on
--- from SVT_apex_view.apex_applications() 
+-- from svt_apex_view.apex_applications() 
 ------------------------------------------------------------------------------
 function apex_applications(p_user in all_users.username%type default null)
-return SVT_apex_applications_nt pipelined;
+return svt_apex_applications_nt pipelined;
 
 
 ------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ return SVT_apex_applications_nt pipelined;
 --        created_on,
 --        updated_by,
 --        updated_on
--- from SVT_apex_view.apex_application_page_ir_col() 
+-- from svt_apex_view.apex_application_page_ir_col() 
 ------------------------------------------------------------------------------
 function apex_application_page_ir_col
 return apex_application_page_rpt_cols_nt pipelined;
@@ -74,7 +74,7 @@ return apex_application_page_rpt_cols_nt pipelined;
 --        created_on,
 --        updated_by,
 --        updated_on
--- from SVT_apex_view.apex_appl_page_ig_columns() 
+-- from svt_apex_view.apex_appl_page_ig_columns() 
 ------------------------------------------------------------------------------
 function apex_appl_page_ig_columns
 return apex_application_page_rpt_cols_nt pipelined;
@@ -96,7 +96,7 @@ select workspace_id,
        preference_value,
        preference_type,
        preference_comment
-from SVT_apex_view.apex_workspace_preferences() 
+from svt_apex_view.apex_workspace_preferences() 
 */
 ------------------------------------------------------------------------------
 function apex_workspace_preferences
@@ -111,7 +111,7 @@ return SVT_apex_preferences_nt pipelined;
 -- Function to determine whether a given display_position_code is 'legacy' or 'deprecated'
 --
 /*
-select SVT_apex_view.display_position_is_violation (
+select svt_apex_view.display_position_is_violation (
                 p_display_position_code => 'NEXT',  
                 p_template_id           => 19073555195405988198,
                 p_application_id        => 17000034) violation_yn
@@ -124,6 +124,13 @@ function display_position_is_violation (
                 p_application_id        in apex_application_temp_region.application_id%type
   ) return varchar2 deterministic;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 23, 2023
+-- global constants
+--
+------------------------------------------------------------------------------
+  gc_svt_app_id constant pls_integer := 17000033;
 
 
 end SVT_APEX_VIEW;
