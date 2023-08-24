@@ -54,7 +54,7 @@ These tests run against the DB objects and therefore may be hard to associate wi
 | [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1 | DATABASE SUPPORTING OBJECT |
 | [DUPLICATE_STATEMENTS](DB_OBJECT_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.1 | DATABASE SUPPORTING OBJECT |
 | [FK_INDEXED](DB_OBJECT_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.1 | DATABASE TABLE |
-| [IDENTIFIER_NAMING](DB_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1 | DATABASE SUPPORTING OBJECT |
+| [IDENTIFIER_NAMING](DB_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.1 | DATABASE SUPPORTING OBJECT |
 | [MISSING_COMMENT](DB_OBJECT_19C/tests/MISSING_COMMENT.json) |  Missing Comments | v1 | DATABASE SUPPORTING OBJECT |
 | [UNUSED_IDENTIFIERS](DB_OBJECT_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1 | DATABASE SUPPORTING OBJECT |
 | [URGENT_PLSQL_WARNINGS](DB_OBJECT_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1 | DATABASE SUPPORTING OBJECT |

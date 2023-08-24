@@ -108,4 +108,6 @@
          
  inner join all_objects ao on ao.object_name = tblfk.table_name
          
-                           and ao.object_type = 'TABLE') mydata where 1=1  and unqid = 'FK_INDEXED:MISSING_FK :EBA_STDS_INHERITED_TESTS'          
+                           and ao.object_type = 'TABLE') mydata 
+                           where 1=1  
+                           and 'FK_INDEXED:'||unqid = 'FK_INDEXED:MISSING_FK :EBA_STDS_INHERITED_TESTS'          

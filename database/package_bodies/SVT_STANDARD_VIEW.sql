@@ -745,11 +745,12 @@ create or replace package body SVT_STANDARD_VIEW as
       raise_application_error(-20123,'unknown nt type');
     end if;
 
+    apex_debug.message(c_debug_template, 'l_unqid_predicate :', l_unqid_predicate);
+    
     <<addl_predicates>>
     declare
-    l_addl_predicates varchar2(500);
+    l_addl_predicates varchar2(2000);
     begin
-      apex_debug.message(c_debug_template, 'l_unqid_predicate :', l_unqid_predicate);
       l_addl_predicates :=' where 1=1 '
                           ||case  when p_urgent_only = 'Y'
                                   then case when not standard_is_urgent(c_test_code)
