@@ -61,10 +61,4 @@
   USING INDEX  ENABLE
 /
 
-
 --rollback drop table EBA_STDS_TESTS_LIB;
-
-alter table EBA_STDS_TESTS_LIB add EXPLANATION VARCHAR2(4000 CHAR)
-/
-alter table EBA_STDS_TESTS_LIB add FIX CLOB
-/

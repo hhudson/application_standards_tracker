@@ -36,95 +36,37 @@
    ) 
 /
 
---   CREATE INDEX EBA_STSTTS_IDX5 ON EBA_STDS_STANDARD_TESTS (NT_TYPE_ID) 
-  
--- /
-
   CREATE INDEX EBA_STSTTS_IDX1 ON EBA_STDS_STANDARD_TESTS (STANDARD_ID) 
-  
 /
-
   CREATE INDEX EBA_STSTTS_IDX4 ON EBA_STDS_STANDARD_TESTS (LEVEL_ID) 
-  
 /
-
-
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (TEST_CODE NOT NULL ENABLE)
 /
-
-
---   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (NT_TYPE_ID NOT NULL ENABLE)
--- /
-
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (STANDARD_ID NOT NULL ENABLE)
 /
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (TEST_NAME NOT NULL ENABLE)
 /
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (CREATED NOT NULL ENABLE)
 /
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (CREATED_BY NOT NULL ENABLE)
 /
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (UPDATED NOT NULL ENABLE)
 /
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (UPDATED_BY NOT NULL ENABLE)
 /
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STDS_STANDARD_TESTS_UK1 UNIQUE (test_name)
   USING INDEX  ENABLE
 /
-
-
   ALTER TABLE EBA_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STSTTS_PK PRIMARY KEY (ID)
   USING INDEX (CREATE UNIQUE INDEX EBA_STSTTS_PK_IDX ON EBA_STDS_STANDARD_TESTS (ID) 
   )  ENABLE
 /
 
-
---rollback drop table EBA_STDS_STANDARD_TESTS;
-
---liquibase formatted sql
---changeset table_script:EBA_STDS_STANDARD_TESTS.MV_DEPENDENCY stripComments:false runOnChange:true
---preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where upper(table_name) = 'EBA_STDS_STANDARD_TESTS' and column_name = 'MV_DEPENDENCY';
-
-alter table EBA_STDS_STANDARD_TESTS add MV_DEPENDENCY varchar2(100)
-/
-
---liquibase formatted sql
---changeset table_script:EBA_STDS_STANDARD_TESTS.SVT_COMPONENT_TYPE_ID stripComments:false 
---preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(1) from all_tab_cols where upper(table_name) = 'EBA_STDS_STANDARD_TESTS' and column_name = 'SVT_COMPONENT_TYPE_ID';
-
-alter table EBA_STDS_STANDARD_TESTS add SVT_COMPONENT_TYPE_ID number
-/
 ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (SVT_COMPONENT_TYPE_ID NOT NULL ENABLE)
 /
 
 ALTER TABLE EBA_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STDS_STANDARD_TESTS_UK2 UNIQUE (test_code)
 USING INDEX  ENABLE
-/
-
-alter table EBA_STDS_STANDARD_TESTS add EXPLANATION VARCHAR2(4000 CHAR)
-/
-alter table EBA_STDS_STANDARD_TESTS add FIX CLOB
-/
-
-alter table eba_stds_standard_tests add VERSION_NUMBER number
 /
 
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (VERSION_NUMBER NOT NULL ENABLE)
@@ -136,3 +78,5 @@ alter table eba_stds_standard_tests add VERSION_NUMBER number
 -- constraint eba_ststts_ast_cmpnt_tp_fk1 on column(s) svt_component_type_id is missing an index
 create index eba_stds_standard_tests_idx1 on eba_stds_standard_tests (svt_component_type_id)
 /
+
+--rollback drop table EBA_STDS_STANDARD_TESTS;

@@ -20,7 +20,3 @@
   alter table eba_stds_inherited_tests add constraint eba_stds_inherited_tests_fk2 foreign key (parent_standard_id, test_id)
 	  references  eba_stds_standard_tests (standard_id, id) enable
 /
-
-  -- alter table eba_stds_inherited_tests add constraint eba_stds_inherited_tests_fk3 foreign key (parent_standard_id, standard_id)
-	--   references  eba_stds_standards (parent_standard_id, id) enable
--- /
