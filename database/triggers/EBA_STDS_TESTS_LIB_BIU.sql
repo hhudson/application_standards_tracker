@@ -16,5 +16,3 @@ begin
  
 end EBA_STDS_TESTS_LIB_BIU;
 /
-
-alter trigger EBA_STDS_TESTS_LIB_BIU enable;

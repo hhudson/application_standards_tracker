@@ -17,5 +17,3 @@ begin
     :new.updated_by := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
 end eba_stds_inherited_tests_biu;
 /
-
-alter trigger eba_stds_inherited_tests_biu enable;

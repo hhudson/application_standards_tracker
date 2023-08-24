@@ -13,7 +13,7 @@
 --
 --------------------------------------------------------------------------------
 
---precondition-sql-check expectedResult:0 select count(1) from all_constraints where lower(constraint_name) = 'svt_component_types_fk1';
+--precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'SVT_COMPONENT_TYPES_FK1';
 
   ALTER TABLE SVT_COMPONENT_TYPES ADD CONSTRAINT SVT_COMPONENT_TYPES_FK1 FOREIGN KEY (NT_TYPE_ID)
 	  REFERENCES SVT_NESTED_TABLE_TYPES (ID) ENABLE

@@ -17,5 +17,3 @@ begin
     :new.updated_by := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
 end svt_compatibility_biu;
 /
-
-alter trigger svt_compatibility_biu enable;

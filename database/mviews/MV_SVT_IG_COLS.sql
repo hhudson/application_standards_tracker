@@ -1,8 +1,13 @@
+--liquibase formatted sql
+--changeset mview_script:MV_SVT_IG_COLS stripComments:false runOnChange:true
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(1) from all_tables where upper(table_name) = upper('MV_SVT_IG_COLS');
+
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_IG_COLS
 --------------------------------------------------------
-drop materialized view MV_SVT_IG_COLS
-/
+-- drop materialized view MV_SVT_IG_COLS
+-- /
 create materialized view MV_SVT_IG_COLS
 refresh on demand
 evaluate using current edition
