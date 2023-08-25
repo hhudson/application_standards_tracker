@@ -4,56 +4,55 @@ create or replace package body eba_stds_parser
 is
 
     gc_scope_prefix         constant varchar2(31) := lower($$plsql_unit) || '.';
-    gc_userenv_current_user constant varchar2(100) :=  sys_context('userenv', 'current_user');
     gc_y                    constant varchar2(1) := 'Y';
     gc_n                    constant varchar2(1) := 'N';
 
 
-    function view_sql (p_view_name in user_views.view_name%type,
-                       p_owner     in all_views.owner%type default null) return clob
-    is
-    c_scope varchar2(128) := gc_scope_prefix || 'view_sql';
-    c_debug_template varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
+    -- function view_sql (p_view_name in user_views.view_name%type,
+    --                    p_owner     in all_views.owner%type default null) return clob
+    -- is
+    -- c_scope constant varchar2(128) := gc_scope_prefix || 'view_sql';
+    -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
 
-    l_view_name user_views.view_name%type := upper(p_view_name);
-    l_owner     all_views.owner%type := upper(nvl(p_owner, case when gc_userenv_current_user = 'SVT'
-                                                                then svt_ctx_util.get_default_user
-                                                                else gc_userenv_current_user
-                                                                end));
-    l_sql_long  user_views.text%type;
-    begin
-      apex_debug.message(c_debug_template,'START', 
-                                          'p_view_name', p_view_name, 
-                                          'p_owner', p_owner);
-      assert.is_not_null (  
-                      val_in => p_view_name
-                    , msg_in => 'The View Name must not be null' 
-                );
+    -- c_view_name constant user_views.view_name%type := upper(p_view_name);
+    -- c_owner     constant all_views.owner%type := upper(coalesce(p_owner, case when gc_userenv_current_user = 'SVT'
+    --                                                             then svt_ctx_util.get_default_user
+    --                                                             else gc_userenv_current_user
+    --                                                             end));
+    -- l_sql_long  user_views.text%type;
+    -- begin
+    --   apex_debug.message(c_debug_template,'START', 
+    --                                       'p_view_name', p_view_name, 
+    --                                       'p_owner', p_owner);
+    --   assert.is_not_null (  
+    --                   p_val_in => p_view_name
+    --                 , p_msg_in => 'The View Name must not be null' 
+    --             );
 
-      assert.is_not_null (  
-                      val_in => l_owner
-                    , msg_in => 'Owner must not be null' 
-                );
+    --   assert.is_not_null (  
+    --                   p_val_in => c_owner
+    --                 , p_msg_in => 'Owner must not be null' 
+    --             );
 
-      select text 
-        into l_sql_long
-        from all_views
-        where view_name  = l_view_name
-        and owner = l_owner;
+    --   select text 
+    --     into l_sql_long
+    --     from all_views
+    --     where view_name  = c_view_name
+    --     and owner = c_owner;
 
-        return  to_clob(l_sql_long);
+    --     return  to_clob(l_sql_long);
 
-    exception 
-        when no_data_found then
-            apex_debug.message(p_message => c_debug_template, 
-                               p0 => 'View does not exist: '||l_view_name, 
-                               p1 => 'Owner: '||l_owner, 
-                               p_level => apex_debug.c_log_level_warn, p_force => true);
-            raise;
-        when others then
-            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception: '||p_view_name, p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
-            raise;
-    end view_sql;
+    -- exception 
+    --     when no_data_found then
+    --         apex_debug.message(p_message => c_debug_template, 
+    --                            p0 => 'View does not exist: '||c_view_name, 
+    --                            p1 => 'Owner: '||c_owner, 
+    --                            p_level => apex_debug.c_log_level_warn, p_force => true);
+    --         raise;
+    --     when others then
+    --         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception: '||p_view_name, p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+    --         raise;
+    -- end view_sql;
 
 
     function is_logged_into_builder (p_override_value in number default null) return boolean
@@ -91,8 +90,8 @@ is
         apex_debug.message(c_debug_template,'START', 'p_app_id', p_app_id);
 
          assert.is_not_null (  
-            val_in => p_app_id
-            , msg_in => 'App id cannot be null');
+              p_val_in => p_app_id
+            , p_msg_in => 'App id cannot be null');
 
         select 1
             into l_dummy
@@ -130,99 +129,109 @@ is
         raise;
     end get_base_url;
 
-    procedure add_applications
-    is
-    c_scope varchar2(128) := gc_scope_prefix || 'add_applications';
-    c_debug_template varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20'; 
-    f number;
-    l_default_id eba_stds_types.id%type;
-        procedure get_default_id
-        is 
-        begin
-           select id 
-            into l_default_id
-            from eba_stds_types
-            where lower(type_name) = 'default';
+    -- procedure add_applications
+    -- is
+    -- c_scope constant varchar2(128) := gc_scope_prefix || 'add_applications';
+    -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20'; 
+    -- f number;
+    -- l_default_id eba_stds_types.id%type;
+    --     procedure get_default_id
+    --     is 
+    --     begin
+    --        select id 
+    --         into l_default_id
+    --         from eba_stds_types
+    --         where lower(type_name) = 'default';
 
-        exception when no_data_found then 
-            l_default_id := null;
-            apex_debug.message(c_debug_template, 'No Default ID');
-        end get_default_id;
-    begin
-        apex_debug.message(c_debug_template,'START');
+    --     exception when no_data_found then 
+    --         l_default_id := null;
+    --         apex_debug.message(c_debug_template, 'No Default ID');
+    --     end get_default_id;
+    -- begin
+    --     apex_debug.message(c_debug_template,'START');
 
-        get_default_id;
+    --     get_default_id;
 
-        for i in 1..wwv_flow.g_f01.count loop
-            f := wwv_flow.g_f01(i);
-            insert into eba_stds_applications(apex_app_id) values (f);
-        end loop;
+    --     for i in 1..wwv_flow.g_f01.count loop
+    --         f := wwv_flow.g_f01(i);
+    --         insert into eba_stds_applications(apex_app_id) values (f);
+    --     end loop;
 
-    exception when others then
-        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
-        raise;
-    end add_applications;
+    -- exception when others then
+    --     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+    --     raise;
+    -- end add_applications;
+
+    -- function app_id (p_app_id apex_applications.application_id%type)
+    -- return apex_applications.application_id%type
+    -- as 
+    -- c_scope constant varchar2(128) := gc_scope_prefix || 'app_id';
+    -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    -- l_app_id apex_applications.application_id%type;
+    -- begin
+    --     select application_id 
+    --         into l_app_id
+    --         from apex_applications aa
+    --         where application_id = p_app_id;
+
+    --     return l_app_id;
+
+    -- exception 
+    --     when no_data_found then
+    --         apex_debug.error(p_message => c_debug_template, p0 =>'You need to specify a valid default application id', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
+    --         raise;
+    --     when others then
+    --         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
+    --         raise;
+    -- end app_id;
 
     
-    function default_app_id  
-        return apex_applications.application_id%type deterministic
-    is 
-    c_scope varchar2(50) := gc_scope_prefix || 'default_app_id';
-    c_debug_template varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    -- function default_app_id  
+    --     return apex_applications.application_id%type deterministic
+    -- is 
+    -- c_scope constant varchar2(50) := gc_scope_prefix || 'default_app_id';
+    -- c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    -- begin
 
-    l_app_id apex_applications.application_id%type;
-    begin
-        select application_id 
-            into l_app_id
-            from apex_applications aa
-            where application_id = svt_apex_view.gc_svt_app_id;
+    --     return app_id (p_app_id => svt_apex_view.gc_svt_app_id);
 
-        return l_app_id;
-
-    exception 
-        when no_data_found then
-            apex_debug.error(p_message => c_debug_template, p0 =>'You need to specify a valid default application id', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
-            raise;
-        when others then
-            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
-            raise;
-    end default_app_id;
+    -- exception 
+    --     when others then
+    --         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
+    --         raise;
+    -- end default_app_id;
 
 
-    function accessibility_app_id  
-        return apex_applications.application_id%type deterministic
-    is 
-    c_scope varchar2(50) := gc_scope_prefix || 'accessibility_app_id';
-    c_debug_template varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    -- function accessibility_app_id  
+    --     return apex_applications.application_id%type deterministic
+    -- is 
+    -- c_scope constant varchar2(50) := gc_scope_prefix || 'accessibility_app_id';
+    -- c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    l_app_id apex_applications.application_id%type;
+    -- l_app_id apex_applications.application_id%type;
 
-    c_accessibility_app_id constant apex_applications.application_id%type := 800042;
-    begin
-        select application_id 
-            into l_app_id
-            from apex_applications aa
-            where application_id = c_accessibility_app_id;
+    -- c_accessibility_app_id constant apex_applications.application_id%type := 800042;
+    -- begin
 
-        return l_app_id;
+    --     return app_id (p_app_id => c_accessibility_app_id);
 
-    exception 
-        when no_data_found then
-            apex_debug.error(p_message => c_debug_template, p0 =>'You need to specify a valid accessibility application id', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
-            raise;
-        when others then
-            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
-            raise;
-    end accessibility_app_id;
+    -- exception 
+    --     when others then
+    --         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
+    --         raise;
+    -- end accessibility_app_id;
 
     function app_from_url ( p_origin_app_id in apex_applications.application_id%type,
                             p_url           in varchar2) return apex_applications.application_id%type
     is 
-    c_scope varchar2(128) := gc_scope_prefix || 'app_from_url';
-    c_debug_template varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
+    c_scope constant varchar2(128) := gc_scope_prefix || 'app_from_url';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
 
     l_url_params         apex_t_varchar2;
 
+        ------------------------------------------------------------------------------
+        -- Nested function to get the app id from a given app alias
+        ------------------------------------------------------------------------------
         function app_id_from_alias(p_app_alias in apex_applications.alias%type) 
                  return apex_applications.application_id%type
         is 
@@ -273,11 +282,14 @@ is
     function page_from_url (p_origin_app_id in apex_applications.application_id%type,
                             p_url           in varchar2) return apex_application_pages.page_id%type deterministic
     is 
-    c_scope varchar2(128) := gc_scope_prefix || 'page_from_url';
-    c_debug_template varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
+    c_scope constant varchar2(128) := gc_scope_prefix || 'page_from_url';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
 
     l_url_params          apex_t_varchar2;
 
+        ------------------------------------------------------------------------------
+        -- Nested Function to get the page id from a given page alias
+        ------------------------------------------------------------------------------
         function page_id_from_alias (p_app_id     in apex_applications.application_id%type,
                                      p_page_alias in apex_application_pages.page_alias%type) return apex_application_pages.page_id%type
         is 
@@ -338,10 +350,10 @@ is
     function is_valid_url (p_origin_app_id in apex_applications.application_id%type,
                            p_url in varchar2) return varchar2 deterministic
     is 
-    c_scope varchar2(128) := gc_scope_prefix || 'is_valid_url';
-    c_debug_template varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
+    c_scope constant varchar2(128) := gc_scope_prefix || 'is_valid_url';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
 
-    l_url varchar2(1026) := upper(p_url);
+    c_url constant varchar2(1026) := upper(p_url);
     l_valid_app_and_page_yn varchar2(1) := gc_y;
     l_application_id apex_applications.application_id%type;
     l_page_id apex_application_pages.page_id%type;                                                               
@@ -349,39 +361,39 @@ is
         apex_debug.message(c_debug_template,'START', 'p_origin_app_id', p_origin_app_id,
                                                      'p_url', p_url
                                                      );
-        case when l_url is null 
+        case when c_url is null 
              then return gc_y;
-             when l_url = 'SEPARATOR'
+             when c_url = 'SEPARATOR'
              then return gc_y;
-             when l_url = '#' 
+             when c_url = '#' 
              then return gc_y;
-             when l_url = '/SIGNOUT' 
+             when c_url = '/SIGNOUT' 
              then return gc_y;
-             when l_url like '&LOGOUT_URL%' 
+             when c_url like '&LOGOUT_URL%' 
              then return gc_y;
-             when l_url like '#%#' 
+             when c_url like '#%#' 
              then return gc_y;
-             when l_url like '#ACTION$%' -- eg #action$a-pwa-install
+             when c_url like '#ACTION$%' -- eg #action$a-pwa-install
              then return gc_y;
-             when l_url like 'F?P=&REPORTING_APP_ID.%' 
+             when c_url like 'F?P=&REPORTING_APP_ID.%' 
              then return gc_y;
-             when l_url like 'F?P=&LAST_APP.%' 
+             when c_url like 'F?P=&LAST_APP.%' 
              then return gc_y;
-             when l_url like 'F?P=&G_CALLED_FROM_APP.%' 
+             when c_url like 'F?P=&G_CALLED_FROM_APP.%' 
              then return gc_y;
-             when l_url like 'F?P=&P%' 
+             when c_url like 'F?P=&P%' 
              then return gc_y;
-             when l_url like 'JAVASCRIPT%' 
+             when c_url like 'JAVASCRIPT%' 
              then return gc_y;
-             when l_url like 'TEL:%' 
+             when c_url like 'TEL:%' 
              then return gc_y;
-             when l_url like 'HTTPS://%' 
+             when c_url like 'HTTPS://%' 
              then return gc_y;
              else 
                 l_application_id := app_from_url ( p_origin_app_id => p_origin_app_id,
-                                                   p_url => l_url);
+                                                   p_url => c_url);
                 l_page_id := page_from_url ( p_origin_app_id => p_origin_app_id,
-                                             p_url => l_url);
+                                             p_url => c_url);
 
                 select case when count(*) = 1
                                 then gc_y
@@ -441,144 +453,6 @@ is
             raise;
     end get_component_type_rec;
 
-    -- function build_link( p_test_id        in eba_stds_standard_tests.id%type, 
-    --                      p_param          in varchar2,
-    --                      p_owner          in all_views.owner%type default null
-    --                       )
-    -- return varchar2 deterministic result_cache
-    -- is
-
-    -- c_scope          constant varchar2(50) := gc_scope_prefix || 'build_link';
-    -- c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-
-    -- c_builder_session constant number := v('APX_BLDR_SESSION');
-    -- c_link_base       constant varchar2(100) := get_base_url();
-    -- l_owner      all_views.owner%type := upper(coalesce(p_owner, gc_userenv_current_user));
-    -- l_link_type  varchar2(100);
-    -- l_app number;
-    -- l_page number;
-    -- l_link varchar2(4000) := null;
-    -- l_version number;
-    -- l_url_params apex_t_varchar2 := apex_string.split(p_param, ':');
-    -- l_app_being_tested apex_applications.application_id%type;
-    -- l_param varchar2(25); -- := l_url_params(2)
-    -- l_app_in_current_workspace boolean := true;
-
-    -- ------------------------------------------------------------------------------
-    -- -- Nested Procedure, to assert parameter conditions.  
-    -- ------------------------------------------------------------------------------
-    -- -- procedure start_assertions is 
-    -- -- begin
-    -- --     assert.is_not_null (  
-    -- --         val_in => p_test_id
-    -- --         , msg_in => 'Test id cannot be null');
-    -- --     assert.is_not_null (  
-    -- --         val_in => p_param
-    -- --         , msg_in => 'p_param cannot be null');
-    -- -- end start_assertions;
-
-    -- ------------------------------------------------------------------------------
-    -- -- Nested Procedure, to build link to db objects
-    -- ------------------------------------------------------------------------------
-    -- procedure link_to_db_object is 
-    -- l_object_name user_objects.object_name%type;
-    -- l_object_type user_objects.object_type%type;
-    -- l_line_number varchar(512); --user_source.line%type;
-    -- l_object_id   user_objects.object_id%type;
-    -- begin
-    --     apex_debug.message(c_debug_template, 'building link to db object');
-    --     l_app := 4500;
-
-    --     l_url_params := apex_string.split(p_param, ':');
-    --     l_object_name := l_url_params(1);
-    --     l_object_type := case when l_url_params(2) = 'PACKAGE BODY'
-    --                           then 'PACKAGE'
-    --                           when l_url_params(2) = 'TYPE BODY'
-    --                           then 'TYPE'
-    --                           else l_url_params(2)
-    --                           end;
-    --     l_line_number := l_url_params(3);
-
-    --     l_page := 1001;
-
-    --     select object_id
-    --     into l_object_id
-    --     from all_objects
-    --     where object_type = l_object_type
-    --     and object_name = l_object_name
-    --     and owner = l_owner;
-
-    --     apex_debug.info(c_debug_template, 'l_object_name', l_object_name, 'l_object_type', l_object_type,'l_line_number', l_line_number, 'l_object_id', l_object_id);
-
-    --     l_link := apex_string.format(p_message => ':FOCUS:::OB_CURRENT_TYPE,OB_FIND,OB_OBJECT_NAME,OB_OBJECT_ID'||
-    --                                                     ':%1,%2,%3,%4',
-    --                                  p1 => l_object_type,
-    --                                  p2 => l_object_name,
-    --                                  p3 => l_object_name,
-    --                                  p4 => l_object_id
-    --                                 );
-    --     apex_debug.message(p_message => c_debug_template, p0 => 'l_link', p1 => l_link, p_level => apex_debug.c_log_level_warn, p_force => true);
-    -- exception when no_data_found then
-    --     apex_debug.error(p_message => c_debug_template, 
-    --                      p0 =>'No data found in all_objects', 
-    --                      p1 => 'l_object_type: '||l_object_type, 
-    --                      p2 => 'l_object_name: '||l_object_name,
-    --                      p3 => 'l_owner: '||l_owner,
-    --                      p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    --     raise;
-    -- end link_to_db_object;
-
-    -- begin
-    --     apex_debug.message(c_debug_template,'START', 'p_test_id', p_test_id, 
-    --                                                  'p_param', p_param,
-    --                                                  'c_builder_session', c_builder_session,
-    --                                                  'l_owner', l_owner);
-
-    --     -- Do things differently depending on the APEX version.
-    --     for c1 in ( select to_number(substr(version_no,0,instr(version_no,'.'))) vrsn from apex_release ) loop
-    --         l_version := c1.vrsn;
-    --     end loop;
-    --     if l_version >= 5 then
-    --         l_app := 4000;
-    --         l_page := 4500;
-    --     end if;
-    --     apex_debug.info(c_debug_template, 'l_version', l_version);
-
-    --     l_link_type := 'DB_SUPPORTING_OBJECT';
-
-    --         apex_debug.message(p_message => c_debug_template, p0 => 'link_type', p1 => l_link_type, p_level => apex_debug.c_log_level_warn, p_force => true);
-
-    --         case l_link_type
-    --         when 'DB_SUPPORTING_OBJECT' then
-    --             link_to_db_object;
-    --         else 
-    --             null;
-    --         end case;
-    --     apex_debug.message(c_debug_template, '. l_app', l_app);
-    --     apex_debug.message(c_debug_template, '. l_page', l_page);
-    --     apex_debug.message(c_debug_template, '. c_builder_session', c_builder_session);
-    --     apex_debug.message(c_debug_template, '. l_link', l_link);
-
-    --     l_link := case when p_param is null 
-    --                    then null
-    --                    when l_link is not null
-    --                    then c_link_base||'f?p='||l_app||':'||l_page||':'||c_builder_session||l_link
-    --                    end;
-    --     apex_debug.info(c_debug_template, 'l_link', l_link);
-    --     return l_link;
-
-    -- exception 
-    --     when e_subscript_beyond_count then 
-    --         apex_debug.error(p_message => c_debug_template, p0 =>'Invalid reference code'
-    --                                                       , p1 => 'p_test_id', p2 => p_test_id
-    --                                                       , p3 => 'p_param', p4 => p_param
-    --                                                       , p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
-    --         raise;
-    --     when others then 
-    --         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4000);
-    --         raise;
-    -- end build_link;
-
     function build_url( p_template_url          in v_svt_flow_dictionary_views.link_url%type,
                         p_app_id                in svt_plsql_apex_audit.application_id%type,
                         p_page_id               in svt_plsql_apex_audit.page_id%type,
@@ -596,7 +470,7 @@ is
     c_parent_pk_value constant varchar2(100) := p_parent_pk_value;
     c_opt_parent_pk_value constant varchar2(100) := p_opt_parent_pk_value;
     c_builder_session constant number := coalesce(v('APX_BLDR_SESSION'),p_builder_session);
-    c_template_url v_svt_flow_dictionary_views.link_url%type := p_template_url;
+    c_template_url  constant v_svt_flow_dictionary_views.link_url%type := p_template_url;
     l_url varchar2(2000);
     begin
         apex_debug.message(c_debug_template,'START', 
@@ -646,7 +520,6 @@ is
 -- Private function to assemble the additional columns
 --
 ------------------------------------------------------------------------------
-
     function assemble_addlcols( p_initials              in varchar2,
                                 p_svt_component_type_id in svt_component_types.id%type) 
     return svt_component_types.addl_cols%type
@@ -700,7 +573,6 @@ is
     l_name_column      svt_component_types.name_column%type;
     l_opt_parent_pk_value  all_objects.object_type%type;
     l_initials varchar2(5);
-    l_app_id all_tab_cols.column_name%type;
     c_application_id  constant varchar2(25) := 'application_id';
     c_page_id         constant varchar2(25) := 'page_id';
     c_created_by      constant varchar2(25) := 'created_by';
@@ -718,6 +590,9 @@ is
     c_30_spaces       constant varchar2(100) := c_20_spaces||c_10_spaces;
     c_50_spaces       constant varchar2(100) := c_20_spaces||c_20_spaces||c_10_spaces;
 
+        ------------------------------------------------------------------------------
+        -- Nested function to determine whether a given column exists in a given table 
+        ------------------------------------------------------------------------------
         function column_exists (p_column_name in varchar2) return boolean
         as 
         l_column_exists_yn varchar2(1) := gc_n;

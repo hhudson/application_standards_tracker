@@ -33,7 +33,7 @@ begin
                               -- and column_name not in ('CREATED','CREATED_BY','UPDATED','UPDATED_BY')
 end user_tab_col_macro;
                    
-end SVT_one_report_macro;
+end svt_one_report_macro;
 /
 
 --rollback drop package SVT_ONE_REPORT_MACRO;

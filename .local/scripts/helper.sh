@@ -557,6 +557,7 @@ fi
 } #name-fixer
 
 compile_code() {
+  # called by run_sql.sh
   # echo "log : compile code"
   # Parameters
   local p_file_full_path="$1"
@@ -572,13 +573,13 @@ compile_code() {
 
   # echo "log : SVT_SCHEMA_CONFIGURED = '$SVT_SCHEMA_CONFIGURED'"
   if [[ "$SVT_SCHEMA_CONFIGURED" == "Y" ]]; then
-  l_svt_command="select issue_desc, line, code, urgency
+  l_svt_command="select object_type, line, apex_string.format('%0 (%1)',code, test_code) issue, urgency
                 from svt_plsql_review.issues( 
                                   p_object_name     => '$p_file_base_name',
                                   p_max_test_code_count   => 3,
                                   p_max_issue_count => 8,
                                   p_file_dirname => '$p_file_dir')
-                order by urgency_level,  issue_desc, object_name, object_type, line, code"
+                order by urgency, object_type, line"
    else
    l_svt_command="select 'Standards not configured for this environment' Message from dual"
    fi

@@ -23,6 +23,18 @@ create or replace package SVT_PLSQL_REVIEW authid current_user as
                     )
     return svt_db_plsql_issue_nt pipelined;
 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: January 4, 2023
+-- Synopsis:
+--
+-- Function to query the db for an object_type for a object_name 
+--
+------------------------------------------------------------------------------
+  function get_object_type (p_object_name in user_objects.object_name%type) 
+  return user_objects.object_type%type;
+
 end SVT_PLSQL_REVIEW;
 /
 

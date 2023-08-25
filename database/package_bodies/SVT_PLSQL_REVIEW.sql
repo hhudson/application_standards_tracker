@@ -62,14 +62,6 @@ create or replace package body SVT_PLSQL_REVIEW as
     raise;
   end error_for_incorrect_schema;
 
-  ------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: January 4, 2023
--- Synopsis:
---
--- Function to query the db for an object_type for a object_name 
---
-------------------------------------------------------------------------------
   function get_object_type (p_object_name in user_objects.object_name%type) 
   return user_objects.object_type%type
   is
@@ -119,7 +111,7 @@ create or replace package body SVT_PLSQL_REVIEW as
                  := case when p_object_name is not null 
                          then sys.dbms_assert.noop(upper(p_object_name)) --todo: figure out what dbms_assert function would work here
                          end;
-  c_object_type  constant all_plsql_object_settings.type%type
+  c_object_type  constant user_objects.object_type%type
                 := case when p_object_type is not null 
                         then sys.dbms_assert.simple_sql_name(upper(p_object_type))
                         else case when p_file_dirname is not null

@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset package_script:SVT_ONE_REPORT stripComments:false endDelimiter:/ runOnChange:true
 create or replace PACKAGE SVT_ONE_REPORT authid definer as
--- Note: this package is dependent upon the package SVT_one_report_macro
+-- Note: this package is dependent upon the package svt_one_report_macro
 -- Updated for multiple schemas
 -- from https://github.com/ainielse/rando/blob/mSVTer/f_one_report.sql
 --

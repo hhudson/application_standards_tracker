@@ -1,48 +1,16 @@
 --liquibase formatted sql
 --changeset package_script:EBA_STDS_PARSER stripComments:false endDelimiter:/ runOnChange:true
 create or replace package eba_stds_parser authid definer as
-    g_collection constant varchar2(255):= 'EBA_STDS_PARSER';
-    g_false_neg  constant varchar2(31) := 'FALSE_NEGATIVE';
-    g_legacy     constant varchar2(31) := 'LEGACY';
-    g_ticket     constant varchar2(31) := 'TICKET';
-    g_dummy_name constant eba_stds_standard_tests.test_name%type := 'DUMMY';
+    -- g_collection constant varchar2(255):= 'EBA_STDS_PARSER';
+    -- g_false_neg  constant varchar2(31) := 'FALSE_NEGATIVE';
+    -- g_legacy     constant varchar2(31) := 'LEGACY';
+    -- g_ticket     constant varchar2(31) := 'TICKET';
+    -- g_dummy_name constant eba_stds_standard_tests.test_name%type := 'DUMMY';
 
 
-    function view_sql (p_view_name in user_views.view_name%type,
-                       p_owner     in all_views.owner%type default null) return clob;
+    -- function view_sql (p_view_name in user_views.view_name%type,
+    --                    p_owner     in all_views.owner%type default null) return clob;
 
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 18, 2023
--- Synopsis:
---
--- Function to build link - requires a builder session
---
-/*
--- select test_id, reference_code param, owner
--- from v_svt_plsql_apex_audit
--- fetch first 1 rows;
-select eba_stds_parser.build_link( 
-                p_test_id         => 
-                p_param           => 
-                p_owner           => 
-                p_builder_session => 
-            ) thelink
-from dual;
--- select id, message, message_timestamp, call_stack, message_level
--- from apex_debug_messages
--- where lower(message) like '%eba_stds_parser%'
--- and session_id = 12042265361095
--- order by message_timestamp asc
-*/
-------------------------------------------------------------------------------
-
-    -- function build_link( p_test_id         in eba_stds_standard_tests.id%type, 
-    --                      p_param           in varchar2,
-    --                      p_owner           in all_views.owner%type default null,
-    --                      p_builder_session in number default null
-    --                      )
-    --     return varchar2 deterministic result_cache;
     
 
 ------------------------------------------------------------------------------
@@ -77,7 +45,6 @@ from v_svt_plsql_apex_audit
 where audit_id = 78318
 */
 ------------------------------------------------------------------------------
-    
     function build_url( p_template_url          in v_svt_flow_dictionary_views.link_url%type,
                         p_app_id                in svt_plsql_apex_audit.application_id%type,
                         p_page_id               in svt_plsql_apex_audit.page_id%type,
@@ -122,20 +89,35 @@ end;
 
 
 
-    procedure add_applications;
+    -- procedure add_applications;
 
-    function default_app_id  
-        return apex_applications.application_id%type deterministic;
+    -- function default_app_id  
+    --     return apex_applications.application_id%type deterministic;
 
-    function accessibility_app_id
-        return apex_applications.application_id%type deterministic;
+    -- function accessibility_app_id
+    --     return apex_applications.application_id%type deterministic;
 
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 25, 2023
+-- Synopsis:
+--
+-- Function to determine whether a given url is valid. Used by the 'val_button_links' test, for eg
+--
+------------------------------------------------------------------------------
     function is_valid_url (p_origin_app_id in apex_applications.application_id%type,
                            p_url in varchar2) 
         return varchar2 deterministic;
 
-
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 25, 2023
+-- Synopsis:
+--
+-- Function to extract the app_id from a url, used by all the mv views (mv_svt_buttons for eg)  
+--
+------------------------------------------------------------------------------
     function app_from_url ( p_origin_app_id in apex_applications.application_id%type,
                             p_url           in varchar2) return  apex_applications.application_id%type deterministic;
 

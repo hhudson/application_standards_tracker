@@ -10,7 +10,10 @@ with aspaa as (
            paa.issue_category,
            paa.application_id,
            coalesce(vaa.application_name, 'NA') application_name,
-           coalesce(vaa.application_type, 'NA') application_type,
+           case when paa.issue_category = 'APEX'
+                then coalesce(vaa.application_type, 'NA') 
+                else 'Production'
+                end application_type,
            src.test_name,
            paa.page_id,
            paa.pass_yn,

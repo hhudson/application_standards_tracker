@@ -6,7 +6,7 @@ create or replace PACKAGE SVT_ONE_REPORT_MACRO authid definer as
 -- updated to allow different schemas
 /*
 select * 
-from SVT_one_report_macro.user_tab_col_macro(p_table_name => 'SVT_AUDIT_ACTIONS', p_schema_name => 'REDWOOD')
+from svt_one_report_macro.user_tab_col_macro(p_table_name => 'SVT_AUDIT_ACTIONS', p_schema_name => 'REDWOOD')
 */
 function user_tab_col_macro(p_table_name    in  varchar2,
                             p_schema_name   in  varchar2 default sys_context('USERENV', 'CURRENT_USER')) return varchar2 SQL_MACRO;

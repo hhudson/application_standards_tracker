@@ -46,17 +46,17 @@ function get_headers(p_table_name   in varchar2,
                      p_pretty_yn    in varchar2 default 'Y',
                      p_schema_name  in  varchar2 default sys_context('USERENV', 'CURRENT_USER')) return varchar2 is
 l_headers       varchar2(4000);
-l_table_name    varchar2(4000) := nvl(p_table_name, 'DUAL');
+c_table_name    constant varchar2(4000) := coalesce(p_table_name, 'DUAL');
 begin
     select listagg(
-            nvl(
+            coalesce(
                 case 
-                    when p_pretty_yn = 'Y' then initcap(replace(nvl(column_name,column_alias),'_',' '))
-                    else nvl(column_name,column_alias)
+                    when p_pretty_yn = 'Y' then initcap(replace(coalesce(column_name,column_alias),'_',' '))
+                    else coalesce(column_name,column_alias)
                     end    
                 , column_alias),':') col_headers
     into l_headers
-    from SVT_one_report_macro.user_tab_col_macro(p_table_name => l_table_name, p_schema_name => p_schema_name) 
+    from svt_one_report_macro.user_tab_col_macro(p_table_name => c_table_name, p_schema_name => p_schema_name) 
     where column_name not in ('CREATED','CREATED_BY','UPDATED','UPDATED_BY')
     order by alias_rn;
     return l_headers;
@@ -67,14 +67,14 @@ function show_column(   p_table_name        in varchar2,
                         p_column_number     in number,
                         p_schema_name       in  varchar2 default sys_context('USERENV', 'CURRENT_USER')) return boolean is
 l_count         number;                        
-l_table_name    varchar2(4000) := nvl(p_table_name, 'DUAL');
+c_table_name    constant varchar2(4000) := coalesce(p_table_name, 'DUAL');
 begin
-    if l_table_name = 'DUAL' then
+    if c_table_name = 'DUAL' then
         return true;
     end if;
     select count(*)
       into l_count
-      from SVT_one_report_macro.user_tab_col_macro(p_table_name => l_table_name, p_schema_name => p_schema_name) 
+      from svt_one_report_macro.user_tab_col_macro(p_table_name => c_table_name, p_schema_name => p_schema_name) 
       where alias_rn = p_column_number
         and column_name is not null
         and rownum = 1;
@@ -87,21 +87,21 @@ procedure set_IR_columns_headers(   p_table_name        in varchar2,
                                     p_pretty_yn         in varchar2 default 'Y',
                                     p_schema_name       in  varchar2 default sys_context('USERENV', 'CURRENT_USER')) is
 l_header        varchar2(4000);
-l_table_name    varchar2(4000) := nvl(p_table_name, 'DUAL');
+c_table_name    constant varchar2(4000) := coalesce(p_table_name, 'DUAL');
 begin
     for i in (select alias_rn, column_name, column_alias
-              from SVT_one_report_macro.user_tab_col_macro(p_table_name => l_table_name, p_schema_name => p_schema_name)
+              from svt_one_report_macro.user_tab_col_macro(p_table_name => c_table_name, p_schema_name => p_schema_name)
               order by alias_rn
               ) loop
         l_header := case 
-                        when p_pretty_yn = 'Y' then initcap(replace(nvl(i.column_name, i.column_alias),'_',' '))
-                        else nvl(i.column_name, i.column_alias)
+                        when p_pretty_yn = 'Y' then initcap(replace(coalesce(i.column_name, i.column_alias),'_',' '))
+                        else coalesce(i.column_name, i.column_alias)
                         end;
                         
         apex_util.set_session_state(p_base_item_name || i.alias_rn, l_header);
     end loop;
 end set_IR_columns_headers;
-end SVT_one_report;
+end svt_one_report;
 /
 
 --rollback drop package SVT_ONE_REPORT;

@@ -6,7 +6,8 @@
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_CARD_ACTIONS
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_CARD_ACTIONS
+-- /
 create materialized view MV_SVT_CARD_ACTIONS
     refresh on demand
     evaluate using current edition
