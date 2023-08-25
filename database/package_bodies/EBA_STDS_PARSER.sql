@@ -17,7 +17,7 @@ is
 
     l_view_name user_views.view_name%type := upper(p_view_name);
     l_owner     all_views.owner%type := upper(nvl(p_owner, case when gc_userenv_current_user = 'SVT'
-                                                                then SVT_ctx_util.get_default_user
+                                                                then svt_ctx_util.get_default_user
                                                                 else gc_userenv_current_user
                                                                 end));
     l_sql_long  user_views.text%type;

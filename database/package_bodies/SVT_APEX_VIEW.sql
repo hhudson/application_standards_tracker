@@ -28,7 +28,7 @@ create or replace package body SVT_APEX_VIEW as
 
     c_user constant all_users.username%type := coalesce(p_user, 
                                                         case when c_userenv_current_user = 'SVT'
-                                                             then SVT_ctx_util.get_default_user
+                                                             then svt_ctx_util.get_default_user
                                                              else c_userenv_current_user
                                                              end
                                                         );

@@ -80,7 +80,7 @@ end;
 -- 
 /*
 begin
-    SVT_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
+    svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
     SVT_audit_util.record_daily_issue_snapshot();
      commit;
 end;
@@ -136,7 +136,7 @@ procedure delete_obsolete_violations (
 --
 /*
 begin
-    SVT_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
+    svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
     SVT_audit_util.initialize_standard(p_test_code => 'HTML_ESCAPING_COLS');
     commit;
 end;

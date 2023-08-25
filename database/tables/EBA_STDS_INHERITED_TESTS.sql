@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset table_script:eba_stds_inherited_tests stripComments:false 
+--changeset table_script:eba_stds_inherited_tests stripComments:false runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(1) from all_tables where upper(table_name) = upper('eba_stds_inherited_tests');
 
@@ -17,7 +17,7 @@ CREATE TABLE EBA_STDS_INHERITED_TESTS (
 /
 
 alter table eba_stds_inherited_tests
-add constraint eb_std_inh_c1 check (parent_standard_id != standard_id);
+add constraint eb_std_inh_c1 check (parent_standard_id != standard_id)
 /
 
   alter table eba_stds_inherited_tests add constraint eb_std_inh_uk1 unique (standard_id, test_id)

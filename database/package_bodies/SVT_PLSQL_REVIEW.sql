@@ -22,7 +22,7 @@ create or replace package body SVT_PLSQL_REVIEW as
   l_object_exists_yn varchar2(1);
   -- c_review_schema constant varchar2(32) 
   --                 := case when sys_context('userenv', 'current_user') = gc_SVT
-  --                         then SVT_ctx_util.get_default_user
+  --                         then svt_ctx_util.get_default_user
   --                         else sys_context('userenv', 'current_user')
   --                         end;
   begin
@@ -41,16 +41,16 @@ create or replace package body SVT_PLSQL_REVIEW as
 
       if l_object_exists_yn = gc_n 
       and sys_context('userenv', 'current_user') = gc_SVT 
-      and SVT_ctx_util.get_default_user != gc_SVT /* we need to be able to run scripts that aren't ddl scripts */
+      and svt_ctx_util.get_default_user != gc_SVT /* we need to be able to run scripts that aren't ddl scripts */
       then 
-        SVT_ctx_util.set_review_schema (p_schema => sys_context('userenv', 'current_user'));
+        svt_ctx_util.set_review_schema (p_schema => sys_context('userenv', 'current_user'));
         -- raise_application_error(-20124, apex_string.format(
         --                                   p_message => q'[%0.%1 does not exist:
         -- • The review schema is currently set to : %2
         -- • You can change this by running the release/set_review_schema.sql script]',
         --                                   p0 => c_review_schema,
         --                                   p1 => p_object_name,
-        --                                   p2 => SVT_ctx_util.get_default_user,
+        --                                   p2 => svt_ctx_util.get_default_user,
         --                                   p3 => sys_context('userenv', 'current_user')
         --                                   )
         --                       );
@@ -259,7 +259,7 @@ create or replace package body SVT_PLSQL_REVIEW as
     apex_debug.message(c_debug_template,'START', 
                                         'p_object_name', p_object_name,
                                         'p_object_type', p_object_type,
-                                        'review_schema' , SVT_ctx_util.get_default_user,
+                                        'review_schema' , svt_ctx_util.get_default_user,
                                         'current_schema', gc_userenv_current_user,
                                         'p_file_dirname', p_file_dirname
                                         );

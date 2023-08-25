@@ -12,7 +12,7 @@ as
 --
 /*
 begin
-  SVT_ctx_util.set_review_schema (p_schema => sys_context('userenv', 'current_user'));
+  svt_ctx_util.set_review_schema (p_schema => sys_context('userenv', 'current_user'));
 end;
 */
 ------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ end;
 -- return default user
 --
 /*
-select SVT_ctx_util.get_default_user
+select svt_ctx_util.get_default_user
 from dual;
 */
 ------------------------------------------------------------------------------
