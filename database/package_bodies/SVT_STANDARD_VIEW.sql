@@ -16,6 +16,8 @@ create or replace package body SVT_STANDARD_VIEW as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_y            constant varchar2(1) := 'Y';
+  gc_n            constant varchar2(1) := 'N';
 
   ------------------------------------------------------------------------------
   -- v_svt_db_plsql identifiers
@@ -117,14 +119,14 @@ create or replace package body SVT_STANDARD_VIEW as
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'standard_is_urgent';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    c_max_urgency constant number := 100;
-    l_is_urgent_yn varchar2(1) := 'Y';
+    c_max_urgency constant number := 40;
+    l_is_urgent_yn varchar2(1) := gc_y;
     begin
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
       select case when count(*) = 1
-                        then 'Y'
-                        else 'N'
+                        then gc_y
+                        else gc_n
                         end into l_is_urgent_yn
                 from sys.dual where exists (
                     select * 
@@ -136,7 +138,7 @@ create or replace package body SVT_STANDARD_VIEW as
 
       apex_debug.message(c_debug_template, 'l_is_urgent_yn', l_is_urgent_yn);
 
-      return case when l_is_urgent_yn = 'Y'
+      return case when l_is_urgent_yn = gc_y
                   then true 
                   else false 
                   end;
@@ -177,7 +179,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                            and lower(antt.nt_name) = p_nt_name
     where esst.test_code = p_test_code
     and esst.query_clob is not null
-    --and esst.active_yn = 'Y'
+    --and esst.active_yn = gc_y
     ;
 
     return l_query_clob;
@@ -211,7 +213,7 @@ create or replace package body SVT_STANDARD_VIEW as
 
     l_query_clob := l_query_clob||q'[ where 1=1]';
 
-    l_query_clob := case when p_failures_only = 'Y'
+    l_query_clob := case when p_failures_only = gc_y
                          then l_query_clob||q'[ and pass_yn = 'N']'
                          else l_query_clob 
                          end;
@@ -274,7 +276,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                     p_nt_name     => gc_v_svt_sert__0_nt,
                                     p_select_stmt => gc_sert_select_stmt);
 
-    l_query_clob := case when p_failures_only = 'Y'
+    l_query_clob := case when p_failures_only = gc_y
                          then l_query_clob||q'[ where result = 'FAIL']'
                          else l_query_clob 
                          end;
@@ -341,12 +343,12 @@ create or replace package body SVT_STANDARD_VIEW as
                                     p_nt_name     => gc_v_svt_apex_nt,
                                     p_select_stmt => gc_apex_select_stmt);
 
-    l_query_clob := case when p_production_apps_only = 'Y'
+    l_query_clob := case when p_production_apps_only = gc_y
                          then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
                          else l_query_clob 
                          end;
 
-    l_query_clob := case when p_failures_only = 'Y'
+    l_query_clob := case when p_failures_only = gc_y
                          then l_query_clob||q'[ where pass_yn = 'N']'
                          else l_query_clob 
                          end;
@@ -418,7 +420,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                     p_nt_name     => gc_v_svt_db_view__0_nt,
                                     p_select_stmt => gc_view_select_stmt);
 
-    l_query_clob := case when p_failures_only = 'Y'
+    l_query_clob := case when p_failures_only = gc_y
                          then l_query_clob||q'[ where pass_yn = 'N']'
                          else l_query_clob 
                          end;  
@@ -473,7 +475,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                     p_nt_name     => gc_v_svt_db_tbl__0_nt,
                                     p_select_stmt => gc_tbl_select_stmt);
 
-    l_query_clob := case when p_failures_only = 'Y'
+    l_query_clob := case when p_failures_only = gc_y
                          then l_query_clob||q'[ where pass_yn = 'N']'
                          else l_query_clob 
                          end;  
@@ -694,7 +696,7 @@ create or replace package body SVT_STANDARD_VIEW as
                           from (]',
                           p0 => c_issue_category)
       );
-      l_query_clob := case when p_production_apps_only = 'Y'
+      l_query_clob := case when p_production_apps_only = gc_y
                            then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
                            else l_query_clob 
                            end;
@@ -735,7 +737,7 @@ create or replace package body SVT_STANDARD_VIEW as
                           from (]',
                           p0 => c_issue_category)
       );
-      l_query_clob := case when p_production_apps_only = 'Y'
+      l_query_clob := case when p_production_apps_only = gc_y
                            then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
                            else l_query_clob 
                            end;
@@ -752,12 +754,12 @@ create or replace package body SVT_STANDARD_VIEW as
     l_addl_predicates varchar2(2000);
     begin
       l_addl_predicates :=' where 1=1 '
-                          ||case  when p_urgent_only = 'Y'
+                          ||case  when p_urgent_only = gc_y
                                   then case when not standard_is_urgent(c_test_code)
                                             then ' and 1=2 '
                                             end 
                                   end
-                          || case when p_failures_only = 'Y'
+                          || case when p_failures_only = gc_y
                                   then l_failure_predicate
                                   end
                           || case when c_unqid is not null
@@ -795,10 +797,10 @@ create or replace package body SVT_STANDARD_VIEW as
                     l_v_svt_plsql_apex__0 (rec).object_name,
                     l_v_svt_plsql_apex__0 (rec).object_type,
                     l_v_svt_plsql_apex__0 (rec).code,
-                    case when l_v_svt_plsql_apex__0 (rec).pass_yn = 'N'
+                    case when l_v_svt_plsql_apex__0 (rec).pass_yn = gc_n
                          then l_v_svt_plsql_apex__0 (rec).validation_failure_message
                          end,
-                    case when l_v_svt_plsql_apex__0 (rec).pass_yn = 'N'
+                    case when l_v_svt_plsql_apex__0 (rec).pass_yn = gc_n
                          then l_v_svt_plsql_apex__0 (rec).issue_title
                          end,
                     l_v_svt_plsql_apex__0 (rec).apex_created_by,
