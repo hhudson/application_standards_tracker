@@ -135,8 +135,26 @@ Standards that are *not* general standards
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [APP_BUILDS](APEX_IDIOSYNCRATIC_212/tests/APP_BUILDS.json) |  Apps should have particular set of builds | v1 | APEX_APPLICATIONS |
+| [APP_ITEM_NAMING](APEX_IDIOSYNCRATIC_212/tests/APP_ITEM_NAMING.json) |  Application Item incorrectly prefixed | v1 | APEX_APPLICATION_ITEMS |
+| [AST_BREADCRUMB_STYLING](APEX_IDIOSYNCRATIC_212/tests/AST_BREADCRUMB_STYLING.json) |  AST Breadcrumbs are correctly styled | v1 | APEX_APPLICATION_PAGE_REGIONS |
+| [AST_BUTTONS_HAVE_ICONS](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTONS_HAVE_ICONS.json) |  All AST Standard Buttons have left-sided icons | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE.json) |  AST buttons should be simple | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_CANCEL_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_CANCEL_BUTTON.json) |  All Cancel buttons should be default | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON.json) |  Delete buttons should be correctly styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_MERGE_SAMPLE_DATA](APEX_IDIOSYNCRATIC_212/tests/AST_MERGE_SAMPLE_DATA.json) |  "Merge sample data" are consistently styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH.json) |  SVT Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
+| [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST.json) |  Breadcrumb hierarchy should match nav menu | v1 | APEX_APPLICATION_BC_ENTRIES |
+| [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
+| [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES.json) |  Page names should be human friendly | v1 | APEX_APPLICATION_PAGES |
+| [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions | v1 | APEX_APPLICATION_LIST_ENTRIES |
+| [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS.json) |  Navigation menu list entries should have icons | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION.json) |  Form pages require authentication and have access protection | v1 | APEX_APPLICATION_PAGES |
+| [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER.json) |  RDS regions should have a template of Tabs Container | v1 | APEX_APPLICATION_PAGE_REGIONS |
+| [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE.json) |  Reset buttons should be styled in a consistent way | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS.json) |  Button names and labels should be correctly capitalized | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [SVT_SAVE_BUTTONS](APEX_IDIOSYNCRATIC_212/tests/SVT_SAVE_BUTTONS.json) |  Update buttons must be labelled "Save" | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 
 ## Object (Database Version 19C)
 These tests run against the DB objects and therefore may be hard to associate with a given application. They can be associated with the Application Standards Tracker app.
