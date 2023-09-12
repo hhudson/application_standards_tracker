@@ -513,7 +513,7 @@ $end
       SVT_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
     end if;
 
-    SVT_audit_util.merge_audit_tbl (
+    svt_audit_util.merge_audit_tbl (
                         p_test_code      => p_test_code,
                         p_application_id => p_app_id,
                         p_page_id        => p_page_id
@@ -522,7 +522,7 @@ $end
     svt_apex_issue_util.drop_irrelevant_issues;
     $end
 
-    SVT_audit_util.assign_violations;
+    svt_audit_util.assign_violations;
 
     commit; -- necessary for succinctness / user friendliness (hayhudso 2023-Feb-6)
 
@@ -551,7 +551,7 @@ $end
       end if;
 
       l_apex_issue_id := l_svt_plsql_apex_audit_rec.apex_issue_id;
-      SVT_audit_util.merge_audit_tbl (
+      svt_audit_util.merge_audit_tbl (
                         p_test_code  => l_svt_plsql_apex_audit_rec.test_code,
                         p_application_id => l_svt_plsql_apex_audit_rec.application_id,
                         p_page_id        => l_svt_plsql_apex_audit_rec.page_id,

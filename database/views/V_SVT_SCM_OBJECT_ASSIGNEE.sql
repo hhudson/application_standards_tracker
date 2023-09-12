@@ -10,7 +10,7 @@ create or replace view V_SVT_SCM_OBJECT_ASSIGNEE as
 select object_name,
        email,
        folder_name 
-from SVT_audit_util.v_svt_scm_object_assignee()
+from svt_audit_util.v_svt_scm_object_assignee()
 /
 
 --rollback drop view V_SVT_SCM_OBJECT_ASSIGNEE;

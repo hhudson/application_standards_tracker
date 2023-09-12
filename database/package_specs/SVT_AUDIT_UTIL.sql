@@ -81,15 +81,16 @@ end;
 /*
 begin
     svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
-    SVT_audit_util.record_daily_issue_snapshot();
-     commit;
+    svt_audit_util.record_daily_issue_snapshot();
+    commit;
 end;
 */
 --
 ------------------------------------------------------------------------------
    procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                          p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                                         p_test_code      in eba_stds_standard_tests.test_code%type default null
+                                         p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                                         p_schema         in all_users.username%type default null
                                         );
 
 
@@ -102,7 +103,7 @@ end;
 --
 /*
 begin
-    SVT_audit_util.assign_violations;
+    svt_audit_util.assign_violations;
 end;
 */
 ------------------------------------------------------------------------------
@@ -117,7 +118,7 @@ procedure assign_violations;
 --
 /*
 begin
-  SVT_audit_util.delete_obsolete_violations;
+  svt_audit_util.delete_obsolete_violations;
   commit;
 end;
 */
@@ -137,7 +138,7 @@ procedure delete_obsolete_violations (
 /*
 begin
     svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
-    SVT_audit_util.initialize_standard(p_test_code => 'HTML_ESCAPING_COLS');
+    svt_audit_util.initialize_standard(p_test_code => 'HTML_ESCAPING_COLS');
     commit;
 end;
 */

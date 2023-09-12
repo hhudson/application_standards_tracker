@@ -115,7 +115,7 @@ from dual
 --
 /*
 begin
-    SVT_audit_util.set_workspace;
+    svt_audit_util.set_workspace;
     SVT_DEPLOYMENT.upsert_static_file(p_table_name => 'SVT_COMPONENT_TYPES');
     commit;
 end;

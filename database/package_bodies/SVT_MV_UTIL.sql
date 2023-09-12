@@ -86,7 +86,7 @@ create or replace package body SVT_MV_UTIL as
     begin
       apex_debug.message(c_debug_template,'START', 'p_mv_list', p_mv_list);
 
-      SVT_audit_util.set_workspace;
+      svt_audit_util.set_workspace;
 
       if p_mv_list like '%V_MV_SVT%' then
         for rec in (select object_name mview
