@@ -105,6 +105,8 @@ create or replace package body SVT_AUDIT_UTIL as
     pragma exception_init(e_dependent_error,-2311);
     e_object_not_exist    exception;
     pragma exception_init(e_object_not_exist,-4043);
+    e_timeout    exception;
+    pragma exception_init(e_timeout,-4021);
     begin
       apex_debug.message(c_debug_template,'recompile_w_plscope');
       execute immediate q'[ALTER SESSION SET PLSCOPE_SETTINGS = 'IDENTIFIERS:ALL, STATEMENTS:ALL']';
@@ -145,6 +147,8 @@ create or replace package body SVT_AUDIT_UTIL as
             apex_debug.warn(c_debug_template,'Dependent error for:', l_compile_stmt);
           when e_object_not_exist then
             apex_debug.warn(c_debug_template,'object does not exist', l_compile_stmt);
+          when e_timeout then
+            apex_debug.warn(c_debug_template,'timeout occurred', l_compile_stmt);
         end recompltn;
       end loop;
 
@@ -438,9 +442,7 @@ create or replace package body SVT_AUDIT_UTIL as
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     c_workspace constant apex_workspaces.workspace%type := case when p_workspace is not null 
                                                                 then upper(p_workspace)
-                                                                when svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE') is not null 
-                                                                then svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
-                                                                else 'REDWOOD'
+                                                                else svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
                                                                 end;
     begin
       apex_debug.message(c_debug_template,'START');
@@ -609,7 +611,8 @@ create or replace package body SVT_AUDIT_UTIL as
 
     procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                           p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                                          p_test_code      in eba_stds_standard_tests.test_code%type default null
+                                          p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                                          p_schema         in all_users.username%type default null
                                          )
      is
      c_scope constant varchar2(128) := gc_scope_prefix || 'record_daily_issue_snapshot'; 
@@ -622,7 +625,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                             'p_test_code', p_test_code
                                             );
 
-        svt_ctx_util.set_review_schema;
+        svt_ctx_util.set_review_schema(p_schema => p_schema);
 
         recompile_w_plscope;
 
@@ -651,7 +654,7 @@ create or replace package body SVT_AUDIT_UTIL as
                         p_legacy_yn  => gc_y
                       );
       
-      SVT_audit_util.assign_violations;
+      svt_audit_util.assign_violations;
 
     exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
