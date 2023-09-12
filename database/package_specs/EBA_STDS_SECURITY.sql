@@ -8,6 +8,12 @@ create or replace package eba_stds_security authid definer is
     --  * If access control is enabled and user is in list, returns their
     --    access level.
     -------------------------------------------------------------------------
+    /*
+    select eba_stds_security.get_authorization_level (
+         p_username => 'hayhudso'
+        ) thelevel
+    from dual
+    */
     function get_authorization_level (
         p_username             varchar2)
         return number;

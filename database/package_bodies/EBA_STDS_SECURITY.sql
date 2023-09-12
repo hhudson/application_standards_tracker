@@ -12,6 +12,7 @@ create or replace package body eba_stds_security as
     is
         l_access_level_id       eba_stds_users.access_level_id%type := 0;  -- default to lowest privilege.
         l_account_locked        eba_stds_users.account_locked%type;
+        c_username              eba_stds_users.username%type := upper(p_username);
     begin
         -- If access control is disabled, default to highest privilege
         if eba_stds_fw.get_preference_value('ACCESS_CONTROL_ENABLED') = 'N' then
@@ -23,7 +24,7 @@ create or replace package body eba_stds_security as
               into l_access_level_id,
                    l_account_locked
               from eba_stds_users
-             where username = p_username;
+             where upper(username) = c_username;
             -- Check if user's account is locked, return 0 (no privilege), otherwise stick
             -- with their level.
             if l_account_locked = 'Y' then

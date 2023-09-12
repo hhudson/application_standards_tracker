@@ -18,7 +18,7 @@ create or replace package body SVT_PREFERENCES as
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_svt          constant varchar2(3) := 'SVT';
-  gc_ast          constant varchar2(3) := 'AST';
+  -- gc_ast          constant varchar2(3) := 'AST';
 
   function get_preference (p_preference_name in apex_workspace_preferences.preference_name%type)
   return apex_workspace_preferences.preference_value%type deterministic
@@ -41,7 +41,7 @@ create or replace package body SVT_PREFERENCES as
   exception 
     when no_data_found then 
       return case when p_preference_name = 'SVT_DEFAULT_SCHEMA'
-                  then gc_ast
+                  then gc_svt
                   else null
                   end;
     when others then
