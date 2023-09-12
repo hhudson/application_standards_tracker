@@ -252,7 +252,7 @@ These are best practices that apply to Universal Theme applications.
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_CSS_FILE](APEX_UNIVERSAL_THEME_212/tests/APP_CSS_FILE.json) |  Apps should have a centralized css file | v1 | APEX_APPLICATIONS |
-| [BUTTON_DEFAULT_SIZE](APEX_UNIVERSAL_THEME_212/tests/BUTTON_DEFAULT_SIZE.json) |  Button size should be default | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [BUTTON_DEFAULT_SIZE](APEX_UNIVERSAL_THEME_212/tests/BUTTON_DEFAULT_SIZE.json) |  Button size should be default | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [BUTTON_STYLING](APEX_UNIVERSAL_THEME_212/tests/BUTTON_STYLING.json) |  Buttons should be styled correctly | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [CLASSIC_REPORT_STYLE](APEX_UNIVERSAL_THEME_212/tests/CLASSIC_REPORT_STYLE.json) |  Classic Report should be correctly styled | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [COL_ALIGNMENT_CLASSIC](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_CLASSIC.json) |  Classic Columns are correctly aligned | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
