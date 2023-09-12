@@ -5,7 +5,7 @@ create or replace package body SVT_APEX_ISSUE_UTIL as
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   SVT_apex_issue_util
+--   svt_apex_issue_util
 --
 -- DESCRIPTION
 --
@@ -519,7 +519,7 @@ $end
                         p_page_id        => p_page_id
                     );
     $if oracle_apex_version.c_apex_issue_access $then
-    SVT_apex_issue_util.drop_irrelevant_issues;
+    svt_apex_issue_util.drop_irrelevant_issues;
     $end
 
     SVT_audit_util.assign_violations;
@@ -564,8 +564,8 @@ $end
       if l_svt_plsql_apex_audit_rec.id is not null then
         apex_debug.message(c_debug_template, 'violation has not been fixed');
         $if oracle_apex_version.c_apex_issue_access $then
-        SVT_apex_issue_util.merge_from_audit_tbl(p_audit_id => p_audit_id);
-        SVT_apex_issue_util.update_audit_tbl_from_apex_issues;
+        svt_apex_issue_util.merge_from_audit_tbl(p_audit_id => p_audit_id);
+        svt_apex_issue_util.update_audit_tbl_from_apex_issues;
         $end
       elsif l_apex_issue_id is not null then
         apex_debug.message(c_debug_template, 'violation has been fixed so apex issue must be dropped');
@@ -578,7 +578,7 @@ $end
     else 
       apex_debug.error(c_debug_template, 'p_audit_id not found', p_audit_id);
       $if oracle_apex_version.c_apex_issue_access $then
-      SVT_apex_issue_util.drop_irrelevant_issues;
+      svt_apex_issue_util.drop_irrelevant_issues;
       $end
       commit; -- necessary for succinctness (hayhudso 2023-Feb-6)
       raise_application_error(-20123,'Unknown audit_id :'||p_audit_id);
@@ -662,7 +662,7 @@ $end
     
       $if oracle_apex_version.c_apex_issue_access $then
       l_svt_plsql_apex_audit_rec := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
-      SVT_apex_issue_util.drop_issue (p_id => l_svt_plsql_apex_audit_rec.apex_issue_id);
+      svt_apex_issue_util.drop_issue (p_id => l_svt_plsql_apex_audit_rec.apex_issue_id);
       svt_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => p_audit_id);
       $end
 
@@ -692,7 +692,7 @@ $end
     raise;  
   end bulk_mark_as_exception;
 
-end SVT_apex_issue_util;
+end svt_apex_issue_util;
 /
 
 --rollback drop package SVT_APEX_ISSUE_UTIL;
