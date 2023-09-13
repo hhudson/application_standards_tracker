@@ -50,8 +50,13 @@ where audit_id = 78318
                         p_page_id               in svt_plsql_apex_audit.page_id%type,
                         p_pk_value              in svt_plsql_apex_audit.component_id%type,
                         p_parent_pk_value       in svt_plsql_apex_audit.object_name%type,
+                        p_issue_category        in svt_plsql_apex_audit.issue_category%type,
                         p_opt_parent_pk_value   in svt_plsql_apex_audit.object_type%type default null,
-                        p_builder_session       in number default null)
+                        p_line                  in svt_plsql_apex_audit.line%type default null, 
+                        p_object_name           in svt_plsql_apex_audit.object_name%type default null,
+                        p_object_type           in svt_plsql_apex_audit.object_type%type default null,
+                        p_builder_session       in number default null
+                        )
     return varchar2 deterministic result_cache;
 
 ------------------------------------------------------------------------------

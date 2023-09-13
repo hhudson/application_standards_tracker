@@ -210,12 +210,10 @@ function markdown_summary return clob;
 ------------------------------------------------------------------------------
 -- exceptions
 ------------------------------------------------------------------------------
-   gc_missing_field constant number := -0904;
    e_missing_field exception;
-   pragma exception_init(e_missing_field, gc_missing_field);
-   gc_non_existent_tbl constant number := -0942;
+   pragma exception_init(e_missing_field, -0904);
    e_non_existent_tbl exception;
-   pragma exception_init(e_non_existent_tbl, gc_non_existent_tbl);
+   pragma exception_init(e_non_existent_tbl, -0942);
 
 end SVT_DEPLOYMENT;
 /

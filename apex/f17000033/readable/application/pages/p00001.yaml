@@ -912,7 +912,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 390
+      sequence: 400
 
     accessibility: 
       value-identifies-row: false
@@ -987,7 +987,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 380
+      sequence: 390
 
     accessibility: 
       value-identifies-row: false
@@ -1018,7 +1018,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 400
+      sequence: 410
 
     accessibility: 
       value-identifies-row: false
@@ -1391,7 +1391,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 420
+      sequence: 430
 
     accessibility: 
       value-identifies-row: false
@@ -1663,7 +1663,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 430
+      sequence: 440
 
     accessibility: 
       value-identifies-row: false
@@ -1694,7 +1694,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 440
+      sequence: 450
 
     accessibility: 
       value-identifies-row: false
@@ -1869,16 +1869,26 @@ regions:
     id: 105505097994911927
     identification: 
       column-name: LINK_URL
-      type: Hidden
+      type: Text Field
+
+    heading: 
+      heading: link url
+      alignment: start
 
     settings: 
-      value-protected: true
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
 
     layout: 
-      sequence: 450
+      sequence: 380
+      column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
+
+    validation: 
+      value-required: false
 
     source: 
       type: Database Column
@@ -1887,14 +1897,23 @@ regions:
       query-only: true
       primary-key: false
 
-    session-state: 
-      data-type: VARCHAR2
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: false
 
     enable-users-to: 
       sort: false
+      hide: true
 
   - # ====== Column: VIEW_BUTTON =================================
     id: 105505183309911928
@@ -1941,7 +1960,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 460
+      sequence: 470
 
     accessibility: 
       value-identifies-row: false
@@ -2016,7 +2035,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 470
+      sequence: 480
 
     accessibility: 
       value-identifies-row: false
@@ -2047,7 +2066,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 480
+      sequence: 490
 
     accessibility: 
       value-identifies-row: false
@@ -2126,7 +2145,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 410
+      sequence: 420
 
     accessibility: 
       value-identifies-row: false
@@ -2157,7 +2176,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 490
+      sequence: 500
 
     accessibility: 
       value-identifies-row: false
@@ -2185,7 +2204,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 500
+      sequence: 510
 
     accessibility: 
       value-identifies-row: false
@@ -2213,7 +2232,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 510
+      sequence: 520
 
     accessibility: 
       value-identifies-row: false
@@ -2295,7 +2314,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 520
+      sequence: 530
 
     accessibility: 
       value-identifies-row: false
@@ -2326,7 +2345,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 540
+      sequence: 550
 
     accessibility: 
       value-identifies-row: false
@@ -2357,7 +2376,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 550
+      sequence: 560
 
     accessibility: 
       value-identifies-row: false
@@ -2388,7 +2407,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 560
+      sequence: 570
 
     accessibility: 
       value-identifies-row: false
@@ -2419,7 +2438,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 570
+      sequence: 580
 
     accessibility: 
       value-identifies-row: false
@@ -2502,7 +2521,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 530
+      sequence: 540
 
     accessibility: 
       value-identifies-row: false
@@ -2627,7 +2646,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 580
+      sequence: 590
 
     accessibility: 
       value-identifies-row: false
@@ -2658,7 +2677,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 590
+      sequence: 600
 
     accessibility: 
       value-identifies-row: false
@@ -2706,7 +2725,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 600
+      sequence: 610
 
     accessibility: 
       value-identifies-row: false
@@ -4009,12 +4028,14 @@ dynamic-actions:
 
     settings: 
       code: |
-        debugger;
+        //debugger;
         apex.debug.info("DA click event");
         var appId, pageId, componentId, url, match,
         instance = getBuilderInstance(),
         typeId = this.triggeringElement.dataset.typeid;  //btn$.attr( "data-typeid" );
         apex.debug.info("DA typeId", typeId);
+        issueCategory = this.triggeringElement.dataset.issuecategory;  //btn$.attr( "data-typeid" );
+        apex.debug.info("issueCategory", issueCategory);
         
         
         if ( typeId ) {
@@ -4047,8 +4068,14 @@ dynamic-actions:
             // Caution! this code makes many assumptions about how the builder opens modal dialog pages
             match = /'(f\?p.*p_dialog_cs[^']*)',(\{.*\}),'([^']*)'/.exec( url );
             if ( match ) {
-                openDialog( match[1], match[2], match[3], btn$ );
+                apex.debug.info("modal dialog");
+                 if (issueCategory !== 'APEX') {
+                    apex.navigation.redirect(url);
+                } else {
+                    openDialog( match[1], match[2], match[3], btn$ );
+                };
             } else {
+                apex.debug.info("non modal dialog");
                 navigateInBuilderWindow( url );
             }
         }

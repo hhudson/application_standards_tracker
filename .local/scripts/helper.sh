@@ -586,6 +586,7 @@ compile_code() {
 
 # run sqlplus, execute the script, then get the error list and exit
 # VSCODE_TASK_COMPILE_BIN is set in the config.sh file (either sqlplus or sqlcl)
+set JAVA_TOOL_OPTIONS=-Ddev.flag=123
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 set define off
 set sqlblanklines on

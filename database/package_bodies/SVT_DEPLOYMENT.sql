@@ -106,9 +106,11 @@ create or replace package body SVT_DEPLOYMENT as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_blob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_table_name constant user_tables.table_name%type 
+              := dbms_assert.sql_object_name (upper(p_table_name));
   l_query     clob;
   l_file_blob blob;
-  c_zip_yn varchar2(1) := case when upper(p_zip_yn) = gc_y
+  c_zip_yn    constant varchar2(1) := case when upper(p_zip_yn) = gc_y
                                then gc_y
                                else gc_n
                                end;
@@ -123,7 +125,7 @@ create or replace package body SVT_DEPLOYMENT as
                                         'p_zip_yn', p_zip_yn);
 
     l_query := assemble_json_query (
-                    p_table_name    => p_table_name,
+                    p_table_name    => c_table_name,
                     p_row_limit     => p_row_limit,
                     p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
@@ -156,6 +158,8 @@ create or replace package body SVT_DEPLOYMENT as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_clob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_table_name constant user_tables.table_name%type 
+              := dbms_assert.sql_object_name (upper(p_table_name));
   l_query     clob;
   l_file_clob clob;
   begin
@@ -166,7 +170,7 @@ create or replace package body SVT_DEPLOYMENT as
                                         'p_standard_id', p_standard_id);
 
     l_query := assemble_json_query (
-                    p_table_name    => p_table_name,
+                    p_table_name    => c_table_name,
                     p_row_limit     => p_row_limit,
                     p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
@@ -281,11 +285,13 @@ create or replace package body SVT_DEPLOYMENT as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   l_most_recent_date apex_application_static_files.created_on%type;
-  c_query_template varchar2(1000) := 'select updated from %s order by updated desc fetch first 1 rows only';
+  c_query_template constant varchar2(1000) := 'select updated from %s order by updated desc fetch first 1 rows only';
+  c_table_name constant user_tables.table_name%type 
+              := dbms_assert.sql_object_name (upper(p_table_name));
   begin
     apex_debug.message(c_debug_template,'START', 'p_table_name', p_table_name);
 
-    execute immediate apex_string.format(c_query_template, p_table_name) into l_most_recent_date;
+    execute immediate apex_string.format(c_query_template, c_table_name) into l_most_recent_date;
     
     return l_most_recent_date;
 
@@ -449,12 +455,12 @@ create or replace package body SVT_DEPLOYMENT as
   c_scope constant varchar2(128) := gc_scope_prefix || 'markdown_summary';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_md_clob clob;
-  c_headers_md clob := chr(10)||
+  c_headers_md constant clob := chr(10)||
    '| Test Code | Test Name | Version | Component Type |'||
    chr(10)||
    '|-----------|-----------|---------|----------------|'||
    chr(10);
-  c_addendum clob := chr(10)||
+  c_addendum constant clob := chr(10)||
   '* This consolidated tests export does not include inherited relationships.'||
   ' You will need to install the individual standards / tests for that purpose.';
   begin

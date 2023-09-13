@@ -458,8 +458,13 @@ is
                         p_page_id               in svt_plsql_apex_audit.page_id%type,
                         p_pk_value              in svt_plsql_apex_audit.component_id%type,
                         p_parent_pk_value       in svt_plsql_apex_audit.object_name%type,
+                        p_issue_category        in svt_plsql_apex_audit.issue_category%type,
                         p_opt_parent_pk_value   in svt_plsql_apex_audit.object_type%type default null,
-                        p_builder_session       in number default null)
+                        p_line                  in svt_plsql_apex_audit.line%type default null, 
+                        p_object_name           in svt_plsql_apex_audit.object_name%type default null,
+                        p_object_type           in svt_plsql_apex_audit.object_type%type default null,
+                        p_builder_session       in number default null
+                        )
     return varchar2 deterministic result_cache
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'build_url';
@@ -472,6 +477,9 @@ is
     c_builder_session constant number := coalesce(v('APX_BLDR_SESSION'),p_builder_session);
     c_template_url  constant v_svt_flow_dictionary_views.link_url%type := p_template_url;
     l_url varchar2(2000);
+    c_schema      constant svt_plsql_apex_audit.owner%type := svt_preferences.get_preference (p_preference_name  => 'SVT_DEFAULT_SCHEMA');
+    c_object_name constant svt_plsql_apex_audit.object_name%type := upper(p_object_name);
+    c_object_type constant svt_plsql_apex_audit.object_type%type := upper(p_object_type);
     begin
         apex_debug.message(c_debug_template,'START', 
                                             'p_template_url', p_template_url,
@@ -490,18 +498,32 @@ is
                             replace(
                             replace(
                             replace(
+                            replace(
+                            replace(
+                            replace(
+                            replace(
                             c_template_url
-                            , '%session%', c_builder_session)
+                            , '%session%', case when p_object_type = 'APEX'
+                                                then c_builder_session
+                                                else v('APP_SESSION')
+                                                end)
                             , '%application_id%', c_app_id)
                             , '%page_id%', c_page_id)
                             , '%pk_value%', c_pk_value)
                             , '%parent_pk_value%', c_parent_pk_value)
                             , '%opt_parent_pk_value%', c_opt_parent_pk_value)
+                            , '%line%', p_line)
+                            , '%schema%'     , c_schema)
+                            , '%object_name%', c_object_name)
+                            , '%object_type%', c_object_type)
                       end;
         
         apex_debug.message(c_debug_template, 'l_url', l_url);
 
-        l_url := apex_util.prepare_url(l_url);
+        l_url := case when p_object_type = 'APEX'
+                      then apex_util.prepare_url(l_url)
+                      else apex_util.prepare_url(l_url)
+                      end;
 
         apex_debug.message(c_debug_template, 'prepared l_url', l_url);
 

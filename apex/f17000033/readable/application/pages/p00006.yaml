@@ -55,7 +55,7 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select act.id,
+      select  act.id svt_component_type_id,
               coalesce(act.component_name, fdv.component_desc) component_name,
               act.available_yn,
               act.created,
@@ -74,8 +74,8 @@ regions:
                    then 'N'
                    else 'Y'
                    end configured_yn
-        from v_svt_flow_dictionary_views fdv
-        left outer join svt_component_types act on act.component_name = fdv.view_name
+        from svt_component_types act 
+        left outer join v_svt_flow_dictionary_views fdv on act.component_name = fdv.view_name
 
   layout: 
     sequence: 20
@@ -112,11 +112,11 @@ regions:
     link: 
       link-column: Link to Custom Target
       target: 
-        url: 'f?p=&APP_ID.:7:&APP_SESSION.::&DEBUG.:RP:P7_ID:\#ID#\'
+        url: 'f?p=&APP_ID.:7:&SESSION.::&DEBUG.:RP,:P7_ID:#SVT_COMPONENT_TYPE_ID##ID#\'
         page: 7 # Manage Component Type
         clear-cache: RP
         values: 
-          p7_id: '#ID#'
+          p7_id: '#SVT_COMPONENT_TYPE_ID##ID#\'
 
       link-icon: <span role="img" aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
 
@@ -202,7 +202,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 63
+        sequence: 70
         column-alignment: start
 
       accessibility: 
@@ -240,7 +240,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 73
+        sequence: 80
         column-alignment: start
 
       accessibility: 
@@ -267,24 +267,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: ID ==========================================
-      id: 42802928632068249
-      identification: 
-        column-name: ID
-        type: Hidden Column
-
-      heading: 
-        heading: ID
-
-      layout: 
-        sequence: 0
-
-      source: 
-        primary-key: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: AVAILABLE_YN ================================
       id: 42803745206068250
       identification: 
@@ -302,7 +284,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 3
+        sequence: 20
         column-alignment: start
 
       accessibility: 
@@ -340,7 +322,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 23
+        sequence: 30
         column-alignment: start
 
       accessibility: 
@@ -385,7 +367,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 33
+        sequence: 40
         column-alignment: start
 
       accessibility: 
@@ -426,7 +408,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 43
+        sequence: 50
         column-alignment: start
 
       accessibility: 
@@ -471,7 +453,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 53
+        sequence: 60
         column-alignment: start
 
       accessibility: 
@@ -515,7 +497,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 83
+        sequence: 90
         column-alignment: start
 
       accessibility: 
@@ -553,7 +535,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 93
+        sequence: 100
         column-alignment: start
 
       accessibility: 
@@ -594,7 +576,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 103
+        sequence: 110
         column-alignment: start
 
       accessibility: 
@@ -635,7 +617,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 113
+        sequence: 120
         column-alignment: start
 
       accessibility: 
@@ -676,7 +658,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 123
+        sequence: 130
         column-alignment: start
 
       accessibility: 
@@ -717,7 +699,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 133
+        sequence: 140
         column-alignment: start
 
       accessibility: 
@@ -758,7 +740,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 143
+        sequence: 150
         column-alignment: start
 
       accessibility: 
@@ -802,7 +784,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 153
+        sequence: 160
         column-alignment: start
 
       accessibility: 
@@ -825,6 +807,47 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+    - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+      id: 174724420254628608
+      identification: 
+        column-name: SVT_COMPONENT_TYPE_ID
+        type: Plain Text
+
+      heading: 
+        heading: SVT Component Type ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
 
     printing: 
       output: 

@@ -39,12 +39,17 @@ with aspaa as (
                    p_id => paa.apex_issue_id ) 
            from dual ) link_to_apex_issue,
            (select eba_stds_parser.build_url(
-                        p_template_url          => fdv.link_url,
+                        p_template_url          => coalesce(fdv.link_url, sct.template_url),
                         p_app_id                => paa.application_id,
                         p_page_id               => paa.page_id,
                         p_pk_value              => paa.component_id,
                         p_parent_pk_value       => paa.parent_component_id,
-                        p_builder_session       => v('APX_BLDR_SESSION')) 
+                        p_issue_category        => paa.issue_category,
+                        p_line                  => paa.line,
+                        p_object_name           => paa.object_name,
+                        p_object_type           => paa.object_type,
+                        p_builder_session       => v('APX_BLDR_SESSION')
+                        ) 
            from dual) link_url,
            paa.apex_issue_id,
            paa.apex_issue_title_suffix,
@@ -61,13 +66,14 @@ with aspaa as (
            src.svt_component_type_id,
            src.component_name, 
            fdv.component_type_id, 
-           fdv.link_url template_url,
+           coalesce(fdv.link_url, sct.template_url) template_url,
            src.standard_name
     from svt_plsql_apex_audit paa
-    left join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
-    left outer join svt_audit_actions aaa on paa.action_id = aaa.id
     inner join v_eba_stds_standard_tests src on paa.test_code  = src.test_code
-    left join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
+    inner join svt_component_types sct on sct.id = src.svt_component_type_id
+    left outer join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
+    left outer join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
+    left outer join svt_audit_actions aaa on paa.action_id = aaa.id
 )
 select 
     a.audit_id,
@@ -144,7 +150,8 @@ Audit id : %3
     '<button type="button" 
              class="a-Button edit-button t-Button t-Button--icon t-Button--primary t-Button--simple t-Button--iconLeft"
              data-link="' ||
-       wwv_flow_utilities.prepare_url( a.link_url ) || '"' ||
+       wwv_flow_utilities.prepare_url( a.link_url )  || '"' ||
+         ' data-issueCategory="' || a.issue_category || '"' ||
        case when a.component_type_id is not null then
          ' data-appid="'       || a.application_id || '"' ||
          ' data-pageid="'      || a.page_id || '"' ||

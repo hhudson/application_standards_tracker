@@ -165,7 +165,6 @@ These tests run against the DB objects and therefore may be hard to associate wi
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [DBMS_ASSERT](DB_OBJECT_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.3 | DATABASE SUPPORTING OBJECT |
-| [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.2 | DATABASE SUPPORTING OBJECT |
 | [DUPLICATE_STATEMENTS](DB_OBJECT_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.2 | DATABASE SUPPORTING OBJECT |
 | [FK_INDEXED](DB_OBJECT_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.1 | DATABASE TABLE |
 | [IDENTIFIER_NAMING](DB_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.2 | DATABASE SUPPORTING OBJECT |

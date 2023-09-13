@@ -512,6 +512,10 @@ regions:
                                                               then a.object_name
                                                               end,
                               p_opt_parent_pk_value   => a.object_type,
+                              p_issue_category        => a.issue_category,
+                              p_line                  => a.line,
+                              p_object_name           => a.object_name,
+                              p_object_type           => a.object_type,
                               p_builder_session       => :P0_APX_BLDR_SESSION
              ) link_url
       from svt_standard_view.v_svt(p_test_code => :P14_TEST_CODE, 
@@ -2337,7 +2341,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P14_COMPONENT_NAME =======================
@@ -2367,7 +2371,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P14_TEMPLATE_URL =========================
@@ -2397,7 +2401,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P14_SVT_COMPONENT_TYPE_ID ================
@@ -2463,7 +2467,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
   help: 
@@ -3226,7 +3230,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P14_IG_LINK_REQUEST ======================
@@ -3984,13 +3988,15 @@ dynamic-actions:
     settings: 
       code: |
         // #APP_FILES#js/f4000_searchResults#MIN#.js
-        //debugger;
+        // debugger;
         apex.debug.info("DA click event");
         var appId, pageId, componentId, url, match,
         instance = getBuilderInstance(),
         // instance = apex.util.getTopApex().item("P0_APX_BLDR_SESSION").getValue(),
         typeId = this.triggeringElement.dataset.typeid;  //btn$.attr( "data-typeid" );
         apex.debug.info("DA typeId", typeId);
+        var issueCategory = apex.item("P14_ISSUE_CATEGORY").getValue();
+        apex.debug.info("issueCategory", issueCategory);
         
         
         if ( typeId ) {
@@ -4024,8 +4030,14 @@ dynamic-actions:
             // Caution! this code makes many assumptions about how the builder opens modal dialog pages
             match = /'(f\?p.*p_dialog_cs[^']*)',(\{.*\}),'([^']*)'/.exec( url );
             if ( match ) {
-                openDialog( match[1], match[2], match[3], btn$ );
+                apex.debug.info("modal dialog");
+                if (issueCategory !== 'APEX') {
+                    apex.navigation.redirect(url);
+                } else {
+                    openDialog( match[1], match[2], match[3], btn$ );
+                };
             } else {
+                apex.debug.info("normal page");
                 navigateInBuilderWindow( url );
             }
         }

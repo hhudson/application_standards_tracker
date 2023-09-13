@@ -592,7 +592,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    object_name,
                                    object_type,
                                    code,
-                                   null validation_failure_message,
+                                   code validation_failure_message,
                                    case when code is not null 
                                         then object_name||': '||code 
                                         else object_name 
