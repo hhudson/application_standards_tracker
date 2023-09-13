@@ -165,6 +165,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   c_scope constant varchar2(128) := gc_scope_prefix || 'install_standard_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_lib_rec eba_stds_tests_lib%rowtype;
+  l_existing_rec eba_stds_standard_tests%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -176,21 +177,44 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     from eba_stds_tests_lib
     where id = p_id;
 
-    eba_stds_standard_tests_api.insert_test(
-                p_id                    => l_lib_rec.test_id,
-                p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
-                p_test_name             => l_lib_rec.test_name,
-                p_query_clob            => l_lib_rec.query_clob,
-                p_owner                 => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'),
-                p_test_code             => l_lib_rec.test_code,
-                p_active_yn             => 'N',
-                p_level_id              => coalesce(p_urgency_level_id, svt_urgency_level_api.get_default_level_id),
-                p_mv_dependency         => l_lib_rec.mv_dependency,
-                p_svt_component_type_id => l_lib_rec.svt_component_type_id,
-                p_explanation           => l_lib_rec.explanation,
-                p_fix                   => l_lib_rec.fix,
-                p_version_number        => l_lib_rec.version_number
-                );
+    l_existing_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => l_lib_rec.test_code);
+
+    if l_existing_rec.test_code is null then
+
+      eba_stds_standard_tests_api.insert_test(
+                  p_id                    => l_lib_rec.test_id,
+                  p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
+                  p_test_name             => l_lib_rec.test_name,
+                  p_query_clob            => l_lib_rec.query_clob,
+                  p_owner                 => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'),
+                  p_test_code             => l_lib_rec.test_code,
+                  p_active_yn             => 'N',
+                  p_level_id              => coalesce(p_urgency_level_id, svt_urgency_level_api.get_default_level_id),
+                  p_mv_dependency         => l_lib_rec.mv_dependency,
+                  p_svt_component_type_id => l_lib_rec.svt_component_type_id,
+                  p_explanation           => l_lib_rec.explanation,
+                  p_fix                   => l_lib_rec.fix,
+                  p_version_number        => l_lib_rec.version_number
+                  );
+    
+    else 
+      eba_stds_standard_tests_api.update_test(
+                          p_id                    => l_existing_rec.id,
+                          p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
+                          p_test_name             => l_lib_rec.test_name,
+                          p_display_sequence      => l_existing_rec.display_sequence,
+                          p_query_clob            => l_lib_rec.query_clob,
+                          p_owner                 => l_existing_rec.owner,
+                          p_test_code             => l_existing_rec.test_code,
+                          p_active_yn             => l_existing_rec.active_yn,
+                          p_level_id              => l_lib_rec.level_id,
+                          p_mv_dependency         => l_lib_rec.mv_dependency,
+                          p_svt_component_type_id => l_lib_rec.svt_component_type_id,
+                          p_explanation           => l_lib_rec.explanation,
+                          p_fix                   => l_lib_rec.fix,
+                          p_version_number        => l_lib_rec.version_number
+                      );
+    end if;
     
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -290,7 +314,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                       l_lib_rec.mv_dependency,
                       l_lib_rec.svt_component_type_id,
                       l_lib_rec.explanation,
-                      l_lib_rec.fix
+                      l_lib_rec.fix,
+                      l_lib_rec.version_number
                   );
 
     p_version_number := l_lib_rec.version_number;

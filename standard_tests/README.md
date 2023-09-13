@@ -32,6 +32,7 @@ These are standards to maintain Accessibility.
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT.json) |  Classic Columns with images have alt text | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_INACC_CSS](APEX_ACCESSIBILITY_212/tests/C_COL_INACC_CSS.json) |  Classic columns should avoid animations | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK.json) |  Classic Columns links must have aria and title | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [C_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_HEADNG.json) |  Classic Report column headings are unique per region | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_LBL.json) |  Classic Report column aliases are unique per page | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_VLD_HEADNG.json) |  Classic Report- all columns have a header defined | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [DA_BLUR](APEX_ACCESSIBILITY_212/tests/DA_BLUR.json) |  Check page JS for on blur events | v1 | APEX_APPLICATION_PAGES |
@@ -138,7 +139,6 @@ Standards that are *not* general standards
 | [APP_ITEM_NAMING](APEX_IDIOSYNCRATIC_212/tests/APP_ITEM_NAMING.json) |  Application Item incorrectly prefixed | v1 | APEX_APPLICATION_ITEMS |
 | [AST_BREADCRUMB_STYLING](APEX_IDIOSYNCRATIC_212/tests/AST_BREADCRUMB_STYLING.json) |  AST Breadcrumbs are correctly styled | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [AST_BUTTONS_HAVE_ICONS](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTONS_HAVE_ICONS.json) |  All AST Standard Buttons have left-sided icons | v1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE.json) |  AST buttons should be simple | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_CANCEL_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_CANCEL_BUTTON.json) |  All Cancel buttons should be default | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON.json) |  Delete buttons should be correctly styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_MERGE_SAMPLE_DATA](APEX_IDIOSYNCRATIC_212/tests/AST_MERGE_SAMPLE_DATA.json) |  "Merge sample data" are consistently styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |

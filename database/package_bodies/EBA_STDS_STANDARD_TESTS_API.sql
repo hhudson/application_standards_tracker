@@ -154,7 +154,8 @@ create or replace package body eba_stds_standard_tests_api as
       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
       p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
       p_explanation           in eba_stds_standard_tests.explanation%type,
-      p_fix                   in eba_stds_standard_tests.fix%type
+      p_fix                   in eba_stds_standard_tests.fix%type,
+      p_version_number        in eba_stds_standard_tests.version_number%type
   ) return varchar2 is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'build_test_md5';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -172,13 +173,22 @@ create or replace package body eba_stds_standard_tests_api as
         p_mv_dependency,
         p_svt_component_type_id,
         p_explanation,
-        p_fix ));
+        p_fix,
+        p_version_number ));
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end build_test_md5;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 13, 2023
+-- Synopsis:
+--
+-- Private function to get the md5 for a given test_code
+--
+------------------------------------------------------------------------------ 
   function current_md5(p_test_code in eba_stds_standard_tests.test_code%type)
   return varchar2
   as 
@@ -188,10 +198,7 @@ create or replace package body eba_stds_standard_tests_api as
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
-    select *
-    into l_test_rec
-    from eba_stds_standard_tests
-    where test_code = p_test_code;
+    l_test_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => p_test_code);
 
     return build_test_md5(
                       -- l_test_rec.standard_id,
@@ -203,7 +210,8 @@ create or replace package body eba_stds_standard_tests_api as
                       l_test_rec.mv_dependency,
                       l_test_rec.svt_component_type_id,
                       l_test_rec.explanation,
-                      l_test_rec.fix
+                      l_test_rec.fix,
+                      l_test_rec.version_number
                   );
   
   exception when others then
@@ -236,12 +244,9 @@ create or replace package body eba_stds_standard_tests_api as
       declare
       l_test_rec eba_stds_standard_tests%rowtype;
       l_version_number eba_stds_standard_tests.version_number%type;
-      c_minor_version_increment number := 0.1;
+      c_minor_version_increment constant number := 0.1;
       begin
-        select *
-        into l_test_rec
-        from eba_stds_standard_tests
-        where test_code = p_test_code;
+        l_test_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => p_test_code);
 
         l_version_number := case when l_test_rec.version_number = 0
                                  then 1
@@ -312,7 +317,8 @@ create or replace package body eba_stds_standard_tests_api as
                       p_mv_dependency,
                       p_svt_component_type_id,
                       p_explanation,
-                      p_fix
+                      p_fix,
+                      p_version_number
                   );
  
     if l_current_md5 = l_new_md5 then
@@ -330,7 +336,8 @@ create or replace package body eba_stds_standard_tests_api as
         mv_dependency         = p_mv_dependency,
         svt_component_type_id = p_svt_component_type_id,
         explanation           = p_explanation,
-        fix                   = p_fix
+        fix                   = p_fix,
+        version_number        = p_version_number
       where id = p_id;
     end if;
   
@@ -629,7 +636,8 @@ begin
                                           p_mv_dependency         => l_aat (rec).mv_dependency,
                                           p_svt_component_type_id => l_aat (rec).svt_component_type_id,
                                           p_explanation           => l_aat (rec).explanation,
-                                          p_fix                   => l_aat (rec).fix
+                                          p_fix                   => l_aat (rec).fix,
+                                          p_version_number        => l_aat (rec).version_number
                                       );
         l_lib_md5 varchar2(250);
         l_lib_version_number eba_stds_tests_lib.version_number%type;

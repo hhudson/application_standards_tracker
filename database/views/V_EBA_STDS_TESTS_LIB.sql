@@ -42,7 +42,8 @@ select estl.id,
           p_mv_dependency         => estl.mv_dependency,
           p_svt_component_type_id => estl.svt_component_type_id,
           p_explanation           => estl.explanation,
-          p_fix                   => estl.fix
+          p_fix                   => estl.fix,
+          p_version_number        => estl.version_number
        ) estl_md5
   from eba_stds_tests_lib estl
   left outer join eba_stds_standard_tests esst on estl.test_code = esst.test_code

@@ -160,7 +160,8 @@ select eba_stds_standard_tests_api.build_test_md5 (
         p_mv_dependency         => esst.mv_dependency,
         p_svt_component_type_id => esst.svt_component_type_id,
         p_explanation           => esst.explanation,
-        p_fix                   => esst.fix
+        p_fix                   => esst.fix,
+        p_version_number        => esst.version_number
     ) esst_md5
 from eba_stds_standard_tests esst;
 */
@@ -175,7 +176,8 @@ from eba_stds_standard_tests esst;
       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
       p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
       p_explanation           in eba_stds_standard_tests.explanation%type,
-      p_fix                   in eba_stds_standard_tests.fix%type
+      p_fix                   in eba_stds_standard_tests.fix%type,
+      p_version_number        in eba_stds_standard_tests.version_number%type
   ) return varchar2;
 
 ------------------------------------------------------------------------------
