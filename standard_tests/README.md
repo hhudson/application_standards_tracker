@@ -13,7 +13,7 @@ These are standards to maintain Accessibility.
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ.json) |  Button labels should be unique per page | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [ACC_CARD_LINK](APEX_ACCESSIBILITY_212/tests/ACC_CARD_LINK.json) |  Card link require titles and arias | v1 | APEX_APPL_PAGE_CARD_ACTIONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS.json) |  DA should avoid "get focus" events | v1 | APEX_APPLICATION_PAGE_DA |
-| [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT.json) |  DA should avoid mouse events | v1 | APEX_APPLICATION_PAGE_DA |
+| [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT.json) |  DA should avoid mouse events | v1.1 | APEX_APPLICATION_PAGE_DA |
 | [ACC_IG_COL_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_AUTOCOMPLETE.json) |  IG Columns may need autocomplete | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_LINK.json) |  IG Column Links should have title + aria | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_IV_LINK.json) |  IG Icon View Links need title + aria | v1 | APEX_APPL_PAGE_IGS |
@@ -25,22 +25,21 @@ These are standards to maintain Accessibility.
 | [ACC_PG_TMP_CSS_ANMTN](APEX_ACCESSIBILITY_212/tests/ACC_PG_TMP_CSS_ANMTN.json) |  Page Templates should avoid CSS animations | v1 | APEX_APPLICATION_TEMP_PAGE |
 | [ACC_TAB_TABINDEX](APEX_ACCESSIBILITY_212/tests/ACC_TAB_TABINDEX.json) |  Application Tabs should avoid tabindex | v1 | APEX_APPLICATION_TABS |
 | [ACC_VAL_DSPLY_LOCN](APEX_ACCESSIBILITY_212/tests/ACC_VAL_DSPLY_LOCN.json) |  Inline with field error notification is insufficient | v1 | APEX_APPLICATION_PAGE_VAL |
-| [BTN_TABINDX](APEX_ACCESSIBILITY_212/tests/BTN_TABINDX.json) |  Buttons should avoid hardcoded tab indexes | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [BTN_TABINDX](APEX_ACCESSIBILITY_212/tests/BTN_TABINDX.json) |  Buttons should avoid hardcoded tab indexes | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [COL_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/COL_ALT_TEXT.json) |  Column image links should have alt text | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [CRD_ACTNS_TAB_INDX](APEX_ACCESSIBILITY_212/tests/CRD_ACTNS_TAB_INDX.json) |  Card Actions should avoid hard coded tab indexes | v1 | APEX_APPL_PAGE_CARD_ACTIONS |
 | [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML.json) |  Classic Columns have wellformed HTML | v1.2 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT.json) |  Classic Columns with images have alt text | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_INACC_CSS](APEX_ACCESSIBILITY_212/tests/C_COL_INACC_CSS.json) |  Classic columns should avoid animations | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
-| [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK.json) |  Classic Columns links must have aria and title | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
-| [C_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_HEADNG.json) |  Classic Report column headings are unique per region | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK.json) |  Classic Columns links must have aria and title | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_LBL.json) |  Classic Report column aliases are unique per page | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_VLD_HEADNG.json) |  Classic Report- all columns have a header defined | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [DA_BLUR](APEX_ACCESSIBILITY_212/tests/DA_BLUR.json) |  Check page JS for on blur events | v1 | APEX_APPLICATION_PAGES |
 | [DA_FOCUS](APEX_ACCESSIBILITY_212/tests/DA_FOCUS.json) |  DAs should avoid Lose Focus or Get Focus triggering events | v1 | APEX_APPLICATION_PAGE_DA |
-| [DA_JS_INTRVL_TIMT](APEX_ACCESSIBILITY_212/tests/DA_JS_INTRVL_TIMT.json) |  DA should avoid js that is setting intervals or timeouts | v1 | APEX_APPLICATION_PAGE_DA_ACTS |
+| [DA_JS_INTRVL_TIMT](APEX_ACCESSIBILITY_212/tests/DA_JS_INTRVL_TIMT.json) |  DA should avoid js that is setting intervals or timeouts | v1.1 | APEX_APPLICATION_PAGE_DA_ACTS |
 | [IG_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IG_COL_BAD_HTML.json) |  HTML should be correctly configured in IG Cols | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IG_COL_IMG_ALT_TEXT.json) |  IG Columns with images have alt text | v1 | APEX_APPL_PAGE_IG_COLUMNS |
-| [IG_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_COL_TABINDX.json) |  IG Columns should avoid hard coded tab indexes | v1 | APEX_APPL_PAGE_IG_COLUMNS |
+| [IG_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_COL_TABINDX.json) |  IG Columns should avoid hard coded tab indexes | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_UNQ_ALIAS](APEX_ACCESSIBILITY_212/tests/IG_COL_UNQ_ALIAS.json) |  Interactive Grid Columns aliases are unique | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/IG_COL_UNQ_HEADNG.json) |  Interactive Grid Columns headings are unique | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_VLD](APEX_ACCESSIBILITY_212/tests/IG_COL_VLD.json) |  Interactive Grid Columns are not null | v1 | APEX_APPL_PAGE_IG_COLUMNS |
@@ -144,7 +143,7 @@ Standards that are *not* general standards
 | [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON.json) |  Delete buttons should be correctly styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_MERGE_SAMPLE_DATA](APEX_IDIOSYNCRATIC_212/tests/AST_MERGE_SAMPLE_DATA.json) |  "Merge sample data" are consistently styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH.json) |  SVT Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
-| [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST.json) |  Breadcrumb hierarchy should match nav menu | v1 | APEX_APPLICATION_BC_ENTRIES |
+| [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST.json) |  Breadcrumb hierarchy should match nav menu | v1.1 | APEX_APPLICATION_BC_ENTRIES |
 | [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES.json) |  Page names should be human friendly | v1 | APEX_APPLICATION_PAGES |

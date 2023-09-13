@@ -527,7 +527,6 @@ create or replace package body SVT_STANDARD_VIEW as
   cur_v_svt sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
   c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
-  l_nt_name svt_nested_table_types.nt_name%type;
 
   ------------------------------------------------------------------------------
   -- v_svt_plsql_apex__0 identifiers

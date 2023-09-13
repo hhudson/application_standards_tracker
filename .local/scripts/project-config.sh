@@ -41,4 +41,4 @@ OBJECT_FILE_TEMPLATE_MAP="$OBJECT_FILE_TEMPLATE_MAP,table:templates/template_tab
 OBJECT_FILE_TEMPLATE_MAP="$OBJECT_FILE_TEMPLATE_MAP,trigger:templates/template_trigger:$EXT_VIEW:triggers"
 OBJECT_FILE_TEMPLATE_MAP="$OBJECT_FILE_TEMPLATE_MAP,comment:templates/template_comment:sql:comments"
 
-SVT_SCHEMA_CONFIGURED="N"
+SVT_SCHEMA_CONFIGURED="Y"
