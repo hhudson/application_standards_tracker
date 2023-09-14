@@ -6068,6 +6068,8 @@ dynamic-actions:
         instance = getBuilderInstance(),
         typeId = this.triggeringElement.dataset.typeid;  //btn$.attr( "data-typeid" );
         apex.debug.info("DA typeId", typeId);
+        issueCategory = this.triggeringElement.dataset.issuecategory; 
+        apex.debug.info("issueCategory", issueCategory);
         
         
         if ( typeId ) {
@@ -6100,8 +6102,14 @@ dynamic-actions:
             // Caution! this code makes many assumptions about how the builder opens modal dialog pages
             match = /'(f\?p.*p_dialog_cs[^']*)',(\{.*\}),'([^']*)'/.exec( url );
             if ( match ) {
-                openDialog( match[1], match[2], match[3], btn$ );
+                apex.debug.info("modal dialog");
+                 if (issueCategory !== 'APEX') {
+                    apex.navigation.redirect(url);
+                } else {
+                    openDialog( match[1], match[2], match[3], btn$ );
+                };
             } else {
+                apex.debug.info("non modal dialog");
                 navigateInBuilderWindow( url );
             }
         }
