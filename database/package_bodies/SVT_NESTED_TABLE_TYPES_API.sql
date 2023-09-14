@@ -62,6 +62,8 @@ create or replace package body svt_nested_table_types_api as
     return l_issue_category;
   
    exception
+    when no_data_found then
+      return null;
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
       raise;

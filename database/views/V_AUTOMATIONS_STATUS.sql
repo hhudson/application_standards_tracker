@@ -19,6 +19,7 @@ select aaa.name ||
             then ' [scheduled job]'
             else ' [manual run]'
             end job_name, 
+       aaa.static_id,
        apex_string.get_initials(aaa.name) job_initials,
        aal.status, 
        aal.start_timestamp,
