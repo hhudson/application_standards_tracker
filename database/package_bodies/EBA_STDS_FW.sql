@@ -6,7 +6,6 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
         return varchar2
     is
         l_html_message   varchar2(32767) default p_txt_message;
-        l_temp_url varchar2(32767) := null;
         l_length number;
     begin
         l_html_message := replace(l_html_message, chr(10), '<br />');
@@ -15,7 +14,7 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
     end conv_txt_html;
     function format_status_update ( p_string in clob, p_shorten_url in varchar2 default 'N' ) return varchar2 is
         l_string      varchar2(32767);
-        l_endofUrl    varchar2(4000) default chr(10) || chr(13) || chr(9) || ' )<>';
+        c_endofUrl    constant varchar2(4000) := chr(10) || chr(13) || chr(9) || ' )<>';
         l_url         varchar2(4000);
         l_current_pos number := 1;
         n             number := 1;
@@ -35,7 +34,7 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
             end if;
             exit when n = 0 or length(l_string) > 32000;
             for j in 0 .. length( l_string ) - n loop
-                if ( instr( l_endofUrl, substr( l_string, n+j, 1 ) ) > 0 ) then
+                if ( instr( c_endofUrl, substr( l_string, n+j, 1 ) ) > 0 ) then
                    l_url := rtrim( substr( l_string, n, j ), '.'||chr(32)||chr(10) );
                    if p_shorten_url = 'Y' and length(l_url) > 100 then
                        l_url := '<a href="' || l_url || '" target="_blank">'
@@ -56,7 +55,7 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
         return varchar2
     is
         l_string   varchar2(32767) default p_string;
-        l_endofUrl varchar2(4000) default chr(10) || chr(13) || chr(9) || ' )<>';
+        c_endofUrl constant varchar2(4000) := chr(10) || chr(13) || chr(9) || ' )<>';
         l_url         varchar2(4000);
         l_current_pos number := 1;
         n             number := 1;
@@ -76,7 +75,7 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
             end if;
             exit when n = 0 or length(l_string) > 32000;
             for j in 0 .. length( l_string ) - n loop
-                if ( instr( l_endofUrl, substr( l_string, n+j, 1 ) ) > 0 ) then
+                if ( instr( c_endofUrl, substr( l_string, n+j, 1 ) ) > 0 ) then
                    l_url := rtrim( substr( l_string, n, j ), '.'||chr(32)||chr(10) );
                    l_url := '<a href="' || l_url || '">' || l_url || '</a>';
                    l_string := substr( l_string, 1, n-1 ) || l_url || substr( l_string, n+j );
@@ -97,7 +96,6 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
         l_tag           varchar2(255);
         l_tags          apex_application_global.vc_arr2;
         l_tags_string   varchar2(32767);
-        i               integer;
     begin
         l_tags := apex_util.string_to_table(p_tags,',');
         for i in 1..l_tags.count loop
@@ -161,19 +159,19 @@ create or replace PACKAGE BODY "EBA_STDS_FW" as
     as
         ret varchar2(30);
         quotient integer;
-        remainder integer;
+        l_remainder integer;
         digit char(1);
     begin
         ret := '';
         quotient := n;
         while quotient > 0
         loop
-            remainder := mod(quotient, 10 + 26);
+            l_remainder := mod(quotient, 10 + 26);
             quotient := floor(quotient  / (10 + 26));
-            if remainder < 26 then
-                digit := chr(ascii('A') + remainder);
+            if l_remainder < 26 then
+                digit := chr(ascii('A') + l_remainder);
             else
-                digit := chr(ascii('0') + remainder - 26);
+                digit := chr(ascii('0') + l_remainder - 26);
             end if;
             ret := digit || ret;
         end loop ;

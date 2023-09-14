@@ -488,7 +488,8 @@ is
                                             'p_pk_value', p_pk_value,
                                             'p_parent_pk_value', p_parent_pk_value,
                                             'p_opt_parent_pk_value', p_opt_parent_pk_value,
-                                            'p_builder_session', p_builder_session
+                                            'p_builder_session', p_builder_session,
+                                            'p_issue_category', p_issue_category
                            );
         
         l_url := case when c_template_url is not null 
@@ -503,7 +504,7 @@ is
                             replace(
                             replace(
                             c_template_url
-                            , '%session%', case when p_object_type = 'APEX'
+                            , '%session%', case when p_issue_category = 'APEX'
                                                 then c_builder_session
                                                 else v('APP_SESSION')
                                                 end)
@@ -520,10 +521,7 @@ is
         
         apex_debug.message(c_debug_template, 'l_url', l_url);
 
-        l_url := case when p_object_type = 'APEX'
-                      then apex_util.prepare_url(l_url)
-                      else apex_util.prepare_url(l_url)
-                      end;
+        l_url := apex_util.prepare_url(l_url);
 
         apex_debug.message(c_debug_template, 'prepared l_url', l_url);
 

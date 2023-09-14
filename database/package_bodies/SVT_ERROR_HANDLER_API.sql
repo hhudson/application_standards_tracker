@@ -3,7 +3,6 @@
 
 create or replace package body SVT_ERROR_HANDLER_API is
 
-gc_developer_todo_message constant varchar2(100) := 'DEVELOPER TODO: Provide better message in APEX Shared Components Text Messages for ';
 
 /* Create a message using apex_lang. This message can be managed using Shared Components -> Text Messages in APEX 
    Autonomous Transaction to not commit any other transactions that may happen in page
@@ -12,16 +11,17 @@ function create_and_return_text_message
    (p_constraint_name varchar2
    ) return varchar2 is
     PRAGMA AUTONOMOUS_TRANSACTION;  
-    l_message varchar2(4000) :=  gc_developer_todo_message || p_constraint_name ;
+    c_developer_todo_message constant varchar2(100) := 'DEVELOPER TODO: Provide better message in APEX Shared Components Text Messages for ';
+    c_message constant varchar2(4000) :=  c_developer_todo_message || p_constraint_name ;
 begin
    apex_lang.create_message
       (p_application_id  => v('APP_ID'), /* This could be a common text library application */
        p_name            => p_constraint_name,
-       p_language        => nvl(apex_util.get_preference('FSP_LANGUAGE_PREFERENCE'), 'en'),
-       p_message_text    => l_message 
+       p_language        => coalesce(apex_util.get_preference('FSP_LANGUAGE_PREFERENCE'), 'en'),
+       p_message_text    => c_message 
        );
        commit;
-       return l_message;
+       return c_message;
 end create_and_return_text_message;
 
 function error_handler 

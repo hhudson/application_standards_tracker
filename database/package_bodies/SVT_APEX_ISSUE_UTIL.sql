@@ -470,11 +470,12 @@ $if oracle_apex_version.c_apex_issue_access $then
     raise;
   end drop_all_SVT_issues;
 
-  procedure hard_correct_SVT_issues 
+  procedure hard_correct_svt_issues 
   as
-  c_scope constant varchar2(128) := gc_scope_prefix || 'hard_correct_SVT_issues';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'hard_correct_svt_issues';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
+    apex_debug.message(c_debug_template,'START');
     delete
     from svt_flow_issues
     where security_group_id = 0;
@@ -490,7 +491,10 @@ $if oracle_apex_version.c_apex_issue_access $then
     
     drop_irrelevant_issues;
 
-  end hard_correct_SVT_issues;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end hard_correct_svt_issues;
 
 $end
   
@@ -501,7 +505,7 @@ $end
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_app_page';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_mv_dependency eba_stds_standard_tests.mv_dependency%type 
+  c_mv_dependency constant eba_stds_standard_tests.mv_dependency%type 
                     := eba_stds.get_mv_dependency(p_test_code => p_test_code);
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -539,7 +543,7 @@ $end
   l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype 
                              := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
   l_apex_issue_id svt_plsql_apex_audit.apex_issue_id%type;
-  c_mv_dependency eba_stds_standard_tests.mv_dependency%type 
+  c_mv_dependency constant eba_stds_standard_tests.mv_dependency%type 
                     := eba_stds.get_mv_dependency(p_test_code => l_svt_plsql_apex_audit_rec.test_code);
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
@@ -612,7 +616,7 @@ $end
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'check_apex_version_up2date';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
-  c_current_version varchar2(25) := orclapex_version;
+  c_current_version constant varchar2(25) := orclapex_version;
   l_first_period integer;
   l_version   number;
   l_release   number;
@@ -651,7 +655,6 @@ $end
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'mark_as_exception';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_ignore_legacy constant svt_audit_actions.id%type := 2;
   l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
