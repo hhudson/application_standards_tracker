@@ -1,4 +1,4 @@
-  --liquibase formatted sql
+--liquibase formatted sql
 --changeset package_body_script:svt_nested_table_types_api_body stripComments:false endDelimiter:/ runOnChange:true
 
 create or replace package body svt_nested_table_types_api as
