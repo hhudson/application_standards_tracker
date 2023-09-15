@@ -24,7 +24,7 @@ These are standards to maintain Accessibility.
 | [ACC_PG_JS_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_PG_JS_FOCUS.json) |  Page JS should avoid focus events | v1 | APEX_APPLICATION_PAGES |
 | [ACC_PG_TMP_CSS_ANMTN](APEX_ACCESSIBILITY_212/tests/ACC_PG_TMP_CSS_ANMTN.json) |  Page Templates should avoid CSS animations | v1 | APEX_APPLICATION_TEMP_PAGE |
 | [ACC_TAB_TABINDEX](APEX_ACCESSIBILITY_212/tests/ACC_TAB_TABINDEX.json) |  Application Tabs should avoid tabindex | v1 | APEX_APPLICATION_TABS |
-| [ACC_VAL_DSPLY_LOCN](APEX_ACCESSIBILITY_212/tests/ACC_VAL_DSPLY_LOCN.json) |  Inline with field error notification is insufficient | v1 | APEX_APPLICATION_PAGE_VAL |
+| [ACC_VAL_DSPLY_LOCN](APEX_ACCESSIBILITY_212/tests/ACC_VAL_DSPLY_LOCN.json) |  Inline with field error notification is insufficient | v1.1 | APEX_APPLICATION_PAGE_VAL |
 | [BTN_TABINDX](APEX_ACCESSIBILITY_212/tests/BTN_TABINDX.json) |  Buttons should avoid hardcoded tab indexes | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [COL_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/COL_ALT_TEXT.json) |  Column image links should have alt text | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [CRD_ACTNS_TAB_INDX](APEX_ACCESSIBILITY_212/tests/CRD_ACTNS_TAB_INDX.json) |  Card Actions should avoid hard coded tab indexes | v1 | APEX_APPL_PAGE_CARD_ACTIONS |
