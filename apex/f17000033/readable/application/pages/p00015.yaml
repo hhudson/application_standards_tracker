@@ -540,7 +540,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 40
+    sequence: 70
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -590,7 +590,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 50
+    sequence: 90
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -663,6 +663,59 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Enable disabled jobs ========================
+  id: 217494930510073109
+  identification: 
+    title: Enable disabled jobs
+    type: Static Content
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7573654784682143972
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select application_id, static_id
+      from v_automations_status
+      where polling_status_code = 'DISABLED'
+      and application_id = :APP_ID
 
   server-cache: 
     caching: Disabled
@@ -831,6 +884,35 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
+- # ====== Button: ENABLE_AUTOMATIONS ==========================
+  id: 217495017247073110
+  identification: 
+    button-name: ENABLE_AUTOMATIONS
+    label: Enable Automations
+
+  layout: 
+    sequence: 10
+    region: Enable disabled jobs # 217494930510073109
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-exclamation
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
 processes: 
 - # ====== Process: manage_apex_issues =========================
   id: 42934217046017705
@@ -933,4 +1015,30 @@ processes:
 
   server-side-condition: 
     when-button-pressed: RESET_APEX_ISSUES # 217494612287073106
+
+- # ====== Process: enable automations =========================
+  id: 217495129570073111
+  identification: 
+    name: enable automations
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_monitoring.enable_automations;
+      end;
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ENABLE_AUTOMATIONS # 217495017247073110
 

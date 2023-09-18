@@ -483,7 +483,8 @@ $if oracle_apex_version.c_apex_issue_access $then
                   from svt_plsql_apex_audit paa 
                   left outer join apex_issues ai on paa.apex_issue_id = ai.issue_id
                   where paa.apex_issue_id is not null
-                  and ai.issue_id is null)
+                  -- and ai.issue_id is null
+                  )
     loop 
       svt_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => rec.audit_id);
     end loop;

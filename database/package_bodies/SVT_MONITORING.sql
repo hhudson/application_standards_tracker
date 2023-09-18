@@ -495,6 +495,29 @@ create or replace package body SVT_MONITORING as
     raise;
   end send_update;
 
+  procedure enable_automations
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'enable_automations';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_disabled constant apex_appl_automations.polling_status_code%type := 'DISABLED';
+  begin
+    apex_debug.message(c_debug_template,'START');
+
+    for rec in (select application_id, static_id
+                from v_automations_status
+                where polling_status_code = c_disabled
+                and application_id = svt_apex_view.gc_svt_app_id)
+    loop
+      apex_automation.enable(
+          p_application_id  => rec.application_id,
+          p_static_id       => rec.static_id );
+    end loop;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end enable_automations;
+
 
 end SVT_MONITORING;
 /

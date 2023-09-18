@@ -29,7 +29,7 @@ select aaa.name ||
        aaa.workspace, 
        aaa.trigger_type, 
        aaa.polling_interval, 
-       aaa.polling_LAST_run_timestamp, 
+       aaa.polling_last_run_timestamp, 
        aaa.polling_next_run_timestamp, 
        aaa.polling_status_code,
        aal.end_timestamp,

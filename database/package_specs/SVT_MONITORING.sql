@@ -188,6 +188,21 @@ from dual
 ------------------------------------------------------------------------------
   function db_unique_name return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 18, 2023
+-- Synopsis:
+--
+-- Procedure to enable SVT automations 
+--
+/*
+begin
+  svt_monitoring.enable_automations;
+end;
+*/
+------------------------------------------------------------------------------
+  procedure enable_automations;
+
 
 end SVT_MONITORING;
 /
