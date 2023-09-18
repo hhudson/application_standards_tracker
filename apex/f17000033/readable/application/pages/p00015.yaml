@@ -629,6 +629,52 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: Hard Reset ==================================
+  id: 217494579713073105
+  identification: 
+    title: Hard Reset
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: 3. [Hourly - 40 min past] Manage APEX Issues # 42934066734017703
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7573667094242143990
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--accent11
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 buttons: 
 - # ====== Button: MANAGE_APEX_ISSUES ==========================
   id: 42934182388017704
@@ -756,6 +802,35 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
+- # ====== Button: RESET_APEX_ISSUES ===========================
+  id: 217494612287073106
+  identification: 
+    button-name: RESET_APEX_ISSUES
+    label: Reset Apex Issues
+
+  layout: 
+    sequence: 10
+    region: Hard Reset # 217494579713073105
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7573687401426144051
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-exclamation-square
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
 processes: 
 - # ====== Process: manage_apex_issues =========================
   id: 42934217046017705
@@ -822,7 +897,7 @@ processes:
       end;
 
   execution: 
-    sequence: 30
+    sequence: 40
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -831,4 +906,31 @@ processes:
 
   server-side-condition: 
     when-button-pressed: RECORD_DAILY_ISSUE_SNAPSHOT # 144377691551069522
+
+- # ====== Process: reset_apex_issues ==========================
+  id: 217494766262073107
+  identification: 
+    name: reset_apex_issues
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+      svt_apex_issue_util.hard_correct_svt_issues;
+      svt_apex_issue_util.manage_apex_issues;
+      end;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: RESET_APEX_ISSUES # 217494612287073106
 

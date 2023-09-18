@@ -11,16 +11,16 @@ These are standards to maintain Accessibility.
 |-----------|-----------|---------|----------------|
 | [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE.json) |  Some fields benefit from an autocomplete attribute | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ.json) |  Button labels should be unique per page | v1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [ACC_CARD_LINK](APEX_ACCESSIBILITY_212/tests/ACC_CARD_LINK.json) |  Card link require titles and arias | v1 | APEX_APPL_PAGE_CARD_ACTIONS |
+| [ACC_CARD_LINK](APEX_ACCESSIBILITY_212/tests/ACC_CARD_LINK.json) |  Card link require titles and arias | v1.1 | APEX_APPL_PAGE_CARD_ACTIONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS.json) |  DA should avoid "get focus" events | v1 | APEX_APPLICATION_PAGE_DA |
 | [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT.json) |  DA should avoid mouse events | v1.1 | APEX_APPLICATION_PAGE_DA |
 | [ACC_IG_COL_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_AUTOCOMPLETE.json) |  IG Columns may need autocomplete | v1 | APEX_APPL_PAGE_IG_COLUMNS |
-| [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_LINK.json) |  IG Column Links should have title + aria | v1 | APEX_APPL_PAGE_IG_COLUMNS |
-| [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_IV_LINK.json) |  IG Icon View Links need title + aria | v1 | APEX_APPL_PAGE_IGS |
+| [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_LINK.json) |  IG Column Links should have title + aria | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
+| [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_IV_LINK.json) |  IG Icon View Links need title + aria | v1.1 | APEX_APPL_PAGE_IGS |
 | [ACC_IG_JS_SHORTCUT](APEX_ACCESSIBILITY_212/tests/ACC_IG_JS_SHORTCUT.json) |  IG should avoid custom shortcuts | v1 | APEX_APPL_PAGE_IGS |
 | [ACC_LST_TMP_CSS_ANMTN](APEX_ACCESSIBILITY_212/tests/ACC_LST_TMP_CSS_ANMTN.json) |  List templates should avoid inline CSS w blinking or animation  | v1 | APEX_APPLICATION_TEMP_LIST |
 | [ACC_PAGE_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_PAGE_MOUSE_EVNT.json) |  Page JS must avoid mouse events | v1 | APEX_APPLICATION_PAGES |
-| [ACC_PG_ITM_LINK](APEX_ACCESSIBILITY_212/tests/ACC_PG_ITM_LINK.json) |  Page Item Quick Pick Links need aria & title | v1 | APEX_APPLICATION_PAGE_ITEMS |
+| [ACC_PG_ITM_LINK](APEX_ACCESSIBILITY_212/tests/ACC_PG_ITM_LINK.json) |  Page Item Quick Pick Links need aria & title | v1.1 | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_PG_JS_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_PG_JS_FOCUS.json) |  Page JS should avoid focus events | v1 | APEX_APPLICATION_PAGES |
 | [ACC_PG_TMP_CSS_ANMTN](APEX_ACCESSIBILITY_212/tests/ACC_PG_TMP_CSS_ANMTN.json) |  Page Templates should avoid CSS animations | v1 | APEX_APPLICATION_TEMP_PAGE |
 | [ACC_TAB_TABINDEX](APEX_ACCESSIBILITY_212/tests/ACC_TAB_TABINDEX.json) |  Application Tabs should avoid tabindex | v1 | APEX_APPLICATION_TABS |
@@ -31,7 +31,7 @@ These are standards to maintain Accessibility.
 | [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML.json) |  Classic Columns have wellformed HTML | v1.2 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT.json) |  Classic Columns with images have alt text | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_INACC_CSS](APEX_ACCESSIBILITY_212/tests/C_COL_INACC_CSS.json) |  Classic columns should avoid animations | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
-| [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK.json) |  Classic Columns links must have aria and title | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK.json) |  Classic Columns links must have aria and title | v1.2 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_HEADNG.json) |  Classic Report column headings are unique per region | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_LBL.json) |  Classic Report column aliases are unique per page | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_VLD_HEADNG.json) |  Classic Report- all columns have a header defined | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
@@ -47,12 +47,12 @@ These are standards to maintain Accessibility.
 | [IG_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_TABINDX.json) |  Interactive Grids should avoid hardcorded tab indexes | v1 | APEX_APPL_PAGE_IGS |
 | [IR_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IR_COL_BAD_HTML.json) |  IR Cols have wellformed HTML | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IR_COL_IMG_ALT_TEXT.json) |  IR Columns with images have alt text | v1 | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_COL_LINK](APEX_ACCESSIBILITY_212/tests/IR_COL_LINK.json) |  IR Column links should have aria and title | v1 | APEX_APPLICATION_PAGE_IR_COL |
+| [IR_COL_LINK](APEX_ACCESSIBILITY_212/tests/IR_COL_LINK.json) |  IR Column links should have aria and title | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_COL_TABINDX.json) |  IR Columns should avoid harded tab indexes | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_UNQ](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ.json) |  IR column aliases should be unique | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ_LBL.json) |  IR columns need unique labels | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/IR_COL_VLD_HEADNG.json) |  IR columns are not null | v1 | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_DETL_LINK](APEX_ACCESSIBILITY_212/tests/IR_DETL_LINK.json) |  IR detail link must contain aria and title | v1 | APEX_APPLICATION_PAGE_IR |
+| [IR_DETL_LINK](APEX_ACCESSIBILITY_212/tests/IR_DETL_LINK.json) |  IR detail link must contain aria and title | v1.1 | APEX_APPLICATION_PAGE_IR |
 | [IR_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_TABINDX.json) |  IR reports should avoid hard coded indexes | v1 | APEX_APPLICATION_PAGE_IR |
 | [LE_TABINDX](APEX_ACCESSIBILITY_212/tests/LE_TABINDX.json) |  List entries should avoid hardcoding tab indexes | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGE_HELP_BAD_HTML](APEX_ACCESSIBILITY_212/tests/PAGE_HELP_BAD_HTML.json) |  Page Help HTML is well formed | v1 | APEX_APPLICATION_PAGES |

@@ -182,7 +182,6 @@ $if oracle_apex_version.c_apex_issue_access $then
                        p7 => dbms_utility.format_error_backtrace, 
                        p_max_length => 4096);
       -- drop_issue (p_id => p_id);
-      -- raise;
       raise_application_error(-20126, 'Duplicate issue title:'||p_title||' '||p_title_suffix);
     when others then 
       apex_debug.error(p_message => c_debug_template, 
@@ -454,9 +453,9 @@ $if oracle_apex_version.c_apex_issue_access $then
   end update_audit_tbl_from_apex_issues;
 
 
-  procedure drop_all_SVT_issues
+  procedure drop_all_svt_issues
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'drop_all_SVT_issues'; 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'drop_all_svt_issues'; 
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START');
@@ -468,7 +467,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
-  end drop_all_SVT_issues;
+  end drop_all_svt_issues;
 
   procedure hard_correct_svt_issues 
   as
