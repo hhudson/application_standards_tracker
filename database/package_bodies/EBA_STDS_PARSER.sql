@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset package_body_script:EBA_STDS_PARSER stripComments:false endDelimiter:/ runOnChange:true
-set define off
+-- set define off
 create or replace package body eba_stds_parser  
 is
 
