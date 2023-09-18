@@ -8,13 +8,23 @@
     type: PL/SQL Function Returning Boolean
 
   settings: 
-    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) >= 1;'
+    pl/sql-function-body: |
+      if nvl(apex_app_setting.get_value(
+         p_name => 'ACCESS_CONTROL_SCOPE'),'x') = 'ALL_USERS' then
+          -- allow user not in the ACL to access the application
+          return true;
+      else
+          -- require user to have at least one role
+          return apex_acl.has_user_any_roles (
+              p_application_id => :APP_ID, 
+              p_user_name      => :APP_USER);
+      end if;
 
   server-cache: 
     evaluation-point: Once per Session
 
   error: 
-    error-message: Insufficient privileges - user not a reader
+    error-message: You are not authorized to view this application, either because you have not been granted access, or your account has been locked. Please contact the application administrator.
 
 - # ====== Authorization: PERMALINK_PAGE_AUTH ==================
   id: 8265064398508453019
@@ -50,13 +60,14 @@
     name: ADMINISTRATION RIGHTS
 
   authorization-scheme: 
-    type: PL/SQL Function Returning Boolean
+    type: Is In Role or Group
 
   settings: 
-    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) = 3;'
+    type: Application Role
+    name(s): Administrator
 
   server-cache: 
-    evaluation-point: Once per Session
+    evaluation-point: Once per Page View
 
   error: 
     error-message: Insufficient privileges, user is not an Administrator
@@ -92,13 +103,14 @@
     name: CONTRIBUTION RIGHTS
 
   authorization-scheme: 
-    type: PL/SQL Function Returning Boolean
+    type: Is In Role or Group
 
   settings: 
-    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) >= 2;'
+    type: Application Role
+    name(s): Administrator,Contributor
 
   server-cache: 
-    evaluation-point: Once per Session
+    evaluation-point: Once per Page View
 
   error: 
     error-message: Insufficient privileges, user is not a Contributor

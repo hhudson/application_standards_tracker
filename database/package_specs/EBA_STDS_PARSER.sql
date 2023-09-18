@@ -212,7 +212,7 @@ select eba_stds_parser.get_base_url()
 from dual;
 */
 ------------------------------------------------------------------------------
-    function get_base_url return varchar2;
+    function get_base_url return varchar2 deterministic;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

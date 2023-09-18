@@ -1,5 +1,6 @@
 --liquibase formatted sql
 --changeset package_body_script:EBA_STDS_PARSER stripComments:false endDelimiter:/ runOnChange:true
+set define off
 create or replace package body eba_stds_parser  
 is
 
@@ -115,7 +116,7 @@ is
             raise;
     end app_in_current_workspace;
 
-    function get_base_url return varchar2 
+    function get_base_url return varchar2 deterministic
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_base_url';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
