@@ -2080,46 +2080,6 @@ processes:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
 
-- # ====== Process: load EBA_STDS_ACCESS_LEVELS ================
-  id: 52093855467500418
-  identification: 
-    name: load EBA_STDS_ACCESS_LEVELS
-    type: Data Loading
-    execution-chain: None
-
-  settings: 
-    data-load-definition: EBA-STDS-ACCESS-LEVELS # 52038061759707657
-    source-data-type: SQL Query
-    sql-query: |
-      select apex_zip.get_file_content (
-                          p_zipped_blob => aasf.file_content,
-                          p_file_name   => lower(aadl.table_name)||'.json'
-                  ) thejson
-      from apex_appl_data_loads aadl
-      inner join apex_application_static_files aasf on aasf.file_name = 'data/'||lower(aadl.table_name)||'.zip'
-      where aadl.application_id = :APP_ID
-      and aadl.table_name = :P44_TABLE_NAME;
-    processed-row-count-item: 
-    - P44_PROCESSED_ROW_COUNT
-    error-row-count-item: P44_ERROR_ROW_COUNT
-
-  execution: 
-    sequence: 80
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: LOAD # 52092344666500403
-    type: Item = Value
-    item: P44_TABLE_NAME
-    value: EBA_STDS_ACCESS_LEVELS
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
 - # ====== Process: load EBA_STDS_STANDARDS ====================
   id: 52093981003500419
   identification: 

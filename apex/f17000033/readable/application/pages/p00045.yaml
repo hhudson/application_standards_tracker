@@ -577,6 +577,75 @@ page-items:
   help: 
     help-text: For how many months should a component be permitted to be unavailable?
 
+- # ====== Page Item: P45_SVT_REVIEW_SCHEMAS ===================
+  id: 217495295902073112
+  identification: 
+    name: P45_SVT_REVIEW_SCHEMAS
+    type: Popup LOV
+
+  label: 
+    label: Review Schemas
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ':'
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 50
+    region: General # 146554889077303722
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6411715103038685265
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ALL_USERS.USERNAME # 226375256802180818
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: These schemas will be reviewed for DB violations
+
 - # ====== Page Item: P45_PREFERENCE_NAME ======================
   id: 262034014027761318
   identification: 
@@ -699,13 +768,10 @@ page-items:
     value-required: false
 
   list-of-values: 
-    type: SQL Query
-    sql-query: |
-      select username d, username r
-      from all_users
-      order by 1,2
-    display-extra-values: true
-    display-null-value: true
+    type: Shared Component
+    list-of-values: ALL_USERS.USERNAME # 226375256802180818
+    display-extra-values: false
+    display-null-value: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -749,7 +815,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 60
+    sequence: 70
     region: General # 146554889077303722
     position: BODY
     alignment: Left
@@ -954,7 +1020,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 50
+    sequence: 60
     region: General # 146554889077303722
     position: BODY
     alignment: Left
@@ -1311,7 +1377,7 @@ processes:
       end;
 
   execution: 
-    sequence: 120
+    sequence: 130
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1348,7 +1414,7 @@ processes:
       end;
 
   execution: 
-    sequence: 150
+    sequence: 160
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1377,7 +1443,7 @@ processes:
       end;
 
   execution: 
-    sequence: 110
+    sequence: 120
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1410,7 +1476,7 @@ processes:
       end;
 
   execution: 
-    sequence: 130
+    sequence: 140
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1443,7 +1509,7 @@ processes:
       end;
 
   execution: 
-    sequence: 140
+    sequence: 150
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1453,6 +1519,38 @@ processes:
   server-side-condition: 
     type: Item is NOT NULL
     item: P45_SVT_CLEANUP_DELAY
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+
+- # ====== Process: SVT_REVIEW_SCHEMAS =========================
+  id: 217495355157073113
+  identification: 
+    name: SVT_REVIEW_SCHEMAS
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_REVIEW_SCHEMAS',
+              p_value => :P45_SVT_REVIEW_SCHEMAS); 
+      end;
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_REVIEW_SCHEMAS
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
@@ -1535,7 +1633,7 @@ processes:
       end;
 
   execution: 
-    sequence: 50
+    sequence: 60
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1568,7 +1666,7 @@ processes:
       end;
 
   execution: 
-    sequence: 60
+    sequence: 70
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1601,7 +1699,7 @@ processes:
       end;
 
   execution: 
-    sequence: 70
+    sequence: 80
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1633,7 +1731,7 @@ processes:
       end;
 
   execution: 
-    sequence: 40
+    sequence: 50
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1666,7 +1764,7 @@ processes:
       end;
 
   execution: 
-    sequence: 80
+    sequence: 90
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1699,7 +1797,7 @@ processes:
       end;
 
   execution: 
-    sequence: 90
+    sequence: 100
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1732,7 +1830,7 @@ processes:
       end;
 
   execution: 
-    sequence: 100
+    sequence: 110
     point: Processing
     run-process: Once Per Page Visit (default)
 

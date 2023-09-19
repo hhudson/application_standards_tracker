@@ -1,10 +1,10 @@
 ---
-# ====== Page: urgency blerg =================================
+# ====== Page: Load urgency JSON script ======================
 id: 68
 identification: 
-  name: urgency blerg
-  alias: URGENCY-BLERG
-  title: urgency blerg
+  name: Load urgency JSON script
+  alias: LOAD-URGENCY-JSON
+  title: Load urgency JSON script
 
 appearance: 
   page-mode: Normal
@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -234,9 +235,11 @@ regions:
              table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'urgency_blerg' ),
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'svt_standards_urgency_level' ),
                         p_max_rows          => 100 ) ) p
        where f.name = :P68_FILE
+    page-items-to-submit: 
+    - P68_FILE
 
   layout: 
     sequence: 50
@@ -959,7 +962,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: urgency blerg # 30719105426154744
+    data-load-definition: SVT-STANDARDS-URGENCY-LEVEL # 52016166536626892
     source-data-type: File Browse Item
     file-browse-item: P68_FILE
     error-row-count-item: P68_ERROR_ROW_COUNT

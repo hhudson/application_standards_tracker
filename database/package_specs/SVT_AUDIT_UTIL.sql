@@ -68,7 +68,8 @@ end;
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                p_test_code      in eba_stds_standard_tests.test_code%type default null,
                                p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
-                               p_audit_id       in svt_plsql_apex_audit.id%type default null
+                               p_audit_id       in svt_plsql_apex_audit.id%type default null,
+                               p_issue_category in svt_plsql_apex_audit.issue_category%type default null
                               );
 
 ------------------------------------------------------------------------------
@@ -90,7 +91,8 @@ end;
    procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                          p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                          p_test_code      in eba_stds_standard_tests.test_code%type default null,
-                                         p_schema         in all_users.username%type default null
+                                         p_schema         in all_users.username%type default null,
+                                         p_issue_category in svt_plsql_apex_audit.issue_category%type default null
                                         );
 
 

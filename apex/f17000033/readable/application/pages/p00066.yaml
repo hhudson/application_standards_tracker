@@ -1,10 +1,10 @@
 ---
-# ====== Page: blerg nested table type =======================
+# ====== Page: Load nested table types JSON script ===========
 id: 66
 identification: 
-  name: blerg nested table type
-  alias: BLERG
-  title: blerg
+  name: Load nested table types JSON script
+  alias: LOAD-NESTED-TABLE-TYPES
+  title: Load nested table types JSON script
 
 appearance: 
   page-mode: Normal
@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -283,9 +284,11 @@ regions:
              table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'blerg' ),
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'svt_nested_table_types' ),
                         p_max_rows          => 100 ) ) p
        where f.name = :P66_FILE
+    page-items-to-submit: 
+    - P66_FILE
 
   layout: 
     sequence: 50
@@ -1008,7 +1011,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: blerg nested table types # 30675188832968409
+    data-load-definition: SVT-NESTED-TABLE-TYPES # 52019044631637092
     source-data-type: File Browse Item
     file-browse-item: P66_FILE
     error-row-count-item: P66_ERROR_ROW_COUNT

@@ -1,10 +1,10 @@
 ---
-# ====== Page: blerg component types =========================
+# ====== Page: Load component types JSON script ==============
 id: 69
 identification: 
-  name: blerg component types
-  alias: BLERG-COMPONENT-TYPES
-  title: blerg component types
+  name: Load component types JSON script
+  alias: LOAD-COMPONENT-TYPES
+  title: Load component types script
 
 appearance: 
   page-mode: Normal
@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -234,9 +235,11 @@ regions:
              table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'blerg_component_types' ),
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'svt_component_types' ),
                         p_max_rows          => 100 ) ) p
        where f.name = :P69_FILE
+    page-items-to-submit: 
+    - P69_FILE
 
   layout: 
     sequence: 50
@@ -711,7 +714,7 @@ page-items:
     value-required: false
 
   advanced: 
-    warn-on-unsaved-changes: Page Default
+    warn-on-unsaved-changes: Ignore
 
   source: 
     type: Null
@@ -959,7 +962,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: blerg component types # 30741785256222909
+    data-load-definition: SVT-COMPONENT-TYPES # 52005792555478034
     source-data-type: File Browse Item
     file-browse-item: P69_FILE
     error-row-count-item: P69_ERROR_ROW_COUNT

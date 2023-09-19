@@ -299,7 +299,11 @@ regions:
   read-only: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'eba_stds_security.get_authorization_level(:APP_USER) < 2'
+    pl/sql-expression: |
+      APEX_ACL.HAS_USER_ROLE (
+          p_application_id => :APP_ID,
+          p_user_name      => :APP_USER,
+          p_role_static_id => 'CONTRIBUTOR' )
 
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
@@ -351,7 +355,11 @@ regions:
   read-only: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'eba_stds_security.get_authorization_level(:APP_USER) < 2'
+    pl/sql-expression: |
+      APEX_ACL.HAS_USER_ROLE (
+          p_application_id => :APP_ID,
+          p_user_name      => :APP_USER,
+          p_role_static_id => 'CONTRIBUTOR' )
 
   security: 
     authorization-scheme: READER RIGHTS # 48893993399820863
@@ -3374,7 +3382,11 @@ page-items:
   read-only: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'eba_stds_security.get_authorization_level(:APP_USER) < 2'
+    pl/sql-expression: |
+      APEX_ACL.HAS_USER_ROLE (
+          p_application_id => :APP_ID,
+          p_user_name      => :APP_USER,
+          p_role_static_id => 'CONTRIBUTOR' )
 
   security: 
     session-state-protection: Unrestricted

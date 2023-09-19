@@ -1,10 +1,10 @@
 ---
-# ====== Page: blerg2 compatibility ==========================
+# ====== Page: Load compatibility JSON Script ================
 id: 67
 identification: 
-  name: blerg2 compatibility
-  alias: BLERG2
-  title: blerg2
+  name: Load compatibility JSON Script
+  alias: LOAD-COMPATIBILITY-SCRIPT
+  title: Load compatibility JSON Script
 
 appearance: 
   page-mode: Normal
@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -234,9 +235,11 @@ regions:
              table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'blerg2' ),
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'SVT-COMPATIBILITY' ),
                         p_max_rows          => 100 ) ) p
        where f.name = :P67_FILE
+    page-items-to-submit: 
+    - P67_FILE
 
   layout: 
     sequence: 50
@@ -959,7 +962,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: blerg2 compatibility # 30700339031093576
+    data-load-definition: SVT-COMPATIBILITY # 160787497822644919
     source-data-type: File Browse Item
     file-browse-item: P67_FILE
     error-row-count-item: P67_ERROR_ROW_COUNT

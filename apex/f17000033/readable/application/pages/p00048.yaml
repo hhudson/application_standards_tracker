@@ -1,11 +1,10 @@
 ---
-# ====== Page: Access Levels =================================
+# ====== Page: Load WCAG JSON script =========================
 id: 48
 identification: 
-  name: Access Levels
-  alias: EBA-STDS-ACCESS-LEVELS
-  title: Access Levels
-  page-group: Administration # 10780320217725301324
+  name: Load WCAG JSON script
+  alias: LOAD-WCAG-JSON-SCRIPT
+  title: Load WCAG JSON script
 
 appearance: 
   page-mode: Normal
@@ -21,7 +20,6 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -38,22 +36,12 @@ advanced:
 server-cache: 
   caching: Disabled
 
-comments: 
-  comments: EBA_STDS_ACCESS_LEVELS
-
 regions: 
-- # ====== Region: EBA_STDS_ACCESS_LEVELS ======================
-  id: 52029047363689379
+- # ====== Region: Button Bar ==================================
+  id: 226339185650971928
   identification: 
-    title: EBA_STDS_ACCESS_LEVELS
-    type: Interactive Report
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: EBA_STDS_ACCESS_LEVELS
-    include-rowid-column: false
+    title: Button Bar
+    type: Static Content
 
   layout: 
     sequence: 10
@@ -66,9 +54,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Buttons Container # 7573656789854143977
     template-options: 
     - '#DEFAULT#'
+    - t-ButtonRegion--noUI
     render-components: Above Content
 
   accessibility: 
@@ -79,6 +68,10 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P48_FILE
+
   server-cache: 
     caching: Disabled
 
@@ -86,194 +79,20 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 52029140537689379
-    link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:49:&APP_SESSION.::&DEBUG.:RP:P49_ID:\#ID#\'
-        page: 49 # Manage Access Levels
-        clear-cache: RP
-        values: 
-          p49_id: '#ID#'
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
 
-      link-icon: <span role="img" aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
-      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-    pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
-
-    performance: 
-      lazy-loading: false
-
-    messages: 
-      when-no-data-found: No data found.
-      when-more-data-found: 'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
-
-    search-bar: 
-      include-search-bar: true
-      search-field: true
-      finder-drop-down: true
-      reports-select-list: true
-      rows-per-page-selector: true
-
-    actions-menu: 
-      include-actions-menu: true
-      filter: true
-      select-columns: true
-      rows-per-page: true
-      sort: true
-      control-break: true
-      highlight: true
-      compute: true
-      aggregate: true
-      chart: true
-      group-by: true
-      pivot: true
-      flashback: true
-      save-report: true
-      save-public-report: true
-      reset: true
-      help: true
-      download: true
-      subscription: true
-
-    download: 
-      formats: 
-      - CSV
-      - HTML
-      - Excel
-      - PDF
-      send-as-email: true
-
-    heading: 
-      fixed-to: Page
-
-    icon-view: 
-      show: false
-
-    detail-view: 
-      show: false
-
-    saved-reports: 
-    - # ====== Saved Report: Primary Report ========================
-      id: 52032688181689749
-      identification: 
-        name: Primary Report
-        alias: 520327
-
-    columns: 
-    - # ====== Column: ID ==========================================
-      id: 52029563286689380
-      identification: 
-        column-name: ID
-        type: Hidden Column
-
-      heading: 
-        heading: ID
-
-      layout: 
-        sequence: 0
-
-      source: 
-        primary-key: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: ACCESS_LEVEL ================================
-      id: 52029956880689380
-      identification: 
-        column-name: ACCESS_LEVEL
-        type: Plain Text
-
-      heading: 
-        heading: Access Level
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 2
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: true
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    printing: 
-      output: 
-        view-file-as: Attachment
-
-      page: 
-        size: Letter
-        orientation: Landscape
-        units: Inches
-        width: 11
-        height: 8.5
-        border-width: 0.5
-        border-color: '#666666'
-
-      page-header: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 12
-        font-color: '#000000'
-        alignment: center
-        page-header-text: EBA_STDS_ACCESS_LEVELS
-
-      column-headings: 
-        font: Helvetica
-        font-weight: Bold
-        font-size: 10
-        font-color: '#000000'
-        background-color: '#EEEEEE'
-
-      columns: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 10
-        font-color: '#000000'
-        background-color: '#FFFFFF'
-
-      page-footer: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 12
-        font-color: '#000000'
-        alignment: center
-
-- # ====== Region: Footer ======================================
-  id: 572093998587107650
+- # ====== Region: Data Source =================================
+  id: 226341170089971931
   identification: 
-    title: Footer
+    title: Data Source
     type: Static Content
 
   layout: 
-    sequence: 90
+    sequence: 20
     parent-region: No Parent
-    position: REGION_POSITION_05
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -281,10 +100,12 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7573672802698144003
+    template: Standard # 7573670342594143998
     template-options: 
     - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -303,96 +124,19 @@ regions:
 
   attributes: 
     settings: 
-      output-as: HTML
-      expand-shortcuts: false
+      output-as: Text (escape special characters)
+      show-line-breaks: true
 
-buttons: 
-- # ====== Button: CREATE ======================================
-  id: 52030476392689381
+- # ====== Region: Upload a File ===============================
+  id: 226341565842971932
   identification: 
-    button-name: CREATE
-    label: Create
-
-  layout: 
-    sequence: 20
-    region: EBA_STDS_ACCESS_LEVELS # 52029047363689379
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--noUI
-    icon: fa-plus
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:49:&APP_SESSION.::&DEBUG.:49::'
-      page: 49 # Manage Access Levels
-      clear-cache: 49
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-- # ====== Button: AVAILABLE_SAMPLE_DATA =======================
-  id: 53123014420668961
-  identification: 
-    button-name: AVAILABLE_SAMPLE_DATA
-    label: Available Sample `Access Levels`
-
-  layout: 
-    sequence: 10
-    region: Footer # 572093998587107650
-    position: EDIT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--success
-    - t-Button--simple
-    - t-Button--iconLeft
-    icon: fa-filter
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:EBA_STDS_ACCESS_LEVELS'
-      page: 44 # Inspect Static File contents
-      clear-cache: CR,44
-      values: 
-        p44_table_name: EBA_STDS_ACCESS_LEVELS
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
-- # ====== Button: RESET =======================================
-  id: 53641733034011909
-  identification: 
-    button-name: RESET
-    label: Reset
+    title: Upload a File
+    type: Static Content
 
   layout: 
     sequence: 30
-    region: EBA_STDS_ACCESS_LEVELS # 52029047363689379
-    position: RIGHT_OF_IR_SEARCH_BAR
+    parent-region: Data Source # 226341170089971931
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -400,55 +144,857 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P48_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Loaded File =================================
+  id: 226343649893971935
+  identification: 
+    title: Loaded File
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: Data Source # 226341170089971931
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7573656657747143975
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P48_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Preview =====================================
+  id: 226345299186971937
+  identification: 
+    title: Preview
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select p.line_number,
+             p.col001, p.col002, p.col003, p.col004, p.col005, p.col006, p.col007, p.col008, p.col009, p.col010
+             -- add more columns (col011 to col300) here.
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'svt_wcag' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P48_FILE
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7573670342594143998
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P48_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 50
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7573676953099144016
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--staticRowColors
+      - t-Report--rowHighlight
+      - t-Report--horizontalBorders
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: LINE_NUMBER =================================
+    id: 226345526690971947
+    identification: 
+      column-name: LINE_NUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Line Number
+      alignment: end
+
+    layout: 
+      sequence: 1
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL001 ======================================
+    id: 226345963478971948
+    identification: 
+      column-name: COL001
+      type: Plain Text
+
+    heading: 
+      heading: Col001
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL002 ======================================
+    id: 226346310892971948
+    identification: 
+      column-name: COL002
+      type: Plain Text
+
+    heading: 
+      heading: Col002
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL003 ======================================
+    id: 226346703959971949
+    identification: 
+      column-name: COL003
+      type: Plain Text
+
+    heading: 
+      heading: Col003
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL004 ======================================
+    id: 226347143591971949
+    identification: 
+      column-name: COL004
+      type: Plain Text
+
+    heading: 
+      heading: Col004
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL005 ======================================
+    id: 226347589146971949
+    identification: 
+      column-name: COL005
+      type: Plain Text
+
+    heading: 
+      heading: Col005
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL006 ======================================
+    id: 226347912576971950
+    identification: 
+      column-name: COL006
+      type: Plain Text
+
+    heading: 
+      heading: Col006
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL007 ======================================
+    id: 226348361060971950
+    identification: 
+      column-name: COL007
+      type: Plain Text
+
+    heading: 
+      heading: Col007
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL008 ======================================
+    id: 226348777889971950
+    identification: 
+      column-name: COL008
+      type: Plain Text
+
+    heading: 
+      heading: Col008
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL009 ======================================
+    id: 226349153325971951
+    identification: 
+      column-name: COL009
+      type: Plain Text
+
+    heading: 
+      heading: Col009
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL010 ======================================
+    id: 226349519289971951
+    identification: 
+      column-name: COL010
+      type: Plain Text
+
+    heading: 
+      heading: Col010
+      alignment: start
+
+    layout: 
+      sequence: 11
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P48_FILE =================================
+  id: 226341985414971932
+  identification: 
+    name: P48_FILE
+    type: File Browse...
+
+  label: 
+    label: Upload a File
+    alignment: Left
+
+  settings: 
+    display-as: Block Dropzone
+    dropzone-description: Supported formats JSON
+    storage-type: Table APEX_APPLICATION_TEMP_FILES
+    purge-file-at: End of Session
+    allow-multiple-files: false
+    maximum-file-size: 5000
+
+  layout: 
+    sequence: 10
+    region: Upload a File # 226341565842971932
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 0
+
+  appearance: 
+    template: Hidden # 7573687030950144041
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P48_ERROR_ROW_COUNT ======================
+  id: 226342372973971934
+  identification: 
+    name: P48_ERROR_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Upload a File # 226341565842971932
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P48_FILE_NAME ============================
+  id: 226344024746971936
+  identification: 
+    name: P48_FILE_NAME
+    type: Display Only
+
+  label: 
+    label: Loaded File
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 20
+    region: Loaded File # 226343649893971935
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7573687128199144043
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: Pasted Data
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CLEAR =======================================
+  id: 226339620207971929
+  identification: 
+    button-name: CLEAR
+    label: Clear
+
+  layout: 
+    sequence: 10
+    region: Button Bar # 226339185650971928
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--warning
-    - t-Button--noUI
-    - t-Button--iconRight
-    icon: fa-undo-arrow
 
   behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:48:&SESSION.::&DEBUG.:RR,::'
-      page: 48 # Access Levels
-      clear-cache: RR
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
 
+- # ====== Button: LOAD ========================================
+  id: 226339979780971930
+  identification: 
+    button-name: LOAD
+    label: Load Data
+
+  layout: 
+    sequence: 20
+    region: Button Bar # 226339185650971928
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7573688007377144053
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
-- # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 52030768666689381
+- # ====== Dynamic Action: Upload a File =======================
+  id: 226342703821971934
   identification: 
-    name: Edit Report - Dialog Closed
+    name: Upload a File
 
   execution: 
     sequence: 10
 
   when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
-    selection-type: Region
-    region: EBA_STDS_ACCESS_LEVELS # 52029047363689379
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P48_FILE
+
+  client-side-condition: 
+    type: Item is not null
+    item: P48_FILE
 
   execution: 
     event-scope: Static
     type: Immediate
 
   actions: 
-  - # ====== Action: Refresh =====================================
-    id: 52031221629689382
+  - # ====== Action: Submit Page =================================
+    id: 226343207908971935
     identification: 
-      action: Refresh
+      action: Submit Page
 
-    affected-elements: 
-      selection-type: Region
-      region: EBA_STDS_ACCESS_LEVELS # 52029047363689379
+    settings: 
+      show-processing: true
 
     execution: 
       sequence: 10
-      event: Edit Report - Dialog Closed # 52030768666689381
+      event: Upload a File # 226342703821971934
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+validations: 
+- # ====== Validation: Is valid file type ======================
+  id: 226344957958971937
+  identification: 
+    name: Is valid file type
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Function Body (returning Boolean)
+    language: PL/SQL
+    pl/sql-function-body: |
+      if apex_data_parser.assert_file_type(
+             p_file_name => :P48_FILE_NAME,
+             p_file_type => apex_data_parser.c_file_type_json )
+      then
+          return true;
+      else
+          :P48_FILE := null;
+          return false;
+      end if;
+    always-execute: false
+
+  error: 
+    error-message: Invalid file type. Supported file types JSON.
+    display-location: Inline with Field and in Notification
+    associated-item: P48_FILE # 226341985414971932
+
+computations: 
+- # ====== Computation: P48_FILE_NAME ==========================
+  id: 226344582965971936
+  identification: 
+    item-name: P48_FILE_NAME
+
+  execution: 
+    sequence: 10
+    point: After Submit
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select filename
+        from apex_application_temp_files 
+       where name = :P48_FILE
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P48_FILE
+
+processes: 
+- # ====== Process: Load Data ==================================
+  id: 226340469627971930
+  identification: 
+    name: Load Data
+    type: Data Loading
+    execution-chain: None
+
+  settings: 
+    data-load-definition: SVT-WCAG # 226337513112966040
+    source-data-type: File Browse Item
+    file-browse-item: P48_FILE
+    error-row-count-item: P48_ERROR_ROW_COUNT
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 226339979780971930
+
+- # ====== Process: Clear Cache ================================
+  id: 226340848692971931
+  identification: 
+    name: Clear Cache
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":REQUEST = 'CLEAR' or :P48_ERROR_ROW_COUNT = 0"
 

@@ -198,7 +198,8 @@ create or replace package body SVT_AUDIT_UTIL as
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                p_test_code      in eba_stds_standard_tests.test_code%type,
                                p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
-                               p_audit_id       in svt_plsql_apex_audit.id%type default null
+                               p_audit_id       in svt_plsql_apex_audit.id%type default null,
+                               p_issue_category in svt_plsql_apex_audit.issue_category%type default null
                                )
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'merge_audit_tbl';
@@ -242,8 +243,8 @@ create or replace package body SVT_AUDIT_UTIL as
                                           'p_application_id', p_application_id,
                                           'p_page_id', p_page_id,
                                           'p_test_code', p_test_code,
-                                          'p_legacy_yn', p_legacy_yn,
-                                          'p_audit_id', p_audit_id
+                                          'p_audit_id', p_audit_id,
+                                          'p_issue_category', p_issue_category
                                           );
 
         l_svt_plsql_apex_audit_rec := case when p_audit_id is not null
@@ -251,7 +252,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                            end;
         for rec in (select 
                     a.unqid,
-                    a.issue_category,
+                    esst.issue_category,
                     a.application_id,
                     a.page_id,
                     a.pass_yn,
@@ -280,6 +281,7 @@ create or replace package body SVT_AUDIT_UTIL as
                           and esst.active_yn = gc_y
                           and esst.standard_active_yn = gc_y
                           and (esst.test_code = c_test_code or p_test_code is null)
+                          and (esst.issue_category = p_issue_category or p_issue_category is null)
                   where (a.application_id  = p_application_id or p_application_id is null)
                   and   (a.page_id  = p_page_id or p_page_id is null))
         loop
@@ -563,7 +565,6 @@ create or replace package body SVT_AUDIT_UTIL as
 -- called by assign_violations
 --
 ------------------------------------------------------------------------------
-
     procedure assign_from_default
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_default';
@@ -612,29 +613,58 @@ create or replace package body SVT_AUDIT_UTIL as
     procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                           p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                           p_test_code      in eba_stds_standard_tests.test_code%type default null,
-                                          p_schema         in all_users.username%type default null
+                                          p_schema         in all_users.username%type default null,
+                                          p_issue_category in svt_plsql_apex_audit.issue_category%type default null
                                          )
      is
      c_scope constant varchar2(128) := gc_scope_prefix || 'record_daily_issue_snapshot'; 
      c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-
+     c_apex constant svt_plsql_apex_audit.issue_category%type := 'APEX';
      begin
         apex_debug.message(c_debug_template,'START',
                                             'p_application_id', p_application_id,
                                             'p_page_id', p_page_id,
-                                            'p_test_code', p_test_code
+                                            'p_test_code', p_test_code,
+                                            'p_issue_category', p_issue_category
                                             );
+        for rec in (
+          select column_value review_schema
+          from table(
+                apex_string.split(
+                  svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+                  )
+                )
+          where column_value = p_schema or  p_schema is null
+        )
+        loop
+          svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
 
-        svt_ctx_util.set_review_schema(p_schema => p_schema);
+          recompile_w_plscope;
 
-        recompile_w_plscope;
 
-        set_workspace;
+          for ic_rec in (select issue_category
+                         from v_svt_nested_table_types
+                         where issue_category != c_apex)
+          loop
+            merge_audit_tbl (p_application_id => p_application_id,
+                             p_page_id        => p_page_id,
+                             p_test_code      => p_test_code,
+                             p_issue_category => ic_rec.issue_category
+                            );
+          end loop;
+        end loop;
 
-        merge_audit_tbl (p_application_id => p_application_id,
-                         p_page_id        => p_page_id,
-                         p_test_code      => p_test_code
-                         );
+        
+        begin <<apex_issues>>
+          set_workspace;
+
+          merge_audit_tbl ( p_application_id => p_application_id,
+                            p_page_id        => p_page_id,
+                            p_test_code      => p_test_code,
+                            p_issue_category => c_apex
+                          );
+        end apex_issues;
+
 
         assign_violations;
 
