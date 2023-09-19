@@ -5,11 +5,11 @@ identification:
   name: Confirm Enabling Job
   alias: CONFIRM-ENABLING-JOB
   title: Confirm Enabling Job
-  page-group: Administration # 10780320217725301324
+  page-group: Administration # 11006713025201092261
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog # 7573653346823143970
+  dialog-template: Wizard Modal Dialog # 7800046154298934907
   template-options: 
   - '#DEFAULT#'
 
@@ -167,7 +167,7 @@ css:
     
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Disabled
   page-access-protection: Arguments Must Have Checksum
@@ -185,11 +185,11 @@ server-cache:
   caching: Disabled
 
 configuration: 
-  build-option: TO_DELETE # 6157992149575072830
+  build-option: TO_DELETE # 6384384957050863767
 
 regions: 
 - # ====== Region: Confirm Enabling Job ========================
-  id: 7088405382641136581
+  id: 7314798190116927518
   identification: 
     title: Confirm Enabling Job
     type: Static Content
@@ -208,7 +208,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -234,7 +234,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Buttons =====================================
-  id: 7094082966274085131
+  id: 7320475773749876068
   identification: 
     title: Buttons
     type: Static Content
@@ -250,7 +250,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noUI
@@ -277,7 +277,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P32_JOB_STATUS ===========================
-  id: 6392808792854828756
+  id: 6619201600330619693
   identification: 
     name: P32_JOB_STATUS
     type: Hidden
@@ -287,7 +287,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Confirm Enabling Job # 7088405382641136581
+    region: Confirm Enabling Job # 7314798190116927518
     position: BODY
 
   advanced: 
@@ -308,14 +308,14 @@ page-items:
 
 buttons: 
 - # ====== Button: ENABLE_SCHEDULED_JOB ========================
-  id: 7088405813244136581
+  id: 7314798620719927518
   identification: 
     button-name: ENABLE_SCHEDULED_JOB
     label: Start
 
   layout: 
     sequence: 20
-    region: Buttons # 7094082966274085131
+    region: Buttons # 7320475773749876068
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -324,7 +324,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -342,17 +342,17 @@ buttons:
     value: Disabled
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Button: CANCEL ======================================
-  id: 7648216224311058715
+  id: 7874609031786849652
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 7094082966274085131
+    region: Buttons # 7320475773749876068
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -361,7 +361,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -372,7 +372,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Modal ========================
-  id: 6345263460805937934
+  id: 6571656268281728871
   identification: 
     name: Cancel Modal
 
@@ -382,7 +382,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 7648216224311058715
+    button: CANCEL # 7874609031786849652
 
   execution: 
     event-scope: Static
@@ -390,19 +390,19 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6345263533107937935
+    id: 6571656340583728872
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Modal # 6345263460805937934
+      event: Cancel Modal # 6571656268281728871
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 computations: 
 - # ====== Computation: P32_JOB_STATUS =========================
-  id: 6392808880075828757
+  id: 6619201687551619694
   identification: 
     item-name: P32_JOB_STATUS
 
@@ -420,7 +420,7 @@ computations:
 
 processes: 
 - # ====== Process: Enable Automated Testing ===================
-  id: 7088407397972136584
+  id: 7314800205447927521
   identification: 
     name: Enable Automated Testing
     type: Execute Code
@@ -462,14 +462,14 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: ENABLE_SCHEDULED_JOB # 7088405813244136581
+    when-button-pressed: ENABLE_SCHEDULED_JOB # 7314798620719927518
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 branches: 
 - # ====== Branch: Back to Admin ===============================
-  id: 6392809173721828760
+  id: 6619201981197619697
   identification: 
     name: Back to Admin
 
@@ -485,5 +485,5 @@ branches:
       clear-cache: NONE
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 

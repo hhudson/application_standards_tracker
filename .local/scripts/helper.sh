@@ -168,7 +168,7 @@ apex export -applicationid $p_apex_id -dir f$p_apex_id
 show errors
 exit;
 EOF
-}
+} #export_apex_app
 
 # Export APEX applications
 # Parameters
@@ -204,7 +204,31 @@ apex export -applicationid $p_apex_id -dir f$p_apex_id -expType READABLE_YAML
 show errors
 exit;
 EOF
-}
+} #export_apex_app_readable_yaml
+
+install_apex_app(){
+  # echo "log : install_apex_app"
+
+  local p_apex_id="17000033"
+  # echo "log : p_apex_id : ${p_apex_id}"
+
+    echo "APEX Install: $p_apex_id"
+
+    # Export single file app
+    cd $PROJECT_DIR
+    # echo "log : $(pwd)"
+
+$VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
+--
+-- Load user specific commands here
+@.local/scripts/apex_install.sql 17000033 SVT AHA
+--
+-- 
+--
+show errors
+exit;
+EOF
+} #install_apex_app 
 
 
 # Resets release/code/_run_code.sql and deletes all files in release/code directory

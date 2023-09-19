@@ -504,7 +504,7 @@ create or replace package body SVT_MONITORING as
     apex_debug.message(c_debug_template,'START');
 
     for rec in (select application_id, static_id
-                from v_automations_status
+                from apex_appl_automations
                 where polling_status_code = c_disabled
                 and application_id = svt_apex_view.gc_svt_app_id)
     loop

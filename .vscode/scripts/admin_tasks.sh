@@ -21,6 +21,11 @@ elif [[ "$ADM_OPTION" == "2 - List invalid objects" ]]; then
   echo -e "Gen option : ${COLOR_LIGHT_GREEN}2 - List invalid objects${COLOR_RESET}"
   invalid_objects 'INVALID_OBJECTS_'$(date +"_%d%b%Y_%H:%M")
 
+elif [[ "$ADM_OPTION" == "3 - Install APEX app" ]]; then
+
+  echo -e "Gen option : ${COLOR_LIGHT_GREEN}3 - Install APEX app${COLOR_RESET}"
+  install_apex_app
+
 else
 
   echo -e "Gen option : ${COLOR_RED}unknown option${COLOR_RESET}"

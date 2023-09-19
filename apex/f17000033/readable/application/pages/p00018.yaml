@@ -23,7 +23,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -44,18 +44,18 @@ help:
   help-text: No help is available for this page.
 
 configuration: 
-  build-option: TO_DELETE # 6157992149575072830
+  build-option: TO_DELETE # 6384384957050863767
 
 regions: 
 - # ====== Region: Buttons =====================================
-  id: 7648215747164058710
+  id: 7874608554639849647
   identification: 
     title: Buttons
     type: Static Content
 
   layout: 
     sequence: 30
-    parent-region: Manage Sample Standard # 7657084755499643225
+    parent-region: Manage Sample Standard # 7883477562975434162
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -64,7 +64,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noPadding
@@ -91,7 +91,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Manage Sample Standard ======================
-  id: 7657084755499643225
+  id: 7883477562975434162
   identification: 
     title: Manage Sample Standard
     type: Static Content
@@ -110,7 +110,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7573654784682143972
+    template: Alert # 7800047592157934909
     template-options: 
     - '#DEFAULT#'
     - t-Alert--wizard
@@ -141,14 +141,14 @@ regions:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 7657189777195715701
+  id: 7883582584671506638
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 7648215747164058710
+    region: Buttons # 7874608554639849647
     position: PREVIOUS
     start-new-layout: false
     start-new-row: true
@@ -157,7 +157,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -168,14 +168,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: RESET_SAMPLE_STANDARD =======================
-  id: 7657190169014722786
+  id: 7883582976490513723
   identification: 
     button-name: RESET_SAMPLE_STANDARD
     label: Reset Sample Standard
 
   layout: 
     sequence: 50
-    region: Buttons # 7648215747164058710
+    region: Buttons # 7874608554639849647
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -184,7 +184,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -201,14 +201,14 @@ buttons:
     pl/sql-expression: eba_stds_data.is_sample_data_loaded()
 
 - # ====== Button: LOAD_SAMPLE_STANDARD ========================
-  id: 7657190756332728616
+  id: 7883583563808519553
   identification: 
     button-name: LOAD_SAMPLE_STANDARD
     label: Load Sample Standard
 
   layout: 
     sequence: 30
-    region: Buttons # 7648215747164058710
+    region: Buttons # 7874608554639849647
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -217,7 +217,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -234,14 +234,14 @@ buttons:
     pl/sql-expression: not eba_stds_data.is_sample_data_loaded()
 
 - # ====== Button: REMOVE_SAMPLE_STANDARD ======================
-  id: 7657191060639730373
+  id: 7883583868115521310
   identification: 
     button-name: REMOVE_SAMPLE_STANDARD
     label: Remove Sample Standard
 
   layout: 
     sequence: 40
-    region: Buttons # 7648215747164058710
+    region: Buttons # 7874608554639849647
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -250,7 +250,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -269,7 +269,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
-  id: 6253714455859746494
+  id: 6480107263335537431
   identification: 
     name: Cancel Dialog
 
@@ -279,7 +279,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 7657189777195715701
+    button: CANCEL # 7883582584671506638
 
   execution: 
     event-scope: Static
@@ -287,19 +287,19 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6253714555416746495
+    id: 6480107362892537432
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Dialog # 6253714455859746494
+      event: Cancel Dialog # 6480107263335537431
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 processes: 
 - # ====== Process: Load Sample Standard =======================
-  id: 7657192362004739726
+  id: 7883585169480530663
   identification: 
     name: Load Sample Standard
     type: Execute Code
@@ -325,10 +325,10 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: LOAD_SAMPLE_STANDARD # 7657190756332728616
+    when-button-pressed: LOAD_SAMPLE_STANDARD # 7883583563808519553
 
 - # ====== Process: Remove Sample Standard =====================
-  id: 7657192773086742922
+  id: 7883585580562533859
   identification: 
     name: Remove Sample Standard
     type: Execute Code
@@ -354,10 +354,10 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: REMOVE_SAMPLE_STANDARD # 7657191060639730373
+    when-button-pressed: REMOVE_SAMPLE_STANDARD # 7883583868115521310
 
 - # ====== Process: Reset Sample Standard ======================
-  id: 7657192982782745743
+  id: 7883585790258536680
   identification: 
     name: Reset Sample Standard
     type: Execute Code
@@ -384,11 +384,11 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: RESET_SAMPLE_STANDARD # 7657190169014722786
+    when-button-pressed: RESET_SAMPLE_STANDARD # 7883582976490513723
 
 branches: 
 - # ====== Branch: Go To Page settings =========================
-  id: 7657191882839735221
+  id: 7883584690315526158
   identification: 
     name: Go To Page settings
 
@@ -403,5 +403,5 @@ branches:
       page: SETTINGS
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
