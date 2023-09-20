@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -253,6 +254,8 @@ regions:
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
+    - t-Region--noBorder
+    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -333,7 +336,7 @@ regions:
       column-alignment: end
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     sorting: 
       sortable: false
@@ -724,6 +727,9 @@ page-items:
     session-state-protection: Unrestricted
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: Load your JSON file here
+
 - # ====== Page Item: P77_ERROR_ROW_COUNT ======================
   id: 452752103139778410
   identification: 
@@ -783,7 +789,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7800079935674934980
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
 
@@ -807,6 +813,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: The name of the file you loaded
+
 buttons: 
 - # ====== Button: CLEAR =======================================
   id: 452749404349778408
@@ -825,10 +834,13 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-eraser
 
   behavior: 
     action: Submit Page
@@ -852,10 +864,12 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-upload-alt
 
   behavior: 
     action: Submit Page

@@ -49,7 +49,7 @@ These are standards to maintain Accessibility.
 | [IR_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IR_COL_IMG_ALT_TEXT.json) |  IR Columns with images have alt text | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_LINK](APEX_ACCESSIBILITY_212/tests/IR_COL_LINK.json) |  IR Column links should have aria and title | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_COL_TABINDX.json) |  IR Columns should avoid harded tab indexes | v1 | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_COL_UNQ](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ.json) |  IR column aliases should be unique | v1 | APEX_APPLICATION_PAGE_IR_COL |
+| [IR_COL_UNQ](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ.json) |  IR column aliases should be unique | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ_LBL.json) |  IR columns need unique labels | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/IR_COL_VLD_HEADNG.json) |  IR columns are not null | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_DETL_LINK](APEX_ACCESSIBILITY_212/tests/IR_DETL_LINK.json) |  IR detail link must contain aria and title | v1.1 | APEX_APPLICATION_PAGE_IR |
@@ -139,15 +139,16 @@ Standards that are *not* general standards
 | [APP_ITEM_NAMING](APEX_IDIOSYNCRATIC_212/tests/APP_ITEM_NAMING.json) |  Application Item incorrectly prefixed | v1 | APEX_APPLICATION_ITEMS |
 | [AST_BREADCRUMB_STYLING](APEX_IDIOSYNCRATIC_212/tests/AST_BREADCRUMB_STYLING.json) |  AST Breadcrumbs are correctly styled | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [AST_BUTTONS_HAVE_ICONS](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTONS_HAVE_ICONS.json) |  All AST Standard Buttons have left-sided icons | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE.json) |  AST buttons should be simple | v1.2 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_CANCEL_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_CANCEL_BUTTON.json) |  All Cancel buttons should be default | v1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON.json) |  Delete buttons should be correctly styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON.json) |  Delete buttons should be correctly styled | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_MERGE_SAMPLE_DATA](APEX_IDIOSYNCRATIC_212/tests/AST_MERGE_SAMPLE_DATA.json) |  "Merge sample data" are consistently styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH.json) |  SVT Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
 | [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST.json) |  Breadcrumb hierarchy should match nav menu | v1.1 | APEX_APPLICATION_BC_ENTRIES |
-| [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1.2 | APEX_APPLICATION_PAGE_BUTTONS |
 | [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES.json) |  Page names should be human friendly | v1 | APEX_APPLICATION_PAGES |
-| [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions | v1 | APEX_APPLICATION_LIST_ENTRIES |
+| [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions | v1.1 | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS.json) |  Navigation menu list entries should have icons | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION.json) |  Form pages require authentication and have access protection | v1 | APEX_APPLICATION_PAGES |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER.json) |  RDS regions should have a template of Tabs Container | v1 | APEX_APPLICATION_PAGE_REGIONS |
@@ -164,6 +165,7 @@ These tests run against the DB objects and therefore may be hard to associate wi
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [DBMS_ASSERT](DB_OBJECT_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.4 | DATABASE SUPPORTING OBJECT |
+| [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.3 | DATABASE SUPPORTING OBJECT |
 | [DUPLICATE_STATEMENTS](DB_OBJECT_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.3 | DATABASE SUPPORTING OBJECT |
 | [FK_INDEXED](DB_OBJECT_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.1 | DATABASE TABLE |
 | [IDENTIFIER_NAMING](DB_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |

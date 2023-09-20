@@ -5747,6 +5747,48 @@ page-items:
     help-text: the schema
 
 buttons: 
+- # ====== Button: VIEW_SOURCE_CODE ============================
+  id: 217495536838073115
+  identification: 
+    button-name: VIEW_SOURCE_CODE
+    label: View Source Code
+
+  layout: 
+    sequence: 60
+    region: Database Info # 467025702376825382
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-eye
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:71:&SESSION.::&DEBUG.:71:P71_LINE,P71_OBJECT_NAME,P71_OBJECT_TYPE,P71_SCHEMA:&P42_LINE.,&P42_OBJECT_NAME.,&P42_OBJECT_TYPE.,&P42_OWNER.'
+      page: 71 # object
+      clear-cache: 71
+      values: 
+        p71_line: '&P42_LINE.'
+        p71_object_name: '&P42_OBJECT_NAME.'
+        p71_object_type: '&P42_OBJECT_TYPE.'
+        p71_schema: '&P42_OWNER.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
 - # ====== Button: MANAGE_APPLICATION ==========================
   id: 228090567352848865
   identification: 

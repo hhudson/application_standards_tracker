@@ -602,6 +602,7 @@ regions:
           p75_test_id: '&P14_ID.'
 
       link-icon: <img src="#APEX_FILES#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
+      link-attributes: 'title="Edit #TEST_CODE# + #WCAG_CODE#"  aria-label="Edit #TEST_CODE# + #WCAG_CODE#" '
 
     pagination: 
       type: Row Ranges X to Y
@@ -671,7 +672,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Wcag Id
+        heading: WCAG ID
         alignment: end
 
       single-row-view: 
@@ -753,7 +754,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Id
+        heading: ID
         alignment: end
 
       single-row-view: 
@@ -794,7 +795,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Test Id
+        heading: Test ID
         alignment: end
 
       single-row-view: 
@@ -846,7 +847,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -887,7 +888,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -2666,39 +2667,16 @@ regions:
       id: 374206184638627146
       identification: 
         column-name: TEST_CODE
-        type: Plain Text
+        type: Hidden Column
 
       heading: 
         heading: Test Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
 
       layout: 
         sequence: 40
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
 
       source: 
         primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
 
       security: 
         escape-special-characters: true
@@ -3997,6 +3975,41 @@ page-items:
     restricted-characters: All characters can be saved.
 
 buttons: 
+- # ====== Button: RESET_WCAG ==================================
+  id: 217495439795073114
+  identification: 
+    button-name: RESET_WCAG
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: WCAG codes # 401120139176419574
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,::'
+      page: 14 # Manage Test
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: DUPLICATE ===================================
   id: 269331353861808685
   identification: 
@@ -4272,14 +4285,14 @@ buttons:
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
 
-- # ====== Button: Create ======================================
+- # ====== Button: CREATE_WCAG =================================
   id: 401121053109419583
   identification: 
-    button-name: Create
-    label: Create
+    button-name: CREATE_WCAG
+    label: Create WCAG Association
 
   layout: 
-    sequence: 10
+    sequence: 30
     region: WCAG codes # 401120139176419574
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -4290,9 +4303,10 @@ buttons:
 
   appearance: 
     button-template: Icon # 7800080132300934984
-    hot: true
+    hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
     icon: fa-plus
 
   behavior: 
@@ -4305,6 +4319,9 @@ buttons:
         p75_test_id: '&P14_ID.'
 
     warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 - # ====== Button: SAVE_RERUN_AUDIT ============================
   id: 467024998681825375

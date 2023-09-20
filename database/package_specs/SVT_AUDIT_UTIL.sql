@@ -162,6 +162,18 @@ end;
 ------------------------------------------------------------------------------
 procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null);
 
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 19, 2023
+-- Synopsis:
+--
+-- Procedure to assign issue from loki tables
+--
+------------------------------------------------------------------------------
+procedure assign_from_loki;
+
 end SVT_AUDIT_UTIL;
 /
 

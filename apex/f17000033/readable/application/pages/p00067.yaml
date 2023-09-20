@@ -256,6 +256,8 @@ regions:
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
+    - t-Region--noBorder
+    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -336,7 +338,7 @@ regions:
       column-alignment: end
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     sorting: 
       sortable: false
@@ -727,6 +729,9 @@ page-items:
     session-state-protection: Unrestricted
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: Load your JSON file here
+
 - # ====== Page Item: P67_ERROR_ROW_COUNT ======================
   id: 257096780972886016
   identification: 
@@ -786,7 +791,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7800079935674934980
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
 
@@ -810,6 +815,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: The name of your file you've uploaded
+
 buttons: 
 - # ====== Button: CLEAR =======================================
   id: 257094014535886014
@@ -828,10 +836,13 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-eraser
 
   behavior: 
     action: Submit Page
@@ -855,10 +866,12 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-upload
 
   behavior: 
     action: Submit Page

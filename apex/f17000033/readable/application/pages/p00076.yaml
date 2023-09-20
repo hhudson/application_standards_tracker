@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -156,7 +157,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Application Id
+        heading: Application ID
         alignment: end
 
       single-row-view: 
@@ -167,7 +168,7 @@ regions:
         column-alignment: end
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -208,7 +209,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -238,7 +239,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Wcag Code
+        heading: WCAG Code
         alignment: start
 
       single-row-view: 
@@ -276,7 +277,7 @@ regions:
       id: 444111898049391605
       identification: 
         column-name: TEST_CODE
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: Test Code
@@ -291,6 +292,17 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:#TEST_CODE#'
+          page: 14 # Manage Test
+          clear-cache: 14
+          values: 
+            p14_test_code: '#TEST_CODE#'
+
+        link-text: '#TEST_CODE#'
+        link-attributes: 'alt="view #TEST_CODE#" title="view #TEST_CODE#"'
 
       source: 
         primary-key: false
@@ -311,6 +323,7 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     - # ====== Column: VIOLATION_COUNT =============================
@@ -395,4 +408,40 @@ regions:
         font-size: 12
         font-color: '#000000'
         alignment: center
+
+buttons: 
+- # ====== Button: RESET =======================================
+  id: 217495870619073118
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: WCAG Report # 444110296467391466
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:76:&SESSION.::&DEBUG.:RR,::'
+      page: 76 # WCAG Report
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
 

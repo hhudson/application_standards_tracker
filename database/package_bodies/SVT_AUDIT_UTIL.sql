@@ -592,6 +592,28 @@ create or replace package body SVT_AUDIT_UTIL as
       raise;
     end assign_from_default;
 
+    procedure assign_from_loki 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_loki';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    begin
+      apex_debug.message(c_debug_template,'START');
+
+      merge into (select object_type, object_name
+                  from svt_plsql_apex_audit 
+                  where issue_category in 'DB_PLSQL') e
+      using (select object_type, object_name,apex_username
+             from v_loki_object_assignee
+             where apex_username is not null) h
+      on (    e.object_type = h.object_type
+          and e.object_name = h.object_name)
+      when matched then
+      update set e.assignee = h.apex_username;
+
+    exception when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+    end assign_from_loki;
+
     procedure assign_violations
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'assign_violations';

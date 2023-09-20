@@ -24,6 +24,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -127,7 +128,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Wcag Id
+        heading: WCAG Code
         alignment: end
 
       single-row-view: 
@@ -138,7 +139,7 @@ regions:
         column-alignment: end
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -168,7 +169,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Test Id
+        heading: Test ID
         alignment: end
 
       single-row-view: 
@@ -217,10 +218,10 @@ regions:
 
       layout: 
         sequence: 30
-        column-alignment: center
+        column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       link: 
         target: 
@@ -231,6 +232,7 @@ regions:
             p14_test_code: '#TEST_CODE#'
 
         link-text: '#TEST_CODE#'
+        link-attributes: 'title="WCAG CODE #P73_C1ST_DIGIT#" aria-label="WCAG CODE #P73_C1ST_DIGIT#"'
 
       source: 
         primary-key: false
@@ -251,6 +253,7 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
 - # ====== Region: Edit WCAG ===================================
@@ -437,6 +440,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: the 1st digit in the WCAG Code
+
 - # ====== Page Item: P73_C2ND_DIGIT ===========================
   id: 443733333352384627
   identification: 
@@ -493,6 +499,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: the 2nd digit in the WCAG Code
 
 - # ====== Page Item: P73_C3RD_DIGIT ===========================
   id: 443733787301384627
@@ -551,6 +560,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: the 3rd digit in the WCAG Code
+
 - # ====== Page Item: P73_DESCRIPTION ==========================
   id: 443734165747384628
   identification: 
@@ -559,7 +571,7 @@ page-items:
 
   label: 
     label: Description
-    alignment: Right
+    alignment: Left
 
   settings: 
     resizable: true
@@ -580,7 +592,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7800079935674934980
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 60
@@ -611,6 +623,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Description of the WCAG standard
 
 - # ====== Page Item: P73_CONFORMANCE_LEVEL ====================
   id: 443887212792864041
@@ -673,6 +688,9 @@ page-items:
     escape-special-characters: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: A measure of how basic the WCAG code is, A is basic, AAA is advanced
+
 buttons: 
 - # ====== Button: CANCEL ======================================
   id: 443736477718384631
@@ -721,6 +739,8 @@ buttons:
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
 
   behavior: 
     action: Submit Page
@@ -740,7 +760,7 @@ buttons:
   id: 443738214142384633
   identification: 
     button-name: SAVE
-    label: Apply Changes
+    label: Save
 
   layout: 
     sequence: 30
