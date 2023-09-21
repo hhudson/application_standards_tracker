@@ -33,6 +33,23 @@ function v_svt_scm_object_assignee
 return v_svt_scm_object_assignee_nt pipelined;
 
 ------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 20, 2023
+-- Synopsis:
+--
+-- Function to query loki assignments  
+--
+/*
+select object_name,
+       email,
+       folder_name object_type
+from svt_audit_util.v_loki_object_assignee()
+*/
+------------------------------------------------------------------------------
+function v_loki_object_assignee
+return v_svt_scm_object_assignee_nt pipelined;
+
+------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: june 28, 2022
 -- synopsis:
@@ -163,7 +180,7 @@ end;
 procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null);
 
 
-
+$if oracle_apex_version.c_loki_access $then
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 19, 2023
@@ -171,8 +188,14 @@ procedure set_workspace (p_workspace in apex_workspaces.workspace%type default n
 --
 -- Procedure to assign issue from loki tables
 --
+/*
+BEGIN
+    SVT_AUDIT_UTIL.assign_from_loki;
+end;
+*/
 ------------------------------------------------------------------------------
 procedure assign_from_loki;
+$end
 
 end SVT_AUDIT_UTIL;
 /

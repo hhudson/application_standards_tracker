@@ -168,6 +168,32 @@ begin
                );
                
    end scm_yn;
+
+   <<loki_yn>>
+   declare 
+   l_loki_yn_yn varchar2(1) := 'N';
+   begin
+
+      begin <<subscm>>
+         select preference_value
+         into l_loki_yn_yn
+         from apex_workspace_preferences
+         where preference_name = 'SVT_LOKI_YN'
+         order by user_name
+         fetch first 1 rows only;
+      exception when no_data_found then
+         l_loki_yn_yn := 'N';
+      end subscm;
+
+      add_line(apex_string.format(q'[c_loki_access constant boolean := %s;]', 
+                                    case when l_loki_yn_yn = 'Y'
+                                       then 'true'
+                                       else 'false'
+                                       end
+                                 )
+               );
+               
+   end loki_yn;
    
    <<email_soln>>
    declare 

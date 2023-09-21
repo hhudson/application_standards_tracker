@@ -93,6 +93,72 @@ create or replace package body SVT_AUDIT_UTIL as
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end v_svt_scm_object_assignee;
+
+  function v_loki_object_assignee
+  return v_svt_scm_object_assignee_nt pipelined
+  is
+  c_scope constant varchar2(128) := gc_scope_prefix || 'v_loki_object_assignee';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  cursor cur_aa
+  is
+      $if oracle_apex_version.c_loki_access
+      $then 
+        with loki as (select ll.object_type, 
+                     ll.object_name, 
+                     ll.locked, 
+                     lsc.schema_name,
+                     lu.full_name,
+                     lu.apex_username,
+                     lu.db_username,
+                     dense_rank() over (partition by ll.object_type, ll.object_name order by ll.locked desc) lock_rank
+                from loki.loki_locks_log ll 
+                inner join loki.loki_schemas lsc on ll.schema_id = lsc.schema_id
+                inner join loki.loki_users lu on ll.user_id = lu.user_id)
+          select 
+                object_name, 
+                apex_username email,
+                object_type folder_name
+          from loki
+          where lock_rank = 1
+      $else 
+        select 
+          null object_name,
+          null email,
+          null folder_name
+        from dual
+      $end
+      ;
+
+  type r_aa is record (
+    object_name       varchar2(256),
+    email             varchar2(240),
+    folder_name       varchar2(256)
+  );
+  type t_aa is table of r_aa index by pls_integer;
+  l_aat t_aa;
+  begin
+    apex_debug.message(c_debug_template,'START');
+    open cur_aa;
+
+    loop
+      fetch cur_aa bulk collect into l_aat limit 1000;
+
+      exit when l_aat.count = 0;
+
+      for rec in 1 .. l_aat.count
+      loop
+        pipe row (v_svt_scm_object_assignee_ot (
+                      l_aat (rec).object_name,
+                      l_aat (rec).email,
+                      l_aat (rec).folder_name
+                    )
+                );
+      end loop;
+    end loop;  
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end v_loki_object_assignee;
   
   procedure recompile_w_plscope is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'recompile_w_plscope';
@@ -592,16 +658,18 @@ create or replace package body SVT_AUDIT_UTIL as
       raise;
     end assign_from_default;
 
+    $if oracle_apex_version.c_loki_access $then
     procedure assign_from_loki 
+    as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_loki';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
       apex_debug.message(c_debug_template,'START');
 
-      merge into (select object_type, object_name
+      merge into (select object_type, object_name, assignee
                   from svt_plsql_apex_audit 
                   where issue_category in 'DB_PLSQL') e
-      using (select object_type, object_name,apex_username
+      using (select object_type, object_name, apex_username
              from v_loki_object_assignee
              where apex_username is not null) h
       on (    e.object_type = h.object_type
@@ -613,6 +681,7 @@ create or replace package body SVT_AUDIT_UTIL as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
     end assign_from_loki;
+    $end
 
     procedure assign_violations
     as 
@@ -624,6 +693,10 @@ create or replace package body SVT_AUDIT_UTIL as
       -- assign_from_scm;
 
       assign_from_apex_audit;
+
+      $if oracle_apex_version.c_loki_access $then
+        assign_from_loki;
+      $end
 
       assign_from_default;
 
