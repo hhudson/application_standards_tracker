@@ -161,18 +161,23 @@ create or replace package body eba_stds_inherited_tests_api as
     apex_debug.message(c_debug_template,'START', 
                                         'p_parent_standard_id', p_parent_standard_id,
                                         'p_standard_id', p_standard_id);
-
-    for rec in (select test_id
-                from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
-                          p_standard_id => p_parent_standard_id
-                      ) 
-                )
-    loop
-      inherit_test (
-          p_test_id            => rec.test_id,
-          p_standard_id        => p_standard_id
-      );
-    end loop;
+    if p_parent_standard_id is null then 
+      apex_debug.message(c_debug_template,'p_parent_standard_id is null');
+    elsif p_standard_id is null then 
+      apex_debug.message(c_debug_template,'p_standard_id is null');
+    else 
+      for rec in (select test_id
+                  from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
+                            p_standard_id => p_parent_standard_id
+                        ) 
+                  )
+      loop
+        inherit_test (
+            p_test_id            => rec.test_id,
+            p_standard_id        => p_standard_id
+        );
+      end loop;
+    end if;
 
   exception  when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
