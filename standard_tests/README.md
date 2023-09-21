@@ -76,6 +76,22 @@ These are standards to maintain Accessibility.
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML.json) |  Static Content HTML is well formed | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC.json) |  Theme styles should avoid animations | v1 | APEX_APPLICATION_THEME_STYLES |
 
+## Alphawave (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
+
+
+ - [Standard export](APEX_ALPHAWAVE_212/STANDARD-APEX_ALPHAWAVE_212.json)
+ - [Consolidated tests export](APEX_ALPHAWAVE_212/ALL_TESTS-APEX_ALPHAWAVE_212.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+| [ALPH_AI_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AI_NAMING.json) |  Application Items should be correctly named | v1.1 | APEX_APPLICATION_ITEMS |
+| [ALPH_AP_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AP_NAMING.json) |  Application Processes should be correctly named | v1 | APEX_APPLICATION_PROCESSES |
+| [ALPH_BTN_STC_ID_NM](APEX_ALPHAWAVE_212/tests/ALPH_BTN_STC_ID_NM.json) |  Button Static IDs should be correctly named | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [ALPH_ERROR_HANDLING](APEX_ALPHAWAVE_212/tests/ALPH_ERROR_HANDLING.json) |  Applications should have the correct error handling function set | v1.1 | APEX_APPLICATIONS |
+| [ALPH_RGN_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_RGN_NAMING.json) |  Region Static IDs should be correctly named | v1 | APEX_APPLICATION_PAGE_REGIONS |
+| [DRAWERS_NOT_MODALS](APEX_ALPHAWAVE_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
+| [PAGE_ITEM_NAMING](APEX_ALPHAWAVE_212/tests/PAGE_ITEM_NAMING.json) |  Page Items incorrectly prefixed | v1 | APEX_APPLICATION_PAGE_ITEMS |
+
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
 

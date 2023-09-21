@@ -405,12 +405,8 @@ regions:
     region-display-selector: true
     exclude-title-from-translation: false
 
-  server-side-condition: 
-    type: Rows returned
-    sql-query: |
-      select 1 
-      from EBA_STDS_INHERITED_TESTS
-      where test_id = :P14_ID
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
   server-cache: 
     caching: Disabled
@@ -465,6 +461,7 @@ regions:
     exclude-title-from-translation: false
 
   security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
     escape-special-characters: true
 
   server-cache: 
@@ -4010,6 +4007,84 @@ buttons:
 
     warn-on-unsaved-changes: Do Not Check
 
+- # ====== Button: ADD_TO_OTHER_STANDARD =======================
+  id: 217496179774073121
+  identification: 
+    button-name: ADD_TO_OTHER_STANDARD
+    label: Add To Other Standard
+
+  layout: 
+    sequence: 20
+    region: 'This test is shared by the following standard (s): ' # 398366118964454539
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-folder-plus
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:79:&SESSION.::&DEBUG.:79:P79_TEST_ID:&P14_ID.'
+      page: 79 # Manage Inherited tests
+      clear-cache: 79
+      values: 
+        p79_test_id: '&P14_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
+- # ====== Button: MANAGE_INHERITANCE ==========================
+  id: 217498336758073143
+  identification: 
+    button-name: MANAGE_INHERITANCE
+    label: Manage Inheritance
+
+  layout: 
+    sequence: 10
+    region: 'This test is shared by the following standard (s): ' # 398366118964454539
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-link
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:78:&SESSION.::&DEBUG.:RP,78:IR[RGN_INHERITED_TESTS]EQ_TEST_CODE:&P14_TEST_CODE.'
+      page: 78 # Inherited test relationships
+      clear-cache: RP,78
+      values: 
+        ir[rgn_inherited_tests]eq_test_code: '&P14_TEST_CODE.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
 - # ====== Button: DUPLICATE ===================================
   id: 269331353861808685
   identification: 
@@ -4519,6 +4594,39 @@ buttons:
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 dynamic-actions: 
+- # ====== Dynamic Action: Refresh on dialog close =============
+  id: 217497344935073133
+  identification: 
+    name: Refresh on dialog close
+
+  execution: 
+    sequence: 200
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: 'This test is shared by the following standard (s): ' # 398366118964454539
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 217497498632073134
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: 'This test is shared by the following standard (s): ' # 398366118964454539
+
+    execution: 
+      sequence: 10
+      event: Refresh on dialog close # 217497344935073133
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: navigateInBuilderWindow =============
   id: 269327805063808649
   identification: 

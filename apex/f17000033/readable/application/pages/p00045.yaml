@@ -309,6 +309,59 @@ regions:
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P45_SVT_LOKI_YN ==========================
+  id: 217495996198073119
+  identification: 
+    name: P45_SVT_LOKI_YN
+    type: Switch
+
+  label: 
+    label: Loki Utility Available
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 30
+    region: Advanced # 372947557735094658
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get_preference ('SVT_LOKI_YN')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Are you using Loki (unusual)?
+
 - # ====== Page Item: P45_SVT_DEFAULT_ASSIGNEE =================
   id: 228089375007848853
   identification: 
@@ -1334,7 +1387,7 @@ buttons:
   id: 11018815120542622667
   identification: 
     button-name: APPLY_CHANGES
-    label: Apply Changes
+    label: Save
 
   layout: 
     sequence: 20
@@ -1358,6 +1411,39 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 processes: 
+- # ====== Process: SVT_LOKI_YN ================================
+  id: 217496032127073120
+  identification: 
+    name: SVT_LOKI_YN
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_LOKI_YN',
+              p_value => :P45_SVT_LOKI_YN
+          );
+      end;
+
+  execution: 
+    sequence: 120
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_LOKI_YN
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
 - # ====== Process: SVT_DEFAULT_ASSIGNEE =======================
   id: 228089500226848854
   identification: 
@@ -1377,7 +1463,7 @@ processes:
       end;
 
   execution: 
-    sequence: 130
+    sequence: 140
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1414,7 +1500,7 @@ processes:
       end;
 
   execution: 
-    sequence: 160
+    sequence: 170
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1443,7 +1529,7 @@ processes:
       end;
 
   execution: 
-    sequence: 120
+    sequence: 130
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1476,7 +1562,7 @@ processes:
       end;
 
   execution: 
-    sequence: 140
+    sequence: 150
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1509,7 +1595,7 @@ processes:
       end;
 
   execution: 
-    sequence: 150
+    sequence: 160
     point: Processing
     run-process: Once Per Page Visit (default)
 

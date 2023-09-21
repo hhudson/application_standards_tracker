@@ -17,6 +17,27 @@ create or replace package eba_stds_inherited_tests_api authid definer as
 --
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Aug-17 - created
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+        eba_stds_inherited_tests_api.inherit_test (
+            p_test_id            => :P79_TEST_ID,
+            p_standard_id        => :P79_STANDARD_ID
+        );
+    when 'U' then
+      eba_stds_inherited_tests_api.inherit_test (
+            p_test_id            => :P79_TEST_ID,
+            p_standard_id        => :P79_STANDARD_ID
+        );
+    when 'D' then
+       eba_stds_inherited_tests_api.disinherit (
+        p_test_id            => :P79_TEST_ID,
+        p_standard_id        => :P79_STANDARD_ID
+    );
+  end case;
+end;
+*/
 ---------------------------------------------------------------------------- 
 
 ------------------------------------------------------------------------------
