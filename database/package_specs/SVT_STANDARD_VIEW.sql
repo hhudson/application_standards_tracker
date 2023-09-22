@@ -198,12 +198,12 @@ from dual;
    gc_table_or_view_does_not_exist constant number := -0942;
    e_table_or_view_does_not_exist exception;
    pragma exception_init(e_table_or_view_does_not_exist,gc_table_or_view_does_not_exist);
-   gc_missing_expression constant number := -0936;
+  --  gc_missing_expression constant number := -0936;
    e_missing_expression exception;
-   pragma exception_init(e_missing_expression,gc_missing_expression);
-   gc_ambiguous_column constant number := -0918;
+   pragma exception_init(e_missing_expression,-0936);
+  --  gc_ambiguous_column constant number := -0918;
    e_ambiguous_column exception;
-   pragma exception_init(e_ambiguous_column,gc_ambiguous_column);
+   pragma exception_init(e_ambiguous_column,-0918);
 
 end SVT_STANDARD_VIEW;
 /

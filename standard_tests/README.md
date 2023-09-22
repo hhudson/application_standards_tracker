@@ -100,6 +100,10 @@ These are standards to maintain Accessibility.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [ALPH_MV_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1 | DATABASE MATERIALIZED VIEW |
+| [ALPH_VIEW_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_VIEW_NAME.json) |  Alphawave Views must be correctly named | v1 | DATABASE VIEW |
+| [IDENTIFIER_NAMING](DB_ALPHAWAVE_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
+| [TBL_AUDIT_COLS](DB_ALPHAWAVE_OBJECT_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1 | DATABASE TABLE |
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.

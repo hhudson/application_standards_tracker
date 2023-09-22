@@ -178,7 +178,7 @@ from eba_stds_standard_tests esst;
       p_explanation           in eba_stds_standard_tests.explanation%type,
       p_fix                   in eba_stds_standard_tests.fix%type,
       p_version_number        in eba_stds_standard_tests.version_number%type
-  ) return varchar2;
+  ) return varchar2 deterministic;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

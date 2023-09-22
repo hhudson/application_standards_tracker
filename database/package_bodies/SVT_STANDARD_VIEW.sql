@@ -84,12 +84,27 @@ create or replace package body SVT_STANDARD_VIEW as
   type r_v_svt_db_view__0 is record (
     pass_yn    varchar2(1),
     view_name  varchar2(128),
+    code       varchar2(1000 char),
     unqid      varchar2(5000 char)
   );
   type t_v_svt_db_view__0 is table of r_v_svt_db_view__0 index by pls_integer;
   l_v_svt_db_view__0 t_v_svt_db_view__0;
-  gc_view_select_stmt constant varchar2(255) := 'select pass_yn, view_name, unqid from (';
+  gc_view_select_stmt constant varchar2(255) := 'select pass_yn, view_name, code, unqid from (';
   gc_v_svt_db_view__0_nt  constant svt_nested_table_types.nt_name%type:= 'v_svt_db_view__0_nt';
+  
+  ------------------------------------------------------------------------------
+  -- v_svt_db_mv__0 identifiers
+  ------------------------------------------------------------------------------
+  type r_v_svt_db_mv__0 is record (
+    pass_yn    varchar2(1),
+    mv_name    varchar2(128),
+    code       varchar2(1000 char),
+    unqid      varchar2(5000 char)
+  );
+  type t_v_svt_db_mv__0 is table of r_v_svt_db_mv__0 index by pls_integer;
+  l_v_svt_db_mv__0 t_v_svt_db_mv__0;
+  gc_mv_select_stmt constant varchar2(255) := 'select pass_yn, mv_name, code, unqid from (';
+  gc_v_svt_db_mv__0_nt  constant svt_nested_table_types.nt_name%type:= 'v_svt_db_mv__0_nt';
 
   ------------------------------------------------------------------------------
   -- v_svt_db_tbl__0 identifiers
@@ -437,6 +452,7 @@ create or replace package body SVT_STANDARD_VIEW as
         pipe row (v_svt_db_view__0_ot (
                       l_v_svt_db_view__0 (rec).pass_yn,
                       l_v_svt_db_view__0 (rec).view_name,
+                      l_v_svt_db_view__0 (rec).code,
                       l_v_svt_db_view__0 (rec).unqid
                     )
                 );
@@ -619,9 +635,35 @@ create or replace package body SVT_STANDARD_VIEW as
                                    1 line,
                                    view_name object_name,
                                    'VIEW' object_type,
-                                   null code,
-                                   null validation_failure_message,
+                                   code,
+                                   code validation_failure_message,
                                    view_name issue_title,
+                                   null apex_created_by,
+                                   null apex_created_on,
+                                   null apex_last_updated_by,
+                                   null apex_last_updated_on,
+                                   null test_code,
+                                   null component_id,
+                                   null parent_component_id
+                          from (]',
+                          p0 => c_issue_category)
+      );
+    elsif c_nt_name = gc_v_svt_db_mv__0_nt then 
+      l_query_clob := get_query_clob (
+        p_test_code => c_test_code,
+        p_nt_name => c_nt_name,
+        p_select_stmt => apex_string.format(
+                          q'[select unqid,
+                                   '%0' issue_category,
+                                   null application_id,
+                                   null page_id,
+                                   pass_yn,
+                                   1 line,
+                                   mv_name object_name,
+                                   'MATERIALIZED VIEW' object_type,
+                                   code,
+                                   code validation_failure_message,
+                                   mv_name issue_title,
                                    null apex_created_by,
                                    null apex_created_on,
                                    null apex_last_updated_by,
@@ -897,6 +939,14 @@ create or replace package body SVT_STANDARD_VIEW as
       raise;
   end get_nt_type_id;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 22, 2023
+-- Synopsis:
+--
+-- Function to improve the human-readability of error messages
+--
+------------------------------------------------------------------------------
   function improve_error_msg (
                       p_sqlcode in number,
                       p_sqlerrm in varchar2) 
@@ -985,6 +1035,9 @@ create or replace package body SVT_STANDARD_VIEW as
       elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_view__0_nt then
         open cur_query for gc_view_select_stmt||p_query_code||')';
         fetch cur_query bulk collect into l_v_svt_db_view__0 limit 1;
+      elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_mv__0_nt then
+        open cur_query for gc_mv_select_stmt||p_query_code||')';
+        fetch cur_query bulk collect into l_v_svt_db_mv__0 limit 1;
       elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_tbl__0_nt then
         open cur_query for gc_tbl_select_stmt||p_query_code||')';
         fetch cur_query bulk collect into l_v_svt_db_tbl__0 limit 1;

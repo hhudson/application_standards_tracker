@@ -11,20 +11,17 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
-declare
-  already_exists EXCEPTION;
-  pragma exception_init (already_exists, -00955);
-begin
-  execute immediate q'[
+
+-- drop type v_svt_db_view__0_nt
+-- /
+-- drop type v_svt_db_view__0_ot
+-- /
   create type v_svt_db_view__0_ot as object
     (   
       pass_yn    varchar2(1 char),
       view_name  varchar2(128 char),
+      code       varchar2(1000 char),
       unqid      varchar2(5000 char)
-    ) ]';
-  dbms_output.put_line(q'[ type v_svt_db_view__0_ot created ]');
-exception
-  when already_exists then null;
-end;
+    ) 
 /
 --rollback drop type V_SVT_DB_VIEW__0_OT;

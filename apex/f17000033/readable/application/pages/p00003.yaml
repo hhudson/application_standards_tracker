@@ -63,13 +63,17 @@ regions:
              ess.standard_name card_title,
              ess.description card_text,
              apex_string.get_initials(ess.standard_name) card_initials,
-             apex_string.format('%0 active test(s)%1', 
-                                 p0 => coalesce(esst.test_count,0),
+             apex_string.format('%0 active test(s)%1%2', 
+                                 p0 => coalesce(esst.active_test_count,0),
                                  p1 => case when coalesce(it.test_count,0) > 0
                                             then ' + '||coalesce(it.test_count,0)||' inherited test(s)'
+                                            end,
+                                 p2 => case when coalesce(iesst.inactive_test_count,0) > 0
+                                            then ' + '||coalesce(iesst.inactive_test_count,0)||' inactive test(s)'
                                             end
                                  ) card_subtext,
-             esst.test_count,
+             esst.active_test_count,
+             iesst.inactive_test_count,
              apex_page.get_url (
                   p_page   => 5,
                   p_items  => 'P5_ID',
@@ -81,10 +85,15 @@ regions:
              ess.type_name
         from v_eba_stds_standards ess
         left outer join 
-        (select standard_id, count(*) test_count
+        (select standard_id, count(*) active_test_count
           from eba_stds_standard_tests
           where active_yn ='Y'
           group by standard_id) esst on esst.standard_id = ess.id
+         left outer join 
+        (select standard_id, count(*) inactive_test_count
+          from eba_stds_standard_tests
+          where active_yn ='N'
+          group by standard_id) iesst on iesst.standard_id = ess.id
          left outer join 
          (select standard_id, count(*) test_count
           from eba_stds_inherited_tests
@@ -98,6 +107,7 @@ regions:
              'ALL' card_initials,
              apex_string.format('%s active test(s)', coalesce(esst.test_count,0)) card_subtext,
              esst.test_count,
+             null inactive_test_count,
              apex_page.get_url (
                   p_page   => 5,
                   p_items  => 'P5_ID',
@@ -188,6 +198,70 @@ regions:
       enabled: false
 
   columns: 
+  - # ====== Column: ACTIVE_TEST_COUNT ===========================
+    id: 229576810948659406
+    identification: 
+      column-name: ACTIVE_TEST_COUNT
+      type: Plain Text
+
+    heading: 
+      heading: Active Test Count
+      alignment: end
+
+    layout: 
+      sequence: 164
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: INACTIVE_TEST_COUNT =========================
+    id: 229576949247659407
+    identification: 
+      column-name: INACTIVE_TEST_COUNT
+      type: Plain Text
+
+    heading: 
+      heading: Inactive Test Count
+      alignment: end
+
+    layout: 
+      sequence: 174
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: CARD_TITLE ==================================
     id: 279785002288755765
     identification: 
@@ -383,40 +457,6 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: TEST_COUNT ==================================
-    id: 279787715412755767
-    identification: 
-      column-name: TEST_COUNT
-      type: Plain Text
-
-    heading: 
-      heading: Test Count
-      alignment: end
-
-    layout: 
-      sequence: 94
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Descending
       sortable: true
 
     export-/-printing: 

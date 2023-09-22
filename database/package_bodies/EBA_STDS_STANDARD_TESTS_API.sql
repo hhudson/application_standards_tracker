@@ -156,7 +156,8 @@ create or replace package body eba_stds_standard_tests_api as
       p_explanation           in eba_stds_standard_tests.explanation%type,
       p_fix                   in eba_stds_standard_tests.fix%type,
       p_version_number        in eba_stds_standard_tests.version_number%type
-  ) return varchar2 is 
+  ) return varchar2 deterministic
+  is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'build_test_md5';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
@@ -302,7 +303,16 @@ create or replace package body eba_stds_standard_tests_api as
   l_current_md5  varchar2(32767) := null;
   l_new_md5      varchar2(32767) := null;
   begin
-    apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_id', p_id,
+                                        'p_test_code', p_test_code,
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_name', p_test_name,
+                                        'p_active_yn', p_active_yn,
+                                        'p_level_id', p_level_id,
+                                        'p_svt_component_type_id', p_svt_component_type_id,
+                                        'p_version_number', p_version_number
+                                        );
 
 
     l_current_md5 := current_md5(p_test_code => p_test_code);

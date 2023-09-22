@@ -48,6 +48,157 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: Metadata for the &P71_OBJECT_TYPE. `&P71_SCHE
+  id: 229577044138659408
+  identification: 
+    title: Metadata for the &P71_OBJECT_TYPE. `&P71_SCHEMA..&P71_OBJECT_NAME.`
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select column_value, rownum
+      from table(
+              apex_string.split(
+                  dbms_metadata.get_ddl(
+                      replace(:P71_OBJECT_TYPE,' ','_'), 
+                      :P71_OBJECT_NAME
+                      ), 
+                      chr(10)
+                      )
+                 )
+      where column_value is not null
+    page-items-to-submit: 
+    - P71_OBJECT_TYPE
+    - P71_OBJECT_NAME
+
+  layout: 
+    sequence: 20
+    parent-region: Parameters # 401117344802419546
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P71_OBJECT_TYPE in ('TABLE','VIEW','MATERIALIZED VIEW')"
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: COLUMN_VALUE ================================
+    id: 229577104342659409
+    identification: 
+      column-name: COLUMN_VALUE
+      type: Plain Text
+
+    heading: 
+      heading: Code
+      alignment: center
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ROWNUM ======================================
+    id: 229577297986659410
+    identification: 
+      column-name: ROWNUM
+      type: Hidden Column
+
+    layout: 
+      sequence: 20
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Parameters ==================================
   id: 401117344802419546
   identification: 
@@ -109,6 +260,8 @@ regions:
       and line between (:P71_LINE-5) and (:P71_LINE+5)
       and owner = :P71_SCHEMA
       order by line
+    page-items-to-submit: 
+    - P71_OBJECT_TYPE
 
   layout: 
     sequence: 10
@@ -136,6 +289,11 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P71_OBJECT_TYPE IN ('PACKAGE','PACKAGE BODY')"
 
   server-cache: 
     caching: Disabled
