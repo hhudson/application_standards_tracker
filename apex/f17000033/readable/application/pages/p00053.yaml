@@ -45,9 +45,6 @@ server-cache:
 help: 
   help-text: Enter or copy and paste usernames separated by commas, semicolons, or whitespace. All usernames provided will be added as the selected role. Existing or duplicate usernames will be ignored.
 
-configuration: 
-  build-option: TO_DELETE # 6384384957050863767
-
 regions: 
 - # ====== Region: Load Multiple Users =========================
   id: 8492540702158263979
@@ -84,6 +81,9 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
   attributes: 
     settings: 
@@ -334,6 +334,35 @@ page-items:
     restricted-characters: All characters can be saved.
 
 buttons: 
+- # ====== Button: ADD_ALL_DEVS ================================
+  id: 229576550214659403
+  identification: 
+    button-name: ADD_ALL_DEVS
+    label: Add All Devs
+
+  layout: 
+    sequence: 10
+    region: Buttons # 8495351192796816707
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-users-alt
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: CANCEL ======================================
   id: 8492523505377077797
   identification: 
@@ -393,6 +422,9 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
 dynamic-actions: 
 - # ====== Dynamic Action: CNX =================================
   id: 6480109152511537450
@@ -438,6 +470,50 @@ computations:
     static-value: '&APP_PAGE_ID.'
 
 processes: 
+- # ====== Process: Add all devs ===============================
+  id: 229576645325659404
+  identification: 
+    name: Add all devs
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: svt_acl.add_awd_users;
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: All workspace devs added as readers!
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ADD_ALL_DEVS # 229576550214659403
+
+- # ====== Process: Close dialog ===============================
+  id: 229576713348659405
+  identification: 
+    name: Close dialog
+    type: Close Dialog
+    execution-chain: None
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ADD_ALL_DEVS # 229576550214659403
+
 - # ====== Process: Create Collections =========================
   id: 8492814293975089316
   identification: 

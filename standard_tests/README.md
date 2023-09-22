@@ -92,6 +92,15 @@ These are standards to maintain Accessibility.
 | [DRAWERS_NOT_MODALS](APEX_ALPHAWAVE_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
 | [PAGE_ITEM_NAMING](APEX_ALPHAWAVE_212/tests/PAGE_ITEM_NAMING.json) |  Page Items incorrectly prefixed | v1 | APEX_APPLICATION_PAGE_ITEMS |
 
+## Alphawave Object (Database Version 19C)
+
+
+ - [Standard export](DB_ALPHAWAVE_OBJECT_19C/STANDARD-DB_ALPHAWAVE_OBJECT_19C.json)
+ - [Consolidated tests export](DB_ALPHAWAVE_OBJECT_19C/ALL_TESTS-DB_ALPHAWAVE_OBJECT_19C.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
 

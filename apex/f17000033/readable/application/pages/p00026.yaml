@@ -41,9 +41,6 @@ server-cache:
 help: 
   help-text: When Access Control is enabled, Administrators have the ability to restrict access to certain application features, for authenticated users. This application supports the following 3 access levels; Reader, Contributor and Administrator. Readers have read-only access and can also view reports. Contributors can additionally create, edit, delete content. Administrators, in addition to Contributor's capability, can also perform application administration, including configuration of access control, managing application look-up data.
 
-configuration: 
-  build-option: TO_DELETE # 6384384957050863767
-
 regions: 
 - # ====== Region: Users =======================================
   id: 11310212352164136213
@@ -55,14 +52,18 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select id,
-             username,
-             access_level_id,
-             case when account_locked = 'Y' then 'Yes' else 'No' end account_locked,
-             created_by,
-             created
-        from eba_stds_users
-      
+      select aau.ROLE_NAMES,
+             aau.ID,
+             aau.WORKSPACE_ID,
+             aau.WORKSPACE,
+             aau.WORKSPACE_DISPLAY_NAME,
+             aau.APPLICATION_ID,
+             aau.APPLICATION_NAME,
+             aau.USER_NAME,
+             aau.USER_NAME_LC,
+             aau.ROLE_IDS 
+      from APEX_APPL_ACL_USERS aau
+      where aau.APPLICATION_ID = :APP_ID
 
   layout: 
     sequence: 20
@@ -94,9 +95,6 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: TO_DELETE # 6384384957050863767
 
   attributes: 
     id: 11310212546636136213
@@ -178,70 +176,25 @@ regions:
         alias: 59839
 
     columns: 
-    - # ====== Column: CREATED =====================================
-      id: 8481705185752141296
+    - # ====== Column: WORKSPACE_ID ================================
+      id: 217498443008073144
       identification: 
-        column-name: CREATED
+        column-name: WORKSPACE_ID
         type: Plain Text
 
       heading: 
-        heading: Created
-        alignment: start
+        heading: Workspace Id
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 10
-        column-alignment: start
+        sequence: 11
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
-
-      appearance: 
-        format-mask: SINCE
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: USERNAME ====================================
-      id: 11006641929985213694
-      identification: 
-        column-name: USERNAME
-        type: Plain Text
-
-      heading: 
-        heading: Username
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 7
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -264,24 +217,21 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: ACCESS_LEVEL_ID =============================
-      id: 11006642032582213698
+    - # ====== Column: WORKSPACE ===================================
+      id: 217498573172073145
       identification: 
-        column-name: ACCESS_LEVEL_ID
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: ACCESS_LEVELS # 11006644506832331985
+        column-name: WORKSPACE
+        type: Plain Text
 
       heading: 
-        heading: Access Level
+        heading: Workspace
         alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 8
+        sequence: 21
         column-alignment: start
 
       accessibility: 
@@ -291,7 +241,7 @@ regions:
         primary-key: false
 
       column-filter: 
-        type: Use Named List of Values to Filter Exact Match
+        type: Default Based on Column Type
 
       enable-users-to: 
         hide: true
@@ -305,21 +255,270 @@ regions:
         group-by: true
         pivot: true
 
-    - # ====== Column: ACCOUNT_LOCKED ==============================
-      id: 11006642101893213698
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: WORKSPACE_DISPLAY_NAME ======================
+      id: 217498685447073146
       identification: 
-        column-name: ACCOUNT_LOCKED
+        column-name: WORKSPACE_DISPLAY_NAME
         type: Plain Text
 
       heading: 
-        heading: Account Locked
+        heading: Workspace Display Name
         alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 9
+        sequence: 31
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_ID ==============================
+      id: 217498769484073147
+      identification: 
+        column-name: APPLICATION_ID
+        type: Plain Text
+
+      heading: 
+        heading: Application Id
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 41
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_NAME ============================
+      id: 217498869174073148
+      identification: 
+        column-name: APPLICATION_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Application Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 51
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: USER_NAME ===================================
+      id: 217498953710073149
+      identification: 
+        column-name: USER_NAME
+        type: Plain Text
+
+      heading: 
+        heading: User Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 61
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: USER_NAME_LC ================================
+      id: 217499081779073150
+      identification: 
+        column-name: USER_NAME_LC
+        type: Plain Text
+
+      heading: 
+        heading: User Name Lc
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 71
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ROLE_IDS ====================================
+      id: 229576307639659401
+      identification: 
+        column-name: ROLE_IDS
+        type: Plain Text
+
+      heading: 
+        heading: Role Ids
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 81
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ROLE_NAMES ==================================
+      id: 229576423530659402
+      identification: 
+        column-name: ROLE_NAMES
+        type: Plain Text
+
+      heading: 
+        heading: Role Names
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 91
         column-alignment: start
 
       accessibility: 
@@ -363,47 +562,6 @@ regions:
 
       security: 
         escape-special-characters: false
-
-    - # ====== Column: CREATED_BY ==================================
-      id: 11310212827473136218
-      identification: 
-        column-name: CREATED_BY
-        type: Plain Text
-
-      heading: 
-        heading: Created By
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 3
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
 
 buttons: 
 - # ====== Button: BULK_LOAD ===================================
@@ -513,6 +671,9 @@ buttons:
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 dynamic-actions: 
 - # ====== Dynamic Action: Refresh on Add ======================
