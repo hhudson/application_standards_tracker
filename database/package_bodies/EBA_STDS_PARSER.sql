@@ -559,7 +559,7 @@ is
 
         select lower(act.addl_cols), lower(act.name_column)
         into l_addl_cols, l_name_column
-        from SVT_nested_table_types antt
+        from svt_nested_table_types antt
         inner join svt_component_types act on act.nt_type_id = antt.id
         where act.id = p_svt_component_type_id;
         
@@ -586,7 +586,7 @@ is
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'seed_default_query';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15';
-    l_example_query SVT_nested_table_types.example_query%type;
+    l_example_query svt_nested_table_types.example_query%type;
     l_view             svt_component_types.component_name%type;
     l_pk_value         svt_component_types.pk_value%type;
     l_parent_pk_value  svt_component_types.parent_pk_value%type;
@@ -610,6 +610,7 @@ is
     c_20_spaces       constant varchar2(100) := c_10_spaces||c_10_spaces;
     c_30_spaces       constant varchar2(100) := c_20_spaces||c_10_spaces;
     c_50_spaces       constant varchar2(100) := c_20_spaces||c_20_spaces||c_10_spaces;
+    c_object_name     constant varchar2(25)  := 'object_name';
 
         ------------------------------------------------------------------------------
         -- Nested function to determine whether a given column exists in a given table 
@@ -650,12 +651,14 @@ is
              l_opt_parent_pk_value,
              l_friendly_name,
              l_name_column
-        from SVT_nested_table_types antt
+        from svt_nested_table_types antt
         inner join svt_component_types act on act.nt_type_id = antt.id
         where act.id = p_svt_component_type_id;
 
 
-        l_initials := case when l_view is not null
+        l_initials := case when l_name_column = c_object_name
+                           then 'ao' --for all_objects
+                           when l_view is not null
                            then lower(apex_string.get_initials(l_view,5))
                            else 'st'
                            end;
@@ -716,7 +719,8 @@ is
                                                                      end
                                                                      ||c_workspace
                                   );
-        l_example_query := replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` (app %3%5) REPLACEME', 
+        l_example_query := case when column_exists (c_application_id)
+                                then replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` (app %3%5) REPLACEME', 
         p0 => %0.%4, 
         p1 => %0.application_id%6]',
                                                                         p0 => l_initials,
@@ -730,9 +734,18 @@ is
                                                                         p6 => case when column_exists (c_page_id)
                                                                                    then',
         p2 => '||l_initials||'.page_id'
-        end
+                                                                                   end
                                                                     )
-                                    );
+                                    )
+                                 else replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` REPLACEME', 
+        p0 => %0.%4]',
+                                                                        p0 => l_initials,
+                                                                        p1 => l_friendly_name,
+                                                                        p2 => '%0',
+                                                                        p3 => '%1',
+                                                                        p4 => l_name_column)
+                                            )
+                                 end;
         l_example_query := replace(l_example_query, '%addl_cols%', 
                                     assemble_addlcols(p_initials              => l_initials,
                                                       p_svt_component_type_id => p_svt_component_type_id));

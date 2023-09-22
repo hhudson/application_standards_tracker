@@ -20,7 +20,7 @@ begin
     end if;
     :new.updated := sysdate;
     :new.updated_by := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
-end SVT_nested_table_types_biu;
+end svt_nested_table_types_biu;
 /
 
 ALTER TRIGGER SVT_NESTED_TABLE_TYPES_BIU ENABLE
