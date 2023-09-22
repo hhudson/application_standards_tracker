@@ -334,7 +334,7 @@ $if oracle_apex_version.c_apex_issue_access $then
               case when l_issues_t(i).apex_issue_id is null 
                    then 
                         begin 
-                        insert_section>>
+                        <<insert_section>>
                           apex_debug.message(c_debug_template, 'unqid', l_issues_t(i).unqid);
                           create_issue (p_id             => l_issue_id,
                                         p_title          => l_issues_t(i).issue_title,
