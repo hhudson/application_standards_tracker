@@ -746,7 +746,10 @@ is
                                                  then chr(10)||'left outer join apex_application_build_options aabo2 on  aabo2.build_option_name = '||l_initials||'.'||c_build_option
                                                     ||chr(10)||c_50_spaces||c_3_spaces||'and aabo2.application_id = '||l_initials||'.application_id'
                                                  end;
-        l_example_query := l_example_query||chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')]', l_initials);
+        l_example_query := l_example_query||case when column_exists (c_workspace)
+                                                 then chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')]', l_initials)
+                                                 else chr(10)||apex_string.format(q'[where 1=1]', l_initials)
+                                                 end;
         l_example_query := l_example_query||case when column_exists (c_page_id) and l_view != 'apex_application_pages'
                                                  then chr(10)||q'[and coalesce(aabo1.status_on_export,'NA') != 'Exclude']'
                                                  end;
