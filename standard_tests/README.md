@@ -86,6 +86,7 @@ These are standards to maintain Accessibility.
 |-----------|-----------|---------|----------------|
 | [ALPH_AI_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AI_NAMING.json) |  Application Items should be correctly named | v1.2 | APEX_APPLICATION_ITEMS |
 | [ALPH_AP_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AP_NAMING.json) |  Application Processes should be correctly named | v1 | APEX_APPLICATION_PROCESSES |
+| [ALPH_BTN_STC_ID_NM](APEX_ALPHAWAVE_212/tests/ALPH_BTN_STC_ID_NM.json) |  Button Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [ALPH_ERROR_HANDLING](APEX_ALPHAWAVE_212/tests/ALPH_ERROR_HANDLING.json) |  Applications should have the correct error handling function set | v1.1 | APEX_APPLICATIONS |
 | [ALPH_RGN_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_RGN_NAMING.json) |  Region Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_REGIONS |
 | [DRAWERS_NOT_MODALS](APEX_ALPHAWAVE_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
@@ -99,9 +100,12 @@ These are standards to maintain Accessibility.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [ALPH_MV_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1 | DATABASE MATERIALIZED VIEW |
+| [ALPH_MV_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1.1 | DATABASE MATERIALIZED VIEW |
+| [ALPH_VIEW_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_VIEW_NAME.json) |  Alphawave Views must be correctly named | v1.1 | DATABASE VIEW |
 | [IDENTIFIER_NAMING](DB_ALPHAWAVE_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
 | [TBL_AUDIT_COLS](DB_ALPHAWAVE_OBJECT_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1 | DATABASE TABLE |
+| [USE_CHAR_NOT_BYTE](DB_ALPHAWAVE_OBJECT_19C/tests/USE_CHAR_NOT_BYTE.json) |  Use Char not Bytes | v1 | DATABASE TABLE |
+| [USE_TS_W_TZ](DB_ALPHAWAVE_OBJECT_19C/tests/USE_TS_W_TZ.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 | DATABASE TABLE |
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
@@ -192,7 +196,7 @@ These tests run against the DB objects and therefore may be hard to associate wi
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [DBMS_ASSERT](DB_OBJECT_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.4 | DATABASE SUPPORTING OBJECT |
-| [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.3 | DATABASE SUPPORTING OBJECT |
+| [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.4 | DATABASE SUPPORTING OBJECT |
 | [DUPLICATE_STATEMENTS](DB_OBJECT_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.3 | DATABASE SUPPORTING OBJECT |
 | [FK_INDEXED](DB_OBJECT_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.1 | DATABASE TABLE |
 | [IDENTIFIER_NAMING](DB_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
@@ -200,7 +204,7 @@ These tests run against the DB objects and therefore may be hard to associate wi
 | [UNUSED_IDENTIFIERS](DB_OBJECT_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1.1 | DATABASE SUPPORTING OBJECT |
 | [URGENT_PLSQL_WARNINGS](DB_OBJECT_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1.1 | DATABASE SUPPORTING OBJECT |
 | [VALID_OBJECTS](DB_OBJECT_19C/tests/VALID_OBJECTS.json) |  Invalid Object | v1.2 | DATABASE SUPPORTING OBJECT |
-| [VALID_VIEW](DB_OBJECT_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1 | DATABASE VIEW |
+| [VALID_VIEW](DB_OBJECT_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1.1 | DATABASE VIEW |
 
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
