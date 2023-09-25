@@ -84,11 +84,10 @@ These are standards to maintain Accessibility.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [ALPH_AI_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AI_NAMING.json) |  Application Items should be correctly named | v1.1 | APEX_APPLICATION_ITEMS |
+| [ALPH_AI_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AI_NAMING.json) |  Application Items should be correctly named | v1.2 | APEX_APPLICATION_ITEMS |
 | [ALPH_AP_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AP_NAMING.json) |  Application Processes should be correctly named | v1 | APEX_APPLICATION_PROCESSES |
-| [ALPH_BTN_STC_ID_NM](APEX_ALPHAWAVE_212/tests/ALPH_BTN_STC_ID_NM.json) |  Button Static IDs should be correctly named | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [ALPH_ERROR_HANDLING](APEX_ALPHAWAVE_212/tests/ALPH_ERROR_HANDLING.json) |  Applications should have the correct error handling function set | v1.1 | APEX_APPLICATIONS |
-| [ALPH_RGN_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_RGN_NAMING.json) |  Region Static IDs should be correctly named | v1 | APEX_APPLICATION_PAGE_REGIONS |
+| [ALPH_RGN_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_RGN_NAMING.json) |  Region Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_REGIONS |
 | [DRAWERS_NOT_MODALS](APEX_ALPHAWAVE_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
 | [PAGE_ITEM_NAMING](APEX_ALPHAWAVE_212/tests/PAGE_ITEM_NAMING.json) |  Page Items incorrectly prefixed | v1 | APEX_APPLICATION_PAGE_ITEMS |
 
@@ -101,7 +100,6 @@ These are standards to maintain Accessibility.
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [ALPH_MV_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1 | DATABASE MATERIALIZED VIEW |
-| [ALPH_VIEW_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_VIEW_NAME.json) |  Alphawave Views must be correctly named | v1 | DATABASE VIEW |
 | [IDENTIFIER_NAMING](DB_ALPHAWAVE_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
 | [TBL_AUDIT_COLS](DB_ALPHAWAVE_OBJECT_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1 | DATABASE TABLE |
 

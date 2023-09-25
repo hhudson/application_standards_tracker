@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset table_type_script:V_SVT_DB_VIEW__0_NT stripComments:false endDelimiter:/
+--changeset table_type_script:V_SVT_DB_VIEW__0_NT stripComments:false endDelimiter:/ runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(1) from all_types where upper(type_name) = upper('V_SVT_DB_VIEW__0_NT');
 -- set serveroutput on

@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset trigger_script:SVT_NESTED_TABLE_TYPES_BIU stripComments:false  endDelimiter:/ 
+--changeset trigger_script:SVT_NESTED_TABLE_TYPES_BIU stripComments:false  endDelimiter:/ runOnChange:true
 --------------------------------------------------------------------------------
 --
 --      Author:  hayden.h.hudson@oracle.com
