@@ -873,7 +873,7 @@ create or replace package body SVT_STANDARD_VIEW as
       close cur_v_svt;
     when e_missing_field then
       apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
+      raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm||' ['||p_test_code||']');
     when no_data_found then
       apex_debug.warn(c_debug_template,'no data found for test code', p_test_code);
     when others then

@@ -287,9 +287,9 @@ These are best practices that apply to Universal Theme applications.
 | [COL_ALIGNMENT_CLASSIC](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_CLASSIC.json) |  Classic Columns are correctly aligned | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [COL_ALIGNMENT_IG](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IG.json) |  IG Columns are correctly aligned | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [COL_ALIGNMENT_IR](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IR.json) |  IR Columns are correctly aligned | v1 | APEX_APPLICATION_PAGE_IR_COL |
-| [COL_HEADERS_C](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_C.json) |  Classic Column header is appropriate | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
-| [COL_HEADERS_IR](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_IR.json) |  IR Column header is appropriate | v1 | APEX_APPLICATION_PAGE_IR_COL |
-| [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG.json) |  Reflow / Toggle Column header is appropriate | v1 | APEX_APPLICATION_PAGE_REG_COLS |
+| [COL_HEADERS_C](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_C.json) |  Classic Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_HEADERS_IR](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_IR.json) |  IR Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG.json) |  Reflow / Toggle Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_REG_COLS |
 | [FIELD_NAMES](APEX_UNIVERSAL_THEME_212/tests/FIELD_NAMES.json) |  Form field label is appropriate | v1.1 | APEX_APPLICATION_PAGE_ITEMS |
 | [FILTER_RGN_TMPLT](APEX_UNIVERSAL_THEME_212/tests/FILTER_RGN_TMPLT.json) |  Filtered Regions has Card Container template | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [FORM_ITEM_HELP](APEX_UNIVERSAL_THEME_212/tests/FORM_ITEM_HELP.json) |  Form Elements should have help text | v1 | APEX_APPLICATION_PAGE_ITEMS |
