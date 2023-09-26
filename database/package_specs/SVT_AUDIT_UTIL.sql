@@ -73,10 +73,7 @@ end;
 /*
 begin
  svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('svt_default_schema'));
- svt_audit_util.merge_audit_tbl(
-                    p_test_code => 'SERT',
-                    p_application_id => 17000033,
-                    p_page_id => 1);
+ svt_audit_util.merge_audit_tbl(p_issue_category => 'APEX');
  commit;
 end;
 */

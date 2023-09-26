@@ -295,7 +295,7 @@ create or replace package body SVT_MONITORING as
          pad.test_code,
          dense_rank() over ( partition by assignee, test_code order by audit_id desc) print_rank
       from v_svt_plsql_apex_audit pad
-      where created > 
+      where coalesce(apex_created_on, created) > 
               case when to_char(sysdate, 'fmdy') not in ('mon')
                   then sysdate - p_days_since
                   else sysdate - (p_days_since + 2)
