@@ -26,6 +26,11 @@ elif [[ "$ADM_OPTION" == "3 - Install APEX app" ]]; then
   echo -e "Gen option : ${COLOR_LIGHT_GREEN}3 - Install APEX app${COLOR_RESET}"
   install_apex_app
 
+elif [[ "$ADM_OPTION" == "4 - Export results JSON file" ]]; then
+
+  echo -e "Gen option : ${COLOR_LIGHT_GREEN}4 - Exporting results JSON file${COLOR_RESET}"
+  export_results
+
 else
 
   echo -e "Gen option : ${COLOR_RED}unknown option${COLOR_RESET}"

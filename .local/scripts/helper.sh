@@ -653,6 +653,17 @@ export_tests() {
 
 } # export_tests
 
+export_results() {
+  # echo "log : export_results"
+
+  cd $PROJECT_DIR
+  
+  echo exit | $VSCODE_TASK_COMPILE_BIN $DB_CONN -s $SCRIPT_DIR/export_dva_script.sql
+
+  rm standard_tests/temp_dva_script.sql
+
+} # export_results
+
 run_test() {
   # echo "log : run test"
   # Parameters

@@ -1,0 +1,1 @@
+export of the SVT_PLSQL_APEX_AUDIT table for VPAT purposes
