@@ -10,7 +10,7 @@ These are standards to maintain Accessibility.
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE.json) |  Some fields benefit from an autocomplete attribute | v1 | APEX_APPLICATION_PAGE_ITEMS |
-| [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ.json) |  Button labels should be unique per page | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ.json) |  Button labels should be unique per page | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [ACC_CARD_LINK](APEX_ACCESSIBILITY_212/tests/ACC_CARD_LINK.json) |  Card link require titles and arias | v1.1 | APEX_APPL_PAGE_CARD_ACTIONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS.json) |  DA should avoid "get focus" events | v1 | APEX_APPLICATION_PAGE_DA |
 | [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT.json) |  DA should avoid mouse events | v1.1 | APEX_APPLICATION_PAGE_DA |
@@ -123,7 +123,7 @@ These tests identify functionality that invalid.
 | [IR_COL_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/IR_COL_AUTHR_MATCH_DEST.json) |  IR Column Link Authorization Matches Destination  | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [NLE_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/NLE_AUTHR_MATCH_DEST.json) |  Navigation List Entry Authorization Matches Destination | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGES_CURRENT_IN_MENU](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGES_CURRENT_IN_MENU.json) |  Regular Pages should be Current in Navigation | v1 | APEX_APPLICATION_PAGES |
-| [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR.json) |  Pages should not have unresolved critical issues | v1 | APEX_APPLICATION_PAGES |
+| [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR.json) |  Pages should not have unresolved critical issues | v1.1 | APEX_APPLICATION_PAGES |
 | [PB_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/PB_AUTHR_MATCH_DEST.json) |  Page Branch Authorization Matches Destination | v1 | APEX_APPLICATION_PAGES |
 | [PUBLIC_PAGE_PUBLIC_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/PUBLIC_PAGE_PUBLIC_AUTH.json) |  Public pages should not require authentication | v1 | APEX_APPLICATION_PAGES |
 | [UNREACHABLE_PAGE](APEX_BROKEN_FUNCTIONALITY_212/tests/UNREACHABLE_PAGE.json) |  Pages should be reachable | v1 | APEX_APPLICATION_PAGES |
@@ -170,20 +170,20 @@ Standards that are *not* general standards
 | [APP_ITEM_NAMING](APEX_IDIOSYNCRATIC_212/tests/APP_ITEM_NAMING.json) |  Application Item incorrectly prefixed | v1 | APEX_APPLICATION_ITEMS |
 | [AST_BREADCRUMB_STYLING](APEX_IDIOSYNCRATIC_212/tests/AST_BREADCRUMB_STYLING.json) |  AST Breadcrumbs are correctly styled | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [AST_BUTTONS_HAVE_ICONS](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTONS_HAVE_ICONS.json) |  All AST Standard Buttons have left-sided icons | v1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE.json) |  AST buttons should be simple | v1.2 | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE.json) |  AST buttons should be simple | v1.3 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_CANCEL_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_CANCEL_BUTTON.json) |  All Cancel buttons should be default | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON.json) |  Delete buttons should be correctly styled | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_MERGE_SAMPLE_DATA](APEX_IDIOSYNCRATIC_212/tests/AST_MERGE_SAMPLE_DATA.json) |  "Merge sample data" are consistently styled | v1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH.json) |  SVT Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
+| [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH.json) |  SVT Application Pages should have Authorization Schemes | v1.1 | APEX_APPLICATION_PAGES |
 | [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST.json) |  Breadcrumb hierarchy should match nav menu | v1.1 | APEX_APPLICATION_BC_ENTRIES |
-| [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1.2 | APEX_APPLICATION_PAGE_BUTTONS |
+| [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1.3 | APEX_APPLICATION_PAGE_BUTTONS |
 | [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES.json) |  Page names should be human friendly | v1 | APEX_APPLICATION_PAGES |
 | [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions | v1.1 | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS.json) |  Navigation menu list entries should have icons | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION.json) |  Form pages require authentication and have access protection | v1 | APEX_APPLICATION_PAGES |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER.json) |  RDS regions should have a template of Tabs Container | v1 | APEX_APPLICATION_PAGE_REGIONS |
-| [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE.json) |  Reset buttons should be styled in a consistent way | v1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE.json) |  Reset buttons should be styled in a consistent way | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS.json) |  Button names and labels should be correctly capitalized | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_SAVE_BUTTONS](APEX_IDIOSYNCRATIC_212/tests/SVT_SAVE_BUTTONS.json) |  Update buttons must be labelled "Save" | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 
@@ -285,7 +285,6 @@ These are best practices that apply to Universal Theme applications.
 | [APP_CSS_FILE](APEX_UNIVERSAL_THEME_212/tests/APP_CSS_FILE.json) |  Apps should have a centralized css file | v1 | APEX_APPLICATIONS |
 | [BUTTON_DEFAULT_SIZE](APEX_UNIVERSAL_THEME_212/tests/BUTTON_DEFAULT_SIZE.json) |  Button size should be default | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [BUTTON_STYLING](APEX_UNIVERSAL_THEME_212/tests/BUTTON_STYLING.json) |  Buttons should be styled correctly | v1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [CLASSIC_REPORT_STYLE](APEX_UNIVERSAL_THEME_212/tests/CLASSIC_REPORT_STYLE.json) |  Classic Report should be correctly styled | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [COL_ALIGNMENT_CLASSIC](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_CLASSIC.json) |  Classic Columns are correctly aligned | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [COL_ALIGNMENT_IG](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IG.json) |  IG Columns are correctly aligned | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [COL_ALIGNMENT_IR](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IR.json) |  IR Columns are correctly aligned | v1 | APEX_APPLICATION_PAGE_IR_COL |

@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -179,17 +180,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
-
-      link: 
-        target: 
-          url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:#PARENT_STANDARD_ID#'
-          page: 5 # Tests by Standard
-          clear-cache: 5
-          values: 
-            p5_id: '#PARENT_STANDARD_ID#'
-
-        link-text: '#PARENT_STANDARD_ID#'
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -230,17 +221,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
-
-      link: 
-        target: 
-          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:#TEST_CODE#'
-          page: 14 # Manage Test
-          clear-cache: 14
-          values: 
-            p14_test_code: '#TEST_CODE#'
-
-        link-text: '#TEST_ID#'
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -281,17 +262,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
-
-      link: 
-        target: 
-          url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:#STANDARD_ID#'
-          page: 5 # Tests by Standard
-          clear-cache: 5
-          values: 
-            p5_id: '#STANDARD_ID#'
-
-        link-text: '#STANDARD_ID#'
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -420,7 +391,7 @@ buttons:
     label: Create
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Inherited test relationships # 229544523402650244
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -431,9 +402,10 @@ buttons:
 
   appearance: 
     button-template: Icon # 7800080132300934984
-    hot: false
+    hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--noUI
     icon: fa-plus
 
   behavior: 
@@ -442,6 +414,41 @@ buttons:
       url: 'f?p=&APP_ID.:79:&APP_SESSION.::&DEBUG.:79::'
       page: 79 # Manage Inherited tests
       clear-cache: 79
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RESET =======================================
+  id: 229577347114659411
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Inherited test relationships # 229544523402650244
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:78:&SESSION.::&DEBUG.:RR,::'
+      page: 78 # Inherited test relationships
+      clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
 
