@@ -117,6 +117,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
   server-cache: 
     caching: Disabled
 
@@ -328,7 +331,7 @@ page-items:
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: false
+    start-new-row: true
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -430,6 +433,59 @@ page-items:
 
   help: 
     help-text: To whom should violations be assigned failing other available assignees?
+
+- # ====== Page Item: P45_SVT_ADMIN_VERSION_YN =================
+  id: 229577802078659416
+  identification: 
+    name: P45_SVT_ADMIN_VERSION_YN
+    type: Switch
+
+  label: 
+    label: Is this an Admin version of this app install?
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 40
+    region: Advanced # 372947557735094658
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get_preference ('SVT_ADMIN_VERSION_YN')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Should this app have the full functionality of the admin install? Or is there another dev environment that gets deployed over this version periodically?
 
 - # ====== Page Item: P45_SVT_FROM_EMAIL =======================
   id: 342029869947566345
@@ -1463,7 +1519,7 @@ processes:
       end;
 
   execution: 
-    sequence: 140
+    sequence: 150
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1500,12 +1556,45 @@ processes:
       end;
 
   execution: 
-    sequence: 170
+    sequence: 180
     point: Processing
     run-process: Once Per Page Visit (default)
 
   error: 
     display-location: Inline in Notification
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: P45_ADMIN_VERSION_YN =======================
+  id: 229577904666659417
+  identification: 
+    name: P45_ADMIN_VERSION_YN
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_ADMIN_VERSION_YN',
+              p_value => :P45_SVT_ADMIN_VERSION_YN
+          );
+      end;
+
+  execution: 
+    sequence: 130
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_ADMIN_VERSION_YN
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
@@ -1529,7 +1618,7 @@ processes:
       end;
 
   execution: 
-    sequence: 130
+    sequence: 140
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1562,7 +1651,7 @@ processes:
       end;
 
   execution: 
-    sequence: 150
+    sequence: 160
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1595,7 +1684,7 @@ processes:
       end;
 
   execution: 
-    sequence: 160
+    sequence: 170
     point: Processing
     run-process: Once Per Page Visit (default)
 

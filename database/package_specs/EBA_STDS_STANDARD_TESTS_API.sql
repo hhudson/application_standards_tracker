@@ -151,11 +151,9 @@ end;
 --
 /*
 select eba_stds_standard_tests_api.build_test_md5 (
-        p_standard_id           => esst.standard_id,
         p_test_name             => esst.test_name,
         p_query_clob            => esst.query_clob,
         p_test_code             => esst.test_code,
-        p_active_yn             => esst.active_yn,
         p_level_id              => esst.level_id,
         p_mv_dependency         => esst.mv_dependency,
         p_svt_component_type_id => esst.svt_component_type_id,
@@ -171,7 +169,7 @@ from eba_stds_standard_tests esst;
       p_test_name             in eba_stds_standard_tests.test_name%type,
       p_query_clob            in eba_stds_standard_tests.query_clob%type,
       p_test_code             in eba_stds_standard_tests.test_code%type,
-      p_active_yn             in eba_stds_standard_tests.active_yn%type,
+      -- p_active_yn             in eba_stds_standard_tests.active_yn%type,
       p_level_id              in eba_stds_standard_tests.level_id%type,
       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
       p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,

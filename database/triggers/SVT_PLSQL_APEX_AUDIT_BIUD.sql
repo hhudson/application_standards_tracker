@@ -13,15 +13,19 @@ create or replace trigger SVT_PLSQL_APEX_AUDIT_BIUD
     before insert or update or delete
     on SVT_PLSQL_APEX_AUDIT
     for each row
+declare
+    pragma autonomous_transaction; --bid to help ORA-04088: error during execution of trigger 'LOKI.LOKI_DDL_TGR'
 begin
     if inserting then
        insert into SVT_AUDIT_ON_AUDIT 
               (     unqid, action_name,      test_code, audit_id,      validation_failure_message)
        values (:new.unqid, 'INSERT'   , :new.test_code,  :new.id, :new.validation_failure_message);
+        commit;
     elsif deleting then
        insert into svt_audit_on_audit 
               (     unqid, action_name,      test_code, audit_id,      validation_failure_message)
        values (:old.unqid, 'DELETE'   , :old.test_code,  :old.id, :old.validation_failure_message);
+        commit;
     end if;
 end SVT_PLSQL_APEX_AUDIT_BIUD;
 /

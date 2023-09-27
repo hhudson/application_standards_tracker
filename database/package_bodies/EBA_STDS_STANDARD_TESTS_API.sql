@@ -149,7 +149,7 @@ create or replace package body eba_stds_standard_tests_api as
       p_test_name             in eba_stds_standard_tests.test_name%type,
       p_query_clob            in eba_stds_standard_tests.query_clob%type,
       p_test_code             in eba_stds_standard_tests.test_code%type,
-      p_active_yn             in eba_stds_standard_tests.active_yn%type,
+      -- p_active_yn             in eba_stds_standard_tests.active_yn%type,
       p_level_id              in eba_stds_standard_tests.level_id%type,
       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
       p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
@@ -169,7 +169,7 @@ create or replace package body eba_stds_standard_tests_api as
         p_test_name,
         p_query_clob,
         p_test_code,
-        p_active_yn,
+        -- p_active_yn,
         p_level_id,
         p_mv_dependency,
         p_svt_component_type_id,
@@ -206,7 +206,7 @@ create or replace package body eba_stds_standard_tests_api as
                       l_test_rec.test_name,
                       l_test_rec.query_clob,
                       l_test_rec.test_code,
-                      l_test_rec.active_yn,
+                      -- l_test_rec.active_yn,
                       l_test_rec.level_id,
                       l_test_rec.mv_dependency,
                       l_test_rec.svt_component_type_id,
@@ -300,8 +300,8 @@ create or replace package body eba_stds_standard_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   
-  l_current_md5  varchar2(32767) := null;
-  l_new_md5      varchar2(32767) := null;
+  -- l_current_md5  varchar2(32767) := null;
+  -- l_new_md5      varchar2(32767) := null;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -315,25 +315,25 @@ create or replace package body eba_stds_standard_tests_api as
                                         );
 
 
-    l_current_md5 := current_md5(p_test_code => p_test_code);
+    -- l_current_md5 := current_md5(p_test_code => p_test_code);
 
-    l_new_md5 := build_test_md5(
-                      -- p_standard_id,
-                      p_test_name,
-                      p_query_clob,
-                      p_test_code,
-                      p_active_yn,
-                      p_level_id,
-                      p_mv_dependency,
-                      p_svt_component_type_id,
-                      p_explanation,
-                      p_fix,
-                      p_version_number
-                  );
+    -- l_new_md5 := build_test_md5(
+    --                   -- p_standard_id,
+    --                   p_test_name,
+    --                   p_query_clob,
+    --                   p_test_code,
+    --                   p_active_yn,
+    --                   p_level_id,
+    --                   p_mv_dependency,
+    --                   p_svt_component_type_id,
+    --                   p_explanation,
+    --                   p_fix,
+    --                   p_version_number
+    --               );
  
-    if l_current_md5 = l_new_md5 then
-      apex_debug.message(c_debug_template, '. nothing to update');
-    else 
+    -- if l_current_md5 = l_new_md5 then
+    --   apex_debug.message(c_debug_template, '. nothing to update');
+    -- else 
       update eba_stds_standard_tests set
         standard_id           = p_standard_id,
         test_name             = p_test_name,
@@ -349,7 +349,7 @@ create or replace package body eba_stds_standard_tests_api as
         fix                   = p_fix,
         version_number        = p_version_number
       where id = p_id;
-    end if;
+    -- end if;
   
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -641,7 +641,7 @@ begin
                                           p_test_name             => l_aat (rec).test_name,
                                           p_query_clob            => l_aat (rec).query_clob,
                                           p_test_code             => l_aat (rec).test_code,
-                                          p_active_yn             => l_aat (rec).active_yn,
+                                          -- p_active_yn             => l_aat (rec).active_yn,
                                           p_level_id              => l_aat (rec).level_id,
                                           p_mv_dependency         => l_aat (rec).mv_dependency,
                                           p_svt_component_type_id => l_aat (rec).svt_component_type_id,

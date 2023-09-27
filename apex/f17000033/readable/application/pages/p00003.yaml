@@ -54,7 +54,8 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select ess.id,
+      select 2 display_sequence,
+             ess.id,
              ess.standard_name standard,
              case when ess.active_yn = 'Y'
                   then 'Yes'
@@ -99,7 +100,8 @@ regions:
           from eba_stds_inherited_tests
           group by standard_id) it on it.standard_id = ess.id
       union all
-      select null id,
+      select 1 display_sequence,
+              null id,
              'All' standard,
              'Yes' active_yn,
              'All' card_title,
@@ -216,7 +218,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -248,7 +250,41 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DISPLAY_SEQUENCE ============================
+    id: 229578090438659418
+    identification: 
+      column-name: DISPLAY_SEQUENCE
+      type: Plain Text
+
+    heading: 
+      heading: Display Sequence
+      alignment: end
+
+    layout: 
+      sequence: 24
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -273,14 +309,14 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 24
+      sequence: 44
       column-alignment: start
 
     accessibility: 
       value-identifies-row: true
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -305,14 +341,14 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 34
+      sequence: 54
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -337,14 +373,14 @@ regions:
       alignment: end
 
     layout: 
-      sequence: 44
+      sequence: 64
       column-alignment: end
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -369,7 +405,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 54
+      sequence: 34
       column-alignment: start
 
     accessibility: 
@@ -378,7 +414,7 @@ regions:
     sorting: 
       default-sequence: 2
       direction: Ascending
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -403,14 +439,14 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 64
+      sequence: 84
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -450,14 +486,14 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 84
+      sequence: 94
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -489,7 +525,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -521,7 +557,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -553,7 +589,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -585,7 +621,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -617,7 +653,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -649,7 +685,7 @@ regions:
       value-identifies-row: false
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true

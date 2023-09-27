@@ -309,7 +309,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                       l_lib_rec.test_name,
                       l_lib_rec.query_clob,
                       l_lib_rec.test_code,
-                      l_lib_rec.active_yn,
+                      -- l_lib_rec.active_yn,
                       l_lib_rec.level_id,
                       l_lib_rec.mv_dependency,
                       l_lib_rec.svt_component_type_id,
