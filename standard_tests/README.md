@@ -70,42 +70,9 @@ These are standards to maintain Accessibility.
 | [PI_TABINDX](APEX_ACCESSIBILITY_212/tests/PI_TABINDX.json) |  Page items should avoid hardcoded indexes | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_VLD_LBL](APEX_ACCESSIBILITY_212/tests/PI_VLD_LBL.json) |  Page Items have valid label and no blank spaces | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [PRNT_TAB_INDX](APEX_ACCESSIBILITY_212/tests/PRNT_TAB_INDX.json) |  Parent tab should avoid hard coded tab indexes | v1 | APEX_APPLICATION_PARENT_TABS |
-| [RGN_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/RGN_IMG_ALT_TEXT.json) |  Regions with HTML images should have alt text | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RGN_UNQ](APEX_ACCESSIBILITY_212/tests/RGN_UNQ.json) |  Regions on a page must be unique | v1 | APEX_APPLICATION_PAGE_REGIONS |
-| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER.json) |  Region should have Row Header | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML.json) |  Static Content HTML is well formed | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC.json) |  Theme styles should avoid animations | v1 | APEX_APPLICATION_THEME_STYLES |
-
-## Alphawave (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-
-
- - [Standard export](APEX_ALPHAWAVE_212/STANDARD-APEX_ALPHAWAVE_212.json)
- - [Consolidated tests export](APEX_ALPHAWAVE_212/ALL_TESTS-APEX_ALPHAWAVE_212.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-| [ALPH_AI_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AI_NAMING.json) |  Application Items should be correctly named | v1.2 | APEX_APPLICATION_ITEMS |
-| [ALPH_AP_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_AP_NAMING.json) |  Application Processes should be correctly named | v1 | APEX_APPLICATION_PROCESSES |
-| [ALPH_BTN_STC_ID_NM](APEX_ALPHAWAVE_212/tests/ALPH_BTN_STC_ID_NM.json) |  Button Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [ALPH_ERROR_HANDLING](APEX_ALPHAWAVE_212/tests/ALPH_ERROR_HANDLING.json) |  Applications should have the correct error handling function set | v1.1 | APEX_APPLICATIONS |
-| [ALPH_RGN_NAMING](APEX_ALPHAWAVE_212/tests/ALPH_RGN_NAMING.json) |  Region Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_REGIONS |
-| [DRAWERS_NOT_MODALS](APEX_ALPHAWAVE_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
-| [PAGE_ITEM_NAMING](APEX_ALPHAWAVE_212/tests/PAGE_ITEM_NAMING.json) |  Page Items incorrectly prefixed | v1 | APEX_APPLICATION_PAGE_ITEMS |
-
-## Alphawave Object (Database Version 19C)
-
-
- - [Standard export](DB_ALPHAWAVE_OBJECT_19C/STANDARD-DB_ALPHAWAVE_OBJECT_19C.json)
- - [Consolidated tests export](DB_ALPHAWAVE_OBJECT_19C/ALL_TESTS-DB_ALPHAWAVE_OBJECT_19C.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-| [ALPH_MV_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1.1 | DATABASE MATERIALIZED VIEW |
-| [ALPH_VIEW_NAME](DB_ALPHAWAVE_OBJECT_19C/tests/ALPH_VIEW_NAME.json) |  Alphawave Views must be correctly named | v1.1 | DATABASE VIEW |
-| [IDENTIFIER_NAMING](DB_ALPHAWAVE_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
-| [TBL_AUDIT_COLS](DB_ALPHAWAVE_OBJECT_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1 | DATABASE TABLE |
-| [USE_CHAR_NOT_BYTE](DB_ALPHAWAVE_OBJECT_19C/tests/USE_CHAR_NOT_BYTE.json) |  Use Char not Bytes | v1 | DATABASE TABLE |
-| [USE_TS_W_TZ](DB_ALPHAWAVE_OBJECT_19C/tests/USE_TS_W_TZ.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 | DATABASE TABLE |
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
@@ -153,10 +120,38 @@ Best practices to keep things tidy
 | [PAGE_PROC_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_PROC_AVAILABLE.json) |  Page procedures should be available | v1 | APEX_APPLICATION_PAGE_PROC |
 | [PAGE_VAL_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_VAL_AVAILABLE.json) |  Page Validations should be available | v1 | APEX_APPLICATION_PAGE_VAL |
 | [SEARCH_SOURCES_AVAILABLE](APEX_CLEANUP_212/tests/SEARCH_SOURCES_AVAILABLE.json) |  Search Sources should be available | v1 | APEX_APPL_PAGE_SEARCH_SOURCES |
-| [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION.json) |  Themes should be specific numbers and subscribed | v1 | APEX_APPLICATION_THEME_STYLES |
+| [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION.json) |  Themes should be specific numbers and subscribed | v1.1 | APEX_APPLICATION_THEME_STYLES |
 | [TOO_MANY_REGIONS](APEX_CLEANUP_212/tests/TOO_MANY_REGIONS.json) |  Pages should limit their content | v1 | APEX_APPLICATION_PAGES |
 | [VAL_BUILD_LIST_ENTRY](APEX_CLEANUP_212/tests/VAL_BUILD_LIST_ENTRY.json) |  List entries should have valid build options | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD.json) |  Pages should have valid build options | v1 | APEX_APPLICATION_PAGES |
+
+## General (Database Version 19C)
+These tests run against the DB objects and therefore may be hard to associate with a given application. They can be associated with the Application Standards Tracker app.
+
+ - [Standard export](DB_GENERAL_19C/STANDARD-DB_GENERAL_19C.json)
+ - [Consolidated tests export](DB_GENERAL_19C/ALL_TESTS-DB_GENERAL_19C.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+| [DBMS_ASSERT](DB_GENERAL_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.4 | DATABASE SUPPORTING OBJECT |
+| [DISCOURAGED_CODE](DB_GENERAL_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.4 | DATABASE SUPPORTING OBJECT |
+| [DUPLICATE_STATEMENTS](DB_GENERAL_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.3 | DATABASE SUPPORTING OBJECT |
+| [FK_INDEXED](DB_GENERAL_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.1 | DATABASE TABLE |
+| [IDENTIFIER_NAMING](DB_GENERAL_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
+| [MISSING_COMMENT](DB_GENERAL_19C/tests/MISSING_COMMENT.json) |  Missing Comments | v1.1 | DATABASE SUPPORTING OBJECT |
+| [UNUSED_IDENTIFIERS](DB_GENERAL_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1.1 | DATABASE SUPPORTING OBJECT |
+| [URGENT_PLSQL_WARNINGS](DB_GENERAL_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1.1 | DATABASE SUPPORTING OBJECT |
+| [VALID_OBJECTS](DB_GENERAL_19C/tests/VALID_OBJECTS.json) |  Invalid Object | v1.2 | DATABASE SUPPORTING OBJECT |
+| [VALID_VIEW](DB_GENERAL_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1.1 | DATABASE VIEW |
+
+## General (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
+Non theme specific standards
+
+ - [Standard export](APEX_GENERAL_212/STANDARD-APEX_GENERAL_212.json)
+ - [Consolidated tests export](APEX_GENERAL_212/ALL_TESTS-APEX_GENERAL_212.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
 
 ## Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards that are *not* general standards
@@ -187,24 +182,33 @@ Standards that are *not* general standards
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS.json) |  Button names and labels should be correctly capitalized | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_SAVE_BUTTONS](APEX_IDIOSYNCRATIC_212/tests/SVT_SAVE_BUTTONS.json) |  Update buttons must be labelled "Save" | v1 | APEX_APPLICATION_PAGE_BUTTONS |
 
-## Object (Database Version 19C)
-These tests run against the DB objects and therefore may be hard to associate with a given application. They can be associated with the Application Standards Tracker app.
+## Millenium Gen2 (Database Version 19C)
 
- - [Standard export](DB_OBJECT_19C/STANDARD-DB_OBJECT_19C.json)
- - [Consolidated tests export](DB_OBJECT_19C/ALL_TESTS-DB_OBJECT_19C.json)
+
+ - [Standard export](DB_MILLENIUM_GEN2_19C/STANDARD-DB_MILLENIUM_GEN2_19C.json)
+ - [Consolidated tests export](DB_MILLENIUM_GEN2_19C/ALL_TESTS-DB_MILLENIUM_GEN2_19C.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [DBMS_ASSERT](DB_OBJECT_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.4 | DATABASE SUPPORTING OBJECT |
-| [DISCOURAGED_CODE](DB_OBJECT_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.4 | DATABASE SUPPORTING OBJECT |
-| [DUPLICATE_STATEMENTS](DB_OBJECT_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.3 | DATABASE SUPPORTING OBJECT |
-| [FK_INDEXED](DB_OBJECT_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.1 | DATABASE TABLE |
-| [IDENTIFIER_NAMING](DB_OBJECT_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
-| [MISSING_COMMENT](DB_OBJECT_19C/tests/MISSING_COMMENT.json) |  Missing Comments | v1.1 | DATABASE SUPPORTING OBJECT |
-| [UNUSED_IDENTIFIERS](DB_OBJECT_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1.1 | DATABASE SUPPORTING OBJECT |
-| [URGENT_PLSQL_WARNINGS](DB_OBJECT_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1.1 | DATABASE SUPPORTING OBJECT |
-| [VALID_OBJECTS](DB_OBJECT_19C/tests/VALID_OBJECTS.json) |  Invalid Object | v1.2 | DATABASE SUPPORTING OBJECT |
-| [VALID_VIEW](DB_OBJECT_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1.1 | DATABASE VIEW |
+| [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1.1 | DATABASE MATERIALIZED VIEW |
+| [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME.json) |  Alphawave Views must be correctly named | v1.1 | DATABASE VIEW |
+| [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1 | DATABASE TABLE |
+| [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE.json) |  Use Char not Bytes | v1 | DATABASE TABLE |
+| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 | DATABASE TABLE |
+
+## Millenium Gen2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
+
+
+ - [Standard export](APEX_MILLENIUM_GEN2_212/STANDARD-APEX_MILLENIUM_GEN2_212.json)
+ - [Consolidated tests export](APEX_MILLENIUM_GEN2_212/ALL_TESTS-APEX_MILLENIUM_GEN2_212.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+| [ALPH_AI_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AI_NAMING.json) |  Application Items should be correctly named | v1.2 | APEX_APPLICATION_ITEMS |
+| [ALPH_AP_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AP_NAMING.json) |  Application Processes should be correctly named | v1 | APEX_APPLICATION_PROCESSES |
+| [ALPH_BTN_STC_ID_NM](APEX_MILLENIUM_GEN2_212/tests/ALPH_BTN_STC_ID_NM.json) |  Button Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING.json) |  Applications should have the correct error handling function set | v1.1 | APEX_APPLICATIONS |
+| [ALPH_RGN_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_RGN_NAMING.json) |  Region Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_REGIONS |
 
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
@@ -237,17 +241,6 @@ Standards for correctly implementing Redwood patterns
 | [RW_VISUALZTNS](APEX_REDWOOD_212/tests/RW_VISUALZTNS.json) |  Visualization regions are correctly configured | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_WLCM_BNNR_TMPL](APEX_REDWOOD_212/tests/RW_WLCM_BNNR_TMPL.json) |  Banner regions are correctly configured | v1 | APEX_APPLICATION_PAGE_REGIONS |
 
-## Security (APEX Version 19.1)
-These standards enforce security
-
- - [Standard export](APEX_SECURITY_191/STANDARD-APEX_SECURITY_191.json)
- - [Consolidated tests export](APEX_SECURITY_191/ALL_TESTS-APEX_SECURITY_191.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-| [APP_AUTH](APEX_SECURITY_191/tests/APP_AUTH.json) |  Application has Authorization Scheme | v1 | APEX_APPLICATIONS |
-| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_191/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
-
 ## Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These standards enforce security
 
@@ -260,19 +253,6 @@ These standards enforce security
 | [IG_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IR_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IR_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IR Columns | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [PAGE_AUTH](APEX_SECURITY_212/tests/PAGE_AUTH.json) |  Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
-
-## Security (APEX Version 23.2 +)
-These standards enforce security
-
- - [Standard export](APEX_SECURITY_232/STANDARD-APEX_SECURITY_232.json)
- - [Consolidated tests export](APEX_SECURITY_232/ALL_TESTS-APEX_SECURITY_232.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-| [APP_AUTH](APEX_SECURITY_232/tests/APP_AUTH.json) |  Application has Authorization Scheme | v1 | APEX_APPLICATIONS |
-| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_232/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
-| [IR_HTML_ESCAPING_COLS](APEX_SECURITY_232/tests/IR_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IR Columns | v1 | APEX_APPLICATION_PAGE_IR_COL |
-| [PAGE_AUTH](APEX_SECURITY_232/tests/PAGE_AUTH.json) |  Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
 
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.
