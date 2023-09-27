@@ -105,7 +105,7 @@
 
     layout: 
       sequence: 500
-      parent-entry: Standards [&A_NUM_STDS.] # 7330164834754945063
+      parent-entry: Administration # 7876421288469564722
 
     is-current: 
       type: Pages
@@ -124,6 +124,148 @@
     user-defined-attributes: 
       translatable: false
       1.: Manage entries in EBA_STDS_INHERITED_TESTS
+
+    security: 
+      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
+  - # ====== Entry: Help =========================================
+    id: 260835402372152876
+    label: 
+      label: Help
+
+    icon: 
+      image/icon-css-classes: fa-question-circle-o
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1001:&SESSION.::&DEBUG.:1001:P1001_PAGE_ID:&APP_PAGE_ID.:'
+        page: 1001 # Page Help Dialog
+        clear-cache: 1001
+        values: 
+          p1001_page_id: '&APP_PAGE_ID.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+  - # ====== Entry: &APP_USER. ===================================
+    id: 260839399949160113
+    label: 
+      label: '&APP_USER.'
+
+    icon: 
+      image/icon-css-classes: fa-user
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+  - # ====== Entry: Auditing Dashboard ===========================
+    id: 260879494698494328
+    label: 
+      label: Auditing Dashboard
+
+    icon: 
+      image/icon-css-classes: fa-dashboard
+
+    layout: 
+      sequence: 25
+      parent-entry: '&APP_USER.' # 260839399949160113
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:41:&SESSION.::&DEBUG.::::'
+        page: 41 # Auditing dashboard
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: READER RIGHTS # 275286800875611800
+
+  - # ====== Entry: Preferences ==================================
+    id: 260879715062503255
+    label: 
+      label: Preferences
+
+    icon: 
+      image/icon-css-classes: fa-adjust
+
+    layout: 
+      sequence: 40
+      parent-entry: '&APP_USER.' # 260839399949160113
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.::::'
+        page: 45 # Set Preferences
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: READER RIGHTS # 275286800875611800
+
+  - # ====== Entry: Sign Out =====================================
+    id: 260881397696508406
+    label: 
+      label: Sign Out
+
+    icon: 
+      image/icon-css-classes: fa-sign-out
+
+    layout: 
+      sequence: 50
+      parent-entry: '&APP_USER.' # 260839399949160113
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '&LOGOUT_URL.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
 
   - # ====== Entry: Component Types ==============================
     id: 269194836552859183
@@ -1173,6 +1315,9 @@
     security: 
       authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
+    configuration: 
+      build-option: TO_DELETE # 6384384957050863767
+
   - # ====== Entry: Standards [&A_NUM_STDS.] =====================
     id: 7330164834754945063
     label: 
@@ -1204,7 +1349,7 @@
 
     user-defined-attributes: 
       translatable: false
-      1.: List of standards by which to organize tests (with sample data) [EBA_STDS_STANDARDS]
+      4.: List of standards by which to organize tests (with sample data) [EBA_STDS_STANDARDS]
 
     security: 
       authorization-scheme: READER RIGHTS # 275286800875611800
@@ -1249,7 +1394,7 @@
 
     layout: 
       sequence: 70
-      parent-entry: Home # 7330164637473945060
+      parent-entry: '&APP_USER.' # 260839399949160113
 
     is-current: 
       type: Pages
@@ -1283,7 +1428,7 @@
 
     user-defined-attributes: 
       translatable: false
-      1.: Landing page for administration content
+      4.: Landing page for administration content
 
     security: 
       authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741

@@ -1705,11 +1705,11 @@ page-items:
     type: Text Field
 
   label: 
-    label: Type Search
+    label: Search
     alignment: Left
 
   settings: 
-    subtype: Text
+    subtype: Search
     trim-spaces: Leading and Trailing
     text-case: NO CHANGE
     submit-when-enter-pressed: false
@@ -1728,11 +1728,12 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6638107910514476202
+    template: Hidden # 7800079838425934978
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--xlarge
+    - t-Form-fieldContainer--large
+    icon: fa-search
     width: 30
 
   validation: 
@@ -1757,7 +1758,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    help-text: Click in this field to open the Navigation Search feature
+    help-text: Search this application
 
   configuration: 
     build-option: DEV_ONLY # 6384384616625854457
@@ -2009,10 +2010,14 @@ dynamic-actions:
     sequence: 10
 
   when: 
-    event: EVENT.EVENT.BROWSER.CLICK
+    event: EVENT.EVENT.BROWSER.KEYPRESS
     selection-type: Item(s)
     item(s): 
     - P0_SEARCH_BAR
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: this.browserEvent.keyCode === 13
 
   execution: 
     event-scope: Static
@@ -2022,6 +2027,29 @@ dynamic-actions:
     build-option: DEV_ONLY # 6384384616625854457
 
   actions: 
+  - # ====== Action: Set Value ===================================
+    id: 215331556725468221
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.value
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P0_SEARCH
+
+    execution: 
+      sequence: 40
+      event: Popup Search # 278487463694291463
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
   - # ====== Action: Open Region =================================
     id: 278487589748291464
     identification: 
@@ -2048,7 +2076,7 @@ dynamic-actions:
       - P0_SEARCH
 
     execution: 
-      sequence: 40
+      sequence: 50
       event: Popup Search # 278487463694291463
       fire-when-event-result-is: True
       fire-on-initialization: false

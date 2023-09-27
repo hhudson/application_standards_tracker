@@ -38,6 +38,7 @@ These are standards to maintain Accessibility.
 | [DA_BLUR](APEX_ACCESSIBILITY_212/tests/DA_BLUR.json) |  Check page JS for on blur events | v1 | APEX_APPLICATION_PAGES |
 | [DA_FOCUS](APEX_ACCESSIBILITY_212/tests/DA_FOCUS.json) |  DAs should avoid Lose Focus or Get Focus triggering events | v1 | APEX_APPLICATION_PAGE_DA |
 | [DA_JS_INTRVL_TIMT](APEX_ACCESSIBILITY_212/tests/DA_JS_INTRVL_TIMT.json) |  DA should avoid js that is setting intervals or timeouts | v1.1 | APEX_APPLICATION_PAGE_DA_ACTS |
+| [FORM_ITEM_HELP](APEX_ACCESSIBILITY_212/tests/FORM_ITEM_HELP.json) |  Form Elements should have help text | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [IG_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IG_COL_BAD_HTML.json) |  HTML should be correctly configured in IG Cols | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IG_COL_IMG_ALT_TEXT.json) |  IG Columns with images have alt text | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_COL_TABINDX.json) |  IG Columns should avoid hard coded tab indexes | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
@@ -70,7 +71,9 @@ These are standards to maintain Accessibility.
 | [PI_TABINDX](APEX_ACCESSIBILITY_212/tests/PI_TABINDX.json) |  Page items should avoid hardcoded indexes | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_VLD_LBL](APEX_ACCESSIBILITY_212/tests/PI_VLD_LBL.json) |  Page Items have valid label and no blank spaces | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [PRNT_TAB_INDX](APEX_ACCESSIBILITY_212/tests/PRNT_TAB_INDX.json) |  Parent tab should avoid hard coded tab indexes | v1 | APEX_APPLICATION_PARENT_TABS |
+| [RGN_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/RGN_IMG_ALT_TEXT.json) |  Regions with HTML images should have alt text | v1.1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RGN_UNQ](APEX_ACCESSIBILITY_212/tests/RGN_UNQ.json) |  Regions on a page must be unique | v1 | APEX_APPLICATION_PAGE_REGIONS |
+| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER.json) |  Region should have Row Header | v1.1 | APEX_APPLICATION_PAGE_REGIONS |
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML.json) |  Static Content HTML is well formed | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC.json) |  Theme styles should avoid animations | v1 | APEX_APPLICATION_THEME_STYLES |
 
@@ -152,6 +155,17 @@ Non theme specific standards
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [APP_CSS_FILE](APEX_GENERAL_212/tests/APP_CSS_FILE.json) |  Apps should have a centralized css file | v1 | APEX_APPLICATIONS |
+| [COL_ALIGNMENT_CLASSIC](APEX_GENERAL_212/tests/COL_ALIGNMENT_CLASSIC.json) |  Classic Columns are correctly aligned | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_ALIGNMENT_IG](APEX_GENERAL_212/tests/COL_ALIGNMENT_IG.json) |  IG Columns are correctly aligned | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
+| [COL_ALIGNMENT_IR](APEX_GENERAL_212/tests/COL_ALIGNMENT_IR.json) |  IR Columns are correctly aligned | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADERS_C](APEX_GENERAL_212/tests/COL_HEADERS_C.json) |  Classic Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_HEADERS_IR](APEX_GENERAL_212/tests/COL_HEADERS_IR.json) |  IR Column header is appropriate | v1.2 | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADER_RF_TG](APEX_GENERAL_212/tests/COL_HEADER_RF_TG.json) |  Reflow / Toggle Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_REG_COLS |
+| [FIELD_NAMES](APEX_GENERAL_212/tests/FIELD_NAMES.json) |  Form field label is appropriate | v1.2 | APEX_APPLICATION_PAGE_ITEMS |
+| [NO_CSS_IN_PAGE](APEX_GENERAL_212/tests/NO_CSS_IN_PAGE.json) |  Pages should not have local CSS | v1.1 | APEX_APPLICATION_PAGES |
+| [PAGE_ITEM_NAMING](APEX_GENERAL_212/tests/PAGE_ITEM_NAMING.json) |  Page Items incorrectly prefixed | v1 | APEX_APPLICATION_PAGE_ITEMS |
+| [TOO_MANY_DAS](APEX_GENERAL_212/tests/TOO_MANY_DAS.json) |  Pages should limit the amount of Dynamic Actions | v1 | APEX_APPLICATION_PAGES |
 
 ## Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards that are *not* general standards
@@ -218,6 +232,15 @@ Standards for correctly implementing Redwood patterns
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [APP_CSS_FILE](APEX_REDWOOD_212/tests/APP_CSS_FILE.json) |  Apps should have a centralized css file | v1 | APEX_APPLICATIONS |
+| [COL_ALIGNMENT_CLASSIC](APEX_REDWOOD_212/tests/COL_ALIGNMENT_CLASSIC.json) |  Classic Columns are correctly aligned | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_ALIGNMENT_IG](APEX_REDWOOD_212/tests/COL_ALIGNMENT_IG.json) |  IG Columns are correctly aligned | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
+| [COL_ALIGNMENT_IR](APEX_REDWOOD_212/tests/COL_ALIGNMENT_IR.json) |  IR Columns are correctly aligned | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADERS_C](APEX_REDWOOD_212/tests/COL_HEADERS_C.json) |  Classic Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_HEADERS_IR](APEX_REDWOOD_212/tests/COL_HEADERS_IR.json) |  IR Column header is appropriate | v1.2 | APEX_APPLICATION_PAGE_IR_COL |
+| [FIELD_NAMES](APEX_REDWOOD_212/tests/FIELD_NAMES.json) |  Form field label is appropriate | v1.2 | APEX_APPLICATION_PAGE_ITEMS |
+| [NO_CSS_IN_PAGE](APEX_REDWOOD_212/tests/NO_CSS_IN_PAGE.json) |  Pages should not have local CSS | v1.1 | APEX_APPLICATION_PAGES |
+| [PAGE_ITEM_NAMING](APEX_REDWOOD_212/tests/PAGE_ITEM_NAMING.json) |  Page Items incorrectly prefixed | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_ADDL_INFO](APEX_REDWOOD_212/tests/RW_ADDL_INFO.json) |  Additional Info regions are correctly configured | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BNNR_MSG_LNKS](APEX_REDWOOD_212/tests/RW_BNNR_MSG_LNKS.json) |  Banner Message region should only have Links | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BUTTON_PLACEMENT](APEX_REDWOOD_212/tests/RW_BUTTON_PLACEMENT.json) |  Redwood Buttons should be correctly placed | v1 | APEX_APPLICATION_PAGE_BUTTONS |
@@ -240,6 +263,7 @@ Standards for correctly implementing Redwood patterns
 | [RW_TOC_POS](APEX_REDWOOD_212/tests/RW_TOC_POS.json) |  Regions in "Table of Contents" are correctly configured | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_VISUALZTNS](APEX_REDWOOD_212/tests/RW_VISUALZTNS.json) |  Visualization regions are correctly configured | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_WLCM_BNNR_TMPL](APEX_REDWOOD_212/tests/RW_WLCM_BNNR_TMPL.json) |  Banner regions are correctly configured | v1 | APEX_APPLICATION_PAGE_REGIONS |
+| [TOO_MANY_DAS](APEX_REDWOOD_212/tests/TOO_MANY_DAS.json) |  Pages should limit the amount of Dynamic Actions | v1 | APEX_APPLICATION_PAGES |
 
 ## Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These standards enforce security
@@ -264,18 +288,17 @@ These are best practices that apply to Universal Theme applications.
 |-----------|-----------|---------|----------------|
 | [APP_CSS_FILE](APEX_UNIVERSAL_THEME_212/tests/APP_CSS_FILE.json) |  Apps should have a centralized css file | v1 | APEX_APPLICATIONS |
 | [BUTTON_DEFAULT_SIZE](APEX_UNIVERSAL_THEME_212/tests/BUTTON_DEFAULT_SIZE.json) |  Button size should be default | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [BUTTON_STYLING](APEX_UNIVERSAL_THEME_212/tests/BUTTON_STYLING.json) |  Buttons should be styled correctly | v1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [COL_ALIGNMENT_CLASSIC](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_CLASSIC.json) |  Classic Columns are correctly aligned | v1 | APEX_APPLICATION_PAGE_RPT_COLS |
-| [COL_ALIGNMENT_IG](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IG.json) |  IG Columns are correctly aligned | v1 | APEX_APPL_PAGE_IG_COLUMNS |
-| [COL_ALIGNMENT_IR](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IR.json) |  IR Columns are correctly aligned | v1 | APEX_APPLICATION_PAGE_IR_COL |
+| [BUTTON_STYLING](APEX_UNIVERSAL_THEME_212/tests/BUTTON_STYLING.json) |  Buttons should be styled correctly | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
+| [COL_ALIGNMENT_CLASSIC](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_CLASSIC.json) |  Classic Columns are correctly aligned | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_ALIGNMENT_IG](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IG.json) |  IG Columns are correctly aligned | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
+| [COL_ALIGNMENT_IR](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IR.json) |  IR Columns are correctly aligned | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
 | [COL_HEADERS_C](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_C.json) |  Classic Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
-| [COL_HEADERS_IR](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_IR.json) |  IR Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADERS_IR](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_IR.json) |  IR Column header is appropriate | v1.2 | APEX_APPLICATION_PAGE_IR_COL |
 | [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG.json) |  Reflow / Toggle Column header is appropriate | v1.1 | APEX_APPLICATION_PAGE_REG_COLS |
-| [FIELD_NAMES](APEX_UNIVERSAL_THEME_212/tests/FIELD_NAMES.json) |  Form field label is appropriate | v1.1 | APEX_APPLICATION_PAGE_ITEMS |
+| [FIELD_NAMES](APEX_UNIVERSAL_THEME_212/tests/FIELD_NAMES.json) |  Form field label is appropriate | v1.2 | APEX_APPLICATION_PAGE_ITEMS |
 | [FILTER_RGN_TMPLT](APEX_UNIVERSAL_THEME_212/tests/FILTER_RGN_TMPLT.json) |  Filtered Regions has Card Container template | v1 | APEX_APPLICATION_PAGE_REGIONS |
-| [FORM_ITEM_HELP](APEX_UNIVERSAL_THEME_212/tests/FORM_ITEM_HELP.json) |  Form Elements should have help text | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [MODAL_FLOATING_LABEL](APEX_UNIVERSAL_THEME_212/tests/MODAL_FLOATING_LABEL.json) |  Use Floating Labels | v1 | APEX_APPLICATION_PAGE_ITEMS |
-| [NO_CSS_IN_PAGE](APEX_UNIVERSAL_THEME_212/tests/NO_CSS_IN_PAGE.json) |  Pages should not have local CSS | v1 | APEX_APPLICATION_PAGES |
+| [NO_CSS_IN_PAGE](APEX_UNIVERSAL_THEME_212/tests/NO_CSS_IN_PAGE.json) |  Pages should not have local CSS | v1.1 | APEX_APPLICATION_PAGES |
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING.json) |  Pages should not remove padding | v1 | APEX_APPLICATION_PAGES |
 | [PAGE_ITEM_NAMING](APEX_UNIVERSAL_THEME_212/tests/PAGE_ITEM_NAMING.json) |  Page Items incorrectly prefixed | v1 | APEX_APPLICATION_PAGE_ITEMS |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT.json) |  Reports should have a reset button | v1 | APEX_APPLICATION_PAGE_REGIONS |

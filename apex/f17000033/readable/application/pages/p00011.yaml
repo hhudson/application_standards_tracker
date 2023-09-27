@@ -681,11 +681,6 @@ page-items:
   quick-picks: 
     show-quick-picks: false
 
-  read-only: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ':P11_ID is not null and :P11_PARENT_STANDARD_ID is not null'
-
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
@@ -1402,6 +1397,9 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+    configuration: 
+      build-option: TO_DELETE # 6384384957050863767
+
   - # ====== Action: make Standard name readonly =================
     id: 387745802799265643
     identification: 
@@ -1424,6 +1422,9 @@ dynamic-actions:
       event: change parent standard # 387004108634604860
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+    configuration: 
+      build-option: TO_DELETE # 6384384957050863767
 
 - # ====== Dynamic Action: hide forms ==========================
   id: 387005140412604870
@@ -1582,10 +1583,6 @@ dynamic-actions:
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
-
-    server-side-condition: 
-      type: Item is NULL
-      item: P11_ID
 
   - # ====== Action: Show standard name ==========================
     id: 387745705375265642
