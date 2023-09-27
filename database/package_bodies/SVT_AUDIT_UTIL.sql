@@ -165,14 +165,6 @@ create or replace package body SVT_AUDIT_UTIL as
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
     l_compile_stmt         varchar2(512);
-    e_compilation_error    exception;
-    pragma exception_init(e_compilation_error,-24344);
-    e_dependent_error    exception;
-    pragma exception_init(e_dependent_error,-2311);
-    e_object_not_exist    exception;
-    pragma exception_init(e_object_not_exist,-4043);
-    e_timeout    exception;
-    pragma exception_init(e_timeout,-4021);
     begin
       apex_debug.message(c_debug_template,'recompile_w_plscope');
       execute immediate q'[ALTER SESSION SET PLSCOPE_SETTINGS = 'IDENTIFIERS:ALL, STATEMENTS:ALL']';
@@ -346,7 +338,7 @@ create or replace package body SVT_AUDIT_UTIL as
                           on  esst.query_clob is not null
                           and esst.active_yn = gc_y
                           and esst.standard_active_yn = gc_y
-                          and (esst.test_code = c_test_code or p_test_code is null)
+                          and (esst.test_code = c_test_code or c_test_code is null)
                           and (esst.issue_category = p_issue_category or p_issue_category is null)
                   where (a.application_id  = p_application_id or p_application_id is null)
                   and   (a.page_id  = p_page_id or p_page_id is null))
@@ -483,7 +475,7 @@ create or replace package body SVT_AUDIT_UTIL as
           select aap.unqid
             bulk collect into l_recorded_issues_t
             from svt_plsql_apex_audit aap
-            where (aap.test_code = c_test_code or p_test_code is null)
+            where (aap.test_code = c_test_code or c_test_code is null)
             and   (aap.application_id  = p_application_id or p_application_id is null)
             and   (aap.page_id  = p_page_id or p_page_id is null)
             and   (aap.id = p_audit_id or p_audit_id is null);
@@ -496,12 +488,19 @@ create or replace package body SVT_AUDIT_UTIL as
           forall i in 1 .. l_obsolete_issues_t.count
             delete from svt_plsql_apex_audit
             where unqid = l_obsolete_issues_t(i);
+        exception when e_deadlock then 
+          apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock encountered in merge_audit_tbl.dtl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+          raise;
         end dlt;
 
 
-    exception when others then 
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
+    exception 
+      when e_deadlock then 
+        apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock encountered in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+        raise;
+      when others then 
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+        raise;
     end merge_audit_tbl;
 
     procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null)
@@ -736,7 +735,6 @@ create or replace package body SVT_AUDIT_UTIL as
 
           recompile_w_plscope;
 
-
           for ic_rec in (select issue_category
                          from v_svt_nested_table_types
                          where issue_category != c_apex)
@@ -748,7 +746,6 @@ create or replace package body SVT_AUDIT_UTIL as
                             );
           end loop;
         end loop;
-
         
         begin <<apex_issues>>
           set_workspace;

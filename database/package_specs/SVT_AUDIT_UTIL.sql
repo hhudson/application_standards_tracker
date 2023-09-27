@@ -194,6 +194,17 @@ end;
 procedure assign_from_loki;
 $end
 
+e_compilation_error    exception;
+pragma exception_init(e_compilation_error,-24344);
+e_dependent_error    exception;
+pragma exception_init(e_dependent_error,-2311);
+e_object_not_exist    exception;
+pragma exception_init(e_object_not_exist,-4043);
+e_timeout    exception;
+pragma exception_init(e_timeout,-4021);
+e_deadlock    exception;
+pragma exception_init(e_deadlock,-60);
+
 end SVT_AUDIT_UTIL;
 /
 
