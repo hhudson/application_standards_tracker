@@ -16,7 +16,6 @@ with aspaa as (
                 end application_type,
            src.test_name,
            paa.page_id,
-           paa.pass_yn,
            src.test_id,
            src.urgency,
            src.urgency_level,
@@ -33,6 +32,11 @@ with aspaa as (
            paa.notes,
            paa.action_id,
            paa.created,
+           paa.updated,
+           case when paa.updated < sysdate - 1
+                then 'Y'
+                else 'N'
+                end stale_yn,
            paa.assignee,
            (select svt_apex_issue_link.build_link_to_apex_issue(
                    p_app_id => paa.application_id,
@@ -82,7 +86,6 @@ select
     a.application_name,
     a.application_type,
     a.page_id,
-    a.pass_yn,
     a.test_id,
     a.urgency,
     a.urgency_level,
@@ -145,6 +148,8 @@ Audit id : %3
     a.action_id,
     a.action_name,
     a.created,
+    a.updated,
+    a.stale_yn,
     a.assignee,
     a.link_url,
     '<button type="button" 

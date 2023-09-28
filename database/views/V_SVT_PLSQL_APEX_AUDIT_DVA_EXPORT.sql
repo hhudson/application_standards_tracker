@@ -31,7 +31,6 @@ inner join v_svt_wcag_test_codes_listagg tcl on tcl.test_id = src.test_id
 left outer join svt_audit_actions aaa on paa.action_id = aaa.id
 where paa.issue_category = 'APEX'
 and src.standard_name = 'Accessibility'
-and paa.pass_yn = 'N'
 and coalesce(paa.action_id,0) in (0,3,4)
 /
 

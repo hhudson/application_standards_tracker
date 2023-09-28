@@ -188,6 +188,21 @@ end;
                                p_issue_category in svt_plsql_apex_audit.issue_category%type default null
                               );
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 28, 2023
+-- Synopsis:
+--
+-- Procedure to delete stale issues from svt_plsql_apex_audit
+--
+/*
+begin
+    svt_plsql_apex_audit_api.delete_stale;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_stale;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;

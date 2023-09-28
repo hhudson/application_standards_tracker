@@ -17,8 +17,251 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_sysdate      constant svt_plsql_apex_audit.updated%type := sysdate;
+  gc_user         constant varchar2(100) := coalesce(sys_context('APEX$SESSION','APP_USER'),user,'nobody');
   gc_y            constant varchar2(1) := 'Y';
   gc_n            constant varchar2(1) := 'N';
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 28, 2023
+-- Synopsis:
+--
+-- Private Procedure to update svt_plsql_apex_audit
+--
+------------------------------------------------------------------------------
+  procedure update_audit (
+    p_unqid                      in svt_plsql_apex_audit.unqid%type, 
+    p_issue_category             in svt_plsql_apex_audit.issue_category%type, 
+    p_application_id             in svt_plsql_apex_audit.application_id%type, 
+    p_page_id                    in svt_plsql_apex_audit.page_id%type, 
+    p_line                       in svt_plsql_apex_audit.line%type, 
+    p_object_name                in svt_plsql_apex_audit.object_name%type, 
+    p_object_type                in svt_plsql_apex_audit.object_type%type, 
+    p_code                       in svt_plsql_apex_audit.code%type, 
+    p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type, 
+    p_issue_title                in svt_plsql_apex_audit.issue_title%type, 
+    p_test_code                  in svt_plsql_apex_audit.test_code%type, 
+    p_legacy_yn                  in svt_plsql_apex_audit.legacy_yn%type, 
+    p_apex_created_by            in svt_plsql_apex_audit.apex_created_by%type, 
+    p_apex_created_on            in svt_plsql_apex_audit.apex_created_on%type, 
+    p_apex_last_updated_by       in svt_plsql_apex_audit.apex_last_updated_by%type, 
+    p_apex_last_updated_on       in svt_plsql_apex_audit.apex_last_updated_on%type, 
+    p_owner                      in svt_plsql_apex_audit.owner%type,
+    p_component_id               in svt_plsql_apex_audit.component_id%type,
+    p_parent_component_id        in svt_plsql_apex_audit.parent_component_id%type
+  )
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'update_audit';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  BEGIN
+    apex_debug.message(c_debug_template,'START', 'p_unqid', p_unqid);
+
+    update svt_plsql_apex_audit
+    set issue_category             = p_issue_category,
+        application_id             = p_application_id,
+        page_id                    = p_page_id,
+        line                       = p_line,
+        object_name                = p_object_name,
+        object_type                = p_object_type,
+        code                       = p_code,
+        validation_failure_message = p_validation_failure_message,
+        issue_title                = p_issue_title,
+        test_code                  = p_test_code,
+        legacy_yn                  = p_legacy_yn,
+        apex_created_by            = p_apex_created_by,
+        apex_created_on            = p_apex_created_on,
+        apex_last_updated_by       = p_apex_last_updated_by,
+        apex_last_updated_on       = p_apex_last_updated_on,
+        owner                      = p_owner,
+        component_id               = p_component_id,
+        parent_component_id        = p_parent_component_id,
+        updated                    = gc_sysdate,
+        updated_by                 = gc_user
+    where unqid = p_unqid;
+    apex_debug.message(c_debug_template, 'sql%rowcount :', sql%rowcount);
+  
+  exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end update_audit;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 28, 2023
+-- Synopsis:
+--
+-- Private Procedure to insert into svt_plsql_apex_audit
+--
+------------------------------------------------------------------------------
+  procedure insert_audit (
+    p_unqid                      in svt_plsql_apex_audit.unqid%type, 
+    p_issue_category             in svt_plsql_apex_audit.issue_category%type, 
+    p_application_id             in svt_plsql_apex_audit.application_id%type, 
+    p_page_id                    in svt_plsql_apex_audit.page_id%type, 
+    p_line                       in svt_plsql_apex_audit.line%type, 
+    p_object_name                in svt_plsql_apex_audit.object_name%type, 
+    p_object_type                in svt_plsql_apex_audit.object_type%type, 
+    p_code                       in svt_plsql_apex_audit.code%type, 
+    p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type, 
+    p_issue_title                in svt_plsql_apex_audit.issue_title%type, 
+    p_test_code                  in svt_plsql_apex_audit.test_code%type, 
+    p_legacy_yn                  in svt_plsql_apex_audit.legacy_yn%type, 
+    p_apex_created_by            in svt_plsql_apex_audit.apex_created_by%type, 
+    p_apex_created_on            in svt_plsql_apex_audit.apex_created_on%type, 
+    p_apex_last_updated_by       in svt_plsql_apex_audit.apex_last_updated_by%type, 
+    p_apex_last_updated_on       in svt_plsql_apex_audit.apex_last_updated_on%type, 
+    p_owner                      in svt_plsql_apex_audit.owner%type,
+    p_component_id               in svt_plsql_apex_audit.component_id%type,
+    p_parent_component_id        in svt_plsql_apex_audit.parent_component_id%type
+  )
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'insert_audit';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_audit_id svt_plsql_apex_audit.id%type;
+  BEGIN
+    apex_debug.message(c_debug_template,'START', 'p_unqid', p_unqid);
+
+    insert into svt_plsql_apex_audit (
+      unqid,
+      issue_category,
+      application_id,
+      page_id,
+      line,
+      object_name,
+      object_type,
+      code,
+      validation_failure_message,
+      issue_title,
+      test_code,
+      legacy_yn,
+      apex_created_by,
+      apex_created_on,
+      apex_last_updated_by,
+      apex_last_updated_on,
+      owner,
+      component_id,
+      parent_component_id,
+      created,
+      created_by,
+      updated,
+      updated_by
+    ) values 
+    (
+      p_unqid,
+      p_issue_category,
+      p_application_id,
+      p_page_id,
+      p_line,
+      p_object_name,
+      p_object_type,
+      p_code,
+      p_validation_failure_message,
+      p_issue_title,
+      p_test_code,
+      p_legacy_yn,
+      p_apex_created_by,
+      p_apex_created_on,
+      p_apex_last_updated_by,
+      p_apex_last_updated_on,
+      p_owner,
+      p_component_id,
+      p_parent_component_id,
+      gc_sysdate,
+      gc_user,
+      gc_sysdate,
+      gc_user
+    ) returning id into l_audit_id;
+    apex_debug.message(c_debug_template, 'l_audit_id', l_audit_id);
+
+    svt_audit_on_audit_api.insert_rec (
+        p_unqid                      => p_unqid,
+        p_action_name                => 'INSERT',
+        p_test_code                  => p_test_code,
+        p_audit_id                   => l_audit_id,
+        p_validation_failure_message => p_validation_failure_message
+    );
+  
+  exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end insert_audit;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 28, 2023
+-- Synopsis:
+--
+-- Procedure to delete a record of  svt_plsql_apex_audit
+--
+/*
+begin
+  delete_audit (
+              p_unqid                      => p_unqid,
+              p_audit_id                   => p_audit_id,
+              p_test_code                  => p_test_code,
+              p_validation_failure_message => p_validation_failure_message
+            );
+end;
+*/
+------------------------------------------------------------------------------
+  procedure delete_audit (
+              p_unqid                      in svt_plsql_apex_audit.unqid%type,
+              p_audit_id                   in svt_plsql_apex_audit.id%type,
+              p_test_code                  in svt_plsql_apex_audit.test_code%type,
+              p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type)
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'delete_audit';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_delete constant varchar2(10) := 'DELETE';
+  BEGIN
+    apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
+
+    delete from svt_plsql_apex_audit
+    where id = p_audit_id;
+    apex_debug.message(c_debug_template, 'p_audit_id', p_audit_id);
+
+    svt_audit_on_audit_api.insert_rec (
+        p_unqid                      => p_unqid,
+        p_action_name                => c_delete,
+        p_test_code                  => p_test_code,
+        p_audit_id                   => p_audit_id,
+        p_validation_failure_message => p_validation_failure_message
+    );
+
+  exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end delete_audit;
+
+  procedure delete_stale
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'delete_stale';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
+  BEGIN
+    apex_debug.message(c_debug_template,'START');
+
+    for rec in (
+      select unqid, audit_id, test_code, validation_failure_message
+      from v_svt_plsql_apex_audit
+      where stale_yn = gc_y
+    ) loop 
+      delete_audit (
+              p_unqid                      => rec.unqid,
+              p_audit_id                   => rec.audit_id,
+              p_test_code                  => rec.test_code,
+              p_validation_failure_message => rec.validation_failure_message
+            );
+    end loop;
+  
+  exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end delete_stale;
 
   procedure mark_as_exception (p_audit_id in svt_plsql_apex_audit.id%type)
   as
@@ -42,7 +285,6 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'null_out_apex_issue';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_ignore_legacy  constant svt_audit_actions.id%type := 2;
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
@@ -253,6 +495,43 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     end assign_from_loki;
     $end
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 28, 2023
+-- Synopsis:
+--
+-- private function to determine whether a unqid already exists in svt_plsql_apex_audit
+--
+------------------------------------------------------------------------------
+    function unqid_exists (p_unquid in svt_plsql_apex_audit.unqid%type) 
+    return boolean deterministic 
+    as 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'unqid_exists';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    l_unquid_exists_yn varchar2(1);
+    begin
+      apex_debug.message(c_debug_template,'START', 'p_unquid', p_unquid);
+
+      select case when count(*) = 1
+                        then 'Y'
+                        else 'N'
+                        end into l_unquid_exists_yn
+                from sys.dual where exists (
+                    select 1 
+                    from svt_plsql_apex_audit 
+                    where unqid = p_unquid
+                );
+
+      return case when l_unquid_exists_yn = gc_y 
+                  then true 
+                  else false 
+                  end;
+
+    exception when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+    end unqid_exists;
+
     procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                p_test_code      in eba_stds_standard_tests.test_code%type,
@@ -263,42 +542,12 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'merge_audit_tbl';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-
     c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
-    c_limit         constant pls_integer := 100;
-
-    type r_issues is record (
-        unqid                      svt_plsql_apex_audit.unqid%type,
-        issue_category             svt_plsql_apex_audit.issue_category%type,
-        application_id             svt_plsql_apex_audit.application_id%type,
-        page_id                    svt_plsql_apex_audit.page_id%type,
-        pass_yn                    svt_plsql_apex_audit.pass_yn%type,
-        line                       svt_plsql_apex_audit.line%type,
-        object_name                svt_plsql_apex_audit.object_name%type,
-        object_type                svt_plsql_apex_audit.object_type%type,
-        code                       svt_plsql_apex_audit.code%type,
-        validation_failure_message svt_plsql_apex_audit.validation_failure_message%type,
-        issue_title                svt_plsql_apex_audit.issue_title%type,
-        test_code                  svt_plsql_apex_audit.test_code%type,
-        apex_created_by            svt_plsql_apex_audit.apex_created_by%type,
-        apex_created_on            svt_plsql_apex_audit.apex_created_on%type,
-        apex_last_updated_by       svt_plsql_apex_audit.apex_last_updated_by%type,
-        apex_last_updated_on       svt_plsql_apex_audit.apex_last_updated_on%type,
-        owner                      svt_plsql_apex_audit.owner%type,
-        component_id               svt_plsql_apex_audit.component_id%type,
-        parent_component_id        svt_plsql_apex_audit.parent_component_id%type
-    );
-    type t_issue_rec is table of r_issues index by svt_plsql_apex_audit.unqid%type; 
-    l_issues_t            t_issue_rec;
-    type t_unqid_rec is table of svt_plsql_apex_audit.unqid%type; 
-    l_current_issues_t    t_unqid_rec := t_unqid_rec();
-    c_legacy_yn  constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = gc_y
+    c_legacy_yn constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = gc_y
                                                                       then gc_y
                                                                       else gc_n
                                                                       end;
     l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
-    c_user constant varchar2(100) := coalesce(sys_context('APEX$SESSION','APP_USER'),user,'nobody');
-    c_sysdate constant svt_plsql_apex_audit.updated%type := sysdate;
     begin
       apex_debug.message(c_debug_template,'START',
                                           'p_application_id', p_application_id,
@@ -316,7 +565,6 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                     esst.issue_category,
                     a.application_id,
                     a.page_id,
-                    a.pass_yn,
                     a.line,
                     a.object_name,
                     a.object_type,
@@ -346,166 +594,52 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                   where (a.application_id  = p_application_id or p_application_id is null)
                   and   (a.page_id  = p_page_id or p_page_id is null))
         loop
-          l_issues_t(rec.unqid) := r_issues(rec.unqid,
-                                            rec.issue_category,
-                                            rec.application_id,
-                                            rec.page_id,
-                                            rec.pass_yn,
-                                            rec.line,
-                                            rec.object_name,
-                                            rec.object_type,
-                                            rec.code,
-                                            rec.validation_failure_message,
-                                            rec.issue_title,
-                                            rec.test_code,
-                                            rec.apex_created_by,
-                                            rec.apex_created_on,
-                                            rec.apex_last_updated_by,
-                                            rec.apex_last_updated_on,
-                                            rec.owner,
-                                            rec.component_id,
-                                            rec.parent_component_id 
-                                          );
-          l_current_issues_t.extend;
-          l_current_issues_t(l_current_issues_t.LAST) := rec.unqid;
+          if unqid_exists (p_unquid => rec.unqid) then
+            update_audit (
+                p_unqid                      => rec.unqid,
+                p_issue_category             => rec.issue_category,
+                p_application_id             => rec.application_id,
+                p_page_id                    => rec.page_id,
+                p_line                       => rec.line,
+                p_object_name                => rec.object_name,
+                p_object_type                => rec.object_type,
+                p_code                       => rec.code,
+                p_validation_failure_message => rec.validation_failure_message,
+                p_issue_title                => rec.issue_title,
+                p_test_code                  => rec.test_code,
+                p_legacy_yn                  => c_legacy_yn,
+                p_apex_created_by            => rec.apex_created_by,
+                p_apex_created_on            => rec.apex_created_on,
+                p_apex_last_updated_by       => rec.apex_last_updated_by,
+                p_apex_last_updated_on       => rec.apex_last_updated_on,
+                p_owner                      => rec.owner,
+                p_component_id               => rec.component_id,
+                p_parent_component_id        => rec.parent_component_id
+              );
+          else
+            insert_audit (
+                p_unqid                      => rec.unqid,
+                p_issue_category             => rec.issue_category,
+                p_application_id             => rec.application_id,
+                p_page_id                    => rec.page_id,
+                p_line                       => rec.line,
+                p_object_name                => rec.object_name,
+                p_object_type                => rec.object_type,
+                p_code                       => rec.code,
+                p_validation_failure_message => rec.validation_failure_message,
+                p_issue_title                => rec.issue_title,
+                p_test_code                  => rec.test_code,
+                p_legacy_yn                  => c_legacy_yn,
+                p_apex_created_by            => rec.apex_created_by,
+                p_apex_created_on            => rec.apex_created_on,
+                p_apex_last_updated_by       => rec.apex_last_updated_by,
+                p_apex_last_updated_on       => rec.apex_last_updated_on,
+                p_owner                      => rec.owner,
+                p_component_id               => rec.component_id,
+                p_parent_component_id        => rec.parent_component_id
+              );
+          end if;
         end loop;
-
-        apex_debug.message(c_debug_template, 'l_issues_t.count', l_issues_t.count);
-        apex_debug.message(c_debug_template, 'l_current_issues_t.count', l_current_issues_t.count);
-
-        <<mrg>>
-        declare
-        l_unqid svt_plsql_apex_audit.unqid%type;
-        begin
-          l_unqid := l_issues_t.first;
-
-          loop
-            exit when l_unqid is null;
-
-            merge into svt_plsql_apex_audit aa
-            using (select l_issues_t(l_unqid).issue_category             issue_category,
-                          l_issues_t(l_unqid).application_id             application_id,
-                          l_issues_t(l_unqid).page_id                    page_id,
-                          l_issues_t(l_unqid).pass_yn                    pass_yn,
-                          l_issues_t(l_unqid).line                       line,
-                          l_issues_t(l_unqid).object_name                object_name,
-                          l_issues_t(l_unqid).object_type                object_type,
-                          l_issues_t(l_unqid).code                       code,
-                          l_issues_t(l_unqid).validation_failure_message validation_failure_message,
-                          l_issues_t(l_unqid).issue_title                issue_title,
-                          l_issues_t(l_unqid).test_code                  test_code,
-                          l_issues_t(l_unqid).apex_created_by            apex_created_by,
-                          l_issues_t(l_unqid).apex_created_on            apex_created_on,
-                          l_issues_t(l_unqid).apex_last_updated_by       apex_last_updated_by,
-                          l_issues_t(l_unqid).apex_last_updated_on       apex_last_updated_on,
-                          l_issues_t(l_unqid).owner                      owner,
-                          l_issues_t(l_unqid).component_id               component_id,
-                          l_issues_t(l_unqid).parent_component_id        parent_component_id
-                  from dual) lit
-            on (aa.unqid    = l_unqid)
-            when matched then
-            update set aa.issue_category             = lit.issue_category,
-                       aa.application_id             = lit.application_id,
-                       aa.page_id                    = lit.page_id,
-                       aa.pass_yn                    = lit.pass_yn,
-                       aa.line                       = lit.line,
-                       aa.object_name                = lit.object_name,
-                       aa.object_type                = lit.object_type,
-                       aa.code                       = lit.code,
-                       aa.validation_failure_message = lit.validation_failure_message,
-                       aa.issue_title                = lit.issue_title,
-                       aa.test_code                  = lit.test_code,
-                       aa.legacy_yn                  = coalesce(aa.legacy_yn, c_legacy_yn),
-                       aa.apex_created_by            = lit.apex_created_by,
-                       aa.apex_created_on            = lit.apex_created_on,
-                       aa.apex_last_updated_by       = lit.apex_last_updated_by,
-                       aa.apex_last_updated_on       = lit.apex_last_updated_on,
-                       aa.owner                      = lit.owner,
-                       aa.component_id               = lit.component_id,
-                       aa.parent_component_id        = lit.parent_component_id,
-                       updated                       = c_sysdate,
-                       updated_by                    = c_user
-            when not matched then
-            insert (aa.unqid, 
-                    aa.issue_category, 
-                    aa.application_id, 
-                    aa.page_id, 
-                    aa.pass_yn, 
-                    aa.line, 
-                    aa.object_name, 
-                    aa.object_type, 
-                    aa.code, 
-                    aa.validation_failure_message, 
-                    aa.issue_title, 
-                    aa.test_code, 
-                    aa.legacy_yn, 
-                    aa.apex_created_by, 
-                    aa.apex_created_on, 
-                    aa.apex_last_updated_by, 
-                    aa.apex_last_updated_on, 
-                    aa.owner,
-                    aa.component_id,
-                    aa.parent_component_id,
-                    created,
-                    created_by,
-                    updated,
-                    updated_by
-                    )
-            values (l_unqid,
-                    lit.issue_category,
-                    lit.application_id,
-                    lit.page_id,
-                    lit.pass_yn,
-                    lit.line,
-                    lit.object_name,
-                    lit.object_type,
-                    lit.code,
-                    lit.validation_failure_message,
-                    lit.issue_title,
-                    lit.test_code,
-                    c_legacy_yn,
-                    lit.apex_created_by,
-                    lit.apex_created_on,
-                    lit.apex_last_updated_by,
-                    lit.apex_last_updated_on,
-                    lit.owner,
-                    lit.component_id,
-                    lit.parent_component_id,
-                    c_sysdate,
-                    c_user,
-                    c_sysdate,
-                    c_user);
-
-            l_unqid := l_issues_t.next(l_unqid);
-          end loop;
-        end mrg;
-
-        -- <<dlt>>
-        -- declare
-        --  l_recorded_issues_t   t_unqid_rec;
-        --  l_obsolete_issues_t   t_unqid_rec;
-        -- begin
-        --   select aap.unqid
-        --     bulk collect into l_recorded_issues_t
-        --     from svt_plsql_apex_audit aap
-        --     where (aap.test_code = c_test_code or c_test_code is null)
-        --     and   (aap.application_id  = p_application_id or p_application_id is null)
-        --     and   (aap.page_id  = p_page_id or p_page_id is null)
-        --     and   (aap.id = p_audit_id or p_audit_id is null);
-
-        --   apex_debug.message(c_debug_template, 'l_recorded_issues_t.count', l_recorded_issues_t.count);
-
-        --   l_obsolete_issues_t := l_recorded_issues_t multiset except l_current_issues_t;
-        --   apex_debug.message(c_debug_template, 'l_obsolete_issues_t.count', l_obsolete_issues_t.count);
-
-        --   forall i in 1 .. l_obsolete_issues_t.count
-        --     delete from svt_plsql_apex_audit
-        --     where unqid = l_obsolete_issues_t(i);
-        -- exception when e_deadlock then 
-        --   apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock encountered in merge_audit_tbl.dtl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-        --   raise;
-        -- end dlt;
-
 
     exception 
       when e_deadlock then 

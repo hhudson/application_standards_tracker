@@ -199,6 +199,8 @@ create or replace package body SVT_AUDIT_UTIL as
           apex_debug.message(c_debug_template, 'l_compile_stmt', l_compile_stmt);
           execute immediate l_compile_stmt;
         exception 
+          when e_deadlock then
+            apex_debug.warn(c_debug_template,'Deadlock waiting for resource:', l_compile_stmt);
           when e_compilation_error then
             apex_debug.warn(c_debug_template,'Compilation error for:', l_compile_stmt);
           when e_dependent_error then
@@ -210,9 +212,13 @@ create or replace package body SVT_AUDIT_UTIL as
         end recompltn;
       end loop;
 
-    exception when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
-      raise;
+    exception 
+      when e_deadlock then
+        apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock waiting for resource in recompile_w_plscope', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+        raise;
+      when others then
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+        raise;
     end recompile_w_plscope;
 
     procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null)
@@ -313,9 +319,13 @@ create or replace package body SVT_AUDIT_UTIL as
 
         assign_violations;
 
-    exception when others then 
-       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
-       raise;
+    exception 
+      when e_deadlock then
+        apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock waiting for resource in record_daily_issue_snapshot', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+        raise;
+      when others then 
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+        raise;
     end record_daily_issue_snapshot;
 
     procedure initialize_standard(p_test_code  in eba_stds_standard_tests.test_code%type)

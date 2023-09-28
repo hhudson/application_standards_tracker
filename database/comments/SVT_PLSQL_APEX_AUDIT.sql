@@ -18,9 +18,7 @@ comment on column SVT_PLSQL_APEX_AUDIT.ID                                       
 comment on column SVT_PLSQL_APEX_AUDIT.REFERENCE_CODE                                is q'[candidate for deletion]';
 comment on column SVT_PLSQL_APEX_AUDIT.ISSUE_CATEGORY                                is q'[APEX/SERT/PLSQL]';
 comment on column SVT_PLSQL_APEX_AUDIT.APPLICATION_ID                                is q'[apex application id]';
-comment on column SVT_PLSQL_APEX_AUDIT.APPLICATION_NAME                              is q'[apex application name]';
 comment on column SVT_PLSQL_APEX_AUDIT.PAGE_ID                                       is q'[the apex page where the violation occurred]';
-comment on column SVT_PLSQL_APEX_AUDIT.PASS_YN                                       is q'[]';
 comment on column SVT_PLSQL_APEX_AUDIT.LINE                                          is q'[the line number in source code]';
 comment on column SVT_PLSQL_APEX_AUDIT.OBJECT_NAME                                   is q'[]';
 comment on column SVT_PLSQL_APEX_AUDIT.OBJECT_TYPE                                   is q'[]';

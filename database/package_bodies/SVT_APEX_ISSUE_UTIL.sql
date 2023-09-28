@@ -557,13 +557,12 @@ $end
 
       l_apex_issue_id := l_svt_plsql_apex_audit_rec.apex_issue_id;
       svt_plsql_apex_audit_api.merge_audit_tbl (
-                        p_test_code  => l_svt_plsql_apex_audit_rec.test_code,
+                        p_test_code      => l_svt_plsql_apex_audit_rec.test_code,
                         p_application_id => l_svt_plsql_apex_audit_rec.application_id,
                         p_page_id        => l_svt_plsql_apex_audit_rec.page_id,
                         p_audit_id       => p_audit_id
                     );
       
-
       l_svt_plsql_apex_audit_rec := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
 
       if l_svt_plsql_apex_audit_rec.id is not null then
