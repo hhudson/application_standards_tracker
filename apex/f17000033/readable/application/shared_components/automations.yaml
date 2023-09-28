@@ -124,6 +124,45 @@
     error: 
       stop-execution-on-error: true
 
+- # ====== Automation: 8.[Nightly - 40 min past midnight] Delete
+  id: 263521704929577710
+  identification: 
+    name: 8.[Nightly - 40 min past midnight] Delete stale issues
+    static-id: 8-nightly-delete-stale-issues
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=40
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  comments: 
+    comments: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=40
+
+  actions: 
+  - # ====== Action: Delete stale issues =========================
+    id: 263522004995577712
+    identification: 
+      name: Delete stale issues
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            svt_plsql_apex_audit_api.delete_stale;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
 - # ====== Automation: 7. [Nightly] Refresh Cumulative Issues co
   id: 280867419610309873
   identification: 
@@ -163,15 +202,15 @@
     error: 
       stop-execution-on-error: true
 
-- # ====== Automation: 2. [Hourly  - 10 min past] Issue Snapshot
+- # ====== Automation: 2. [Bi-Hourly  - 10 min past] Issue Snaps
   id: 552097788301127980
   identification: 
-    name: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table
+    name: 2. [Bi-Hourly  - 10 min past] Issue Snapshot in DB audit table
     static-id: big-job
 
   execution: 
     type: Scheduled
-    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
+    schedule-expression: FREQ=HOURLY;INTERVAL=2;BYMINUTE=10
     schedule-status: Active
     actions-initiated-on: Always
 
@@ -179,7 +218,9 @@
     action-error-handling: Disable Automation
 
   comments: 
-    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
+    comments: |
+      new : FREQ=HOURLY;INTERVAL=2;BYMINUTE=10
+      old : FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
 
   actions: 
   - # ====== Action: record_daily_issue_snapshot =================

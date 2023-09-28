@@ -219,9 +219,9 @@ Standards that are *not* general standards
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [ALPH_AI_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AI_NAMING.json) |  Application Items should be correctly named | v1.2 | APEX_APPLICATION_ITEMS |
-| [ALPH_AP_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AP_NAMING.json) |  Application Processes should be correctly named | v1 | APEX_APPLICATION_PROCESSES |
+| [ALPH_AP_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AP_NAMING.json) |  Application Processes should be correctly named | v1.1 | APEX_APPLICATION_PROCESSES |
 | [ALPH_BTN_STC_ID_NM](APEX_MILLENIUM_GEN2_212/tests/ALPH_BTN_STC_ID_NM.json) |  Button Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
-| [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING.json) |  Applications should have the correct error handling function set | v1.1 | APEX_APPLICATIONS |
+| [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING.json) |  Applications should have the correct error handling function set | v1.2 | APEX_APPLICATIONS |
 | [ALPH_RGN_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_RGN_NAMING.json) |  Region Static IDs should be correctly named | v1.1 | APEX_APPLICATION_PAGE_REGIONS |
 
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)

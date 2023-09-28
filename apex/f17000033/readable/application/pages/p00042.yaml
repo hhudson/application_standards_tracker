@@ -480,8 +480,8 @@ regions:
       select * from svt_standard_view.v_svt(p_test_code => :P42_TEST_CODE , 
                                             p_audit_id => :P42_ID)
     page-items-to-submit: 
-    - P42_ID
     - P42_TEST_CODE
+    - P42_ID
 
   layout: 
     sequence: 30
@@ -1937,6 +1937,72 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P42_UPDATED_1 ============================
+  id: 229578404562659422
+  identification: 
+    name: P42_UPDATED_1
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1120
+    region: Virtual Cols # 684839425476099239
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 684839425476099239
+    column: UPDATED
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_STALE_YN =============================
+  id: 229578500231659423
+  identification: 
+    name: P42_STALE_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 1130
+    region: Virtual Cols # 684839425476099239
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Virtual Cols # 684839425476099239
+    column: STALE_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P42_COMPONENT_ID =========================
   id: 270608668051300547
   identification: 
@@ -2288,39 +2354,6 @@ page-items:
     form-region: Virtual Cols # 684839425476099239
     column: PAGE_ID
     data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_PASS_YN_1 ============================
-  id: 372832735693155545
-  identification: 
-    name: P42_PASS_YN_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 880
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: PASS_YN
-    data-type: VARCHAR2
     query-only: false
     primary-key: false
 
@@ -3425,39 +3458,6 @@ page-items:
   help: 
     help-text: The application id where the violation exists
 
-- # ====== Page Item: P42_APPLICATION_NAME =====================
-  id: 470628491230603210
-  identification: 
-    name: P42_APPLICATION_NAME
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Apex info table cols # 685223774983239147
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Inspect Audit Issue # 470626476162603198
-    column: APPLICATION_NAME
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
 - # ====== Page Item: P42_PAGE_ID ==============================
   id: 470628884319603211
   identification: 
@@ -3512,60 +3512,6 @@ page-items:
 
   help: 
     help-text: The page id where the violation exists
-
-- # ====== Page Item: P42_PASS_YN ==============================
-  id: 470629243707603211
-  identification: 
-    name: P42_PASS_YN
-    type: Switch
-
-  label: 
-    label: Pass
-    alignment: Left
-
-  settings: 
-    use-defaults: true
-
-  layout: 
-    sequence: 50
-    region: General Table Cols # 685223344093239143
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Inspect Audit Issue # 470626476162603198
-    column: PASS_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: whether or not there is a violation
 
 - # ====== Page Item: P42_LINE =================================
   id: 470629607937603211
