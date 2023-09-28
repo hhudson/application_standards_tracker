@@ -7,6 +7,11 @@ set linesize 10
 
 define PROJECT_DIR = "standard_tests"
 
+begin
+    svt_audit_util.set_workspace;
+end;
+/
+
 spool &PROJECT_DIR/temp_dva_script.sql
 
 select apex_string.format(q'[spool standard_tests/.results/AUDIT_DVA_EXPORT_%0DB_%1.json
