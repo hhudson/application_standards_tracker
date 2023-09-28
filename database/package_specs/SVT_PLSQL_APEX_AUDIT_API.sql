@@ -19,6 +19,7 @@ create or replace package SVT_PLSQL_APEX_AUDIT_API authid definer as
 -- hayhudso  2023-jun-29- created
 ---------------------------------------------------------------------------- 
 
+
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: june 29, 2023
@@ -114,6 +115,89 @@ return svt_plsql_apex_audit%rowtype;
 ------------------------------------------------------------------------------
 function get_unqid(p_audit_id in svt_plsql_apex_audit.id%type) 
 return svt_plsql_apex_audit.unqid%type;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 16, 2023
+-- Synopsis:
+--
+-- procedure to assign apex violations to developers according to v_eba_stds_applications.default_developer
+-- called by assign_violations
+--
+/*
+begin
+    svt_plsql_apex_audit_api.assign_from_default;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure assign_from_default;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: January 12, 2023
+-- Synopsis:
+--
+-- Procedure to assign apex violations to developers according to the apex audit columns
+-- called by assign_violations
+--
+/*
+begin
+    svt_plsql_apex_audit_api.assign_from_apex_audit;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure assign_from_apex_audit;
+
+$if oracle_apex_version.c_loki_access $then
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 19, 2023
+-- Synopsis:
+--
+-- Procedure to assign issue from loki tables
+--
+/*
+BEGIN
+    svt_plsql_apex_audit_api.assign_from_loki;
+end;
+*/
+------------------------------------------------------------------------------
+procedure assign_from_loki;
+$end
+
+------------------------------------------------------------------------------
+--  creator: hayden hudson
+--     date: september 26, 2022
+-- synopsis:
+--
+-- merge data into svt_plsql_apex_audit
+/*
+begin
+ svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('svt_default_schema'));
+ svt_plsql_apex_audit_api.merge_audit_tbl(p_issue_category => 'APEX');
+ commit;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                               p_page_id        in svt_plsql_apex_audit.page_id%type default null,
+                               p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                               p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
+                               p_audit_id       in svt_plsql_apex_audit.id%type default null,
+                               p_issue_category in svt_plsql_apex_audit.issue_category%type default null
+                              );
+
+e_compilation_error    exception;
+pragma exception_init(e_compilation_error,-24344);
+e_dependent_error    exception;
+pragma exception_init(e_dependent_error,-2311);
+e_object_not_exist    exception;
+pragma exception_init(e_object_not_exist,-4043);
+e_timeout    exception;
+pragma exception_init(e_timeout,-4021);
+e_deadlock    exception;
+pragma exception_init(e_deadlock,-60);
 
 end SVT_PLSQL_APEX_AUDIT_API;
 /

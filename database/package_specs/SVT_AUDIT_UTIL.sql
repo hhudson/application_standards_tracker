@@ -65,28 +65,6 @@ end;
     procedure recompile_w_plscope;
 
 ------------------------------------------------------------------------------
---  creator: hayden hudson
---     date: september 26, 2022
--- synopsis:
---
--- merge data into svt_plsql_apex_audit
-/*
-begin
- svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('svt_default_schema'));
- svt_audit_util.merge_audit_tbl(p_issue_category => 'APEX');
- commit;
-end;
-*/
-------------------------------------------------------------------------------
-    procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                               p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                               p_test_code      in eba_stds_standard_tests.test_code%type default null,
-                               p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
-                               p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                               p_issue_category in svt_plsql_apex_audit.issue_category%type default null
-                              );
-
-------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2022
 -- Synopsis:
@@ -127,25 +105,6 @@ procedure assign_violations;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
---     Date: January 25, 2023
--- Synopsis:
---
--- Procedure to delete standard violations that have been resolved
---
-/*
-begin
-  svt_audit_util.delete_obsolete_violations;
-  commit;
-end;
-*/
-------------------------------------------------------------------------------
-procedure delete_obsolete_violations (
-                p_test_code      in eba_stds_standard_tests.test_code%type default null,
-                p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                p_page_id        in svt_plsql_apex_audit.page_id%type default null);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
 --     Date: February 8, 2023
 -- Synopsis:
 --
@@ -175,24 +134,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null);
-
-
-$if oracle_apex_version.c_loki_access $then
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: September 19, 2023
--- Synopsis:
---
--- Procedure to assign issue from loki tables
---
-/*
-BEGIN
-    SVT_AUDIT_UTIL.assign_from_loki;
-end;
-*/
-------------------------------------------------------------------------------
-procedure assign_from_loki;
-$end
 
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);

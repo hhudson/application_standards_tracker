@@ -518,7 +518,7 @@ $end
       svt_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
     end if;
 
-    svt_audit_util.merge_audit_tbl (
+    svt_plsql_apex_audit_api.merge_audit_tbl (
                         p_test_code      => p_test_code,
                         p_application_id => p_app_id,
                         p_page_id        => p_page_id
@@ -556,7 +556,7 @@ $end
       end if;
 
       l_apex_issue_id := l_svt_plsql_apex_audit_rec.apex_issue_id;
-      svt_audit_util.merge_audit_tbl (
+      svt_plsql_apex_audit_api.merge_audit_tbl (
                         p_test_code  => l_svt_plsql_apex_audit_rec.test_code,
                         p_application_id => l_svt_plsql_apex_audit_rec.application_id,
                         p_page_id        => l_svt_plsql_apex_audit_rec.page_id,
