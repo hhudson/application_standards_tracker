@@ -648,6 +648,7 @@ create or replace package body SVT_STANDARD_VIEW as
                           from (]',
                           p0 => c_issue_category)
       );
+      l_unqid_predicate := apex_string.format(q'^ and '%0:'||unqid = '%1' ^', c_test_code, c_unqid);
     elsif c_nt_name = gc_v_svt_db_mv__0_nt then 
       l_query_clob := get_query_clob (
         p_test_code => c_test_code,
@@ -674,6 +675,7 @@ create or replace package body SVT_STANDARD_VIEW as
                           from (]',
                           p0 => c_issue_category)
       );
+      l_unqid_predicate := apex_string.format(q'^ and '%0:'||unqid = '%1' ^', c_test_code, c_unqid);
     elsif c_nt_name = gc_v_svt_db_tbl__0_nt then 
       l_query_clob := get_query_clob (
         p_test_code => c_test_code,

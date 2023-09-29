@@ -9,7 +9,7 @@ create or replace package body SVT_PLSQL_REVIEW as
   gc_table   constant varchar2(20) := 'TABLE';
   gc_y       constant varchar2(1) := 'Y';
   gc_n       constant varchar2(1) := 'N';
-  gc_SVT     constant varchar2(3) := 'SVT';
+  gc_svt     constant varchar2(3) := 'SVT';
 
 
   ------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ create or replace package body SVT_PLSQL_REVIEW as
 
   l_object_exists_yn varchar2(1);
   -- c_review_schema constant varchar2(32) 
-  --                 := case when sys_context('userenv', 'current_user') = gc_SVT
+  --                 := case when sys_context('userenv', 'current_user') = gc_svt
   --                         then svt_ctx_util.get_default_user
   --                         else sys_context('userenv', 'current_user')
   --                         end;
@@ -40,8 +40,8 @@ create or replace package body SVT_PLSQL_REVIEW as
               );
 
       if l_object_exists_yn = gc_n 
-      and sys_context('userenv', 'current_user') = gc_SVT 
-      and svt_ctx_util.get_default_user != gc_SVT /* we need to be able to run scripts that aren't ddl scripts */
+      and sys_context('userenv', 'current_user') = gc_svt 
+      and svt_ctx_util.get_default_user != gc_svt /* we need to be able to run scripts that aren't ddl scripts */
       then 
         svt_ctx_util.set_review_schema (p_schema => sys_context('userenv', 'current_user'));
         -- raise_application_error(-20124, apex_string.format(
