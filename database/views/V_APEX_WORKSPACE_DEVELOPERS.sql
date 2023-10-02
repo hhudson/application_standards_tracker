@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset view_script:v_apex_workspace_developers stripComments:false endDelimiter:/ runOnChange:true
+--preconditions onFail:MARK_RAN onError:HALT
 --------------------------------------------------------
 --  DDL for View V_APEX_WORKSPACE_DEVELOPERS
 --------------------------------------------------------

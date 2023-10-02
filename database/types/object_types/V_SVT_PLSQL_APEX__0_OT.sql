@@ -12,10 +12,10 @@
 --     purpose:  type creation ddl
 --
 --------------------------------------------------------------------------------
--- drop type v_svt_plsql_apex__0_nt
--- /
--- drop type v_svt_plsql_apex__0_ot
--- /
+drop type v_svt_plsql_apex__0_nt
+/
+drop type v_svt_plsql_apex__0_ot
+/
 create type v_svt_plsql_apex__0_ot as object
     (
         UNQID                      VARCHAR2(1000 CHAR),
@@ -38,5 +38,7 @@ create type v_svt_plsql_apex__0_ot as object
         COMPONENT_ID               NUMBER,
         PARENT_COMPONENT_ID        NUMBER
     )
+/
+create type v_svt_plsql_apex__0_nt as table of v_svt_plsql_apex__0_ot
 /
 --rollback drop type V_SVT_PLSQL_APEX__0_OT;

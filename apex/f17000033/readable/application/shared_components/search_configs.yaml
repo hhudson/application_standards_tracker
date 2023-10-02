@@ -12,10 +12,10 @@
       select list_entry_id,
              entry_text, 
              entry_url,
-             entry_attribute_01,
+             addl_info,
              entry_image
       from V_SVT_NAV_MENU
-    searchable-columns: 'ENTRY_TEXT:ENTRY_ATTRIBUTE_01'
+    searchable-columns: 'ENTRY_TEXT:ADDL_INFO'
 
   order-by: 
     order-by-clause: entry_text
@@ -23,7 +23,7 @@
   column-mapping: 
     primary-key-1-column-name: LIST_ENTRY_ID
     title-column-name: ENTRY_TEXT
-    description-column-name: ENTRY_ATTRIBUTE_01
+    description-column-name: ADDL_INFO
 
   link: 
     type: Redirect to URL
@@ -35,6 +35,9 @@
 
   advanced: 
     static-id: v_svt_nav_menu
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 - # ====== Search Configuration: Standard Groups ===============
   id: 374196750409028866

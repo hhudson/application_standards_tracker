@@ -138,11 +138,11 @@ These tests run against the DB objects and therefore may be hard to associate wi
 |-----------|-----------|---------|----------------|
 | [DBMS_ASSERT](DB_GENERAL_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.5 | DATABASE SUPPORTING OBJECT |
 | [DISCOURAGED_CODE](DB_GENERAL_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.5 | DATABASE SUPPORTING OBJECT |
-| [DUPLICATE_STATEMENTS](DB_GENERAL_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.4 | DATABASE SUPPORTING OBJECT |
+| [DUPLICATE_STATEMENTS](DB_GENERAL_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.5 | DATABASE SUPPORTING OBJECT |
 | [FK_INDEXED](DB_GENERAL_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.2 | DATABASE TABLE |
-| [IDENTIFIER_NAMING](DB_GENERAL_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.5 | DATABASE SUPPORTING OBJECT |
+| [IDENTIFIER_NAMING](DB_GENERAL_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.6 | DATABASE SUPPORTING OBJECT |
 | [MISSING_COMMENT](DB_GENERAL_19C/tests/MISSING_COMMENT.json) |  Missing Comments | v1.2 | DATABASE SUPPORTING OBJECT |
-| [UNUSED_IDENTIFIERS](DB_GENERAL_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1.2 | DATABASE SUPPORTING OBJECT |
+| [UNUSED_IDENTIFIERS](DB_GENERAL_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1.3 | DATABASE SUPPORTING OBJECT |
 | [URGENT_PLSQL_WARNINGS](DB_GENERAL_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1.2 | DATABASE SUPPORTING OBJECT |
 | [VALID_OBJECTS](DB_GENERAL_19C/tests/VALID_OBJECTS.json) |  Invalid Object | v1.3 | DATABASE SUPPORTING OBJECT |
 | [VALID_VIEW](DB_GENERAL_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1.2 | DATABASE VIEW |
@@ -188,9 +188,9 @@ Standards that are *not* general standards
 | [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1.3 | APEX_APPLICATION_PAGE_BUTTONS |
 | [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES.json) |  Page names should be human friendly | v1 | APEX_APPLICATION_PAGES |
-| [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions | v1.1 | APEX_APPLICATION_LIST_ENTRIES |
+| [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions | v1.2 | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS.json) |  Navigation menu list entries should have icons | v1 | APEX_APPLICATION_LIST_ENTRIES |
-| [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION.json) |  Form pages require authentication and have access protection | v1 | APEX_APPLICATION_PAGES |
+| [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION.json) |  Form pages require authentication and have access protection | v1.1 | APEX_APPLICATION_PAGES |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER.json) |  RDS regions should have a template of Tabs Container | v1 | APEX_APPLICATION_PAGE_REGIONS |
 | [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE.json) |  Reset buttons should be styled in a consistent way | v1.1 | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS.json) |  Button names and labels should be correctly capitalized | v1 | APEX_APPLICATION_PAGE_BUTTONS |
@@ -273,10 +273,10 @@ These standards enforce security
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [APP_AUTH](APEX_SECURITY_212/tests/APP_AUTH.json) |  Application has Authorization Scheme | v1 | APEX_APPLICATIONS |
+| [APP_AUTH](APEX_SECURITY_212/tests/APP_AUTH.json) |  Application has Authorization Scheme | v1.1 | APEX_APPLICATIONS |
 | [IG_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IG_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IG Columns | v1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IR_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IR_HTML_ESCAPING_COLS.json) |  HTML should be escaped in IR Columns | v1 | APEX_APPLICATION_PAGE_IR_COL |
-| [PAGE_AUTH](APEX_SECURITY_212/tests/PAGE_AUTH.json) |  Application Pages should have Authorization Schemes | v1 | APEX_APPLICATION_PAGES |
+| [PAGE_AUTH](APEX_SECURITY_212/tests/PAGE_AUTH.json) |  Application Pages should have Authorization Schemes | v1.1 | APEX_APPLICATION_PAGES |
 
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.
