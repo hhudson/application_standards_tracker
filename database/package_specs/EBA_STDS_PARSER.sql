@@ -231,6 +231,33 @@ from dual;
     return varchar2
     deterministic;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 2, 2023
+-- Synopsis:
+--
+-- Function to determine whether a given column exists in a given table 
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    l_bool := eba_stds_parser.column_exists 
+                    (p_column_name => 'UPDATED_BY',
+                     p_table_name => 'APEX_APPLICATION_PAGE_REGIONS'
+                    );
+    if l_bool then 
+        dbms_output.put_line('column exists');
+    else 
+        dbms_output.put_line('column does not exist');
+    end if;
+end;
+*/
+------------------------------------------------------------------------------
+    function column_exists (p_column_name in all_tab_cols.column_name%type,
+                            p_table_name  in all_tab_cols.table_name%type) 
+    return boolean;
+
     e_subscript_beyond_count exception;
     pragma exception_init(e_subscript_beyond_count, -6533);
     e_not_a_number exception;

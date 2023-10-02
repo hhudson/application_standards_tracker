@@ -250,6 +250,8 @@ create or replace package body SVT_AUDIT_UTIL as
 
       svt_plsql_apex_audit_api.assign_from_apex_audit;
 
+      svt_plsql_apex_audit_api.assign_from_apex_parent_audit;
+
       $if oracle_apex_version.c_loki_access $then
         svt_plsql_apex_audit_api.assign_from_loki;
       $end

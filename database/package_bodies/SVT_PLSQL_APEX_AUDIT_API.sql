@@ -381,11 +381,11 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         raise;
   end get_unqid;
 
-    procedure assign_from_default
-    as 
-    c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_default';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    begin
+  procedure assign_from_default
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_default';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
 
       merge into (select application_id, assignee
                   from svt_plsql_apex_audit 
@@ -403,13 +403,13 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         where assignee is null;
       end if;
 
-    exception when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-    end assign_from_default;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end assign_from_default;
 
-    procedure assign_from_apex_audit 
-    is 
+  procedure assign_from_apex_audit 
+  is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_apex_audit';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
@@ -449,17 +449,311 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         l_auditid := l_auditid_email.next(l_auditid);
       end loop;
 
-    exception when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-    end assign_from_apex_audit;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end assign_from_apex_audit;
 
-    $if oracle_apex_version.c_loki_access $then
-    procedure assign_from_loki 
-    as 
-    c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_loki';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    begin
+  procedure get_assignee_from_parent_apex_audit (
+      p_application_id in svt_plsql_apex_audit.application_id%type,
+      p_component_id   in svt_plsql_apex_audit.component_id%type,
+      p_view_name      in v_svt_flow_dictionary_views.view_name%type,
+      p_query1         out nocopy clob,
+      p_query2         out nocopy clob,
+      p_assignee       out nocopy svt_plsql_apex_audit.assignee%type,
+      p_parent_pk_id   out nocopy svt_plsql_apex_audit.component_id%type,
+      p_parent_view    out nocopy v_svt_flow_dictionary_views.view_name%type
+  )
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_assignee_from_parent_apex_audit';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_view_name        v_svt_flow_dictionary_views.view_name%type;
+  l_parent_view_name v_svt_flow_dictionary_views.view_name%type;
+  l_pk_value         svt_component_types.pk_value%type;
+  l_parent_pk_value  svt_component_types.parent_pk_value%type;
+  l_query            clob;
+  l_query2           clob;
+  l_assignee         svt_plsql_apex_audit.assignee%type;
+  c_null            constant varchar2(25) := 'null';
+  c_created_by      constant varchar2(25) := 'created_by';
+  c_updated_by      constant varchar2(25) := 'updated_by';
+  c_last_updated_by constant varchar2(25) := 'last_updated_by';
+  BEGIN
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_component_id', p_component_id,
+                                        'p_view_name', p_view_name);
+    if  p_component_id is not null 
+    and p_view_name is not null
+    and p_application_id is not null
+    then 
+      select act.pk_value, 
+            act.parent_pk_value
+      into l_pk_value,
+           l_parent_pk_value
+      from svt_component_types act
+      inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
+      where fdv.view_name = p_view_name;
+      apex_debug.message(c_debug_template, 'l_pk_value', l_pk_value);
+      apex_debug.message(c_debug_template, 'l_parent_pk_value', l_parent_pk_value);
+
+      if l_parent_pk_value is not null 
+      and l_pk_value is not null
+      then 
+        l_query := apex_string.format(
+          'select %0 from %1 where %2 = %3 and application_id = %4',
+          p0 => l_parent_pk_value,
+          p1 => p_view_name,
+          p2 => l_pk_value,
+          p3 => p_component_id,
+          p4 => p_application_id
+        );
+        apex_debug.message(c_debug_template, 'l_query', l_query);
+        
+        p_query1 := l_query;
+        
+        execute immediate l_query into p_parent_pk_id;
+        apex_debug.message(c_debug_template, 'p_parent_pk_id', p_parent_pk_id);
+      else 
+        apex_debug.message(c_debug_template, 'either l_parent_pk_value or l_pk_value is null');
+      end if;
+
+      if p_parent_pk_id is not null then 
+        select fdv.view_name
+        into l_parent_view_name
+        from svt_component_types act 
+        inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
+        where pk_value = case when l_parent_pk_value = 'PARENT_REGION_ID'
+                              then 'REGION_ID'
+                              else l_parent_pk_value
+                              end
+        fetch first 1 rows only;
+
+        p_parent_view := l_parent_view_name;
+
+        l_query2 := apex_string.format(
+            'select coalesce(%4, %5) assignee from %1 where %2 = %3 and application_id = %6 fetch first 1 rows only',
+            p0 => l_parent_pk_value,
+            p1 => l_parent_view_name,
+            p2 => l_parent_pk_value,
+            p3 => p_parent_pk_id,
+            p4 => case when  eba_stds_parser.column_exists 
+                              (p_column_name => c_updated_by,
+                              p_table_name => l_parent_view_name
+                              )
+                        then c_updated_by
+                        when  eba_stds_parser.column_exists 
+                              (p_column_name => c_last_updated_by,
+                              p_table_name => l_parent_view_name
+                              )
+                        then c_last_updated_by
+                        else c_null 
+                        end,
+            p5 => case when  eba_stds_parser.column_exists 
+                              (p_column_name => c_created_by,
+                              p_table_name => l_parent_view_name
+                              )
+                        then c_created_by
+                        else c_null 
+                        end,
+            p6 => p_application_id
+        );
+
+        apex_debug.message(c_debug_template, 'l_query2: ', l_query2);
+        p_query2 := l_query2;
+        
+        begin <<assgn>>
+          execute immediate l_query2 into p_assignee;
+        exception when no_data_found then 
+          apex_debug.message(c_debug_template, 'no_data_found', l_query2);
+          p_assignee := null;
+        end assgn;
+      else 
+        apex_debug.message(c_debug_template, 'p_parent_pk_id is null');
+      end if;
+    
+    else 
+      apex_debug.message(c_debug_template, 'p_component_id or p_view_name or p_application_id is null');
+    end if;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end get_assignee_from_parent_apex_audit;
+
+  function get_assignee_from_parent_apex_audit (
+    p_component_id   in svt_plsql_apex_audit.component_id%type,
+    p_view_name      in v_svt_flow_dictionary_views.view_name%type,
+    p_application_id in svt_plsql_apex_audit.application_id%type,
+    p_page_id        in svt_plsql_apex_audit.page_id%type
+  ) return svt_plsql_apex_audit.assignee%type
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_assignee_from_parent_apex_audit 2';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_query1        clob;
+  l_query2        clob;
+  l_parent_pk_id  svt_plsql_apex_audit.component_id%type;
+  l_parent_view   v_svt_flow_dictionary_views.view_name%type;
+  l_assignee      svt_plsql_apex_audit.assignee%type;
+  BEGIN
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_component_id', p_component_id,
+                                        'p_view_name',p_view_name,
+                                        'p_application_id',p_application_id,
+                                        'p_page_id',p_page_id);
+    
+    get_assignee_from_parent_apex_audit (
+        p_application_id => p_application_id,
+        p_component_id   => p_component_id,
+        p_view_name      => p_view_name,
+        p_query1         => l_query1,
+        p_query2         => l_query2,
+        p_assignee       => l_assignee,
+        p_parent_pk_id   => l_parent_pk_id,
+        p_parent_view    => l_parent_view
+    );
+
+    if l_assignee is null then 
+      <<take2>>
+      declare 
+      l_parent_pk_id2  svt_plsql_apex_audit.component_id%type;
+      l_parent_view2   v_svt_flow_dictionary_views.view_name%type;
+      begin
+        apex_debug.message(c_debug_template,'START take 2', 
+                                            'l_parent_pk_id', l_parent_pk_id,
+                                            'l_parent_view',l_parent_view);
+        get_assignee_from_parent_apex_audit (
+            p_application_id => p_application_id,
+            p_component_id   => l_parent_pk_id,
+            p_view_name      => l_parent_view,
+            p_query1         => l_query1,
+            p_query2         => l_query2,
+            p_assignee       => l_assignee,
+            p_parent_pk_id   => l_parent_pk_id2,
+            p_parent_view    => l_parent_view2
+        );
+        
+        if l_assignee is null then 
+          <<take3>>
+          declare 
+          l_parent_pk_id3  svt_plsql_apex_audit.component_id%type;
+          l_parent_view3   v_svt_flow_dictionary_views.view_name%type;
+          begin
+            apex_debug.message(c_debug_template,'START take 3', 
+                                                'l_parent_pk_id2', l_parent_pk_id2,
+                                                'l_parent_view2',l_parent_view2);
+            get_assignee_from_parent_apex_audit (
+                p_application_id => p_application_id,
+                p_component_id   => l_parent_pk_id2,
+                p_view_name      => l_parent_view2,
+                p_query1         => l_query1,
+                p_query2         => l_query2,
+                p_assignee       => l_assignee,
+                p_parent_pk_id   => l_parent_pk_id3,
+                p_parent_view    => l_parent_view3
+            );
+
+            if l_assignee is null then
+              <<take4>>
+              declare 
+              l_parent_pk_id4  svt_plsql_apex_audit.component_id%type;
+              l_parent_view4   v_svt_flow_dictionary_views.view_name%type;
+              begin
+                apex_debug.message(c_debug_template,'START take 4', 
+                                                    'l_parent_pk_id3', l_parent_pk_id3,
+                                                    'l_parent_view3',l_parent_view3);
+                get_assignee_from_parent_apex_audit (
+                    p_application_id => p_application_id,
+                    p_component_id   => l_parent_pk_id3,
+                    p_view_name      => l_parent_view3,
+                    p_query1         => l_query1,
+                    p_query2         => l_query2,
+                    p_assignee       => l_assignee,
+                    p_parent_pk_id   => l_parent_pk_id4,
+                    p_parent_view    => l_parent_view4
+                );
+                  <<finaltake>>
+                  declare 
+                  l_parent_pk_id_z  svt_plsql_apex_audit.component_id%type;
+                  l_parent_view_z   v_svt_flow_dictionary_views.view_name%type;
+                  c_apex_application_pages constant varchar2(255) := 'APEX_APPLICATION_PAGES';
+                  begin
+                    apex_debug.message(c_debug_template,'START final take', 
+                                                        'p_page_id', p_page_id,
+                                                        'c_apex_application_pages',c_apex_application_pages);
+                    if l_assignee is null 
+                    and l_parent_view3 != c_apex_application_pages
+                    and p_page_id is not null
+                    then
+                        get_assignee_from_parent_apex_audit (
+                            p_application_id => p_application_id,
+                            p_component_id   => p_page_id,
+                            p_view_name      => c_apex_application_pages,
+                            p_query1         => l_query1,
+                            p_query2         => l_query2,
+                            p_assignee       => l_assignee,
+                            p_parent_pk_id   => l_parent_pk_id_z,
+                            p_parent_view    => l_parent_view_z
+                        );
+                    else 
+                      apex_debug.message(c_debug_template, 'final take not executed');
+                    end if;
+                  end finaltake;
+              end take4;
+            end if;
+          end take3;
+        end if;
+      end take2;
+    end if;
+
+    apex_debug.message(c_debug_template, 'l_assignee', l_assignee);
+    return l_assignee;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end get_assignee_from_parent_apex_audit;
+
+  procedure assign_from_apex_parent_audit
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_apex_parent_audit';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  BEGIN
+    apex_debug.message(c_debug_template,'START');
+    for rec in (
+      select paa.id audit_id, 
+             paa.application_id,
+             paa.page_id,
+             paa.component_id, 
+             fdv.view_name
+      from svt_plsql_apex_audit paa
+      inner join eba_stds_standard_tests st on paa.test_code = st.test_code
+      inner join svt_component_types act on act.id = st.svt_component_type_id 
+      inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
+      where paa.issue_category = gc_apex
+      and paa.component_id is not null
+      and paa.assignee is null
+    )
+    loop
+      update svt_plsql_apex_audit 
+      set assignee = get_assignee_from_parent_apex_audit (
+                        p_application_id => rec.application_id,
+                        p_component_id   => rec.component_id,
+                        p_view_name      => rec.view_name,
+                        p_page_id        => rec.page_id
+                    )
+      where id = rec.audit_id;
+    end loop;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end assign_from_apex_parent_audit;
+
+  $if oracle_apex_version.c_loki_access $then
+  procedure assign_from_loki 
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'assign_from_loki';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
       apex_debug.message(c_debug_template,'START');
 
       merge into (select object_type, object_name, assignee
@@ -473,11 +767,11 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       when matched then
       update set e.assignee = lower(h.apex_username);
 
-    exception when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-    end assign_from_loki;
-    $end
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end assign_from_loki;
+  $end
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -487,13 +781,13 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 -- private function to determine whether a unqid already exists in svt_plsql_apex_audit
 --
 ------------------------------------------------------------------------------
-    function unqid_exists (p_unquid in svt_plsql_apex_audit.unqid%type) 
-    return boolean deterministic 
-    as 
-    c_scope constant varchar2(128) := gc_scope_prefix || 'unqid_exists';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    l_unquid_exists_yn varchar2(1);
-    begin
+  function unqid_exists (p_unquid in svt_plsql_apex_audit.unqid%type) 
+  return boolean deterministic 
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'unqid_exists';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_unquid_exists_yn varchar2(1);
+  begin
       apex_debug.message(c_debug_template,'START', 'p_unquid', p_unquid);
 
       select case when count(*) = 1
@@ -511,28 +805,28 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                   else false 
                   end;
 
-    exception when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-    end unqid_exists;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end unqid_exists;
 
-    procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                               p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                               p_test_code      in eba_stds_standard_tests.test_code%type,
-                               p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
-                               p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                               p_issue_category in svt_plsql_apex_audit.issue_category%type default null
-                               )
-    is 
-    c_scope constant varchar2(128) := gc_scope_prefix || 'merge_audit_tbl';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
-    c_legacy_yn constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = gc_y
+  procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                              p_page_id        in svt_plsql_apex_audit.page_id%type default null,
+                              p_test_code      in eba_stds_standard_tests.test_code%type,
+                              p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
+                              p_audit_id       in svt_plsql_apex_audit.id%type default null,
+                              p_issue_category in svt_plsql_apex_audit.issue_category%type default null
+                              )
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'merge_audit_tbl';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  c_legacy_yn constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = gc_y
                                                                       then gc_y
                                                                       else gc_n
                                                                       end;
-    l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
-    begin
+  l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype;
+  begin
       apex_debug.message(c_debug_template,'START',
                                           'p_application_id', p_application_id,
                                           'p_page_id', p_page_id,
@@ -566,7 +860,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                     a.apex_created_on,
                     a.apex_last_updated_by,
                     a.apex_last_updated_on,
-                    svt_ctx_util.get_default_user owner,
+                    coalesce(a.schema, svt_ctx_util.get_default_user) owner,
                     a.component_id,
                     a.parent_component_id 
                   from v_eba_stds_standard_tests esst
@@ -631,24 +925,24 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
           end if;
         end loop;
 
-    exception 
-      when e_deadlock then 
-        apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock encountered in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-        raise;
-      when others then 
-        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-        raise;
-    end merge_audit_tbl;
+  exception 
+    when e_deadlock then 
+      apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock encountered in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+    when others then 
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end merge_audit_tbl;
 
-    procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type)
-    is
-    c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    c_test_code      constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
-    c_mv_dependency  constant eba_stds_standard_tests.mv_dependency%type 
-                    := eba_stds.get_mv_dependency(p_test_code => p_test_code);
-    c_sysdate        constant date := sysdate;
-    begin
+  procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type)
+  is
+  c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_test_code      constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  c_mv_dependency  constant eba_stds_standard_tests.mv_dependency%type 
+                  := eba_stds.get_mv_dependency(p_test_code => p_test_code);
+  c_sysdate        constant date := sysdate;
+  begin
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
       
       if c_mv_dependency is not null then
@@ -675,11 +969,11 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       and updated < c_sysdate;
       apex_debug.message(c_debug_template, 'deleted', sql%rowcount);
     
-    exception 
-      when others then 
-        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-        raise;
-    end refresh_for_test_code;
+  exception 
+    when others then 
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end refresh_for_test_code;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

@@ -16,10 +16,12 @@ create or replace package body SVT_APEX_SERT_UTIL as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
-  gc_sert_view_prefix constant varchar2(31) := 'V_SVT_APEX_SERT_';
+  $if oracle_apex_version.c_sert_access
+  $then 
   gc_select           constant varchar2(100) := 'select ';
   gc_final_slash      constant varchar2(10) := chr(10)||'/';
-
+  gc_sert_view_prefix constant varchar2(31) := 'V_SVT_APEX_SERT_';
+  $end
 
 function v_svt_sert
 return v_svt_sert_nt pipelined

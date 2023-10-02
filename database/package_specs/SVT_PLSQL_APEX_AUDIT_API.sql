@@ -243,6 +243,110 @@ end;
 ------------------------------------------------------------------------------
   procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type);
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 2, 2023
+-- Synopsis:
+--
+-- Overloaded procedure to get the parent apex audit columns for the assignee
+--
+/*
+set serveroutput on
+declare
+l_component_id svt_plsql_apex_audit.component_id%type;
+l_view_name    v_svt_flow_dictionary_views.view_name%type;
+l_assignee     svt_plsql_apex_audit.assignee%type;
+l_parent_view  v_svt_flow_dictionary_views.view_name%type;
+l_query1       clob;
+l_query2       clob; 
+begin 
+    select paa.component_id, fdv.view_name
+    into l_component_id, l_view_name
+    from svt_plsql_apex_audit paa
+    inner join eba_stds_standard_tests st on paa.test_code = st.test_code
+    inner join svt_component_types act on act.id = st.svt_component_type_id
+    inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
+    where paa.issue_category = 'APEX'
+    and paa.application_id = 17000033
+    and paa.component_id is not null
+    and paa.id = 3782539;
+
+    dbms_output.put_line('l_component_id :'||l_component_id);
+    dbms_output.put_line('l_view_name :'||l_view_name);
+
+    svt_plsql_apex_audit_api.get_assignee_from_parent_apex_audit (
+      p_component_id => l_component_id,
+      p_view_name    => l_view_name,
+      p_query1       => l_query1,
+      p_query2       => l_query2,
+      p_assignee     => l_assignee,
+      p_parent_view  => l_parent_view
+    );
+
+    dbms_output.put_line('l_query1 :'||l_query1);
+    dbms_output.put_line('l_query2 :'||l_query2);
+    dbms_output.put_line('l_assignee :'||l_assignee);
+    dbms_output.put_line('l_parent_view :'||l_parent_view);
+end;
+*/
+------------------------------------------------------------------------------
+  procedure get_assignee_from_parent_apex_audit (
+      p_application_id in svt_plsql_apex_audit.application_id%type,
+      p_component_id   in svt_plsql_apex_audit.component_id%type,
+      p_view_name      in v_svt_flow_dictionary_views.view_name%type,
+      p_query1         out nocopy clob,
+      p_query2         out nocopy clob,
+      p_assignee       out nocopy svt_plsql_apex_audit.assignee%type,
+      p_parent_pk_id   out nocopy svt_plsql_apex_audit.component_id%type,
+      p_parent_view    out nocopy v_svt_flow_dictionary_views.view_name%type
+  );
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 2, 2023
+-- Synopsis:
+--
+-- Overloaded function to get the parent apex audit columns for the assignee
+--
+/*
+select paa.component_id, 
+       fdv.view_name,
+       svt_plsql_apex_audit_api.get_assignee_from_parent_apex_audit (
+            p_component_id => paa.component_id,
+            p_view_name    => fdv.view_name
+        ) assignee
+from svt_plsql_apex_audit paa
+inner join eba_stds_standard_tests st on paa.test_code = st.test_code
+inner join svt_component_types act on act.id = st.svt_component_type_id
+inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
+where paa.issue_category = 'APEX'
+and paa.application_id = 17000033
+and paa.component_id is not null
+and paa.id = 3782539;
+*/
+------------------------------------------------------------------------------
+  function get_assignee_from_parent_apex_audit (
+    p_component_id   in svt_plsql_apex_audit.component_id%type,
+    p_view_name      in v_svt_flow_dictionary_views.view_name%type,
+    p_application_id in svt_plsql_apex_audit.application_id%type,
+    p_page_id        in svt_plsql_apex_audit.page_id%type
+  ) return svt_plsql_apex_audit.assignee%type;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 2, 2023
+-- Synopsis:
+--
+-- Procedure to find an assignee in the apex audit component hierarchy
+--
+/*
+begin
+    svt_plsql_apex_audit_api.assign_from_apex_parent_audit;
+end;
+*/
+------------------------------------------------------------------------------
+  procedure assign_from_apex_parent_audit;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;
@@ -253,6 +357,8 @@ e_timeout    exception;
 pragma exception_init(e_timeout,-4021);
 e_deadlock    exception;
 pragma exception_init(e_deadlock,-60);
+e_invalid_id    exception;
+pragma exception_init(e_invalid_id,-904);
 
 end SVT_PLSQL_APEX_AUDIT_API;
 /

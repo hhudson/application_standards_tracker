@@ -525,7 +525,8 @@ is
         
         apex_debug.message(c_debug_template, 'l_url', l_url);
 
-        l_url := apex_util.prepare_url(l_url);
+        -- l_url := apex_util.prepare_url(l_url);
+        l_url := apex_page.get_url(l_url);
 
         apex_debug.message(c_debug_template, 'prepared l_url', l_url);
 
@@ -584,6 +585,43 @@ is
         raise;
     end assemble_addlcols;
 
+    ------------------------------------------------------------------------------
+    -- Nested function to determine whether a given column exists in a given table 
+    ------------------------------------------------------------------------------
+    function column_exists (p_column_name in all_tab_cols.column_name%type,
+                            p_table_name  in all_tab_cols.table_name%type) 
+    return boolean
+    as
+    c_scope constant varchar2(128) := gc_scope_prefix || 'column_exists';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15';
+    l_column_exists_yn varchar2(1) := gc_n;
+    c_column_name constant all_tab_cols.column_name%type := lower(p_column_name);
+    c_table_name  constant all_tab_cols.table_name%type := lower(p_table_name);
+    begin
+        apex_debug.message(c_debug_template,'START', 
+                                            'p_column_name', p_column_name, 
+                                            'p_table_name', p_table_name);
+        select case when count(*) = 1
+                        then gc_y
+                        else gc_n
+                        end into l_column_exists_yn
+                from sys.dual where exists (
+                    select 1
+                        from all_tab_cols 
+                        where lower(table_name) = c_table_name
+                        and lower(column_name) = c_column_name
+                );
+        return case when l_column_exists_yn = gc_y
+                    then true 
+                    else false
+                    end;
+
+    exception when others then 
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+        raise;
+    end column_exists; 
+
+
     function seed_default_query(p_svt_component_type_id in svt_component_types.id%type)
     return varchar2
     as 
@@ -614,31 +652,8 @@ is
     c_30_spaces       constant varchar2(100) := c_20_spaces||c_10_spaces;
     c_50_spaces       constant varchar2(100) := c_20_spaces||c_20_spaces||c_10_spaces;
     c_object_name     constant varchar2(25)  := 'object_name';
-
-        ------------------------------------------------------------------------------
-        -- Nested function to determine whether a given column exists in a given table 
-        ------------------------------------------------------------------------------
-        function column_exists (p_column_name in varchar2) return boolean
-        as 
-        l_column_exists_yn varchar2(1) := gc_n;
-        begin
-            select case when count(*) = 1
-                            then gc_y
-                            else gc_n
-                            end into l_column_exists_yn
-                    from sys.dual where exists (
-                        select 1
-                            from all_tab_cols 
-                            where lower(table_name) = l_view
-                            and lower(column_name) = p_column_name
-                    );
-            return case when l_column_exists_yn = gc_y
-                        then true 
-                        else false
-                        end;
-        end column_exists; 
-
     begin
+        apex_debug.message(c_debug_template,'START', 'p_svt_component_type_id', p_svt_component_type_id);
 
         select antt.example_query, 
                lower(act.component_name), 
@@ -678,51 +693,51 @@ is
                                                                               end
                                   );
         
-        l_example_query := replace(l_example_query, '%appid%', case when column_exists (c_application_id)
+        l_example_query := replace(l_example_query, '%appid%', case when column_exists (c_application_id,l_view)
                                                                     then l_initials||'.'
                                                                     else 'null '
                                                                     end
                                   );
-        l_example_query := replace(l_example_query, '%pageid%', case when column_exists (c_page_id)
+        l_example_query := replace(l_example_query, '%pageid%', case when column_exists (c_page_id,l_view)
                                                                      then l_initials||'.'
                                                                      else 'null '
                                                                      end
                                   );
-        l_example_query := replace(l_example_query, '%createdby%', case when column_exists (c_created_by)
+        l_example_query := replace(l_example_query, '%createdby%', case when column_exists (c_created_by,l_view)
                                                                         then l_initials||'.'
                                                                         else 'null '
                                                                         end
                                                                         ||c_created_by
                                   );
-        l_example_query := replace(l_example_query, '%createdon%', case when column_exists (c_created_on)
+        l_example_query := replace(l_example_query, '%createdon%', case when column_exists (c_created_on,l_view)
                                                                         then l_initials||'.'
                                                                         else 'null '
                                                                         end
                                                                         ||c_created_on
                                   );
-        l_example_query := replace(l_example_query, '%updatedby%', case when column_exists (c_last_updated_by)
+        l_example_query := replace(l_example_query, '%updatedby%', case when column_exists (c_last_updated_by,l_view)
                                                                         then l_initials||'.'
-                                                                        when column_exists (c_updated_by)
+                                                                        when column_exists (c_updated_by,l_view)
                                                                         then l_initials||'.'||c_updated_by||' '
                                                                         else 'null '
                                                                         end
                                                                         ||c_last_updated_by
                                   );
-        l_example_query := replace(l_example_query, '%updatedon%', case when column_exists (c_last_updated_on)
+        l_example_query := replace(l_example_query, '%updatedon%', case when column_exists (c_last_updated_on,l_view)
                                                                         then l_initials||'.'
-                                                                        when column_exists (c_updated_on)
+                                                                        when column_exists (c_updated_on,l_view)
                                                                         then l_initials||'.'||c_updated_on||' '
                                                                         else 'null '
                                                                         end
                                                                         ||c_last_updated_on
                                   );
-        l_example_query := replace(l_example_query, '%wrkspc%', case when column_exists (c_workspace)
+        l_example_query := replace(l_example_query, '%wrkspc%', case when column_exists (c_workspace,l_view)
                                                                      then l_initials||'.'
                                                                      else 'null '
                                                                      end
                                                                      ||c_workspace
                                   );
-        l_example_query := case when column_exists (c_application_id)
+        l_example_query := case when column_exists (c_application_id,l_view)
                                 then replace(l_example_query, '%issuedesc%', apex_string.format(q'['%1 `%2` (app %3%5) REPLACEME', 
         p0 => %0.%4, 
         p1 => %0.application_id%6]',
@@ -731,10 +746,10 @@ is
                                                                         p2 => '%0',
                                                                         p3 => '%1',
                                                                         p4 => l_name_column,
-                                                                        p5 => case when column_exists (c_page_id)
+                                                                        p5 => case when column_exists (c_page_id,l_view)
                                                                                    then ', page %2'
                                                                                    end,
-                                                                        p6 => case when column_exists (c_page_id)
+                                                                        p6 => case when column_exists (c_page_id,l_view)
                                                                                    then',
         p2 => '||l_initials||'.page_id'
                                                                                    end
@@ -752,24 +767,24 @@ is
         l_example_query := replace(l_example_query, '%addl_cols%', 
                                     assemble_addlcols(p_initials              => l_initials,
                                                       p_svt_component_type_id => p_svt_component_type_id));
-        l_example_query := l_example_query||case when column_exists (c_page_id) and l_view != 'apex_application_pages'
+        l_example_query := l_example_query||case when column_exists (c_page_id,l_view) and l_view != 'apex_application_pages'
                                                  then chr(10)||'inner join apex_application_pages aap on aap.page_id = '||l_initials||'.'||c_page_id
                                                     ||chr(10)||c_30_spaces||c_7_spaces||' and aap.application_id = '||l_initials||'.'||c_application_id
                                                     ||chr(10)||'left outer join apex_application_build_options aabo1 on  aabo1.build_option_name = aap.'||c_build_option
                                                     ||chr(10)||c_50_spaces||c_3_spaces||'and aabo1.application_id = aap.application_id'
                                                  end;
-        l_example_query := l_example_query||case when column_exists (c_build_option)
+        l_example_query := l_example_query||case when column_exists (c_build_option,l_view)
                                                  then chr(10)||'left outer join apex_application_build_options aabo2 on  aabo2.build_option_name = '||l_initials||'.'||c_build_option
                                                     ||chr(10)||c_50_spaces||c_3_spaces||'and aabo2.application_id = '||l_initials||'.application_id'
                                                  end;
-        l_example_query := l_example_query||case when column_exists (c_workspace)
+        l_example_query := l_example_query||case when column_exists (c_workspace,l_view)
                                                  then chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')]', l_initials)
                                                  else chr(10)||apex_string.format(q'[where 1=1]', l_initials)
                                                  end;
-        l_example_query := l_example_query||case when column_exists (c_page_id) and l_view != 'apex_application_pages'
+        l_example_query := l_example_query||case when column_exists (c_page_id,l_view) and l_view != 'apex_application_pages'
                                                  then chr(10)||q'[and coalesce(aabo1.status_on_export,'NA') != 'Exclude']'
                                                  end;
-        l_example_query := l_example_query||case when column_exists (c_build_option)
+        l_example_query := l_example_query||case when column_exists (c_build_option,l_view)
                                                  then chr(10)||q'[and coalesce(aabo2.status_on_export,'NA') != 'Exclude']'
                                                  end;
         l_example_query := l_example_query||case when l_opt_parent_pk_value in ('TABLE','VIEW')

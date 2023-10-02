@@ -21,7 +21,7 @@ select a.issue_category,
        esst.test_code,
        a.unqid
 from v_eba_stds_standard_tests esst
-join SVT_STANDARD_VIEW.V_SVT(p_test_code        => esst.test_code,
+join svt_standard_view.v_svt(p_test_code        => esst.test_code,
                              p_failures_only        => 'Y',
                              p_urgent_only          => 'Y',
                              p_production_apps_only => 'Y') a

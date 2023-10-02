@@ -36,7 +36,6 @@ create or replace package body SVT_MV_UTIL as
       <<sqlfrgmt>>
       declare
       l_sql_frgmt varchar2(1000);
-      l_sql_wu varchar2(1000);
       begin
         with thecols as (select column_name, column_id
                           from all_tab_cols

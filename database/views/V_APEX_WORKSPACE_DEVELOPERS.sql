@@ -5,8 +5,5 @@
 create or replace view v_apex_workspace_developers as 
 select workspace_display_name, user_name, email
 from apex_workspace_developers
-where workspace_display_name = case when sys_context('userenv', 'current_user') = svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
-                                    then svt_ctx_util.get_default_user
-                                    else sys_context('userenv', 'current_user')
-                                    end
+where workspace_display_name = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
 /
