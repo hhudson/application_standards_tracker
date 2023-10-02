@@ -44,7 +44,7 @@ end get_query;
 --
 function get_headers(p_table_name   in varchar2,
                      p_pretty_yn    in varchar2 default 'Y',
-                     p_schema_name  in  varchar2 default sys_context('USERENV', 'CURRENT_USER')) return varchar2 is
+                     p_schema_name  in varchar2 default sys_context('USERENV', 'CURRENT_USER')) return varchar2 is
 l_headers       varchar2(4000);
 c_table_name    constant varchar2(4000) := coalesce(p_table_name, 'DUAL');
 begin

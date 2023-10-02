@@ -525,8 +525,7 @@ is
         
         apex_debug.message(c_debug_template, 'l_url', l_url);
 
-        -- l_url := apex_util.prepare_url(l_url);
-        l_url := apex_page.get_url(l_url);
+        l_url := apex_util.prepare_url(l_url);
 
         apex_debug.message(c_debug_template, 'prepared l_url', l_url);
 

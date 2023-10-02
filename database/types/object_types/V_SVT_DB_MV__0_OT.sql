@@ -12,7 +12,7 @@
 --
 --------------------------------------------------------------------------------
 
-drop type v_svt_db_view__0_nt
+drop type v_svt_db_mv__0_ot
 /
 drop type v_svt_db_mv__0_ot
 /
