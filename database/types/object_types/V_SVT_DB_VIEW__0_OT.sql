@@ -19,6 +19,7 @@
   create type v_svt_db_view__0_ot as object
     (   
       pass_yn    varchar2(1 char),
+      schema     varchar2(128 char),
       view_name  varchar2(128 char),
       code       varchar2(1000 char),
       unqid      varchar2(5000 char)

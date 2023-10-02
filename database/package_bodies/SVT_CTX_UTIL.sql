@@ -7,14 +7,23 @@ as
 
     procedure set_review_schema (p_schema in all_users.username%type default null)
     is
+    c_scope constant varchar2(128) := gc_scope_prefix || 'set_review_schema';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    c_schema constant all_users.username%type := 
+                                        case when p_schema is not null
+                                             then p_schema
+                                             else gc_default_schema
+                                             end;
     begin
-        dbms_session.set_context('svt_ctx',
-                                 'review_schema', 
-                                 case when p_schema is not null
-                                      then p_schema
-                                      else gc_default_schema
-                                      end 
-                                );
+        apex_debug.message(c_debug_template,'START', 'p_schema', p_schema);
+        if coalesce(sys_context('svt_ctx', 'review_schema'),'NA') = c_schema then
+            apex_debug.message(c_debug_template, 'schema already set to :'||c_schema);
+        else 
+            dbms_session.set_context('svt_ctx',
+                                    'review_schema', 
+                                    c_schema
+                                    );
+        end if;
     end set_review_schema;
 
     function get_default_user

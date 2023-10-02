@@ -19,7 +19,8 @@
   create type v_svt_db_mv__0_ot as object
     (   
       pass_yn    varchar2(1 char),
-      mv_name  varchar2(128 char),
+      schema     varchar2(128 char),
+      mv_name    varchar2(128 char),
       code       varchar2(1000 char),
       unqid      varchar2(5000 char)
     ) 

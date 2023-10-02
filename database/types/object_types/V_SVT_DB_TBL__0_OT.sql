@@ -19,6 +19,7 @@
   create type V_SVT_DB_TBL__0_OT as object
     (   
       PASS_YN    VARCHAR2(1 CHAR),
+      SCHEMA     VARCHAR2(128 CHAR),
       TABLE_NAME VARCHAR2(128 CHAR),
       UNQID      VARCHAR2(250 CHAR),
       CODE       VARCHAR2(1000 CHAR),

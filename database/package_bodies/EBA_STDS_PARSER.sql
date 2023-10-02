@@ -464,6 +464,7 @@ is
                         p_line                  in svt_plsql_apex_audit.line%type default null, 
                         p_object_name           in svt_plsql_apex_audit.object_name%type default null,
                         p_object_type           in svt_plsql_apex_audit.object_type%type default null,
+                        p_schema                in svt_plsql_apex_audit.owner%type default null,
                         p_builder_session       in number default null
                         )
     return varchar2 deterministic result_cache
@@ -478,7 +479,8 @@ is
     c_builder_session constant number := coalesce(v('APX_BLDR_SESSION'),p_builder_session);
     c_template_url  constant v_svt_flow_dictionary_views.link_url%type := p_template_url;
     l_url varchar2(2000);
-    c_schema      constant svt_plsql_apex_audit.owner%type := svt_preferences.get_preference (p_preference_name  => 'SVT_DEFAULT_SCHEMA');
+    c_schema      constant svt_plsql_apex_audit.owner%type := 
+                            coalesce(p_schema, svt_preferences.get_preference (p_preference_name  => 'SVT_DEFAULT_SCHEMA'));
     c_object_name constant svt_plsql_apex_audit.object_name%type := upper(p_object_name);
     c_object_type constant svt_plsql_apex_audit.object_type%type := upper(p_object_type);
     begin
@@ -490,7 +492,8 @@ is
                                             'p_parent_pk_value', p_parent_pk_value,
                                             'p_opt_parent_pk_value', p_opt_parent_pk_value,
                                             'p_builder_session', p_builder_session,
-                                            'p_issue_category', p_issue_category
+                                            'p_issue_category', p_issue_category,
+                                            'p_schema', p_schema
                            );
         
         l_url := case when c_template_url is not null 

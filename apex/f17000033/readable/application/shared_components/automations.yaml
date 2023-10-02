@@ -124,15 +124,15 @@
     error: 
       stop-execution-on-error: true
 
-- # ====== Automation: 8.[Nightly - 40 min past midnight] Delete
+- # ====== Automation: 8.[Every 6 hours -  55 min past] Delete s
   id: 263521704929577710
   identification: 
-    name: 8.[Nightly - 40 min past midnight] Delete stale issues
+    name: 8.[Every 6 hours -  55 min past] Delete stale issues
     static-id: 8-nightly-delete-stale-issues
 
   execution: 
     type: Scheduled
-    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=40
+    schedule-expression: FREQ=HOURLY;INTERVAL=6;BYMINUTE=55
     schedule-status: Active
     actions-initiated-on: Always
 
@@ -140,7 +140,7 @@
     action-error-handling: Ignore
 
   comments: 
-    comments: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=40
+    comments: FREQ=HOURLY;INTERVAL=6;BYMINUTE=55
 
   actions: 
   - # ====== Action: Delete stale issues =========================

@@ -203,6 +203,46 @@ end;
 ------------------------------------------------------------------------------
     procedure delete_stale;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 28, 2023
+-- Synopsis:
+--
+-- Procedure to delete a record of  svt_plsql_apex_audit
+--
+/*
+begin
+  svt_plsql_apex_audit_api.delete_audit (
+              p_unqid                      => p_unqid,
+              p_audit_id                   => p_audit_id,
+              p_test_code                  => p_test_code,
+              p_validation_failure_message => p_validation_failure_message
+            );
+end;
+*/
+------------------------------------------------------------------------------
+  procedure delete_audit (
+              p_unqid                      in svt_plsql_apex_audit.unqid%type,
+              p_audit_id                   in svt_plsql_apex_audit.id%type,
+              p_test_code                  in svt_plsql_apex_audit.test_code%type,
+              p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type);
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 29, 2023
+-- Synopsis:
+--
+-- Procedure to rerun tests for a given test code
+--
+/*
+begin
+    svt_plsql_apex_audit_api.refresh_for_test_code (p_test_code => p_test_code);
+end;
+*/
+------------------------------------------------------------------------------
+  procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type);
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;

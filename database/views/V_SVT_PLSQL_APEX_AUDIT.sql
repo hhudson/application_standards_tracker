@@ -52,6 +52,7 @@ with aspaa as (
                         p_line                  => paa.line,
                         p_object_name           => paa.object_name,
                         p_object_type           => paa.object_type,
+                        p_schema                => paa.owner,
                         p_builder_session       => v('APX_BLDR_SESSION')
                         ) 
            from dual) link_url,

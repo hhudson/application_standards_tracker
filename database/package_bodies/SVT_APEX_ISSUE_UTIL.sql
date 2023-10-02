@@ -17,6 +17,7 @@ create or replace package body SVT_APEX_ISSUE_UTIL as
 
   gc_scope_prefix      constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_false_positive_id constant svt_audit_actions.id%type := 2;
+
   -- https://docs.oracle.com/en/database/oracle/application-express/21.2/aeapi/SUBMIT_FEEDBACK_FOLLOWUP-Procedure.html#GUID-C6F4E4A8-7E40-498F-8E8F-7D99D98527B0
 
 $if oracle_apex_version.c_apex_issue_access $then
@@ -274,12 +275,13 @@ $if oracle_apex_version.c_apex_issue_access $then
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   c_limit    constant pls_integer := 100;
+  c_apex     constant varchar2(4) := 'APEX';
   cursor cur_issues
     is
     select audit_id, application_id, page_id, issue_title, issue_text, unqid, apex_issue_id, apex_issue_title_suffix
       from v_svt_plsql_apex_audit
       where application_id != 0
-      and issue_category in ('APEX','SERT')
+      and issue_category in (c_apex,'SERT')
       and (issue_category = upper(p_issue_category) or p_issue_category is null)
       and (application_id = upper(p_application_id) or p_application_id is null)
       and (page_id = upper(p_page_id) or p_page_id is null)
@@ -499,80 +501,73 @@ $if oracle_apex_version.c_apex_issue_access $then
 
 $end
   
-  procedure refresh_for_standard_app_page (
-                p_test_code     in svt_plsql_apex_audit.test_code%type,
-                p_app_id        in svt_plsql_apex_audit.application_id%type default null,
-                p_page_id       in svt_plsql_apex_audit.page_id%type default null)
+  procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type)
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_app_page';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_mv_dependency constant eba_stds_standard_tests.mv_dependency%type 
-                    := eba_stds.get_mv_dependency(p_test_code => p_test_code);
   begin
-    apex_debug.message(c_debug_template,'START', 
-                                        'p_test_code', p_test_code,
-                                        'p_app_id', p_app_id,
-                                        'p_page_id', p_page_id);
+    apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
-    if c_mv_dependency is not null then
-      svt_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
-    end if;
+    svt_plsql_apex_audit_api.refresh_for_test_code (p_test_code => p_test_code);
+    
 
-    svt_plsql_apex_audit_api.merge_audit_tbl (
-                        p_test_code      => p_test_code,
-                        p_application_id => p_app_id,
-                        p_page_id        => p_page_id
-                    );
     $if oracle_apex_version.c_apex_issue_access $then
     svt_apex_issue_util.drop_irrelevant_issues;
+    commit; -- necessary for succinctness / user friendliness (hayhudso 2023-Feb-6)
     $end
 
     svt_audit_util.assign_violations;
 
-    commit; -- necessary for succinctness / user friendliness (hayhudso 2023-Feb-6)
-
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
-  end refresh_for_standard_app_page;
+  end refresh_for_test_code;
 
   procedure refresh_for_audit_id (p_audit_id in svt_plsql_apex_audit.id%type)
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_audit_id';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  l_svt_plsql_apex_audit_rec svt_plsql_apex_audit%rowtype 
+  c_svt_plsql_apex_audit_rec1 constant svt_plsql_apex_audit%rowtype 
                              := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
+  l_svt_plsql_apex_audit_rec2 svt_plsql_apex_audit%rowtype;
   l_apex_issue_id svt_plsql_apex_audit.apex_issue_id%type;
   c_mv_dependency constant eba_stds_standard_tests.mv_dependency%type 
-                    := eba_stds.get_mv_dependency(p_test_code => l_svt_plsql_apex_audit_rec.test_code);
+                    := eba_stds.get_mv_dependency(p_test_code => c_svt_plsql_apex_audit_rec1.test_code);
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
-    if l_svt_plsql_apex_audit_rec.id is not null then
+    if c_svt_plsql_apex_audit_rec1.id is not null then
       
       if c_mv_dependency is not null then
         svt_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
       end if;
 
-      l_apex_issue_id := l_svt_plsql_apex_audit_rec.apex_issue_id;
+      l_apex_issue_id := c_svt_plsql_apex_audit_rec1.apex_issue_id;
       svt_plsql_apex_audit_api.merge_audit_tbl (
-                        p_test_code      => l_svt_plsql_apex_audit_rec.test_code,
-                        p_application_id => l_svt_plsql_apex_audit_rec.application_id,
-                        p_page_id        => l_svt_plsql_apex_audit_rec.page_id,
+                        p_test_code      => c_svt_plsql_apex_audit_rec1.test_code,
+                        p_application_id => c_svt_plsql_apex_audit_rec1.application_id,
+                        p_page_id        => c_svt_plsql_apex_audit_rec1.page_id,
                         p_audit_id       => p_audit_id
                     );
       
-      l_svt_plsql_apex_audit_rec := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
+      l_svt_plsql_apex_audit_rec2 := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
 
-      if l_svt_plsql_apex_audit_rec.id is not null then
+      if c_svt_plsql_apex_audit_rec1.updated < l_svt_plsql_apex_audit_rec2.updated then
         apex_debug.message(c_debug_template, 'violation has not been fixed');
         $if oracle_apex_version.c_apex_issue_access $then
         svt_apex_issue_util.merge_from_audit_tbl(p_audit_id => p_audit_id);
         svt_apex_issue_util.update_audit_tbl_from_apex_issues;
         $end
-      elsif l_apex_issue_id is not null then
-        apex_debug.message(c_debug_template, 'violation has been fixed so apex issue must be dropped');
+      else
+        -- the audit record was unaffected by the merge, so it must not longer exist
+        apex_debug.message(c_debug_template, 'violation has been fixed so the issue and associated apex issue must be dropped');
+        svt_plsql_apex_audit_api.delete_audit (
+              p_unqid                      => l_svt_plsql_apex_audit_rec2.unqid,
+              p_audit_id                   => l_svt_plsql_apex_audit_rec2.id,
+              p_test_code                  => l_svt_plsql_apex_audit_rec2.test_code,
+              p_validation_failure_message => l_svt_plsql_apex_audit_rec2.validation_failure_message
+            );
         $if oracle_apex_version.c_apex_issue_access $then
         drop_issue (l_apex_issue_id);
         $end

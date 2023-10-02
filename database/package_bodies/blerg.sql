@@ -1,4 +1,11 @@
- select unqid,         
+BEGIN
+svt_ctx_util.set_review_schema (p_schema => 'AST');
+end;
+/
+select * 
+from v_user_objects
+/
+select unqid,         
                                     'VIEW' issue_category,         
                                     null application_id,         
                                     null page_id,         
@@ -20,7 +27,7 @@
          
         ao.object_name view_name, 
          
-        apex_string.format('View `%0` should be suffixed with `_V`',
+        apex_string.format('View `%0` is invalid',
          
                p0 => ao.object_name) code,
          
@@ -28,8 +35,9 @@
          
  from v_user_objects ao
          
- where ao.object_name not like '%_V'
+ where ao.status != 'VALID'
          
- and ao.object_type = 'VIEW'
-         
- and ao.owner in ('SVT','AST')) mydata where 1=1  and unqid = 'ALPH_VIEW_NAME:95506'          
+ and ao.object_type = 'VIEW') mydata 
+ where 1=1  
+ and pass_yn = 'N' 
+ --and 'VALID_VIEW:'||unqid = 'VALID_VIEW:116093'          

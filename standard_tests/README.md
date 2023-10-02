@@ -136,16 +136,16 @@ These tests run against the DB objects and therefore may be hard to associate wi
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [DBMS_ASSERT](DB_GENERAL_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.4 | DATABASE SUPPORTING OBJECT |
-| [DISCOURAGED_CODE](DB_GENERAL_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.4 | DATABASE SUPPORTING OBJECT |
-| [DUPLICATE_STATEMENTS](DB_GENERAL_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.3 | DATABASE SUPPORTING OBJECT |
-| [FK_INDEXED](DB_GENERAL_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.1 | DATABASE TABLE |
-| [IDENTIFIER_NAMING](DB_GENERAL_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.3 | DATABASE SUPPORTING OBJECT |
-| [MISSING_COMMENT](DB_GENERAL_19C/tests/MISSING_COMMENT.json) |  Missing Comments | v1.1 | DATABASE SUPPORTING OBJECT |
-| [UNUSED_IDENTIFIERS](DB_GENERAL_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1.1 | DATABASE SUPPORTING OBJECT |
-| [URGENT_PLSQL_WARNINGS](DB_GENERAL_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1.1 | DATABASE SUPPORTING OBJECT |
-| [VALID_OBJECTS](DB_GENERAL_19C/tests/VALID_OBJECTS.json) |  Invalid Object | v1.2 | DATABASE SUPPORTING OBJECT |
-| [VALID_VIEW](DB_GENERAL_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1.1 | DATABASE VIEW |
+| [DBMS_ASSERT](DB_GENERAL_19C/tests/DBMS_ASSERT.json) |  Missing DBMS_ASSERT | v1.5 | DATABASE SUPPORTING OBJECT |
+| [DISCOURAGED_CODE](DB_GENERAL_19C/tests/DISCOURAGED_CODE.json) |  Discouraged code | v1.5 | DATABASE SUPPORTING OBJECT |
+| [DUPLICATE_STATEMENTS](DB_GENERAL_19C/tests/DUPLICATE_STATEMENTS.json) |  Duplicate Statements | v1.4 | DATABASE SUPPORTING OBJECT |
+| [FK_INDEXED](DB_GENERAL_19C/tests/FK_INDEXED.json) |  Foreign keys must be indexed | v1.2 | DATABASE TABLE |
+| [IDENTIFIER_NAMING](DB_GENERAL_19C/tests/IDENTIFIER_NAMING.json) |  Naming Convention violation | v1.5 | DATABASE SUPPORTING OBJECT |
+| [MISSING_COMMENT](DB_GENERAL_19C/tests/MISSING_COMMENT.json) |  Missing Comments | v1.2 | DATABASE SUPPORTING OBJECT |
+| [UNUSED_IDENTIFIERS](DB_GENERAL_19C/tests/UNUSED_IDENTIFIERS.json) |  Unused identifers | v1.2 | DATABASE SUPPORTING OBJECT |
+| [URGENT_PLSQL_WARNINGS](DB_GENERAL_19C/tests/URGENT_PLSQL_WARNINGS.json) |  Urgent PLSQL Warning | v1.2 | DATABASE SUPPORTING OBJECT |
+| [VALID_OBJECTS](DB_GENERAL_19C/tests/VALID_OBJECTS.json) |  Invalid Object | v1.3 | DATABASE SUPPORTING OBJECT |
+| [VALID_VIEW](DB_GENERAL_19C/tests/VALID_VIEW.json) |  Fix Invalid View | v1.2 | DATABASE VIEW |
 
 ## General (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Non theme specific standards
@@ -204,10 +204,11 @@ Standards that are *not* general standards
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1.1 | DATABASE MATERIALIZED VIEW |
-| [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1 | DATABASE TABLE |
-| [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE.json) |  Use Char not Bytes | v1 | DATABASE TABLE |
-| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 | DATABASE TABLE |
+| [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1.2 | DATABASE MATERIALIZED VIEW |
+| [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME.json) |  Alphawave Views must be correctly named | v1.2 | DATABASE VIEW |
+| [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1.1 | DATABASE TABLE |
+| [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE.json) |  Use Char not Bytes | v1.1 | DATABASE TABLE |
+| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1.1 | DATABASE TABLE |
 
 ## Millenium Gen2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 

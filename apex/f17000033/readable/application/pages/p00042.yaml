@@ -480,8 +480,9 @@ regions:
       select * from svt_standard_view.v_svt(p_test_code => :P42_TEST_CODE , 
                                             p_audit_id => :P42_ID)
     page-items-to-submit: 
-    - P42_TEST_CODE
-    - P42_ID
+    - P42_ISSUE_CATEGORY
+    - P42_CURRENT_REVIEW_SCHEMA
+    - P42_OWNER
 
   layout: 
     sequence: 30
@@ -1347,6 +1348,11 @@ regions:
     region-display-selector: true
     exclude-title-from-translation: false
 
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P42_ISSUE_CATEGORY = 'APEX' or :P42_CURRENT_REVIEW_SCHEMA = :P42_OWNER"
+
   server-cache: 
     caching: Disabled
 
@@ -1420,7 +1426,7 @@ regions:
     html-code: If this issue is a 'False Positive' simply open the 'APEX Issue' and 'close' it.
 
   layout: 
-    sequence: 40
+    sequence: 50
     parent-region: Live Test Results # 470737780651714082
     position: SUB_REGIONS
     start-new-layout: false
@@ -2002,6 +2008,58 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_CURRENT_REVIEW_SCHEMA ================
+  id: 229578741272659425
+  identification: 
+    name: P42_CURRENT_REVIEW_SCHEMA
+    type: Display Only
+
+  label: 
+    label: 'Current Review Schema:'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 10
+    region: Live Test Results Report # 470735029467714055
+    position: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: 'This is the schema in which the "live test results" are being evaluated. '
 
 - # ====== Page Item: P42_COMPONENT_ID =========================
   id: 270608668051300547
@@ -6182,6 +6240,20 @@ computations:
       select PK_ID
       from EBA_STDS_APPLICATIONS
       WHERE APEX_APP_ID = :P42_APPLICATION_ID
+
+- # ====== Computation: P42_CURRENT_REVIEW_SCHEMA ==============
+  id: 229578845258659426
+  identification: 
+    item-name: P42_CURRENT_REVIEW_SCHEMA
+
+  execution: 
+    sequence: 20
+    point: After Header
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_ctx_util.get_default_user
 
 - # ====== Computation: P42_AUDIT_ID ===========================
   id: 685223163605239141

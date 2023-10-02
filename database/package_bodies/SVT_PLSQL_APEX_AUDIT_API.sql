@@ -21,6 +21,8 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   gc_user         constant varchar2(100) := coalesce(sys_context('APEX$SESSION','APP_USER'),user,'nobody');
   gc_y            constant varchar2(1) := 'Y';
   gc_n            constant varchar2(1) := 'N';
+  gc_apex         constant varchar2(4) := 'APEX'; 
+  gc_sert         constant varchar2(4) := 'SERT'; 
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -189,24 +191,6 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       raise;
   end insert_audit;
 
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: September 28, 2023
--- Synopsis:
---
--- Procedure to delete a record of  svt_plsql_apex_audit
---
-/*
-begin
-  delete_audit (
-              p_unqid                      => p_unqid,
-              p_audit_id                   => p_audit_id,
-              p_test_code                  => p_test_code,
-              p_validation_failure_message => p_validation_failure_message
-            );
-end;
-*/
-------------------------------------------------------------------------------
   procedure delete_audit (
               p_unqid                      in svt_plsql_apex_audit.unqid%type,
               p_audit_id                   in svt_plsql_apex_audit.id%type,
@@ -445,7 +429,7 @@ end;
                                end assignee
                     from svt_plsql_apex_audit paa
                     left join v_apex_workspace_developers awd on coalesce(paa.apex_last_updated_by, paa.apex_created_by) = awd.user_name
-                    where issue_category in ('APEX', 'SERT')
+                    where issue_category in (gc_apex, gc_sert)
                     and paa.assignee is null
                   )
       loop 
@@ -459,7 +443,7 @@ end;
         update svt_plsql_apex_audit
         set assignee = lower(l_auditid_email(l_auditid))
         where id = l_auditid
-        and issue_category in ('APEX','SERT')
+        and issue_category in (gc_apex,gc_sert)
         and (assignee != l_auditid_email(l_auditid) or assignee is null);
 
         l_auditid := l_auditid_email.next(l_auditid);
@@ -558,8 +542,14 @@ end;
                                           );
 
         l_svt_plsql_apex_audit_rec := case when p_audit_id is not null
-                                           then svt_plsql_apex_audit_api.get_audit_record (p_audit_id)
-                                           end;
+                                          then svt_plsql_apex_audit_api.get_audit_record (p_audit_id)
+                                          end;
+        if l_svt_plsql_apex_audit_rec.owner is not null 
+        and l_svt_plsql_apex_audit_rec.issue_category != gc_apex
+        then
+          svt_ctx_util.set_review_schema (p_schema => l_svt_plsql_apex_audit_rec.owner);
+        end if;
+                                           
         for rec in (select 
                     a.unqid,
                     esst.issue_category,
@@ -650,6 +640,46 @@ end;
         raise;
     end merge_audit_tbl;
 
+    procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type)
+    is
+    c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    c_test_code      constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+    c_mv_dependency  constant eba_stds_standard_tests.mv_dependency%type 
+                    := eba_stds.get_mv_dependency(p_test_code => p_test_code);
+    c_sysdate        constant date := sysdate;
+    begin
+      apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
+      
+      if c_mv_dependency is not null then
+        svt_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
+      end if;
+
+      if svt_nested_table_types_api.issue_category(p_test_code => c_test_code) = gc_apex then
+        apex_debug.message(c_debug_template, 'apex issue');
+        merge_audit_tbl (p_test_code => c_test_code);
+      else 
+        apex_debug.message(c_debug_template, 'db issue so we need to cycle through the appropriate schemas');
+        for rec in (
+              select column_value review_schema
+              from table(apex_string.split(svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'))
+            )
+        loop
+            svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
+            merge_audit_tbl (p_test_code => c_test_code);
+        end loop;
+      end if;
+
+      delete from svt_plsql_apex_audit
+      where test_code = c_test_code
+      and updated < c_sysdate;
+      apex_debug.message(c_debug_template, 'deleted', sql%rowcount);
+    
+    exception 
+      when others then 
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+        raise;
+    end refresh_for_test_code;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

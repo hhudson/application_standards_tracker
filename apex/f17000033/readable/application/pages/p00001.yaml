@@ -736,6 +736,12 @@ regions:
         name: DB
         alias: DB_PLSQL
 
+    - # ====== Saved Report: Stale issues ==========================
+      id: 598767872434581968
+      identification: 
+        name: Stale issues
+        alias: 2668659
+
     - # ====== Saved Report: Table =================================
       id: 682743960795417846
       identification: 
@@ -753,16 +759,26 @@ regions:
     id: 229578236972659420
     identification: 
       column-name: UPDATED
-      type: Hidden
+      type: Display Only
+
+    heading: 
+      heading: Updated
+      alignment: start
 
     settings: 
-      value-protected: true
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
-      sequence: 620
+      sequence: 360
+      column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
 
     source: 
       type: Database Column
@@ -777,26 +793,44 @@ regions:
     session-state: 
       data-type: VARCHAR2
 
+    column-filter: 
+      enabled: true
+      lov-type: Distinct Column
+      date-ranges: All
+
     export-/-printing: 
       include-in-export-/-print: false
 
     enable-users-to: 
       sort: false
+      hide: true
 
   - # ====== Column: STALE_YN ====================================
     id: 229578362403659421
     identification: 
       column-name: STALE_YN
-      type: Hidden
+      type: Select List
 
-    settings: 
-      value-protected: true
+    heading: 
+      heading: Stale
+      alignment: start
 
     layout: 
-      sequence: 630
+      sequence: 370
+      column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: YES NO # 10685213912969174197
+      display-extra-values: false
+      display-null-value: false
 
     source: 
       type: Database Column
@@ -808,14 +842,23 @@ regions:
     default: 
       duplicate-copies-existing-value: true
 
-    session-state: 
-      data-type: VARCHAR2
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Use List of Values
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: false
 
     enable-users-to: 
       sort: false
+      hide: true
 
   - # ====== Column: AUDIT_ID ====================================
     id: 331456022594083687
@@ -837,11 +880,12 @@ regions:
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:42:P42_ID:&AUDIT_ID.'
+        url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:42:P42_ID,P42_OWNER:&AUDIT_ID.,&OWNER.'
         page: 42 # Edit Audit Issue
         clear-cache: 42
         values: 
           p42_id: '&AUDIT_ID.'
+          p42_owner: '&OWNER.'
 
       link-text: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
       link-attributes: title="Manage Violation Audit ID &AUDIT_ID." aria-label="Manage Violation Audit ID &AUDIT_ID."
@@ -974,7 +1018,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 400
+      sequence: 430
 
     accessibility: 
       value-identifies-row: false
@@ -1049,7 +1093,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 410
+      sequence: 440
 
     accessibility: 
       value-identifies-row: false
@@ -1389,6 +1433,16 @@ regions:
               >
             Created &CREATED.
         </span>
+        <span type="button" 
+              class="t-Button t-Button--hot t-Button--tiny t-Button--gapTop"
+              >
+            Still valid as of &UPDATED.
+        </span>
+        <span type="button" 
+                class="t-Button t-Button--tiny t-Button--gapTop"
+            >
+            &OWNER.
+        </span>
 
     layout: 
       sequence: 160
@@ -1422,7 +1476,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 430
+      sequence: 460
 
     accessibility: 
       value-identifies-row: false
@@ -1694,7 +1748,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 440
+      sequence: 470
 
     accessibility: 
       value-identifies-row: false
@@ -1725,7 +1779,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 450
+      sequence: 480
 
     accessibility: 
       value-identifies-row: false
@@ -1906,7 +1960,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 380
+      sequence: 420
 
     accessibility: 
       value-identifies-row: false
@@ -1941,7 +1995,7 @@ regions:
       html-expression: '&VIEW_BUTTON.'
 
     layout: 
-      sequence: 370
+      sequence: 400
       column-alignment: center
       stretch: Use Report Setting
 
@@ -1972,7 +2026,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 470
+      sequence: 490
 
     accessibility: 
       value-identifies-row: false
@@ -2047,7 +2101,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 480
+      sequence: 500
 
     accessibility: 
       value-identifies-row: false
@@ -2078,7 +2132,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 490
+      sequence: 510
 
     accessibility: 
       value-identifies-row: false
@@ -2157,7 +2211,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 420
+      sequence: 450
 
     accessibility: 
       value-identifies-row: false
@@ -2188,7 +2242,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 500
+      sequence: 520
 
     accessibility: 
       value-identifies-row: false
@@ -2216,7 +2270,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 510
+      sequence: 530
 
     accessibility: 
       value-identifies-row: false
@@ -2244,7 +2298,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 520
+      sequence: 540
 
     accessibility: 
       value-identifies-row: false
@@ -2326,7 +2380,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 530
+      sequence: 550
 
     accessibility: 
       value-identifies-row: false
@@ -2357,7 +2411,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 550
+      sequence: 560
 
     accessibility: 
       value-identifies-row: false
@@ -2388,7 +2442,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 560
+      sequence: 570
 
     accessibility: 
       value-identifies-row: false
@@ -2419,7 +2473,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 570
+      sequence: 580
 
     accessibility: 
       value-identifies-row: false
@@ -2450,7 +2504,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 580
+      sequence: 590
 
     accessibility: 
       value-identifies-row: false
@@ -2527,13 +2581,20 @@ regions:
     id: 331899863488702884
     identification: 
       column-name: OWNER
-      type: Hidden
+      type: Display Only
+
+    heading: 
+      heading: Owner
+      alignment: start
 
     settings: 
-      value-protected: true
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
-      sequence: 540
+      sequence: 350
+      column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
@@ -2548,11 +2609,23 @@ regions:
     session-state: 
       data-type: VARCHAR2
 
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
     export-/-printing: 
       include-in-export-/-print: false
 
     enable-users-to: 
       sort: false
+      hide: true
 
   - # ====== Column: RERUN =======================================
     id: 331899946968702885
@@ -2577,7 +2650,7 @@ regions:
         </button>
 
     layout: 
-      sequence: 350
+      sequence: 380
       column-alignment: center
       stretch: Use Report Setting
 
@@ -2624,7 +2697,7 @@ regions:
         </button>
 
     layout: 
-      sequence: 360
+      sequence: 390
       column-alignment: center
       stretch: Use Report Setting
 
@@ -2658,7 +2731,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 590
+      sequence: 600
 
     accessibility: 
       value-identifies-row: false
@@ -2689,7 +2762,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 600
+      sequence: 610
 
     accessibility: 
       value-identifies-row: false
@@ -2737,7 +2810,7 @@ regions:
       value-protected: true
 
     layout: 
-      sequence: 610
+      sequence: 620
 
     accessibility: 
       value-identifies-row: false

@@ -23,8 +23,9 @@ create or replace package body SVT_STANDARD_VIEW as
   -- v_svt_db_plsql identifiers
   ------------------------------------------------------------------------------
   type r_v_svt_db_plsql is record (
-    pass_yn      varchar2(1 char),
+    pass_yn        varchar2(1 char),
     object_name    varchar2(128 char),
+    schema         varchar2(128 char),
     code           varchar2(5000 char),
     object_type    varchar2(19 char),
     line           number,
@@ -32,7 +33,7 @@ create or replace package body SVT_STANDARD_VIEW as
   );
   type t_v_svt_db_plsql is table of r_v_svt_db_plsql index by pls_integer;
   l_v_svt_db_plsql t_v_svt_db_plsql;
-  gc_db_plsql_select_stmt constant varchar2(100) := 'select pass_yn, object_name, code, object_type, line, unqid from (';
+  gc_db_plsql_select_stmt constant varchar2(100) := 'select pass_yn, schema, object_name, code, object_type, line, unqid from (';
   gc_v_svt_db_plsql_nt constant svt_nested_table_types.nt_name%type:= 'v_svt_db_plsql_nt';
   ------------------------------------------------------------------------------
   -- v_svt_sert__0 identifiers
@@ -83,13 +84,14 @@ create or replace package body SVT_STANDARD_VIEW as
   ------------------------------------------------------------------------------
   type r_v_svt_db_view__0 is record (
     pass_yn    varchar2(1),
+    schema     varchar2(128),
     view_name  varchar2(128),
     code       varchar2(1000 char),
     unqid      varchar2(5000 char)
   );
   type t_v_svt_db_view__0 is table of r_v_svt_db_view__0 index by pls_integer;
   l_v_svt_db_view__0 t_v_svt_db_view__0;
-  gc_view_select_stmt constant varchar2(255) := 'select pass_yn, view_name, code, unqid from (';
+  gc_view_select_stmt constant varchar2(255) := 'select pass_yn, schema, view_name, code, unqid from (';
   gc_v_svt_db_view__0_nt  constant svt_nested_table_types.nt_name%type:= 'v_svt_db_view__0_nt';
   
   ------------------------------------------------------------------------------
@@ -97,13 +99,14 @@ create or replace package body SVT_STANDARD_VIEW as
   ------------------------------------------------------------------------------
   type r_v_svt_db_mv__0 is record (
     pass_yn    varchar2(1),
+    schema     varchar2(128),
     mv_name    varchar2(128),
     code       varchar2(1000 char),
     unqid      varchar2(5000 char)
   );
   type t_v_svt_db_mv__0 is table of r_v_svt_db_mv__0 index by pls_integer;
   l_v_svt_db_mv__0 t_v_svt_db_mv__0;
-  gc_mv_select_stmt constant varchar2(255) := 'select pass_yn, mv_name, code, unqid from (';
+  gc_mv_select_stmt constant varchar2(255) := 'select pass_yn, schema, mv_name, code, unqid from (';
   gc_v_svt_db_mv__0_nt  constant svt_nested_table_types.nt_name%type:= 'v_svt_db_mv__0_nt';
 
   ------------------------------------------------------------------------------
@@ -111,6 +114,7 @@ create or replace package body SVT_STANDARD_VIEW as
   ------------------------------------------------------------------------------
   type r_v_svt_db_tbl__0 is record (
     pass_yn     varchar2(1 char),
+    schema      varchar2(128 char),
     table_name  varchar2(128 char),
     unqid       varchar2(250 char),
     code        varchar2(1000 char),
@@ -118,7 +122,7 @@ create or replace package body SVT_STANDARD_VIEW as
   );
   type t_v_svt_db_tbl__0 is table of r_v_svt_db_tbl__0 index by pls_integer;
   l_v_svt_db_tbl__0 t_v_svt_db_tbl__0;
-  gc_tbl_select_stmt constant varchar2(255) := 'select pass_yn, table_name, unqid, code, object_id from (';
+  gc_tbl_select_stmt constant varchar2(255) := 'select pass_yn, schema, table_name, unqid, code, object_id from (';
   gc_v_svt_db_tbl__0_nt  constant svt_nested_table_types.nt_name%type:= 'v_svt_db_tbl__0_nt';
 
 ------------------------------------------------------------------------------
@@ -249,6 +253,7 @@ create or replace package body SVT_STANDARD_VIEW as
       loop
         pipe row (v_svt_db_plsql_ref_ot (
                       l_v_svt_db_plsql (rec).pass_yn,
+                      l_v_svt_db_plsql (rec).schema,
                       l_v_svt_db_plsql (rec).object_name,
                       l_v_svt_db_plsql (rec).object_type,
                       l_v_svt_db_plsql (rec).line,
@@ -451,6 +456,7 @@ create or replace package body SVT_STANDARD_VIEW as
       loop
         pipe row (v_svt_db_view__0_ot (
                       l_v_svt_db_view__0 (rec).pass_yn,
+                      l_v_svt_db_view__0 (rec).schema,
                       l_v_svt_db_view__0 (rec).view_name,
                       l_v_svt_db_view__0 (rec).code,
                       l_v_svt_db_view__0 (rec).unqid
@@ -507,6 +513,7 @@ create or replace package body SVT_STANDARD_VIEW as
       loop
         pipe row (v_svt_db_tbl__0_ot (
                       l_v_svt_db_tbl__0 (rec).pass_yn,
+                      l_v_svt_db_tbl__0 (rec).schema,
                       l_v_svt_db_tbl__0 (rec).table_name,
                       l_v_svt_db_tbl__0 (rec).unqid,
                       l_v_svt_db_tbl__0 (rec).code,
@@ -554,6 +561,7 @@ create or replace package body SVT_STANDARD_VIEW as
     page_id                    number,
     pass_yn                    varchar2(1 char),
     line                       number,
+    schema                     varchar2(128 char),
     object_name                varchar2(128 char),
     object_type                varchar2(76),
     code                       varchar2(5000 char),
@@ -604,6 +612,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null page_id,
                                    pass_yn,
                                    line,
+                                   schema,
                                    object_name,
                                    object_type,
                                    code,
@@ -633,6 +642,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null page_id,
                                    pass_yn,
                                    1 line,
+                                   schema,
                                    view_name object_name,
                                    'VIEW' object_type,
                                    code,
@@ -660,6 +670,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null page_id,
                                    pass_yn,
                                    1 line,
+                                   schema,
                                    mv_name object_name,
                                    'MATERIALIZED VIEW' object_type,
                                    code,
@@ -687,6 +698,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null page_id,
                                    pass_yn,
                                    1 line,
+                                   schema,
                                    table_name object_name,
                                    'TABLE' object_type,
                                    code,
@@ -720,6 +732,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    page_id,
                                    pass_yn,
                                    0 line,
+                                   null schema,
                                    null object_name,
                                    null object_type,
                                    null code,
@@ -765,6 +778,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                         else 'Y'
                                         end pass_yn,
                                    null line,
+                                   null schema,
                                    null object_name,
                                    null object_type,
                                    null code,
@@ -837,6 +851,7 @@ create or replace package body SVT_STANDARD_VIEW as
                     l_v_svt_plsql_apex__0 (rec).page_id,
                     l_v_svt_plsql_apex__0 (rec).pass_yn,
                     l_v_svt_plsql_apex__0 (rec).line,
+                    l_v_svt_plsql_apex__0 (rec).schema,
                     l_v_svt_plsql_apex__0 (rec).object_name,
                     l_v_svt_plsql_apex__0 (rec).object_type,
                     l_v_svt_plsql_apex__0 (rec).code,

@@ -41,7 +41,8 @@ select svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') default_schema,
        svt_preferences.get_preference ('SVT_FROM_EMAIL') from_email,
        svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') default_assignee,
        svt_preferences.get_preference ('SVT_SRC_EDIT_DELAY') src_edit_delay,
-       svt_preferences.get_preference ('SVT_CLEANUP_DELAY') cleanup_delay
+       svt_preferences.get_preference ('SVT_CLEANUP_DELAY') cleanup_delay,
+       svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS') review_schemas
 from dual;
 */
 ------------------------------------------------------------------------------

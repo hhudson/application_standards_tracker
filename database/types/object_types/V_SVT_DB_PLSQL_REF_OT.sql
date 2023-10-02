@@ -14,10 +14,11 @@
 -- drop type V_SVT_DB_PLSQL_REF_NT
 -- /
 -- drop type V_SVT_DB_PLSQL_REF_OT
--- /
+/
 create type V_SVT_DB_PLSQL_REF_OT as object
     (
       PASS_YN        VARCHAR2(1 CHAR),
+      SCHEMA         VARCHAR2(128 CHAR),
       OBJECT_NAME    VARCHAR2(128 CHAR),
       OBJECT_TYPE    VARCHAR2(19 CHAR),
       LINE           NUMBER,

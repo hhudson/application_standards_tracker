@@ -24,6 +24,7 @@ create type v_svt_plsql_apex__0_ot as object
         PAGE_ID                    NUMBER,
         PASS_YN                    VARCHAR2(1 CHAR),
         LINE                       NUMBER,
+        SCHEMA                     VARCHAR2(128 CHAR),
         OBJECT_NAME                VARCHAR2(128 CHAR),
         OBJECT_TYPE                VARCHAR2(76),
         CODE                       VARCHAR2(5000 CHAR),

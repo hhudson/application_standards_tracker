@@ -180,17 +180,12 @@ $end
 /*
 begin
   svt_ctx_util.set_review_schema (p_schema => 'cars');
-  svt_apex_issue_util.refresh_for_standard_app_page (
-                        p_test_code => 'sv_url_item_protect',
-                        p_app_id  => 17000033,
-                        p_page_id => 14);
+  svt_apex_issue_util.refresh_for_test_code (
+                        p_test_code => 'sv_url_item_protect');
 end;
 */
 ------------------------------------------------------------------------------
-  procedure refresh_for_standard_app_page (
-                                  p_test_code     in svt_plsql_apex_audit.test_code%type,
-                                  p_app_id        in svt_plsql_apex_audit.application_id%type default null,
-                                  p_page_id       in svt_plsql_apex_audit.page_id%type default null);
+  procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type);
 
 ------------------------------------------------------------------------------
 --  creator: hayden hudson

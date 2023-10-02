@@ -55,6 +55,7 @@ where audit_id = 78318
                         p_line                  in svt_plsql_apex_audit.line%type default null, 
                         p_object_name           in svt_plsql_apex_audit.object_name%type default null,
                         p_object_type           in svt_plsql_apex_audit.object_type%type default null,
+                        p_schema                in svt_plsql_apex_audit.owner%type default null,
                         p_builder_session       in number default null
                         )
     return varchar2 deterministic result_cache;

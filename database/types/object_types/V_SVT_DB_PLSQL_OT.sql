@@ -18,6 +18,7 @@
 create type V_SVT_DB_PLSQL_OT as object
     (
       PASS_YN        VARCHAR2(1 CHAR),
+      SCHEMA         VARCHAR2(128 CHAR),
       OBJECT_NAME    VARCHAR2(128 CHAR),
       OBJECT_TYPE    VARCHAR2(19 CHAR),
       LINE           NUMBER,
