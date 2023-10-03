@@ -702,7 +702,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                    table_name object_name,
                                    'TABLE' object_type,
                                    code,
-                                   null validation_failure_message,
+                                   code validation_failure_message,
                                    code issue_title,
                                    null apex_created_by,
                                    null apex_created_on,

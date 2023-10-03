@@ -347,6 +347,38 @@ end;
 ------------------------------------------------------------------------------
   procedure assign_from_apex_parent_audit;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 3, 2023
+-- Synopsis:
+--
+-- Re-runnign the violation assignment for apex audit
+--
+/*
+begin
+    apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>'HAYHUDSO');
+    svt_plsql_apex_audit_api.rerun_assignment_w_apex_audits;
+    commit;
+end;
+*/
+------------------------------------------------------------------------------
+  procedure rerun_assignment_w_apex_audits;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 3, 2023
+-- Synopsis:
+--
+-- Procedure to turn a username into an email
+--
+/*
+select svt_plsql_apex_audit_api.get_assignee_email (p_username => 'TIM')
+from dual;
+*/
+------------------------------------------------------------------------------
+  function get_assignee_email (p_username in svt_plsql_apex_audit.apex_last_updated_by%type)
+  return svt_plsql_apex_audit.assignee%type;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;
