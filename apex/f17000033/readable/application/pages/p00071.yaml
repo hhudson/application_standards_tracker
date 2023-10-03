@@ -388,7 +388,7 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select status
+      select apex_string.format('%0 %1.%2 is %3', object_type, owner, object_name, status) Object_status
       from all_objects
       where object_name = :P71_OBJECT_NAME
       and object_type = :P71_OBJECT_TYPE
@@ -410,7 +410,11 @@ regions:
     template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--showIcon
+    - t-Region--hideHeader
     - t-Region--scrollBody
+    icon: fa-star
     render-components: Above Content
 
   accessibility: 
@@ -434,15 +438,14 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Value Attribute Pairs - Row # 7800071455159934955
+      template: Value Attribute Pairs - Column # 7800071677763934956
       template-options: 
       - '#DEFAULT#'
       - t-AVPList--leftAligned
       - t-Report--hideNoPagination
 
     pagination: 
-      type: Row Ranges X to Y (with next and previous links)
-      display-position: Bottom - Right
+      type: No Pagination (Show All Rows)
       partial-page-refresh: true
 
     performance: 
@@ -465,10 +468,10 @@ regions:
       enabled: false
 
   columns: 
-  - # ====== Column: STATUS ======================================
-    id: 266856733371801327
+  - # ====== Column: OBJECT_STATUS ===============================
+    id: 266857196142801331
     identification: 
-      column-name: STATUS
+      column-name: OBJECT_STATUS
       type: Plain Text
 
     heading: 

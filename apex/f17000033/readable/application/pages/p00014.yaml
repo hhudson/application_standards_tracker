@@ -11,6 +11,7 @@ appearance:
   dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
+  - t-DeferredRendering
   - js-dialog-class-t-Drawer--pullOutEnd
   - js-dialog-class-t-Drawer--xl
 
@@ -663,7 +664,7 @@ regions:
       display-position: Bottom - Right
 
     performance: 
-      lazy-loading: false
+      lazy-loading: true
       maximum-rows-to-process: 1000000
 
     search-bar: 
@@ -2166,7 +2167,7 @@ regions:
       type: None
 
     performance: 
-      lazy-loading: false
+      lazy-loading: true
       maximum-rows-to-process: 100
 
     messages: 
@@ -4683,6 +4684,40 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+- # ====== Dynamic Action: after refresh =======================
+  id: 266856954001801329
+  identification: 
+    name: after refresh
+
+  execution: 
+    sequence: 210
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERREFRESH
+    selection-type: Region
+    region: Tests # 7930554817243490370
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 266857045130801330
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        $('#STANDARD_TEST_RPT').find('tbody tr:first').hide();
+        $('#STANDARD_TEST_RPT').find('td').css("border-style", "none"); 
+
+    execution: 
+      sequence: 10
+      event: after refresh # 266856954001801329
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: navigateInBuilderWindow =============
   id: 269327805063808649
   identification: 
@@ -4892,6 +4927,9 @@ dynamic-actions:
   execution: 
     event-scope: Static
 
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
     id: 369844768756997671
@@ -4909,6 +4947,9 @@ dynamic-actions:
       event: Hide 1st row of Tests report # 369844674410997670
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+    configuration: 
+      build-option: TO_DELETE # 6384384957050863767
 
 - # ====== Dynamic Action: Publish Test ========================
   id: 369845381944997677
