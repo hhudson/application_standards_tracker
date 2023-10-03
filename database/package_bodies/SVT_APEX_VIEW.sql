@@ -258,7 +258,7 @@ create or replace package body SVT_APEX_VIEW as
   end apex_appl_page_ig_columns;
 
   function apex_workspace_preferences
-  return SVT_apex_preferences_nt pipelined
+  return svt_apex_preferences_nt pipelined
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'apex_workspace_preferences';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

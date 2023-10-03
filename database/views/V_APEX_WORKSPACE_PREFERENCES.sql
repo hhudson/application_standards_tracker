@@ -8,7 +8,8 @@ Note : for SVT_EMAIL_SUBSCRIPTION, use v_svt_email_subscriptions
 --------------------------------------------------------
 
 create or replace force editionable view v_apex_workspace_preferences as
-select workspace_name,
+select /*+ result_cache */
+       workspace_name,
        user_name, 
        preference_name,
        preference_value

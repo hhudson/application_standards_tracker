@@ -91,7 +91,7 @@ end;
                         p_component_name        out nocopy svt_component_types.component_name%type,
                         p_component_type_id     out nocopy v_svt_flow_dictionary_views.component_type_id%type,
                         p_template_url          out nocopy v_svt_flow_dictionary_views.link_url%type
-                    );
+                    ) deterministic;
 
 
 

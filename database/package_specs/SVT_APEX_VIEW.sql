@@ -100,7 +100,8 @@ from svt_apex_view.apex_workspace_preferences()
 */
 ------------------------------------------------------------------------------
 function apex_workspace_preferences
-return SVT_apex_preferences_nt pipelined;
+return svt_apex_preferences_nt pipelined 
+deterministic;
 
 
 ------------------------------------------------------------------------------

@@ -47,7 +47,9 @@ from dual;
 */
 ------------------------------------------------------------------------------
 function get_preference (p_preference_name in apex_workspace_preferences.preference_name%type)
-return apex_workspace_preferences.preference_value%type deterministic;
+return apex_workspace_preferences.preference_value%type 
+deterministic
+result_cache;
 
 
 ------------------------------------------------------------------------------

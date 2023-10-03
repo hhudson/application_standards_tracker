@@ -423,7 +423,7 @@ is
                         p_component_name        out nocopy svt_component_types.component_name%type,
                         p_component_type_id     out nocopy v_svt_flow_dictionary_views.component_type_id%type,
                         p_template_url          out nocopy v_svt_flow_dictionary_views.link_url%type
-                    )
+                    ) deterministic
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_component_type_rec';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

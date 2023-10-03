@@ -5,13 +5,14 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_SVT_FLOW_DICTIONARY_VIEWS as
-select apex_string.format('%0 (%1)', pk_column_name, view_name) component_desc, 
+select /*+ result_cache */
+      apex_string.format('%0 (%1)', pk_column_name, view_name) component_desc, 
       component_type_id,
       pk_column_name, 
       display_expression,
       link_url,
       view_name
-from SVT_FLOW_DICTIONARY_VIEWS
+from svt_flow_dictionary_views
 where (link_url is not null or component_type_id is not null)
 /
 

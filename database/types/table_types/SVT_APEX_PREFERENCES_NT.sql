@@ -11,7 +11,7 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- prompt  SVT_apex_preferences_nt.sql
+-- prompt  svt_apex_preferences_nt.sql
 
 create type SVT_APEX_PREFERENCES_NT as table of SVT_APEX_PREFERENCES_OT
 /
