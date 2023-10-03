@@ -94,7 +94,9 @@ from svt_standard_view.v_svt_apex(
 ------------------------------------------------------------------------------
   function v_svt_apex(p_test_code            in eba_stds_standard_tests.test_code%type,
                       p_failures_only        in varchar2 default 'N',
-                      p_production_apps_only in varchar2 default 'N' )
+                      p_production_apps_only in varchar2 default 'N',
+                      p_application_id       in svt_plsql_apex_audit.application_id%type default null,
+                      p_page_id              in svt_plsql_apex_audit.page_id%type default null)
   return v_svt_apex_nt pipelined;
 
 ------------------------------------------------------------------------------
@@ -148,7 +150,9 @@ from svt_standard_view.v_svt(p_test_code => 'MISSING_COMMENT');
                  p_urgent_only          in varchar2 default 'N',
                  p_production_apps_only in varchar2 default 'N',
                  p_unqid                in svt_plsql_apex_audit.unqid%type default null,
-                 p_audit_id             in svt_plsql_apex_audit.id%type default null
+                 p_audit_id             in svt_plsql_apex_audit.id%type default null,
+                 p_application_id       in svt_plsql_apex_audit.application_id%type default null,
+                 p_page_id              in svt_plsql_apex_audit.page_id%type default null
                  )
   return v_svt_plsql_apex__0_nt pipelined;
 

@@ -343,7 +343,9 @@ create or replace package body SVT_STANDARD_VIEW as
 
   function v_svt_apex(p_test_code            in eba_stds_standard_tests.test_code%type,
                       p_failures_only        in varchar2 default 'N',
-                      p_production_apps_only in varchar2 default 'N')
+                      p_production_apps_only in varchar2 default 'N',
+                      p_application_id       in svt_plsql_apex_audit.application_id%type default null,
+                      p_page_id              in svt_plsql_apex_audit.page_id%type default null)
   return v_svt_apex_nt pipelined
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_apex';
@@ -357,6 +359,8 @@ create or replace package body SVT_STANDARD_VIEW as
     apex_debug.message(c_debug_template,'START', 
                                         'p_test_code', p_test_code,
                                         'p_failures_only', p_failures_only,
+                                        'p_application_id', p_application_id,
+                                        'p_page_id', p_page_id,
                                         'p_production_apps_only', p_production_apps_only);
 
     l_query_clob := get_query_clob (p_test_code   => c_test_code,
@@ -370,6 +374,16 @@ create or replace package body SVT_STANDARD_VIEW as
 
     l_query_clob := case when p_failures_only = gc_y
                          then l_query_clob||q'[ where pass_yn = 'N']'
+                         else l_query_clob||' where 1=1 '
+                         end;
+    
+    l_query_clob := case when p_application_id is not null
+                         then l_query_clob||' and application_id = '||p_application_id
+                         else l_query_clob 
+                         end;
+
+    l_query_clob := case when p_page_id is not null
+                         then l_query_clob||' and page_id = '||p_page_id
                          else l_query_clob 
                          end;
 
@@ -540,16 +554,19 @@ create or replace package body SVT_STANDARD_VIEW as
                  p_urgent_only          in varchar2 default 'N',
                  p_production_apps_only in varchar2 default 'N',
                  p_unqid                in svt_plsql_apex_audit.unqid%type default null,
-                 p_audit_id             in svt_plsql_apex_audit.id%type default null
+                 p_audit_id             in svt_plsql_apex_audit.id%type default null,
+                 p_application_id       in svt_plsql_apex_audit.application_id%type default null,
+                 p_page_id              in svt_plsql_apex_audit.page_id%type default null
                  )
   return v_svt_plsql_apex__0_nt pipelined
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-
+  
   cur_v_svt sys_refcursor;
   l_query_clob eba_stds_standard_tests.query_clob%type;
   c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  c_apex      constant varchar2(4) := 'APEX';
 
   ------------------------------------------------------------------------------
   -- v_svt_plsql_apex__0 identifiers
@@ -597,7 +614,9 @@ create or replace package body SVT_STANDARD_VIEW as
                                         'p_urgent_only', p_urgent_only,
                                         'p_production_apps_only', p_production_apps_only,
                                         'p_unqid', p_unqid,
-                                        'p_audit_id', p_audit_id);
+                                        'p_audit_id', p_audit_id,
+                                        'p_application_id', p_application_id,
+                                        'p_page_id',p_page_id);
 
     apex_debug.message(c_debug_template, 'l_unqid_predicate :', l_unqid_predicate);
 
@@ -821,6 +840,14 @@ create or replace package body SVT_STANDARD_VIEW as
                                   end
                           || case when c_unqid is not null
                                   then l_unqid_predicate
+                                  end
+                          || case when c_issue_category = c_apex 
+                                  and p_application_id is not null 
+                                  then ' and application_id = '||p_application_id
+                                  end
+                          || case when c_issue_category = c_apex 
+                                  and  p_page_id is not null 
+                                  then ' and page_id = '||p_page_id
                                   end;
       apex_debug.message(c_debug_template, 'l_addl_predicates :', l_addl_predicates);
       l_query_clob := l_query_clob||l_addl_predicates;

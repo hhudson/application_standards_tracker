@@ -5,7 +5,8 @@
 -- keep this view light- it's used every time you compile!
 
 create or replace force view v_eba_stds_standard_tests as 
-select  st.standard_id,
+select  /*+ result_cache */
+        st.standard_id,
         st.id test_id,
         st.level_id,
         asul.urgency_name urgency, 

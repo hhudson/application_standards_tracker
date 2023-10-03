@@ -1168,6 +1168,10 @@ $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
 
+PRO step 0 : delete from DATABASECHANGELOGLOCK
+delete from svt.DATABASECHANGELOGLOCK
+/
+
 PRO step 1 : clear-checksums
 
 lb clear-checksums
@@ -1187,6 +1191,10 @@ liquibase_validate () {
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
+
+PRO step 0 : delete from DATABASECHANGELOGLOCK
+delete from svt.DATABASECHANGELOGLOCK
+/
 
 PRO : validate
 
