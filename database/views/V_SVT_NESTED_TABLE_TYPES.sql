@@ -7,8 +7,7 @@
 create or replace force editionable view v_svt_nested_table_types as
 select id, 
        nt_name, 
-       object_type, 
-       svt_nested_table_types_api.issue_category(p_nt_name => nt_name) issue_category
+       object_type
 from svt_nested_table_types
 /
 

@@ -32,7 +32,7 @@ select  /*+ result_cache */
        st.version_number,
        st.display_sequence,
        ess.full_standard_name,
-       svt_nested_table_types_api.issue_category(p_nt_name => antt.nt_name) issue_category
+       antt.object_type issue_category
 from eba_stds_standard_tests st
 inner join v_eba_stds_standards ess on st.standard_id = ess.id
 inner join svt_component_types act on act.id = st.svt_component_type_id

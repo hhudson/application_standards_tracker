@@ -26,17 +26,16 @@ create or replace package body svt_nested_table_types_api as
   c_scope          constant varchar2(128) := gc_scope_prefix || 'issue_category 1';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_nt_name        constant svt_nested_table_types.nt_name%type := upper (p_nt_name);
+  l_issue_category svt_plsql_apex_audit.issue_category%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_nt_name', p_nt_name);
 
-    return case c_nt_name
-                when 'V_SVT_APEX__0_NT'    then 'APEX'
-                when 'V_SVT_DB_TBL__0_NT'  then 'TABLE'
-                when 'V_SVT_DB_VIEW__0_NT' then 'VIEW'
-                when 'V_SVT_DB_PLSQL_NT'   then 'DB_PLSQL'
-                when 'V_SVT_SERT__0_NT'    then 'SERT'
-                else null
-                end;
+    select object_type 
+    into l_issue_category
+    from svt_nested_table_types
+    where nt_name = c_nt_name;
+
+    return l_issue_category;
 
   exception
     when others then
@@ -54,7 +53,7 @@ create or replace package body svt_nested_table_types_api as
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
-    select issue_category (p_nt_name => nt_name)
+    select issue_category
     into l_issue_category
     from v_eba_stds_standard_tests
     where test_code = p_test_code;

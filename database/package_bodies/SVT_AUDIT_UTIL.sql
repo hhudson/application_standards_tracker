@@ -294,9 +294,9 @@ create or replace package body SVT_AUDIT_UTIL as
 
           recompile_w_plscope;
 
-          for ic_rec in (select issue_category
+          for ic_rec in (select object_type issue_category
                          from v_svt_nested_table_types
-                         where issue_category != c_apex)
+                         where object_type != c_apex)
           loop
             svt_plsql_apex_audit_api.merge_audit_tbl (
                              p_application_id => p_application_id,
