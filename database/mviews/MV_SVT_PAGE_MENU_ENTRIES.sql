@@ -5,6 +5,11 @@
 
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_PAGE_MENU_ENTRIES
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_PAGE_MENU_ENTRIES');
+end;
+*/
 --------------------------------------------------------
 
 create materialized view MV_SVT_PAGE_MENU_ENTRIES

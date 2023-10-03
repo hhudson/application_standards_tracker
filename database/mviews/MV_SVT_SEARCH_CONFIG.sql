@@ -5,6 +5,11 @@
 
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_SEARCH_CONFIG
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_SEARCH_CONFIG');
+end;
+*/
 --------------------------------------------------------
 
 create materialized view MV_SVT_SEARCH_CONFIG

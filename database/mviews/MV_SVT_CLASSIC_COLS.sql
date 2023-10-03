@@ -4,7 +4,12 @@
 --precondition-sql-check expectedResult:0 select count(1) from all_tables where upper(table_name) = upper('mv_svt_classic_cols');
 
 --------------------------------------------------------
---  DDL for Materialized View mv_svt_classic_cols
+--  DDL for Materialized View MV_SVT_CLASSIC_COLS
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_CLASSIC_COLS');
+end;
+*/
 --------------------------------------------------------
 -- drop materialized view mv_svt_classic_cols
 -- /

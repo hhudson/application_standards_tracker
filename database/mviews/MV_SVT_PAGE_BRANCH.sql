@@ -5,6 +5,11 @@
 
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_PAGE_BRANCH
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_PAGE_BRANCH');
+end;
+*/
 --------------------------------------------------------
 -- drop materialized view MV_SVT_PAGE_BRANCH
 -- /

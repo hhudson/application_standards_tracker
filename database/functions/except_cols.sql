@@ -12,10 +12,10 @@ from   except_cols (
 --------------------------------------------------------
 
 create or replace function EXCEPT_COLS (  
-  tab         table,     
-  except_cols columns  
+  p_tab         table,     
+  p_except_cols columns  
 ) return table pipelined   
   row polymorphic   
   using except_cols_pkg;
-
+/
 --rollback drop function EXCEPT_COLS;

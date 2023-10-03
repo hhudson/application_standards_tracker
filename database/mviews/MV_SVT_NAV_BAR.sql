@@ -5,6 +5,11 @@
 
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_NAV_BAR
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_NAV_BAR');
+end;
+*/
 --------------------------------------------------------
 
 create materialized view MV_SVT_NAV_BAR

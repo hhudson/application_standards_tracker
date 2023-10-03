@@ -5,6 +5,11 @@
 
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_HOME_LINK
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_HOME_LINK');
+end;
+*/
 --------------------------------------------------------
 
 create materialized view MV_SVT_HOME_LINK

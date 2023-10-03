@@ -5,6 +5,11 @@
 
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_IR_COLS
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_IR_COLS');
+end;
+*/
 --------------------------------------------------------
 -- drop materialized view MV_SVT_IR_COLS
 -- /

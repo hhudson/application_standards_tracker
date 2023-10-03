@@ -4,6 +4,11 @@
 --precondition-sql-check expectedResult:0 select count(1) from all_tables where upper(table_name) = upper('MV_SVT_BC_ENTRIES');
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_BC_ENTRIES
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_BC_ENTRIES');
+end;
+*/
 --------------------------------------------------------
 -- drop materialized view MV_SVT_BC_ENTRIES
 -- /

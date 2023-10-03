@@ -5,6 +5,11 @@
 
 --------------------------------------------------------
 --  DDL for Materialized View MV_SVT_LIST_ENTRIES
+/*
+begin
+  dbms_mview.refresh ('MV_SVT_LIST_ENTRIES');
+end;
+*/
 --------------------------------------------------------
 -- drop materialized view MV_SVT_LIST_ENTRIES
 -- /
