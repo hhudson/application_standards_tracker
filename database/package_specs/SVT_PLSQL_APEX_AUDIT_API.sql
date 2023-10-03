@@ -352,7 +352,7 @@ end;
 --     Date: October 3, 2023
 -- Synopsis:
 --
--- Re-runnign the violation assignment for apex audit
+-- Re-runnign the violation assignment for apex audit (will null out existing assignments!)
 --
 /*
 begin
