@@ -26,8 +26,9 @@ as
         end if;
     end set_review_schema;
 
-    function get_default_user
-    return all_users.username%type
+    function get_default_user 
+    return all_users.username%type 
+    result_cache
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_default_user';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

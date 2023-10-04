@@ -19,6 +19,35 @@ create or replace package SVT_PLSQL_APEX_AUDIT_API authid definer as
 -- hayhudso  2023-jun-29- created
 ---------------------------------------------------------------------------- 
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 4, 2023
+-- Synopsis:
+--
+-- Procedure to update a row of svt_plsql_apex_audit  
+--
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'U' then
+       svt_plsql_apex_audit_api.updated_audit  (
+        p_audit_id  => :P42_AUDIT_ID,
+        p_assignee  => :P42_ASSIGNEE,
+        p_notes     => :P42_NOTES,
+        p_action_id => :P42_ACTION_ID,
+        p_legacy_yn => :P42_LEGACY_YN
+      );
+  end case;
+end;
+*/
+---------------------------------------------------------------------------- 
+    procedure updated_audit  (
+      p_audit_id  in svt_plsql_apex_audit.id%type,
+      p_assignee  in svt_plsql_apex_audit.assignee%type,
+      p_notes     in svt_plsql_apex_audit.notes%type,
+      p_action_id in svt_plsql_apex_audit.action_id%type,
+      p_legacy_yn in svt_plsql_apex_audit.legacy_yn%type
+    );
 
 ------------------------------------------------------------------------------
 --  creator: hayden hudson

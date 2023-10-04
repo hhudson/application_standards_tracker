@@ -42,14 +42,13 @@ select svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') default_schema,
        svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') default_assignee,
        svt_preferences.get_preference ('SVT_SRC_EDIT_DELAY') src_edit_delay,
        svt_preferences.get_preference ('SVT_CLEANUP_DELAY') cleanup_delay,
-       svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS') review_schemas
+       svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS') review_schemas,
+       svt_preferences.get_preference ('SVT_DO_NOT_ASSIGN') do_not_assign
 from dual;
 */
 ------------------------------------------------------------------------------
 function get_preference (p_preference_name in apex_workspace_preferences.preference_name%type)
-return apex_workspace_preferences.preference_value%type 
-deterministic
-result_cache;
+return apex_workspace_preferences.preference_value%type;
 
 
 ------------------------------------------------------------------------------

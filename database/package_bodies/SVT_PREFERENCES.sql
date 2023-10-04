@@ -22,8 +22,6 @@ create or replace package body SVT_PREFERENCES as
 
   function get_preference (p_preference_name in apex_workspace_preferences.preference_name%type)
   return apex_workspace_preferences.preference_value%type 
-  deterministic
-  result_cache
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'get_preference';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -35,9 +33,7 @@ create or replace package body SVT_PREFERENCES as
     select preference_value 
     into l_pref_value
     from v_apex_workspace_preferences
-    where preference_name = c_preference_name
-    and user_name = gc_svt
-    ;
+    where preference_name = c_preference_name;
 
     return l_pref_value;
   exception 

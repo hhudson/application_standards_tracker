@@ -24,6 +24,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   gc_apex         constant varchar2(4) := 'APEX'; 
   gc_sert         constant varchar2(4) := 'SERT'; 
 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 28, 2023
@@ -54,7 +55,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     p_parent_component_id        in svt_plsql_apex_audit.parent_component_id%type
   )
   as
-  c_scope constant varchar2(128) := gc_scope_prefix || 'update_audit';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'update_audit 1';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   BEGIN
     apex_debug.message(c_debug_template,'START', 'p_unqid', p_unqid);
@@ -81,13 +82,40 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         updated                    = gc_sysdate,
         updated_by                 = gc_user
     where unqid = p_unqid;
-    apex_debug.message(c_debug_template, 'sql%rowcount :', sql%rowcount);
+    apex_debug.message(c_debug_template, 'updated :', sql%rowcount);
   
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
       raise;
   end update_audit;
+
+  procedure updated_audit  (
+    p_audit_id  in svt_plsql_apex_audit.id%type,
+    p_assignee  in svt_plsql_apex_audit.assignee%type,
+    p_notes     in svt_plsql_apex_audit.notes%type,
+    p_action_id in svt_plsql_apex_audit.action_id%type,
+    p_legacy_yn in svt_plsql_apex_audit.legacy_yn%type
+  )
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'update_audit 2';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
+
+    update svt_plsql_apex_audit
+    set assignee  = lower(p_assignee),
+        notes     = p_notes,
+        action_id = p_action_id,
+        legacy_yn = p_legacy_yn
+    where id = p_audit_id;
+    apex_debug.message(c_debug_template, 'updated :', sql%rowcount);
+
+  exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end updated_audit;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
