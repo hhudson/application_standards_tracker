@@ -35,7 +35,7 @@ create materialized view MV_ISSUES_CREATED_BY_DAY
                          then count(*) 
                          else count(*) * -1
                          end quantity
-                from SVT_AUDIT_ON_AUDIT
+                from svt_audit_on_audit
                 group by trunc(created), action_name)
     select action_date, quantity, action_name,
         sum ( quantity ) over ( 

@@ -206,9 +206,9 @@ Standards that are *not* general standards
 |-----------|-----------|---------|----------------|
 | [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME.json) |  Materialized Views should be named correctly | v1.2 | DATABASE MATERIALIZED VIEW |
 | [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME.json) |  Alphawave Views must be correctly named | v1.2 | DATABASE VIEW |
-| [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1.1 | DATABASE TABLE |
-| [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE.json) |  Use Char not Bytes | v1.1 | DATABASE TABLE |
-| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1.1 | DATABASE TABLE |
+| [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS.json) |  Tables should have audit columns | v1.2 | DATABASE TABLE |
+| [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE.json) |  Use Char not Bytes | v1.2 | DATABASE TABLE |
+| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1.2 | DATABASE TABLE |
 
 ## Millenium Gen2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 
