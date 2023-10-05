@@ -487,6 +487,75 @@ page-items:
   help: 
     help-text: Should this app have the full functionality of the admin install? Or is there another dev environment that gets deployed over this version periodically?
 
+- # ====== Page Item: P45_SVT_DO_NOT_ASSIGN ====================
+  id: 280032478123364322
+  identification: 
+    name: P45_SVT_DO_NOT_ASSIGN
+    type: Popup LOV
+
+  label: 
+    label: Do not assign issues to these users
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ':'
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 140
+    region: General # 372947696553094659
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 12
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ASSIGNEES # 628064901719578901
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get_preference ('SVT_DO_NOT_ASSIGN')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: List the people to whom issues should be assigned
+
 - # ====== Page Item: P45_SVT_FROM_EMAIL =======================
   id: 342029869947566345
   identification: 
@@ -1556,7 +1625,7 @@ processes:
       end;
 
   execution: 
-    sequence: 180
+    sequence: 190
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1595,6 +1664,38 @@ processes:
   server-side-condition: 
     type: Item is NOT NULL
     item: P45_SVT_ADMIN_VERSION_YN
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_DO_NOT_ASSIGN ==========================
+  id: 280032550838364323
+  identification: 
+    name: SVT_DO_NOT_ASSIGN
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_DO_NOT_ASSIGN',
+              p_value => :P45_SVT_DO_NOT_ASSIGN
+          );
+      end;
+
+  execution: 
+    sequence: 180
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: APPLY_CHANGES # 11018815120542622667
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741

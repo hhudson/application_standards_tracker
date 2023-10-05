@@ -12,7 +12,7 @@ regions:
     type: Search
 
   layout: 
-    sequence: 50
+    sequence: 20
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -131,6 +131,208 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: Alerts ======================================
+  id: 280032619890364324
+  identification: 
+    title: Alerts
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      declare
+      
+      l_page_mode     varchar2(200);
+      begin
+        select page_mode 
+          into l_page_mode
+          from apex_application_pages
+          where application_id = :APP_ID
+            and page_id = :APP_PAGE_ID;
+      
+        return l_page_mode = 'Normal' and :APP_PAGE_ID not in (9999,101); -- 9999 is the login page
+      end;
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Problem Assignees ===========================
+  id: 280032713352364325
+  identification: 
+    title: Problem Assignees
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select assignee user_name
+      from V_PROBLEM_ASSIGNEES
+      order by assignee desc
+
+  layout: 
+    sequence: 10
+    parent-region: Alerts # 280032619890364324
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--accent11
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 
+      from V_PROBLEM_ASSIGNEES
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      - t-Report--inline
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: USER_NAME ===================================
+    id: 280033473015364332
+    identification: 
+      column-name: USER_NAME
+      type: Link
+
+    heading: 
+      heading: User Name
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_ASSIGNEE:#USER_NAME#'
+        page: 1 # Issue Tracking
+        clear-cache: CR,1
+        values: 
+          ig[audit_rpt]eq_assignee: '#USER_NAME#'
+
+      link-text: '#USER_NAME#'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Stale Deployment Files ======================
   id: 280036493446802865
   identification: 
@@ -172,9 +374,9 @@ regions:
       where stale_yn = 'Y'
 
   layout: 
-    sequence: 30
-    parent-region: No Parent
-    position: REGION_POSITION_05
+    sequence: 40
+    parent-region: Alerts # 280032619890364324
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -675,8 +877,8 @@ regions:
     type: None
 
   layout: 
-    sequence: 40
-    parent-region: No Parent
+    sequence: 60
+    parent-region: Alerts # 280032619890364324
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -867,7 +1069,7 @@ regions:
 
   layout: 
     sequence: 20
-    parent-region: No Parent
+    parent-region: Alerts # 280032619890364324
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -1126,14 +1328,14 @@ regions:
 
   attributes: 
     settings: 
-      max-levels: 6
+      max-levels: 2
       breadcrumb-source: Page View History
 
     history-options: 
-      collection-name: AIT_SUPER_BREADCRUMB
+      collection-name: INSUM_SUPER_BREADCRUMB
 
     rewind-options: 
-      rewind-style: Matching Page ID
+      rewind-style: Matching Page ID and Title
 
 - # ====== Region: Builder =====================================
   id: 375364421050000758
@@ -1201,8 +1403,8 @@ regions:
       order by 1
 
   layout: 
-    sequence: 30
-    parent-region: No Parent
+    sequence: 50
+    parent-region: Alerts # 280032619890364324
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -1806,7 +2008,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
+    sequence: 30
     region: No Parent
     position: BODY
 
@@ -1836,7 +2038,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 70
+    sequence: 40
     region: No Parent
     position: BODY
 

@@ -426,7 +426,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: SVT_PLSQL_APEX_AUDIT
+    table-name: V_SVT_PLSQL_APEX_AUDIT
     include-rowid-column: false
 
   layout: 
@@ -479,11 +479,10 @@ regions:
     type: SQL Query
     sql-query: |
       select * from svt_standard_view.v_svt(p_test_code => :P42_TEST_CODE , 
-                                            p_audit_id => :P42_ID)
+                                            p_audit_id  => :P42_AUDIT_ID)
     page-items-to-submit: 
-    - P42_ISSUE_CATEGORY
-    - P42_CURRENT_REVIEW_SCHEMA
-    - P42_OWNER
+    - P42_TEST_CODE
+    - P42_AUDIT_ID
 
   layout: 
     sequence: 30
@@ -577,6 +576,47 @@ regions:
         alias: 2450589
 
     columns: 
+    - # ====== Column: SCHEMA ======================================
+      id: 280032096637364318
+      identification: 
+        column-name: SCHEMA
+        type: Plain Text
+
+      heading: 
+        heading: Schema
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 220
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: COMPONENT_ID ================================
       id: 282206303748270544
       identification: 
@@ -1402,9 +1442,7 @@ regions:
     exclude-title-from-translation: false
 
   server-side-condition: 
-    type: Item = Value
-    item: P42_ISSUE_STATUS
-    value: CLOSED
+    type: Never
 
   server-cache: 
     caching: Disabled
@@ -1560,8 +1598,7 @@ regions:
     exclude-title-from-translation: false
 
   server-side-condition: 
-    type: Item is NOT NULL
-    item: P42_MV_DEPENDENCY
+    type: Never
 
   server-cache: 
     caching: Disabled
@@ -1573,58 +1610,6 @@ regions:
     settings: 
       output-as: HTML
       expand-shortcuts: false
-
-- # ====== Region: Virtual Cols ================================
-  id: 684839425476099239
-  identification: 
-    title: Virtual Cols
-    type: Form
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: V_SVT_PLSQL_APEX_AUDIT
-    include-rowid-column: false
-
-  layout: 
-    sequence: 80
-    parent-region: No Parent
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7800049465222934912
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    edit: 
-      enabled: true
-      allowed-operations: 
-      - Add Row
-      - Update Row
-      - Delete Row
-      lost-update-type: Row Values
 
 - # ====== Region: Common ======================================
   id: 685223098007239140
@@ -1636,47 +1621,6 @@ regions:
     sequence: 30
     parent-region: No Parent
     position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7800049465222934912
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: General Virtual Cols ========================
-  id: 685223240255239142
-  identification: 
-    title: General Virtual Cols
-    type: Static Content
-
-  layout: 
-    sequence: 10
-    parent-region: General # 467025586306825381
-    position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1872,47 +1816,6 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Apex info virtual cols ======================
-  id: 685223849414239148
-  identification: 
-    title: Apex info virtual cols
-    type: Static Content
-
-  layout: 
-    sequence: 20
-    parent-region: APEX info # 467025327339825379
-    position: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7800049465222934912
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 page-items: 
 - # ====== Page Item: P42_PK_ID ================================
   id: 228090735702848867
@@ -1938,72 +1841,6 @@ page-items:
   session-state: 
     data-type: VARCHAR2
     storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_UPDATED_1 ============================
-  id: 229578404562659422
-  identification: 
-    name: P42_UPDATED_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1120
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: UPDATED
-    data-type: DATE
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_STALE_YN =============================
-  id: 229578500231659423
-  identification: 
-    name: P42_STALE_YN
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1130
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: STALE_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
 
   security: 
     session-state-protection: Unrestricted
@@ -2075,7 +1912,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Inspect Audit Issue # 470626476162603198
     position: BODY
 
@@ -2108,7 +1945,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Inspect Audit Issue # 470626476162603198
     position: BODY
 
@@ -2131,1013 +1968,122 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P42_LINK_URL =============================
-  id: 270610815201300569
+- # ====== Page Item: P42_AUDIT_ID =============================
+  id: 275119728116484941
   identification: 
-    name: P42_LINK_URL
+    name: P42_AUDIT_ID
     type: Hidden
 
   settings: 
     value-protected: true
 
   layout: 
-    sequence: 770
-    region: Virtual Cols # 684839425476099239
+    sequence: 10
+    region: Inspect Audit Issue # 470626476162603198
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: LINK_URL
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_VIEW_BUTTON ==========================
-  id: 270610919687300570
-  identification: 
-    name: P42_VIEW_BUTTON
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 780
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: VIEW_BUTTON
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_ASSIGNED_TO_ME_YN ====================
-  id: 270611671718300577
-  identification: 
-    name: P42_ASSIGNED_TO_ME_YN
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 800
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ASSIGNED_TO_ME_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_RERUN ================================
-  id: 270611859787300579
-  identification: 
-    name: P42_RERUN
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 810
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: RERUN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_MARK_AS_EXCEPTION ====================
-  id: 270611994372300580
-  identification: 
-    name: P42_MARK_AS_EXCEPTION
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 820
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: MARK_AS_EXCEPTION
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_ISSUE_CATEGORY_1 =====================
-  id: 372832372592155541
-  identification: 
-    name: P42_ISSUE_CATEGORY_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 830
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ISSUE_CATEGORY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APPLICATION_ID_1 =====================
-  id: 372832414384155542
-  identification: 
-    name: P42_APPLICATION_ID_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 850
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APPLICATION_ID
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: AUDIT_ID
     data-type: NUMBER
-    query-only: false
-    primary-key: false
+    query-only: true
+    primary-key: true
 
   session-state: 
     data-type: VARCHAR2
     storage: Per Request (Memory Only)
 
   security: 
-    session-state-protection: Unrestricted
+    session-state-protection: Checksum Required - Session Level
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P42_APPLICATION_NAME_1 ===================
-  id: 372832526178155543
+- # ====== Page Item: P42_APPLICATION_NAME =====================
+  id: 275119857594484942
   identification: 
-    name: P42_APPLICATION_NAME_1
-    type: Hidden
+    name: P42_APPLICATION_NAME
+    type: Text Field
+
+  label: 
+    label: Application Name
+    alignment: Left
 
   settings: 
-    value-protected: true
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
 
   layout: 
-    sequence: 860
-    region: Virtual Cols # 684839425476099239
+    sequence: 10
+    region: Apex info table cols # 685223774983239147
     position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 255
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Virtual Cols # 684839425476099239
+    form-region: Inspect Audit Issue # 470626476162603198
     column: APPLICATION_NAME
     data-type: VARCHAR2
     query-only: false
     primary-key: false
 
   session-state: 
-    data-type: VARCHAR2
     storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P42_PAGE_ID_1 ============================
-  id: 372832701032155544
+  help: 
+    help-text: The name of the application
+
+- # ====== Page Item: P42_APPLICATION_TYPE =====================
+  id: 275119934155484943
   identification: 
-    name: P42_PAGE_ID_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 870
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: PAGE_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_LINE_1 ===============================
-  id: 372832820879155546
-  identification: 
-    name: P42_LINE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 890
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: LINE
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_OBJECT_NAME_1 ========================
-  id: 372832971014155547
-  identification: 
-    name: P42_OBJECT_NAME_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 900
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: OBJECT_NAME
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_OBJECT_TYPE_1 ========================
-  id: 372833024341155548
-  identification: 
-    name: P42_OBJECT_TYPE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 910
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: OBJECT_TYPE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_CODE_1 ===============================
-  id: 372833176920155549
-  identification: 
-    name: P42_CODE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 920
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_VALIDATION_FAILURE_MESSAGE_1 =========
-  id: 372833273724155550
-  identification: 
-    name: P42_VALIDATION_FAILURE_MESSAGE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 930
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: VALIDATION_FAILURE_MESSAGE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_ISSUE_TITLE_1 ========================
-  id: 372833370282155551
-  identification: 
-    name: P42_ISSUE_TITLE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 940
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ISSUE_TITLE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APEX_CREATED_BY_1 ====================
-  id: 372833434339155552
-  identification: 
-    name: P42_APEX_CREATED_BY_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 950
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_CREATED_BY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APEX_CREATED_ON_1 ====================
-  id: 372833570607155553
-  identification: 
-    name: P42_APEX_CREATED_ON_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 960
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_CREATED_ON
-    data-type: DATE
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APEX_LAST_UPDATED_BY_1 ===============
-  id: 372833637358155554
-  identification: 
-    name: P42_APEX_LAST_UPDATED_BY_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 970
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_LAST_UPDATED_BY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APEX_LAST_UPDATED_ON_1 ===============
-  id: 372833789263155555
-  identification: 
-    name: P42_APEX_LAST_UPDATED_ON_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 980
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_LAST_UPDATED_ON
-    data-type: DATE
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_NOTES_1 ==============================
-  id: 372833856322155556
-  identification: 
-    name: P42_NOTES_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 990
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: NOTES
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_ACTION_ID_1 ==========================
-  id: 372833950393155557
-  identification: 
-    name: P42_ACTION_ID_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1000
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ACTION_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_CREATED_1 ============================
-  id: 372834045904155558
-  identification: 
-    name: P42_CREATED_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1010
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: CREATED
-    data-type: DATE
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_ASSIGNEE_1 ===========================
-  id: 372834158822155559
-  identification: 
-    name: P42_ASSIGNEE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1030
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ASSIGNEE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APEX_ISSUE_ID_1 ======================
-  id: 372834305178155560
-  identification: 
-    name: P42_APEX_ISSUE_ID_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1040
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_ISSUE_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APEX_ISSUE_TITLE_SUFFIX_1 ============
-  id: 372834381824155561
-  identification: 
-    name: P42_APEX_ISSUE_TITLE_SUFFIX_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1050
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_ISSUE_TITLE_SUFFIX
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_LEGACY_YN_1 ==========================
-  id: 372834602069155563
-  identification: 
-    name: P42_LEGACY_YN_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1060
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: LEGACY_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_UNQID_1 ==============================
-  id: 372834611171155564
-  identification: 
-    name: P42_UNQID_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1070
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: UNQID
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_OWNER_1 ==============================
-  id: 372834787893155565
-  identification: 
-    name: P42_OWNER_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1080
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: OWNER
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_COMPONENT_ID_1 =======================
-  id: 372834901158155566
-  identification: 
-    name: P42_COMPONENT_ID_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1090
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: COMPONENT_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_PARENT_COMPONENT_ID_1 ================
-  id: 372834929660155567
-  identification: 
-    name: P42_PARENT_COMPONENT_ID_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1100
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: PARENT_COMPONENT_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_SVT_COMPONENT_TYPE_ID ================
-  id: 372835023011155568
-  identification: 
-    name: P42_SVT_COMPONENT_TYPE_ID
-    type: Number Field
+    name: P42_APPLICATION_TYPE
+    type: Text Field
 
   label: 
-    label: SVT Component Type ID
+    label: Application Type
     alignment: Left
 
   settings: 
-    number-alignment: Start
-    virtual-keyboard: Decimal
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
 
   layout: 
-    sequence: 130
-    region: General Virtual Cols # 685223240255239142
+    sequence: 20
+    region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -3154,15 +2100,16 @@ page-items:
     width: 30
 
   validation: 
-    value-required: true
+    value-required: false
+    maximum-length: 32
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: SVT_COMPONENT_TYPE_ID
-    data-type: NUMBER
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: APPLICATION_TYPE
+    data-type: VARCHAR2
     query-only: false
     primary-key: false
 
@@ -3178,7 +2125,1080 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    help-text: An internal ID designating the type of component being targeted by the test
+    help-text: The classification into which the app has been added
+
+- # ====== Page Item: P42_TEST_ID ==============================
+  id: 275120042588484944
+  identification: 
+    name: P42_TEST_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 70
+    region: Inspect Audit Issue # 470626476162603198
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: TEST_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_URGENCY ==============================
+  id: 275120178005484945
+  identification: 
+    name: P42_URGENCY
+    type: Display Only
+
+  label: 
+    label: Urgency
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 80
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: URGENCY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The Urgency of the issue
+
+- # ====== Page Item: P42_URGENCY_LEVEL ========================
+  id: 275120290077484946
+  identification: 
+    name: P42_URGENCY_LEVEL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 90
+    region: General Table Cols # 685223344093239143
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: URGENCY_LEVEL
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ISSUE_TEXT ===========================
+  id: 275120369021484947
+  identification: 
+    name: P42_ISSUE_TEXT
+    type: Display Only
+
+  label: 
+    label: Issue Text
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 220
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: ISSUE_TEXT
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: A short description of the violation
+
+- # ====== Page Item: P42_ACTION_NAME ==========================
+  id: 275120430305484948
+  identification: 
+    name: P42_ACTION_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: General Table Cols # 685223344093239143
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: ACTION_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_STALE_YN =============================
+  id: 275120595388484949
+  identification: 
+    name: P42_STALE_YN
+    type: Switch
+
+  label: 
+    label: Stale
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 140
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: STALE_YN
+    data-type: VARCHAR2
+    query-only: true
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Whether or not the violation is stale
+
+- # ====== Page Item: P42_LINK_URL =============================
+  id: 275120662560484950
+  identification: 
+    name: P42_LINK_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 130
+    region: Inspect Audit Issue # 470626476162603198
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: LINK_URL
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_VIEW_BUTTON ==========================
+  id: 280030388878364301
+  identification: 
+    name: P42_VIEW_BUTTON
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 140
+    region: Inspect Audit Issue # 470626476162603198
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: VIEW_BUTTON
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_LINK_TO_APEX_ISSUE ===================
+  id: 280030477588364302
+  identification: 
+    name: P42_LINK_TO_APEX_ISSUE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 150
+    region: Actions table cols # 685223542555239145
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: LINK_TO_APEX_ISSUE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_APEX_ISSUE_TITLE =====================
+  id: 280030528140364303
+  identification: 
+    name: P42_APEX_ISSUE_TITLE
+    type: Display Only
+
+  label: 
+    label: Apex Issue Title
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 130
+    region: Apex info table cols # 685223774983239147
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: APEX_ISSUE_TITLE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The title given to the APEX Issue
+
+- # ====== Page Item: P42_APEX_ISSUE_TEXT ======================
+  id: 280030670586364304
+  identification: 
+    name: P42_APEX_ISSUE_TEXT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 160
+    region: Apex info table cols # 685223774983239147
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: APEX_ISSUE_TEXT
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ISSUE_STATUS =========================
+  id: 280030705987364305
+  identification: 
+    name: P42_ISSUE_STATUS
+    type: Display Only
+
+  label: 
+    label: Issue Status
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 150
+    region: Apex info table cols # 685223774983239147
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: ISSUE_STATUS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The status of the APEX Issue
+
+- # ====== Page Item: P42_FIX ==================================
+  id: 280030889665364306
+  identification: 
+    name: P42_FIX
+    type: Display Only
+
+  label: 
+    label: Fix
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 230
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: FIX
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: How to fix the issue
+
+- # ====== Page Item: P42_INFO =================================
+  id: 280030948059364307
+  identification: 
+    name: P42_INFO
+    type: Display Only
+
+  label: 
+    label: Info
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 240
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: INFO
+    data-type: CLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: CLOB
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Explanation for the issue
+
+- # ====== Page Item: P42_RECENT_YN ============================
+  id: 280031075443364308
+  identification: 
+    name: P42_RECENT_YN
+    type: Switch
+
+  label: 
+    label: Recent
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 150
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: RECENT_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Whether or not the violation is recent
+
+- # ====== Page Item: P42_URGENT_YN ============================
+  id: 280031167561364309
+  identification: 
+    name: P42_URGENT_YN
+    type: Switch
+
+  label: 
+    label: Urgent
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 160
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: URGENT_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Whether or not the violation is urgent
+
+- # ====== Page Item: P42_SRC_RECENT_CHANGE_YN =================
+  id: 280031248185364310
+  identification: 
+    name: P42_SRC_RECENT_CHANGE_YN
+    type: Switch
+
+  label: 
+    label: Src Recent Change
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 170
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: SRC_RECENT_CHANGE_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Whether or not the test underwent a recent change
+
+- # ====== Page Item: P42_INCLUDE_IN_REPORT_YN =================
+  id: 280031378532364311
+  identification: 
+    name: P42_INCLUDE_IN_REPORT_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 190
+    region: General Table Cols # 685223344093239143
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: INCLUDE_IN_REPORT_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_MV_DEPENDENCY ========================
+  id: 280031420890364312
+  identification: 
+    name: P42_MV_DEPENDENCY
+    type: Display Only
+
+  label: 
+    label: Mv Dependency
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 210
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: MV_DEPENDENCY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The Materialized View on which this test depends
+
+- # ====== Page Item: P42_ASSIGNED_TO_ME_YN ====================
+  id: 280031562329364313
+  identification: 
+    name: P42_ASSIGNED_TO_ME_YN
+    type: Switch
+
+  label: 
+    label: Assigned To Me
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 200
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: ASSIGNED_TO_ME_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Whether or not the issue is currently assigned to you
+
+- # ====== Page Item: P42_RERUN ================================
+  id: 280031602098364314
+  identification: 
+    name: P42_RERUN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 270
+    region: Inspect Audit Issue # 470626476162603198
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: RERUN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_MARK_AS_EXCEPTION ====================
+  id: 280031701465364315
+  identification: 
+    name: P42_MARK_AS_EXCEPTION
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 280
+    region: Inspect Audit Issue # 470626476162603198
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: MARK_AS_EXCEPTION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_SVT_COMPONENT_TYPE_ID ================
+  id: 280031840395364316
+  identification: 
+    name: P42_SVT_COMPONENT_TYPE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 290
+    region: Inspect Audit Issue # 470626476162603198
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: SVT_COMPONENT_TYPE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_STANDARD_NAME ========================
+  id: 280031924608364317
+  identification: 
+    name: P42_STANDARD_NAME
+    type: Display Only
+
+  label: 
+    label: Standard Name
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 50
+    region: General Table Cols # 685223344093239143
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Inspect Audit Issue # 470626476162603198
+    column: STANDARD_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The standard under which the test has been grouped
 
 - # ====== Page Item: P42_TEST_CODE ============================
   id: 374206702548627151
@@ -3198,7 +3218,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: General Table Cols # 685223344093239143
     position: BODY
     alignment: Left
@@ -3242,165 +3262,6 @@ page-items:
 
   help: 
     help-text: The unique, shorthand descriptor of the test
-
-- # ====== Page Item: P42_APPLICATION_TYPE =====================
-  id: 374206799905627152
-  identification: 
-    name: P42_APPLICATION_TYPE
-    type: Text Field
-
-  label: 
-    label: Application Type
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 140
-    region: General Table Cols # 685223344093239143
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: false
-    maximum-length: 32
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APPLICATION_TYPE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: The grouping into which the application has been placed by the app admin
-
-- # ====== Page Item: P42_TEST_CODE_1 ==========================
-  id: 374206881944627153
-  identification: 
-    name: P42_TEST_CODE_1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 1110
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: TEST_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_STANDARD_NAME ========================
-  id: 375362455641000738
-  identification: 
-    name: P42_STANDARD_NAME
-    type: Text Field
-
-  label: 
-    label: Standard Name
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 150
-    region: General Table Cols # 685223344093239143
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6638107616876476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: true
-    maximum-length: 64
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: STANDARD_NAME
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Grouping into which the test has been assigned
 
 - # ====== Page Item: P42_ISSUE_CATEGORY =======================
   id: 470627645906603210
@@ -3482,7 +3343,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 10
+    sequence: 30
     region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
@@ -3537,7 +3398,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 10
+    sequence: 40
     region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
@@ -3843,7 +3704,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Apex info table cols # 685223774983239147
+    region: General Table Cols # 685223344093239143
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -3898,7 +3759,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 10
+    sequence: 60
     region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
@@ -3962,7 +3823,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 10
+    sequence: 80
     region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
@@ -4025,7 +3886,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 10
+    sequence: 90
     region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
@@ -4089,7 +3950,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 10
+    sequence: 100
     region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
@@ -4287,7 +4148,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 120
+    sequence: 70
     region: General Table Cols # 685223344093239143
     position: BODY
     alignment: Left
@@ -4363,6 +4224,7 @@ page-items:
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--large
     - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
@@ -4406,7 +4268,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 10
+    sequence: 110
     region: Apex info table cols # 685223774983239147
     position: BODY
 
@@ -4443,7 +4305,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 100
+    sequence: 180
     region: General Table Cols # 685223344093239143
     position: BODY
     alignment: Left
@@ -4501,7 +4363,7 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 110
+    sequence: 130
     region: General Table Cols # 685223344093239143
     position: BODY
     alignment: Left
@@ -4539,903 +4401,6 @@ page-items:
   help: 
     help-text: A code that uniquely describes the violation that isn't the audit id and doesn't require the violation to be recorded
 
-- # ====== Page Item: P42_INCLUDE_IN_REPORT_YN =================
-  id: 495023407300048358
-  identification: 
-    name: P42_INCLUDE_IN_REPORT_YN
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 560
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: INCLUDE_IN_REPORT_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_MV_DEPENDENCY ========================
-  id: 495023486145048359
-  identification: 
-    name: P42_MV_DEPENDENCY
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: MV Dependency # 495023785560048362
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: MV_DEPENDENCY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Identify a materialized view referenced in your query
-
-- # ====== Page Item: P42_AUDIT_ID =============================
-  id: 684839585555099240
-  identification: 
-    name: P42_AUDIT_ID
-    type: Number Field
-
-  label: 
-    label: Audit ID
-    alignment: Left
-
-  settings: 
-    number-alignment: Start
-    virtual-keyboard: Decimal
-
-  layout: 
-    sequence: 30
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: true
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: AUDIT_ID
-    data-type: NUMBER
-    query-only: true
-    primary-key: true
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: the primary key of audit table
-
-- # ====== Page Item: P42_TEST_ID ==============================
-  id: 684840321168099248
-  identification: 
-    name: P42_TEST_ID
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 40
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: TEST_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_URGENCY ==============================
-  id: 684840429928099249
-  identification: 
-    name: P42_URGENCY
-    type: Textarea
-
-  label: 
-    label: Urgency
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
-
-  layout: 
-    sequence: 50
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-    height: 5
-
-  validation: 
-    value-required: false
-    maximum-length: 255
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: URGENCY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: the urgency of the violation
-
-- # ====== Page Item: P42_URGENCY_LEVEL ========================
-  id: 684840571661099250
-  identification: 
-    name: P42_URGENCY_LEVEL
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 60
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: URGENCY_LEVEL
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_ISSUE_TEXT ===========================
-  id: 684841116463099256
-  identification: 
-    name: P42_ISSUE_TEXT
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 70
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ISSUE_TEXT
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_ACTION_NAME ==========================
-  id: 684841980108099264
-  identification: 
-    name: P42_ACTION_NAME
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Actions virtual cols # 685223654500239146
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ACTION_NAME
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_LINK_TO_APEX_ISSUE ===================
-  id: 684842396365099268
-  identification: 
-    name: P42_LINK_TO_APEX_ISSUE
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 290
-    region: Virtual Cols # 684839425476099239
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: LINK_TO_APEX_ISSUE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_APEX_ISSUE_TITLE =====================
-  id: 684842535916099270
-  identification: 
-    name: P42_APEX_ISSUE_TITLE
-    type: Textarea
-
-  label: 
-    label: Apex Issue Title
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
-
-  layout: 
-    sequence: 20
-    region: Apex info virtual cols # 685223849414239148
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-    height: 5
-
-  validation: 
-    value-required: false
-    maximum-length: 255
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_ISSUE_TITLE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: The value given to the `apex issue` (from team development) that is created
-
-- # ====== Page Item: P42_APEX_ISSUE_TEXT ======================
-  id: 684842692710099271
-  identification: 
-    name: P42_APEX_ISSUE_TEXT
-    type: Rich Text Editor
-
-  label: 
-    label: Apex Issue Text
-    alignment: Left
-
-  settings: 
-    library: CKEditor [Deprecated]
-    format: Markdown
-    minimum-height: 180
-    allow-custom-html: false
-
-  layout: 
-    sequence: 30
-    region: Apex info virtual cols # 685223849414239148
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: APEX_ISSUE_TEXT
-    data-type: CLOB
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: CLOB
-    storage: Per Request (Memory Only)
-
-  read-only: 
-    type: Always
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: This text is printed in the body of the 'apex issue' (from team development)
-
-- # ====== Page Item: P42_ISSUE_STATUS =========================
-  id: 684842787282099272
-  identification: 
-    name: P42_ISSUE_STATUS
-    type: Text Field
-
-  label: 
-    label: Issue Status
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 10
-    region: Apex info virtual cols # 685223849414239148
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: false
-    maximum-length: 20
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: ISSUE_STATUS
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: The status of the `apex issue` (from team development) that is created
-
-- # ====== Page Item: P42_FIX ==================================
-  id: 684842936262099274
-  identification: 
-    name: P42_FIX
-    type: Rich Text Editor
-
-  label: 
-    label: Fix
-    alignment: Left
-
-  settings: 
-    library: CKEditor [Deprecated]
-    format: Markdown
-    minimum-height: 180
-    allow-custom-html: false
-
-  layout: 
-    sequence: 80
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: FIX
-    data-type: CLOB
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: CLOB
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: the proposed fix for the violation
-
-- # ====== Page Item: P42_INFO =================================
-  id: 684843044827099275
-  identification: 
-    name: P42_INFO
-    type: Rich Text Editor
-
-  label: 
-    label: Info
-    alignment: Left
-
-  settings: 
-    library: CKEditor [Deprecated]
-    format: Markdown
-    minimum-height: 180
-    allow-custom-html: false
-
-  layout: 
-    sequence: 90
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: INFO
-    data-type: CLOB
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: CLOB
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: details on the violation
-
-- # ====== Page Item: P42_RECENT_YN ============================
-  id: 684843129953099276
-  identification: 
-    name: P42_RECENT_YN
-    type: Switch
-
-  label: 
-    label: Recent
-    alignment: Left
-
-  settings: 
-    use-defaults: true
-
-  layout: 
-    sequence: 100
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: RECENT_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: |
-      "recent" issues are eligible for the daily email notification. It is informed by the following :
-      <ul>
-          <li>"Legacy" issues cannot be recent </li>
-          <li>Issues created by tests that have themselves been edited recently, cannot be recent</li>
-          <li>Only issues that been created in the past 2 business days can be recent</li>
-      </ul>
-         
-
-- # ====== Page Item: P42_URGENT_YN ============================
-  id: 684843302952099277
-  identification: 
-    name: P42_URGENT_YN
-    type: Switch
-
-  label: 
-    label: Urgent
-    alignment: Left
-
-  settings: 
-    use-defaults: true
-
-  layout: 
-    sequence: 110
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: URGENT_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: If the urgency level is below "100", it is urgent
-
-- # ====== Page Item: P42_SRC_RECENT_CHANGE_YN =================
-  id: 684843522464099280
-  identification: 
-    name: P42_SRC_RECENT_CHANGE_YN
-    type: Switch
-
-  label: 
-    label: Recent Change in Standard
-    alignment: Left
-
-  settings: 
-    use-defaults: true
-
-  layout: 
-    sequence: 120
-    region: General Virtual Cols # 685223240255239142
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Virtual Cols # 684839425476099239
-    column: SRC_RECENT_CHANGE_YN
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: whether the test itself has been recently edited
-
-- # ====== Page Item: P42_ID ===================================
-  id: 684843821207099283
-  identification: 
-    name: P42_ID
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Common # 685223098007239140
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Inspect Audit Issue # 470626476162603198
-    column: ID
-    data-type: NUMBER
-    query-only: true
-    primary-key: true
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P42_CREATED_BY ===========================
-  id: 684843956664099284
-  identification: 
-    name: P42_CREATED_BY
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 60
-    region: General Table Cols # 685223344093239143
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Inspect Audit Issue # 470626476162603198
-    column: CREATED_BY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
 - # ====== Page Item: P42_UPDATED ==============================
   id: 684844039650099285
   identification: 
@@ -5455,7 +4420,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 70
+    sequence: 60
     region: General Table Cols # 685223344093239143
     position: BODY
     alignment: Left
@@ -5486,70 +4451,6 @@ page-items:
     primary-key: false
 
   session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: audit field from the audit table
-
-- # ====== Page Item: P42_UPDATED_BY ===========================
-  id: 684844120243099286
-  identification: 
-    name: P42_UPDATED_BY
-    type: Textarea
-
-  label: 
-    label: Updated By
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
-
-  layout: 
-    sequence: 80
-    region: General Table Cols # 685223344093239143
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-    height: 5
-
-  validation: 
-    value-required: true
-    maximum-length: 255
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Inspect Audit Issue # 470626476162603198
-    column: UPDATED_BY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
     storage: Per Request (Memory Only)
 
   quick-picks: 
@@ -5600,7 +4501,7 @@ page-items:
 
   validation: 
     value-required: false
-    maximum-length: 1000
+    maximum-length: 4000
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -5644,7 +4545,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 10
+    sequence: 140
     region: Apex info table cols # 685223774983239147
     position: BODY
     alignment: Left
@@ -5709,12 +4610,12 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 90
+    sequence: 100
     region: General Table Cols # 685223344093239143
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -5900,7 +4801,7 @@ buttons:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P42_ID
+    item: P42_AUDIT_ID
 
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
@@ -6078,11 +4979,11 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:RR,:P42_ID:&P42_ID.'
+      url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:RR,:P42_AUDIT_ID:&P42_AUDIT_ID.'
       page: 42 # Edit Audit Issue
       clear-cache: RR
       values: 
-        p42_id: '&P42_ID.'
+        p42_audit_id: '&P42_AUDIT_ID.'
 
     warn-on-unsaved-changes: Do Not Check
 
@@ -6262,19 +5163,6 @@ computations:
   configuration: 
     build-option: TO_DELETE # 6384384957050863767
 
-- # ====== Computation: P42_AUDIT_ID ===========================
-  id: 685223163605239141
-  identification: 
-    item-name: P42_AUDIT_ID
-
-  execution: 
-    sequence: 10
-    point: Before Header
-
-  computation: 
-    type: Item
-    item-name: P42_ID
-
 processes: 
 - # ====== Process: Initialize form Inspect Audit Issue ========
   id: 470650715847603231
@@ -6298,10 +5186,22 @@ processes:
     form-region: Inspect Audit Issue # 470626476162603198
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'U' then
+             svt_plsql_apex_audit_api.updated_audit  (
+              p_audit_id  => :P42_AUDIT_ID,
+              p_assignee  => :P42_ASSIGNEE,
+              p_notes     => :P42_NOTES,
+              p_action_id => :P42_ACTION_ID,
+              p_legacy_yn => :P42_LEGACY_YN
+            );
+        end case;
+      end;
     prevent-lost-updates: true
-    lock-row: Yes
-    return-primary-key(s)-after-insert: true
+    lock-row: No
 
   execution: 
     sequence: 10
@@ -6359,19 +5259,6 @@ processes:
 
   server-side-condition: 
     when-button-pressed: REFRESH_MV # 495023808962048363
-
-- # ====== Process: Initialize form Virtual Cols ===============
-  id: 685223468047239144
-  identification: 
-    name: Initialize form Virtual Cols
-    type: Form - Initialization
-    execution-chain: None
-    form-region: Virtual Cols # 684839425476099239
-
-  execution: 
-    sequence: 20
-    point: Before Header
-    run-process: Once Per Page Visit (default)
 
 branches: 
 - # ====== Branch: Go To Page 1 ================================

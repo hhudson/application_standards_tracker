@@ -38,7 +38,7 @@ These are standards to maintain Accessibility.
 | [DA_BLUR](APEX_ACCESSIBILITY_212/tests/DA_BLUR.json) |  Check page JS for on blur events | v1 | APEX_APPLICATION_PAGES |
 | [DA_FOCUS](APEX_ACCESSIBILITY_212/tests/DA_FOCUS.json) |  DAs should avoid Lose Focus or Get Focus triggering events | v1.1 | APEX_APPLICATION_PAGE_DA |
 | [DA_JS_INTRVL_TIMT](APEX_ACCESSIBILITY_212/tests/DA_JS_INTRVL_TIMT.json) |  DA should avoid js that is setting intervals or timeouts | v1.2 | APEX_APPLICATION_PAGE_DA_ACTS |
-| [FORM_ITEM_HELP](APEX_ACCESSIBILITY_212/tests/FORM_ITEM_HELP.json) |  Form Elements should have help text | v1.1 | APEX_APPLICATION_PAGE_ITEMS |
+| [FORM_ITEM_HELP](APEX_ACCESSIBILITY_212/tests/FORM_ITEM_HELP.json) |  Form Elements should have help text | v1.2 | APEX_APPLICATION_PAGE_ITEMS |
 | [IG_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IG_COL_BAD_HTML.json) |  HTML should be correctly configured in IG Cols | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IG_COL_IMG_ALT_TEXT.json) |  IG Columns with images have alt text | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_COL_TABINDX.json) |  IG Columns should avoid hard coded tab indexes | v1.2 | APEX_APPL_PAGE_IG_COLUMNS |
@@ -188,7 +188,7 @@ Standards that are *not* general standards
 | [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE.json) |  Create buttons should be styled in a consistent way | v1.3 | APEX_APPLICATION_PAGE_BUTTONS |
 | [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS.json) |  User Drawers instead of Modals | v1 | APEX_APPLICATION_PAGES |
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES.json) |  Page names should be human friendly | v1 | APEX_APPLICATION_PAGES |
-| [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions | v1.2 | APEX_APPLICATION_LIST_ENTRIES |
+| [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC.json) |  List Menu Entries have Descriptions (for searchability) | v1.3 | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS.json) |  Navigation menu list entries should have icons | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION.json) |  Form pages require authentication and have access protection | v1.1 | APEX_APPLICATION_PAGES |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER.json) |  RDS regions should have a template of Tabs Container | v1 | APEX_APPLICATION_PAGE_REGIONS |

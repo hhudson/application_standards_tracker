@@ -38,6 +38,128 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: Top 10 Urgent Test Codes by Open Violation Co
+  id: 280032165847364319
+  identification: 
+    title: Top 10 Urgent Test Codes by Open Violation Count
+    type: Chart
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 280032253426364320
+    chart: 
+      type: Pie
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight
+
+    value: 
+      pie-chart-other-threshold: 0
+      format: Decimal
+      decimal-places: 0
+      format-scaling: None
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Urgent Test Codes by Violation Count ========
+      id: 280032310150364321
+      identification: 
+        name: Urgent Test Codes by Violation Count
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select paa.test_code, count(*) issue_count
+          from svt_plsql_apex_audit paa
+          inner join eba_stds_standard_tests esst on esst.test_code = paa.test_code
+          inner join svt_standards_urgency_level asul on asul.id = esst.level_id
+                                                      and asul.urgency_name in ('High','Critical')
+          left outer join svt_audit_actions aaa on paa.action_id = aaa.id
+          where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
+          group by paa.test_code
+          order by count(*) desc
+          fetch first 10 rows only
+
+      column-mapping: 
+        label: TEST_CODE
+        value: ISSUE_COUNT
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:&TEST_CODE.'
+          page: 14 # Manage Test
+          clear-cache: 14
+          values: 
+            p14_test_code: '&TEST_CODE.'
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
 - # ====== Region: Open Violation Counts by Standard Group =====
   id: 280774549480364135
   identification: 
@@ -45,11 +167,11 @@ regions:
     type: Chart
 
   layout: 
-    sequence: 90
+    sequence: 110
     parent-region: No Parent
     position: BODY
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -159,7 +281,7 @@ regions:
     type: Chart
 
   layout: 
-    sequence: 70
+    sequence: 90
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -398,11 +520,11 @@ regions:
     type: Chart
 
   layout: 
-    sequence: 100
+    sequence: 120
     parent-region: No Parent
     position: BODY
     start-new-layout: false
-    start-new-row: false
+    start-new-row: true
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -514,11 +636,11 @@ regions:
     type: Chart
 
   layout: 
-    sequence: 110
+    sequence: 130
     parent-region: No Parent
     position: BODY
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -632,7 +754,7 @@ regions:
       from mv_issues_created_by_day
 
   layout: 
-    sequence: 120
+    sequence: 140
     parent-region: No Parent
     position: BODY
     start-new-layout: false
