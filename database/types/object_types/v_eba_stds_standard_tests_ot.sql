@@ -12,10 +12,10 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- drop type v_eba_stds_standard_tests_nt
--- /
--- drop type v_eba_stds_standard_tests_ot
--- /
+drop type v_eba_stds_standard_tests_nt
+/
+drop type v_eba_stds_standard_tests_ot
+/
   create type v_eba_stds_standard_tests_ot as object
     (
         STANDARD_ID             NUMBER,
@@ -42,6 +42,7 @@
         FILE_NAME               VARCHAR2(4000), 
         CHARACTER_SET           CHAR(5),
         VERSION_NUMBER          NUMBER,
+        VERSION_DB              VARCHAR2(55),
         VSN                     VARCHAR2(5),
         RECORD_MD5              VARCHAR2(250),
         LIB_MD5                 VARCHAR2(250),
@@ -51,5 +52,8 @@
         INHERITED_YN            VARCHAR2(1),
         CALLING_STANDARD_NAME   VARCHAR2(64) --only relevant for inherited tests
     )
+/
+
+create type v_eba_stds_standard_tests_nt as table of v_eba_stds_standard_tests_ot
 /
 --rollback drop type V_EBA_STDS_STANDARD_TESTS_OT;

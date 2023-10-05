@@ -694,6 +694,7 @@ begin
                       apex_string.format('%s.json',upper(l_aat (rec).test_code)), --file_name
                       c_character_set,
                       l_aat (rec).version_number,
+                      l_aat (rec).version_db,
                       'v'||l_aat (rec).version_number, --vsn
                       c_md5, --  record_md5
                       l_lib_md5, --lib_md5
