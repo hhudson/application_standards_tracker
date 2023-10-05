@@ -100,7 +100,9 @@ end;
                        p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                        p_explanation           in eba_stds_standard_tests.explanation%type,
                        p_fix                   in eba_stds_standard_tests.fix%type,
-                       p_version_number        in eba_stds_standard_tests.version_number%type default null)
+                       p_version_number        in eba_stds_standard_tests.version_number%type default null,
+                       p_version_db            in eba_stds_standard_tests.version_db%type default null
+                       )
   return eba_stds_standard_tests.id%type;
 
 ------------------------------------------------------------------------------
@@ -140,7 +142,9 @@ end;
                         p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                         p_explanation           in eba_stds_standard_tests.explanation%type,
                         p_fix                   in eba_stds_standard_tests.fix%type,
-                        p_version_number        in eba_stds_standard_tests.version_number%type default null);
+                        p_version_number        in eba_stds_standard_tests.version_number%type default null,
+                        p_version_db            in eba_stds_standard_tests.version_db%type default null
+                      );
   
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -159,23 +163,23 @@ select eba_stds_standard_tests_api.build_test_md5 (
         p_svt_component_type_id => esst.svt_component_type_id,
         p_explanation           => esst.explanation,
         p_fix                   => esst.fix,
-        p_version_number        => esst.version_number
+        p_version_number        => esst.version_number,
+        p_version_db            => esst.version_db
     ) esst_md5
 from eba_stds_standard_tests esst;
 */
 ------------------------------------------------------------------------------
   function build_test_md5 (
-      -- p_standard_id           in eba_stds_standard_tests.standard_id%type,
       p_test_name             in eba_stds_standard_tests.test_name%type,
       p_query_clob            in eba_stds_standard_tests.query_clob%type,
       p_test_code             in eba_stds_standard_tests.test_code%type,
-      -- p_active_yn             in eba_stds_standard_tests.active_yn%type,
       p_level_id              in eba_stds_standard_tests.level_id%type,
       p_mv_dependency         in eba_stds_standard_tests.mv_dependency%type,
       p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
       p_explanation           in eba_stds_standard_tests.explanation%type,
       p_fix                   in eba_stds_standard_tests.fix%type,
-      p_version_number        in eba_stds_standard_tests.version_number%type
+      p_version_number        in eba_stds_standard_tests.version_number%type,
+      p_version_db            in eba_stds_standard_tests.version_db%type
   ) return varchar2 deterministic;
 
 ------------------------------------------------------------------------------
@@ -219,7 +223,9 @@ end;
                           p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                           p_explanation           in eba_stds_standard_tests.explanation%type,
                           p_fix                   in eba_stds_standard_tests.fix%type,
-                          p_version_number        in eba_stds_standard_tests.version_number%type);
+                          p_version_number        in eba_stds_standard_tests.version_number%type,
+                          p_version_db            in eba_stds_standard_tests.version_db%type
+                        );
     
 
 ------------------------------------------------------------------------------

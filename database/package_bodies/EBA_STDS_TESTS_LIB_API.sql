@@ -194,7 +194,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_svt_component_type_id => l_lib_rec.svt_component_type_id,
                   p_explanation           => l_lib_rec.explanation,
                   p_fix                   => l_lib_rec.fix,
-                  p_version_number        => l_lib_rec.version_number
+                  p_version_number        => l_lib_rec.version_number,
+                  p_version_db            => l_lib_rec.version_db
                   );
     
     else 
@@ -212,7 +213,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                           p_svt_component_type_id => l_lib_rec.svt_component_type_id,
                           p_explanation           => l_lib_rec.explanation,
                           p_fix                   => l_lib_rec.fix,
-                          p_version_number        => l_lib_rec.version_number
+                          p_version_number        => l_lib_rec.version_number,
+                          p_version_db            => l_lib_rec.version_db
                       );
     end if;
     
@@ -305,17 +307,16 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     where test_code = p_test_code;
 
     p_md5 := eba_stds_standard_tests_api.build_test_md5(
-                      -- l_lib_rec.standard_id,
                       l_lib_rec.test_name,
                       l_lib_rec.query_clob,
                       l_lib_rec.test_code,
-                      -- l_lib_rec.active_yn,
                       l_lib_rec.level_id,
                       l_lib_rec.mv_dependency,
                       l_lib_rec.svt_component_type_id,
                       l_lib_rec.explanation,
                       l_lib_rec.fix,
-                      l_lib_rec.version_number
+                      l_lib_rec.version_number,
+                      l_lib_rec.version_db
                   );
 
     p_version_number := l_lib_rec.version_number;

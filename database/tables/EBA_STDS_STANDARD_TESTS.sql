@@ -27,6 +27,7 @@
       FIX CLOB,
       ACTIVE_YN VARCHAR2(1) DEFAULT 'Y', 
       VERSION_NUMBER NUMBER,
+      VERSION_DB VARCHAR2(55),
       MV_DEPENDENCY VARCHAR2(100),
       SVT_COMPONENT_TYPE_ID NUMBER,
       CREATED TIMESTAMP (6) WITH LOCAL TIME ZONE, 
@@ -71,6 +72,9 @@ USING INDEX  ENABLE
 
   ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (VERSION_NUMBER NOT NULL ENABLE)
 /
+  -- update eba_stds_standard_tests set version_db = svt_preferences.get_preference ('SVT_DB_NAME')
+  ALTER TABLE EBA_STDS_STANDARD_TESTS MODIFY (VERSION_DB NOT NULL ENABLE)
+/
 
   ALTER TABLE EBA_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STDS_STANDARD_TESTS_UK3 UNIQUE (standard_id, id)
   USING INDEX  ENABLE
@@ -78,5 +82,7 @@ USING INDEX  ENABLE
 -- constraint eba_ststts_ast_cmpnt_tp_fk1 on column(s) svt_component_type_id is missing an index
 create index eba_stds_standard_tests_idx1 on eba_stds_standard_tests (svt_component_type_id)
 /
+
+-- alter table EBA_STDS_STANDARD_TESTS add VERSION_DB VARCHAR2(55)
 
 --rollback drop table EBA_STDS_STANDARD_TESTS;

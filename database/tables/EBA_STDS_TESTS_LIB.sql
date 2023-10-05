@@ -29,7 +29,8 @@
       EXPLANATION VARCHAR2(4000 CHAR),
       FIX CLOB,
       LEVEL_ID NUMBER,
-      VERSION_NUMBER NUMBER
+      VERSION_NUMBER NUMBER,
+      VERSION_DB VARCHAR2(55 CHAR)
    ) 
 /
 
@@ -46,6 +47,8 @@
 /
 
   ALTER TABLE EBA_STDS_TESTS_LIB MODIFY (VERSION_NUMBER NOT NULL ENABLE)
+/
+  ALTER TABLE EBA_STDS_TESTS_LIB MODIFY (VERSION_DB NOT NULL ENABLE)
 /
 
 --precondition-sql-check expectedResult:0 select count(*) from user_constraints where upper(constraint_name)  = 'EBA_STSTTS_LIB_PK'

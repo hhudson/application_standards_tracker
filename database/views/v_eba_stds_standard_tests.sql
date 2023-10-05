@@ -30,6 +30,7 @@ select  /*+ result_cache */
        st.explanation,
        st.fix,
        st.version_number,
+       st.version_db,
        st.display_sequence,
        ess.full_standard_name,
        antt.object_type issue_category
