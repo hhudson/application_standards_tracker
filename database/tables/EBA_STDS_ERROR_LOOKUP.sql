@@ -13,9 +13,9 @@
 --------------------------------------------------------------------------------
 
   CREATE TABLE EBA_STDS_ERROR_LOOKUP 
-   (	CONSTRAINT_NAME VARCHAR2(30), 
-      MESSAGE VARCHAR2(4000), 
-      LANGUAGE_CODE VARCHAR2(30)
+   (	CONSTRAINT_NAME VARCHAR2(30 CHAR), 
+      MESSAGE VARCHAR2(4000 CHAR), 
+      LANGUAGE_CODE VARCHAR2(30 CHAR)
    ) 
 /
 
