@@ -19,6 +19,7 @@ create or replace package body eba_stds_standard_tests_api as
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_n constant varchar2(1) := 'N';
   gc_y constant varchar2(1) := 'Y';
+  gc_default_version_number constant number := 0;
 
 
 
@@ -44,7 +45,6 @@ create or replace package body eba_stds_standard_tests_api as
    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
    l_id eba_stds_standard_tests.id%type := p_id;
-   c_default_version_number constant number := 0;
    begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
@@ -80,7 +80,7 @@ create or replace package body eba_stds_standard_tests_api as
       p_svt_component_type_id,
       p_explanation,
       p_fix,
-      coalesce(p_version_number,c_default_version_number),
+      coalesce(p_version_number,gc_default_version_number),
       coalesce(p_version_db,svt_preferences.get_preference ('SVT_DB_NAME'))
     ) returning id into l_id;
 
@@ -252,16 +252,20 @@ create or replace package body eba_stds_standard_tests_api as
       l_test_rec eba_stds_standard_tests%rowtype;
       l_version_number eba_stds_standard_tests.version_number%type;
       c_minor_version_increment constant number := 0.1;
+      c_db_name constant eba_stds_standard_tests.version_db%type := svt_preferences.get_preference ('SVT_DB_NAME');
       begin
         l_test_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => p_test_code);
 
-        l_version_number := case when l_test_rec.version_number = 0
+        l_version_number := case when l_test_rec.version_db != c_db_name
+                                 then 1
+                                 when l_test_rec.version_number = 0
                                  then 1
                                  else l_test_rec.version_number + c_minor_version_increment
                                  end;
       
         update eba_stds_standard_tests
-        set version_number = l_version_number
+        set version_number = l_version_number,
+            version_db = c_db_name
         where test_code = p_test_code;
 
         eba_stds_tests_lib_api.upsert (
@@ -276,7 +280,8 @@ create or replace package body eba_stds_standard_tests_api as
           p_explanation           => l_test_rec.explanation,
           p_fix                   => l_test_rec.fix,
           p_level_id              => l_test_rec.level_id,
-          p_version_number        => l_version_number
+          p_version_number        => l_version_number,
+          p_version_db            => c_db_name
         );
       end publish_block;
     else 
@@ -301,8 +306,8 @@ create or replace package body eba_stds_standard_tests_api as
                         p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                         p_explanation           in eba_stds_standard_tests.explanation%type,
                         p_fix                   in eba_stds_standard_tests.fix%type,
-                        p_version_number        in eba_stds_standard_tests.version_number%type,
-                        p_version_db            in eba_stds_standard_tests.version_db%type
+                        p_version_number        in eba_stds_standard_tests.version_number%type default null,
+                        p_version_db            in eba_stds_standard_tests.version_db%type default null
                         )
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_test';
@@ -335,8 +340,8 @@ create or replace package body eba_stds_standard_tests_api as
         svt_component_type_id = p_svt_component_type_id,
         explanation           = p_explanation,
         fix                   = p_fix,
-        version_number        = p_version_number,
-        version_db            = coalesce(p_version_db, svt_preferences.get_preference ('SVT_DB_NAME'))
+        version_number        = coalesce(p_version_number, version_number, gc_default_version_number),
+        version_db            = coalesce(p_version_db, version_db, svt_preferences.get_preference ('SVT_DB_NAME'))
       where id = p_id;
   
   exception when others then

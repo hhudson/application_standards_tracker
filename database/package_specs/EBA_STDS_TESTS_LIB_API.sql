@@ -57,7 +57,8 @@ end;
         p_explanation           in eba_stds_tests_lib.explanation%type,
         p_fix                   in eba_stds_tests_lib.fix%type,
         p_level_id              in eba_stds_tests_lib.level_id%type,
-        p_version_number        in eba_stds_tests_lib.version_number%type
+        p_version_number        in eba_stds_tests_lib.version_number%type,
+        p_version_db            in eba_stds_tests_lib.version_db%type
     );
 
 ------------------------------------------------------------------------------

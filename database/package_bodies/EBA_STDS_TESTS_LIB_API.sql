@@ -31,26 +31,28 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
         p_explanation           in eba_stds_tests_lib.explanation%type,
         p_fix                   in eba_stds_tests_lib.fix%type,
         p_level_id              in eba_stds_tests_lib.level_id%type,
-        p_version_number        in eba_stds_tests_lib.version_number%type
+        p_version_number        in eba_stds_tests_lib.version_number%type,
+        p_version_db            in eba_stds_tests_lib.version_db%type
     )
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'upsert';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_version_number constant number := case when p_version_number = 0
-                                           then null -- you cannot import an unpublished test
-                                           else p_version_number
-                                           end;
+  c_version_number constant eba_stds_tests_lib.version_number%type
+                           := case when p_version_number = 0
+                                   then null -- you cannot import an unpublished test
+                                   else p_version_number
+                                   end;
+  c_version_db     constant eba_stds_tests_lib.version_db%type 
+                          := coalesce(p_version_db, svt_preferences.get_preference ('SVT_DB_NAME'));
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
                                         'p_test_name', p_test_name,
-                                        'p_test_id', p_test_id,
-                                        'p_query_clob', p_query_clob,
                                         'p_test_code', p_test_code,
-                                        'p_active_yn', p_active_yn,
                                         'p_mv_dependency', p_mv_dependency,
                                         'p_svt_component_type_id', p_svt_component_type_id,
-                                        'p_version_number',p_version_number
+                                        'p_version_number',p_version_number,
+                                        'p_version_db',p_version_db
                                         );
 
     merge into eba_stds_tests_lib e
@@ -65,7 +67,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_explanation           explanation,
                   p_fix                   fix,
                   p_level_id              level_id,
-                  c_version_number        version_number
+                  c_version_number        version_number,
+                  c_version_db            version_db
            from dual) h
     on (e.test_code = h.test_code)
     when matched then
@@ -79,7 +82,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                e.explanation           = h.explanation,
                e.fix                   = h.fix,
                e.level_id              = h.level_id,
-               e.version_number        = h.version_number
+               e.version_number        = h.version_number,
+               e.version_db            = h.version_db
     when not matched then
     insert (test_code,
             standard_id,
@@ -92,7 +96,9 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             explanation,
             fix,
             level_id,
-            version_number)
+            version_number,
+            version_db
+            )
     values (h.test_code,
             h.standard_id,
             h.test_name,
@@ -104,7 +110,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             h.explanation,
             h.fix,
             h.level_id,
-            h.version_number
+            h.version_number,
+            h.version_db
             );
 
   exception when others then
@@ -235,7 +242,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
 
-    -- svt_deployment.upsert_static_file(p_table_name => 'EBA_STDS_TESTS_LIB');
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);

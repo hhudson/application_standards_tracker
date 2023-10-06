@@ -223,8 +223,8 @@ end;
                           p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type,
                           p_explanation           in eba_stds_standard_tests.explanation%type,
                           p_fix                   in eba_stds_standard_tests.fix%type,
-                          p_version_number        in eba_stds_standard_tests.version_number%type,
-                          p_version_db            in eba_stds_standard_tests.version_db%type
+                          p_version_number        in eba_stds_standard_tests.version_number%type default null,
+                          p_version_db            in eba_stds_standard_tests.version_db%type default null
                         );
     
 
