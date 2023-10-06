@@ -3009,6 +3009,39 @@ page-items:
   help: 
     help-text: What type of component are you targeting for your test? This choice will inform where the test will link to
 
+- # ====== Page Item: P14_VERSION_DB ===========================
+  id: 280033696462364334
+  identification: 
+    name: P14_VERSION_DB
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 130
+    region: Standard Test # 7789086785789898297
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Standard Test # 7789086785789898297
+    column: VERSION_DB
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P14_EXPLANATION ==========================
   id: 282209802626270579
   identification: 
@@ -5763,8 +5796,7 @@ processes:
                                 p_mv_dependency         => :P14_MV_DEPENDENCY,
                                 p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
                                 p_explanation           => :P14_EXPLANATION,
-                                p_fix                   => :P14_FIX,
-                                p_version_number        => :P14_VERSION_NUMBER
+                                p_fix                   => :P14_FIX
                               );
           when 'D' then
             eba_stds_standard_tests_api.delete_test(p_id => :P14_ID,

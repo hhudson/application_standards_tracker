@@ -11,7 +11,7 @@ These are standards to maintain Accessibility.
 |-----------|-----------|---------|----------------|
 | [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE.json) |  Some fields benefit from an autocomplete attribute | v1.1 | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ.json) |  Button labels should be unique per page | v1.2 | APEX_APPLICATION_PAGE_BUTTONS |
-| [ACC_CARD_LINK](APEX_ACCESSIBILITY_212/tests/ACC_CARD_LINK.json) |  Card link require titles and arias | v1.2 | APEX_APPL_PAGE_CARD_ACTIONS |
+| [ACC_CARD_LINK](APEX_ACCESSIBILITY_212/tests/ACC_CARD_LINK.json) |  Card link require titles and arias | v1.4 | APEX_APPL_PAGE_CARD_ACTIONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS.json) |  DA should avoid "get focus" events | v1.1 | APEX_APPLICATION_PAGE_DA |
 | [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT.json) |  DA should avoid mouse events | v1.2 | APEX_APPLICATION_PAGE_DA |
 | [ACC_IG_COL_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_AUTOCOMPLETE.json) |  IG Columns may need autocomplete | v1.1 | APEX_APPL_PAGE_IG_COLUMNS |
@@ -31,7 +31,7 @@ These are standards to maintain Accessibility.
 | [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML.json) |  Classic Columns have wellformed HTML | v1.3 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT.json) |  Classic Columns with images have alt text | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_INACC_CSS](APEX_ACCESSIBILITY_212/tests/C_COL_INACC_CSS.json) |  Classic columns should avoid animations | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
-| [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK.json) |  Classic Columns links must have aria and title | v1.3 | APEX_APPLICATION_PAGE_RPT_COLS |
+| [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK.json) |  Classic Columns links must have aria and title | v1.4 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_HEADNG.json) |  Classic Report column headings are unique per region | v1.2 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_LBL.json) |  Classic Report column aliases are unique per page | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_VLD_HEADNG.json) |  Classic Report- all columns have a header defined | v1.1 | APEX_APPLICATION_PAGE_RPT_COLS |
@@ -93,7 +93,7 @@ These tests identify functionality that invalid.
 | [IR_COL_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/IR_COL_AUTHR_MATCH_DEST.json) |  IR Column Link Authorization Matches Destination  | v1 | APEX_APPLICATION_PAGE_IR_COL |
 | [NLE_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/NLE_AUTHR_MATCH_DEST.json) |  Navigation List Entry Authorization Matches Destination | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGES_CURRENT_IN_MENU](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGES_CURRENT_IN_MENU.json) |  Regular Pages should be Current in Navigation | v1 | APEX_APPLICATION_PAGES |
-| [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR.json) |  Pages should not have unresolved critical issues | v1.1 | APEX_APPLICATION_PAGES |
+| [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR.json) |  Pages should not have unresolved critical issues | v1.4 | APEX_APPLICATION_PAGES |
 | [PB_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/PB_AUTHR_MATCH_DEST.json) |  Page Branch Authorization Matches Destination | v1 | APEX_APPLICATION_PAGES |
 | [PUBLIC_PAGE_PUBLIC_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/PUBLIC_PAGE_PUBLIC_AUTH.json) |  Public pages should not require authentication | v1 | APEX_APPLICATION_PAGES |
 | [UNREACHABLE_PAGE](APEX_BROKEN_FUNCTIONALITY_212/tests/UNREACHABLE_PAGE.json) |  Pages should be reachable | v1 | APEX_APPLICATION_PAGES |
@@ -123,7 +123,7 @@ Best practices to keep things tidy
 | [PAGE_PROC_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_PROC_AVAILABLE.json) |  Page procedures should be available | v1 | APEX_APPLICATION_PAGE_PROC |
 | [PAGE_VAL_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_VAL_AVAILABLE.json) |  Page Validations should be available | v1 | APEX_APPLICATION_PAGE_VAL |
 | [SEARCH_SOURCES_AVAILABLE](APEX_CLEANUP_212/tests/SEARCH_SOURCES_AVAILABLE.json) |  Search Sources should be available | v1 | APEX_APPL_PAGE_SEARCH_SOURCES |
-| [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION.json) |  Themes should be specific numbers and subscribed | v1.1 | APEX_APPLICATION_THEME_STYLES |
+| [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION.json) |  Themes should be specific numbers and subscribed | v1.2 | APEX_APPLICATION_THEME_STYLES |
 | [TOO_MANY_REGIONS](APEX_CLEANUP_212/tests/TOO_MANY_REGIONS.json) |  Pages should limit their content | v1 | APEX_APPLICATION_PAGES |
 | [VAL_BUILD_LIST_ENTRY](APEX_CLEANUP_212/tests/VAL_BUILD_LIST_ENTRY.json) |  List entries should have valid build options | v1 | APEX_APPLICATION_LIST_ENTRIES |
 | [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD.json) |  Pages should have valid build options | v1 | APEX_APPLICATION_PAGES |

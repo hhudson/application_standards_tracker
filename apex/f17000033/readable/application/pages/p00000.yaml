@@ -202,7 +202,7 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select assignee user_name
+      select assignee problem_assignee
       from V_PROBLEM_ASSIGNEES
       order by assignee desc
 
@@ -291,35 +291,36 @@ regions:
       enabled: false
 
   columns: 
-  - # ====== Column: USER_NAME ===================================
-    id: 280033473015364332
+  - # ====== Column: PROBLEM_ASSIGNEE ============================
+    id: 280033745813364335
     identification: 
-      column-name: USER_NAME
+      column-name: PROBLEM_ASSIGNEE
       type: Link
 
     heading: 
-      heading: User Name
+      heading: Problem Assignee
       alignment: start
 
     layout: 
-      sequence: 70
+      sequence: 10
       column-alignment: start
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_ASSIGNEE:#USER_NAME#'
+        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IG[AUDIT_RPT]EQ_ASSIGNEE:#PROBLEM_ASSIGNEE#'
         page: 1 # Issue Tracking
         clear-cache: CR,1
         values: 
-          ig[audit_rpt]eq_assignee: '#USER_NAME#'
+          ig[audit_rpt]eq_assignee: '#PROBLEM_ASSIGNEE#'
 
-      link-text: '#USER_NAME#'
+      link-text: '#PROBLEM_ASSIGNEE#'
+      link-attributes: 'title="View Issues assigned to #PROBLEM_ASSIGNEE#" aria-label="View Issues assigned to #PROBLEM_ASSIGNEE#"'
 
     sorting: 
-      sortable: true
+      sortable: false
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -331,6 +332,7 @@ regions:
       table-owner: Parsing Schema
 
     security: 
+      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
       escape-special-characters: true
 
 - # ====== Region: Stale Deployment Files ======================
