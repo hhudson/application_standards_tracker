@@ -32,9 +32,17 @@ select estl.id,
        case when esst.version_number is null 
             then 'N'
             when estl.version_number = esst.version_number
+            and  estl.version_db = esst.version_db
             then 'Y'
             else 'N'
             end current_version_installed_yn,
+       case when esst.version_number is null 
+            then 'Y'
+            when estl.version_number != esst.version_number
+            and  estl.version_db = esst.version_db
+            then 'Y'
+            else 'N'
+            end upgrade_needed_yn,
        eba_stds_standard_tests_api.build_test_md5 (
           p_test_name             => estl.test_name,
           p_query_clob            => estl.query_clob,

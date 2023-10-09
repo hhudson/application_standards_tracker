@@ -12,5 +12,6 @@ and object_name not like '%XXX%'
 and object_name not like 'DATABASECHANGELOG%'
 and object_name not like 'DEV%'
 and object_name not like 'EBA%'
+and object_name not like 'MLOG%'
 /
 --rollback drop view V_USER_OBJECTS;
