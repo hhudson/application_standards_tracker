@@ -202,6 +202,62 @@
     error: 
       stop-execution-on-error: true
 
+- # ====== Automation: 9. [Every morning] manage timing audits =
+  id: 293514005069795938
+  identification: 
+    name: 9. [Every morning] manage timing audits
+    static-id: 9-clear-old-timing-records
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=6;BYMINUTE=0
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  actions: 
+  - # ====== Action: svt_test_timing_api.purge_old ===============
+    id: 293514390776795945
+    identification: 
+      name: svt_test_timing_api.purge_old
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            svt_test_timing_api.purge_old;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+  - # ====== Action: eba_stds_standards_api.update_test_avg_time =
+    id: 293515188244870708
+    identification: 
+      name: eba_stds_standards_api.update_test_avg_time
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            eba_stds_standards_api.update_test_avg_time;
+        end;
+
+    execution: 
+      sequence: 20
+
+    error: 
+      stop-execution-on-error: true
+
 - # ====== Automation: 2. [Bi-Hourly  - 10 min past] Issue Snaps
   id: 552097788301127980
   identification: 

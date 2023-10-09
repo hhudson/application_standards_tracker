@@ -169,6 +169,51 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: Advanced ====================================
+  id: 292521390539693210
+  identification: 
+    title: Advanced
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Addl filters # 275116700532484911
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Live Test results report ====================
   id: 724462783714702685
   identification: 
@@ -204,12 +249,14 @@ regions:
           and (esst.test_code = :P59_TEST_CODE or :P59_TEST_CODE is null)
           and (esst.issue_category = :P59_ISSUE_CATEGORY or :P59_ISSUE_CATEGORY is null) 
           and (esst.standard_id = :P59_STANDARD or :P59_STANDARD is null)
+          and (esst.avg_execution_seconds < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
     page-items-to-submit: 
     - P59_APPLICATION_ID
     - P59_PAGE_ID
     - P59_TEST_CODE
     - P59_ISSUE_CATEGORY
     - P59_STANDARD
+    - P59_TEST_TIME_LIMIT
 
   layout: 
     sequence: 40
@@ -892,9 +939,10 @@ page-items:
   list-of-values: 
     type: SQL Query
     sql-query: |
-      select apex_string.format('%s (%s)', test_name, test_code) d, test_code r
+      select apex_string.format('%s (%s)[%ss]', test_name, test_code, round(avg_exctn_scnds,1)) d, test_code r
       from eba_stds_standard_tests
       where (standard_id = :P59_STANDARD or :P59_STANDARD is null)
+      and (coalesce(avg_exctn_scnds, 0) < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
       order by 2
     display-extra-values: false
     display-null-value: true
@@ -903,8 +951,10 @@ page-items:
   cascading-list-of-values: 
     parent-item(s): 
     - P59_STANDARD
+    - P59_TEST_TIME_LIMIT
     items-to-submit: 
     - P59_STANDARD
+    - P59_TEST_TIME_LIMIT
     parent-required: false
 
   advanced: 
@@ -1190,6 +1240,68 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_TEST_TIME_LIMIT ======================
+  id: 292521262207693209
+  identification: 
+    name: P59_TEST_TIME_LIMIT
+    type: Number Field
+
+  label: 
+    label: Test Time Limit (seconds)
+    alignment: Left
+
+  settings: 
+    minimum-value: 0.01
+    maximum-value: 20
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 10
+    region: Advanced # 292521390539693210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: 2
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Only run tests that have an average execution time (in seconds) to this value
 
 buttons: 
 - # ====== Button: EVALUATE ====================================

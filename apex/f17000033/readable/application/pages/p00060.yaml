@@ -358,6 +358,88 @@ regions:
       output-as: Text (escape special characters)
       show-line-breaks: true
 
+- # ====== Region: Version Comparison ==========================
+  id: 280034684394364344
+  identification: 
+    title: Version Comparison
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Non-Editable # 279151752160547786
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Test definition =============================
+  id: 280035298118364350
+  identification: 
+    title: Test definition
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Non-Editable # 279151752160547786
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 page-items: 
 - # ====== Page Item: P60_ID ===================================
   id: 279541335262667885
@@ -515,8 +597,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 50
-    region: Non-Editable # 279151752160547786
+    sequence: 80
+    region: Test definition # 280035298118364350
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -779,6 +861,217 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P60_IMPORTED_VERSION_DB ==================
+  id: 280034317696364341
+  identification: 
+    name: P60_IMPORTED_VERSION_DB
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 80
+    region: Version Comparison # 280034684394364344
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 279541053322667884
+    column: IMPORTED_VERSION_DB
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_INSTALLED_VERSION_DB =================
+  id: 280034441803364342
+  identification: 
+    name: P60_INSTALLED_VERSION_DB
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Version Comparison # 280034684394364344
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 279541053322667884
+    column: INSTALLED_VERSION_DB
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_UPGRADE_NEEDED_YN ====================
+  id: 280034522786364343
+  identification: 
+    name: P60_UPGRADE_NEEDED_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: Version Comparison # 280034684394364344
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 279541053322667884
+    column: UPGRADE_NEEDED_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_IMPORTED_VERSION =====================
+  id: 280034822773364346
+  identification: 
+    name: P60_IMPORTED_VERSION
+    type: Text Field
+
+  label: 
+    label: Imported Version
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Version Comparison # 280034684394364344
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_INSTALLED_VERSION ====================
+  id: 280035070642364348
+  identification: 
+    name: P60_INSTALLED_VERSION
+    type: Text Field
+
+  label: 
+    label: Installed Version
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Version Comparison # 280034684394364344
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P60_STANDARD_ACTIVE_YN ===================
   id: 365746024908297047
   identification: 
@@ -829,8 +1122,8 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 60
-    region: Non-Editable # 279151752160547786
+    sequence: 90
+    region: Test definition # 280035298118364350
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -884,8 +1177,8 @@ page-items:
     send-on-page-submit: true
 
   layout: 
-    sequence: 70
-    region: Non-Editable # 279151752160547786
+    sequence: 100
+    region: Test definition # 280035298118364350
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -1032,36 +1325,15 @@ page-items:
   id: 365748815720297075
   identification: 
     name: P60_IMPORTED_VERSION_NUMBER
-    type: Number Field
-
-  label: 
-    label: Imported Version Number
-    alignment: Left
+    type: Hidden
 
   settings: 
-    number-alignment: Start
-    virtual-keyboard: Decimal
+    value-protected: true
 
   layout: 
-    sequence: 30
-    region: Non-Editable # 279151752160547786
+    sequence: 90
+    region: Version Comparison # 280034684394364344
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1074,10 +1346,8 @@ page-items:
     primary-key: false
 
   session-state: 
+    data-type: VARCHAR2
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
@@ -1091,36 +1361,15 @@ page-items:
   id: 365748949026297076
   identification: 
     name: P60_INSTALLED_VERSION_NUMBER
-    type: Number Field
-
-  label: 
-    label: Installed Version Number
-    alignment: Left
+    type: Hidden
 
   settings: 
-    number-alignment: Start
-    virtual-keyboard: Decimal
+    value-protected: true
 
   layout: 
-    sequence: 40
-    region: Non-Editable # 279151752160547786
+    sequence: 70
+    region: Version Comparison # 280034684394364344
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1133,15 +1382,8 @@ page-items:
     primary-key: false
 
   session-state: 
+    data-type: VARCHAR2
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ":P60_INSTALLED_VERSION_NUMBER is not null and :P60_CURRENT_VERSION_INSTALLED_YN = 'N'"
 
   security: 
     session-state-protection: Unrestricted
@@ -1155,34 +1397,15 @@ page-items:
   id: 365749041804297077
   identification: 
     name: P60_CURRENT_VERSION_INSTALLED_YN
-    type: Switch
-
-  label: 
-    label: Current Version Installed
-    alignment: Left
+    type: Hidden
 
   settings: 
-    use-defaults: true
+    value-protected: true
 
   layout: 
-    sequence: 20
-    region: Non-Editable # 279151752160547786
+    sequence: 30
+    region: Version Comparison # 280034684394364344
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: false
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1195,6 +1418,7 @@ page-items:
     primary-key: false
 
   session-state: 
+    data-type: VARCHAR2
     storage: Per Request (Memory Only)
 
   security: 
@@ -1329,7 +1553,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Non-Editable # 279151752160547786
+    region: Test definition # 280035298118364350
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -1590,6 +1814,44 @@ buttons:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
+- # ====== Button: REINSTALL ===================================
+  id: 292520492024693201
+  identification: 
+    button-name: REINSTALL
+    label: Reinstall
+
+  layout: 
+    sequence: 30
+    region: Buttons # 279551136008667896
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-square-selected-o
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  confirmation: 
+    message: This may overwrite changes you have made to this test locally
+    style: Warning
+
+  server-side-condition: 
+    type: Item = Value
+    item: P60_CURRENT_VERSION_INSTALLED_YN
+    value: Y
+
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
   id: 279551683523667896
@@ -1621,6 +1883,34 @@ dynamic-actions:
       fire-on-initialization: false
 
 computations: 
+- # ====== Computation: P60_IMPORTED_VERSION ===================
+  id: 280034970249364347
+  identification: 
+    item-name: P60_IMPORTED_VERSION
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "apex_string.format('%s [%s]', :P60_IMPORTED_VERSION_NUMBER, :P60_IMPORTED_VERSION_DB)"
+
+- # ====== Computation: P60_INSTALLED_VERSION ==================
+  id: 280035139122364349
+  identification: 
+    item-name: P60_INSTALLED_VERSION
+
+  execution: 
+    sequence: 20
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "apex_string.format('%s [%s]', :P60_INSTALLED_VERSION_NUMBER, :P60_INSTALLED_VERSION_DB)"
+
 - # ====== Computation: P60_ID =================================
   id: 365747454524297061
   identification: 
@@ -1666,7 +1956,9 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: INSTALL # 279150607704547775
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":REQUEST IN ('INSTALL','REINSTALL')"
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752

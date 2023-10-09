@@ -629,6 +629,117 @@ regions:
       performance: 
         maximum-rows-to-process: 20
 
+- # ====== Region: Top 10 slowest tests ========================
+  id: 292520806680693205
+  identification: 
+    title: Top 10 slowest tests
+    type: Chart
+
+  layout: 
+    sequence: 140
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 292520958118693206
+    chart: 
+      type: Pie
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight And Explode
+
+    value: 
+      pie-chart-other-threshold: 0
+      format-scaling: Automatic
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Series 1 ====================================
+      id: 292521079492693207
+      identification: 
+        name: Series 1
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select test_code, avg_seconds
+          from V_SVT_TEST_TIMING
+          order by avg_seconds desc
+          fetch first 10 rows only
+
+      column-mapping: 
+        label: TEST_CODE
+        value: AVG_SECONDS
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:&TEST_CODE.'
+          page: 14 # Manage Test
+          clear-cache: RR,14
+          values: 
+            p14_test_code: '&TEST_CODE.'
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
 - # ====== Region: Top 5 Violation Count by Application ========
   id: 369386048705739579
   identification: 
@@ -754,7 +865,7 @@ regions:
       from mv_issues_created_by_day
 
   layout: 
-    sequence: 140
+    sequence: 150
     parent-region: No Parent
     position: BODY
     start-new-layout: false

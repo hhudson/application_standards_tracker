@@ -41,6 +41,48 @@ help:
   help-text: This page lists the tests associated with a given standard
 
 regions: 
+- # ====== Region: buttons =====================================
+  id: 280033857235364336
+  identification: 
+    title: buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_05
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7800049597329934914
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Download Rpt ================================
   id: 369087655149284183
   identification: 
@@ -3347,6 +3389,39 @@ buttons:
 
   configuration: 
     build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Button: TEST_LIBRARY ================================
+  id: 280033969387364337
+  identification: 
+    button-name: TEST_LIBRARY
+    label: Test Library
+
+  layout: 
+    sequence: 10
+    region: buttons # 280033857235364336
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-book
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:17::'
+      page: 17 # Tests Library
+      clear-cache: 17
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CLEAR_FILTER ================================
   id: 341630196980637862
