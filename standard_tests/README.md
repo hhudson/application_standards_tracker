@@ -123,7 +123,7 @@ Best practices to keep things tidy
 | [PAGE_PROC_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_PROC_AVAILABLE-REDWOOD.json) |  Page procedures should be available | v1 [REDWOOD] | APEX_APPLICATION_PAGE_PROC |
 | [PAGE_VAL_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_VAL_AVAILABLE-REDWOOD.json) |  Page Validations should be available | v1 [REDWOOD] | APEX_APPLICATION_PAGE_VAL |
 | [SEARCH_SOURCES_AVAILABLE](APEX_CLEANUP_212/tests/SEARCH_SOURCES_AVAILABLE-REDWOOD.json) |  Search Sources should be available | v1 [REDWOOD] | APEX_APPL_PAGE_SEARCH_SOURCES |
-| [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION-REDWOOD.json) |  Themes should be specific numbers and subscribed | v1.2 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
+| [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION-REDWOOD.json) |  Themes should be specific numbers and subscribed | v1.3 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 | [TOO_MANY_REGIONS](APEX_CLEANUP_212/tests/TOO_MANY_REGIONS-REDWOOD.json) |  Pages should limit their content | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [VAL_BUILD_LIST_ENTRY](APEX_CLEANUP_212/tests/VAL_BUILD_LIST_ENTRY-REDWOOD.json) |  List entries should have valid build options | v1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD-REDWOOD.json) |  Pages should have valid build options | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
