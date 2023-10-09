@@ -176,6 +176,21 @@ end;
     return eba_stds_standards.standard_name%type
     deterministic;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 9, 2023
+-- Synopsis:
+--
+-- procedure to update eba_stds_standard_tests.avg_exctn_scnds from v_svt_test_timing
+--
+/*
+begin
+    eba_stds_standards_api.update_test_avg_time;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure update_test_avg_time;
+
 end eba_stds_standards_api;
 /
 --rollback drop package eba_stds_standards_api;

@@ -294,28 +294,59 @@ create or replace package body SVT_AUDIT_UTIL as
 
           recompile_w_plscope;
 
-          for ic_rec in (select object_type issue_category
-                         from v_svt_nested_table_types
-                         where object_type != c_apex)
+          for ic_rec in (select issue_category, test_code
+                          from v_eba_stds_standard_tests
+                          where issue_category != c_apex
+                          and (test_code = p_test_code or p_test_code is null)
+                          order by test_code)
           loop
-            svt_plsql_apex_audit_api.merge_audit_tbl (
-                             p_application_id => p_application_id,
-                             p_page_id        => p_page_id,
-                             p_test_code      => p_test_code,
-                             p_issue_category => ic_rec.issue_category
-                            );
+            <<tstlp>>
+            declare 
+              t1 timestamp; 
+              t2 timestamp; 
+            begin 
+              t1 := systimestamp; 
+              apex_debug.message(c_debug_template, 'Start: '||t1, ic_rec.test_code);
+              svt_plsql_apex_audit_api.merge_audit_tbl (
+                              p_application_id => p_application_id,
+                              p_page_id        => p_page_id,
+                              p_test_code      => ic_rec.test_code,
+                              p_issue_category => ic_rec.issue_category
+                              );
+              t2 := systimestamp; 
+              apex_debug.message(c_debug_template, 'End: '||t2, ic_rec.test_code);
+              svt_test_timing_api.insert_timing(ic_rec.test_code, extract( second from (t2-t1) ));
+            end tstlp; 
           end loop;
         end loop;
         
         begin <<apex_issues>>
           set_workspace;
 
-          svt_plsql_apex_audit_api.merge_audit_tbl ( 
-                            p_application_id => p_application_id,
-                            p_page_id        => p_page_id,
-                            p_test_code      => p_test_code,
-                            p_issue_category => c_apex
-                          );
+          for apx_rec in (select issue_category, test_code
+                          from v_eba_stds_standard_tests
+                          where issue_category = c_apex
+                          and (test_code = p_test_code or p_test_code is null)
+                          order by test_code)
+          loop
+            <<apxtstlp>>
+            declare 
+              t1 timestamp; 
+              t2 timestamp; 
+            begin 
+              t1 := systimestamp; 
+              apex_debug.message(c_debug_template, 'Start: '||t1, apx_rec.test_code);
+              svt_plsql_apex_audit_api.merge_audit_tbl ( 
+                                p_application_id => p_application_id,
+                                p_page_id        => p_page_id,
+                                p_test_code      => apx_rec.test_code,
+                                p_issue_category => c_apex
+                              );
+              t2 := systimestamp; 
+              apex_debug.message(c_debug_template, 'End: '||t2, apx_rec.test_code);
+              svt_test_timing_api.insert_timing(apx_rec.test_code, extract( second from (t2-t1) ));
+            end apxtstlp; 
+          end loop;
         end apex_issues;
 
 

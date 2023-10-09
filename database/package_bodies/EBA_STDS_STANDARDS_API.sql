@@ -187,6 +187,25 @@ create or replace package body eba_stds_standards_api as
       raise;
   end get_full_name;
 
+  procedure update_test_avg_time
+  is
+  c_scope constant varchar2(128) := gc_scope_prefix || 'update_test_avg_time';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
+    apex_debug.message(c_debug_template,'START');
+    
+    merge into eba_stds_standard_tests e
+    using (select test_code, avg_seconds from v_svt_test_timing) h
+    on (e.test_code = h.test_code)
+    when matched then
+    update set e.avg_exctn_scnds = h.avg_seconds;
+
+  exception
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end update_test_avg_time;
+
 
 end eba_stds_standards_api;
 /

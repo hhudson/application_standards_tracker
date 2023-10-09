@@ -30,6 +30,7 @@
       VERSION_DB VARCHAR2(55 CHAR),
       MV_DEPENDENCY VARCHAR2(100),
       SVT_COMPONENT_TYPE_ID NUMBER,
+      AVG_EXCTN_SCNDS NUMBER, --the average amount of time it takes to run the job
       CREATED TIMESTAMP (6) WITH LOCAL TIME ZONE, 
       CREATED_BY VARCHAR2(255 CHAR), 
       UPDATED TIMESTAMP (6) WITH LOCAL TIME ZONE, 
@@ -84,5 +85,6 @@ create index eba_stds_standard_tests_idx1 on eba_stds_standard_tests (svt_compon
 /
 
 -- alter table EBA_STDS_STANDARD_TESTS add VERSION_DB VARCHAR2(55)
+-- alter table EBA_STDS_STANDARD_TESTS add AVG_EXCTN_SCNDS NUMBER
 
 --rollback drop table EBA_STDS_STANDARD_TESTS;

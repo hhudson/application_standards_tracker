@@ -33,7 +33,8 @@ select  /*+ result_cache */
        st.version_db,
        st.display_sequence,
        ess.full_standard_name,
-       antt.object_type issue_category
+       antt.object_type issue_category,
+       coalesce(st.avg_exctn_scnds, 0) avg_execution_seconds
 from eba_stds_standard_tests st
 inner join v_eba_stds_standards ess on st.standard_id = ess.id
 inner join svt_component_types act on act.id = st.svt_component_type_id

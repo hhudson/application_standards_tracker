@@ -60,7 +60,8 @@ create or replace package body eba_stds_standard_tests_api as
    c_scope constant varchar2(128) := gc_scope_prefix || 'insert_test';
    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
    c_test_code constant eba_stds_standard_tests.test_code%type := format_test_code(p_test_code);
-   l_id eba_stds_standard_tests.id%type := p_id;
+   c_id constant eba_stds_standard_tests.id%type := coalesce(p_id, 
+                                                            to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
    begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
@@ -80,10 +81,14 @@ create or replace package body eba_stds_standard_tests_api as
       explanation,
       fix,
       version_number,
-      version_db
+      version_db,
+      created,
+      created_by,
+      updated,
+      updated_by
     )
     values (
-      p_id,
+      c_id,
       p_standard_id,
       p_test_name,
       p_display_sequence,
@@ -97,10 +102,14 @@ create or replace package body eba_stds_standard_tests_api as
       p_explanation,
       p_fix,
       coalesce(p_version_number,gc_default_version_number),
-      coalesce(p_version_db,svt_preferences.get_preference ('SVT_DB_NAME'))
-    ) returning id into l_id;
+      coalesce(p_version_db,svt_preferences.get_preference ('SVT_DB_NAME')),
+      localtimestamp,
+      nvl(wwv_flow.g_user,user),
+      localtimestamp,
+      nvl(wwv_flow.g_user,user)
+    );
 
-    return l_id;
+    return c_id;
    
    exception 
     when others then
@@ -281,7 +290,9 @@ create or replace package body eba_stds_standard_tests_api as
       
         update eba_stds_standard_tests
         set version_number = l_version_number,
-            version_db = c_db_name
+            version_db = c_db_name,
+            updated = localtimestamp,
+            updated_by = nvl(wwv_flow.g_user,user)
         where test_code = p_test_code;
 
         eba_stds_tests_lib_api.upsert (
@@ -357,7 +368,9 @@ create or replace package body eba_stds_standard_tests_api as
         explanation           = p_explanation,
         fix                   = p_fix,
         version_number        = coalesce(p_version_number, version_number, gc_default_version_number),
-        version_db            = coalesce(p_version_db, version_db, svt_preferences.get_preference ('SVT_DB_NAME'))
+        version_db            = coalesce(p_version_db, version_db, svt_preferences.get_preference ('SVT_DB_NAME')),
+        updated               = localtimestamp,
+        updated_by            = nvl(wwv_flow.g_user,user)
       where id = p_id;
   
   exception when others then
