@@ -201,8 +201,17 @@ return v_svt_table_data_load_def_nt pipelined;
 -- Function to output the markdown in the github readme summary of published tests 
 --
 /*
-select svt_deployment.markdown_summary() md
-from dual;
+set serveroutput on
+declare 
+l_clob clob;
+begin
+    l_clob := svt_deployment.markdown_summary();
+    for rec in (select column_value astring
+                  from table(apex_string.split(l_clob, chr(10))))
+    loop 
+        dbms_output.put_line(rec.astring);
+    end loop;
+end;
 */
 ------------------------------------------------------------------------------
 function markdown_summary return clob;

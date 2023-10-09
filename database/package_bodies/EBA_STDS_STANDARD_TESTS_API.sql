@@ -22,7 +22,23 @@ create or replace package body eba_stds_standard_tests_api as
   gc_default_version_number constant number := 0;
 
 
+    function format_test_code (p_test_code in eba_stds_standard_tests.test_code%type)
+    return eba_stds_standard_tests.test_code%type
+    deterministic
+    is 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'format_test_code';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    begin
+      apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
+      return upper(replace(p_test_code, ' ', '_'));
+      
+   exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+    end format_test_code;
+    
     function insert_test(p_id                    in eba_stds_standard_tests.id%type default null,
                          p_standard_id           in eba_stds_standard_tests.standard_id%type,
                          p_test_name             in eba_stds_standard_tests.test_name%type,
@@ -43,7 +59,7 @@ create or replace package body eba_stds_standard_tests_api as
    as 
    c_scope constant varchar2(128) := gc_scope_prefix || 'insert_test';
    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-
+   c_test_code constant eba_stds_standard_tests.test_code%type := format_test_code(p_test_code);
    l_id eba_stds_standard_tests.id%type := p_id;
    begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
@@ -73,7 +89,7 @@ create or replace package body eba_stds_standard_tests_api as
       p_display_sequence,
       p_query_clob,
       p_owner,
-      p_test_code,
+      c_test_code,
       p_active_yn,
       p_level_id,
       p_mv_dependency,
@@ -312,7 +328,7 @@ create or replace package body eba_stds_standard_tests_api as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  
+  c_test_code constant eba_stds_standard_tests.test_code%type := format_test_code(p_test_code);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -333,7 +349,7 @@ create or replace package body eba_stds_standard_tests_api as
         display_sequence      = coalesce(p_display_sequence, display_sequence),
         query_clob            = p_query_clob,
         owner                 = p_owner,
-        test_code             = p_test_code,
+        test_code             = c_test_code,
         active_yn             = p_active_yn,
         level_id              = p_level_id,
         mv_dependency         = p_mv_dependency,
@@ -696,7 +712,7 @@ begin
                       c_file_size,  --download
                       c_file_blob,
                       c_mime_type,
-                      apex_string.format('%s.json',upper(l_aat (rec).test_code)), --file_name
+                      apex_string.format('%s-%s.json',l_aat (rec).test_code, l_aat (rec).version_db), --file_name
                       c_character_set,
                       l_aat (rec).version_number,
                       l_aat (rec).version_db,

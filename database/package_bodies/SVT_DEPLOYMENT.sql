@@ -509,7 +509,7 @@ create or replace package body SVT_DEPLOYMENT as
       l_test_md clob;
       begin
         
-        for trec in (select test_code, test_name, vsn, component_name, file_name
+        for trec in (select test_code, test_name, vsn, component_name, file_name, version_db
                       from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
                           p_standard_id => srec.id,
                           p_active_yn => gc_y,
@@ -521,13 +521,14 @@ create or replace package body SVT_DEPLOYMENT as
           apex_debug.message(c_debug_template, 'test_code', trec.test_code);
           l_test_md := l_test_md
           ||apex_string.format(
-            '| [%1](%3/tests/%0) |  %4 | %2 | %5 |',
+            '| [%1](%3/tests/%0) |  %4 | %2 [%6] | %5 |',
             p0 => trec.file_name,
             p1 => trec.test_code,
             p2 => trec.vsn,
             p3 => srec.file_name,
             p4 => trec.test_name,
-            p5 => trec.component_name
+            p5 => trec.component_name,
+            p6 => trec.version_db
             )
           ||chr(10);
         end loop;
