@@ -17,6 +17,8 @@ create or replace package body eba_stds_standards_api as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_localtimestamp constant eba_stds_standards.created%type := localtimestamp;
+  gc_user constant eba_stds_standards.created_by%type := coalesce(wwv_flow.g_user,user);
 
   function insert_std (
     p_standard_name         in eba_stds_standards.standard_name%type,
@@ -32,12 +34,14 @@ create or replace package body eba_stds_standards_api as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'insert_std';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_id eba_stds_standards.id%type;
+  c_id constant eba_stds_standards.id%type := to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+  c_active_yn constant eba_stds_standards.active_yn%type := coalesce(p_active_yn, 'N');
   begin
     apex_debug.message(c_debug_template,'START', 'p_standard_name', p_standard_name);
 
     insert into eba_stds_standards
     (
+      id,
       standard_name,
       description,
       primary_developer,
@@ -46,28 +50,35 @@ create or replace package body eba_stds_standards_api as
       standard_group,
       active_yn,
       compatibility_mode_id,
-      parent_standard_id
+      parent_standard_id,
+      created,
+      created_by,
+      updated,
+      updated_by
     )
     values (
+      c_id,
       p_standard_name,
       p_description,
       p_primary_developer,
       p_implementation,
       p_date_started,
       p_standard_group,
-      p_active_yn,
+      c_active_yn,
       p_compatibility_mode_id,
-      p_parent_standard_id
-    ) returning id into l_id;
-
-    apex_debug.message(c_debug_template, 'l_id', l_id);
+      p_parent_standard_id,
+      gc_localtimestamp,
+      gc_user,
+      gc_localtimestamp,
+      gc_user
+    );
 
     eba_stds_inherited_tests_api.inherit_all(
                     p_parent_standard_id => p_parent_standard_id,
-                    p_standard_id => l_id
+                    p_standard_id => c_id
                 );
 
-    return l_id;
+    return c_id;
 
   exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -100,7 +111,9 @@ create or replace package body eba_stds_standards_api as
         standard_group        = p_standard_group,
         active_yn             = p_active_yn,
         compatibility_mode_id = p_compatibility_mode_id,
-        parent_standard_id    = p_parent_standard_id
+        parent_standard_id    = p_parent_standard_id,
+        updated               = gc_localtimestamp,
+        updated_by            = gc_user
     where id = p_id;
 
     apex_debug.message(c_debug_template, 'updated : ', sql%rowcount);
@@ -113,8 +126,6 @@ create or replace package body eba_stds_standards_api as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end updated_std;
-
-
 
   function get_rec (p_standard_id in eba_stds_standards.id%type)
   return eba_stds_standards%rowtype
