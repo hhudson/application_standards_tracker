@@ -12,7 +12,7 @@ create or replace package body SVT_AUDIT_UTIL as
 -- RUNTIME DEPLOYMENT: Yes
 --
 -- MODIFIED  (YYYY-MON-DD)
--- change_me  YYYY-MON-DD - created
+-- hayhudso  2023-Oct-9 - created
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
