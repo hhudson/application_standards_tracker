@@ -44,6 +44,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                                    end;
   c_version_db     constant eba_stds_tests_lib.version_db%type 
                           := coalesce(p_version_db, svt_preferences.get_preference ('SVT_DB_NAME'));
+  c_id constant eba_stds_tests_lib.id%type := to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
@@ -85,7 +86,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                e.version_number        = h.version_number,
                e.version_db            = h.version_db
     when not matched then
-    insert (test_code,
+    insert (id,
+            test_code,
             standard_id,
             test_name,
             test_id,
@@ -99,7 +101,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
             version_number,
             version_db
             )
-    values (h.test_code,
+    values (c_id,
+            h.test_code,
             h.standard_id,
             h.test_name,
             h.test_id,
