@@ -511,7 +511,7 @@ page-items:
     width: 30
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
@@ -822,7 +822,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
   help: 
@@ -871,7 +871,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
+    sequence: 90
     region: Version Comparison # 280034684394364344
     position: BODY
 
@@ -887,11 +887,11 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P60_INSTALLED_VERSION_DB =================
@@ -904,7 +904,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 40
+    sequence: 80
     region: Version Comparison # 280034684394364344
     position: BODY
 
@@ -920,11 +920,11 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P60_UPGRADE_NEEDED_YN ====================
@@ -1337,7 +1337,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 90
+    sequence: 100
     region: Version Comparison # 280034684394364344
     position: BODY
 
@@ -1353,11 +1353,11 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
   help: 
@@ -1389,11 +1389,11 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
   help: 
@@ -1668,7 +1668,7 @@ buttons:
 
   server-side-condition: 
     type: Item is NULL
-    item: P60_INSTALLED_VERSION
+    item: P60_INSTALLED_VERSION_NUMBER
 
 - # ====== Button: CANCEL ======================================
   id: 279551526513667896
@@ -1735,7 +1735,7 @@ buttons:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P60_INSTALLED_VERSION
+    item: P60_INSTALLED_VERSION_NUMBER
 
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
@@ -1853,7 +1853,7 @@ buttons:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P60_INSTALLED_VERSION
+    item: P60_INSTALLED_VERSION_NUMBER
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
@@ -1884,6 +1884,25 @@ dynamic-actions:
       event: Cancel Dialog # 279551683523667896
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+validations: 
+- # ====== Validation: Standard cannot be null =================
+  id: 292521697621693213
+  identification: 
+    name: Standard cannot be null
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Item is NOT NULL
+    item: P60_STANDARD_ID
+    always-execute: false
+
+  error: 
+    error-message: You must select a standard into which to install this test
+    display-location: Inline with Field and in Notification
+    associated-item: P60_STANDARD_ID # 279541786938667886
 
 computations: 
 - # ====== Computation: P60_IMPORTED_VERSION ===================

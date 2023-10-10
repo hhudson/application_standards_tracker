@@ -131,47 +131,6 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Hidden Items ================================
-  id: 8496532110361214485
-  identification: 
-    title: Hidden Items
-    type: Static Content
-
-  layout: 
-    sequence: 5
-    parent-region: No Parent
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7800049465222934912
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 page-items: 
 - # ====== Page Item: P53_ROLE =================================
   id: 8492540992376275689
@@ -300,38 +259,6 @@ page-items:
   help: 
     inline-help-text: Enter usernames separated by commas, semicolons, or whitespace. Existing or duplicate usernames will automatically be ignored.
     help-text: Enter usernames separated by commas, semicolons, or whitespace. Existing or duplicate usernames will automatically be ignored.
-
-- # ====== Page Item: P53_USERNAME_FORMAT1 =====================
-  id: 8493867589119671538
-  identification: 
-    name: P53_USERNAME_FORMAT1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Hidden Items # 8496532110361214485
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_fw.get_preference_value ('USERNAME_FORMAT')
-    used: Always, replacing any existing value in session state
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
 
 buttons: 
 - # ====== Button: ADD_ALL_DEVS ================================
@@ -584,7 +511,7 @@ processes:
               l_username := trim(l_emails(j));
       
               if l_username is not null then
-                  if eba_stds_fw.get_preference_value('USERNAME_FORMAT') = 'EMAIL' then
+                 
                     -----------
                     -- Validate
                     --
@@ -609,7 +536,7 @@ processes:
                         commit;
                         l_valid := false;
                     end if;
-                  end if;
+                  
       
       
                   l_username := trim(l_username);
@@ -629,20 +556,6 @@ processes:
                       l_valid := false;
                   end if;
       
-                  if l_valid then
-                      for c1 in (select /* APEX76a66f */ username
-                                   from eba_stds_users
-                                  where upper(username) = upper(l_username))
-                      loop
-                          wwv_flow_collection.add_member(
-                              p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
-                              p_c001            => upper(l_username),
-                              p_c002            => apex_lang.message('ALREADY_IN_ACL'));
-                          commit;
-                          l_valid := false;
-                          exit;
-                      end loop;
-                  end if;
       
                   if l_valid then
                       for c1 in (select /* APEXeaf772 */  c001

@@ -88,68 +88,6 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-page-items: 
-- # ====== Page Item: P13_USERNAME_FORMAT ======================
-  id: 8493848289934200178
-  identification: 
-    name: P13_USERNAME_FORMAT
-    type: Radio Group
-
-  label: 
-    label: Username Format
-    alignment: Left
-
-  settings: 
-    number-of-columns: 1
-    page-action-on-selection: None
-
-  layout: 
-    sequence: 10
-    region: Username Format Preference # 8493840795339106776
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6638107616876476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: true
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: USERNAME_FORMAT # 8493847204137194407
-    display-extra-values: true
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_fw.get_preference_value ('USERNAME_FORMAT')
-    used: Always, replacing any existing value in session state
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    escape-special-characters: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Determine whether or not the email gets used as the user's username
-
 buttons: 
 - # ====== Button: CANCEL ======================================
   id: 8493843787467161258
@@ -207,37 +145,6 @@ buttons:
     action: Submit Page
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
-
-processes: 
-- # ====== Process: Set Username Format Preference =============
-  id: 8493850496265248956
-  identification: 
-    name: Set Username Format Preference
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      eba_stds_fw.set_preference_value (
-          p_preference_name  => 'USERNAME_FORMAT',
-          p_preference_value => :P13_USERNAME_FORMAT);
-
-  execution: 
-    sequence: 10
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  success-message: 
-    success-message: Username format updated.
-
-  error: 
-    error-message: '#SQLERRM#'
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: SAVE # 8493843998895164579
 
 branches: 
 - # ====== Branch: Go To Page &LAST_VIEW. ======================

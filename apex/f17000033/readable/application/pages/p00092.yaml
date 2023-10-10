@@ -600,30 +600,6 @@ validations:
     display-location: Inline with Field and in Notification
     associated-item: P92_USERNAME # 7533854295592893293
 
-- # ====== Validation: P92_USERNAME Email is Valid =============
-  id: 7533859330485893301
-  identification: 
-    name: P92_USERNAME Email is Valid
-
-  execution: 
-    sequence: 30
-
-  validation: 
-    type: Item matches Regular Expression
-    item: P92_USERNAME
-    regular-expression: ^[-!#$%&''''*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&''''*+/0-9=?A-Z^_a-z{|}~])*@(-?[a-zA-Z0-9+])+(\.(-?[a-zA-Z0-9+])*)+$
-    always-execute: false
-
-  error: 
-    error-message: Username is not in a valid email address format. Please note the application's username format below.
-    display-location: Inline with Field and in Notification
-    associated-item: P92_USERNAME # 7533854295592893293
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_fw.get_preference_value ('USERNAME_FORMAT') = 'EMAIL'
-
 - # ====== Validation: cannot update yourself ==================
   id: 7533859763082893301
   identification: 
