@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset table_script:SVT_SERT_HOW_TO_FIX stripComments:false 
+--changeset table_script:SVT_SERT_HOW_TO_FIX stripComments:false runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(1) from all_tables where upper(table_name) = upper('SVT_SERT_HOW_TO_FIX');
 --------------------------------------------------------------------------------
