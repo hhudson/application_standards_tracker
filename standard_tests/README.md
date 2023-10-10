@@ -182,7 +182,6 @@ Standards that are *not* general standards
 | [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE-REDWOOD.json) |  AST buttons should be simple | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_CANCEL_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_CANCEL_BUTTON-REDWOOD.json) |  All Cancel buttons should be default | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON-REDWOOD.json) |  Delete buttons should be correctly styled | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [AST_MERGE_SAMPLE_DATA](APEX_IDIOSYNCRATIC_212/tests/AST_MERGE_SAMPLE_DATA-REDWOOD.json) |  "Merge sample data" are consistently styled | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH-REDWOOD.json) |  SVT Application Pages should have Authorization Schemes | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST-REDWOOD.json) |  Breadcrumb hierarchy should match nav menu | v1.1 [REDWOOD] | APEX_APPLICATION_BC_ENTRIES |
 | [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE-REDWOOD.json) |  Create buttons should be styled in a consistent way | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -243,7 +242,7 @@ Standards for correctly implementing Redwood patterns
 | [PAGE_ITEM_NAMING](APEX_REDWOOD_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_ADDL_INFO](APEX_REDWOOD_212/tests/RW_ADDL_INFO-REDWOOD.json) |  Additional Info regions are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BNNR_MSG_LNKS](APEX_REDWOOD_212/tests/RW_BNNR_MSG_LNKS-REDWOOD.json) |  Banner Message region should only have Links | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [RW_BUTTON_PLACEMENT](APEX_REDWOOD_212/tests/RW_BUTTON_PLACEMENT-REDWOOD.json) |  Redwood Buttons should be correctly placed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [RW_BUTTON_PLACEMENT](APEX_REDWOOD_212/tests/RW_BUTTON_PLACEMENT-REDWOOD.json) |  Redwood Buttons should be correctly placed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [RW_CTXT_INFO](APEX_REDWOOD_212/tests/RW_CTXT_INFO-REDWOOD.json) |  Contextual Info regions should be configured correctly | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_FOLDOUTPANEL](APEX_REDWOOD_212/tests/RW_FOLDOUTPANEL-REDWOOD.json) |  Use Foldout panels in the Panels positions | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_IO_CONTENT](APEX_REDWOOD_212/tests/RW_IO_CONTENT-REDWOOD.json) |  Item Overview Content is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
