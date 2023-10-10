@@ -677,10 +677,29 @@ processes:
     form-region: Edit Nested Table Type # 403622190844236748
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P14_ID := svt_nested_table_types_api.insert_nt (
+                          p_nt_name       => :P64_NT_NAME,
+                          p_example_query => :P64_EXAMPLE_QUERY,
+                          p_object_type   => :P64_OBJECT_TYPE
+                      );
+          when 'U' then
+            svt_nested_table_types_api.update_nt (
+                  p_id            => :P64_ID,
+                  p_nt_name       => :P64_NT_NAME,
+                  p_example_query => :P64_EXAMPLE_QUERY,
+                  p_object_type   => :P64_OBJECT_TYPE
+              );
+          when 'D' then
+            svt_nested_table_types_api.delete_nt(p_id => :P64_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10

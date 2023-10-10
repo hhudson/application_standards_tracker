@@ -1667,9 +1667,8 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   server-side-condition: 
-    type: Item = Value
-    item: P60_CURRENT_VERSION_INSTALLED_YN
-    value: N
+    type: Item is NULL
+    item: P60_INSTALLED_VERSION
 
 - # ====== Button: CANCEL ======================================
   id: 279551526513667896
@@ -1735,9 +1734,8 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   server-side-condition: 
-    type: Item = Value
-    item: P60_CURRENT_VERSION_INSTALLED_YN
-    value: Y
+    type: Item is NOT NULL
+    item: P60_INSTALLED_VERSION
 
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
@@ -1854,9 +1852,8 @@ buttons:
     style: Warning
 
   server-side-condition: 
-    type: Item = Value
-    item: P60_CURRENT_VERSION_INSTALLED_YN
-    value: Y
+    type: Item is NOT NULL
+    item: P60_INSTALLED_VERSION
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
