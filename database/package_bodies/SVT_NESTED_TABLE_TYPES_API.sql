@@ -17,6 +17,95 @@ create or replace package body svt_nested_table_types_api as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_sysdate constant svt_nested_table_types.created%type := sysdate;
+  gc_user    constant svt_nested_table_types.created_by%type := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
+
+  function insert_nt (
+        p_nt_name       in svt_nested_table_types.nt_name%type,
+        p_example_query in svt_nested_table_types.example_query%type,
+        p_object_type   in svt_nested_table_types.object_type%type
+    ) return svt_nested_table_types.id%type
+  as 
+  c_scope          constant varchar2(128) := gc_scope_prefix || 'insert_nt';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_id svt_nested_table_types.id%type;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_nt_name', p_nt_name);
+
+    insert into svt_nested_table_types
+    (
+      nt_name,
+      example_query,
+      object_type,
+      created,
+      created_by,
+      updated,
+      updated_by
+    )
+    values 
+    (
+      p_nt_name,
+      p_example_query,
+      p_object_type,
+      gc_sysdate,
+      gc_user,
+      gc_sysdate,
+      gc_user
+    ) returning id into l_id;
+
+    apex_debug.message(c_debug_template,'l_id', l_id);
+
+    return l_id;
+
+  exception
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end insert_nt;
+
+  procedure update_nt (
+      p_id            in svt_nested_table_types.id%type,
+      p_nt_name       in svt_nested_table_types.nt_name%type,
+      p_example_query in svt_nested_table_types.example_query%type,
+      p_object_type   in svt_nested_table_types.object_type%type
+  )
+  as 
+  c_scope          constant varchar2(128) := gc_scope_prefix || 'update_nt';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_nt_name', p_nt_name);
+
+    update svt_nested_table_types
+    set nt_name       = p_nt_name,
+        example_query = p_example_query,
+        object_type   = p_object_type,
+        updated       = gc_sysdate,
+        updated_by    = gc_user
+    where id = p_id;
+
+  exception
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end update_nt;
+
+  procedure delete_nt (
+        p_id in svt_nested_table_types.id%type
+    )
+  as 
+  c_scope          constant varchar2(128) := gc_scope_prefix || 'delete_nt';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+
+    delete from svt_nested_table_types
+    where id = p_id;
+
+  exception
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end delete_nt;
 
 
   function issue_category (p_nt_name in svt_nested_table_types.nt_name%type)

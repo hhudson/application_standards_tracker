@@ -17,7 +17,70 @@ create or replace package svt_nested_table_types_api authid definer as
 --
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Aug-23 - created
+
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+      :P14_ID := svt_nested_table_types_api.insert_nt (
+                    p_nt_name       => :P64_NT_NAME,
+                    p_example_query => :P64_EXAMPLE_QUERY,
+                    p_object_type   => :P64_OBJECT_TYPE
+                );
+    when 'U' then
+      svt_nested_table_types_api.update_nt (
+            p_id            => :P64_ID,
+            p_nt_name       => :P64_NT_NAME,
+            p_example_query => :P64_EXAMPLE_QUERY,
+            p_object_type   => :P64_OBJECT_TYPE
+        );
+    when 'D' then
+      svt_nested_table_types_api.delete_nt(p_id => :P64_ID);
+  end case;
+end;
+*/
 ---------------------------------------------------------------------------- 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 10, 2023
+-- Synopsis:
+--
+-- Procedure to insert records into SVT_NESTED_TABLE_TYPES
+--
+------------------------------------------------------------------------------
+    function insert_nt (
+        p_nt_name       in svt_nested_table_types.nt_name%type,
+        p_example_query in svt_nested_table_types.example_query%type,
+        p_object_type   in svt_nested_table_types.object_type%type
+    ) return svt_nested_table_types.id%type;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 10, 2023
+-- Synopsis:
+--
+-- Procedure to update records into SVT_NESTED_TABLE_TYPES
+--
+------------------------------------------------------------------------------
+    procedure update_nt (
+        p_id            in svt_nested_table_types.id%type,
+        p_nt_name       in svt_nested_table_types.nt_name%type,
+        p_example_query in svt_nested_table_types.example_query%type,
+        p_object_type   in svt_nested_table_types.object_type%type
+    );
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 10, 2023
+-- Synopsis:
+--
+-- Procedure to delete records into SVT_NESTED_TABLE_TYPES
+--
+------------------------------------------------------------------------------
+    procedure delete_nt (
+        p_id in svt_nested_table_types.id%type
+    );
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
