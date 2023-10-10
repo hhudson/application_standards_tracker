@@ -38,12 +38,17 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
                action_name,
                test_code,
                audit_id,
-               validation_failure_message)
+               validation_failure_message,
+               created,
+               created_by)
        values (p_unqid,
                c_action_name,
                p_test_code,
                p_audit_id,
-               p_validation_failure_message);
+               p_validation_failure_message,
+               sysdate,
+               coalesce(sys_context('APEX$SESSION','APP_USER'),user)
+               );
 
   exception
     when others then
