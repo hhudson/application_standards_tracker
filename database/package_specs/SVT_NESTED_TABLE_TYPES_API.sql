@@ -96,7 +96,8 @@ from dual
 ------------------------------------------------------------------------------
     function issue_category (p_nt_name in svt_nested_table_types.nt_name%type)
     return svt_plsql_apex_audit.issue_category%type
-    deterministic;
+    deterministic
+    result_cache;
 
 
 ------------------------------------------------------------------------------

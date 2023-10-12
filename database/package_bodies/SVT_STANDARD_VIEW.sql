@@ -134,7 +134,9 @@ create or replace package body SVT_STANDARD_VIEW as
 --
 ------------------------------------------------------------------------------
     function standard_is_urgent (p_test_code in eba_stds_standard_tests.test_code%type) 
-    return boolean deterministic
+    return boolean 
+    deterministic 
+    result_cache
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'standard_is_urgent';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -178,7 +180,8 @@ create or replace package body SVT_STANDARD_VIEW as
   function get_query_clob (p_test_code     in eba_stds_standard_tests.test_code%type,
                            p_nt_name       in svt_nested_table_types.nt_name%type,
                            p_select_stmt   in varchar2
-  ) return eba_stds_standard_tests.query_clob%type deterministic
+  ) return eba_stds_standard_tests.query_clob%type 
+  deterministic
   is
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'get_query_clob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

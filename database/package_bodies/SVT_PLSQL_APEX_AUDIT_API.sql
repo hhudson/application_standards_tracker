@@ -385,12 +385,14 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   end get_audit_record;
 
   function get_unqid(p_audit_id in svt_plsql_apex_audit.id%type) 
-    return svt_plsql_apex_audit.unqid%type
-    is
-    c_scope constant varchar2(128) := gc_scope_prefix || 'get_unqid';
-    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    l_unqid svt_plsql_apex_audit.unqid%type;
-    begin
+  return svt_plsql_apex_audit.unqid%type
+  deterministic 
+  result_cache
+  is
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_unqid';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_unqid svt_plsql_apex_audit.unqid%type;
+  begin
       apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
       select unqid

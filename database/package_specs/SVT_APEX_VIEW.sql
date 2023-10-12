@@ -131,19 +131,20 @@ function display_position_is_violation (
 --     Date: August 23, 2023
 -- Synopsis:
 --
--- Function to return the necessary link request for directing to the requisite alternate IG report 
+-- Function to return the necessary link request for directing to the requisite alternate IG or IR report 
 --
 /*
-select svt_apex_view.ig_link_request(
+select svt_apex_view.rpt_link_request(
               p_issue_category => 'DB_PLSQL'
         )
 from dual
 */
 ------------------------------------------------------------------------------
-function ig_link_request(
+function rpt_link_request(
               p_issue_category   in svt_plsql_apex_audit.issue_category%type,
               p_dest_region_name in apex_appl_page_ig_rpts.region_name%type default null,
-              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type default null
+              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type default null,
+              p_report_type      in varchar2 default 'IR'
         )
 return varchar2;
 

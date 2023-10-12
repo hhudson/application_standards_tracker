@@ -143,7 +143,9 @@ return svt_plsql_apex_audit%rowtype;
 --
 ------------------------------------------------------------------------------
 function get_unqid(p_audit_id in svt_plsql_apex_audit.id%type) 
-return svt_plsql_apex_audit.unqid%type;
+return svt_plsql_apex_audit.unqid%type 
+deterministic 
+result_cache;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

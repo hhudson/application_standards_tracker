@@ -758,6 +758,8 @@ begin
 
   function nt_name(p_test_code in eba_stds_standard_tests.test_code%type)
   return svt_nested_table_types.nt_name%type
+  deterministic 
+  result_cache
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'nt_name';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

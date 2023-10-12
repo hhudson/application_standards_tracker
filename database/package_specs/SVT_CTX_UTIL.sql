@@ -13,6 +13,7 @@ as
 /*
 begin
   svt_ctx_util.set_review_schema (p_schema => sys_context('userenv', 'current_user'));
+  svt_audit_util.set_workspace;-- you might need this too
 end;
 */
 ------------------------------------------------------------------------------

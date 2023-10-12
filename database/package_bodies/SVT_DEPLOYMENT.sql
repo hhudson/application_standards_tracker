@@ -63,10 +63,11 @@ create or replace package body SVT_DEPLOYMENT as
     l_query := apex_string.format(
       p_message =>   c_query_template,
       p0 => c_table_name,
-      p1 =>  'updated, updated_by, date_started, row_version_number, account_locked, '
+      p1 =>  'avg_execution_seconds, date_started, row_version_number, account_locked, '
            ||'download, file_blob, mime_type, file_name, character_set, record_md5, estl_md5, '
            ||'publish_button_html, dlclss, publish_clss, publish_text, vsn, imported_version_number, '
            ||'standard_active_yn, urgency, std_creation_date, owner, '
+          --  ||'updated, updated_by '
           --  ||' urgency_level, display_sequence, ' --need to export for SVT_STANDARDS_URGENCY_LEVEL
            ||' full_standard_name'
            || case when c_table_name = 'V_EBA_STDS_STANDARD_TESTS' and p_standard_id is not null

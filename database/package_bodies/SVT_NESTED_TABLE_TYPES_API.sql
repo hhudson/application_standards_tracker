@@ -111,6 +111,7 @@ create or replace package body svt_nested_table_types_api as
   function issue_category (p_nt_name in svt_nested_table_types.nt_name%type)
   return svt_plsql_apex_audit.issue_category%type
   deterministic
+  result_cache
   as
   c_scope          constant varchar2(128) := gc_scope_prefix || 'issue_category 1';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

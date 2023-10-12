@@ -30,16 +30,18 @@ create or replace package body SVT_PREFERENCES as
   begin
     apex_debug.message(c_debug_template,'START', 'p_preference_name', p_preference_name);
     
-    return apex_util.get_preference(      
-             p_preference => c_preference_name,
-             p_user       => gc_svt);
-  exception 
-    when no_data_found then 
-      return case when c_preference_name = 'SVT_DEFAULT_SCHEMA'
-                  then gc_svt
-                  else null
-                  end;
-    when others then
+    l_pref_value := apex_util.get_preference(      
+                      p_preference => c_preference_name,
+                      p_user       => gc_svt);
+    
+    return case when l_pref_value is not null 
+                then l_pref_value
+                when c_preference_name = 'SVT_DEFAULT_SCHEMA'
+                then gc_svt
+                else null
+                end;
+                
+  exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end get_preference;

@@ -387,7 +387,9 @@ from dual
 */
 ------------------------------------------------------------------------------
   function nt_name(p_test_code in eba_stds_standard_tests.test_code%type)
-  return svt_nested_table_types.nt_name%type;
+  return svt_nested_table_types.nt_name%type
+  deterministic 
+  result_cache;
 
 end eba_stds_standard_tests_api;
 /

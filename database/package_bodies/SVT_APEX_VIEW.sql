@@ -394,38 +394,66 @@ create or replace package body SVT_APEX_VIEW as
       raise;
   end display_position_is_violation;
 
-  function ig_link_request(
+  function rpt_link_request(
               p_issue_category   in svt_plsql_apex_audit.issue_category%type,
               p_dest_region_name in apex_appl_page_ig_rpts.region_name%type default null,
-              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type default null
+              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type default null,
+              p_report_type      in varchar2 default 'IR'
         )
   return varchar2 
   as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'ig_link_request';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'rpt_link_request';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_dest_region_name constant apex_appl_page_ig_rpts.region_name%type
                      := coalesce(p_dest_region_name,'Tracking issues report');
   c_dest_page_id     constant apex_appl_page_ig_rpts.page_id%type
                      := coalesce(p_dest_page_id,1);
+  c_ir constant varchar2(2) := 'IR';
+  c_ig constant varchar2(2) := 'IG';
   l_link_request varchar2(50);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_issue_category', p_issue_category,
-                                        'p_dest_region_name', p_dest_region_name);
+                                        'p_dest_region_name', p_dest_region_name,
+                                        'p_dest_page_id', p_dest_page_id,
+                                        'p_report_type', p_report_type);
 
-    select apex_string.format('IG[%0]_%1', apr.static_id, pir.static_id) link_request
-    into l_link_request
-    from apex_application_page_regions apr
-    inner join apex_appl_page_ig_rpts pir on apr.application_id = pir.application_id
-                                          and apr.page_id = pir.page_id
-                                          and apr.region_id = pir.region_id
-    where pir.region_name = c_dest_region_name
-    and pir.name is not null
-    and pir.type = 'ALTERNATIVE'
-    and pir.application_id = svt_apex_view.gc_svt_app_id
-    and pir.page_id = c_dest_page_id
-    and pir.static_id = p_issue_category
-    fetch first 1 rows only;
+    if p_report_type = c_ig then
+
+      apex_debug.message(c_debug_template, 'IG Report');
+    
+      select apex_string.format('%2[%0]_%1', apr.static_id, pir.static_id, c_ig) link_request
+      into l_link_request
+      from apex_application_page_regions apr
+      inner join apex_appl_page_ig_rpts pir on apr.application_id = pir.application_id
+                                            and apr.page_id = pir.page_id
+                                            and apr.region_id = pir.region_id
+      where pir.region_name = c_dest_region_name
+      and pir.name is not null
+      and pir.type = 'ALTERNATIVE'
+      and pir.application_id = svt_apex_view.gc_svt_app_id
+      and pir.page_id = c_dest_page_id
+      and pir.static_id = p_issue_category
+      fetch first 1 rows only;
+
+    else 
+
+      apex_debug.message(c_debug_template, 'IR Report');
+
+      select apex_string.format('%2[%0]_%1', apr.static_id, pir.report_alias, c_ir) link_request
+      into l_link_request
+      from apex_application_page_regions apr
+      inner join apex_application_page_ir_rpt pir on  apr.application_id = pir.application_id
+                                                  and apr.page_id = pir.page_id
+                                                  and apr.region_id = pir.region_id
+      where apr.region_name = c_dest_region_name
+      and pir.status = 'PUBLIC'
+      and pir.report_name is not null
+      and pir.application_id = svt_apex_view.gc_svt_app_id
+      and pir.page_id = c_dest_page_id
+      and pir.report_alias = p_issue_category
+      fetch first 1 rows only;
+    end if;
 
     return l_link_request;
 
@@ -435,7 +463,7 @@ create or replace package body SVT_APEX_VIEW as
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end ig_link_request;
+  end rpt_link_request;
 
 
 end SVT_APEX_VIEW;
