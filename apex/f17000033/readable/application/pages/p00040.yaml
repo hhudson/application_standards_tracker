@@ -943,6 +943,42 @@ buttons:
   configuration: 
     build-option: DEV_ONLY # 6384384616625854457
 
+dynamic-actions: 
+- # ====== Dynamic Action: New =================================
+  id: 341542846766766901
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 341542988194766902
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        console.log('bloerg');
+        $('.bler').attr('style','')
+        .removeClass('rw')
+        .addClass('')
+        .text('')
+        
+
+    execution: 
+      sequence: 10
+      event: New # 341542846766766901
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 computations: 
 - # ====== Computation: P40_STMT ===============================
   id: 372731822170697187

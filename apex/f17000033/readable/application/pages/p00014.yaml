@@ -3860,10 +3860,10 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P14_IG_LINK_REQUEST ======================
+- # ====== Page Item: P14_RPT_LINK_REQUEST =====================
   id: 401117018696419543
   identification: 
-    name: P14_IG_LINK_REQUEST
+    name: P14_RPT_LINK_REQUEST
     type: Hidden
 
   settings: 
@@ -4302,11 +4302,11 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.:&P14_IG_LINK_REQUEST.:&DEBUG.::IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.:&P14_RPT_LINK_REQUEST.:&DEBUG.::IR[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
       page: 1 # Issue Tracking
-      request: '&P14_IG_LINK_REQUEST.'
+      request: '&P14_RPT_LINK_REQUEST.'
       values: 
-        ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
+        ir[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
     warn-on-unsaved-changes: Do Not Check
 
@@ -5640,10 +5640,10 @@ computations:
     language: PL/SQL
     pl/sql-expression: 'svt_nested_table_types_api.issue_category(p_test_code => :P14_TEST_CODE)'
 
-- # ====== Computation: P14_IG_LINK_REQUEST ====================
+- # ====== Computation: P14_RPT_LINK_REQUEST ===================
   id: 401117113373419544
   identification: 
-    item-name: P14_IG_LINK_REQUEST
+    item-name: P14_RPT_LINK_REQUEST
 
   execution: 
     sequence: 50
@@ -5652,7 +5652,7 @@ computations:
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'svt_apex_view.ig_link_request(p_issue_category => :P14_ISSUE_CATEGORY)'
+    pl/sql-expression: 'svt_apex_view.rpt_link_request(p_issue_category => :P14_ISSUE_CATEGORY)'
 
 - # ====== Computation: P14_ID =================================
   id: 449824220827963253
@@ -5956,11 +5956,11 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IR[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
       page: 1 # Issue Tracking
       clear-cache: 1
       values: 
-        ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
+        ir[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
   server-side-condition: 
     when-button-pressed: SAVE_RERUN_AUDIT # 467024998681825375
@@ -5980,11 +5980,11 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IG[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1:IR[AUDIT_RPT]EQ_TEST_CODE:&P14_TEST_CODE.'
       page: 1 # Issue Tracking
       clear-cache: 1
       values: 
-        ig[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
+        ir[audit_rpt]eq_test_code: '&P14_TEST_CODE.'
 
   server-side-condition: 
     when-button-pressed: INITIALIZE_STANDARD # 467025140918825377

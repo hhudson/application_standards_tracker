@@ -204,7 +204,7 @@ Standards that are *not* general standards
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME-REDWOOD.json) |  Materialized Views should be named correctly | v1.2 [REDWOOD] | DATABASE MATERIALIZED VIEW |
-| [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME-REDWOOD.json) |  Alphawave Views must be correctly named | v1.2 [REDWOOD] | DATABASE VIEW |
+| [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME-REDWOOD.json) |  Alphawave Views must be correctly named | v1.3 [REDWOOD] | DATABASE VIEW |
 | [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS-REDWOOD.json) |  Tables should have audit columns | v1.2 [REDWOOD] | DATABASE TABLE |
 | [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE-REDWOOD.json) |  Use Char not Bytes | v1.2 [REDWOOD] | DATABASE TABLE |
 | [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ-REDWOOD.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1.2 [REDWOOD] | DATABASE TABLE |
@@ -248,6 +248,7 @@ Standards for correctly implementing Redwood patterns
 | [RW_IO_CONTENT](APEX_REDWOOD_212/tests/RW_IO_CONTENT-REDWOOD.json) |  Item Overview Content is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_ITEM_OVVW_ICN](APEX_REDWOOD_212/tests/RW_ITEM_OVVW_ICN-REDWOOD.json) |  Item Overview Regions should have an Icon or Initials | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_ITM_OVRVW_POS](APEX_REDWOOD_212/tests/RW_ITM_OVRVW_POS-REDWOOD.json) |  Region in "Item Overview" position is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_JVSCRIPT_DOM_MANPLTN](APEX_REDWOOD_212/tests/RW_JVSCRIPT_DOM_MANPLTN-REDWOOD.json) |  Do not manipulates classes, text and attributes in Redwood | v1 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
 | [RW_LIST_ENTRIES_ICONS](APEX_REDWOOD_212/tests/RW_LIST_ENTRIES_ICONS-REDWOOD.json) |  List Entries should use the correct icons | v1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [RW_LOGIN](APEX_REDWOOD_212/tests/RW_LOGIN-REDWOOD.json) |  Login regions are configured correctly | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_PAGE_HEADER](APEX_REDWOOD_212/tests/RW_PAGE_HEADER-REDWOOD.json) |  Regions in the "Page Header" position are correctly config | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
