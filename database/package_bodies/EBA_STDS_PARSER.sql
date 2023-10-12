@@ -827,6 +827,8 @@ is
                                 then gc_y
                                 when c_html like '<img%'
                                 then gc_y
+                                when c_html like '{if%'
+                                then gc_y
                                 else gc_n
                                 end;
 

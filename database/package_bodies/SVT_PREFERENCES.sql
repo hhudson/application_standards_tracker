@@ -30,15 +30,12 @@ create or replace package body SVT_PREFERENCES as
   begin
     apex_debug.message(c_debug_template,'START', 'p_preference_name', p_preference_name);
     
-    select preference_value 
-    into l_pref_value
-    from v_apex_workspace_preferences
-    where preference_name = c_preference_name;
-
-    return l_pref_value;
+    return apex_util.get_preference(      
+             p_preference => c_preference_name,
+             p_user       => gc_svt);
   exception 
     when no_data_found then 
-      return case when p_preference_name = 'SVT_DEFAULT_SCHEMA'
+      return case when c_preference_name = 'SVT_DEFAULT_SCHEMA'
                   then gc_svt
                   else null
                   end;
@@ -52,13 +49,14 @@ create or replace package body SVT_PREFERENCES as
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'set_preference';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_preference_name constant apex_workspace_preferences.preference_name%type := upper(p_preference_name);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_preference_name', p_preference_name,
                                         'p_value', p_value);
     if p_value is not null then
       apex_util.set_preference(        
-          p_preference => p_preference_name,
+          p_preference => c_preference_name,
           p_value      => p_value,      
           p_user       => gc_svt); 
     end if;

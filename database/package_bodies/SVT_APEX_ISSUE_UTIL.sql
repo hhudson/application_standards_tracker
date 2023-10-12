@@ -17,6 +17,8 @@ create or replace package body SVT_APEX_ISSUE_UTIL as
 
   gc_scope_prefix      constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_false_positive_id constant svt_audit_actions.id%type := 2;
+  gc_title_max         constant number := 250; --limit is 255
+  
 
   -- https://docs.oracle.com/en/database/oracle/application-express/21.2/aeapi/SUBMIT_FEEDBACK_FOLLOWUP-Procedure.html#GUID-C6F4E4A8-7E40-498F-8E8F-7D99D98527B0
 
@@ -53,7 +55,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   end get_security_group_id;
 
   procedure create_issue (p_id             out apex_issues.issue_id%type, 
-                          p_title          in  apex_issues.issue_title%type, 
+                          p_title          in  varchar2, 
                           p_issue_text     in  apex_issues.issue_text%type, 
                           p_application_id in  apex_issues.related_application_id%type, 
                           p_page_id        in  apex_issues.related_page_id%type,
@@ -64,6 +66,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   c_security_groupd_id constant apex_issues.workspace_id%type := get_security_group_id;
+  c_title              constant apex_issues.issue_title%type := substr(p_title, 1, gc_title_max); 
   begin
     apex_debug.message(c_debug_template,'START',
                                         'p_audit_id', p_audit_id,
@@ -91,12 +94,12 @@ $if oracle_apex_version.c_apex_issue_access $then
     ) 
     values (
       -- c_security_groupd_id,
-      p_title,
+      c_title,
       $if oracle_apex_version.version >= 21
       $then
-      apex_string_util.get_slug(p_title),
+      apex_string_util.get_slug(c_title),
       $else 
-      apex_string_util.to_slug(p_title),
+      apex_string_util.to_slug(c_title),
       $end
       p_issue_text,
       p_application_id,
@@ -110,7 +113,7 @@ $if oracle_apex_version.c_apex_issue_access $then
       apex_debug.error(p_message => c_debug_template, 
                        p0 =>'dup_val_on_indexn', 
                        p1 => sqlerrm, 
-                       p2 => p_title,
+                       p2 => c_title,
                        p3 => p_application_id,
                        p4 => p_audit_id,
                        p5 => sqlcode, 
@@ -121,7 +124,7 @@ $if oracle_apex_version.c_apex_issue_access $then
       apex_debug.error(p_message => c_debug_template, 
                        p0 =>'Unhandled Exception', 
                        p1 => sqlerrm, 
-                       p2 => p_title,
+                       p2 => c_title,
                        p3 => p_application_id,
                        p4 => p_audit_id,
                        p5 => sqlcode, 
@@ -140,7 +143,7 @@ $if oracle_apex_version.c_apex_issue_access $then
 --
 ------------------------------------------------------------------------------
   procedure update_issue (p_id             in  apex_issues.issue_id%type, 
-                          p_title          in  apex_issues.issue_title%type, 
+                          p_title          in  varchar2, 
                           p_issue_text     in  apex_issues.issue_text%type, 
                           p_application_id in  apex_issues.related_application_id%type, 
                           p_page_id        in  apex_issues.related_page_id%type,
@@ -149,6 +152,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_issue';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12';
+  c_title constant apex_issues.issue_title%type := substr(p_title, 1, gc_title_max); 
   begin
     apex_debug.enable(p_level => apex_debug.c_log_level_info); --temporary
     apex_debug.message(c_debug_template,'START',
@@ -161,8 +165,8 @@ $if oracle_apex_version.c_apex_issue_access $then
                       );
 
     update svt_flow_issues
-    set title = p_title||p_title_suffix,
-        slug  = apex_string_util.get_slug(p_title||p_title_suffix),
+    set title = c_title||p_title_suffix,
+        slug  = apex_string_util.get_slug(c_title||p_title_suffix),
         issue_text = p_issue_text,
         application_id = p_application_id, 
         page_id = p_page_id
@@ -176,7 +180,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                        p0 =>'dup_val_on_index', 
                        p1 => sqlerrm, 
                        p2 => p_id,
-                       p3 => p_title,
+                       p3 => c_title,
                        p4 => p_title_suffix,
                        p5 => sqlcode, 
                        p6 => dbms_utility.format_error_stack, 
@@ -189,7 +193,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                        p0 =>'Unhandled Exception', 
                        p1 => sqlerrm, 
                        p2 => p_id,
-                       p3 => p_title,
+                       p3 => c_title,
                        p4 => p_title_suffix,
                        p5 => sqlcode, 
                        p6 => dbms_utility.format_error_stack, 
@@ -679,7 +683,7 @@ $end
     apex_debug.message(c_debug_template,'START', 'p_audit_ids', p_audit_ids);
 
     for rec in (select column_value audit_id
-                  from table(apex_string.split(p_audit_ids, ':'))
+                  from table(apex_string.split(p_audit_ids, ','))
                 )
     loop
       mark_as_exception (p_audit_id => rec.audit_id);

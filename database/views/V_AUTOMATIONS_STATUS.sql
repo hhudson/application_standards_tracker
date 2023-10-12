@@ -36,8 +36,8 @@ select aaa.name ||
        aal.status_code,
        (select max(message) from apex_automation_msg_log where automation_log_id = aal.id) error_msg
 from apex_appl_automations aaa
-inner join aal on aaa.automation_id = aal.automation_id
-                  and aal.therank = 1
+left outer join aal on aaa.automation_id = aal.automation_id
+                    and aal.therank = 1
 where aaa.application_id = 17000033
 -- and aaa.workspace != svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') -- do not install the application in the AST schema, it belongs in the schema of objects being reviewed
 /

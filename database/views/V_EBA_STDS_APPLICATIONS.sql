@@ -14,7 +14,8 @@ select esa.pk_id,
        esa.default_developer,
        aa.availability_status,
        est.type_name application_type,
-       aa.application_name
+       aa.application_name,
+       esa.notes
 from eba_stds_applications esa
 inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                 and aa.availability_status != 'Unavailable'

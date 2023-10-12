@@ -33,7 +33,7 @@ with aspaa as (
            paa.action_id,
            paa.created,
            paa.updated,
-           case when paa.updated < sysdate - 1
+           case when paa.updated < sysdate - interval '4' hour
                 then 'Y'
                 else 'N'
                 end stale_yn,
@@ -153,27 +153,14 @@ Audit id : %3
     a.stale_yn,
     a.assignee,
     a.link_url,
-    '<button type="button" 
-             class="a-Button edit-button t-Button t-Button--icon t-Button--primary t-Button--simple t-Button--iconLeft"
-             data-link="' ||
-       wwv_flow_utilities.prepare_url( a.link_url )  || '"' ||
-         ' data-issueCategory="' || a.issue_category || '"' ||
-       case when a.component_type_id is not null then
-         ' data-appid="'       || a.application_id || '"' ||
-         ' data-pageid="'      || a.page_id || '"' ||
-         ' data-typeid="'      || a.component_type_id || '"' ||
-         ' data-componentid="' || a.component_id || '"'
-       end ||
-       '> <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-bullseye"></span>' 
-       || wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button,
+    wwv_flow_utilities.prepare_url( a.link_url ) prepared_url,
+    wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) view_text,
     a.link_to_apex_issue,
     ai.issue_id apex_issue_id,
     ai.issue_title apex_issue_title,
     ai.issue_text apex_issue_text,
     ai.issue_status,
     a.apex_issue_title_suffix,
-    ahtf.fix, 
-    ahtf.info,
     case when a.legacy_yn = 'Y'
          then 'N'
          else case when src_recent_change_yn = 'Y'
@@ -198,22 +185,26 @@ Audit id : %3
     a.src_recent_change_yn,
     a.legacy_yn,
     a.unqid,
-    a.include_in_report_yn,
+    case when a.include_in_report_yn ='Y'
+         then 'N'
+         else 'Y'
+         end is_exception_yn,
     a.mv_dependency,
     case when upper(a.assignee) = upper(v('APP_USER_EMAIL'))
          then 'Y'
          else 'N'
          end assigned_to_me_yn,
     a.owner,
+    null view_button,
     null rerun,
     null mark_as_exception,
     a.component_id,
     a.parent_component_id,
     a.svt_component_type_id,
+    a.component_type_id,
     a.standard_name
 from aspaa a
 left outer join apex_issues ai on a.apex_issue_id = ai.issue_id
-left outer join svt_sert_how_to_fix ahtf on ahtf.collection_name = a.test_code
-where a.include_in_report_yn = 'Y'
+-- where a.include_in_report_yn = 'Y'
 /
 --rollback drop view V_SVT_PLSQL_APEX_AUDIT;

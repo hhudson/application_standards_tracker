@@ -347,7 +347,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     apex_debug.message(c_debug_template,'START', 'p_audit_ids', p_audit_ids);
 
     for rec in (select column_value audit_id
-                  from table(apex_string.split(p_audit_ids, ':'))
+                  from table(apex_string.split(p_audit_ids, ','))
                 )
     loop
       assign_violation (p_audit_id => rec.audit_id,

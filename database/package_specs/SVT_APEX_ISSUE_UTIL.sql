@@ -59,7 +59,7 @@ $if oracle_apex_version.c_apex_issue_access $then
 --
 ------------------------------------------------------------------------------
 procedure create_issue (p_id             out apex_issues.issue_id%type, 
-                        p_title          in  apex_issues.issue_title%type, 
+                        p_title          in  varchar2, 
                         p_issue_text     in  apex_issues.issue_text%type, 
                         p_application_id in  apex_issues.related_application_id%type, 
                         p_page_id        in  apex_issues.related_page_id%type,

@@ -318,7 +318,7 @@ create or replace package body SVT_APEX_VIEW as
 
       for rec in 1 .. l_awp.count
       loop
-        pipe row (SVT_apex_preferences_ot (
+        pipe row (svt_apex_preferences_ot (
                       l_awp (rec).workspace_id,
                       l_awp (rec).workspace_name,
                       l_awp (rec).workspace_display_name,

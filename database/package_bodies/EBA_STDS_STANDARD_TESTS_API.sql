@@ -104,9 +104,9 @@ create or replace package body eba_stds_standard_tests_api as
       coalesce(p_version_number,gc_default_version_number),
       coalesce(p_version_db,svt_preferences.get_preference ('SVT_DB_NAME')),
       localtimestamp,
-      nvl(wwv_flow.g_user,user),
+      coalesce(wwv_flow.g_user,user),
       localtimestamp,
-      nvl(wwv_flow.g_user,user)
+      coalesce(wwv_flow.g_user,user)
     );
 
     return c_id;
@@ -292,7 +292,7 @@ create or replace package body eba_stds_standard_tests_api as
         set version_number = l_version_number,
             version_db = c_db_name,
             updated = localtimestamp,
-            updated_by = nvl(wwv_flow.g_user,user)
+            updated_by = coalesce(wwv_flow.g_user,user)
         where test_code = p_test_code;
 
         eba_stds_tests_lib_api.upsert (
@@ -370,7 +370,7 @@ create or replace package body eba_stds_standard_tests_api as
         version_number        = coalesce(p_version_number, version_number, gc_default_version_number),
         version_db            = coalesce(p_version_db, version_db, svt_preferences.get_preference ('SVT_DB_NAME')),
         updated               = localtimestamp,
-        updated_by            = nvl(wwv_flow.g_user,user)
+        updated_by            = coalesce(wwv_flow.g_user,user)
       where id = p_id;
   
   exception when others then
