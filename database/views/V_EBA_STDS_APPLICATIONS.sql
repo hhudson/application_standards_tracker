@@ -15,11 +15,16 @@ select esa.pk_id,
        aa.availability_status,
        est.type_name application_type,
        aa.application_name,
-       esa.notes
+       esa.notes,
+       esa.active_yn app_active_yn,
+       est.active_yn type_active_yn,
+       est.type_code
 from eba_stds_applications esa
 inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                 and aa.availability_status != 'Unavailable'
-left outer join eba_stds_types est on est.id = esa.type_id
+inner join eba_stds_types est on est.id = esa.type_id
+                              and esa.active_yn = 'Y'
+where esa.active_yn = 'Y'
 /
 
 --rollback drop view V_EBA_STDS_APPLICATIONS;
