@@ -5,7 +5,8 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_EBA_STDS_APPLICATIONS as
-select esa.pk_id, 
+select /*+ result_cache */
+       esa.pk_id, 
        esa.apex_app_id, 
        esa.esa_created, 
        esa.esa_created_by, 

@@ -88,8 +88,8 @@ procedure recompile_all_schemas_w_plscope;
 -- 
 /*
 begin
-    svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
-    svt_audit_util.record_daily_issue_snapshot();
+    svt_audit_util.record_daily_issue_snapshot(p_test_code => 'DISCOURAGED_CODE',
+                                               p_issue_category => 'DB_PLSQL');
     commit;
 end;
 */

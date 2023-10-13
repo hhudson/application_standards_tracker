@@ -260,6 +260,14 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       select unqid, audit_id, test_code, validation_failure_message
       from v_svt_plsql_apex_audit
       where stale_yn = gc_y
+      and updated < sysdate - interval '2' day
+      and is_exception_yn = 'N' --not sure when to clear out exceptions ...
+      and exists (select 1
+                    from apex_automation_log aal
+                    inner join apex_appl_automations aaa on aaa.automation_id = aal.automation_id
+                    where aaa.static_id = 'big-job'
+                    and aaa.polling_last_run_timestamp > systimestamp - interval '12' hour
+                    and aal.status_code = 'SUCCESS' )
     ) loop 
       delete_audit (
               p_unqid                      => rec.unqid,

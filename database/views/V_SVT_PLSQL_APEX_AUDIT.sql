@@ -9,11 +9,8 @@ with aspaa as (
     select paa.id audit_id,
            paa.issue_category,
            paa.application_id,
-           coalesce(vaa.application_name, 'NA') application_name,
-           case when paa.issue_category = 'APEX'
-                then coalesce(vaa.application_type, 'NA') 
-                else 'Production'
-                end application_type,
+           vaa.application_name,
+           vaa.application_type,
            src.test_name,
            paa.page_id,
            src.test_id,
@@ -24,6 +21,10 @@ with aspaa as (
            paa.object_type,
            paa.code,
            paa.validation_failure_message,
+           case when length(paa.validation_failure_message) > 166 
+                then substr(paa.validation_failure_message,1,166) || '...'
+                else paa.validation_failure_message
+                end short_failure_message,
            paa.issue_title,
            paa.apex_created_by,
            paa.apex_created_on,
@@ -33,7 +34,7 @@ with aspaa as (
            paa.action_id,
            paa.created,
            paa.updated,
-           case when paa.updated < sysdate - interval '4' hour
+           case when paa.updated < sysdate - interval '5' hour
                 then 'Y'
                 else 'N'
                 end stale_yn,
@@ -72,12 +73,14 @@ with aspaa as (
            src.component_name, 
            fdv.component_type_id, 
            coalesce(fdv.link_url, sct.template_url) template_url,
-           src.standard_name
+           src.standard_name,
+           vaa.type_code app_type_code,
+           vaa.pk_id app_pk_id
     from svt_plsql_apex_audit paa
     inner join v_eba_stds_standard_tests src on paa.test_code  = src.test_code
     inner join svt_component_types sct on sct.id = src.svt_component_type_id
-    left outer join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
     left outer join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
+    left outer join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
 )
 select 
@@ -86,6 +89,8 @@ select
     a.application_id,
     a.application_name,
     a.application_type,
+    a.app_type_code,
+    a.app_pk_id,
     a.page_id,
     a.test_id,
     a.urgency,
@@ -95,6 +100,7 @@ select
     a.object_type,
     a.code,
     a.validation_failure_message,
+    a.short_failure_message,
     apex_string.format(
     p_message => q'^
 |Issue Description|

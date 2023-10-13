@@ -31,8 +31,9 @@ end;
 select svt_ctx_util.get_default_user
 from dual;
 */
+-- cannot result_cache or make deterministic, I'm afraid
 ------------------------------------------------------------------------------
-    function get_default_user return all_users.username%type result_cache;
+    function get_default_user return all_users.username%type;
 
 end SVT_CTX_UTIL;
 /

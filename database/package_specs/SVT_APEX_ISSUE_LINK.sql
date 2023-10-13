@@ -39,7 +39,9 @@ from dual;
       p_app_id in apex_applications.application_id%type,
       p_id     in apex_issues.issue_id%type  
     )
-   return varchar2;
+   return varchar2
+   deterministic
+   result_cache;
 
 end SVT_APEX_ISSUE_LINK;
 /

@@ -307,52 +307,57 @@ create or replace package body SVT_AUDIT_UTIL as
                                             'p_test_code', p_test_code,
                                             'p_issue_category', p_issue_category
                                             );
-        for rec in (
-          select column_value review_schema
-          from table(
-                apex_string.split(
-                  svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+        set_workspace;
+        
+        begin <<nonapex>>
+          apex_debug.message(c_debug_template, '1. Non-APEX Tests');
+          for rec in (
+            select column_value review_schema
+            from table(
+                  apex_string.split(
+                    svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+                    )
                   )
-                )
-          where column_value = p_schema or  p_schema is null
-        )
-        loop
-          svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
-
-          -- recompile_w_plscope; -- handled once a day in a different job + the logon trigger should take care of this
-
-          for ic_rec in (select issue_category, test_code
-                          from v_eba_stds_standard_tests
-                          where issue_category != c_apex
-                          and (test_code = p_test_code or p_test_code is null)
-                          order by test_code)
+            where column_value = p_schema or  p_schema is null
+          )
           loop
-            <<tstlp>>
-            declare 
-              t1 timestamp; 
-              t2 timestamp; 
-            begin 
-              t1 := systimestamp; 
-              apex_debug.message(c_debug_template, 'Start: '||t1, ic_rec.test_code);
-              svt_plsql_apex_audit_api.merge_audit_tbl (
-                              p_application_id => p_application_id,
-                              p_page_id        => p_page_id,
-                              p_test_code      => ic_rec.test_code,
-                              p_issue_category => ic_rec.issue_category
-                              );
-              t2 := systimestamp; 
-              apex_debug.message(c_debug_template, 'End: '||t2, ic_rec.test_code);
-              svt_test_timing_api.insert_timing(ic_rec.test_code, extract( second from (t2-t1) ));
-            end tstlp; 
+            apex_debug.message(c_debug_template, 'rec.review_schema', rec.review_schema);
+            svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
+
+            for ic_rec in (select issue_category, test_code
+                            from v_eba_stds_standard_tests
+                            where issue_category != c_apex
+                            and (issue_category = p_issue_category or p_issue_category is null)
+                            and (test_code = p_test_code or p_test_code is null)
+                            order by test_code)
+            loop
+              <<tstlp>>
+              declare 
+                t1 timestamp; 
+                t2 timestamp; 
+              begin 
+                t1 := systimestamp; 
+                apex_debug.message(c_debug_template, 'Start: '||t1, ic_rec.test_code);
+                svt_plsql_apex_audit_api.merge_audit_tbl (
+                                p_application_id => p_application_id,
+                                p_page_id        => p_page_id,
+                                p_test_code      => ic_rec.test_code,
+                                p_issue_category => coalesce(p_issue_category, ic_rec.issue_category)
+                                );
+                t2 := systimestamp; 
+                apex_debug.message(c_debug_template, 'End: '||t2, ic_rec.test_code);
+                svt_test_timing_api.insert_timing(ic_rec.test_code, extract( second from (t2-t1) ));
+              end tstlp; 
+            end loop;
           end loop;
-        end loop;
+        end nonapex;
         
         begin <<apex_issues>>
-          set_workspace;
-
+          apex_debug.message(c_debug_template, '2. APEX Tests');
           for apx_rec in (select issue_category, test_code
                           from v_eba_stds_standard_tests
                           where issue_category = c_apex
+                          and (issue_category = p_issue_category or p_issue_category is null)
                           and (test_code = p_test_code or p_test_code is null)
                           order by test_code)
           loop
@@ -367,7 +372,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                 p_application_id => p_application_id,
                                 p_page_id        => p_page_id,
                                 p_test_code      => apx_rec.test_code,
-                                p_issue_category => c_apex
+                                p_issue_category => coalesce(p_issue_category, c_apex)
                               );
               t2 := systimestamp; 
               apex_debug.message(c_debug_template, 'End: '||t2, apx_rec.test_code);

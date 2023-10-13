@@ -22,6 +22,8 @@ create or replace package body SVT_APEX_ISSUE_LINK as
       p_id     in apex_issues.issue_id%type  
     )
   return varchar2
+  deterministic
+  result_cache
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'build_link_to_apex_issue';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

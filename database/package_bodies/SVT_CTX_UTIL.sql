@@ -28,14 +28,13 @@ as
 
     function get_default_user 
     return all_users.username%type 
-    result_cache
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_default_user';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
     c_set_schema constant all_users.username%type := sys_context('svt_ctx', 'review_schema');
     begin
-        apex_debug.message(c_debug_template,'START');
+        -- apex_debug.message(c_debug_template,'START');
 
         return case when c_set_schema is null
                     then gc_default_schema
