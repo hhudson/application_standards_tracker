@@ -24,6 +24,12 @@ javascript:
   file-urls: 
   - '#APP_FILES#js/f4000_searchResults#MIN#.js'
 
+css: 
+  inline: |
+    .c20 {
+    display: block; width: 600px; font-size: 90%;
+    }
+
 security: 
   authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
   authentication: Page Requires Authentication
@@ -597,11 +603,11 @@ regions:
 
     pagination: 
       type: Row Ranges X to Y
-      display-position: Bottom - Right
+      display-position: Top - Right
 
     performance: 
       lazy-loading: true
-      maximum-rows-to-process: 1000000
+      maximum-rows-to-process: 1000
 
     search-bar: 
       include-search-bar: true
@@ -609,6 +615,7 @@ regions:
       finder-drop-down: true
       reports-select-list: true
       rows-per-page-selector: true
+      maximum-rows-per-page: 10
 
     actions-menu: 
       include-actions-menu: true
@@ -713,7 +720,7 @@ regions:
         link-attributes: 'title="Manage Violation Audit ID #AUDIT_ID#" aria-label="Manage Violation Audit ID #AUDIT_ID#"'
 
       source: 
-        primary-key: false
+        primary-key: true
 
       column-filter: 
         type: Default Based on Column Type
@@ -779,7 +786,7 @@ regions:
       id: 292524071282693237
       identification: 
         column-name: APPLICATION_ID
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: App ID
@@ -794,6 +801,17 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:161:&SESSION.::&DEBUG.:161:P161_PK_ID:#APP_PK_ID#'
+          page: 161 # Edit Application
+          clear-cache: 161
+          values: 
+            p161_pk_id: '#APP_PK_ID#'
+
+        link-text: '#APPLICATION_ID#'
+        link-attributes: 'alt="edit #APPLICATION_ID#" title="edit #APPLICATION_ID#"'
 
       source: 
         primary-key: false
@@ -814,6 +832,7 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_NAME ============================
@@ -843,7 +862,15 @@ regions:
           {endif/} 
           {if OBJECT_NAME/}
               #OBJECT_NAME# (#OBJECT_TYPE#)
-          {endif/} 
+          {endif/}
+          {if APP_TYPE_CODE/}
+          <span type="button" 
+                  class="t-Button t-Button--tiny t-Button--gapTop"
+              >
+               #APP_TYPE_CODE#
+          </span>
+          {endif/}
+          
 
       source: 
         primary-key: false
@@ -1234,34 +1261,42 @@ regions:
 
       column-formatting: 
         html-expression: |
-          #VALIDATION_FAILURE_MESSAGE#
-          <br/>
-          <span type="button" 
-               class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--warning t-Button--gapTop"
-               >   
-              Audit ID : #AUDIT_ID#
-          </span>
-          <span type="button" 
-                class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--danger t-Button--gapTop"
-                >
-              Urgency : #URGENCY#
-          </span>
-          {if !IS_EXCEPTION_YN/}
-          <span type="button" 
-                class="t-Button t-Button--hot t-Button--tiny t-Button--success t-Button--gapTop"
-                >
-              Created #CREATED#
-          </span>
-          <span type="button" 
-                class="t-Button t-Button--hot t-Button--tiny t-Button--gapTop"
-                >
-              Valid as of #UPDATED#
-          </span>
-          {endif/}
-          <span type="button" 
-                  class="t-Button t-Button--tiny t-Button--gapTop"
-              >
-              #OWNER#
+          <span class="c20">
+                  #SHORT_FAILURE_MESSAGE#
+              <br/>
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--warning t-Button--gapTop"
+                  >   
+                  Audit ID : #AUDIT_ID#
+              </span>
+              {if !IS_EXCEPTION_YN/}
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--success t-Button--gapTop"
+                  >
+                  Created #CREATED#
+              </span>
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--gapTop"
+                  >
+                  Valid as of #UPDATED#
+              </span>
+              {else/}
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--danger t-Button--gapTop"
+                  >
+                  EXCEPTION
+              </span>
+              {endif/}
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--danger t-Button--gapTop"
+                  >
+                  Urgency : #URGENCY#
+              </span>
+              <span type="button" 
+                      class="t-Button t-Button--tiny t-Button--gapTop"
+                  >
+                  #OWNER#
+              </span>
           </span>
 
       source: 
@@ -1275,12 +1310,12 @@ regions:
         sort: true
         filter: true
         highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
 
       security: 
         escape-special-characters: true
@@ -2575,6 +2610,60 @@ regions:
       security: 
         escape-special-characters: true
 
+    - # ====== Column: APP_TYPE_CODE ===============================
+      id: 341543169044766904
+      identification: 
+        column-name: APP_TYPE_CODE
+        type: Hidden Column
+
+      heading: 
+        heading: App Type Code
+
+      layout: 
+        sequence: 570
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_PK_ID ===================================
+      id: 341543973460766912
+      identification: 
+        column-name: APP_PK_ID
+        type: Hidden Column
+
+      heading: 
+        heading: App Pk Id
+
+      layout: 
+        sequence: 580
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SHORT_FAILURE_MESSAGE =======================
+      id: 341546581477766938
+      identification: 
+        column-name: SHORT_FAILURE_MESSAGE
+        type: Hidden Column
+
+      heading: 
+        heading: Short Failure Message
+
+      layout: 
+        sequence: 590
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
     printing: 
       output: 
         view-file-as: Attachment
@@ -2993,7 +3082,7 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     multiple-values: false
-    manual-entry: false
+    manual-entry: true
     search-as-you-type: true
     minimum-characters: No minimum (0)
 

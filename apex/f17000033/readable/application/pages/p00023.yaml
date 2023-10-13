@@ -49,13 +49,10 @@ regions:
 
   source: 
     location: Local Database
-    type: SQL Query
-    sql-query: |
-      select id,
-          display_sequence,
-          type_name,
-          description
-      from eba_stds_types
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_TYPES
+    include-rowid-column: false
 
   layout: 
     sequence: 10
@@ -169,6 +166,88 @@ regions:
         alias: 7907174
 
     columns: 
+    - # ====== Column: TYPE_CODE ===================================
+      id: 341543567247766908
+      identification: 
+        column-name: TYPE_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Type Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 24
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACTIVE_YN ===================================
+      id: 341543696534766909
+      identification: 
+        column-name: ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 34
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
     - # ====== Column: TYPE_NAME ===================================
       id: 365746537195297052
       identification: 

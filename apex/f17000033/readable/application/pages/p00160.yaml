@@ -49,10 +49,26 @@ regions:
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: V_EBA_STDS_APPLICATIONS
-    include-rowid-column: false
+    type: SQL Query
+    sql-query: |
+      select esa.pk_id, 
+             esa.apex_app_id, 
+             esa.esa_created, 
+             esa.esa_created_by, 
+             esa.esa_updated, 
+             esa.esa_updated_by, 
+             esa.default_developer,
+             aa.availability_status,
+             est.type_name application_type,
+             aa.application_name,
+             esa.notes,
+             esa.active_yn app_active_yn,
+             est.active_yn type_active_yn,
+             est.type_code
+      from eba_stds_applications esa
+      inner join apex_applications aa on esa.apex_app_id = aa.application_id
+                                      and aa.availability_status != 'Unavailable'
+      left join eba_stds_types est on est.id = esa.type_id
 
   layout: 
     sequence: 20
@@ -263,6 +279,129 @@ regions:
 
       accessibility: 
         value-identifies-row: true
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_ACTIVE_YN ===============================
+      id: 341543291644766905
+      identification: 
+        column-name: APP_ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: App Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 66
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TYPE_ACTIVE_YN ==============================
+      id: 341543316728766906
+      identification: 
+        column-name: TYPE_ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Type Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 76
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TYPE_CODE ===================================
+      id: 341543473590766907
+      identification: 
+        column-name: TYPE_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Type Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 86
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
 
       source: 
         primary-key: false

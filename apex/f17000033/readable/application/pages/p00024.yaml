@@ -141,6 +141,127 @@ regions:
       lost-update-type: Row Values
 
 page-items: 
+- # ====== Page Item: P24_TYPE_CODE ============================
+  id: 341543704140766910
+  identification: 
+    name: P24_TYPE_CODE
+    type: Text Field
+
+  label: 
+    label: Type Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: Application Type # 7804529408368923119
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 10
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Application Type # 7804529408368923119
+    column: TYPE_CODE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: A short code (no spaces, all caps)
+
+- # ====== Page Item: P24_ACTIVE_YN ============================
+  id: 341543899087766911
+  identification: 
+    name: P24_ACTIVE_YN
+    type: Switch
+
+  label: 
+    label: Active
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 70
+    region: Application Type # 7804529408368923119
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Application Type # 7804529408368923119
+    column: ACTIVE_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: Y
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Inactive types will not be scanned for violations
+
 - # ====== Page Item: P24_TYPE_NAME ============================
   id: 365746773759297054
   identification: 
@@ -248,11 +369,13 @@ page-items:
     alignment: Left
 
   settings: 
+    minimum-value: 1
+    maximum-value: 10000
     number-alignment: Start
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 30
+    sequence: 60
     region: Application Type # 7804529408368923119
     position: BODY
     alignment: Left
@@ -314,7 +437,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 40
+    sequence: 50
     region: Application Type # 7804529408368923119
     position: BODY
     alignment: Left

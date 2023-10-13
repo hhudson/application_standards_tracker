@@ -143,10 +143,10 @@
     comments: FREQ=HOURLY;INTERVAL=6;BYMINUTE=55
 
   actions: 
-  - # ====== Action: Delete stale issues =========================
+  - # ====== Action: svt_plsql_apex_audit_api.delete_stale =======
     id: 263522004995577712
     identification: 
-      name: Delete stale issues
+      name: svt_plsql_apex_audit_api.delete_stale
       type: Execute Code
 
     source: 
@@ -163,10 +163,10 @@
     error: 
       stop-execution-on-error: true
 
-- # ====== Automation: 7. [Nightly] Refresh Cumulative Issues co
+- # ====== Automation: 7. [Nightly @ midnight] Refresh Cumulativ
   id: 280867419610309873
   identification: 
-    name: 7. [Nightly] Refresh Cumulative Issues count
+    name: 7. [Nightly @ midnight] Refresh Cumulative Issues count
     static-id: 7-nightly-refresh-cumulative-issues-count
 
   execution: 
@@ -254,6 +254,42 @@
 
     execution: 
       sequence: 20
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 10. [Every night at 1AM] Recompile with P
+  id: 344919856023132125
+  identification: 
+    name: 10. [Every night at 1AM] Recompile with PLScope
+    static-id: 10-recompile-with-plscope
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=1;BYMINUTE=0
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  actions: 
+  - # ====== Action: svt_audit_util.recompile_all_schemas_w_plscop
+    id: 344920186711132127
+    identification: 
+      name: svt_audit_util.recompile_all_schemas_w_plscope
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            svt_audit_util.recompile_all_schemas_w_plscope;
+        end;
+
+    execution: 
+      sequence: 10
 
     error: 
       stop-execution-on-error: true

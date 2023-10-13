@@ -45,7 +45,10 @@
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_ctx_util.get_default_user
+    pl/sql-expression: |
+      apex_util.get_preference(      
+                            p_preference => 'SVT_DEFAULT_SCHEMA',
+                            p_user       => 'SVT')
 
 - # ====== Application Computation: APX_BLDR_SESSION ===========
   id: 7950338294442476319
