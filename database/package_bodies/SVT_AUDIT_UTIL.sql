@@ -221,6 +221,33 @@ create or replace package body SVT_AUDIT_UTIL as
         raise;
     end recompile_w_plscope;
 
+    procedure recompile_all_schemas_w_plscope
+    as 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'recompile_all_schemas_w_plscope';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    begin
+      apex_debug.message(c_debug_template,'START');
+      for rec in (
+        select column_value review_schema
+        from table(
+              apex_string.split(
+                svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+                )
+              )
+      )
+      loop
+
+        svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
+        recompile_w_plscope;
+
+      end loop;
+  
+    exception 
+      when others then
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+        raise;
+    end recompile_all_schemas_w_plscope;
+
     procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null)
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'set_workspace';
@@ -292,7 +319,7 @@ create or replace package body SVT_AUDIT_UTIL as
         loop
           svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
 
-          recompile_w_plscope;
+          -- recompile_w_plscope; -- handled once a day in a different job + the logon trigger should take care of this
 
           for ic_rec in (select issue_category, test_code
                           from v_eba_stds_standard_tests

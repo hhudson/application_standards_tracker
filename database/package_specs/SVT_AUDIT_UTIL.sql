@@ -66,6 +66,21 @@ end;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: October 13, 2023
+-- Synopsis:
+--
+-- Procedure to loop through all the chosen schemas and recompile  
+--
+/*
+begin
+    svt_audit_util.recompile_all_schemas_w_plscope;
+end;
+*/
+------------------------------------------------------------------------------
+procedure recompile_all_schemas_w_plscope;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: June 8, 2022
 -- Synopsis:
 --
