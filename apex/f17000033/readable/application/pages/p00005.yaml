@@ -629,6 +629,7 @@ regions:
              character_set,
              vsn,
              version_number,
+             version_db,
              record_md5,
              lib_md5,
              published_yn,
@@ -676,23 +677,7 @@ regions:
   attributes: 
     id: 6377196575542557144
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE,P14_CALLING_STANDARD_ID:#TEST_CODE#,&P5_ID.'
-        page: 14 # Manage Test
-        clear-cache: RR,14
-        values: 
-          p14_test_code: '#TEST_CODE#'
-          p14_calling_standard_id: '&P5_ID.'
-
-      link-icon: |
-        <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" 
-             class="apex-edit-pencil" 
-             alt="Edit Test Link"
-             title ="Edit Test #TEST_CODE#"
-             aria-label ="Edit Test #TEST_CODE#"
-        >
-      authorization-scheme: APPLICATION SENTRY # 11006625813437161752
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y of Z
@@ -768,6 +753,47 @@ regions:
         alias: 29054959
 
     columns: 
+    - # ====== Column: VERSION_DB ==================================
+      id: 341546830685766941
+      identification: 
+        column-name: VERSION_DB
+        type: Plain Text
+
+      heading: 
+        heading: Version Database
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 340
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: STANDARD_ID =================================
       id: 372727836886697147
       identification: 
@@ -782,7 +808,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 50
+        sequence: 30
         column-alignment: end
 
       accessibility: 
@@ -813,42 +839,34 @@ regions:
       id: 372727912255697148
       identification: 
         column-name: TEST_ID
-        type: Plain Text
+        type: IR-Row-Selector
 
       heading: 
-        heading: Test ID
-        alignment: end
+        heading: '<span class="irrsHeader u-selector" role="checkbox" aria-checked="false" aria-label="Select All Rows" title="Select All" aria-disabled="false" onclick="javascript:irrs.SelectAll(this);"></span>'
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
+      settings: 
+        primary-key-column: TEST_CODE
+        output-page-item: P5_SELECTED_IDS
+
       layout: 
-        sequence: 60
-        column-alignment: end
+        sequence: 10
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
 
       source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
+        primary-key: true
 
       enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+        hide: false
 
       security: 
-        escape-special-characters: true
+        authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
     - # ====== Column: URGENCY =====================================
       id: 372728080418697149
@@ -864,7 +882,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 70
+        sequence: 40
         column-alignment: start
 
       accessibility: 
@@ -905,7 +923,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 90
+        sequence: 50
         column-alignment: start
 
       accessibility: 
@@ -949,7 +967,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 110
+        sequence: 60
         column-alignment: start
 
       accessibility: 
@@ -987,7 +1005,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 120
+        sequence: 70
         column-alignment: start
 
       accessibility: 
@@ -1028,7 +1046,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 130
+        sequence: 80
         column-alignment: start
 
       accessibility: 
@@ -1072,7 +1090,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 140
+        sequence: 90
         column-alignment: start
 
       accessibility: 
@@ -1114,7 +1132,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 150
+        sequence: 100
         column-alignment: start
 
       accessibility: 
@@ -1145,42 +1163,54 @@ regions:
       id: 372728913180697158
       identification: 
         column-name: SVT_COMPONENT_TYPE_ID
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: SVT_COMPONENT_CODES # 269334846866866172
+        type: Link
 
       heading: 
-        heading: Component Type
-        alignment: start
+        heading: Edit
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 160
-        column-alignment: start
+        sequence: 20
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:#TEST_CODE#'
+          page: 14 # Manage Test
+          clear-cache: 14
+          values: 
+            p14_test_code: '#TEST_CODE#'
+
+        link-text: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="Edit pencil">
+        link-attributes: 'title ="Edit Test #TEST_CODE#"      aria-label ="Edit Test #TEST_CODE#"'
 
       source: 
         primary-key: false
 
       column-filter: 
-        type: Use Named List of Values to Filter Exact Match
+        type: Default Based on Column Type
 
       enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
 
     - # ====== Column: COMPONENT_NAME ==============================
       id: 372729023754697159
@@ -1196,7 +1226,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 170
+        sequence: 120
         column-alignment: start
 
       accessibility: 
@@ -1240,7 +1270,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 180
+        sequence: 130
         column-alignment: start
 
       accessibility: 
@@ -1278,7 +1308,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 190
+        sequence: 140
         column-alignment: start
 
       accessibility: 
@@ -1322,7 +1352,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 200
+        sequence: 150
         column-alignment: start
 
       accessibility: 
@@ -1366,7 +1396,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 210
+        sequence: 160
         column-alignment: center
 
       accessibility: 
@@ -1417,7 +1447,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 220
+        sequence: 170
         column-alignment: start
 
       accessibility: 
@@ -1458,7 +1488,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 230
+        sequence: 180
         column-alignment: start
 
       accessibility: 
@@ -1499,7 +1529,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 240
+        sequence: 190
         column-alignment: start
 
       accessibility: 
@@ -1540,7 +1570,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 250
+        sequence: 200
         column-alignment: start
 
       accessibility: 
@@ -1581,7 +1611,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 260
+        sequence: 210
         column-alignment: start
 
       accessibility: 
@@ -1622,7 +1652,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 270
+        sequence: 220
         column-alignment: start
 
       accessibility: 
@@ -1666,7 +1696,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 290
+        sequence: 230
         column-alignment: start
 
       accessibility: 
@@ -1710,7 +1740,7 @@ regions:
         lib-md5: LIB_MD5
 
       layout: 
-        sequence: 300
+        sequence: 240
         column-alignment: center
 
       accessibility: 
@@ -1736,7 +1766,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 310
+        sequence: 250
         column-alignment: start
 
       accessibility: 
@@ -1777,7 +1807,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 370
+        sequence: 260
         column-alignment: start
 
       accessibility: 
@@ -1814,7 +1844,7 @@ regions:
         heading: Level Id
 
       layout: 
-        sequence: 380
+        sequence: 270
 
       source: 
         primary-key: false
@@ -1832,7 +1862,7 @@ regions:
         heading: Version Number
 
       layout: 
-        sequence: 390
+        sequence: 280
 
       source: 
         primary-key: false
@@ -1850,7 +1880,7 @@ regions:
         heading: Urgency Level
 
       layout: 
-        sequence: 400
+        sequence: 290
 
       source: 
         primary-key: false
@@ -1872,7 +1902,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 410
+        sequence: 300
         column-alignment: start
 
       accessibility: 
@@ -1913,7 +1943,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 420
+        sequence: 310
         column-alignment: start
 
       accessibility: 
@@ -1957,7 +1987,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 430
+        sequence: 320
         column-alignment: start
 
       accessibility: 
@@ -1995,7 +2025,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 440
+        sequence: 330
         column-alignment: start
 
       accessibility: 
@@ -2607,6 +2637,69 @@ regions:
       lost-update-type: Row Values
 
 page-items: 
+- # ====== Page Item: P5_DISPLAY_ORDER =========================
+  id: 341546725798766940
+  identification: 
+    name: P5_DISPLAY_ORDER
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 210
+    region: Manage Standard # 7948485527682750619
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Standard # 7948485527682750619
+    column: DISPLAY_ORDER
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P5_SELECTED_IDS ==========================
+  id: 341546992091766942
+  identification: 
+    name: P5_SELECTED_IDS
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Tests # 7787847495128856498
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P5_TEST_CODE =============================
   id: 369846055235997684
   identification: 
@@ -3433,6 +3526,38 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
+- # ====== Button: BULK_PUBLISH ================================
+  id: 341547021130766943
+  identification: 
+    button-name: BULK_PUBLISH
+    label: Bulk Publish
+
+  layout: 
+    sequence: 10
+    region: Tests # 7787847495128856498
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-print fam-plus fam-is-info
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
 - # ====== Button: CLEAR_FILTER ================================
   id: 341630196980637862
   identification: 
@@ -3440,7 +3565,7 @@ buttons:
     label: Clear Filter
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3582,7 +3707,7 @@ buttons:
     label: Reset
 
   layout: 
-    sequence: 30
+    sequence: 50
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3659,7 +3784,7 @@ buttons:
     label: Create
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3691,6 +3816,169 @@ buttons:
     authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 dynamic-actions: 
+- # ====== Dynamic Action: Enable/disable bulk publish =========
+  id: 341547126649766944
+  identification: 
+    name: Enable/disable bulk publish
+
+  execution: 
+    sequence: 90
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P5_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Enable bulk publish =========================
+    id: 341547269777766945
+    identification: 
+      name: Enable bulk publish
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_PUBLISH # 341547021130766943
+
+    execution: 
+      sequence: 10
+      event: Enable/disable bulk publish # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is not null
+      item: P5_SELECTED_IDS
+
+  - # ====== Action: Disable bulk publish ========================
+    id: 341547398763766946
+    identification: 
+      name: Disable bulk publish
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_PUBLISH # 341547021130766943
+
+    execution: 
+      sequence: 20
+      event: Enable/disable bulk publish # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P5_SELECTED_IDS
+
+- # ====== Dynamic Action: bulk publish ========================
+  id: 341547419143766947
+  identification: 
+    name: bulk publish
+
+  execution: 
+    sequence: 100
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: BULK_PUBLISH # 341547021130766943
+
+  client-side-condition: 
+    type: Item is not null
+    item: P5_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: log selected ids ============================
+    id: 341547515757766948
+    identification: 
+      name: log selected ids
+      action: Execute JavaScript Code
+
+    settings: 
+      code: "apex.debug.log('selected ids :'+apex.item('P5_SELECTED_IDS').getValue())"
+
+    execution: 
+      sequence: 30
+      event: bulk publish # 341547419143766947
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 341547660780766949
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: 'eba_stds_standard_tests_api.bulk_publish(p_selected_ids => :P5_SELECTED_IDS);'
+      items-to-submit: 
+      - P5_SELECTED_IDS
+
+    execution: 
+      sequence: 40
+      event: bulk publish # 341547419143766947
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Disable STANDARD_TEST_RPT ===================
+    id: 353315856971308302
+    identification: 
+      name: Disable STANDARD_TEST_RPT
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 10
+      event: bulk publish # 341547419143766947
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Enable STANDARD_TEST_RPT ====================
+    id: 353315957670308303
+    identification: 
+      name: Enable STANDARD_TEST_RPT
+      action: Enable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 60
+      event: bulk publish # 341547419143766947
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh tests ===============================
+    id: 353316065212308304
+    identification: 
+      name: Refresh tests
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tests # 7787847495128856498
+
+    execution: 
+      sequence: 50
+      event: bulk publish # 341547419143766947
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: publish test ========================
   id: 369845756421997681
   identification: 

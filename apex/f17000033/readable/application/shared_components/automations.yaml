@@ -27,7 +27,23 @@
     source: 
       location: Local Database
       language: PL/SQL
-      pl/sql-code: svt_apex_issue_util.manage_apex_issues;
+      pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_message varchar2(1000);
+        begin
+          t1 := systimestamp; 
+          svt_apex_issue_util.manage_apex_issues(p_message => l_message);
+          t2 := systimestamp; 
+          apex_automation.log_info( p_message => 
+                                    apex_string.format( '%0 [in %1 second(s)]',
+                                        p0=> l_message,
+                                        p1 => extract( second from (t2-t1) )
+                                    )
+                                   );
+          commit;
+        end;
 
     execution: 
       sequence: 10
@@ -153,8 +169,22 @@
       location: Local Database
       language: PL/SQL
       pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_deleted_count pls_integer;
         begin
-            svt_plsql_apex_audit_api.delete_stale;
+          t1 := systimestamp; 
+          svt_plsql_apex_audit_api.delete_stale(p_deleted_count => l_deleted_count);
+          if l_deleted_count > 0 then
+              t2 := systimestamp; 
+              apex_automation.log_info( p_message => 
+                                        apex_string.format( 'Deleted %0 violation(s) in %1 second(s)',
+                                          p0=> l_deleted_count,
+                                          p1 => extract( second from (t2-t1) )
+                                        )
+                                      );
+          end if;
         end;
 
     execution: 
@@ -324,7 +354,23 @@
     source: 
       location: Local Database
       language: PL/SQL
-      pl/sql-code: svt_audit_util.record_daily_issue_snapshot;
+      pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_message varchar2(1000);
+        begin
+          t1 := systimestamp; 
+          svt_audit_util.record_daily_issue_snapshot(p_message => l_message);
+          t2 := systimestamp; 
+          apex_automation.log_info( p_message => 
+                                    apex_string.format( '%0 [in %1 second(s)]',
+                                        p0=> l_message,
+                                        p1 => extract( second from (t2-t1) )
+                                    )
+                                   );
+          commit;
+        end;
 
     execution: 
       sequence: 10
