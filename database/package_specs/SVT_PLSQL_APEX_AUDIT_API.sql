@@ -227,12 +227,26 @@ end;
 -- Procedure to delete stale issues from svt_plsql_apex_audit
 --
 /*
+declare
+t1 timestamp; 
+t2 timestamp; 
+l_deleted_count pls_integer;
 begin
-    svt_plsql_apex_audit_api.delete_stale;
+  t1 := systimestamp; 
+  svt_plsql_apex_audit_api.delete_stale(p_deleted_count => l_deleted_count);
+  if l_deleted_count > 0 then
+      t2 := systimestamp; 
+      apex_automation.log_info( p_message => 
+                                apex_string.format( 'Deleted %0 violation(s) in %1 second(s)',
+                                  p0=> l_deleted_count,
+                                  p1 => extract( second from (t2-t1) )
+                                )
+                              );
+  end if;
 end;
 */
 ------------------------------------------------------------------------------
-    procedure delete_stale;
+    procedure delete_stale (p_deleted_count out nocopy pls_integer);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

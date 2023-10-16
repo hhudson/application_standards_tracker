@@ -245,6 +245,21 @@ end;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: October 16, 2023
+-- Synopsis:
+--
+-- Procedure to publish tests in bulk
+--
+/*
+begin
+  eba_stds_standard_tests_api.bulk_publish(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_publish(p_selected_ids in varchar2);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: July 10, 2023
 -- Synopsis:
 --

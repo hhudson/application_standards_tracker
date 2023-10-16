@@ -231,12 +231,13 @@ $if oracle_apex_version.c_apex_issue_access $then
     raise;
   end drop_issue;
 
-  procedure drop_irrelevant_issues 
+  procedure drop_irrelevant_issues (p_message out nocopy varchar2)
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'drop_irrelevant_issues';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   c_security_groupd_id constant apex_issues.workspace_id%type := get_security_group_id;
+  l_message varchar2(500);
   begin
     apex_debug.message(c_debug_template,'START');
 
@@ -263,6 +264,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                where action_id = gc_false_positive_id);
     apex_debug.message(c_debug_template, 'deleted valid exceptions in svt_flow_issues:', sql%rowcount);
 
+    p_message := l_message;
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -273,7 +275,9 @@ $if oracle_apex_version.c_apex_issue_access $then
                                  p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                  p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                  p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                                 p_test_code      in eba_stds_standard_tests.test_code%type default null)
+                                 p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                                 p_message        out nocopy varchar2
+                                )
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'merge_from_audit_tbl';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -312,6 +316,8 @@ $if oracle_apex_version.c_apex_issue_access $then
   l_issue_id    apex_issues.issue_id%type;
   l_issue_title_suffix svt_plsql_apex_audit.apex_issue_title_suffix%type := null;
   l_counter pls_integer := 2;
+  l_inserted_count pls_integer := 0;
+  l_updated_count  pls_integer := 0;
   begin
     apex_debug.message(c_debug_template,'START',
                                           'p_issue_category',p_issue_category,
@@ -339,8 +345,8 @@ $if oracle_apex_version.c_apex_issue_access $then
             loop
               case when l_issues_t(i).apex_issue_id is null 
                    then 
-                        begin 
-                        <<insert_section>>
+                        begin <<insert_section>>
+                        
                           apex_debug.message(c_debug_template, 'unqid', l_issues_t(i).unqid);
                           create_issue (p_id             => l_issue_id,
                                         p_title          => l_issues_t(i).issue_title,
@@ -377,20 +383,22 @@ $if oracle_apex_version.c_apex_issue_access $then
                                 apex_issue_title_suffix = l_issue_title_suffix
                             where id = l_issues_t(i).audit_id;
                           end if;
+
+                          l_inserted_count := l_inserted_count + 1;
                         exception when others then
                           apex_debug.error(p_message => c_debug_template, p0 =>'Duplicate value!', p1 => sqlerrm, p2=> l_issues_t(i).issue_title, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
                           raise;
                         end insert_section;
                    else 
                       begin <<svt_upd>>
-                      update_issue (
-                          p_id             => l_issues_t(i).apex_issue_id,
-                          p_title          => l_issues_t(i).issue_title,
-                          p_issue_text     => l_issues_t(i).issue_text,
-                          p_application_id => l_issues_t(i).application_id,
-                          p_page_id        => l_issues_t(i).page_id,
-                          p_title_suffix   => l_issues_t(i).issue_title_suffix
-                        );
+                        update_issue (
+                            p_id             => l_issues_t(i).apex_issue_id,
+                            p_title          => l_issues_t(i).issue_title,
+                            p_issue_text     => l_issues_t(i).issue_text,
+                            p_application_id => l_issues_t(i).application_id,
+                            p_page_id        => l_issues_t(i).page_id,
+                            p_title_suffix   => l_issues_t(i).issue_title_suffix
+                          );
                       exception when dup_val_on_index then
                         l_issue_title_suffix := null;
                         update svt_plsql_apex_audit
@@ -409,12 +417,19 @@ $if oracle_apex_version.c_apex_issue_access $then
                           p_page_id        => l_issues_t(i).page_id,
                           p_title_suffix   => l_issue_title_suffix
                         );
+
+                        l_updated_count := l_updated_count + 1;
                       end svt_upd;
               end case;
             end loop;
 
             exit when cur_issues%notfound;
         end loop;
+
+    p_message := apex_string.format('Updated %0 issue(s) and created %1 new issues',
+                  p0 => l_updated_count,
+                  p1 => l_inserted_count
+                );
 
   exception when others then 
     apex_debug.error(p_message => c_debug_template, 
@@ -480,6 +495,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'hard_correct_svt_issues';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_message varchar2(500);
   begin
     apex_debug.message(c_debug_template,'START');
     delete
@@ -496,7 +512,7 @@ $if oracle_apex_version.c_apex_issue_access $then
       svt_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => rec.audit_id);
     end loop;
     
-    drop_irrelevant_issues;
+    drop_irrelevant_issues(p_message => l_message);
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -509,6 +525,7 @@ $end
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_message varchar2(500);
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
@@ -516,8 +533,14 @@ $end
     
 
     $if oracle_apex_version.c_apex_issue_access $then
-    svt_apex_issue_util.drop_irrelevant_issues;
-    commit; -- necessary for succinctness / user friendliness (hayhudso 2023-Feb-6)
+    <<dii>>
+    declare
+    l_dii_message varchar2(500);
+    begin
+      svt_apex_issue_util.drop_irrelevant_issues(p_message => l_dii_message);
+      l_message := l_message || l_dii_message;
+      commit; -- necessary for succinctness / user friendliness (hayhudso 2023-Feb-6)
+    end dii;
     $end
 
     svt_audit_util.assign_violations;
@@ -538,6 +561,7 @@ $end
   l_apex_issue_id svt_plsql_apex_audit.apex_issue_id%type;
   c_mv_dependency constant eba_stds_standard_tests.mv_dependency%type 
                     := eba_stds.get_mv_dependency(p_test_code => c_svt_plsql_apex_audit_rec1.test_code);
+  l_message varchar2(500);
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
@@ -560,7 +584,14 @@ $end
       if c_svt_plsql_apex_audit_rec1.updated < l_svt_plsql_apex_audit_rec2.updated then
         apex_debug.message(c_debug_template, 'violation has not been fixed');
         $if oracle_apex_version.c_apex_issue_access $then
-        svt_apex_issue_util.merge_from_audit_tbl(p_audit_id => p_audit_id);
+        <<mfat>>
+        declare
+        l_mfat_message varchar2(500);
+        begin
+          svt_apex_issue_util.merge_from_audit_tbl(p_audit_id => p_audit_id,
+                                                  p_message  => l_mfat_message);
+          l_message := l_message||l_mfat_message;
+        end mfat;
         svt_apex_issue_util.update_audit_tbl_from_apex_issues;
         $end
       else
@@ -581,7 +612,13 @@ $end
     else 
       apex_debug.error(c_debug_template, 'p_audit_id not found', p_audit_id);
       $if oracle_apex_version.c_apex_issue_access $then
-      svt_apex_issue_util.drop_irrelevant_issues;
+      <<dii>>
+      declare
+      l_dii_message varchar2(500);
+      begin
+        svt_apex_issue_util.drop_irrelevant_issues(p_message => l_dii_message);
+        l_message := l_message||l_dii_message;
+      end dii;
       $end
       commit; -- necessary for succinctness (hayhudso 2023-Feb-6)
       raise_application_error(-20123,'Unknown audit_id :'||p_audit_id);
@@ -592,19 +629,37 @@ $end
     raise;
   end refresh_for_audit_id;
 
-  procedure manage_apex_issues
+  procedure manage_apex_issues (p_message out nocopy varchar2)
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'manage_apex_issues';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_message varchar2(500);
   begin
     apex_debug.message(c_debug_template,'START');
     
     check_apex_version_up2date;
+
     $if oracle_apex_version.c_apex_issue_access $then
-    merge_from_audit_tbl;
-    drop_irrelevant_issues;
+
+    <<mfat>>
+    declare 
+    l_mfat_message varchar2(500);
+    begin
+      merge_from_audit_tbl(p_message  => l_mfat_message);
+      l_message := l_message || l_mfat_message;
+    end mfat;
+
+    <<dii>>
+    declare 
+    l_dii_message varchar2(500);
+    begin
+      drop_irrelevant_issues(p_message => l_dii_message);
+      l_message := l_message || l_dii_message;
+    end dii;
     update_audit_tbl_from_apex_issues;
     $end
+
+    p_message := l_message;
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);

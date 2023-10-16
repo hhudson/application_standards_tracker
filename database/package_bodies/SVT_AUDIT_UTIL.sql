@@ -294,12 +294,14 @@ create or replace package body SVT_AUDIT_UTIL as
                                           p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                           p_test_code      in eba_stds_standard_tests.test_code%type default null,
                                           p_schema         in all_users.username%type default null,
-                                          p_issue_category in svt_plsql_apex_audit.issue_category%type default null
+                                          p_issue_category in svt_plsql_apex_audit.issue_category%type default null,
+                                          p_message        out nocopy varchar2
                                          )
      is
      c_scope constant varchar2(128) := gc_scope_prefix || 'record_daily_issue_snapshot'; 
      c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
      c_apex constant svt_plsql_apex_audit.issue_category%type := 'APEX';
+     l_message varchar2(500);
      begin
         apex_debug.message(c_debug_template,'START',
                                             'p_application_id', p_application_id,
@@ -308,8 +310,11 @@ create or replace package body SVT_AUDIT_UTIL as
                                             'p_issue_category', p_issue_category
                                             );
         set_workspace;
-        
-        begin <<nonapex>>
+
+        <<nonapex>>
+        declare
+        l_na_test_count pls_integer := 0;
+        begin 
           apex_debug.message(c_debug_template, '1. Non-APEX Tests');
           for rec in (
             select column_value review_schema
@@ -347,12 +352,17 @@ create or replace package body SVT_AUDIT_UTIL as
                 t2 := systimestamp; 
                 apex_debug.message(c_debug_template, 'End: '||t2, ic_rec.test_code);
                 svt_test_timing_api.insert_timing(ic_rec.test_code, extract( second from (t2-t1) ));
+                l_na_test_count := l_na_test_count + 1;
               end tstlp; 
             end loop;
           end loop;
+          l_message := 'Ran '||l_na_test_count||' non-APEX tests.';
         end nonapex;
-        
-        begin <<apex_issues>>
+
+        <<apex_issues>>
+        declare
+        l_apx_test_count pls_integer := 0;
+        begin 
           apex_debug.message(c_debug_template, '2. APEX Tests');
           for apx_rec in (select issue_category, test_code
                           from v_eba_stds_standard_tests
@@ -377,12 +387,16 @@ create or replace package body SVT_AUDIT_UTIL as
               t2 := systimestamp; 
               apex_debug.message(c_debug_template, 'End: '||t2, apx_rec.test_code);
               svt_test_timing_api.insert_timing(apx_rec.test_code, extract( second from (t2-t1) ));
+              l_apx_test_count := l_apx_test_count + 1;
             end apxtstlp; 
           end loop;
+          l_message := l_message || ' Ran '||l_apx_test_count||' APEX tests.';
         end apex_issues;
 
 
         assign_violations;
+
+        p_message := l_message;
 
     exception 
       when e_deadlock then

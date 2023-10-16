@@ -249,10 +249,11 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       raise;
   end delete_audit;
 
-  procedure delete_stale
+  procedure delete_stale (p_deleted_count out nocopy pls_integer)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_stale';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
+  l_count pls_integer := 0;
   BEGIN
     apex_debug.message(c_debug_template,'START');
 
@@ -269,6 +270,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                     and aaa.polling_last_run_timestamp > systimestamp - interval '12' hour
                     and aal.status_code = 'SUCCESS' )
     ) loop 
+      l_count := l_count + 1;
       delete_audit (
               p_unqid                      => rec.unqid,
               p_audit_id                   => rec.audit_id,
@@ -276,6 +278,8 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
               p_validation_failure_message => rec.validation_failure_message
             );
     end loop;
+
+    p_deleted_count := l_count;
   
   exception 
     when others then
@@ -520,7 +524,9 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         set assignee = lower(l_auditid_email(l_auditid))
         where id = l_auditid
         and issue_category in (gc_apex,gc_sert)
-        and (assignee != l_auditid_email(l_auditid) or assignee is null);
+        -- and (assignee != l_auditid_email(l_auditid) or assignee is null)
+        and assignee is null
+        ;
 
         l_auditid := l_auditid_email.next(l_auditid);
       end loop;
@@ -881,7 +887,8 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
       merge into (select object_type, object_name, assignee
                   from svt_plsql_apex_audit 
-                  where issue_category in 'DB_PLSQL') e
+                  where issue_category in 'DB_PLSQL'
+                  and assignee is null) e
       using (select object_type, object_name, apex_username
              from v_loki_object_assignee
              where apex_username is not null) h

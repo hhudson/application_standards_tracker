@@ -27,13 +27,25 @@ create or replace package SVT_APEX_ISSUE_UTIL authid current_user as
 -- grouping all the procedures that need to be run by eba_stds_data.record_daily_issue_snapshot
 --
 /*
+declare
+t1 timestamp; 
+t2 timestamp; 
+l_message varchar2(1000);
 begin
-  svt_apex_issue_util.manage_apex_issues;
+  t1 := systimestamp; 
+  svt_apex_issue_util.manage_apex_issues(p_message => l_message);
+  t2 := systimestamp; 
+  apex_automation.log_info( p_message => 
+                            apex_string.format( '%0 [in %1 second(s)]',
+                                p0=> l_message,
+                                p1 => extract( second from (t2-t1) )
+                            )
+                           );
   commit;
 end;
 */
 ------------------------------------------------------------------------------
-procedure manage_apex_issues;
+procedure manage_apex_issues (p_message out nocopy varchar2);
 
 $if oracle_apex_version.c_apex_issue_access $then
 ------------------------------------------------------------------------------
@@ -87,7 +99,9 @@ procedure merge_from_audit_tbl(p_issue_category in svt_plsql_apex_audit.issue_ca
                                p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                               p_test_code      in eba_stds_standard_tests.test_code%type default null);
+                               p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                               p_message        out nocopy varchar2
+                              );
 
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
@@ -102,7 +116,7 @@ begin
 end;
 */
 ------------------------------------------------------------------------------
-procedure drop_irrelevant_issues;
+procedure drop_irrelevant_issues (p_message out nocopy varchar2);
 
 
 ------------------------------------------------------------------------------

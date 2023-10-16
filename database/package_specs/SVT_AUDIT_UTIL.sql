@@ -87,10 +87,23 @@ procedure recompile_all_schemas_w_plscope;
 -- Procedure to record existing issue in table to track when they appear / disappear.  
 -- 
 /*
+declare
+t1 timestamp; 
+t2 timestamp; 
+l_message varchar2(1000);
 begin
-    svt_audit_util.record_daily_issue_snapshot(p_test_code => 'DISCOURAGED_CODE',
-                                               p_issue_category => 'DB_PLSQL');
-    commit;
+  t1 := systimestamp; 
+  svt_audit_util.record_daily_issue_snapshot(p_test_code => 'DISCOURAGED_CODE',
+                                             p_issue_category => 'DB_PLSQL',
+                                             p_message => l_message);
+  t2 := systimestamp; 
+  apex_automation.log_info( p_message => 
+                            apex_string.format( '%0 [in %1 second(s)]',
+                                p0=> l_message,
+                                p1 => extract( second from (t2-t1) )
+                            )
+                           );
+  commit;
 end;
 */
 --
@@ -99,7 +112,8 @@ end;
                                          p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                          p_test_code      in eba_stds_standard_tests.test_code%type default null,
                                          p_schema         in all_users.username%type default null,
-                                         p_issue_category in svt_plsql_apex_audit.issue_category%type default null
+                                         p_issue_category in svt_plsql_apex_audit.issue_category%type default null,
+                                         p_message        out nocopy varchar2
                                         );
 
 
