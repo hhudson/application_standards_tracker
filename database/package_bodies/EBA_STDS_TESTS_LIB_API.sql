@@ -233,15 +233,20 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     raise;
   end install_standard_test;
 
-  procedure install_standard (p_standard_id in eba_stds_standard_tests.standard_id%type)
+  procedure auto_install_standard_test (
+                      p_standard_id in eba_stds_standard_tests.standard_id%type,
+                      p_test_code   in eba_stds_standard_tests.test_code%type default null)
   as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'install_standard';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'auto_install_standard_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_code', p_test_code);
     
     for rec in (select id, standard_id, level_id
-                from eba_stds_tests_lib)
+                from eba_stds_tests_lib
+                where test_code = p_test_code or p_test_code is null)
     loop
       install_standard_test(p_id               => rec.id,
                             p_standard_id      => rec.standard_id,
@@ -250,7 +255,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
-  end install_standard;
+  end auto_install_standard_test;
 
   procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type)
   as 

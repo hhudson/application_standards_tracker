@@ -107,11 +107,13 @@ end;
 --
 /*
 begin
-    eba_stds_tests_lib_api.install_standard(p_standard_id => :P81_STANDARD_ID);
+    eba_stds_tests_lib_api.auto_install_standard_test(p_standard_id => :P81_STANDARD_ID);
 end;
 */
 ------------------------------------------------------------------------------
-    procedure install_standard (p_standard_id in eba_stds_standard_tests.standard_id%type);
+    procedure auto_install_standard_test (
+                        p_standard_id in eba_stds_standard_tests.standard_id%type,
+                        p_test_code   in eba_stds_standard_tests.test_code%type default null);
 
     
 ------------------------------------------------------------------------------
