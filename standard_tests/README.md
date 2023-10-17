@@ -69,7 +69,7 @@ These are standards to maintain Accessibility.
 | [PRNT_TAB_INDX](APEX_ACCESSIBILITY_212/tests/PRNT_TAB_INDX-REDWOOD.json) |  Parent tab should avoid hard coded tab indexes | v1.2 [REDWOOD] | APEX_APPLICATION_PARENT_TABS |
 | [RGN_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/RGN_IMG_ALT_TEXT-REDWOOD.json) |  Regions with HTML images should have alt text | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RGN_UNQ](APEX_ACCESSIBILITY_212/tests/RGN_UNQ-REDWOOD.json) |  Regions on a page must be unique | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-REDWOOD.json) |  Region should have Row Header | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-REDWOOD.json) |  Region should have Row Header | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-AHA_APEX.json) |  Theme styles should avoid animations | v1 [AHA_APEX] | APEX_APPLICATION_THEME_STYLES |
 
@@ -286,7 +286,7 @@ These are best practices that apply to Universal Theme applications.
 | [NO_CSS_IN_PAGE](APEX_UNIVERSAL_THEME_212/tests/NO_CSS_IN_PAGE-REDWOOD.json) |  Pages should not have local CSS | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING-REDWOOD.json) |  Pages should not remove padding | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_ITEM_NAMING](APEX_UNIVERSAL_THEME_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
-| [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [TOO_MANY_DAS](APEX_UNIVERSAL_THEME_212/tests/TOO_MANY_DAS-REDWOOD.json) |  Pages should limit the amount of Dynamic Actions | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 
 ## blerg (APEX Version 5.1 / 18.1 / 18.2)

@@ -246,7 +246,9 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     
     for rec in (select id, standard_id, level_id
                 from eba_stds_tests_lib
-                where test_code = p_test_code or p_test_code is null)
+                where standard_id = p_standard_id
+                and (test_code = p_test_code or p_test_code is null)
+                )
     loop
       install_standard_test(p_id               => rec.id,
                             p_standard_id      => rec.standard_id,

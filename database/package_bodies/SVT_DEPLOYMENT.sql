@@ -188,6 +188,7 @@ create or replace package body SVT_DEPLOYMENT as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_query     clob;
   l_file_clob clob;
+  c_test_code constant eba_stds_standard_tests.test_code%type := dbms_assert.noop(upper(p_test_code));
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
@@ -196,7 +197,7 @@ create or replace package body SVT_DEPLOYMENT as
 
     l_query := assemble_json_std_tsts_qry (
                     p_standard_id   => p_standard_id,
-                    p_test_code     => p_test_code,
+                    p_test_code     => c_test_code,
                     p_datatype      => gc_clob);
 
     execute immediate l_query into l_file_clob;
@@ -215,6 +216,7 @@ create or replace package body SVT_DEPLOYMENT as
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_standard_tests_blob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_test_code constant eba_stds_standard_tests.test_code%type := dbms_assert.noop(upper(p_test_code));
   l_query     clob;
   l_file_blob blob;
   begin
@@ -225,7 +227,7 @@ create or replace package body SVT_DEPLOYMENT as
 
     l_query := assemble_json_std_tsts_qry (
                     p_standard_id   => p_standard_id,
-                    p_test_code     => p_test_code,
+                    p_test_code     => c_test_code,
                     p_datatype      => gc_blob);
 
     execute immediate l_query into l_file_blob;
