@@ -25,7 +25,7 @@
       UPDATED TIMESTAMP (6) WITH LOCAL TIME ZONE, 
       UPDATED_BY VARCHAR2(255 CHAR),
       STANDARD_GROUP VARCHAR2(32 CHAR),
-      ACTIVE_YN VARCHAR2(1 CHAR),
+      ACTIVE_YN VARCHAR2(1 CHAR) default 'Y',
       COMPATIBILITY_MODE_ID NUMBER NOT NULL,
       PARENT_STANDARD_ID NUMBER
    ) 
@@ -62,5 +62,7 @@ create index eba_stdstn_idx1 on eba_stds_standards (compatibility_mode_id)
 
 create index eba_stdstn_idx2 on eba_stds_standards (parent_standard_id)
 /
+
+-- alter table EBA_STDS_STANDARDS modify (ACTIVE_YN VARCHAR2(1 CHAR) default 'Y');
 
 --rollback drop table EBA_STDS_STANDARDS;

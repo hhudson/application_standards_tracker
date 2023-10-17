@@ -128,7 +128,8 @@ create or replace package body SVT_APEX_VIEW as
        updated_by,
        updated_on,
        column_id,
-       workspace
+       workspace,
+       build_option
     from apex_application_page_ir_col;
 
     type r_ir is record (
@@ -136,13 +137,14 @@ create or replace package body SVT_APEX_VIEW as
       page_id number, 
       region_name varchar2(255), 
       use_as_row_header varchar2(3),
-      region_id number, 
-      created_by varchar2(255 char),
-      created_on date,
-      updated_by varchar2(255 char),
-      updated_on date,
-      column_id  number,
-      workspace  varchar2(255 char)
+      region_id    number, 
+      created_by   varchar2(255 char),
+      created_on   date,
+      updated_by   varchar2(255 char),
+      updated_on   date,
+      column_id    number,
+      workspace    varchar2(255 char),
+      build_option varchar2(255 char)
     );
     type t_ir is table of r_ir index by pls_integer;
     l_irt t_ir;
@@ -170,7 +172,8 @@ create or replace package body SVT_APEX_VIEW as
                       l_irt (rec).updated_by,
                       l_irt (rec).updated_on,
                       l_irt (rec).column_id,
-                      l_irt (rec).workspace
+                      l_irt (rec).workspace,
+                      l_irt (rec).build_option
                     )
                 );
       end loop;
@@ -204,7 +207,8 @@ create or replace package body SVT_APEX_VIEW as
        last_updated_by updated_by,
        last_updated_on updated_on,
        column_id,
-       workspace
+       workspace,
+       build_option
     from apex_appl_page_ig_columns;
 
     type r_ig is record (
@@ -213,12 +217,13 @@ create or replace package body SVT_APEX_VIEW as
       region_name varchar2(255), 
       use_as_row_header varchar2(3),
       region_id number, 
-      created_by varchar2(255 char),
-      created_on date,
-      updated_by varchar2(255 char),
-      updated_on date,
-      column_id  number,
-      workspace  varchar2(255 char)
+      created_by   varchar2(255 char),
+      created_on   date,
+      updated_by   varchar2(255 char),
+      updated_on   date,
+      column_id    number,
+      workspace    varchar2(255 char),
+      build_option varchar2(255 char)
     );
     type t_ig is table of r_ig index by pls_integer;
     l_igt t_ig;
@@ -246,7 +251,8 @@ create or replace package body SVT_APEX_VIEW as
                       l_igt (rec).updated_by,
                       l_igt (rec).updated_on,
                       l_igt (rec).column_id,
-                      l_igt (rec).workspace
+                      l_igt (rec).workspace,
+                      l_igt (rec).build_option
                     )
                 );
       end loop;

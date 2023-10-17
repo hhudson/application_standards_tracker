@@ -19,6 +19,8 @@ create or replace package body SVT_DEPLOYMENT as
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_y constant varchar2(1) := 'Y';
   gc_n constant varchar2(1) := 'N';
+  gc_blob constant varchar2(4) := 'blob';
+  gc_clob constant varchar2(4) := 'clob';
 
   function assemble_json_query (
                 p_table_name    in user_tables.table_name%type,
@@ -98,6 +100,147 @@ create or replace package body SVT_DEPLOYMENT as
     raise;
   end assemble_json_query;
 
+  function assemble_json_std_tsts_qry (
+                  p_standard_id   in eba_stds_standards.id%type,
+                  p_test_code     in eba_stds_standard_tests.test_code%type default null,
+                  p_datatype      in varchar2 default 'blob')
+  return clob 
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_std_tsts_qry';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_query clob;
+  c_datatype constant varchar2(4) := case when lower(p_datatype) = gc_blob
+                                          then gc_blob
+                                          else gc_clob
+                                          end;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_code', p_test_code,
+                                        'p_datatype', p_datatype);
+
+    l_query := 
+    apex_string.format(
+    q'[
+      select  json_object ( 
+         'std_test' value json_object (
+           'standard' value json_object(
+             'standard_id'           value ess.id, 
+             'standard_name'         value ess.standard_name,
+             'description'           value ess.description,
+             'compatibility_mode_id' value ess.compatibility_mode_id,
+             'created'               value ess.created,
+             'created_by'            value ess.created_by,
+             'updated'               value ess.updated,
+             'updated_by'            value ess.updated_by
+           )
+         ), 'test' value json_arrayagg (
+           json_object (
+             'test_id'               value esst.id, 
+             'test_name'             value esst.test_name,
+             'standard_id'           value esst.standard_id,
+             'display_sequence'      value esst.display_sequence,
+             'query_clob'            value esst.query_clob,
+             'test_code'             value esst.test_code,
+             'level_id'              value esst.level_id,
+             'mv_dependency'         value esst.mv_dependency,
+             'svt_component_type_id' value esst.svt_component_type_id,
+             'explanation'           value esst.explanation,
+             'fix'                   value esst.fix,
+             'version_number'        value esst.version_number,
+             'version_db'            value esst.version_db
+             returning %1
+           )  
+           returning %1
+         )
+         returning %1
+        ) thejson
+    from eba_stds_standards ess
+    inner join eba_stds_standard_tests esst on ess.id = esst.standard_id
+    where ess.id = %0
+    and (esst.test_code = '%2' or '%2' is null)
+    group by ess.id, 
+             ess.standard_name, 
+             ess.description, 
+             ess.compatibility_mode_id,
+             ess.created,
+             ess.created_by,
+             ess.updated,
+             ess.updated_by
+    ]',
+    p0 => p_standard_id,
+    p1 => c_datatype,
+    p2 => p_test_code
+    );
+
+    return l_query;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end assemble_json_std_tsts_qry;
+
+  function json_standard_tests_clob (
+                  p_standard_id in eba_stds_standards.id%type,
+                  p_test_code   in eba_stds_standard_tests.test_code%type default null
+   ) return clob
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'json_standard_tests_clob';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_query     clob;
+  l_file_clob clob;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_code', p_test_code
+                                        );
+
+    l_query := assemble_json_std_tsts_qry (
+                    p_standard_id   => p_standard_id,
+                    p_test_code     => p_test_code,
+                    p_datatype      => gc_clob);
+
+    execute immediate l_query into l_file_clob;
+
+    return l_file_clob;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end json_standard_tests_clob;
+  
+  function json_standard_tests_blob (
+                  p_standard_id in eba_stds_standards.id%type,
+                  p_test_code   in eba_stds_standard_tests.test_code%type default null
+  ) return blob
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'json_standard_tests_blob';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_query     clob;
+  l_file_blob blob;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_code', p_test_code
+                                        );
+
+    l_query := assemble_json_std_tsts_qry (
+                    p_standard_id   => p_standard_id,
+                    p_test_code     => p_test_code,
+                    p_datatype      => gc_blob);
+
+    execute immediate l_query into l_file_blob;
+
+    return l_file_blob;
+
+  exception 
+    when no_data_found then
+      apex_debug.message(c_debug_template,' no data found');
+      return null;
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end json_standard_tests_blob;
+
   function json_content_blob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
                               p_test_code     in eba_stds_standard_tests.test_code%type default null,
@@ -130,7 +273,7 @@ create or replace package body SVT_DEPLOYMENT as
                     p_row_limit     => p_row_limit,
                     p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
-                    p_datatype      => 'blob');
+                    p_datatype      => gc_blob);
 
     execute immediate l_query into l_file_blob;
 
@@ -175,7 +318,7 @@ create or replace package body SVT_DEPLOYMENT as
                     p_row_limit     => p_row_limit,
                     p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
-                    p_datatype      => 'clob');
+                    p_datatype      => gc_clob);
 
     execute immediate l_query into l_file_clob;
 
@@ -214,10 +357,6 @@ create or replace package body SVT_DEPLOYMENT as
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name);
-
-    -- if c_base_file_name = 'eba_stds_tests_lib' then
-    --   eba_stds_tests_lib_api.take_snapshot;
-    -- end if;
 
     l_content_blob := json_content_blob (p_table_name => p_table_name);
     
@@ -265,7 +404,6 @@ create or replace package body SVT_DEPLOYMENT as
     and aadl.table_name = c_table_name;
 
     l_content_clob := to_clob(utl_raw.cast_to_varchar2(dbms_lob.substr(l_content_blob,dbms_lob.getlength(l_content_blob)))); 
-    -- l_content_clob := '[{"id":8,"action_name":"blerg","include_in_report_yn":"N"},{"id":2,"action_name":"Ignore - valid exception","include_in_report_yn":"N"},{"id":3,"action_name":"To be corrected","include_in_report_yn":"Y"},{"id":4,"action_name":"Old - but should be corrected","include_in_report_yn":"Y"},{"id":5,"action_name":"Fixed","include_in_report_yn":"N"}]';
     
     -- 
     l_load_result := apex_data_loading.load_data (
@@ -469,7 +607,6 @@ create or replace package body SVT_DEPLOYMENT as
 
     l_md_clob := '# Published standards & tests'
                  ||chr(10)
-                 ||'- [Export of all standards](ALL_STANDARDS.json)'
                  ||'- [Export of all tests](ALL_TESTS.json)*'
                  ||chr(10)
                  ||chr(10);
@@ -489,13 +626,6 @@ create or replace package body SVT_DEPLOYMENT as
                    ||chr(10)
                    ||srec.description
                    ||chr(10)
-                   ||chr(10);
-      l_md_clob := l_md_clob
-                   ||apex_string.format(
-                      ' - [Standard export](%1/STANDARD-%1.json)',
-                      p0 => srec.standard_name,
-                      p1 => srec.file_name,
-                      p2 => srec.compatibility_text)
                    ||chr(10);
       l_md_clob := l_md_clob
                    ||apex_string.format(

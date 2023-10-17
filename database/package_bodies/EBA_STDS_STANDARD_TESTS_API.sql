@@ -257,62 +257,67 @@ create or replace package body eba_stds_standard_tests_api as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_lib_md5      varchar2(32767) := null;
   l_something_to_publish_yn varchar2(1) := gc_n;
+  l_test_rec eba_stds_standard_tests%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
-    l_lib_md5 := coalesce(eba_stds_tests_lib_api.current_md5(p_test_code => p_test_code),'NA');
+    l_test_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => p_test_code);
 
-    l_something_to_publish_yn := case when p_test_code is null
-                                      then gc_n
-                                      when l_lib_md5 = 'NA'
-                                      then gc_y
-                                      when l_lib_md5 != current_md5(p_test_code => p_test_code)
-                                      then gc_y
-                                      else gc_n
-                                      end;
+    if l_test_rec.active_yn = gc_y then
+      l_lib_md5 := coalesce(eba_stds_tests_lib_api.current_md5(p_test_code => p_test_code),'NA');
 
-    if l_something_to_publish_yn = gc_y then
-      <<publish_block>>
-      declare
-      l_test_rec eba_stds_standard_tests%rowtype;
-      l_version_number eba_stds_standard_tests.version_number%type;
-      c_minor_version_increment constant number := 0.1;
-      c_db_name constant eba_stds_standard_tests.version_db%type := svt_preferences.get_preference ('SVT_DB_NAME');
-      begin
-        l_test_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => p_test_code);
+      l_something_to_publish_yn := case when p_test_code is null
+                                        then gc_n
+                                        when l_lib_md5 = 'NA'
+                                        then gc_y
+                                        when l_lib_md5 != current_md5(p_test_code => p_test_code)
+                                        then gc_y
+                                        else gc_n
+                                        end;
 
-        l_version_number := case when l_test_rec.version_db != c_db_name
-                                 then 1
-                                 when l_test_rec.version_number = 0
-                                 then 1
-                                 else l_test_rec.version_number + c_minor_version_increment
-                                 end;
-      
-        update eba_stds_standard_tests
-        set version_number = l_version_number,
-            version_db = c_db_name,
-            updated = localtimestamp,
-            updated_by = coalesce(wwv_flow.g_user,user)
-        where test_code = p_test_code;
+      if l_something_to_publish_yn = gc_y then
+        <<publish_block>>
+        declare
+        l_version_number eba_stds_standard_tests.version_number%type;
+        c_minor_version_increment constant number := 0.1;
+        c_db_name constant eba_stds_standard_tests.version_db%type := svt_preferences.get_preference ('SVT_DB_NAME');
+        begin
 
-        eba_stds_tests_lib_api.upsert (
-          p_standard_id           => l_test_rec.standard_id,
-          p_test_name             => l_test_rec.test_name,
-          p_test_id               => l_test_rec.id,
-          p_query_clob            => l_test_rec.query_clob,
-          p_test_code             => l_test_rec.test_code,
-          p_active_yn             => l_test_rec.active_yn,
-          p_mv_dependency         => l_test_rec.mv_dependency,
-          p_svt_component_type_id => l_test_rec.svt_component_type_id,
-          p_explanation           => l_test_rec.explanation,
-          p_fix                   => l_test_rec.fix,
-          p_level_id              => l_test_rec.level_id,
-          p_version_number        => l_version_number,
-          p_version_db            => c_db_name
-        );
-      end publish_block;
+          l_version_number := case when l_test_rec.version_db != c_db_name
+                                  then 1
+                                  when l_test_rec.version_number = 0
+                                  then 1
+                                  else l_test_rec.version_number + c_minor_version_increment
+                                  end;
+        
+          update eba_stds_standard_tests
+          set version_number = l_version_number,
+              version_db = c_db_name,
+              updated = localtimestamp,
+              updated_by = coalesce(wwv_flow.g_user,user)
+          where test_code = p_test_code;
+
+          eba_stds_tests_lib_api.upsert (
+            p_standard_id           => l_test_rec.standard_id,
+            p_test_name             => l_test_rec.test_name,
+            p_test_id               => l_test_rec.id,
+            p_query_clob            => l_test_rec.query_clob,
+            p_test_code             => l_test_rec.test_code,
+            p_active_yn             => l_test_rec.active_yn,
+            p_mv_dependency         => l_test_rec.mv_dependency,
+            p_svt_component_type_id => l_test_rec.svt_component_type_id,
+            p_explanation           => l_test_rec.explanation,
+            p_fix                   => l_test_rec.fix,
+            p_level_id              => l_test_rec.level_id,
+            p_version_number        => l_version_number,
+            p_version_db            => c_db_name
+          );
+        end publish_block;
+      else 
+            apex_debug.message(c_debug_template, '. Nothing to upsert');
+      end if;
     else 
-          apex_debug.message(c_debug_template, '. Nothing to upsert');
+      apex_debug.message(c_debug_template, '. Test is not active');
     end if;
 
   exception when others then

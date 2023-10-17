@@ -17,10 +17,7 @@ with jcb as (select id standard_id,
                     eba_stds.file_name(full_standard_name) base_file_name,
                     'application/json' mime_type,
                     'UTF-8' character_set,
-                    svt_deployment.json_content_blob (p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT',
-                                                      p_standard_id => id) all_tests_file_blob,
-                    svt_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARDS',
-                                                      p_standard_id => id) std_file_blob,
+                    svt_deployment.json_standard_tests_blob (p_standard_id => id) all_tests_file_blob,
                     compatibility_mode,
                     full_standard_name
             from v_eba_stds_standards)
@@ -38,16 +35,11 @@ select jcb.standard_id,
        jcb.standard_group, 
        jcb.active_yn,
        sys.dbms_lob.getlength(jcb.all_tests_file_blob) all_tests_file_size,
-       sys.dbms_lob.getlength(jcb.std_file_blob) std_file_size,
        jcb.all_tests_file_blob,
-       jcb.std_file_blob,
        jcb.mime_type,
        apex_string.format('ALL_TESTS-%0.json',
                      p0 => jcb.base_file_name
               ) all_tests_file_name,
-       apex_string.format('STANDARD-%0.json',
-                     p0 => jcb.base_file_name
-              ) std_file_name,
        jcb.character_set
 from jcb
 /

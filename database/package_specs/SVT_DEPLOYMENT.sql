@@ -46,6 +46,73 @@ end;
                 p_standard_id   in eba_stds_standards.id%type default null,
                 p_datatype      in varchar2 default 'blob')
     return clob;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 16, 2023
+-- Synopsis:
+--
+-- Assemble to query to return the json that is used in json_standard_tests_clob
+--
+/*
+set serveroutput on
+declare 
+l_clob clob;
+begin
+    l_clob := svt_deployment.assemble_json_std_tsts_qry (
+                p_standard_id => :p_standard_id,
+                p_datatype => 'clob');
+    dbms_output.put_line(l_clob);
+end;
+*/
+------------------------------------------------------------------------------
+    function assemble_json_std_tsts_qry (
+                  p_standard_id   in eba_stds_standards.id%type,
+                  p_test_code     in eba_stds_standard_tests.test_code%type default null,
+                  p_datatype      in varchar2 default 'blob')
+    return clob;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 16, 2023
+-- Synopsis:
+--
+-- Function to return the json clob for a standard and its associated tests combined
+--
+/*
+set serveroutput on
+declare
+l_clob clob;
+begin
+    l_clob := svt_deployment.json_standard_tests_clob (p_standard_id => 1);
+    dbms_output.put_line(l_clob);
+end;
+*/
+------------------------------------------------------------------------------
+    function json_standard_tests_clob (
+                  p_standard_id in eba_stds_standards.id%type,
+                  p_test_code   in eba_stds_standard_tests.test_code%type default null
+    ) return clob;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 16, 2023
+-- Synopsis:
+--
+-- Function to return the json blob for a standard and its associated tests combined
+--
+/*
+declare
+l_blob blob;
+begin
+    l_blob := svt_deployment.json_standard_tests_blob (p_standard_id => 1);
+end;
+*/
+------------------------------------------------------------------------------
+    function json_standard_tests_blob (
+                  p_standard_id in eba_stds_standards.id%type,
+                  p_test_code   in eba_stds_standard_tests.test_code%type default null
+    ) return blob;
     
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

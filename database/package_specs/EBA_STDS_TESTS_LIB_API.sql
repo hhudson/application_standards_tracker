@@ -87,7 +87,7 @@ end;
 --
 /*
 begin
-    EBA_STDS_TESTS_LIB_API.install_standard_test(
+    eba_stds_tests_lib_api.install_standard_test(
                         p_id => :P60_ID,
                         p_urgency_level_id =>  :P60_URGENCY_LEVEL_ID);
 end;
@@ -97,6 +97,21 @@ end;
                                     p_standard_id      in eba_stds_standard_tests.standard_id%type,
                                     p_urgency_level_id in eba_stds_standard_tests.level_id%type
                                     );
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 17, 2023
+-- Synopsis:
+--
+-- Procedure to install all the tests for a given standard
+--
+/*
+begin
+    eba_stds_tests_lib_api.install_standard(p_standard_id => :P81_STANDARD_ID);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure install_standard (p_standard_id in eba_stds_standard_tests.standard_id%type);
 
     
 ------------------------------------------------------------------------------

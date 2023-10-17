@@ -198,7 +198,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_query_clob            => l_lib_rec.query_clob,
                   p_owner                 => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'),
                   p_test_code             => l_lib_rec.test_code,
-                  p_active_yn             => 'N',
+                  p_active_yn             => 'Y',
                   p_level_id              => coalesce(p_urgency_level_id, svt_urgency_level_api.get_default_level_id),
                   p_mv_dependency         => l_lib_rec.mv_dependency,
                   p_svt_component_type_id => l_lib_rec.svt_component_type_id,
@@ -233,11 +233,30 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     raise;
   end install_standard_test;
 
-   procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type)
-   as 
-   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 1';
-   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-   begin
+  procedure install_standard (p_standard_id in eba_stds_standard_tests.standard_id%type)
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'install_standard';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
+    
+    for rec in (select id, standard_id, level_id
+                from eba_stds_tests_lib)
+    loop
+      install_standard_test(p_id               => rec.id,
+                            p_standard_id      => rec.standard_id,
+                            p_urgency_level_id => rec.level_id);
+    end loop;
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end install_standard;
+
+  procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type)
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 1';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
     apex_debug.message(c_debug_template,'START', 'p_id', p_id);
 
     delete from eba_stds_tests_lib
@@ -245,17 +264,16 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
 
-
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
-   end delete_test_from_lib;
+  end delete_test_from_lib;
 
-   procedure delete_test_from_lib (p_test_code in eba_stds_tests_lib.test_code%type)
-   as 
-   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 2';
-   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-   begin
+  procedure delete_test_from_lib (p_test_code in eba_stds_tests_lib.test_code%type)
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 2';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
     delete from eba_stds_tests_lib
@@ -263,24 +281,24 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
   
-   exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
-   end delete_test_from_lib;
+  exception when others then
+  apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+  raise;
+  end delete_test_from_lib;
 
-   function get_id(p_test_code in eba_stds_tests_lib.test_code%type)
-   return eba_stds_tests_lib.id%type
-   as 
-   c_scope constant varchar2(128) := gc_scope_prefix || 'get_id';
-   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-   c_space_index constant number := instr(p_test_code,' ');
-   c_test_code constant eba_stds_tests_lib.test_code%type 
-                    := case when c_space_index = 0
-                            then upper(p_test_code)
-                            else substr (upper(p_test_code), 1,c_space_index - 1)
-                            end;
-   l_id eba_stds_tests_lib.id%type;
-   begin
+  function get_id(p_test_code in eba_stds_tests_lib.test_code%type)
+  return eba_stds_tests_lib.id%type
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_id';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_space_index constant number := instr(p_test_code,' ');
+  c_test_code constant eba_stds_tests_lib.test_code%type 
+                  := case when c_space_index = 0
+                          then upper(p_test_code)
+                          else substr (upper(p_test_code), 1,c_space_index - 1)
+                          end;
+  l_id eba_stds_tests_lib.id%type;
+  begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
     
     select id
@@ -290,13 +308,13 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
 
     return l_id;
   
-   exception 
-    when no_data_found then
-      return null;
-    when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-   end get_id;
+  exception 
+  when no_data_found then
+    return null;
+  when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end get_id;
 
   procedure md5_imported_vsn_num (
                 p_test_code      in  eba_stds_tests_lib.test_code%type,
