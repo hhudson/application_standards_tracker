@@ -131,8 +131,8 @@ create or replace package body SVT_DEPLOYMENT as
              'compatibility_mode_id' value ess.compatibility_mode_id,
              'created'               value ess.created,
              'created_by'            value ess.created_by,
-             'created'               value ess.updated,
-             'created_by'            value ess.updated_by
+             'updated'               value ess.created,
+             'updated_by'            value ess.created_by
            )
          ), 'test' value json_arrayagg (
            json_object (
