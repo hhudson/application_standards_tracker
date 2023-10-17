@@ -1129,6 +1129,505 @@
         sequence: 150
         hidden: false
 
+- # ====== Data Load Definition: blerg =========================
+  id: 354168368500687626
+  identification: 
+    name: blerg
+
+  target: 
+    type: Collection
+    name: blerg
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: blerg
+
+  data-profiles: 
+    id: 354167556302687590
+    identification: 
+      name: blerg
+
+    data-profile: 
+      format: JSON
+      row-selector: test
+
+    advanced: 
+      encoding: Unicode UTF-8
+
+    columns: 
+    - # ====== Column: C001 ========================================
+      id: 354167894114687625
+      identification: 
+        column-name: C001
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: true
+
+      parsing: 
+        path-expression: test_id
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: C002 ========================================
+      id: 354168138955687626
+      identification: 
+        column-name: C002
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        path-expression: test_name
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+- # ====== Data Load Definition: LOAD_TESTS ====================
+  id: 354235651925001418
+  identification: 
+    name: LOAD_TESTS
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_TESTS_LIB
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: load_tests
+
+  data-profiles: 
+    id: 354231875480001414
+    identification: 
+      name: STD_AND_TESTS
+
+    data-profile: 
+      format: JSON
+      row-selector: test
+
+    advanced: 
+      encoding: Unicode UTF-8
+
+    columns: 
+    - # ====== Column: FIX =========================================
+      id: 354232158575001415
+      identification: 
+        column-name: FIX
+
+      source: 
+        type: Data
+        data-type: CLOB
+        primary-key: false
+
+      parsing: 
+        path-expression: fix
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: TEST_ID =====================================
+      id: 354232456505001415
+      identification: 
+        column-name: TEST_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: test_id
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: LEVEL_ID ====================================
+      id: 354232734346001416
+      identification: 
+        column-name: LEVEL_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: level_id
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 354233049281001416
+      identification: 
+        column-name: TEST_CODE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: true
+
+      parsing: 
+        path-expression: test_code
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: TEST_NAME ===================================
+      id: 354233304327001416
+      identification: 
+        column-name: TEST_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 64
+        primary-key: false
+
+      parsing: 
+        path-expression: test_name
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: QUERY_CLOB ==================================
+      id: 354233612019001416
+      identification: 
+        column-name: QUERY_CLOB
+
+      source: 
+        type: Data
+        data-type: CLOB
+        primary-key: false
+
+      parsing: 
+        path-expression: query_clob
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: VERSION_DB ==================================
+      id: 354233987023001416
+      identification: 
+        column-name: VERSION_DB
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 55
+        primary-key: false
+
+      parsing: 
+        path-expression: version_db
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: EXPLANATION =================================
+      id: 354234266842001417
+      identification: 
+        column-name: EXPLANATION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        path-expression: explanation
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: STANDARD_ID =================================
+      id: 354234569184001417
+      identification: 
+        column-name: STANDARD_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: standard_id
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 9
+        hidden: false
+
+    - # ====== Column: MV_DEPENDENCY ===============================
+      id: 354234854728001417
+      identification: 
+        column-name: MV_DEPENDENCY
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        path-expression: mv_dependency
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: VERSION_NUMBER ==============================
+      id: 354235111836001417
+      identification: 
+        column-name: VERSION_NUMBER
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: version_number
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 11
+        hidden: false
+
+    - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+      id: 354235423586001418
+      identification: 
+        column-name: SVT_COMPONENT_TYPE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: svt_component_type_id
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 12
+        hidden: false
+
+- # ====== Data Load Definition: LOAD_STD ======================
+  id: 354277398315147692
+  identification: 
+    name: LOAD_STD
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARDS
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: load_std
+
+  data-profiles: 
+    id: 354275978603147691
+    identification: 
+      name: blergf
+
+    data-profile: 
+      format: JSON
+
+    advanced: 
+      encoding: Unicode UTF-8
+
+    columns: 
+    - # ====== Column: DESCRIPTION =================================
+      id: 354276284545147691
+      identification: 
+        column-name: DESCRIPTION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        path-expression: std_test.standard.description
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: ID ==========================================
+      id: 354276535498147692
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        path-expression: std_test.standard.standard_id
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: STANDARD_NAME ===============================
+      id: 354276821988147692
+      identification: 
+        column-name: STANDARD_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 64
+        primary-key: false
+
+      parsing: 
+        path-expression: std_test.standard.standard_name
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: COMPATIBILITY_MODE_ID =======================
+      id: 354277165231147692
+      identification: 
+        column-name: COMPATIBILITY_MODE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: std_test.standard.compatibility_mode_id
+
+      source: 
+        decimal-character: .
+
+      advanced: 
+        sequence: 40
+        hidden: false
+
+    - # ====== Column: CREATED =====================================
+      id: 354297098825404566
+      identification: 
+        column-name: CREATED
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP WITH LOCAL TIME ZONE
+        primary-key: false
+
+      parsing: 
+        path-expression: std_test.standard.created
+        has-time-zone: true
+
+      advanced: 
+        sequence: 50
+        hidden: false
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 354297380010408445
+      identification: 
+        column-name: CREATED_BY
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        path-expression: std_test.standard.created_by
+
+      advanced: 
+        sequence: 60
+        hidden: false
+
+    - # ====== Column: UPDATED =====================================
+      id: 354298891683411532
+      identification: 
+        column-name: UPDATED
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP WITH LOCAL TIME ZONE
+        primary-key: false
+
+      parsing: 
+        path-expression: std_test.standard.updated
+        has-time-zone: true
+
+      advanced: 
+        sequence: 70
+        hidden: false
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 354299122443414122
+      identification: 
+        column-name: UPDATED_BY
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        path-expression: std_test.standard.updated_by
+
+      advanced: 
+        sequence: 80
+        hidden: false
+
 - # ====== Data Load Definition: SVT-COMPATIBILITY =============
   id: 387180305298435856
   identification: 
