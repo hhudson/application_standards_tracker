@@ -131,8 +131,8 @@ create or replace package body SVT_DEPLOYMENT as
              'compatibility_mode_id' value ess.compatibility_mode_id,
              'created'               value ess.created,
              'created_by'            value ess.created_by,
-             'updated'               value ess.updated,
-             'updated_by'            value ess.updated_by
+             'created'               value ess.updated,
+             'created_by'            value ess.updated_by
            )
          ), 'test' value json_arrayagg (
            json_object (
@@ -604,12 +604,6 @@ create or replace package body SVT_DEPLOYMENT as
   ' You will need to install the individual standards / tests for that purpose.';
   begin
     apex_debug.message(c_debug_template,'START');
-
-    l_md_clob := '# Published standards & tests'
-                 ||chr(10)
-                 ||'- [Export of all tests](ALL_TESTS.json)*'
-                 ||chr(10)
-                 ||chr(10);
 
     for srec in (select id, standard_name, eba_stds.file_name(full_standard_name) file_name, description, compatibility_text
                  from v_eba_stds_standards
