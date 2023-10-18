@@ -11,11 +11,6 @@
 --     purpose:  type creation ddl
 --
 --------------------------------------------------------------------------------
-drop type v_svt_db_tbl__0_nt
-/
-drop type v_svt_db_tbl__0_ot
-/
-
   create type V_SVT_DB_TBL__0_OT as object
     (   
       PASS_YN    VARCHAR2(1 CHAR),
@@ -25,7 +20,5 @@ drop type v_svt_db_tbl__0_ot
       CODE       VARCHAR2(1000 CHAR),
       OBJECT_ID  NUMBER
     ) 
-/
-create type v_svt_db_tbl__0_nt as table of v_svt_db_tbl__0_ot
 /
 --rollback drop type V_SVT_DB_TBL__0_OT;

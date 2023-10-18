@@ -12,10 +12,6 @@
 --     purpose:  type creation ddl
 --
 --------------------------------------------------------------------------------
--- drop type v_svt_table_data_load_def_nt
--- /
--- drop type v_svt_table_data_load_def_ot
-
   create type V_SVT_TABLE_DATA_LOAD_DEF_OT as object
     (
         TABLE_NAME                   VARCHAR2(128),

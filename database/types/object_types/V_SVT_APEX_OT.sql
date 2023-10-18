@@ -12,10 +12,6 @@
 --
 -- used in package v_svt_apex_nt
 --------------------------------------------------------------------------------
--- drop type V_SVT_APEX_NT
--- /
--- drop type V_SVT_APEX_OT
--- /
 create type V_SVT_APEX_OT as object
     (
       PASS_YN                          VARCHAR2(1 CHAR),

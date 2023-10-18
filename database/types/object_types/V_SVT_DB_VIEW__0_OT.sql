@@ -12,10 +12,6 @@
 --
 --------------------------------------------------------------------------------
 
-drop type v_svt_db_view__0_nt
-/
-drop type v_svt_db_view__0_ot
-/
   create type v_svt_db_view__0_ot as object
     (   
       pass_yn    varchar2(1 char),
@@ -24,7 +20,5 @@ drop type v_svt_db_view__0_ot
       code       varchar2(1000 char),
       unqid      varchar2(5000 char)
     ) 
-/
-create type V_SVT_DB_VIEW__0_NT as table of V_SVT_DB_VIEW__0_OT
 /
 --rollback drop type V_SVT_DB_VIEW__0_OT;

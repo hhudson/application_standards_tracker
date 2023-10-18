@@ -18,10 +18,10 @@
       NT_NAME VARCHAR2(255 CHAR), 
       EXAMPLE_QUERY CLOB, 
       OBJECT_TYPE VARCHAR2(55 CHAR),
-      CREATED DATE, 
-      CREATED_BY VARCHAR2(255 CHAR), 
-      UPDATED DATE, 
-      UPDATED_BY VARCHAR2(255 CHAR)
+      CREATED DATE default sysdate, 
+      CREATED_BY VARCHAR2(255 CHAR) default user, 
+      UPDATED DATE default sysdate, 
+      UPDATED_BY VARCHAR2(255 CHAR) default user
    ) 
 /
 

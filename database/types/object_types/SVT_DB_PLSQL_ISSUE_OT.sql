@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset object_type_script:SVT_DB_PLSQL_ISSUE_OT stripComments:false endDelimiter:/
+--changeset object_type_script:SVT_DB_PLSQL_ISSUE_OT stripComments:false endDelimiter:/ runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(1) from all_types where upper(type_name) = upper('SVT_DB_PLSQL_ISSUE_OT');
 -- set serveroutput on
@@ -11,10 +11,6 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
--- drop type SVT_DB_PLSQL_ISSUE_NT
--- /
--- drop type SVT_DB_PLSQL_ISSUE_OT
--- /
 create type SVT_DB_PLSQL_ISSUE_OT as object
     (
         issue_desc              varchar2(511   char),

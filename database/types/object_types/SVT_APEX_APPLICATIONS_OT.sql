@@ -1,11 +1,7 @@
 --liquibase formatted sql
---changeset object_type_script:SVT_APEX_APPLICATIONS_OT stripComments:false
+--changeset object_type_script:SVT_APEX_APPLICATIONS_OT stripComments:false runOnChange:true    
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(1) from all_types where upper(type_name) = upper('SVT_APEX_APPLICATIONS_OT');
--- drop type svt_apex_applications_nt
--- /
--- drop type svt_apex_applications_ot
--- /
 create type SVT_APEX_APPLICATIONS_OT as object
     (
         APPLICATION_ID NUMBER,

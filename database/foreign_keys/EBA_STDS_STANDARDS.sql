@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset fk_script:EBA_STDS_STANDARDS stripComments:false 
+--changeset fk_script:EBA_STDS_STANDARDS stripComments:false runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:1 select count(1) from all_tables where upper(table_name) = upper('EBA_STDS_STANDARDS');
 --------------------------------------------------------------------------------
@@ -17,9 +17,3 @@
   ALTER TABLE EBA_STDS_STANDARDS ADD CONSTRAINT EBA_STDS_STANDARDS_FK FOREIGN KEY (COMPATIBILITY_MODE_ID)
 	  REFERENCES SVT_COMPATIBILITY (ID) ENABLE
 /
-
---precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STDS_STANDARDS_FK2';
---   ALTER TABLE EBA_STDS_STANDARDS ADD CONSTRAINT EBA_STDS_STANDARDS_FK2 FOREIGN KEY (PARENT_STANDARD_ID)
--- 	  REFERENCES EBA_STDS_STANDARDS (ID) ENABLE
--- /
-  

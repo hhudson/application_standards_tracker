@@ -63,6 +63,4 @@ create index eba_stdstn_idx1 on eba_stds_standards (compatibility_mode_id)
 create index eba_stdstn_idx2 on eba_stds_standards (parent_standard_id)
 /
 
--- alter table EBA_STDS_STANDARDS modify (ACTIVE_YN VARCHAR2(1 CHAR) default 'Y');
-
 --rollback drop table EBA_STDS_STANDARDS;

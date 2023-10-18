@@ -11,10 +11,6 @@
 --     Purpose:  Type creation DDL
 --
 --------------------------------------------------------------------------------
-drop type V_SVT_DB_PLSQL_REF_NT
-/
-drop type V_SVT_DB_PLSQL_REF_OT
-/
 create type V_SVT_DB_PLSQL_REF_OT as object
     (
       PASS_YN        VARCHAR2(1 CHAR),
@@ -26,7 +22,5 @@ create type V_SVT_DB_PLSQL_REF_OT as object
       UNQID          VARCHAR2(5000 CHAR),
       TEST_CODE      VARCHAR2(100 CHAR)
     ) 
-/
-create type V_SVT_DB_PLSQL_REF_NT as table of V_SVT_DB_PLSQL_REF_OT
 /
 --rollback drop type V_SVT_DB_PLSQL_REF_OT;

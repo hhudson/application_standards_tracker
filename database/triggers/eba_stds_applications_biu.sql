@@ -9,7 +9,7 @@
 --
 --------------------------------------------------------------------------------
 
-  CREATE OR REPLACE EDITIONABLE TRIGGER EBA_STDS_APPLICATIONS_BIU 
+CREATE OR REPLACE EDITIONABLE TRIGGER EBA_STDS_APPLICATIONS_BIU 
     before insert or update 
     on eba_stds_applications
     for each row
