@@ -1912,7 +1912,7 @@ processes:
     pl/sql-code: "apex_application.g_print_success_message := 'Processed Row count : '||:P44_PROCESSED_ROW_COUNT;"
 
   execution: 
-    sequence: 140
+    sequence: 150
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -2164,7 +2164,7 @@ processes:
     pl/sql-code: eba_stds_tests_lib_api.take_snapshot;
 
   execution: 
-    sequence: 150
+    sequence: 160
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -2179,6 +2179,126 @@ processes:
     type: Item = Value
     item: P44_TABLE_NAME
     value: EBA_STDS_TESTS_LIB
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: load SVT_WCAG ==============================
+  id: 356401332981521235
+  identification: 
+    name: load SVT_WCAG
+    type: Data Loading
+    execution-chain: None
+
+  settings: 
+    data-load-definition: SVT-WCAG # 452730320588756977
+    source-data-type: SQL Query
+    sql-query: |
+      select apex_zip.get_file_content (
+                          p_zipped_blob => aasf.file_content,
+                          p_file_name   => lower(aadl.table_name)||'.json'
+                  ) thejson
+      from apex_appl_data_loads aadl
+      inner join apex_application_static_files aasf on aasf.file_name = 'data/'||lower(aadl.table_name)||'.zip'
+      where aadl.application_id = :APP_ID
+      and aadl.table_name = :P44_TABLE_NAME;
+    processed-row-count-item: 
+    - P44_PROCESSED_ROW_COUNT
+    error-row-count-item: P44_ERROR_ROW_COUNT
+
+  execution: 
+    sequence: 120
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 278485152142291340
+    type: Item = Value
+    item: P44_TABLE_NAME
+    value: SVT_WCAG
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: load SVT_WCAG_TEST_CODES ===================
+  id: 356401489242521236
+  identification: 
+    name: load SVT_WCAG_TEST_CODES
+    type: Data Loading
+    execution-chain: None
+
+  settings: 
+    data-load-definition: SVT-WCAG-TEST-CODES # 452747827951770960
+    source-data-type: SQL Query
+    sql-query: |
+      select apex_zip.get_file_content (
+                          p_zipped_blob => aasf.file_content,
+                          p_file_name   => lower(aadl.table_name)||'.json'
+                  ) thejson
+      from apex_appl_data_loads aadl
+      inner join apex_application_static_files aasf on aasf.file_name = 'data/'||lower(aadl.table_name)||'.zip'
+      where aadl.application_id = :APP_ID
+      and aadl.table_name = :P44_TABLE_NAME;
+    processed-row-count-item: 
+    - P44_PROCESSED_ROW_COUNT
+    error-row-count-item: P44_ERROR_ROW_COUNT
+
+  execution: 
+    sequence: 130
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 278485152142291340
+    type: Item = Value
+    item: P44_TABLE_NAME
+    value: SVT_WCAG_TEST_CODES
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: load EBA_STDS_TYPES ========================
+  id: 356401566366521237
+  identification: 
+    name: load EBA_STDS_TYPES
+    type: Data Loading
+    execution-chain: None
+
+  settings: 
+    data-load-definition: EBA-STDS-TYPES # 257628652143583369
+    source-data-type: SQL Query
+    sql-query: |
+      select apex_zip.get_file_content (
+                          p_zipped_blob => aasf.file_content,
+                          p_file_name   => lower(aadl.table_name)||'.json'
+                  ) thejson
+      from apex_appl_data_loads aadl
+      inner join apex_application_static_files aasf on aasf.file_name = 'data/'||lower(aadl.table_name)||'.zip'
+      where aadl.application_id = :APP_ID
+      and aadl.table_name = :P44_TABLE_NAME;
+    processed-row-count-item: 
+    - P44_PROCESSED_ROW_COUNT
+    error-row-count-item: P44_ERROR_ROW_COUNT
+
+  execution: 
+    sequence: 110
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 278485152142291340
+    type: Item = Value
+    item: P44_TABLE_NAME
+    value: EBA_STDS_TYPES
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
