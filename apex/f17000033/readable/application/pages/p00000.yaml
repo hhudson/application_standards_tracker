@@ -1273,6 +1273,134 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: Missing data ================================
+  id: 356400955314521231
+  identification: 
+    title: Missing data
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_MISSING_BASE_DATA
+    include-rowid-column: false
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 70
+    parent-region: Alerts # 280032619890364324
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+      from V_MISSING_BASE_DATA
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: TBL_NAME ====================================
+    id: 356401227071521234
+    identification: 
+      column-name: TBL_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Tbl Name
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Super Breadcrumb ============================
   id: 370769984920860454
   identification: 
@@ -2138,6 +2266,39 @@ buttons:
 
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
+
+- # ====== Button: DEPLOY_DATA =================================
+  id: 356401141464521233
+  identification: 
+    button-name: DEPLOY_DATA
+    label: Install Data
+
+  layout: 
+    sequence: 10
+    region: Missing data # 356400955314521231
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-upload
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:43::'
+      page: 43 # Deploying data
+      clear-cache: 43
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: DEBUG_JOB ===================================
   id: 370768998565860444

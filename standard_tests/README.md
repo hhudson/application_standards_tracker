@@ -192,6 +192,7 @@ Standards that are *not* general standards
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [ALPH_COL_DATATYPE](DB_MILLENIUM_GEN2_19C/tests/ALPH_COL_DATATYPE-REDWOOD.json) |  These column datatypes are discouraged | v1 [REDWOOD] | DATABASE TABLE |
 | [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME-REDWOOD.json) |  Materialized Views should be named correctly | v1.2 [REDWOOD] | DATABASE MATERIALIZED VIEW |
 | [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME-REDWOOD.json) |  Alphawave Views must be correctly named | v1.3 [REDWOOD] | DATABASE VIEW |
 | [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS-REDWOOD.json) |  Tables should have audit columns | v1.2 [REDWOOD] | DATABASE TABLE |
@@ -288,15 +289,6 @@ These are best practices that apply to Universal Theme applications.
 | [PAGE_ITEM_NAMING](APEX_UNIVERSAL_THEME_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [TOO_MANY_DAS](APEX_UNIVERSAL_THEME_212/tests/TOO_MANY_DAS-REDWOOD.json) |  Pages should limit the amount of Dynamic Actions | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
-
-## blerg (APEX Version 5.1 / 18.1 / 18.2)
-blergergb
-
- - [Consolidated tests export](APEX_BLERG_51/ALL_TESTS-APEX_BLERG_51.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-| [BLERG](APEX_BLERG_51/tests/BLERG-REDWOOD.json) |  blerg | v1 [REDWOOD] | APEX_APPLICATIONS |
 
 
 * This consolidated tests export does not include inherited relationships. You will need to install the individual standards / tests for that purpose.    
