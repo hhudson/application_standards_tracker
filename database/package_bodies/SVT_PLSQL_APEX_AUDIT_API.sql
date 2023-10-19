@@ -287,6 +287,60 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       raise;
   end delete_stale;
 
+  procedure delete_inactive (p_deleted_count out nocopy pls_integer)
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'delete_inactive';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
+  l_count pls_integer := 0;
+  BEGIN
+    apex_debug.message(c_debug_template,'START');
+
+    begin <<delete_inactive_apps>>
+      for rec in (
+        select unqid, id audit_id, test_code, validation_failure_message
+        from svt_plsql_apex_audit spad
+        where application_id is not null
+        and application_id not in (select apex_app_id
+                                    from v_eba_stds_applications
+                                    where app_active_yn = 'Y'
+                                    and type_active_yn = 'Y')
+      ) loop 
+        l_count := l_count + 1;
+        delete_audit (
+                p_unqid                      => rec.unqid,
+                p_audit_id                   => rec.audit_id,
+                p_test_code                  => rec.test_code,
+                p_validation_failure_message => rec.validation_failure_message
+              );
+      end loop;
+    end delete_inactive_apps;
+    
+    begin <<delete_inactive_tests>>
+      for rec in (
+        select unqid, id audit_id, test_code, validation_failure_message
+        from svt_plsql_apex_audit spad
+        where test_code not in (select test_code
+                                from v_eba_stds_standard_tests
+                                where active_yn = 'Y')
+      ) loop 
+        l_count := l_count + 1;
+        delete_audit (
+                p_unqid                      => rec.unqid,
+                p_audit_id                   => rec.audit_id,
+                p_test_code                  => rec.test_code,
+                p_validation_failure_message => rec.validation_failure_message
+              );
+      end loop;
+    end delete_inactive_tests;
+
+    p_deleted_count := l_count;
+  
+  exception 
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
+  end delete_inactive;
+
   procedure mark_as_exception (p_audit_id in svt_plsql_apex_audit.id%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'mark_as_exception';

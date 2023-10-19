@@ -852,7 +852,11 @@ regions:
       column-formatting: 
         html-expression: |
           {if APPLICATION_ID/}
-              #APPLICATION_NAME# (App #APPLICATION_ID#, Page #PAGE_ID#)
+              #APPLICATION_NAME# (App #APPLICATION_ID#
+              {if PAGE_ID/}
+              , Page #PAGE_ID#
+              {endif/}
+          )
           {endif/} 
           {if OBJECT_NAME/}
               #OBJECT_NAME# (#OBJECT_TYPE#)

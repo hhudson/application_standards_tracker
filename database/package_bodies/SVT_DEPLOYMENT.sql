@@ -157,7 +157,9 @@ create or replace package body SVT_DEPLOYMENT as
         ) thejson
     from eba_stds_standards ess
     inner join eba_stds_standard_tests esst on ess.id = esst.standard_id
-    where ess.id = %0
+    where ess.active_yn = 'Y'
+    and esst.active_yn = 'Y'
+    and ess.id = %0
     and (esst.test_code = '%2' or '%2' is null)
     group by ess.id, 
              ess.standard_name, 

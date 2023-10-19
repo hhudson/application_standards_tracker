@@ -253,6 +253,35 @@ end;
 --     Date: September 28, 2023
 -- Synopsis:
 --
+-- Procedure to delete issues associated with inactive apps, app types, tests or standards
+--
+/*
+declare
+t1 timestamp; 
+t2 timestamp; 
+l_deleted_count pls_integer;
+begin
+  t1 := systimestamp; 
+  svt_plsql_apex_audit_api.delete_inactive(p_deleted_count => l_deleted_count);
+  if l_deleted_count > 0 then
+      t2 := systimestamp; 
+      apex_automation.log_info( p_message => 
+                                apex_string.format( 'Deleted %0 violation(s) in %1 second(s)',
+                                  p0=> l_deleted_count,
+                                  p1 => extract( second from (t2-t1) )
+                                )
+                              );
+  end if;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_inactive (p_deleted_count out nocopy pls_integer);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: September 28, 2023
+-- Synopsis:
+--
 -- Procedure to delete a record of  svt_plsql_apex_audit
 --
 /*

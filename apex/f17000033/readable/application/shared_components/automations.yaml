@@ -324,6 +324,59 @@
     error: 
       stop-execution-on-error: true
 
+- # ====== Automation: 4. [Hourly 25 min past] Delete inactive v
+  id: 364161542893027944
+  identification: 
+    name: 4. [Hourly 25 min past] Delete inactive violations
+    static-id: 4-delete-inactive-violations
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=25
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  comments: 
+    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=25
+
+  actions: 
+  - # ====== Action: svt_plsql_apex_audit_api.delete_inactive ====
+    id: 364161844340027947
+    identification: 
+      name: svt_plsql_apex_audit_api.delete_inactive
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_deleted_count pls_integer;
+        begin
+          t1 := systimestamp; 
+          svt_plsql_apex_audit_api.delete_inactive(p_deleted_count => l_deleted_count);
+          if l_deleted_count > 0 then
+              t2 := systimestamp; 
+              apex_automation.log_info( p_message => 
+                                        apex_string.format( 'Deleted %0 violation(s) in %1 second(s)',
+                                          p0=> l_deleted_count,
+                                          p1 => extract( second from (t2-t1) )
+                                        )
+                                      );
+          end if;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
 - # ====== Automation: 2. [Bi-Hourly  - 10 min past] Issue Snaps
   id: 552097788301127980
   identification: 
