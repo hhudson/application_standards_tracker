@@ -2,6 +2,20 @@
 --changeset package_body_script:SVT_PLSQL_REVIEW stripComments:false endDelimiter:/ runOnChange:true
 create or replace package body SVT_PLSQL_REVIEW as
 
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   SVT_PLSQL_REVIEW
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso   2022-Dec-16 - created
+---------------------------------------------------------------------------- 
+
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_userenv_current_user constant varchar2(100) :=  sys_context('userenv', 'current_user');
   gc_package constant varchar2(20) := 'PACKAGE';

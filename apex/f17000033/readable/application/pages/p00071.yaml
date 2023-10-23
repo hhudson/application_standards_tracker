@@ -212,7 +212,7 @@ regions:
     type: SQL Query
     sql-query: |
       select column_name, data_type, column_id
-      from all_tab_cols
+      from dba_tab_cols
       where table_name = :P71_OBJECT_NAME
     page-items-to-submit: 
     - P71_OBJECT_NAME
@@ -389,7 +389,7 @@ regions:
     type: SQL Query
     sql-query: |
       select apex_string.format('%0 %1.%2 is %3', object_type, owner, object_name, status) Object_status
-      from all_objects
+      from dba_objects
       where object_name = :P71_OBJECT_NAME
       and object_type = :P71_OBJECT_TYPE
     page-items-to-submit: 
@@ -555,7 +555,7 @@ regions:
       case when line = :P71_LINE
            then 'hl'
            end lineclss
-      from all_source
+      from dba_source
       where name = :P71_OBJECT_NAME
       and type = :P71_OBJECT_TYPE
       and line between (:P71_LINE-5) and (:P71_LINE+5)
