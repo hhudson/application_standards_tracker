@@ -418,6 +418,54 @@ is
         raise;
     end is_valid_url;
 
+    function adapt_url (p_template_url in v_svt_flow_dictionary_views.link_url%type)
+    return v_svt_flow_dictionary_views.link_url%type
+    is 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'adapt_url';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    cursor cur_params 
+    is select column_value
+       from table(apex_string.split(p_template_url, ':'))
+       where column_value is not null
+       and column_value not in ('NO','YES')
+       and column_value not like 'RP%';
+    type t_params is table of varchar2(100) index by pls_integer;
+    l_params t_params;
+    begin
+        apex_debug.message(c_debug_template,'START', 'p_template_url', p_template_url);
+
+        open cur_params;
+        fetch cur_params bulk collect into l_params;
+        
+        apex_debug.message(c_debug_template,'l_params.count', l_params.count,
+                                            'p_application', replace(l_params(1), 'f?p='),
+                                            'p_page'       , l_params(2),
+                                            'p_session'    , l_params(3),
+                                            'p_items'      , l_params(4),
+                                            'p_values'     , l_params(5));
+
+        return case when l_params.count >= 5
+                    then apex_page.get_url (
+                            p_application => replace(l_params(1), 'f?p='),
+                            p_page        => l_params(2),
+                            p_session     => l_params(3),
+                            p_items       => l_params(4),
+                            p_values      => l_params(5)
+                            )
+                    else p_template_url
+                    end;
+    exception 
+        when no_data_found then
+            apex_debug.message(c_debug_template,'no_data_found', 'p_template_url', p_template_url);
+            return p_template_url;
+        when e_not_a_number then 
+            apex_debug.message(c_debug_template,'e_not_a_number', 'p_template_url', p_template_url);
+            return p_template_url;
+        when others then 
+            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+            raise;
+    end adapt_url;
+
     procedure get_component_type_rec (
                         p_svt_component_type_id in svt_component_types.id%type,
                         p_component_name        out nocopy svt_component_types.component_name%type,
@@ -433,10 +481,11 @@ is
         select act.component_name, 
                fdv.component_type_id, 
                case when fdv.link_url is not null 
-                    then case when fdv.view_name in ('APEX_APPL_AUTOMATIONS')
-                              then ''
-                              else '/ords/'
-                              end||fdv.link_url
+                    then fdv.link_url
+                    -- then case when fdv.view_name in ('APEX_APPL_AUTOMATIONS')
+                    --           then ''
+                    --           else '/ords/'
+                    --           end||fdv.link_url
                     else act.template_url 
                     end link_url
         into   p_component_name, 
@@ -525,7 +574,8 @@ is
         
         apex_debug.message(c_debug_template, 'l_url', l_url);
 
-        l_url := apex_util.prepare_url(l_url);
+        -- l_url := apex_util.prepare_url(l_url);
+        l_url := adapt_url(l_url);
 
         apex_debug.message(c_debug_template, 'prepared l_url', l_url);
 

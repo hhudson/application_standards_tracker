@@ -159,7 +159,7 @@ Audit id : %3
     a.stale_yn,
     a.assignee,
     a.link_url,
-    wwv_flow_utilities.prepare_url( a.link_url ) prepared_url,
+    eba_stds_parser.adapt_url( a.link_url ) prepared_url,
     wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) view_text,
     a.link_to_apex_issue,
     ai.issue_id apex_issue_id,

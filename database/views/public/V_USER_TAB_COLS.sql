@@ -12,11 +12,9 @@ select owner,
        char_used,
        data_length
 from dba_tab_cols
-where owner = case when sys_context('userenv', 'current_user') = svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
-                   then svt_ctx_util.get_default_user
-                   else sys_context('userenv', 'current_user')
-                   end
+where owner = svt_ctx_util.get_default_user
 and table_name not like '%XXX%'
+and table_name not like 'LOGGER%'
 /
 
 --rollback drop view V_USER_TAB_COLS;

@@ -203,6 +203,21 @@ from dual
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: October 23, 2023
+-- Synopsis:
+--
+-- Function to convert a url to friendly as appropriate 
+--
+/*
+select eba_stds_parser.adapt_url()
+from dual
+*/
+------------------------------------------------------------------------------
+    function adapt_url (p_template_url in v_svt_flow_dictionary_views.link_url%type)
+    return v_svt_flow_dictionary_views.link_url%type;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: December 21, 2022
 -- Synopsis:
 --

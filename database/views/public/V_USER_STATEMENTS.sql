@@ -8,5 +8,6 @@ create or replace force editionable view v_user_statements as
 select object_type, object_name, line, signature, type, sql_id, text, owner
 from dba_statements
 where owner = svt_ctx_util.get_default_user
+and object_name not in ('LOGGER')
 /
 --rollback drop view V_USER_STATEMENTS;
