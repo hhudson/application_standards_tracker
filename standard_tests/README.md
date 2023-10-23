@@ -155,6 +155,7 @@ Non theme specific standards
 | [COL_HEADERS_IR](APEX_GENERAL_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [COL_HEADER_RF_TG](APEX_GENERAL_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
 | [FIELD_NAMES](APEX_GENERAL_212/tests/FIELD_NAMES-AHA_APEX.json) |  Form field label is appropriate | v1 [AHA_APEX] | APEX_APPLICATION_PAGE_ITEMS |
+| [JVSCRIPT_CONSOLE_LOG](APEX_GENERAL_212/tests/JVSCRIPT_CONSOLE_LOG-REDWOOD.json) |  Do not use console.log | v1 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
 | [NO_CSS_IN_PAGE](APEX_GENERAL_212/tests/NO_CSS_IN_PAGE-REDWOOD.json) |  Pages should not have local CSS | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_ITEM_NAMING](APEX_GENERAL_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [TOO_MANY_DAS](APEX_GENERAL_212/tests/TOO_MANY_DAS-REDWOOD.json) |  Pages should limit the amount of Dynamic Actions | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
@@ -230,23 +231,24 @@ Standards for correctly implementing Redwood patterns
 | [PAGE_ITEM_NAMING](APEX_REDWOOD_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_ADDL_INFO](APEX_REDWOOD_212/tests/RW_ADDL_INFO-REDWOOD.json) |  Additional Info regions are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BNNR_MSG_LNKS](APEX_REDWOOD_212/tests/RW_BNNR_MSG_LNKS-REDWOOD.json) |  Banner Message region should only have Links | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_BUTTON_ICON](APEX_REDWOOD_212/tests/RW_BUTTON_ICON-REDWOOD.json) |  Buttons should the correct icons | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [RW_BUTTON_PLACEMENT](APEX_REDWOOD_212/tests/RW_BUTTON_PLACEMENT-REDWOOD.json) |  Redwood Buttons should be correctly placed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [RW_CTXT_INFO](APEX_REDWOOD_212/tests/RW_CTXT_INFO-REDWOOD.json) |  Contextual Info regions should be configured correctly | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_FOLDOUTPANEL](APEX_REDWOOD_212/tests/RW_FOLDOUTPANEL-REDWOOD.json) |  Use Foldout panels in the Panels positions | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_IO_CONTENT](APEX_REDWOOD_212/tests/RW_IO_CONTENT-REDWOOD.json) |  Item Overview Content is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [RW_ITEM_OVVW_ICN](APEX_REDWOOD_212/tests/RW_ITEM_OVVW_ICN-REDWOOD.json) |  Item Overview Regions should have an Icon or Initials | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_ITEM_OVVW_ICN](APEX_REDWOOD_212/tests/RW_ITEM_OVVW_ICN-REDWOOD.json) |  Item Overview Regions should have an Icon or Initials | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_ITM_OVRVW_POS](APEX_REDWOOD_212/tests/RW_ITM_OVRVW_POS-REDWOOD.json) |  Region in "Item Overview" position is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_JVSCRIPT_DOM_MANPLTN](APEX_REDWOOD_212/tests/RW_JVSCRIPT_DOM_MANPLTN-REDWOOD.json) |  Do not manipulates classes, text and attributes in Redwood | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
-| [RW_LIST_ENTRIES_ICONS](APEX_REDWOOD_212/tests/RW_LIST_ENTRIES_ICONS-REDWOOD.json) |  List Entries should use the correct icons | v1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
+| [RW_LIST_ENTRIES_ICONS](APEX_REDWOOD_212/tests/RW_LIST_ENTRIES_ICONS-REDWOOD.json) |  List Entries should use the correct icons | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [RW_LOGIN](APEX_REDWOOD_212/tests/RW_LOGIN-REDWOOD.json) |  Login regions are configured correctly | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_PAGE_HEADER](APEX_REDWOOD_212/tests/RW_PAGE_HEADER-REDWOOD.json) |  Regions in the "Page Header" position are correctly config | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [RW_PAGE_ITEM_STYLING](APEX_REDWOOD_212/tests/RW_PAGE_ITEM_STYLING-REDWOOD.json) |  Redwood Page Items should use Redwood Icons | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [RW_PAGE_ITEM_STYLING](APEX_REDWOOD_212/tests/RW_PAGE_ITEM_STYLING-REDWOOD.json) |  Redwood Page Items should use Redwood Icons | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_PG_NAV_POS](APEX_REDWOOD_212/tests/RW_PG_NAV_POS-REDWOOD.json) |  Region in "Page Navigation" is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_RGN_BREADCRUMB](APEX_REDWOOD_212/tests/RW_RGN_BREADCRUMB-REDWOOD.json) |  Breadcrumbs have a template and position of "Page Header" | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_SCRBRD_POS](APEX_REDWOOD_212/tests/RW_SCRBRD_POS-REDWOOD.json) |  Region in "Scoreboard" position is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_SMT_FILTR](APEX_REDWOOD_212/tests/RW_SMT_FILTR-REDWOOD.json) |  Smart filter regions are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_TMSTMP_ACTIONS_POS](APEX_REDWOOD_212/tests/RW_TMSTMP_ACTIONS_POS-REDWOOD.json) |  Regions in "Timestamp & Actions" are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [RW_TOAST_ICON](APEX_REDWOOD_212/tests/RW_TOAST_ICON-REDWOOD.json) |  Toast regions with the custom icon setting should have an icon | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_TOAST_ICON](APEX_REDWOOD_212/tests/RW_TOAST_ICON-REDWOOD.json) |  Toast regions with the custom icon setting should have an icon | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_TOAST_LNKS](APEX_REDWOOD_212/tests/RW_TOAST_LNKS-REDWOOD.json) |  Toast regions should only have links | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_TOC_POS](APEX_REDWOOD_212/tests/RW_TOC_POS-REDWOOD.json) |  Regions in "Table of Contents" are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_VISUALZTNS](APEX_REDWOOD_212/tests/RW_VISUALZTNS-REDWOOD.json) |  Visualization regions are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
