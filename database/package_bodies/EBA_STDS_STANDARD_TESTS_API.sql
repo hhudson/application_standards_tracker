@@ -680,8 +680,9 @@ begin
       loop
         <<load_block>>
         declare
-        c_file_blob constant blob := svt_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS',
-                                                                       p_test_code => l_aat (rec).test_code);
+        c_file_blob constant blob := svt_deployment.json_standard_tests_blob (
+                                                        p_standard_id => l_aat (rec).standard_id, 
+                                                        p_test_code   => l_aat (rec).test_code);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
         c_mime_type constant varchar2(25) := 'application/json';
         c_character_set constant varchar2(10) := 'UTF-8';
