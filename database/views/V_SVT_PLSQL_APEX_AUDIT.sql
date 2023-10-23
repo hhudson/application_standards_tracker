@@ -34,7 +34,7 @@ with aspaa as (
            paa.action_id,
            paa.created,
            paa.updated,
-           case when paa.updated < sysdate - interval '5' hour
+           case when paa.updated < sysdate - interval '6' hour
                 then 'Y'
                 else 'N'
                 end stale_yn,

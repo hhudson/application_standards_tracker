@@ -6,7 +6,7 @@
 
 create or replace force editionable view  v_user_constraints   as
 select table_name, constraint_name, constraint_type, owner
-from all_constraints
+from dba_constraints
 where owner = svt_ctx_util.get_default_user
 and table_name not like 'XXX%'
 /

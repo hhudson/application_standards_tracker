@@ -6,7 +6,7 @@
 
 create or replace force editionable view v_user_mviews as
 select owner, mview_name
-from all_mviews
+from dba_mviews
 where owner = svt_ctx_util.get_default_user
 /
 

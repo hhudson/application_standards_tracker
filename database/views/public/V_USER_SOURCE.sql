@@ -6,7 +6,7 @@
 
 create or replace force editionable view v_user_source as
 select owner, type, name, line, text
-from all_source
+from dba_source
 where owner = svt_ctx_util.get_default_user
 /
 --rollback drop view V_USER_SOURCE;

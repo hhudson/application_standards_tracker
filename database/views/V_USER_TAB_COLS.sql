@@ -11,7 +11,7 @@ select owner,
        data_type,
        char_used,
        data_length
-from all_tab_cols
+from dba_tab_cols
 where owner = case when sys_context('userenv', 'current_user') = svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
                    then svt_ctx_util.get_default_user
                    else sys_context('userenv', 'current_user')

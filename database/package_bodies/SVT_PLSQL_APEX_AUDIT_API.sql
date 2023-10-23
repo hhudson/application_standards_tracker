@@ -254,20 +254,20 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_stale';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
   l_count pls_integer := 0;
+  c_sysdate constant date := sysdate;
   BEGIN
     apex_debug.message(c_debug_template,'START');
 
     for rec in (
-      select unqid, audit_id, test_code, validation_failure_message
-      from v_svt_plsql_apex_audit
-      where stale_yn = gc_y
-      and updated < sysdate - interval '2' day
-      and is_exception_yn = 'N' --not sure when to clear out exceptions ...
+      select unqid, id audit_id, test_code, validation_failure_message
+      from svt_plsql_apex_audit
+      where updated < c_sysdate - interval '3' day
+      and action_id is null --not sure when to delete exceptions
       and exists (select 1
                     from apex_automation_log aal
                     inner join apex_appl_automations aaa on aaa.automation_id = aal.automation_id
                     where aaa.static_id = 'big-job'
-                    and aaa.polling_last_run_timestamp > systimestamp - interval '12' hour
+                    and aaa.polling_last_run_timestamp > systimestamp - interval '6' hour
                     and aal.status_code = 'SUCCESS' )
     ) loop 
       l_count := l_count + 1;
@@ -300,10 +300,11 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         select unqid, id audit_id, test_code, validation_failure_message
         from svt_plsql_apex_audit spad
         where application_id is not null
+        and action_id is null --not sure when to delete exceptions
         and application_id not in (select apex_app_id
                                     from v_eba_stds_applications
-                                    where app_active_yn = 'Y'
-                                    and type_active_yn = 'Y')
+                                    where app_active_yn = gc_y
+                                    and type_active_yn = gc_y)
       ) loop 
         l_count := l_count + 1;
         delete_audit (
@@ -319,9 +320,11 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       for rec in (
         select unqid, id audit_id, test_code, validation_failure_message
         from svt_plsql_apex_audit spad
-        where test_code not in (select test_code
-                                from v_eba_stds_standard_tests
-                                where active_yn = 'Y')
+        where test_code is not null
+        and action_id is null --not sure when to delete exceptions
+        and test_code not in (select test_code
+                                from eba_stds_standard_tests
+                                where active_yn = gc_y)
       ) loop 
         l_count := l_count + 1;
         delete_audit (
@@ -975,8 +978,8 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       apex_debug.message(c_debug_template,'START', 'p_unquid', p_unquid);
 
       select case when count(*) = 1
-                        then 'Y'
-                        else 'N'
+                        then gc_y
+                        else gc_n
                         end into l_unquid_exists_yn
                 from sys.dual where exists (
                     select 1 

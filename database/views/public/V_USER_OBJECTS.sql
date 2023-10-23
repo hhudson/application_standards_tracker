@@ -6,7 +6,7 @@
 
 create or replace force editionable view v_user_objects as
 select object_id, object_name, object_type, owner, status
-from all_objects
+from dba_objects
 where owner = svt_ctx_util.get_default_user
 and object_name not like '%XXX%'
 and object_name not like 'DATABASECHANGELOG%'

@@ -72,4 +72,55 @@ GRANT SELECT ON LOKI.LOKI_USERS TO SVT;
 GRANT APEX_ADMINISTRATOR_ROLE TO SVT;
 
 GRANT SELECT_CATALOG_ROLE TO SVT;
+
+GRANT SELECT ON DBA_SOURCE TO SVT;
+GRANT SELECT ON DBA_TAB_COLS TO SVT;
+GRANT SELECT ON DBA_CONS_COLUMNS TO SVT;
+GRANT SELECT ON DBA_CONSTRAINTS TO SVT;
+GRANT SELECT ON DBA_ERRORS TO SVT;
+GRANT SELECT ON DBA_IDENTIFIERS TO SVT;
+GRANT SELECT ON DBA_IND_COLUMNS TO SVT;
+GRANT SELECT ON DBA_MVIEWS TO SVT;
+GRANT SELECT ON DBA_OBJECTS TO SVT;
+GRANT SELECT ON DBA_PLSQL_OBJECT_SETTINGS TO SVT;
+GRANT SELECT ON DBA_VIEWS TO SVT;
+GRANT SELECT ON DBA_STATEMENTS TO SVT;
+
+```
+
+TOO MUCH:
+```
+GRANT SELECT ANY TABLE TO SVT; 
+--allows me to see other ables in all_tables
+GRANT DEBUG ANY PROCEDURE TO SVT; 
+--allows me to see package body in all_source
+/*
+Justification : technically I can see anything I want from the dba_ * views but I can’t reference dba_* views in my own views, which is a bother. If I want to create view that queries the package body in a different schema, it has to be all_source, not dba_source
+*/
+```
+alternative approach :
+```
+select apex_string.format('GRANT SELECT ON %0.%1 TO SVT;',
+         p0 => dt.owner,
+         p1 => dt.object_name
+        ) stmt
+from dba_objects dt
+where object_type in ('TABLE', 'VIEW', 'MATERIALIZED VIEW')
+and   dt.owner in (select column_value
+                    from table(apex_string.split(svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'))
+                    where column_value not in ('SVT'))
+and dt.object_name not like 'XXX%'
+order by dt.object_type, dt.object_name
+union all
+select apex_string.format('GRANT DEBUG ON %0.%1 TO SVT;',
+         p0 => dt.owner,
+         p1 => dt.object_name
+        ) stmt
+from dba_objects dt
+where object_type in ('PACKAGE', 'FUNCTION', 'PROCEDURE')
+and   dt.owner in (select column_value
+                    from table(apex_string.split(svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'))
+                    where column_value not in ('SVT'))
+and dt.object_name not like 'XXX%'
+order by dt.object_type, dt.object_name
 ```

@@ -494,7 +494,7 @@ create or replace package body eba_stds_standard_tests_api as
 
     l_new_test_id := insert_test(
                         p_standard_id           => l_test_rec.standard_id,
-                        p_test_name             => l_test_rec.test_name||' [COPY]',
+                        p_test_name             => substr(l_test_rec.test_name,1,57)||' [COPY]',
                         p_display_sequence      => l_test_rec.display_sequence,
                         p_query_clob            => l_test_rec.query_clob,
                         p_owner                 => l_test_rec.owner,
