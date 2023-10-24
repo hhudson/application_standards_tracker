@@ -500,6 +500,281 @@ regions:
     security: 
       escape-special-characters: true
 
+- # ====== Region: DDL History =================================
+  id: 376900751968189403
+  identification: 
+    title: DDL History
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_LOKI_OBJECT_ASSIGNEE
+    include-rowid-column: false
+    where-clause: |
+      object_name = :P71_OBJECT_NAME
+      and object_type = :P71_OBJECT_TYPE
+    page-items-to-submit: 
+    - P71_OBJECT_NAME
+    - P71_OBJECT_TYPE
+
+  layout: 
+    sequence: 50
+    parent-region: Parameters # 401117344802419546
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7800062643236934930
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 from V_LOKI_OBJECT_ASSIGNEE
+      where object_name is not null
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 376900837407189404
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: true
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: false
+      reports-select-list: false
+      rows-per-page-selector: true
+      maximum-rows-per-page: 5
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: false
+      highlight: false
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: false
+      pivot: false
+      flashback: false
+      save-report: false
+      reset: false
+      help: false
+      download: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 376911835428371669
+      identification: 
+        name: Primary Report
+        alias: 3769119
+
+    columns: 
+    - # ====== Column: OBJECT_NAME =================================
+      id: 376900933009189405
+      identification: 
+        column-name: OBJECT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Object Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_USERNAME ===============================
+      id: 376901067750189406
+      identification: 
+        column-name: APEX_USERNAME
+        type: Plain Text
+
+      heading: 
+        heading: Apex Username
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_TYPE =================================
+      id: 376901189393189407
+      identification: 
+        column-name: OBJECT_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Object Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LOCK_RANK ===================================
+      id: 376901213089189408
+      identification: 
+        column-name: LOCK_RANK
+        type: Plain Text
+
+      heading: 
+        heading: Lock Rank
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
 - # ====== Region: Parameters ==================================
   id: 401117344802419546
   identification: 

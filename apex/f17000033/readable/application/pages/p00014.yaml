@@ -2123,7 +2123,7 @@ regions:
     - P14_ID
 
   layout: 
-    sequence: 110
+    sequence: 130
     parent-region: Configuration # 341628095077637841
     position: BODY
     start-new-layout: false
@@ -3019,8 +3019,8 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 130
-    region: Standard Test # 7789086785789898297
+    sequence: 110
+    region: Configuration # 341628095077637841
     position: BODY
 
   advanced: 
@@ -3550,34 +3550,15 @@ page-items:
   id: 365745549847297042
   identification: 
     name: P14_VERSION_NUMBER
-    type: Display Only
-
-  label: 
-    label: Version Number
-    alignment: Left
+    type: Hidden
 
   settings: 
-    format: Plain Text
-    based-on: Item Value
-    show-line-breaks: true
-    send-on-page-submit: true
+    value-protected: true
 
   layout: 
     sequence: 100
     region: Configuration # 341628095077637841
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: 2
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -3729,6 +3710,58 @@ page-items:
   help: 
     help-text: A unique, short hand descriptor. All caps, no spaces, no special characters besides underscore.
 
+- # ====== Page Item: P14_VERSION ==============================
+  id: 376900512015189401
+  identification: 
+    name: P14_VERSION
+    type: Display Only
+
+  label: 
+    label: Version
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 120
+    region: Configuration # 341628095077637841
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 2
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: This number helps to distinguish editions of this standard test across time and deployments
+
 - # ====== Page Item: P14_MV_DEPENDENCY ========================
   id: 378319165856244451
   identification: 
@@ -3810,7 +3843,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 120
+    sequence: 140
     region: Configuration # 341628095077637841
     position: BODY
 
@@ -5625,6 +5658,20 @@ computations:
                   then ' [INACTIVE]'
                   end hidden_name 
        from dual
+
+- # ====== Computation: P14_VERSION ============================
+  id: 376900618308189402
+  identification: 
+    item-name: P14_VERSION
+
+  execution: 
+    sequence: 60
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "apex_string.format('%s (%s)',:P14_VERSION_NUMBER,:P14_VERSION_DB)"
 
 - # ====== Computation: P14_ISSUE_CATEGORY =====================
   id: 401116915539419542

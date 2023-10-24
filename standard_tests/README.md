@@ -212,6 +212,7 @@ Standards that are *not* general standards
 | [ALPH_BTN_STC_ID_NM](APEX_MILLENIUM_GEN2_212/tests/ALPH_BTN_STC_ID_NM-REDWOOD.json) |  Button Static IDs should be correctly named | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING-REDWOOD.json) |  Applications should have the correct error handling function set | v1.2 [REDWOOD] | APEX_APPLICATIONS |
 | [ALPH_RGN_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_RGN_NAMING-REDWOOD.json) |  Region Static IDs should be correctly named | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [INVLD_END_POINTS](APEX_MILLENIUM_GEN2_212/tests/INVLD_END_POINTS-AHA_APEX.json) |  These URL endpoints are deprecated | v1.3 [AHA_APEX] | APEX_APPLICATIONS |
 
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
