@@ -1139,13 +1139,13 @@ code release/$p_file_name.sql
 liquibase_deploy_changes() {
   # echo "log : liquibase_deploy_changes"
 
+# PRO step 0 : delete from DATABASECHANGELOGLOCK
+# delete from svt.DATABASECHANGELOGLOCK
+# /
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
 
-PRO step 0 : delete from DATABASECHANGELOGLOCK
-delete from svt.DATABASECHANGELOGLOCK
-/
 
 PRO step 1 : deploying changes
 
