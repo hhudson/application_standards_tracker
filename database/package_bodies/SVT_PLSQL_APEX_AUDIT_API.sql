@@ -948,7 +948,8 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                   and assignee is null) e
       using (select object_type, object_name, apex_username
              from v_loki_object_assignee
-             where apex_username is not null) h
+             where apex_username is not null
+             and lock_rank = 1) h
       on (    e.object_type = h.object_type
           and e.object_name = h.object_name)
       when matched then

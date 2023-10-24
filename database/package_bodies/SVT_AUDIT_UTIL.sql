@@ -51,14 +51,15 @@ create or replace package body SVT_AUDIT_UTIL as
                   select scm.object_name, coalesce(scm.checked_out_by, scm.updated_by, scm.created_by) assignee, folder_name
                   from scm
             )
-        select scm2.object_name, coalesce(upper(awd.email), upper(scm2.assignee)) email, folder_name
+        select scm2.object_name, coalesce(upper(awd.email), upper(scm2.assignee)) email, folder_name, null lock_rank
         from scm2 
         left outer join v_apex_workspace_developers awd on scm2.assignee = awd.user_name
       $else 
         select 
           null object_name,
           null email,
-          null folder_name
+          null folder_name,
+          null lock_rank
         from dual
       $end
       ;
@@ -66,7 +67,8 @@ create or replace package body SVT_AUDIT_UTIL as
   type r_aa is record (
     object_name       varchar2(256),
     email             varchar2(240),
-    folder_name       varchar2(256)
+    folder_name       varchar2(256),
+    lock_rank         number
   );
   type t_aa is table of r_aa index by pls_integer;
   l_aat t_aa;
@@ -84,7 +86,8 @@ create or replace package body SVT_AUDIT_UTIL as
         pipe row (v_svt_scm_object_assignee_ot (
                       l_aat (rec).object_name,
                       l_aat (rec).email,
-                      l_aat (rec).folder_name
+                      l_aat (rec).folder_name,
+                      l_aat (rec).lock_rank
                     )
                 );
       end loop;
@@ -117,14 +120,15 @@ create or replace package body SVT_AUDIT_UTIL as
           select 
                 object_name, 
                 apex_username email,
-                object_type folder_name
+                object_type folder_name,
+                lock_rank
           from loki
-          where lock_rank = 1
       $else 
         select 
           null object_name,
           null email,
-          null folder_name
+          null folder_name,
+          null lock_rank
         from dual
       $end
       ;
@@ -132,7 +136,8 @@ create or replace package body SVT_AUDIT_UTIL as
   type r_aa is record (
     object_name       varchar2(256),
     email             varchar2(240),
-    folder_name       varchar2(256)
+    folder_name       varchar2(256),
+    lock_rank         number
   );
   type t_aa is table of r_aa index by pls_integer;
   l_aat t_aa;
@@ -150,7 +155,8 @@ create or replace package body SVT_AUDIT_UTIL as
         pipe row (v_svt_scm_object_assignee_ot (
                       l_aat (rec).object_name,
                       l_aat (rec).email,
-                      l_aat (rec).folder_name
+                      l_aat (rec).folder_name,
+                      l_aat (rec).lock_rank
                     )
                 );
       end loop;

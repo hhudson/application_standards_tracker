@@ -9,7 +9,8 @@
 create or replace view V_SVT_SCM_OBJECT_ASSIGNEE as 
 select object_name,
        email,
-       folder_name 
+       folder_name,
+       lock_rank
 from svt_audit_util.v_svt_scm_object_assignee()
 /
 

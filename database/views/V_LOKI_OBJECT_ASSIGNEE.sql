@@ -7,7 +7,8 @@
 create or replace force editionable view V_LOKI_OBJECT_ASSIGNEE as
 select object_name,
        email apex_username,
-       folder_name object_type
+       folder_name object_type,
+       lock_rank
 from svt_audit_util.v_loki_object_assignee()
 /
 
