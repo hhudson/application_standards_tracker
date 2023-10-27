@@ -950,8 +950,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
              from v_loki_object_assignee
              where apex_username is not null
              and lock_rank = 1) h
-      on (    e.object_type = h.object_type
-          and e.object_name = h.object_name)
+      on (e.object_name = h.object_name)
       when matched then
       update set e.assignee = lower(h.apex_username);
 
