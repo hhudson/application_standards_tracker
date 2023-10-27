@@ -299,6 +299,7 @@ create or replace package body SVT_AUDIT_UTIL as
     procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                           p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                           p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                                          p_standard_id    in eba_stds_standard_tests.standard_id%type default null,
                                           p_schema         in all_users.username%type default null,
                                           p_issue_category in svt_plsql_apex_audit.issue_category%type default null,
                                           p_message        out nocopy varchar2
@@ -313,6 +314,7 @@ create or replace package body SVT_AUDIT_UTIL as
                                             'p_application_id', p_application_id,
                                             'p_page_id', p_page_id,
                                             'p_test_code', p_test_code,
+                                            'p_standard_id', p_standard_id,
                                             'p_issue_category', p_issue_category
                                             );
         set_workspace;
@@ -340,6 +342,9 @@ create or replace package body SVT_AUDIT_UTIL as
                             where issue_category != c_apex
                             and (issue_category = p_issue_category or p_issue_category is null)
                             and (test_code = p_test_code or p_test_code is null)
+                            and (standard_id = p_standard_id or p_standard_id is null)
+                            and active_yn = gc_y
+                            and standard_active_yn  = gc_y
                             order by test_code)
             loop
               <<tstlp>>
@@ -375,6 +380,9 @@ create or replace package body SVT_AUDIT_UTIL as
                           where issue_category = c_apex
                           and (issue_category = p_issue_category or p_issue_category is null)
                           and (test_code = p_test_code or p_test_code is null)
+                          and (standard_id = p_standard_id or p_standard_id is null)
+                          and active_yn = gc_y
+                          and standard_active_yn  = gc_y
                           order by test_code)
           loop
             <<apxtstlp>>

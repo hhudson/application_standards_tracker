@@ -32,7 +32,6 @@ Instructions : Set the values of these preference in the Admin section of the ap
 begin
     svt_audit_util.set_workspace;
 end;
-/
 select svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') default_schema,
        svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE') default_workspace,
        svt_preferences.get_preference ('SVT_DB_NAME') db_name,

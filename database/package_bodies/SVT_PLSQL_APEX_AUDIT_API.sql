@@ -58,7 +58,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_audit 1';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   BEGIN
-    apex_debug.message(c_debug_template,'START', 'p_unqid', p_unqid);
+    -- apex_debug.message(c_debug_template,'START', 'p_unqid', p_unqid);
 
     update svt_plsql_apex_audit
     set issue_category             = p_issue_category,
@@ -976,7 +976,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_unquid_exists_yn varchar2(1);
   begin
-      apex_debug.message(c_debug_template,'START', 'p_unquid', p_unquid);
+      -- apex_debug.message(c_debug_template,'START', 'p_unquid', p_unquid);
 
       select case when count(*) = 1
                         then gc_y

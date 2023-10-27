@@ -869,7 +869,7 @@ is
     pragma exception_init(e_malformed_xml, -31011);
     l_skip_parse_yn varchar2(1) := gc_n;
     begin
-        apex_debug.message(c_debug_template,'START', 'p_html', p_html);
+        -- apex_debug.message(c_debug_template,'START', 'p_html', p_html);
 
         l_skip_parse_yn := case when c_html is null 
                                 then gc_y

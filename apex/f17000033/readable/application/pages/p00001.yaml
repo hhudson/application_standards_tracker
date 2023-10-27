@@ -805,7 +805,7 @@ regions:
             p161_pk_id: '#APP_PK_ID#'
 
         link-text: '#APPLICATION_ID#'
-        link-attributes: 'alt="edit #APPLICATION_ID#" title="edit #APPLICATION_ID#"'
+        link-attributes: 'alt="edit #APPLICATION_ID#" aria-label="edit #APPLICATION_ID#"'
 
       source: 
         primary-key: false
@@ -1262,6 +1262,9 @@ regions:
           <span class="c600">
                   #SHORT_FAILURE_MESSAGE#
               <br/>
+              {if SHORT_NOTES/}
+                  <i class="quttn">"#SHORT_NOTES#"</i>
+              {endif/}
               <span type="button" 
                   class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--warning t-Button--gapTop"
                   >   
@@ -1839,8 +1842,11 @@ regions:
                       data-componentid="#COMPONENT_ID#"
                   {endif/}
               > 
-              <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-bullseye"></span>
-                 #VIEW_TEXT#
+              <div class="tooltip">
+                  <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-bullseye"></span>
+                   #VIEW_TEXT#
+                  <span class="tooltiptext">Visit underlying component</span>
+              </div> 
           </button>
           {endif/}
 
@@ -2328,10 +2334,13 @@ regions:
               type="button" 
               title="My Button" 
               aria-label="My Button" 
-              class="t-Button t-Button--noLabel t-Button--icon t-Button--warning t-Button--noUI reRunForAD"
+              class="t-Button t-Button--noLabel t-Button--icon t-Button--warning t-Button--simple reRunForAD"
               data-auditId="#AUDIT_ID#"
               >
-              <span aria-hidden="true" class="t-Icon fa fa-refresh"></span>
+              <div class="tooltip">
+                  <span aria-hidden="true" class="t-Icon fa fa-refresh"></span>
+                  <span class="tooltiptext">Re-execute test</span>
+              </div> 
           </button>
           {endif/}
 
@@ -2384,10 +2393,13 @@ regions:
               type="button" 
               title="My Button" 
               aria-label="My Button" 
-              class="t-Button t-Button--noLabel t-Button--icon t-Button--noUI mrkExcptn"
+              class="t-Button t-Button--noLabel t-Button--icon t-Button--success t-Button--simple mrkExcptn"
               data-auditId="#AUDIT_ID#"
               >
-              <span aria-hidden="true" class="t-Icon fa fa-exception"></span>
+              <div class="tooltip">
+                  <span aria-hidden="true" class="t-Icon fa fa-exception"></span>
+                  <span class="tooltiptext">Mark as false-positive</span>
+              </div> 
           </button>
           {endif/}
 
@@ -2471,7 +2483,7 @@ regions:
       id: 333629915797398635
       identification: 
         column-name: STANDARD_NAME
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: Standard Name
@@ -2486,6 +2498,17 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:#STANDARD_ID#'
+          page: 5 # Tests by Standard
+          clear-cache: 5
+          values: 
+            p5_id: '#STANDARD_ID#'
+
+        link-text: '#STANDARD_NAME#'
+        link-attributes: 'title="View standard #STANDARD_NAME#"'
 
       source: 
         primary-key: false
@@ -2506,6 +2529,7 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     - # ====== Column: PREPARED_URL ================================
@@ -2650,6 +2674,42 @@ regions:
 
       layout: 
         sequence: 590
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SHORT_NOTES =================================
+      id: 376901303355189409
+      identification: 
+        column-name: SHORT_NOTES
+        type: Hidden Column
+
+      heading: 
+        heading: Short Notes
+
+      layout: 
+        sequence: 600
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_ID =================================
+      id: 376901400808189410
+      identification: 
+        column-name: STANDARD_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Standard Id
+
+      layout: 
+        sequence: 610
 
       source: 
         primary-key: false
@@ -2998,7 +3058,7 @@ regions:
   layout: 
     sequence: 90
     parent-region: No Parent
-    position: BODY
+    position: REGION_POSITION_05
     start-new-layout: false
     start-new-row: true
     column: Automatic

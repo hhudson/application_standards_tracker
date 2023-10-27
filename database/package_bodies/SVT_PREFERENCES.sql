@@ -28,7 +28,7 @@ create or replace package body SVT_PREFERENCES as
   c_preference_name constant apex_workspace_preferences.preference_name%type := upper(p_preference_name);
   l_pref_value      apex_workspace_preferences.preference_value%type;
   begin
-    apex_debug.message(c_debug_template,'START', 'p_preference_name', p_preference_name);
+    -- apex_debug.message(c_debug_template,'START', 'p_preference_name', p_preference_name);
     
     l_pref_value := apex_util.get_preference(      
                       p_preference => c_preference_name,

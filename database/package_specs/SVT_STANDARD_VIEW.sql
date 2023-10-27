@@ -208,6 +208,8 @@ from dual;
   --  gc_ambiguous_column constant number := -0918;
    e_ambiguous_column exception;
    pragma exception_init(e_ambiguous_column,-0918);
+   e_buffer2small exception;
+   pragma exception_init(e_buffer2small,-22835);
 
 end SVT_STANDARD_VIEW;
 /

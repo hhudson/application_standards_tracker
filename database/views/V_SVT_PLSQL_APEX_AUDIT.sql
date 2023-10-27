@@ -25,6 +25,10 @@ with aspaa as (
                 then substr(paa.validation_failure_message,1,166) || '...'
                 else paa.validation_failure_message
                 end short_failure_message,
+           case when length(paa.notes) > 90 
+                then substr(paa.notes,1,90) || '...'
+                else paa.notes
+                end short_notes,
            paa.issue_title,
            paa.apex_created_by,
            paa.apex_created_on,
@@ -74,6 +78,7 @@ with aspaa as (
            fdv.component_type_id, 
            coalesce(fdv.link_url, sct.template_url) template_url,
            src.standard_name,
+           src.standard_id,
            vaa.type_code app_type_code,
            vaa.pk_id app_pk_id
     from svt_plsql_apex_audit paa
@@ -152,6 +157,7 @@ Audit id : %3
     a.apex_last_updated_by,
     a.apex_last_updated_on,
     a.notes,
+    a.short_notes,
     a.action_id,
     a.action_name,
     a.created,
@@ -208,7 +214,8 @@ Audit id : %3
     a.parent_component_id,
     a.svt_component_type_id,
     a.component_type_id,
-    a.standard_name
+    a.standard_name,
+    a.standard_id
 from aspaa a
 left outer join apex_issues ai on a.apex_issue_id = ai.issue_id
 -- where a.include_in_report_yn = 'Y'

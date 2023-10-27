@@ -346,15 +346,6 @@ regions:
     region-display-selector: true
     exclude-title-from-translation: false
 
-  read-only: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: |
-      APEX_ACL.HAS_USER_ROLE (
-          p_application_id => :APP_ID,
-          p_user_name      => :APP_USER,
-          p_role_static_id => 'CONTRIBUTOR' )
-
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
 
@@ -401,15 +392,6 @@ regions:
   advanced: 
     region-display-selector: true
     exclude-title-from-translation: false
-
-  read-only: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: |
-      APEX_ACL.HAS_USER_ROLE (
-          p_application_id => :APP_ID,
-          p_user_name      => :APP_USER,
-          p_role_static_id => 'CONTRIBUTOR' )
 
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
@@ -3499,16 +3481,8 @@ page-items:
   session-state: 
     storage: Per Request (Memory Only)
 
-  read-only: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: |
-      APEX_ACL.HAS_USER_ROLE (
-          p_application_id => :APP_ID,
-          p_user_name      => :APP_USER,
-          p_role_static_id => 'CONTRIBUTOR' )
-
   security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
