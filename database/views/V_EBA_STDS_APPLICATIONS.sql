@@ -15,6 +15,7 @@ select /*+ result_cache */
        esa.default_developer,
        aa.availability_status,
        est.type_name application_type,
+       esa.type_id app_type_id,
        aa.application_name,
        esa.notes,
        esa.active_yn app_active_yn,
