@@ -895,7 +895,7 @@ regions:
       id: 292524259734693239
       identification: 
         column-name: APPLICATION_TYPE
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: Application Type
@@ -910,6 +910,17 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:24:&SESSION.::&DEBUG.:24:P24_ID:#APP_TYPE_ID#'
+          page: 24 # Application Type
+          clear-cache: 24
+          values: 
+            p24_id: '#APP_TYPE_ID#'
+
+        link-text: '#APPLICATION_TYPE#'
+        link-attributes: 'aria-label ="view #APPLICATION_TYPE#"'
 
       source: 
         primary-key: false
@@ -930,6 +941,7 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     - # ====== Column: PAGE_ID =====================================
@@ -1270,6 +1282,11 @@ regions:
                   >   
                   Audit ID : #AUDIT_ID#
               </span>
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--danger t-Button--gapTop"
+                  >
+                  Urgency : #URGENCY#
+              </span>
               {if !IS_EXCEPTION_YN/}
               <span type="button" 
                   class="t-Button t-Button--hot t-Button--tiny t-Button--success t-Button--gapTop"
@@ -1287,12 +1304,8 @@ regions:
                   >
                   EXCEPTION
               </span>
+              <br/> Unique ID : #UNQID#
               {endif/}
-              <span type="button" 
-                  class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--danger t-Button--gapTop"
-                  >
-                  Urgency : #URGENCY#
-              </span>
           </span>
 
       source: 
@@ -2710,6 +2723,24 @@ regions:
 
       layout: 
         sequence: 610
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_TYPE_ID =================================
+      id: 376901557289189411
+      identification: 
+        column-name: APP_TYPE_ID
+        type: Hidden Column
+
+      heading: 
+        heading: App Type Id
+
+      layout: 
+        sequence: 620
 
       source: 
         primary-key: false
