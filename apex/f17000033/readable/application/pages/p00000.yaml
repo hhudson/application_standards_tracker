@@ -1070,7 +1070,7 @@ regions:
       order by log_date desc
 
   layout: 
-    sequence: 20
+    sequence: 30
     parent-region: Alerts # 280032619890364324
     position: BODY
     start-new-layout: false
@@ -1507,6 +1507,166 @@ regions:
     settings: 
       output-as: HTML
       expand-shortcuts: false
+
+- # ====== Region: Team mismatch Assignees =====================
+  id: 376901677772189412
+  identification: 
+    title: Team mismatch Assignees
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SVT_AHA_TEAM_MISMATCH_ASSIGNMENTS
+    include-rowid-column: false
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: Alerts # 280032619890364324
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--accent11
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 
+      from SVT_AHA_TEAM_MISMATCH_ASSIGNMENTS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      - t-Report--inline
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ASSIGNED_APP_TYPE ===========================
+    id: 376901881561189414
+    identification: 
+      column-name: ASSIGNED_APP_TYPE
+      type: Link
+
+    heading: 
+      heading: Assigned App Type
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&SESSION.:IR[AUDIT_RPT]_APEX:&DEBUG.:CR,:IR[AUDIT_RPT]EQ_ASSIGNEE,IR[AUDIT_RPT]EQ_APPLICATION_TYPE:#ASSIGNEE#,#ASSIGNED_APP_TYPE#'
+        page: 1 # Issue Tracking
+        request: IR[AUDIT_RPT]_APEX
+        clear-cache: CR
+        values: 
+          ir[audit_rpt]eq_assignee: '#ASSIGNEE#'
+          ir[audit_rpt]eq_application_type: '#ASSIGNED_APP_TYPE#'
+
+      link-text: '#ASSIGNED_APP_TYPE# + #ASSIGNEE#'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ASSIGNEE ====================================
+    id: 376901982495189415
+    identification: 
+      column-name: ASSIGNEE
+      type: Hidden Column
+
+    layout: 
+      sequence: 20
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
 
 - # ====== Region: Enable disabled jobs ========================
   id: 401118298307419555
