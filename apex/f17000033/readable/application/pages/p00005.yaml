@@ -3496,7 +3496,7 @@ buttons:
     label: Clear Filter
 
   layout: 
-    sequence: 30
+    sequence: 50
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3631,6 +3631,70 @@ buttons:
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
 
+- # ====== Button: BULK_INACTIVATE =============================
+  id: 396147794566630201
+  identification: 
+    button-name: BULK_INACTIVATE
+    label: Bulk Inactivate
+
+  layout: 
+    sequence: 20
+    region: Tests # 7787847495128856498
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-toggle-off fam-plus fam-is-info
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
+- # ====== Button: BULK_ACTIVATE ===============================
+  id: 396148638493630210
+  identification: 
+    button-name: BULK_ACTIVATE
+    label: Bulk Activate
+
+  layout: 
+    sequence: 30
+    region: Tests # 7787847495128856498
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-toggle-on fam-plus fam-is-info
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
 - # ====== Button: RESET =======================================
   id: 495024641015048371
   identification: 
@@ -3638,7 +3702,7 @@ buttons:
     label: Reset
 
   layout: 
-    sequence: 50
+    sequence: 60
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3715,7 +3779,7 @@ buttons:
     label: Create
 
   layout: 
-    sequence: 20
+    sequence: 40
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3747,10 +3811,10 @@ buttons:
     authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 dynamic-actions: 
-- # ====== Dynamic Action: Enable/disable bulk publish =========
+- # ====== Dynamic Action: Enable/disable bulk buttons =========
   id: 341547126649766944
   identification: 
-    name: Enable/disable bulk publish
+    name: Enable/disable bulk buttons
 
   execution: 
     sequence: 90
@@ -3778,7 +3842,7 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: Enable/disable bulk publish # 341547126649766944
+      event: Enable/disable bulk buttons # 341547126649766944
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -3797,8 +3861,88 @@ dynamic-actions:
       button: BULK_PUBLISH # 341547021130766943
 
     execution: 
+      sequence: 40
+      event: Enable/disable bulk buttons # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P5_SELECTED_IDS
+
+  - # ====== Action: Enable bulk inactivate ======================
+    id: 396148499595630208
+    identification: 
+      name: Enable bulk inactivate
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_INACTIVATE # 396147794566630201
+
+    execution: 
       sequence: 20
-      event: Enable/disable bulk publish # 341547126649766944
+      event: Enable/disable bulk buttons # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is not null
+      item: P5_SELECTED_IDS
+
+  - # ====== Action: Disable bulk inactivate =====================
+    id: 396148516211630209
+    identification: 
+      name: Disable bulk inactivate
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_INACTIVATE # 396147794566630201
+
+    execution: 
+      sequence: 50
+      event: Enable/disable bulk buttons # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P5_SELECTED_IDS
+
+  - # ====== Action: Enable bulk activate ========================
+    id: 396149381048630217
+    identification: 
+      name: Enable bulk activate
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_ACTIVATE # 396148638493630210
+
+    execution: 
+      sequence: 30
+      event: Enable/disable bulk buttons # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is not null
+      item: P5_SELECTED_IDS
+
+  - # ====== Action: Disable bulk activate =======================
+    id: 396149461819630218
+    identification: 
+      name: Disable bulk activate
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_ACTIVATE # 396148638493630210
+
+    execution: 
+      sequence: 60
+      event: Enable/disable bulk buttons # 341547126649766944
       fire-when-event-result-is: True
       fire-on-initialization: true
 
@@ -4092,6 +4236,214 @@ dynamic-actions:
     execution: 
       sequence: 10
       event: refresh download # 374571931087604558
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: bulk inactivate =====================
+  id: 396147886239630202
+  identification: 
+    name: bulk inactivate
+
+  execution: 
+    sequence: 110
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: BULK_INACTIVATE # 396147794566630201
+
+  client-side-condition: 
+    type: Item is not null
+    item: P5_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Disable STANDARD_TEST_RPT ===================
+    id: 396147978157630203
+    identification: 
+      name: Disable STANDARD_TEST_RPT
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 10
+      event: bulk inactivate # 396147886239630202
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: log selected ids ============================
+    id: 396148053503630204
+    identification: 
+      name: log selected ids
+      action: Execute JavaScript Code
+
+    settings: 
+      code: "apex.debug.log('selected ids :'+apex.item('P5_SELECTED_IDS').getValue())"
+
+    execution: 
+      sequence: 20
+      event: bulk inactivate # 396147886239630202
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 396148163843630205
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: 'eba_stds_standard_tests_api.bulk_inactivate(p_selected_ids => :P5_SELECTED_IDS);'
+      items-to-submit: 
+      - P5_SELECTED_IDS
+
+    execution: 
+      sequence: 30
+      event: bulk inactivate # 396147886239630202
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh tests ===============================
+    id: 396148265881630206
+    identification: 
+      name: Refresh tests
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tests # 7787847495128856498
+
+    execution: 
+      sequence: 40
+      event: bulk inactivate # 396147886239630202
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Enable STANDARD_TEST_RPT ====================
+    id: 396148332064630207
+    identification: 
+      name: Enable STANDARD_TEST_RPT
+      action: Enable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 50
+      event: bulk inactivate # 396147886239630202
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: bulk activate =======================
+  id: 396148791559630211
+  identification: 
+    name: bulk activate
+
+  execution: 
+    sequence: 120
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: BULK_ACTIVATE # 396148638493630210
+
+  client-side-condition: 
+    type: Item is not null
+    item: P5_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Disable STANDARD_TEST_RPT ===================
+    id: 396148853326630212
+    identification: 
+      name: Disable STANDARD_TEST_RPT
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 10
+      event: bulk activate # 396148791559630211
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: log selected ids ============================
+    id: 396148983998630213
+    identification: 
+      name: log selected ids
+      action: Execute JavaScript Code
+
+    settings: 
+      code: "apex.debug.log('selected ids :'+apex.item('P5_SELECTED_IDS').getValue())"
+
+    execution: 
+      sequence: 20
+      event: bulk activate # 396148791559630211
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 396149052715630214
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: 'eba_stds_standard_tests_api.bulk_activate(p_selected_ids => :P5_SELECTED_IDS);'
+      items-to-submit: 
+      - P5_SELECTED_IDS
+
+    execution: 
+      sequence: 30
+      event: bulk activate # 396148791559630211
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh tests ===============================
+    id: 396149132224630215
+    identification: 
+      name: Refresh tests
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tests # 7787847495128856498
+
+    execution: 
+      sequence: 40
+      event: bulk activate # 396148791559630211
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Enable STANDARD_TEST_RPT ====================
+    id: 396149263948630216
+    identification: 
+      name: Enable STANDARD_TEST_RPT
+      action: Enable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 50
+      event: bulk activate # 396148791559630211
       fire-when-event-result-is: True
       fire-on-initialization: false
 

@@ -344,6 +344,7 @@ create or replace package body eba_stds_standard_tests_api as
     raise;
   end bulk_publish;
   
+  
   procedure update_test(p_id                    in eba_stds_standard_tests.id%type,
                         p_standard_id           in eba_stds_standard_tests.standard_id%type,
                         p_test_name             in eba_stds_standard_tests.test_name%type,
@@ -401,6 +402,76 @@ create or replace package body eba_stds_standard_tests_api as
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end update_test;
+
+  procedure bulk_inactivate(p_selected_ids in varchar2)
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_inactivate';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_rec eba_stds_standard_tests%rowtype;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_selected_ids', p_selected_ids);
+
+    for rec in (select column_value test_code
+                from table(apex_string.split(p_selected_ids, ','))
+    )
+    loop
+      l_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => rec.test_code);
+      update_test(p_id                    => l_rec.id,
+                  p_standard_id           => l_rec.standard_id,
+                  p_test_name             => l_rec.test_name,
+                  p_display_sequence      => l_rec.display_sequence,
+                  p_query_clob            => l_rec.query_clob,
+                  p_owner                 => l_rec.owner,
+                  p_test_code             => l_rec.test_code,
+                  p_active_yn             => gc_n,
+                  p_level_id              => l_rec.level_id,
+                  p_mv_dependency         => l_rec.mv_dependency,
+                  p_svt_component_type_id => l_rec.svt_component_type_id,
+                  p_explanation           => l_rec.explanation,
+                  p_fix                   => l_rec.fix,
+                  p_version_number        => l_rec.version_number
+                );
+    end loop;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end bulk_inactivate;
+
+  procedure bulk_activate(p_selected_ids in varchar2)
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_activate';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_rec eba_stds_standard_tests%rowtype;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_selected_ids', p_selected_ids);
+
+    for rec in (select column_value test_code
+                from table(apex_string.split(p_selected_ids, ','))
+    )
+    loop
+      l_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => rec.test_code);
+      update_test(p_id                    => l_rec.id,
+                  p_standard_id           => l_rec.standard_id,
+                  p_test_name             => l_rec.test_name,
+                  p_display_sequence      => l_rec.display_sequence,
+                  p_query_clob            => l_rec.query_clob,
+                  p_owner                 => l_rec.owner,
+                  p_test_code             => l_rec.test_code,
+                  p_active_yn             => gc_y,
+                  p_level_id              => l_rec.level_id,
+                  p_mv_dependency         => l_rec.mv_dependency,
+                  p_svt_component_type_id => l_rec.svt_component_type_id,
+                  p_explanation           => l_rec.explanation,
+                  p_fix                   => l_rec.fix,
+                  p_version_number        => l_rec.version_number
+                );
+    end loop;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end bulk_activate;
 
   procedure delete_test(p_id        in eba_stds_standard_tests.id%type,
                         p_test_code in eba_stds_standard_tests.test_code%type)

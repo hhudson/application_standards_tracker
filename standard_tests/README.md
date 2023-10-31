@@ -146,15 +146,15 @@ Non theme specific standards
 | [COL_ALIGNMENT_CLASSIC](APEX_GENERAL_212/tests/COL_ALIGNMENT_CLASSIC-REDWOOD.json) |  Classic Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [COL_ALIGNMENT_IG](APEX_GENERAL_212/tests/COL_ALIGNMENT_IG-REDWOOD.json) |  IG Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [COL_ALIGNMENT_IR](APEX_GENERAL_212/tests/COL_ALIGNMENT_IR-REDWOOD.json) |  IR Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [COL_HEADERS_C](APEX_GENERAL_212/tests/COL_HEADERS_C-REDWOOD.json) |  Classic Column header is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
-| [COL_HEADERS_IR](APEX_GENERAL_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [COL_HEADER_RF_TG](APEX_GENERAL_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
+| [COL_HEADERS_C](APEX_GENERAL_212/tests/COL_HEADERS_C-REDWOOD.json) |  Classic Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_HEADERS_IR](APEX_GENERAL_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADER_RF_TG](APEX_GENERAL_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
 | [FIELD_NAMES](APEX_GENERAL_212/tests/FIELD_NAMES-AHA_APEX.json) |  Form field label is appropriate | v1 [AHA_APEX] | APEX_APPLICATION_PAGE_ITEMS |
 | [FORM_ITEM_HELP](APEX_GENERAL_212/tests/FORM_ITEM_HELP-REDWOOD.json) |  Form Elements should have help text | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [JVSCRIPT_CONSOLE_LOG](APEX_GENERAL_212/tests/JVSCRIPT_CONSOLE_LOG-REDWOOD.json) |  Do not use console.log | v1 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
 | [NO_CSS_IN_PAGE](APEX_GENERAL_212/tests/NO_CSS_IN_PAGE-REDWOOD.json) |  Pages should not have local CSS | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_ITEM_NAMING](APEX_GENERAL_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
-| [RGN_STTC_NODASH](APEX_GENERAL_212/tests/RGN_STTC_NODASH-REDWOOD.json) |  Region Static IDs can have underscores not dashes | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RGN_STTC_NODASH](APEX_GENERAL_212/tests/RGN_STTC_NODASH-REDWOOD.json) |  Region Static IDs can have underscores not dashes | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [TOO_MANY_DAS](APEX_GENERAL_212/tests/TOO_MANY_DAS-REDWOOD.json) |  Pages should limit the amount of Dynamic Actions | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 
 ## Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
@@ -171,13 +171,13 @@ Standards that are *not* general standards
 | [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE-REDWOOD.json) |  AST buttons should be simple | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_CANCEL_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_CANCEL_BUTTON-REDWOOD.json) |  All Cancel buttons should be default | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_DELETE_BUTTON](APEX_IDIOSYNCRATIC_212/tests/AST_DELETE_BUTTON-REDWOOD.json) |  Delete buttons should be correctly styled | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH-REDWOOD.json) |  SVT Application Pages should have Authorization Schemes | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST-REDWOOD.json) |  Breadcrumb hierarchy should match nav menu | v1.1 [REDWOOD] | APEX_APPLICATION_BC_ENTRIES |
 | [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE-REDWOOD.json) |  Create buttons should be styled in a consistent way | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS-REDWOOD.json) |  User Drawers instead of Modals | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES-REDWOOD.json) |  Page names should be human friendly | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC-REDWOOD.json) |  List Menu Entries have Descriptions (for searchability) | v1.3 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS-REDWOOD.json) |  Navigation menu list entries should have icons | v1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION-REDWOOD.json) |  Form pages require authentication and have access protection | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER-REDWOOD.json) |  RDS regions should have a template of Tabs Container | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE-REDWOOD.json) |  Reset buttons should be styled in a consistent way | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS-REDWOOD.json) |  Button names and labels should be correctly capitalized | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -222,8 +222,8 @@ Standards for correctly implementing Redwood patterns
 | [COL_ALIGNMENT_CLASSIC](APEX_REDWOOD_212/tests/COL_ALIGNMENT_CLASSIC-REDWOOD.json) |  Classic Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [COL_ALIGNMENT_IG](APEX_REDWOOD_212/tests/COL_ALIGNMENT_IG-REDWOOD.json) |  IG Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [COL_ALIGNMENT_IR](APEX_REDWOOD_212/tests/COL_ALIGNMENT_IR-REDWOOD.json) |  IR Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [COL_HEADERS_C](APEX_REDWOOD_212/tests/COL_HEADERS_C-REDWOOD.json) |  Classic Column header is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
-| [COL_HEADERS_IR](APEX_REDWOOD_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADERS_C](APEX_REDWOOD_212/tests/COL_HEADERS_C-REDWOOD.json) |  Classic Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_HEADERS_IR](APEX_REDWOOD_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [FIELD_NAMES](APEX_REDWOOD_212/tests/FIELD_NAMES-AHA_APEX.json) |  Form field label is appropriate | v1 [AHA_APEX] | APEX_APPLICATION_PAGE_ITEMS |
 | [NO_CSS_IN_PAGE](APEX_REDWOOD_212/tests/NO_CSS_IN_PAGE-REDWOOD.json) |  Pages should not have local CSS | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_ITEM_NAMING](APEX_REDWOOD_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
@@ -244,7 +244,7 @@ Standards for correctly implementing Redwood patterns
 | [RW_PG_NAV_POS](APEX_REDWOOD_212/tests/RW_PG_NAV_POS-REDWOOD.json) |  Region in "Page Navigation" is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_RGN_BREADCRUMB](APEX_REDWOOD_212/tests/RW_RGN_BREADCRUMB-REDWOOD.json) |  Breadcrumbs have a template and position of "Page Header" | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_SCRBRD_POS](APEX_REDWOOD_212/tests/RW_SCRBRD_POS-REDWOOD.json) |  Region in "Scoreboard" position is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [RW_SMT_FILTR](APEX_REDWOOD_212/tests/RW_SMT_FILTR-REDWOOD.json) |  Smart filter regions are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_SMT_FILTR](APEX_REDWOOD_212/tests/RW_SMT_FILTR-REDWOOD.json) |  Smart filter regions are correctly configured | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_TMSTMP_ACTIONS_POS](APEX_REDWOOD_212/tests/RW_TMSTMP_ACTIONS_POS-REDWOOD.json) |  Regions in "Timestamp & Actions" are correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_TOAST_ICON](APEX_REDWOOD_212/tests/RW_TOAST_ICON-REDWOOD.json) |  Toast regions with the custom icon setting should have an icon | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_TOAST_LNKS](APEX_REDWOOD_212/tests/RW_TOAST_LNKS-REDWOOD.json) |  Toast regions should only have links | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
@@ -278,9 +278,9 @@ These are best practices that apply to Universal Theme applications.
 | [COL_ALIGNMENT_CLASSIC](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_CLASSIC-REDWOOD.json) |  Classic Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [COL_ALIGNMENT_IG](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IG-REDWOOD.json) |  IG Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [COL_ALIGNMENT_IR](APEX_UNIVERSAL_THEME_212/tests/COL_ALIGNMENT_IR-REDWOOD.json) |  IR Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [COL_HEADERS_C](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_C-REDWOOD.json) |  Classic Column header is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
-| [COL_HEADERS_IR](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
+| [COL_HEADERS_C](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_C-REDWOOD.json) |  Classic Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
+| [COL_HEADERS_IR](APEX_UNIVERSAL_THEME_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
 | [FIELD_NAMES](APEX_UNIVERSAL_THEME_212/tests/FIELD_NAMES-AHA_APEX.json) |  Form field label is appropriate | v1 [AHA_APEX] | APEX_APPLICATION_PAGE_ITEMS |
 | [FILTER_RGN_TMPLT](APEX_UNIVERSAL_THEME_212/tests/FILTER_RGN_TMPLT-REDWOOD.json) |  Filtered Regions has Card Container template | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [MODAL_FLOATING_LABEL](APEX_UNIVERSAL_THEME_212/tests/MODAL_FLOATING_LABEL-REDWOOD.json) |  Use Floating Labels | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |

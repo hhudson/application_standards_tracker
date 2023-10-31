@@ -260,6 +260,36 @@ end;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: 2023-Oct-31
+-- Synopsis:
+--
+-- Procedure to inactivate tests in bulk
+--
+/*
+begin
+  eba_stds_standard_tests_api.bulk_inactivate(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_inactivate(p_selected_ids in varchar2);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Oct-31
+-- Synopsis:
+--
+-- Procedure to activate tests in bulk
+--
+/*
+begin
+  eba_stds_standard_tests_api.bulk_activate(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_activate(p_selected_ids in varchar2);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: July 10, 2023
 -- Synopsis:
 --
