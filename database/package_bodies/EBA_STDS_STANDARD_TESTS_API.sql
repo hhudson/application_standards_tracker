@@ -615,7 +615,28 @@ begin
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_id', p_test_id);
 
-    l_rec := eba_stds_standard_tests_api.get_test_rec(p_test_id => p_test_id);
+    l_rec := get_test_rec(p_test_id => p_test_id);
+    
+    return l_rec.standard_id;
+
+  exception 
+    when no_data_found then
+      return null;
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+      raise;
+  end get_standard_id;
+
+  function get_standard_id (p_test_code in eba_stds_standard_tests.test_code%type)
+  return eba_stds_standard_tests.standard_id%type
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_standard_id 2'; 
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_rec eba_stds_standard_tests%rowtype;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
+
+    l_rec := get_test_rec(p_test_code => p_test_code);
     
     return l_rec.standard_id;
 
@@ -665,7 +686,8 @@ begin
          o.version_number,
          o.version_db,
          gc_n inherited_yn,
-         o.full_standard_name calling_standard_name
+         o.full_standard_name calling_standard_name,
+         o.display_sequence
   from v_eba_stds_standard_tests o
   where (o.standard_id = p_std_id or p_std_id is null)
   and   (o.active_yn = p_active or p_active is null)
@@ -695,7 +717,8 @@ begin
          i.version_number,
          i.version_db,
          gc_y inherited_yn,
-         p_calling_std calling_standard_name
+         p_calling_std calling_standard_name,
+         i.display_sequence
   from v_eba_stds_standard_tests i
   inner join eba_stds_inherited_tests esit on i.test_id = esit.test_id
                                            and i.standard_id = esit.parent_standard_id
@@ -725,7 +748,8 @@ begin
     version_number          number,
     version_db              varchar2(55),
     inherited_yn            varchar2(1),
-    calling_std_name        varchar2(64)
+    calling_std_name        varchar2(64),
+    display_sequence        number
   );
   type t_aa is table of r_aa index by pls_integer;
   l_aat t_aa;
@@ -835,7 +859,8 @@ begin
                            else 'show t-Button t-Button--icon t-Button--simple'
                            end, --download_css
                       l_aat (rec).inherited_yn, --inherited_yn,
-                      l_aat (rec).calling_std_name --calling standard
+                      l_aat (rec).calling_std_name, --calling standard
+                      l_aat (rec).display_sequence
                     )
                 );
               end if;

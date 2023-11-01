@@ -387,7 +387,7 @@ from dual
 --     Date: 2023-Aug-17
 -- Synopsis:
 --
--- Function to get the standard_id of a eba_stds_standard_tests record, given a test id
+-- Overloaded Function to get the standard_id of a eba_stds_standard_tests record, given a test id
 --
 /*
 select eba_stds_standard_tests_api.get_standard_id (p_test_id => :p_test_id)
@@ -395,6 +395,20 @@ from dual
 */
 ------------------------------------------------------------------------------
     function get_standard_id (p_test_id in eba_stds_standard_tests.id%type)
+    return eba_stds_standard_tests.standard_id%type deterministic;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-1
+--
+-- OVerloaded Function to get the standard_id of a eba_stds_standard_tests record, given a test code
+--
+/*
+select eba_stds_standard_tests_api.get_standard_id (p_test_code => :p_test_code)
+from dual
+*/
+------------------------------------------------------------------------------
+    function get_standard_id (p_test_code in eba_stds_standard_tests.test_code%type)
     return eba_stds_standard_tests.standard_id%type deterministic;
 
  

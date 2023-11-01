@@ -113,9 +113,15 @@ create or replace package body SVT_DEPLOYMENT as
                                           then gc_blob
                                           else gc_clob
                                           end;
+  c_standard_id constant eba_stds_standards.id%type 
+               := case when p_test_code is null 
+                       then p_standard_id
+                       else eba_stds_standard_tests_api.get_standard_id (p_test_code => p_test_code)
+                       end;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
+                                        'c_standard_id', c_standard_id,
                                         'p_test_code', p_test_code,
                                         'p_datatype', p_datatype);
 
@@ -170,7 +176,7 @@ create or replace package body SVT_DEPLOYMENT as
              ess.updated,
              ess.updated_by
     ]',
-    p0 => p_standard_id,
+    p0 => c_standard_id,
     p1 => c_datatype,
     p2 => p_test_code
     );
