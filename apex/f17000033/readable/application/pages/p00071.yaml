@@ -504,7 +504,7 @@ regions:
   id: 376900751968189403
   identification: 
     title: DDL History
-    type: Interactive Report
+    type: Classic Report
 
   source: 
     location: Local Database
@@ -516,6 +516,9 @@ regions:
     page-items-to-submit: 
     - P71_OBJECT_NAME
     - P71_OBJECT_TYPE
+
+  order-by: 
+    type: None
 
   layout: 
     sequence: 50
@@ -554,224 +557,172 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 376900837407189404
-    link: 
-      link-column: Exclude Link Column
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
 
     pagination: 
-      type: Row Ranges X to Y of Z
+      type: Row Ranges X to Y (with next and previous links)
       display-position: Bottom - Right
+      partial-page-refresh: true
 
     performance: 
-      lazy-loading: true
-      maximum-rows-to-process: 1000000
+      lazy-loading: false
 
-    search-bar: 
-      include-search-bar: true
-      search-field: false
-      reports-select-list: false
-      rows-per-page-selector: true
-      maximum-rows-per-page: 5
+    break-formatting: 
+      break-columns: No Break
 
-    actions-menu: 
-      include-actions-menu: true
-      filter: true
-      select-columns: true
-      rows-per-page: true
-      sort: true
-      control-break: false
-      highlight: false
-      compute: false
-      aggregate: false
-      chart: false
-      group-by: false
-      pivot: false
-      flashback: false
-      save-report: false
-      reset: false
-      help: false
-      download: false
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
 
     heading: 
-      fixed-to: Page
+      type: Custom Headings
 
-    icon-view: 
-      show: false
+    download: 
+      csv-export-enabled: false
 
-    detail-view: 
-      show: false
+    printing: 
+      enabled: false
 
-    saved-reports: 
-    - # ====== Saved Report: Primary Report ========================
-      id: 376911835428371669
-      identification: 
-        name: Primary Report
-        alias: 3769119
+  columns: 
+  - # ====== Column: OBJECT_NAME =================================
+    id: 396149500721630219
+    identification: 
+      column-name: OBJECT_NAME
+      type: Plain Text
 
-    columns: 
-    - # ====== Column: OBJECT_NAME =================================
-      id: 376900933009189405
-      identification: 
-        column-name: OBJECT_NAME
-        type: Plain Text
+    heading: 
+      heading: Object Name
+      alignment: start
 
-      heading: 
-        heading: Object Name
-        alignment: start
+    layout: 
+      sequence: 10
+      column-alignment: start
 
-      single-row-view: 
-        use-column-heading: true
+    accessibility: 
+      value-identifies-row: false
 
-      layout: 
-        sequence: 10
-        column-alignment: start
+    sorting: 
+      sortable: true
 
-      accessibility: 
-        value-identifies-row: false
+    export-/-printing: 
+      include-in-export-/-print: true
 
-      source: 
-        primary-key: false
+    advanced: 
+      compute-sum: false
 
-      column-filter: 
-        type: Default Based on Column Type
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
 
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+    security: 
+      escape-special-characters: true
 
-      security: 
-        escape-special-characters: true
+  - # ====== Column: APEX_USERNAME ===============================
+    id: 396149639343630220
+    identification: 
+      column-name: APEX_USERNAME
+      type: Plain Text
 
-    - # ====== Column: APEX_USERNAME ===============================
-      id: 376901067750189406
-      identification: 
-        column-name: APEX_USERNAME
-        type: Plain Text
+    heading: 
+      heading: Apex Username
+      alignment: start
 
-      heading: 
-        heading: Apex Username
-        alignment: start
+    layout: 
+      sequence: 20
+      column-alignment: start
 
-      single-row-view: 
-        use-column-heading: true
+    accessibility: 
+      value-identifies-row: true
 
-      layout: 
-        sequence: 20
-        column-alignment: start
+    sorting: 
+      sortable: true
 
-      accessibility: 
-        value-identifies-row: false
+    export-/-printing: 
+      include-in-export-/-print: true
 
-      source: 
-        primary-key: false
+    advanced: 
+      compute-sum: false
 
-      column-filter: 
-        type: Default Based on Column Type
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
 
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+    security: 
+      escape-special-characters: true
 
-      security: 
-        escape-special-characters: true
+  - # ====== Column: OBJECT_TYPE =================================
+    id: 396149720731630221
+    identification: 
+      column-name: OBJECT_TYPE
+      type: Plain Text
 
-    - # ====== Column: OBJECT_TYPE =================================
-      id: 376901189393189407
-      identification: 
-        column-name: OBJECT_TYPE
-        type: Plain Text
+    heading: 
+      heading: Object Type
+      alignment: start
 
-      heading: 
-        heading: Object Type
-        alignment: start
+    layout: 
+      sequence: 30
+      column-alignment: start
 
-      single-row-view: 
-        use-column-heading: true
+    accessibility: 
+      value-identifies-row: false
 
-      layout: 
-        sequence: 30
-        column-alignment: start
+    sorting: 
+      sortable: true
 
-      accessibility: 
-        value-identifies-row: false
+    export-/-printing: 
+      include-in-export-/-print: true
 
-      source: 
-        primary-key: false
+    advanced: 
+      compute-sum: false
 
-      column-filter: 
-        type: Default Based on Column Type
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
 
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+    security: 
+      escape-special-characters: true
 
-      security: 
-        escape-special-characters: true
+  - # ====== Column: LOCK_RANK ===================================
+    id: 396149858800630222
+    identification: 
+      column-name: LOCK_RANK
+      type: Plain Text
 
-    - # ====== Column: LOCK_RANK ===================================
-      id: 376901213089189408
-      identification: 
-        column-name: LOCK_RANK
-        type: Plain Text
+    heading: 
+      heading: Lock Rank
+      alignment: end
 
-      heading: 
-        heading: Lock Rank
-        alignment: end
+    layout: 
+      sequence: 40
+      column-alignment: end
 
-      single-row-view: 
-        use-column-heading: true
+    accessibility: 
+      value-identifies-row: false
 
-      layout: 
-        sequence: 40
-        column-alignment: end
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
 
-      accessibility: 
-        value-identifies-row: false
+    export-/-printing: 
+      include-in-export-/-print: true
 
-      source: 
-        primary-key: false
+    advanced: 
+      compute-sum: false
 
-      column-filter: 
-        type: Default Based on Column Type
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
 
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
+    security: 
+      escape-special-characters: true
 
 - # ====== Region: Parameters ==================================
   id: 401117344802419546
