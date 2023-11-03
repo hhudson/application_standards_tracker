@@ -67,6 +67,7 @@ function getBuilderInstance() {
         function navigateInBuilderWindow( url ) {
             var instance = getBuilderInstance();
             apex.debug.info("navigateInBuilderWindow :", instance);
+            apex.debug.info("url :", url, "  / BUILDER_WINDOW_NAME: ", BUILDER_WINDOW_NAME, "> { altSuffix: instance } : ", { altSuffix: instance });
             
             apex.navigation.openInNewWindow( url, BUILDER_WINDOW_NAME, { altSuffix: instance } );
         }

@@ -1049,16 +1049,15 @@ regions:
                               p_app_id                => a.application_id,
                               p_page_id               => a.page_id,
                               p_pk_value              => a.component_id,
-                              p_parent_pk_value       => case when a.parent_component_id is null 
-                                                              then a.object_name
-                                                              end,
-                              p_opt_parent_pk_value   => a.object_type,
+                              p_parent_pk_value       => a.parent_component_id,
                               p_issue_category        => a.issue_category,
                               p_line                  => a.line,
                               p_object_name           => a.object_name,
                               p_object_type           => a.object_type,
+                              p_schema                => a.schema,
                               p_builder_session       => :P0_APX_BLDR_SESSION
-             ) link_url
+             ) link_url,
+             :P14_TEMPLATE_URL template_url
       from svt_standard_view.v_svt(p_test_code => :P14_TEST_CODE, 
                                    p_failures_only => 'Y',
                                    p_production_apps_only => 'Y') a
@@ -1078,13 +1077,15 @@ regions:
              std.apex_last_updated_by, 
              std.apex_last_updated_on,
              std.unqid,
+             std.template_url,
+             :P14_COMPONENT_TYPE_ID component_type_id,
              std.component_id,
              std.parent_component_id,
+             std.schema,
              std.link_url,
              '<button type="button" 
                    class="a-Button edit-button t-Button t-Button--icon t-Button--hot t-Button--primary t-Button--noUI t-Button--iconLeft"
                    data-link="' ||
-             --wwv_flow_utilities.prepare_url( std.link_url ) ||
              std.link_url|| 
              '"' ||
              case when :P14_COMPONENT_TYPE_ID is not null then
@@ -1096,10 +1097,12 @@ regions:
              '> <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-bullseye"></span>' 
              || wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button
       from std
+      where std.link_url is not null or :P14_COMPONENT_TYPE_ID is not null 
     page-items-to-submit: 
-    - P14_COMPONENT_TYPE_ID
-    - P0_APX_BLDR_SESSION
     - P14_TEMPLATE_URL
+    - P0_APX_BLDR_SESSION
+    - P14_TEST_CODE
+    - P14_COMPONENT_TYPE_ID
 
   layout: 
     sequence: 30
@@ -1148,6 +1151,15 @@ regions:
     performance: 
       lazy-loading: true
       maximum-rows-to-process: 20
+
+    messages: 
+      when-no-data-found: |
+        <button title="Refresh live tests" 
+                aria-label="Refesh live tests" 
+                class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft refreshLive">
+                <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-refresh"></span>
+                Refresh me!
+        </button>
 
     search-bar: 
       include-search-bar: true
@@ -1337,11 +1349,32 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 470
+        sequence: 480
         column-alignment: center
 
       accessibility: 
         value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          <button type="button" 
+                  aria-label="View underlying component" 
+                  class="a-Button edit-button t-Button t-Button--icon t-Button--primary t-Button--simple t-Button--iconLeft"
+                  data-link="#LINK_URL#"
+                  data-issueCategory="&P14_ISSUE_CATEGORY."
+                  {if COMPONENT_TYPE_ID/}
+                      data-appid="#APPLICATION_ID#"
+                      data-pageid="#PAGE_ID#"
+                      data-typeid="#COMPONENT_TYPE_ID#"
+                      data-componentid="#COMPONENT_ID#"
+                  {endif/}
+              > 
+              <div class="tooltip">
+                  <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-bullseye"></span>
+                   View
+                  <span class="tooltiptext">Visit underlying component</span>
+              </div> 
+          </button>
 
       source: 
         primary-key: false
@@ -1366,7 +1399,131 @@ regions:
         item: APX_BLDR_SESSION
 
       security: 
+        authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
         escape-special-characters: false
+
+    - # ====== Column: COMPONENT_TYPE_ID ===========================
+      id: 376902120194189417
+      identification: 
+        column-name: COMPONENT_TYPE_ID
+        type: Plain Text
+
+      heading: 
+        heading: Component Type Id
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 490
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SCHEMA ======================================
+      id: 376902219021189418
+      identification: 
+        column-name: SCHEMA
+        type: Plain Text
+
+      heading: 
+        heading: Schema
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 500
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEMPLATE_URL ================================
+      id: 376902388172189419
+      identification: 
+        column-name: TEMPLATE_URL
+        type: Plain Text
+
+      heading: 
+        heading: Template Url
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 510
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
 
     - # ====== Column: ISSUE_CATEGORY ==============================
       id: 449827254798963283
@@ -2086,10 +2243,10 @@ regions:
       - Delete Row
       lost-update-type: Row Values
 
-- # ====== Region: Tests =======================================
+- # ====== Region: Download Test ===============================
   id: 7930554817243490370
   identification: 
-    title: Tests
+    title: Download Test
     type: Interactive Report
 
   source: 
@@ -3373,7 +3530,7 @@ page-items:
     primary-key: false
 
   session-state: 
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
@@ -3426,11 +3583,11 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P14_ACTIVE_YN ============================
@@ -4779,10 +4936,10 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-- # ====== Dynamic Action: after refresh =======================
+- # ====== Dynamic Action: after refresh of download tests =====
   id: 266856954001801329
   identification: 
-    name: after refresh
+    name: after refresh of download tests
 
   execution: 
     sequence: 210
@@ -4790,7 +4947,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERREFRESH
     selection-type: Region
-    region: Tests # 7930554817243490370
+    region: Download Test # 7930554817243490370
 
   execution: 
     event-scope: Static
@@ -4809,7 +4966,7 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: after refresh # 266856954001801329
+      event: after refresh of download tests # 266856954001801329
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -4840,7 +4997,7 @@ dynamic-actions:
     settings: 
       code: |
         // #APP_FILES#js/f4000_searchResults#MIN#.js
-        // debugger;
+        //debugger;
         apex.debug.info("DA click event");
         var appId, pageId, componentId, url, match,
         instance = getBuilderInstance(),
@@ -4890,7 +5047,8 @@ dynamic-actions:
                 };
             } else {
                 apex.debug.info("normal page");
-                navigateInBuilderWindow( url );
+                //navigateInBuilderWindow( url );
+                apex.navigation.redirect(url);
             }
         }
 
@@ -4918,10 +5076,14 @@ dynamic-actions:
     event-scope: Static
     type: Immediate
 
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
   actions: 
-  - # ====== Action: Execute Server-side Code ====================
+  - # ====== Action: eba_stds_parser.get_component_type_rec ======
     id: 269328152519808653
     identification: 
+      name: eba_stds_parser.get_component_type_rec
       action: Execute Server-side Code
 
     settings: 
@@ -4949,9 +5111,39 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-    server-side-condition: 
-      type: Item is NOT NULL
-      item: P14_SVT_COMPONENT_TYPE_ID
+  - # ====== Action: refresh live test results ===================
+    id: 376902870423189424
+    identification: 
+      name: refresh live test results
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Live Test results report # 449826820141963279
+
+    execution: 
+      sequence: 40
+      event: get component_type_id # 269328064344808652
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: log values (instance 3) =====================
+    id: 376903336535189429
+    identification: 
+      name: log values (instance 3)
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        apex.debug.info('instance 3', 'P14_COMPONENT_NAME : ', apex.item('P14_COMPONENT_NAME').getValue(),
+        ' > P14_COMPONENT_TYPE_ID : ', apex.item('P14_COMPONENT_TYPE_ID').getValue(),
+        ' > P14_TEMPLATE_URL : ', apex.item('P14_TEMPLATE_URL').getValue());
+
+    execution: 
+      sequence: 20
+      event: get component_type_id # 269328064344808652
+      fire-when-event-result-is: True
+      fire-on-initialization: true
 
 - # ====== Dynamic Action: Hide/show query clob ================
   id: 342033484551566381
@@ -5006,6 +5198,73 @@ dynamic-actions:
       sequence: 10
       event: Hide/show query clob # 342033484551566381
       fire-when-event-result-is: False
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: get_component_type_rec on refresh ===
+  id: 356401852700521240
+  identification: 
+    name: get_component_type_rec on refresh
+
+  execution: 
+    sequence: 220
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERREFRESH
+    selection-type: Region
+    region: Live Test results report # 449826820141963279
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: eba_stds_parser.get_component_type_rec ======
+    id: 356401967479521241
+    identification: 
+      name: eba_stds_parser.get_component_type_rec
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        eba_stds_parser.get_component_type_rec (
+                                p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
+                                p_component_name        => :P14_COMPONENT_NAME,
+                                p_component_type_id     => :P14_COMPONENT_TYPE_ID,
+                                p_template_url          => :P14_TEMPLATE_URL
+        );
+      items-to-submit: 
+      - P14_SVT_COMPONENT_TYPE_ID
+      items-to-return: 
+      - P14_COMPONENT_NAME
+      - P14_COMPONENT_TYPE_ID
+      - P14_TEMPLATE_URL
+      suppress-change-event: false
+
+    execution: 
+      sequence: 10
+      event: get_component_type_rec on refresh # 356401852700521240
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: log values (instance 4) =====================
+    id: 376903437619189430
+    identification: 
+      name: log values (instance 4)
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        apex.debug.info('instance 4', 'P14_COMPONENT_NAME : ', apex.item('P14_COMPONENT_NAME').getValue(),
+        ' > P14_COMPONENT_TYPE_ID : ', apex.item('P14_COMPONENT_TYPE_ID').getValue(),
+        ' > P14_TEMPLATE_URL : ', apex.item('P14_TEMPLATE_URL').getValue());
+
+    execution: 
+      sequence: 20
+      event: get_component_type_rec on refresh # 356401852700521240
+      fire-when-event-result-is: True
       fire-on-initialization: true
 
 - # ====== Dynamic Action: Hide 1st row of Tests report ========
@@ -5170,6 +5429,138 @@ dynamic-actions:
     execution: 
       sequence: 10
       event: Hide Live Test Results # 375363049520000744
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: get_component_type_rec on page load =
+  id: 376902669191189422
+  identification: 
+    name: get_component_type_rec on page load
+
+  execution: 
+    sequence: 230
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: refresh live test results on load ===========
+    id: 376903060813189426
+    identification: 
+      name: refresh live test results on load
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Live Test results report # 449826820141963279
+
+    execution: 
+      sequence: 40
+      event: get_component_type_rec on page load # 376902669191189422
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: eba_stds_parser.get_component_type_rec ======
+    id: 376903168031189427
+    identification: 
+      name: eba_stds_parser.get_component_type_rec
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        eba_stds_parser.get_component_type_rec (
+                                p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
+                                p_component_name        => :P14_COMPONENT_NAME,
+                                p_component_type_id     => :P14_COMPONENT_TYPE_ID,
+                                p_template_url          => :P14_TEMPLATE_URL
+        );
+      items-to-submit: 
+      - P14_SVT_COMPONENT_TYPE_ID
+      items-to-return: 
+      - P14_COMPONENT_NAME
+      - P14_COMPONENT_TYPE_ID
+      - P14_TEMPLATE_URL
+      suppress-change-event: false
+
+    execution: 
+      sequence: 10
+      event: get_component_type_rec on page load # 376902669191189422
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: log values (instance 1) =====================
+    id: 376903236760189428
+    identification: 
+      name: log values (instance 1)
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        apex.debug.info('instance 1', 'P14_COMPONENT_NAME : ', apex.item('P14_COMPONENT_NAME').getValue(),
+        ' > P14_COMPONENT_TYPE_ID : ', apex.item('P14_COMPONENT_TYPE_ID').getValue(),
+        ' > P14_TEMPLATE_URL : ', apex.item('P14_TEMPLATE_URL').getValue());
+
+    execution: 
+      sequence: 20
+      event: get_component_type_rec on page load # 376902669191189422
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Refresh live tests results on click =
+  id: 376903595509189431
+  identification: 
+    name: Refresh live tests results on click
+
+  execution: 
+    sequence: 240
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: jQuery Selector
+    jquery-selector: .refreshLive
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: refresh live test results report ============
+    id: 376903614548189432
+    identification: 
+      name: refresh live test results report
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Live Test results report # 449826820141963279
+
+    execution: 
+      sequence: 10
+      event: Refresh live tests results on click # 376903595509189431
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: log values (instance 5) =====================
+    id: 376903761895189433
+    identification: 
+      name: log values (instance 5)
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        apex.debug.info('instance 5', 'P14_COMPONENT_NAME : ', apex.item('P14_COMPONENT_NAME').getValue(),
+        ' > P14_COMPONENT_TYPE_ID : ', apex.item('P14_COMPONENT_TYPE_ID').getValue(),
+        ' > P14_TEMPLATE_URL : ', apex.item('P14_TEMPLATE_URL').getValue());
+
+    execution: 
+      sequence: 20
+      event: Refresh live tests results on click # 376903595509189431
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -5710,12 +6101,14 @@ processes:
 
   execution: 
     sequence: 30
-    point: After Header
+    point: Before Regions
     run-process: Once Per Page Visit (default)
 
   server-side-condition: 
-    type: Item is NULL
-    item: P14_COMPONENT_TYPE_ID
+    type: Never
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 - # ====== Process: Publish test ===============================
   id: 369845654794997680
