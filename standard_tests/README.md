@@ -42,7 +42,7 @@ These are standards to maintain Accessibility.
 | [IG_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_TABINDX-REDWOOD.json) |  Interactive Grids should avoid hardcorded tab indexes | v1.2 [REDWOOD] | APEX_APPL_PAGE_IGS |
 | [IR_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IR_COL_BAD_HTML-AHA_APEX.json) |  IR Cols have wellformed HTML | v1 [AHA_APEX] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IR_COL_IMG_ALT_TEXT-REDWOOD.json) |  IR Columns with images have alt text | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_COL_LINK](APEX_ACCESSIBILITY_212/tests/IR_COL_LINK-REDWOOD.json) |  IR Column links should have aria-labels | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
+| [IR_COL_LINK](APEX_ACCESSIBILITY_212/tests/IR_COL_LINK-AHA_APEX.json) |  IR Column links should have aria-labels | v1 [AHA_APEX] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_COL_TABINDX-REDWOOD.json) |  IR Columns should avoid harded tab indexes | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ_LBL-REDWOOD.json) |  IR columns need unique labels | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/IR_COL_VLD_HEADNG-REDWOOD.json) |  IR columns are not null | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
@@ -242,6 +242,7 @@ Standards for correctly implementing Redwood patterns
 | [RW_PAGE_HEADER](APEX_REDWOOD_212/tests/RW_PAGE_HEADER-AHA_APEX.json) |  Regions in the "Page Header" position are correctly config | v1 [AHA_APEX] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_PAGE_ITEM_STYLING](APEX_REDWOOD_212/tests/RW_PAGE_ITEM_STYLING-REDWOOD.json) |  Redwood Page Items should use Redwood Icons | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_PG_NAV_POS](APEX_REDWOOD_212/tests/RW_PG_NAV_POS-REDWOOD.json) |  Region in "Page Navigation" is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_PILLAR_VERIFY](APEX_REDWOOD_212/tests/RW_PILLAR_VERIFY-AHA_APEX.json) |  Health apps should have Sky Pillar set | v1 [AHA_APEX] | APEX_APPLICATIONS |
 | [RW_RGN_BREADCRUMB](APEX_REDWOOD_212/tests/RW_RGN_BREADCRUMB-REDWOOD.json) |  Breadcrumbs have a template and position of "Page Header" | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_SCRBRD_POS](APEX_REDWOOD_212/tests/RW_SCRBRD_POS-REDWOOD.json) |  Region in "Scoreboard" position is correctly configured | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_SMT_FILTR](APEX_REDWOOD_212/tests/RW_SMT_FILTR-REDWOOD.json) |  Smart filter regions are correctly configured | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
