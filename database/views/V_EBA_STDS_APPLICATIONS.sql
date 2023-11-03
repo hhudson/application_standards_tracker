@@ -25,7 +25,7 @@ from eba_stds_applications esa
 inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                 and aa.availability_status != 'Unavailable'
 inner join eba_stds_types est on est.id = esa.type_id
-                              and esa.active_yn = 'Y'
+                              and est.active_yn = 'Y'
 where esa.active_yn = 'Y'
 /
 

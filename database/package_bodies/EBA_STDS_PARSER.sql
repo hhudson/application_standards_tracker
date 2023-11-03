@@ -441,8 +441,8 @@ is
                                             'p_application', replace(l_params(1), 'f?p='),
                                             'p_page'       , l_params(2),
                                             'p_session'    , l_params(3),
-                                            'p_items'      , l_params(4),
-                                            'p_values'     , l_params(5));
+                                            'p_items'      , l_params(4));
+        apex_debug.message(c_debug_template,'p_values'     , l_params(5));
 
         return case when l_params.count >= 5
                     then apex_page.get_url (

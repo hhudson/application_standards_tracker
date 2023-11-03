@@ -1023,8 +1023,8 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                                           );
 
         l_svt_plsql_apex_audit_rec := case when p_audit_id is not null
-                                          then svt_plsql_apex_audit_api.get_audit_record (p_audit_id)
-                                          end;
+                                           then svt_plsql_apex_audit_api.get_audit_record (p_audit_id)
+                                           end;
         if l_svt_plsql_apex_audit_rec.owner is not null 
         and l_svt_plsql_apex_audit_rec.issue_category != gc_apex
         then
