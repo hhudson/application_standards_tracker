@@ -187,8 +187,8 @@ create or replace package body SVT_PLSQL_REVIEW as
       where (view_name = c_object_name or c_object_name is null)
       order by urgency_level, test_name, view_name;
 
-  type t_SVT_db_view_issue is table of v_svt_db_view_all%rowtype index by pls_integer;
-  l_vw_issue_t t_SVT_db_view_issue;
+  type t_svt_db_view_issue is table of v_svt_db_view_all%rowtype index by pls_integer;
+  l_vw_issue_t t_svt_db_view_issue;
 
   cursor cur_tbl_issues
    is

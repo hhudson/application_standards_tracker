@@ -35,28 +35,7 @@ create or replace package body SVT_STANDARD_VIEW as
   l_v_svt_db_plsql t_v_svt_db_plsql;
   gc_db_plsql_select_stmt constant varchar2(100) := 'select pass_yn, schema, object_name, code, object_type, line, unqid from (';
   gc_v_svt_db_plsql_nt constant svt_nested_table_types.nt_name%type:= 'v_svt_db_plsql_nt';
-  ------------------------------------------------------------------------------
-  -- v_svt_sert__0 identifiers
-  ------------------------------------------------------------------------------
-  type r_v_svt_sert__0 is record (
-    application_id                   number,
-    attribute_id                     number,
-    category_key                     varchar2(26),
-    collection_name                  varchar2(26),
-    component_signature              varchar2(1000),
-    issue_title                      varchar2(1000),
-    last_updated_by                  varchar2(255),
-    last_updated_on                  date,
-    link                             varchar2(264),
-    link_desc                        varchar2(42),
-    page_id                          number,
-    result                           varchar2(10),
-    validation_failure_message       varchar2(4000)
-  );
-  type t_v_svt_sert__0 is table of r_v_svt_sert__0 index by pls_integer;
-  l_v_svt_sert__0 t_v_svt_sert__0;
-  gc_sert_select_stmt constant varchar2(255) := 'select application_id, attribute_id, category_key, collection_name, component_signature, issue_title, last_updated_by, last_updated_on, link, link_desc, page_id, result, validation_failure_message from (';
-  gc_v_svt_sert__0_nt  constant svt_nested_table_types.nt_name%type:= 'v_svt_sert__0_nt';
+  
   ------------------------------------------------------------------------------
   -- v_svt_apex identifiers
   ------------------------------------------------------------------------------
@@ -279,70 +258,6 @@ create or replace package body SVT_STANDARD_VIEW as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_db_plsql;
-
-  function v_svt_sert__0(p_test_code     in eba_stds_standard_tests.test_code%type,
-                         p_failures_only in varchar2 default 'N')
-  return v_svt_sert__0_nt pipelined
-  is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_sert__0';
-  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-
-  cur_v_svt_sert__0 sys_refcursor;
-  l_query_clob eba_stds_standard_tests.query_clob%type;
-
-  begin
-    apex_debug.message(c_debug_template,'START', 
-                                        'p_test_code', p_test_code,
-                                        'p_failures_only', p_failures_only);
-
-    l_query_clob := get_query_clob (p_test_code   => p_test_code,
-                                    p_nt_name     => gc_v_svt_sert__0_nt,
-                                    p_select_stmt => gc_sert_select_stmt);
-
-    l_query_clob := case when p_failures_only = gc_y
-                         then l_query_clob||q'[ where result = 'FAIL']'
-                         else l_query_clob 
-                         end;
-
-    open cur_v_svt_sert__0 for l_query_clob;
-
-    loop
-      fetch cur_v_svt_sert__0 bulk collect into l_v_svt_sert__0 limit 1000;
-
-      exit when l_v_svt_sert__0.count = 0;
-
-      for rec in 1 .. l_v_svt_sert__0.count
-      loop
-        pipe row (v_svt_sert__0_ot (
-                      l_v_svt_sert__0 (rec).application_id,
-                      l_v_svt_sert__0 (rec).attribute_id,
-                      l_v_svt_sert__0 (rec).category_key,
-                      l_v_svt_sert__0 (rec).collection_name,
-                      l_v_svt_sert__0 (rec).component_signature,
-                      l_v_svt_sert__0 (rec).issue_title,
-                      l_v_svt_sert__0 (rec).last_updated_by,
-                      l_v_svt_sert__0 (rec).last_updated_on,
-                      l_v_svt_sert__0 (rec).link,
-                      l_v_svt_sert__0 (rec).link_desc,
-                      l_v_svt_sert__0 (rec).page_id,
-                      l_v_svt_sert__0 (rec).result,
-                      l_v_svt_sert__0 (rec).validation_failure_message
-                    )
-                );
-      end loop;
-    end loop;  
-
-  exception 
-    when e_missing_field then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Missing field in SQL Query: ', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise_application_error(-20904, 'Missing field in SQL Query: '||sqlerrm);
-    when no_data_found then
-      apex_debug.error(c_debug_template, 'no data found for test code', p_test_code);
-      raise;
-    when others then
-      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-      raise;
-  end v_svt_sert__0;
 
   function v_svt_apex(p_test_code            in eba_stds_standard_tests.test_code%type,
                       p_failures_only        in varchar2 default 'N',
@@ -788,42 +703,6 @@ create or replace package body SVT_STANDARD_VIEW as
                                                                      then ':'||component_id
                                                                      end
                                                            end = '%1' ^', c_test_code, c_unqid);
-    elsif c_nt_name = gc_v_svt_sert__0_nt then
-      l_query_clob := get_query_clob (
-        p_test_code => c_test_code,
-        p_nt_name => c_nt_name,
-        p_select_stmt => apex_string.format(
-                          q'[select collection_name||'__'||application_id||'__'||page_id||'__'||component_signature unqid,
-                                   '%0' issue_category,
-                                   application_id,
-                                   page_id,
-                                   case when result = 'FAIL'
-                                        then 'N'
-                                        else 'Y'
-                                        end pass_yn,
-                                   null line,
-                                   null schema,
-                                   null object_name,
-                                   null object_type,
-                                   null code,
-                                   validation_failure_message,
-                                   issue_title,
-                                   null apex_created_by,
-                                   null apex_created_on,
-                                   last_updated_by apex_last_updated_by,
-                                   last_updated_on apex_last_updated_on,
-                                   null test_code,
-                                   null component_id,
-                                   null parent_component_id
-                          from (]',
-                          p0 => c_issue_category)
-      );
-      l_query_clob := case when p_production_apps_only = gc_y
-                           then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
-                           else l_query_clob 
-                           end;
-      l_failure_predicate := q'[ and result = 'FAIL']';
-      l_unqid_predicate := apex_string.format(q'^ and collection_name||'__'||application_id||'__'||page_id||'__'||component_signature = '%s' ^', c_unqid);
     else 
       raise_application_error(-20123,'unknown nt type');
     end if;
@@ -1078,9 +957,6 @@ create or replace package body SVT_STANDARD_VIEW as
       if get_nt_type_name (l_nt_type_id) =  gc_v_svt_db_plsql_nt then
         open cur_query for gc_db_plsql_select_stmt||p_query_code||')';
         fetch cur_query bulk collect into l_v_svt_db_plsql limit 1;
-      elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_sert__0_nt then
-        open cur_query for gc_sert_select_stmt||p_query_code||')';
-        fetch cur_query bulk collect into l_v_svt_sert__0 limit 1;
       elsif get_nt_type_name (l_nt_type_id) =  gc_v_svt_apex_nt then
         open cur_query for gc_apex_select_stmt||p_query_code||')';
         fetch cur_query bulk collect into l_v_svt_apex limit 1;

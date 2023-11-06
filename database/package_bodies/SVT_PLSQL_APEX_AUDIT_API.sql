@@ -22,8 +22,6 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   gc_y            constant varchar2(1) := 'Y';
   gc_n            constant varchar2(1) := 'N';
   gc_apex         constant varchar2(4) := 'APEX'; 
-  gc_sert         constant varchar2(4) := 'SERT'; 
-
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -566,7 +564,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                                end assignee
                     from svt_plsql_apex_audit paa
                     left join v_apex_workspace_developers awd on coalesce(paa.apex_last_updated_by, paa.apex_created_by) = awd.user_name
-                    where issue_category in (gc_apex, gc_sert)
+                    where issue_category in (gc_apex)
                     and paa.assignee is null
                   )
       loop 
@@ -580,7 +578,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         update svt_plsql_apex_audit
         set assignee = lower(l_auditid_email(l_auditid))
         where id = l_auditid
-        and issue_category in (gc_apex,gc_sert)
+        and issue_category in (gc_apex)
         -- and (assignee != l_auditid_email(l_auditid) or assignee is null)
         and assignee is null
         ;

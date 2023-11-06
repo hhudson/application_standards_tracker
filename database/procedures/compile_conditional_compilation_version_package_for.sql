@@ -93,31 +93,6 @@ begin
       end loop;
    end loop;
    
-   <<sert_yn>>
-   declare
-   l_access_to_sert_yn varchar2(1) := 'N';
-   begin
-
-      begin <<subsert>>
-         select preference_value
-         into l_access_to_sert_yn
-         from apex_workspace_preferences
-         where preference_name = 'SVT_SERT_YN'
-         order by user_name
-         fetch first 1 rows only;
-      exception when no_data_found then
-         l_access_to_sert_yn := 'N';
-      end subsert;
-
-      add_line(apex_string.format(q'[c_sert_access constant boolean := %s;]', 
-                                    case when l_access_to_sert_yn = 'Y'
-                                       then 'true'
-                                       else 'false'
-                                       end
-                                 )
-               );
-   end sert_yn;
-
    <<apex_i_yn>>
    declare 
    l_access_to_apex_issues_yn varchar2(1) := 'N';

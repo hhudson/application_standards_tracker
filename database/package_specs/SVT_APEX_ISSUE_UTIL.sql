@@ -88,7 +88,7 @@ procedure create_issue (p_id             out apex_issues.issue_id%type,
 /*
 begin
   svt_apex_issue_util.merge_from_audit_tbl(
-                            p_issue_category => 'sert',
+                            p_issue_category => 'apex',
                             p_application_id => 17000033,
                             p_page_id => 1
                             );

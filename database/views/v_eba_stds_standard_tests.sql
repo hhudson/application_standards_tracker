@@ -4,7 +4,7 @@
 -- the column order must match eba_stds_standard_tests_api.v_eba_stds_standard_tests() for the data loading to id the correct columns
 -- keep this view light- it's used every time you compile!
 
-create or replace force view v_eba_stds_standard_tests as 
+create or replace force view V_EBA_STDS_STANDARD_TESTS as 
 select  /*+ result_cache */
         st.standard_id,
         st.id test_id,

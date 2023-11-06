@@ -41,36 +41,6 @@ from svt_standard_view.v_svt_db_plsql(
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
---     Date: January 24, 2023
--- Synopsis:
---
--- function to pipeline sert views
---
-/*
-select application_id, 
-       attribute_id, 
-       category_key, 
-       collection_name, 
-       component_signature, 
-       issue_title, 
-       last_updated_by, 
-       last_updated_on, 
-       link, 
-       link_desc, 
-       page_id, 
-       result, 
-       validation_failure_message
-from svt_standard_view.v_svt_sert__0(
-                        p_test_code    => 'SV_PS_DEEP_LINKING',
-                        p_failures_only => 'Y'); 
-*/
-------------------------------------------------------------------------------
-  function v_svt_sert__0(p_test_code     in eba_stds_standard_tests.test_code%type,
-                         p_failures_only in varchar2 default 'N')
-  return v_svt_sert__0_nt pipelined;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
 --     Date: 2023-Jan-25
 -- Synopsis:
 --
@@ -183,7 +153,7 @@ return svt_standard_view.query_feedback (
 -- private function to return the id of a nest table type name
 --
 /*
-select svt_standard_view.get_nt_type_id('v_svt_sert__0_nt')
+select svt_standard_view.get_nt_type_id('v_svt_apex__0_nt')
 from dual;
 */
 ------------------------------------------------------------------------------

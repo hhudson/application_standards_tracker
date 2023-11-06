@@ -34,8 +34,6 @@ drop type svt.v_svt_db_tbl__0_nt;
 drop type svt.v_svt_db_view__0_nt;
 drop type svt.v_svt_plsql_apex__0_nt;
 drop type svt.v_svt_scm_object_assignee_nt;
-drop type svt.v_svt_sert_nt;
-drop type svt.v_svt_sert__0_nt;
 drop type svt.v_svt_table_data_load_def_nt;
 
 /*
@@ -80,8 +78,6 @@ drop type svt.v_svt_db_tbl__0_ot;
 drop type svt.v_svt_db_view__0_ot;
 drop type svt.v_svt_plsql_apex__0_ot;
 drop type svt.v_svt_scm_object_assignee_ot;
-drop type svt.v_svt_sert_ot;
-drop type svt.v_svt_sert__0_ot;
 drop type svt.v_svt_table_data_load_def_ot;
 
 /*
@@ -107,7 +103,6 @@ drop table svt.svt_compatibility cascade constraints;
 drop table svt.svt_component_types cascade constraints;
 drop table svt.svt_nested_table_types cascade constraints;
 drop table svt.svt_plsql_apex_audit cascade constraints;
-drop table svt.svt_sert_how_to_fix cascade constraints;
 drop table svt.svt_standards_urgency_level cascade constraints;
 drop materialized view svt.mv_issues_created_by_day;
 drop materialized view svt.mv_svt_bc_entries;
@@ -146,7 +141,6 @@ drop package svt.except_cols_pkg;
 drop package svt.oracle_apex_version;
 drop package svt.svt_apex_issue_link;
 drop package svt.svt_apex_issue_util;
-drop package svt.svt_apex_sert_util;
 drop package svt.svt_apex_view;
 drop package svt.svt_audit_util;
 drop package svt.svt_ctx_util;
@@ -192,7 +186,6 @@ drop view svt.v_svt_nav_menu;
 drop view svt.v_svt_plsql_apex_audit;
 drop view svt.v_svt_plsql_apex__0;
 drop view svt.v_svt_scm_object_assignee;
-drop view svt.v_svt_sert;
 drop view svt.v_svt_table_data_load_def;
 drop view svt.v_all_standards_export;
 drop view svt.v_apex_applications;
