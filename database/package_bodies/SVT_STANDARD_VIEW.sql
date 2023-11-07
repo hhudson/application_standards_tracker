@@ -514,7 +514,7 @@ create or replace package body SVT_STANDARD_VIEW as
   );
   type t_v_svt_plsql_apex__0 is table of r_v_svt_plsql_apex__0 index by pls_integer;
   l_v_svt_plsql_apex__0 t_v_svt_plsql_apex__0;
-  l_failure_predicate varchar2(31) := q'[ and pass_yn = 'N']';
+  c_failure_predicate constant varchar2(31) := q'[ and pass_yn = 'N']';
   c_unqid constant svt_plsql_apex_audit.unqid%type := 
                                              case when p_unqid is not null 
                                                   then p_unqid 
@@ -720,7 +720,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                             end 
                                   end
                           || case when p_failures_only = gc_y
-                                  then l_failure_predicate
+                                  then c_failure_predicate
                                   end
                           || case when c_unqid is not null
                                   then l_unqid_predicate
