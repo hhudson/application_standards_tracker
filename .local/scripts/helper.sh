@@ -1067,6 +1067,10 @@ $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 -- Load user specific commands here
 
 
+PRO step 0: turn on plscope 
+
+alter session set plscope_settings='IDENTIFIERS:ALL, STATEMENTS:ALL';
+
 PRO step 1 : deploying changes
 
 lb update -changelog-file controller.xml -debug true -log true
@@ -1134,6 +1138,7 @@ invalid_objects () {
   # Parameters
   local p_file_name="$1"
   # echo "log : p_file_name = '$p_file_name'"
+  # dbms_utility.compile_schema(schema => user, compile_all => false);
 
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 set define off
@@ -1143,9 +1148,12 @@ set feedback off
 set wrap off
 set linesize 3000
 
+PRO step 0 : turn on plscope
+alter session set plscope_settings='IDENTIFIERS:ALL, STATEMENTS:ALL';
+
 PRO step 1 : compile schema 
 begin
-  dbms_utility.compile_schema(schema => user, compile_all => false);
+  dbms_utility.compile_schema(schema => user, compile_all => true);
 end;
 /
 

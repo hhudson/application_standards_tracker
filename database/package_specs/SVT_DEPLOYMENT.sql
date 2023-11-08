@@ -16,7 +16,7 @@ create or replace package SVT_DEPLOYMENT authid definer as
 -- RUNTIME DEPLOYMENT: Yes
 --
 -- MODIFIED  (YYYY-MON-DD)
--- change_me  YYYY-MON-DD - created
+-- hayhudso  2023-Jul-28 - created
 ---------------------------------------------------------------------------- 
 
 ------------------------------------------------------------------------------

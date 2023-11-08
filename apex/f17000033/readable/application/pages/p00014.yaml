@@ -630,16 +630,7 @@ regions:
   attributes: 
     id: 401120214585419575
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:75:&SESSION.::&DEBUG.:75:P75_TEST_ID:&P14_ID.'
-        page: 75
-        clear-cache: 75
-        values: 
-          p75_test_id: '&P14_ID.'
-
-      link-icon: <img src="#APEX_FILES#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
-      link-attributes: 'title="Edit #TEST_CODE# + #WCAG_CODE#"  aria-label="Edit #TEST_CODE# + #WCAG_CODE#" '
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y
@@ -1083,19 +1074,7 @@ regions:
              std.parent_component_id,
              std.schema,
              std.link_url,
-             '<button type="button" 
-                   class="a-Button edit-button t-Button t-Button--icon t-Button--hot t-Button--primary t-Button--noUI t-Button--iconLeft"
-                   data-link="' ||
-             std.link_url|| 
-             '"' ||
-             case when :P14_COMPONENT_TYPE_ID is not null then
-               ' data-appid="'       || std.application_id || '"' ||
-               ' data-pageid="'      || std.page_id || '"' ||
-               ' data-typeid="'      || :P14_COMPONENT_TYPE_ID || '"' ||
-               ' data-componentid="' || std.component_id || '"'
-             end ||
-             '> <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-bullseye"></span>' 
-             || wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button
+             null view_button
       from std
       where std.link_url is not null or :P14_COMPONENT_TYPE_ID is not null 
     page-items-to-submit: 
@@ -1409,7 +1388,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Component Type Id
+        heading: Component Type ID
         alignment: start
 
       single-row-view: 
@@ -4706,6 +4685,9 @@ buttons:
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 - # ====== Button: SAVE_RERUN_AUDIT ============================
   id: 467024998681825375
