@@ -20,11 +20,12 @@ comment on column EBA_STDS_STANDARD_TESTS.CREATED                               
 comment on column EBA_STDS_STANDARD_TESTS.CREATED_BY                                    is q'[The user who created the record]';
 comment on column EBA_STDS_STANDARD_TESTS.UPDATED                                       is q'[The date the record was updated]';
 comment on column EBA_STDS_STANDARD_TESTS.UPDATED_BY                                    is q'[The user who updated the record]';
-comment on column EBA_STDS_STANDARD_TESTS.TEST_CODE                                 is q'[]';
+comment on column EBA_STDS_STANDARD_TESTS.TEST_CODE                                     is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.ACTIVE_YN                                     is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.NT_TYPE_ID                                    is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.SRC                                           is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.LEVEL_ID                                      is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.QUERY_CLOB                                    is q'[]';
 comment on column EBA_STDS_STANDARD_TESTS.OWNER                                         is q'[]';
+comment on column EBA_STDS_STANDARD_TESTS.AVG_EXCTN_SCNDS                               is q'[the average amount of time it takes to run the job]';
 

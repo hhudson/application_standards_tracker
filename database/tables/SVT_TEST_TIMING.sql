@@ -7,6 +7,6 @@ create table svt_test_timing (
                                    constraint svt_test_timing_id_pk primary key,
     test_code                      varchar2(100 char),
     elapsed_seconds                number,
-    created                        date not null
+    created                        date default sysdate not null
 );
 --rollback drop table svt_test_timing;

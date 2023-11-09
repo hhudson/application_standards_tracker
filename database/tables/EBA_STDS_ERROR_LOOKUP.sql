@@ -12,34 +12,22 @@
 --
 --------------------------------------------------------------------------------
 
-  CREATE TABLE EBA_STDS_ERROR_LOOKUP 
-   (	CONSTRAINT_NAME VARCHAR2(30 CHAR), 
-      MESSAGE VARCHAR2(4000 CHAR), 
-      LANGUAGE_CODE VARCHAR2(30 CHAR)
+  create table eba_stds_error_lookup 
+   (	constraint_name varchar2(30 char) not null, 
+      message         varchar2(4000 char) not null, 
+      language_code   varchar2(30 char) not null
    ) 
 /
 
-  ALTER TABLE EBA_STDS_ERROR_LOOKUP MODIFY (CONSTRAINT_NAME NOT NULL ENABLE)
+  alter table eba_stds_error_lookup add constraint eba_sterlk_pk primary key (constraint_name)
+  using index (create unique index eba_sterlk_pk_idx on eba_stds_error_lookup (constraint_name) 
+  )  enable
 /
 
 
-  ALTER TABLE EBA_STDS_ERROR_LOOKUP MODIFY (MESSAGE NOT NULL ENABLE)
-/
-
-
-  ALTER TABLE EBA_STDS_ERROR_LOOKUP MODIFY (LANGUAGE_CODE NOT NULL ENABLE)
-/
-
-
-  ALTER TABLE EBA_STDS_ERROR_LOOKUP ADD CONSTRAINT EBA_STERLK_PK PRIMARY KEY (CONSTRAINT_NAME)
-  USING INDEX (CREATE UNIQUE INDEX EBA_STERLK_PK_IDX ON EBA_STDS_ERROR_LOOKUP (CONSTRAINT_NAME) 
-  )  ENABLE
-/
-
-
-  ALTER TABLE EBA_STDS_ERROR_LOOKUP ADD CONSTRAINT EBA_STERLK_UK1 UNIQUE (CONSTRAINT_NAME, LANGUAGE_CODE)
-  USING INDEX (CREATE UNIQUE INDEX EBA_STERLK_UK1_IDX ON EBA_STDS_ERROR_LOOKUP (CONSTRAINT_NAME, LANGUAGE_CODE) 
-  )  ENABLE
+  alter table eba_stds_error_lookup add constraint eba_sterlk_uk1 unique (constraint_name, language_code)
+  using index (create unique index eba_sterlk_uk1_idx on eba_stds_error_lookup (constraint_name, language_code) 
+  )  enable
 /
 
 
