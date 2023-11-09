@@ -38,10 +38,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: v_svt_table_data_load_def ===================
+- # ====== Region: Deployment data =============================
   id: 341043501145920865
   identification: 
-    title: v_svt_table_data_load_def
+    title: Deployment data
     type: Interactive Report
 
   source: 
@@ -267,6 +267,11 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: svt_preferences.get_preference ('SVT_ADMIN_VERSION_YN') = 'Y'
 
       security: 
         escape-special-characters: true
@@ -1192,7 +1197,7 @@ regions:
         font-size: 12
         font-color: '#000000'
         alignment: center
-        page-header-text: v_svt_table_data_load_def
+        page-header-text: Deployment data
 
       column-headings: 
         font: Helvetica
@@ -1227,7 +1232,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: v_svt_table_data_load_def # 341043501145920865
+    region: Deployment data # 341043501145920865
     position: BODY
 
   advanced: 
@@ -1257,7 +1262,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: v_svt_table_data_load_def # 341043501145920865
+    region: Deployment data # 341043501145920865
     position: BODY
 
   advanced: 
@@ -1285,7 +1290,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: v_svt_table_data_load_def # 341043501145920865
+    region: Deployment data # 341043501145920865
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -1398,7 +1403,7 @@ dynamic-actions:
 
     affected-elements: 
       selection-type: Region
-      region: v_svt_table_data_load_def # 341043501145920865
+      region: Deployment data # 341043501145920865
 
     execution: 
       sequence: 40
@@ -1433,7 +1438,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: v_svt_table_data_load_def # 341043501145920865
+    region: Deployment data # 341043501145920865
 
   execution: 
     event-scope: Static

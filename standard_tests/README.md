@@ -191,9 +191,9 @@ Standards that are *not* general standards
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [ALPH_COL_DATATYPE](DB_MILLENIUM_GEN2_19C/tests/ALPH_COL_DATATYPE-AHA_APEX.json) |  These column datatypes are discouraged | v1.1 [AHA_APEX] | DATABASE TABLE |
-| [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME-REDWOOD.json) |  Materialized Views should be named correctly | v1.2 [REDWOOD] | DATABASE MATERIALIZED VIEW |
 | [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME-REDWOOD.json) |  Alphawave Views must be correctly named | v1.3 [REDWOOD] | DATABASE VIEW |
 | [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS-REDWOOD.json) |  Tables should have audit columns | v1.2 [REDWOOD] | DATABASE TABLE |
+| [TRIGGER_SCHEMA_PRFX_TBL](DB_MILLENIUM_GEN2_19C/tests/TRIGGER_SCHEMA_PRFX_TBL-REDWOOD.json) |  DML Triggers must have schema prefix for table | v1 [REDWOOD] | DATABASE TRIGGER |
 | [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE-AHA_APEX.json) |  Use Char not Bytes | v1 [AHA_APEX] | DATABASE TABLE |
 | [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ-AHA_APEX.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 [AHA_APEX] | DATABASE TABLE |
 
