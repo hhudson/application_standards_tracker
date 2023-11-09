@@ -29,8 +29,12 @@ create or replace package body svt_nested_table_types_api as
   c_scope          constant varchar2(128) := gc_scope_prefix || 'insert_nt';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_id svt_nested_table_types.id%type;
+  c_nt_name     constant svt_nested_table_types.nt_name%type := upper(p_nt_name);
+  c_object_type constant svt_nested_table_types.object_type%type := upper(p_object_type);
   begin
-    apex_debug.message(c_debug_template,'START', 'p_nt_name', p_nt_name);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_nt_name', p_nt_name,
+                                        'p_object_type', p_object_type);
 
     insert into svt_nested_table_types
     (
@@ -44,9 +48,9 @@ create or replace package body svt_nested_table_types_api as
     )
     values 
     (
-      p_nt_name,
+      c_nt_name,
       p_example_query,
-      p_object_type,
+      c_object_type,
       gc_sysdate,
       gc_user,
       gc_sysdate,

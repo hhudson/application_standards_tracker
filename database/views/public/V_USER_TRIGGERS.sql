@@ -5,16 +5,19 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_USER_TRIGGERS as
-select owner, 
-       trigger_name, 
-       trigger_type, 
-       triggering_event, 
-       table_owner, 
-       base_object_type, 
-       table_name, 
-       description
-from dba_triggers
-where owner = svt_ctx_util.get_default_user
-and view_name not like 'XXX%'
+select dt.owner, 
+       dt.trigger_name, 
+       dt.trigger_type, 
+       dt.triggering_event, 
+       dt.table_owner, 
+       dt.base_object_type, 
+       dt.table_name, 
+       dt.description,
+       dob.object_id
+from dba_triggers dt
+inner join dba_objects dob on dob.object_name = dt.trigger_name
+                           and dob.object_type = 'TRIGGER'
+                           and dob.owner = dt.owner
+where dt.owner = svt_ctx_util.get_default_user
 /
 --rollback drop view V_USER_TRIGGERS;
