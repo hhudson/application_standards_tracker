@@ -1283,10 +1283,35 @@ processes:
     form-region: Notification # 10754737627985563231
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P31_ID := eba_stds_notifications_api.insert_ntf (
+                          p_notification_name        => :P31_NOTIFICATION_NAME,
+                          p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
+                          p_notification_type        => :P31_NOTIFICATION_TYPE,
+                          p_display_sequence         => :P31_DISPLAY_SEQUENCE,
+                          p_display_from             => :P31_DISPLAY_FROM,
+                          p_display_until            => :P31_DISPLAY_UNTIL
+                      );
+          when 'U' then
+            eba_stds_notifications_api.update_ntf(
+                  p_id                       => :P31_ID,
+                  p_notification_name        => :P31_NOTIFICATION_NAME,
+                  p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
+                  p_notification_type        => :P31_NOTIFICATION_TYPE,
+                  p_display_sequence         => :P31_DISPLAY_SEQUENCE,
+                  p_display_from             => :P31_DISPLAY_FROM,
+                  p_display_until            => :P31_DISPLAY_UNTIL
+              );
+          when 'D' then
+            eba_stds_notifications_api.delete_ntf(p_id => :P31_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: false
 
   execution: 
     sequence: 20
