@@ -691,10 +691,33 @@ processes:
     form-region: Application Type # 7804529408368923119
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P24_ID := eba_stds_types_api.insert_typ (
+                          p_display_sequence => :P24_DISPLAY_SEQUENCE,
+                          p_type_name        => :P24_TYPE_NAME,
+                          p_type_code        => :P24_TYPE_CODE,
+                          p_description      => :P24_DESCRIPTION,
+                          p_active_yn        => :P24_ACTIVE_YN
+                      );
+          when 'U' then
+            eba_stds_types_api.update_typ(
+                  p_id               => :P24_ID,
+                  p_display_sequence => :P24_DISPLAY_SEQUENCE,
+                  p_type_name        => :P24_TYPE_NAME,
+                  p_type_code        => :P24_TYPE_CODE,
+                  p_description      => :P24_DESCRIPTION,
+                  p_active_yn        => :P24_ACTIVE_YN
+              );
+          when 'D' then
+            eba_stds_types_api.delete_typ(p_id => :P24_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: false
 
   execution: 
     sequence: 30
