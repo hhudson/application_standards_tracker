@@ -27,7 +27,6 @@ create or replace package body SVT_STANDARDS_URGENCY_LEVEL_API as
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'insert_ul';
     c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
-    l_id svt_standards_urgency_level.id%type;
     c_id constant svt_standards_urgency_level.id%type 
                   := coalesce(p_id, 
                               to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
@@ -58,9 +57,9 @@ create or replace package body SVT_STANDARDS_URGENCY_LEVEL_API as
         gc_user
       );
 
-      apex_debug.message(c_debug_template,'l_id', l_id);
+      apex_debug.message(c_debug_template,'c_id', c_id);
 
-      return l_id;
+      return c_id;
 
     exception
      when others then

@@ -170,6 +170,7 @@ page-items:
     template-options: 
     - '#DEFAULT#'
     width: 30
+    value-placeholder: Critical
 
   validation: 
     value-required: true
@@ -219,7 +220,7 @@ page-items:
   source: 
     form-region: Edit Urgency Level # 3663398137052243292
     column: CREATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -285,7 +286,7 @@ page-items:
   source: 
     form-region: Edit Urgency Level # 3663398137052243292
     column: UPDATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -397,6 +398,7 @@ page-items:
     template-options: 
     - '#DEFAULT#'
     width: 32
+    value-placeholder: 10
 
   validation: 
     value-required: true
@@ -611,10 +613,27 @@ processes:
     form-region: Edit Urgency Level # 3663398137052243292
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P50_ID := svt_standards_urgency_level_api.insert_ul (
+                          p_urgency_level => :P50_URGENCY_LEVEL,
+                          p_urgency_name  => :P50_URGENCY_NAME
+                      );
+          when 'U' then
+            svt_standards_urgency_level_api.update_ul(
+                  p_id            => :P50_ID,
+                  p_urgency_level => :P50_URGENCY_LEVEL,
+                  p_urgency_name  => :P50_URGENCY_NAME
+              );
+          when 'D' then
+            svt_standards_urgency_level_api.delete_ul(p_id => :P50_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10
