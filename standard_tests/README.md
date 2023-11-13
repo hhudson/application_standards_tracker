@@ -143,6 +143,7 @@ Non theme specific standards
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_CSS_FILE](APEX_GENERAL_212/tests/APP_CSS_FILE-REDWOOD.json) |  Apps should have a centralized css file | v1 [REDWOOD] | APEX_APPLICATIONS |
+| [APT_PAGE_ITEM_SUBTYPE](APEX_GENERAL_212/tests/APT_PAGE_ITEM_SUBTYPE-REDWOOD.json) |  Use the appropriate page item subtype | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [COL_ALIGNMENT_CLASSIC](APEX_GENERAL_212/tests/COL_ALIGNMENT_CLASSIC-REDWOOD.json) |  Classic Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [COL_ALIGNMENT_IG](APEX_GENERAL_212/tests/COL_ALIGNMENT_IG-REDWOOD.json) |  IG Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [COL_ALIGNMENT_IR](APEX_GENERAL_212/tests/COL_ALIGNMENT_IR-REDWOOD.json) |  IR Columns are correctly aligned | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
@@ -153,9 +154,19 @@ Non theme specific standards
 | [FORM_ITEM_HELP](APEX_GENERAL_212/tests/FORM_ITEM_HELP-REDWOOD.json) |  Form Elements may benefit from help text | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [JVSCRIPT_CONSOLE_LOG](APEX_GENERAL_212/tests/JVSCRIPT_CONSOLE_LOG-REDWOOD.json) |  Do not use console.log | v1 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
 | [NO_CSS_IN_PAGE](APEX_GENERAL_212/tests/NO_CSS_IN_PAGE-REDWOOD.json) |  Pages should not have local CSS | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [NO_HARDCDD_DT_FRMTS](APEX_GENERAL_212/tests/NO_HARDCDD_DT_FRMTS-REDWOOD.json) |  Avoid hardcoded date formats | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [PAGE_ITEM_NAMING](APEX_GENERAL_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RGN_STTC_NODASH](APEX_GENERAL_212/tests/RGN_STTC_NODASH-REDWOOD.json) |  Region Static IDs can have underscores not dashes | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [TOO_MANY_DAS](APEX_GENERAL_212/tests/TOO_MANY_DAS-REDWOOD.json) |  Pages should limit the amount of Dynamic Actions | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
+
+## Idiosyncratic (Database Version 19C)
+Standards that are *not* general standards
+
+ - [Consolidated tests export](DB_IDIOSYNCRATIC_19C/ALL_TESTS-DB_IDIOSYNCRATIC_19C.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+| [NO_TRIGGERS](DB_IDIOSYNCRATIC_19C/tests/NO_TRIGGERS-REDWOOD.json) |  This schema should not have triggers | v1 [REDWOOD] | DATABASE TRIGGER |
 
 ## Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards that are *not* general standards
@@ -191,6 +202,7 @@ Standards that are *not* general standards
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [ALPH_COL_DATATYPE](DB_MILLENIUM_GEN2_19C/tests/ALPH_COL_DATATYPE-AHA_APEX.json) |  These column datatypes are discouraged | v1.1 [AHA_APEX] | DATABASE TABLE |
+| [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME-REDWOOD.json) |  Materialized Views should be named correctly | v1.3 [REDWOOD] | DATABASE MATERIALIZED VIEW |
 | [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME-REDWOOD.json) |  Alphawave Views must be correctly named | v1.3 [REDWOOD] | DATABASE VIEW |
 | [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS-REDWOOD.json) |  Tables should have audit columns | v1.2 [REDWOOD] | DATABASE TABLE |
 | [TRIGGER_SCHEMA_PRFX_TBL](DB_MILLENIUM_GEN2_19C/tests/TRIGGER_SCHEMA_PRFX_TBL-REDWOOD.json) |  DML Triggers must have schema prefix for table | v1 [REDWOOD] | DATABASE TRIGGER |
