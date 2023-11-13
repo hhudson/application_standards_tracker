@@ -80,7 +80,7 @@ create or replace package body eba_stds_types_api as
   begin
    apex_debug.message(c_debug_template,'START',
                                        'p_id', p_id
-                     );xp
+                     );
 
     update eba_stds_types
     set display_sequence = p_display_sequence,

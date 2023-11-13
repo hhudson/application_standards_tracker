@@ -18,7 +18,9 @@ with std as (select id,
                     dense_rank() over (partition by unqid order by created desc) therank
                 from svt_audit_on_audit
                 )
-select  esst.standard_name,
+select  std.id, 
+        std.unqid, 
+        esst.standard_name,
         substr(std.unqid, std.delim1 + 1,std.delim2-std.delim1-1) app_id, 
         esst.component_name,
         std.created, 
