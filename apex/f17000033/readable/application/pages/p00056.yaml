@@ -156,7 +156,7 @@ page-items:
   source: 
     form-region: edit audit action # 635010179403172346
     column: CREATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -222,7 +222,7 @@ page-items:
   source: 
     form-region: edit audit action # 635010179403172346
     column: UPDATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -603,10 +603,27 @@ processes:
     form-region: edit audit action # 635010179403172346
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P56_ID := svt_audit_actions_api.insert_aua (
+                          p_action_name          => :P56_ACTION_NAME,
+                          p_include_in_report_yn => :P56_INCLUDE_IN_REPORT_YN
+                      );
+          when 'U' then
+            svt_audit_actions_api.update_aua (
+                  p_id                   => :P56_ID,
+                  p_action_name          => :P56_ACTION_NAME,
+                  p_include_in_report_yn => :P56_INCLUDE_IN_REPORT_YN
+              );
+          when 'D' then
+            svt_audit_actions_api.delete_aua(p_id => :P56_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10

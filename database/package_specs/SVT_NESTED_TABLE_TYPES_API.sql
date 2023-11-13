@@ -22,7 +22,7 @@ create or replace package svt_nested_table_types_api authid definer as
 begin
   case :APEX$ROW_STATUS
     when 'C' then
-      :P14_ID := svt_nested_table_types_api.insert_nt (
+      :P64_ID := svt_nested_table_types_api.insert_nt (
                     p_nt_name       => :P64_NT_NAME,
                     p_example_query => :P64_EXAMPLE_QUERY,
                     p_object_type   => :P64_OBJECT_TYPE

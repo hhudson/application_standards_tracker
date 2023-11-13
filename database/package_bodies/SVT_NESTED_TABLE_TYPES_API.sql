@@ -17,8 +17,8 @@ create or replace package body svt_nested_table_types_api as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
-  gc_sysdate constant svt_nested_table_types.created%type := sysdate;
-  gc_user    constant svt_nested_table_types.created_by%type := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
+  gc_systimestamp constant svt_nested_table_types.created%type := systimestamp;
+  gc_user         constant svt_nested_table_types.created_by%type := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
 
   function insert_nt (
         p_nt_name       in svt_nested_table_types.nt_name%type,
@@ -51,9 +51,9 @@ create or replace package body svt_nested_table_types_api as
       c_nt_name,
       p_example_query,
       c_object_type,
-      gc_sysdate,
+      gc_systimestamp,
       gc_user,
-      gc_sysdate,
+      gc_systimestamp,
       gc_user
     ) returning id into l_id;
 
@@ -83,7 +83,7 @@ create or replace package body svt_nested_table_types_api as
     set nt_name       = p_nt_name,
         example_query = p_example_query,
         object_type   = p_object_type,
-        updated       = gc_sysdate,
+        updated       = gc_systimestamp,
         updated_by    = gc_user
     where id = p_id;
 
