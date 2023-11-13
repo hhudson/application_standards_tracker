@@ -1074,6 +1074,36 @@ buttons:
     type: Item is NULL
     item: P7_ID
 
+- # ====== Button: DELETE ======================================
+  id: 427273444765525908
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 10
+    region: Buttons # 269190552380859179
+    position: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7800080814852934990
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
   id: 269191067318859179
@@ -1127,10 +1157,43 @@ processes:
     form-region: Manage Component Type # 269185236959859172
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P7_ID := svt_component_types_api.insert_cmp (
+                          p_component_name    => :P7_COMPONENT_NAME,
+                          p_component_code    => :P7_COMPONENT_CODE,
+                          p_available_yn      => :P7_AVAILABLE_YN,
+                          p_nt_type_id        => :P7_NT_TYPE_ID,
+                          p_pk_value          => :P7_PK_VALUE,
+                          p_parent_pk_value   => :P7_PARENT_PK_VALUE,
+                          p_template_url      => :P7_TEMPLATE_URL,
+                          p_friendly_name     => :P7_FRIENDLY_NAME,
+                          p_name_column       => :P7_NAME_COLUMN,
+                          p_addl_cols         => :P7_ADDL_COLS
+                      );
+          when 'U' then
+            svt_component_types_api.update_cmp (
+                  p_id                => :P7_ID,
+                  p_component_name    => :P7_COMPONENT_NAME,
+                  p_component_code    => :P7_COMPONENT_CODE,
+                  p_available_yn      => :P7_AVAILABLE_YN,
+                  p_nt_type_id        => :P7_NT_TYPE_ID,
+                  p_pk_value          => :P7_PK_VALUE,
+                  p_parent_pk_value   => :P7_PARENT_PK_VALUE,
+                  p_template_url      => :P7_TEMPLATE_URL,
+                  p_friendly_name     => :P7_FRIENDLY_NAME,
+                  p_name_column       => :P7_NAME_COLUMN,
+                  p_addl_cols         => :P7_ADDL_COLS
+              );
+          when 'D' then
+            svt_component_types_api.delete_cmp(p_id => :P7_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10
