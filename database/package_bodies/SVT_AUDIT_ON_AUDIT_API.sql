@@ -56,6 +56,25 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
       raise;
   end insert_rec;
 
+  procedure delete_extra
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'delete_extra';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  begin
+   apex_debug.message(c_debug_template,'START');
+
+   delete from svt_audit_on_audit
+   where id not in (select id
+                    from v_svt_audit_on_audit_keep_these);
+   
+   apex_debug.info(c_debug_template, 'deleted : ', sql%rowcount);
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end delete_extra;
+
 
 end SVT_AUDIT_ON_AUDIT_API;
 /

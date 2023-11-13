@@ -44,6 +44,22 @@ create or replace package SVT_AUDIT_ON_AUDIT_API authid definer as
         p_validation_failure_message in svt_audit_on_audit.validation_failure_message%type
     );
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 13, 2023
+-- Synopsis:
+--
+-- Procedure to delete extra records in SVT_AUDIT_ON_AUDIT 
+-- (unqid that keep getting inserted and deleted, which is indicative of a problem)
+--
+/*
+begin
+    svt_audit_on_audit_api.delete_extra;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_extra;    
+
 end SVT_AUDIT_ON_AUDIT_API;
 /
 --rollback drop package SVT_AUDIT_ON_AUDIT_API;
