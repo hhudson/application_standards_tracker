@@ -438,7 +438,7 @@ page-items:
   source: 
     form-region: Manage compatibility # 387158700283357840
     column: CREATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -504,7 +504,7 @@ page-items:
   source: 
     form-region: Manage compatibility # 387158700283357840
     column: UPDATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -732,10 +732,31 @@ processes:
     form-region: Manage compatibility # 387158700283357840
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P46_ID := svt_compatibility_api.insert_cmp (
+                          p_display_order      => :P46_DISPLAY_ORDER,
+                          p_compatibility_mode => :P46_COMPATIBILITY_MODE,
+                          p_compatibility_desc => :P46_COMPATIBILITY_DESC,
+                          p_type_name          => :P46_TYPE_NAME
+                      );
+          when 'U' then
+            svt_compatibility_api.update_cmp (
+                  p_id                 => :P46_ID,
+                  p_display_order      => :P46_DISPLAY_ORDER,
+                  p_compatibility_mode => :P46_COMPATIBILITY_MODE,
+                  p_compatibility_desc => :P46_COMPATIBILITY_DESC,
+                  p_type_name          => :P46_TYPE_NAME
+              );
+          when 'D' then
+            svt_compatibility_api.delete_cmp(p_id => :P46_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10

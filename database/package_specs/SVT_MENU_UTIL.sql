@@ -16,7 +16,7 @@ create or replace package SVT_MENU_UTIL authid definer as
 -- RUNTIME DEPLOYMENT: Yes
 --
 -- MODIFIED  (YYYY-MON-DD)
--- change_me  YYYY-MON-DD - created
+-- hayhudso  2023-Jun-6 - created
 ---------------------------------------------------------------------------- 
 
 ------------------------------------------------------------------------------
