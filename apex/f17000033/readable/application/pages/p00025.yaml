@@ -4,7 +4,7 @@ id: 25
 identification: 
   name: Addressed violations
   alias: ADDRESSED-VIOLATIONS
-  title: Addressed violations
+  title: Addressed violations in APEX
 
 appearance: 
   page-mode: Normal
@@ -20,6 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -36,18 +37,37 @@ advanced:
 server-cache: 
   caching: Disabled
 
+help: 
+  help-text: |
+    This report tracks violations in APEX that have been 'addressed', i.e. are no longer current. 
+    The violation may no longer be current for the following reasons:
+    <ul>
+        <li>It has been corrected.</li>
+        <li>It has been deleted.</li>
+        <li>The page or component where the violation exists has been placed under a build that will not export it ('DEV_ONLY', for example).</li>
+        <li>The app containing the violation has been removed from review.</li>
+        <li>The test or standard that defined the violation has been turned off.</li>
+    </ul>
+    
+    Additional notes : 
+    <ul>
+        <li> It can happen that a violation will show as 'addressed' here but a seemingly identical violation is still current. 
+    This can happen if the component id (page_id, region_id, item_id, etc) has changed.</li>
+        <li> It can be challenging to track who is responsible for addressing the below violations so that information is not represented.</li>
+    </ul>
+
 regions: 
-- # ====== Region: Addressed violations ========================
+- # ====== Region: Addressed violations in APEX ================
   id: 427306103212008614
   identification: 
-    title: Addressed violations
+    title: Addressed violations in APEX
     type: Interactive Report
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_SVT_AUDIT_ON_AUDIT
+    table-name: V_SVT_AUDIT_ON_AUDIT_APEX
     include-rowid-column: false
 
   layout: 
@@ -156,7 +176,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Id
+        heading: ID
         alignment: end
 
       single-row-view: 
@@ -197,7 +217,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Unqid
+        heading: Unique ID
         alignment: start
 
       single-row-view: 
@@ -208,7 +228,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -428,6 +448,7 @@ regions:
             p14_test_code: '#TEST_CODE#'
 
         link-text: '#TEST_CODE#'
+        link-attributes: 'aria-label="View Test Definition for #TEST_CODE#"'
 
       source: 
         primary-key: false
@@ -448,6 +469,7 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     - # ====== Column: VALIDATION_FAILURE_MESSAGE ==================
@@ -633,7 +655,7 @@ regions:
         font-size: 12
         font-color: '#000000'
         alignment: center
-        page-header-text: Addressed violations
+        page-header-text: Addressed violations in APEX
 
       column-headings: 
         font: Helvetica
@@ -655,4 +677,40 @@ regions:
         font-size: 12
         font-color: '#000000'
         alignment: center
+
+buttons: 
+- # ====== Button: RESET =======================================
+  id: 427274546741525919
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Addressed violations in APEX # 427306103212008614
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:25:&SESSION.::&DEBUG.:RR,::'
+      page: 25 # Addressed violations
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
 

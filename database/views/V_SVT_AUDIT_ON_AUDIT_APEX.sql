@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_SVT_AUDIT_ON_AUDIT stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_AUDIT_ON_AUDIT_APEX stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_SVT_AUDIT_ON_AUDIT
+--  DDL for View V_SVT_AUDIT_ON_AUDIT_APEX
 --------------------------------------------------------
 
-create or replace force editionable view V_SVT_AUDIT_ON_AUDIT as
+create or replace force editionable view V_SVT_AUDIT_ON_AUDIT_APEX as
 with std as (select id, 
                     unqid, 
                     instr(unqid,':',1, 1) delim1,
@@ -36,4 +36,4 @@ where std.therank = 1
 and std.action_name = 'DELETE'
 /
 
---rollback drop view V_SVT_AUDIT_ON_AUDIT;
+--rollback drop view V_SVT_AUDIT_ON_AUDIT_APEX;
