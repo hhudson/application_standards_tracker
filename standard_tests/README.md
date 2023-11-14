@@ -207,7 +207,7 @@ Standards that are *not* general standards
 | [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS-REDWOOD.json) |  Tables should have audit columns | v1.2 [REDWOOD] | DATABASE TABLE |
 | [TRIGGER_SCHEMA_PRFX_TBL](DB_MILLENIUM_GEN2_19C/tests/TRIGGER_SCHEMA_PRFX_TBL-REDWOOD.json) |  DML Triggers must have schema prefix for table | v1 [REDWOOD] | DATABASE TRIGGER |
 | [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE-AHA_APEX.json) |  Use Char not Bytes | v1 [AHA_APEX] | DATABASE TABLE |
-| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ-AHA_APEX.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 [AHA_APEX] | DATABASE TABLE |
+| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ-REDWOOD.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 [REDWOOD] | DATABASE TABLE |
 
 ## Millenium Gen2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 
