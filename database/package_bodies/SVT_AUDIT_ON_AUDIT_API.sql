@@ -24,7 +24,16 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
         p_action_name                in svt_audit_on_audit.action_name%type,
         p_test_code                  in svt_audit_on_audit.test_code%type,
         p_audit_id                   in svt_audit_on_audit.audit_id%type,
-        p_validation_failure_message in svt_audit_on_audit.validation_failure_message%type
+        p_validation_failure_message in svt_audit_on_audit.validation_failure_message%type,
+        p_app_id                     in svt_audit_on_audit.app_id%type default null,
+        p_page_id                    in svt_audit_on_audit.page_id%type default null,
+        p_component_id               in svt_audit_on_audit.component_id%type default null,
+        p_assignee                   in svt_audit_on_audit.assignee%type default null,
+        p_line                       in svt_audit_on_audit.line%type default null,
+        p_object_name                in svt_audit_on_audit.object_name%type default null,
+        p_object_type                in svt_audit_on_audit.object_type%type default null,
+        p_code                       in svt_audit_on_audit.code%type default null,
+        p_delete_reason              in varchar2 default null
     )
   as
   c_scope          constant varchar2(128) := gc_scope_prefix || 'insert_rec';
@@ -39,6 +48,15 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
                test_code,
                audit_id,
                validation_failure_message,
+               app_id,
+               page_id,
+               component_id,
+               assignee,
+               line,
+               object_name,
+               object_type,
+               code,
+               delete_reason,
                created,
                created_by)
        values (p_unqid,
@@ -46,6 +64,15 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
                p_test_code,
                p_audit_id,
                p_validation_failure_message,
+               p_app_id,
+               p_page_id,
+               p_component_id,
+               p_assignee,
+               p_line,
+               p_object_name,
+               p_object_type,
+               p_code,
+               p_delete_reason,
                sysdate,
                coalesce(sys_context('APEX$SESSION','APP_USER'),user)
                );

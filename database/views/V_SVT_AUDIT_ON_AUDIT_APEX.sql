@@ -15,20 +15,40 @@ with std as (select id,
                     test_code, 
                     audit_id, 
                     validation_failure_message, 
+                    app_id,
+                    page_id,
+                    component_id,
+                    assignee,
+                    line,
+                    object_name,
+                    object_type,
+                    code,
+                    delete_reason,
                     dense_rank() over (partition by unqid order by created desc) therank
                 from svt_audit_on_audit
                 )
 select  std.id, 
+        std.audit_id,
         std.unqid, 
         esst.standard_name,
-        substr(std.unqid, std.delim1 + 1,std.delim2-std.delim1-1) app_id, 
+        coalesce(std.app_id, 
+                 to_number(substr(std.unqid, std.delim1 + 1,std.delim2-std.delim1-1))
+                 ) app_id, 
         esst.component_name,
         std.created, 
         std.test_code, 
         std.validation_failure_message,
         esst.urgency, 
         esst.urgency_level,
-        esst.test_name
+        esst.test_name,
+        std.page_id,
+        std.component_id,
+        std.assignee,
+        std.line,
+        std.object_name,
+        std.object_type,
+        std.code,
+        std.delete_reason
 from std
 inner join v_eba_stds_standard_tests esst on std.test_code = esst.test_code
                                           and esst.issue_category = 'APEX'

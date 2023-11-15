@@ -42,7 +42,7 @@ with aspaa as (
            case when paa.updated < sysdate - interval '6' hour
                 then 'Y'
                 else 'N'
-                end stale_yn,
+                end stale_yn, --stale issues get deleted
            paa.assignee,
            (select svt_apex_issue_link.build_link_to_apex_issue(
                    p_app_id => paa.application_id,

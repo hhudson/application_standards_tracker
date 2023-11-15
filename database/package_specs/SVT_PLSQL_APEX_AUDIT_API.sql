@@ -299,7 +299,16 @@ end;
               p_unqid                      in svt_plsql_apex_audit.unqid%type,
               p_audit_id                   in svt_plsql_apex_audit.id%type,
               p_test_code                  in svt_plsql_apex_audit.test_code%type,
-              p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type);
+              p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type,
+              p_application_id             in svt_plsql_apex_audit.application_id%type,
+              p_page_id                    in svt_plsql_apex_audit.page_id%type,
+              p_component_id               in svt_plsql_apex_audit.component_id%type,
+              p_assignee                   in svt_plsql_apex_audit.assignee%type,
+              p_line                       in svt_plsql_apex_audit.line%type,
+              p_object_name                in svt_plsql_apex_audit.object_name%type,
+              p_object_type                in svt_plsql_apex_audit.object_type%type,
+              p_code                       in svt_plsql_apex_audit.code%type,
+              p_delete_reason              in varchar2);
 
 
 ------------------------------------------------------------------------------

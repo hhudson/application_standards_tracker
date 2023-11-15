@@ -208,7 +208,15 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         p_action_name                => 'INSERT',
         p_test_code                  => p_test_code,
         p_audit_id                   => l_audit_id,
-        p_validation_failure_message => p_validation_failure_message
+        p_validation_failure_message => p_validation_failure_message,
+        p_app_id                     => p_application_id,
+        p_page_id                    => p_page_id,
+        p_component_id               => p_component_id,
+        p_assignee                   => null,
+        p_line                       => p_line,
+        p_object_name                => p_object_name,
+        p_object_type                => p_object_type,
+        p_code                       => substr(p_code,1,255)
     );
   
   exception 
@@ -221,7 +229,17 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
               p_unqid                      in svt_plsql_apex_audit.unqid%type,
               p_audit_id                   in svt_plsql_apex_audit.id%type,
               p_test_code                  in svt_plsql_apex_audit.test_code%type,
-              p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type)
+              p_validation_failure_message in svt_plsql_apex_audit.validation_failure_message%type,
+              p_application_id             in svt_plsql_apex_audit.application_id%type,
+              p_page_id                    in svt_plsql_apex_audit.page_id%type,
+              p_component_id               in svt_plsql_apex_audit.component_id%type,
+              p_assignee                   in svt_plsql_apex_audit.assignee%type,
+              p_line                       in svt_plsql_apex_audit.line%type,
+              p_object_name                in svt_plsql_apex_audit.object_name%type,
+              p_object_type                in svt_plsql_apex_audit.object_type%type,
+              p_code                       in svt_plsql_apex_audit.code%type,
+              p_delete_reason              in varchar2
+        )
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_audit';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -238,7 +256,16 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         p_action_name                => c_delete,
         p_test_code                  => p_test_code,
         p_audit_id                   => p_audit_id,
-        p_validation_failure_message => p_validation_failure_message
+        p_validation_failure_message => p_validation_failure_message,
+        p_app_id                     => p_application_id,
+        p_page_id                    => p_page_id,
+        p_component_id               => p_component_id,
+        p_assignee                   => null,
+        p_line                       => p_line,
+	      p_object_name                => p_object_name,
+	      p_object_type                => p_object_type,
+	      p_code                       => substr(p_code,1,255),
+        p_delete_reason              => p_delete_reason
     );
 
   exception 
@@ -257,7 +284,18 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     apex_debug.message(c_debug_template,'START');
 
     for rec in (
-      select unqid, id audit_id, test_code, validation_failure_message
+      select unqid, 
+             id audit_id, 
+             test_code, 
+             validation_failure_message,
+             application_id,
+             page_id,
+             component_id,
+             assignee,
+             line,
+             object_name,
+             object_type,
+             code
       from svt_plsql_apex_audit
       where updated < c_sysdate - interval '3' day
       and action_id is null --not sure when to delete exceptions
@@ -273,7 +311,16 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
               p_unqid                      => rec.unqid,
               p_audit_id                   => rec.audit_id,
               p_test_code                  => rec.test_code,
-              p_validation_failure_message => rec.validation_failure_message
+              p_validation_failure_message => rec.validation_failure_message,
+              p_application_id             => rec.application_id,
+              p_page_id                    => rec.page_id,
+              p_component_id               => rec.component_id,
+              p_assignee                   => rec.assignee,
+              p_line                       => rec.line,
+              p_object_name                => rec.object_name,
+              p_object_type                => rec.object_type,
+              p_code                       => rec.code,
+              p_delete_reason              => 'STALE'
             );
     end loop;
 
@@ -295,7 +342,18 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
     begin <<delete_inactive_apps>>
       for rec in (
-        select unqid, id audit_id, test_code, validation_failure_message
+        select unqid, 
+               id audit_id, 
+               test_code, 
+               validation_failure_message,
+               application_id,
+               page_id,
+               component_id,
+               assignee,
+               line,
+               object_name,
+               object_type,
+               code
         from svt_plsql_apex_audit spad
         where application_id is not null
         and action_id is null --not sure when to delete exceptions
@@ -309,14 +367,34 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                 p_unqid                      => rec.unqid,
                 p_audit_id                   => rec.audit_id,
                 p_test_code                  => rec.test_code,
-                p_validation_failure_message => rec.validation_failure_message
+                p_validation_failure_message => rec.validation_failure_message,
+                p_application_id             => rec.application_id,
+                p_page_id                    => rec.page_id,
+                p_component_id               => rec.component_id,
+                p_assignee                   => rec.assignee,
+                p_line                       => rec.line,
+                p_object_name                => rec.object_name,
+                p_object_type                => rec.object_type,
+                p_code                       => rec.code,
+                p_delete_reason              => 'INACTIVE_APP'
               );
       end loop;
     end delete_inactive_apps;
     
     begin <<delete_inactive_tests>>
       for rec in (
-        select unqid, id audit_id, test_code, validation_failure_message
+        select unqid, 
+               id audit_id, 
+               test_code, 
+               validation_failure_message,
+               application_id,
+               page_id,
+               component_id,
+               assignee,
+               line,
+               object_name,
+               object_type,
+               code
         from svt_plsql_apex_audit spad
         where test_code is not null
         and action_id is null --not sure when to delete exceptions
@@ -329,7 +407,16 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                 p_unqid                      => rec.unqid,
                 p_audit_id                   => rec.audit_id,
                 p_test_code                  => rec.test_code,
-                p_validation_failure_message => rec.validation_failure_message
+                p_validation_failure_message => rec.validation_failure_message,
+                p_application_id             => rec.application_id,
+                p_page_id                    => rec.page_id,
+                p_component_id               => rec.component_id,
+                p_assignee                   => rec.assignee,
+                p_line                       => rec.line,
+                p_object_name                => rec.object_name,
+                p_object_type                => rec.object_type,
+                p_code                       => rec.code,
+                p_delete_reason              => 'INACTIVE_TEST'
               );
       end loop;
     end delete_inactive_tests;

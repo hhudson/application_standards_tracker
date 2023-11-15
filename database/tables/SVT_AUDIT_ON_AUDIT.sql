@@ -20,6 +20,15 @@
       test_code                  varchar2(100 char),
       audit_id                   number,
       validation_failure_message varchar2(4000 char),
+      app_id                     number,
+      page_id                    number,
+      component_id               number,
+      assignee                   varchar2(255 char),
+      line                       number, 
+		  object_name                varchar2(255 char), 
+		  object_type                varchar2(31 char), 
+		  code                       varchar2(255 char), 
+      delete_reason              varchar2(31 char),
       created                    timestamp (6) with local time zone default systimestamp not null,
       created_by                 varchar2(255 char)                 default user not null
    ) 

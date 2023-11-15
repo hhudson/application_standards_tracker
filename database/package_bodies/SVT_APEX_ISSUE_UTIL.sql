@@ -601,7 +601,16 @@ $end
               p_unqid                      => l_svt_plsql_apex_audit_rec2.unqid,
               p_audit_id                   => l_svt_plsql_apex_audit_rec2.id,
               p_test_code                  => l_svt_plsql_apex_audit_rec2.test_code,
-              p_validation_failure_message => l_svt_plsql_apex_audit_rec2.validation_failure_message
+              p_validation_failure_message => l_svt_plsql_apex_audit_rec2.validation_failure_message,
+              p_application_id             => l_svt_plsql_apex_audit_rec2.application_id,
+              p_page_id                    => l_svt_plsql_apex_audit_rec2.page_id,
+              p_component_id               => l_svt_plsql_apex_audit_rec2.component_id,
+              p_assignee                   => l_svt_plsql_apex_audit_rec2.assignee,
+              p_line                       => l_svt_plsql_apex_audit_rec2.line,
+              p_object_name                => l_svt_plsql_apex_audit_rec2.object_name,
+              p_object_type                => l_svt_plsql_apex_audit_rec2.object_type,
+              p_code                       => l_svt_plsql_apex_audit_rec2.code,
+              p_delete_reason              => 'REFRESH_FOR_AUDIT_ID'
             );
         $if oracle_apex_version.c_apex_issue_access $then
         drop_issue (l_apex_issue_id);
