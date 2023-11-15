@@ -76,7 +76,7 @@ These tests identify functionality that invalid.
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [BC_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/BC_AUTHR_MATCH_DEST-REDWOOD.json) |  Breadcrumb Authorization Matches Destination | v1 [REDWOOD] | APEX_APPLICATION_BC_ENTRIES |
-| [BUTTON_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/BUTTON_AUTHR_MATCH_DEST-REDWOOD.json) |  Button Authorization Matches Destination | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [BUTTON_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/BUTTON_AUTHR_MATCH_DEST-REDWOOD.json) |  Button Authorization Matches Destination | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [BUTTON_DEPRECTD_OR_LEGCY](APEX_BROKEN_FUNCTIONALITY_212/tests/BUTTON_DEPRECTD_OR_LEGCY-REDWOOD.json) |  Button display positions should not be legacy or deprecated | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [C_COL_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/C_COL_AUTHR_MATCH_DEST-REDWOOD.json) |  Classic Column Link Authorization Matches Destination | v1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [IG_COL_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/IG_COL_AUTHR_MATCH_DEST-REDWOOD.json) |  IG Column Link Authorization Matches Destination  | v1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |

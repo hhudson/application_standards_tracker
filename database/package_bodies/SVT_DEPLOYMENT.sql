@@ -142,7 +142,7 @@ create or replace package body SVT_DEPLOYMENT as
            )
          ), 'test' value json_arrayagg (
            json_object (
-             'test_id'               value esst.id, 
+             'test_id'               value esst.test_id, 
              'test_name'             value esst.test_name,
              'standard_id'           value esst.standard_id,
              'display_sequence'      value esst.display_sequence,
@@ -162,7 +162,7 @@ create or replace package body SVT_DEPLOYMENT as
          returning %1
         ) thejson
     from eba_stds_standards ess
-    inner join eba_stds_standard_tests esst on ess.id = esst.standard_id
+    inner join v_eba_stds_standard_tests_w_inherited esst on ess.id = esst.standard_id
     where ess.active_yn = 'Y'
     and esst.active_yn = 'Y'
     and ess.id = %0
