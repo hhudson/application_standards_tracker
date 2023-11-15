@@ -437,6 +437,28 @@ create or replace package body eba_stds_standard_tests_api as
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end bulk_inactivate;
+  
+  procedure bulk_delete(p_selected_ids in varchar2)
+  is 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_delete';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_rec eba_stds_standard_tests%rowtype;
+  begin
+    apex_debug.message(c_debug_template,'START', 'p_selected_ids', p_selected_ids);
+
+    for rec in (select column_value test_code
+                from table(apex_string.split(p_selected_ids, ','))
+    )
+    loop
+      l_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => rec.test_code);
+      delete_test(p_id        => l_rec.id,
+                  p_test_code => l_rec.test_code);
+    end loop;
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end bulk_delete;
 
   procedure bulk_activate(p_selected_ids in varchar2)
   is 
@@ -686,45 +708,12 @@ begin
          o.version_number,
          o.version_db,
          gc_n inherited_yn,
-         o.full_standard_name calling_standard_name,
+         o.full_standard_name,
          o.display_sequence
-  from v_eba_stds_standard_tests o
+  from v_eba_stds_standard_tests_w_inherited o
   where (o.standard_id = p_std_id or p_std_id is null)
   and   (o.active_yn = p_active or p_active is null)
-  and   (o.standard_active_yn = p_standard_active or p_standard_active is null)
-  union all
-  select case when p_std_id is null
-              then i.standard_id
-              else p_std_id
-              end standard_id,
-         i.test_id,
-         i.level_id,
-         i.urgency, 
-         i.urgency_level,
-         i.test_name,
-         i.test_code,
-         i.full_standard_name,
-         i.active_yn,
-         i.nt_name,
-         i.query_clob,
-         i.std_creation_date,
-         i.mv_dependency,
-         i.svt_component_type_id,
-         i.component_name,
-         i.standard_active_yn,
-         i.explanation,
-         i.fix,
-         i.version_number,
-         i.version_db,
-         gc_y inherited_yn,
-         p_calling_std calling_standard_name,
-         i.display_sequence
-  from v_eba_stds_standard_tests i
-  inner join eba_stds_inherited_tests esit on i.test_id = esit.test_id
-                                           and i.standard_id = esit.parent_standard_id
-                                           and esit.standard_id = p_std_id
-  where (i.active_yn = p_active or p_active is null)
-  and   (i.standard_active_yn = p_standard_active or p_standard_active is null);
+  and   (o.standard_active_yn = p_standard_active or p_standard_active is null);
 
   type r_aa is record (
     standard_id             number,

@@ -275,6 +275,21 @@ end;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: 2023-Nov-15
+-- Synopsis:
+--
+-- Procedure to delete tests in bulk
+--
+/*
+begin
+  eba_stds_standard_tests_api.bulk_delete(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_delete(p_selected_ids in varchar2);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: 2023-Oct-31
 -- Synopsis:
 --
