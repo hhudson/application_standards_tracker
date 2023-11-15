@@ -3482,7 +3482,7 @@ buttons:
     label: Clear Filter
 
   layout: 
-    sequence: 50
+    sequence: 70
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3656,7 +3656,7 @@ buttons:
     label: Bulk Activate
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3681,6 +3681,38 @@ buttons:
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
+- # ====== Button: BULK_DELETE =================================
+  id: 427275616703525930
+  identification: 
+    button-name: BULK_DELETE
+    label: Bulk Delete
+
+  layout: 
+    sequence: 50
+    region: Tests # 7787847495128856498
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-trash-o fam-plus fam-is-info
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
 - # ====== Button: RESET =======================================
   id: 495024641015048371
   identification: 
@@ -3688,7 +3720,7 @@ buttons:
     label: Reset
 
   layout: 
-    sequence: 60
+    sequence: 80
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3765,7 +3797,7 @@ buttons:
     label: Create
 
   layout: 
-    sequence: 40
+    sequence: 60
     region: Tests # 7787847495128856498
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -3847,7 +3879,7 @@ dynamic-actions:
       button: BULK_PUBLISH # 341547021130766943
 
     execution: 
-      sequence: 40
+      sequence: 50
       event: Enable/disable bulk buttons # 341547126649766944
       fire-when-event-result-is: True
       fire-on-initialization: true
@@ -3887,7 +3919,7 @@ dynamic-actions:
       button: BULK_INACTIVATE # 396147794566630201
 
     execution: 
-      sequence: 50
+      sequence: 60
       event: Enable/disable bulk buttons # 341547126649766944
       fire-when-event-result-is: True
       fire-on-initialization: true
@@ -3907,7 +3939,7 @@ dynamic-actions:
       button: BULK_ACTIVATE # 396148638493630210
 
     execution: 
-      sequence: 30
+      sequence: 40
       event: Enable/disable bulk buttons # 341547126649766944
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -3927,7 +3959,47 @@ dynamic-actions:
       button: BULK_ACTIVATE # 396148638493630210
 
     execution: 
-      sequence: 60
+      sequence: 80
+      event: Enable/disable bulk buttons # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P5_SELECTED_IDS
+
+  - # ====== Action: Enable bulk delete ==========================
+    id: 427275799326525931
+    identification: 
+      name: Enable bulk delete
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_DELETE # 427275616703525930
+
+    execution: 
+      sequence: 30
+      event: Enable/disable bulk buttons # 341547126649766944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is not null
+      item: P5_SELECTED_IDS
+
+  - # ====== Action: Disable bulk delete =========================
+    id: 427275895083525932
+    identification: 
+      name: Disable bulk delete
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_DELETE # 427275616703525930
+
+    execution: 
+      sequence: 70
       event: Enable/disable bulk buttons # 341547126649766944
       fire-when-event-result-is: True
       fire-on-initialization: true
@@ -3973,9 +4045,10 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Execute Server-side Code ====================
+  - # ====== Action: eba_stds_standard_tests_api.bulk_publish ====
     id: 341547660780766949
     identification: 
+      name: eba_stds_standard_tests_api.bulk_publish
       action: Execute Server-side Code
 
     settings: 
@@ -4003,7 +4076,7 @@ dynamic-actions:
       jquery-selector: '#STANDARD_TEST_RPT'
 
     execution: 
-      sequence: 10
+      sequence: 20
       event: bulk publish # 341547419143766947
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4040,6 +4113,23 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+  - # ====== Action: Confirm =====================================
+    id: 427276555684525939
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Bulk publish
+      message: This action will (1) increment upwards the version number of these tests and (2) make them eligible for the repo library.
+      style: Success
+      confirm-label: Proceed
+
+    execution: 
+      sequence: 10
+      event: bulk publish # 341547419143766947
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: publish test ========================
   id: 369845756421997681
   identification: 
@@ -4059,9 +4149,10 @@ dynamic-actions:
     type: Immediate
 
   actions: 
-  - # ====== Action: Execute JavaScript Code =====================
+  - # ====== Action: set P5_TEST_CODE ============================
     id: 369846197817997685
     identification: 
+      name: set P5_TEST_CODE
       action: Execute JavaScript Code
 
     settings: 
@@ -4078,9 +4169,10 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Disable =====================================
+  - # ====== Action: Disable report ==============================
     id: 369846256008997686
     identification: 
+      name: Disable report
       action: Disable
 
     affected-elements: 
@@ -4093,9 +4185,10 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Execute Server-side Code ====================
+  - # ====== Action: eba_stds_standard_tests_api.publish_test ====
     id: 369846397570997687
     identification: 
+      name: eba_stds_standard_tests_api.publish_test
       action: Execute Server-side Code
 
     settings: 
@@ -4128,9 +4221,10 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Enable ======================================
+  - # ====== Action: Enable report ===============================
     id: 370768501729860439
     identification: 
+      name: Enable report
       action: Enable
 
     affected-elements: 
@@ -4210,9 +4304,10 @@ dynamic-actions:
     type: Immediate
 
   actions: 
-  - # ====== Action: Refresh =====================================
+  - # ====== Action: Refresh download report =====================
     id: 374572051566604559
     identification: 
+      name: Refresh download report
       action: Refresh
 
     affected-elements: 
@@ -4258,7 +4353,7 @@ dynamic-actions:
       jquery-selector: '#STANDARD_TEST_RPT'
 
     execution: 
-      sequence: 10
+      sequence: 30
       event: bulk inactivate # 396147886239630202
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4273,14 +4368,15 @@ dynamic-actions:
       code: "apex.debug.log('selected ids :'+apex.item('P5_SELECTED_IDS').getValue())"
 
     execution: 
-      sequence: 20
+      sequence: 40
       event: bulk inactivate # 396147886239630202
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Execute Server-side Code ====================
+  - # ====== Action: eba_stds_standard_tests_api.bulk_inactivate =
     id: 396148163843630205
     identification: 
+      name: eba_stds_standard_tests_api.bulk_inactivate
       action: Execute Server-side Code
 
     settings: 
@@ -4290,7 +4386,7 @@ dynamic-actions:
       - P5_SELECTED_IDS
 
     execution: 
-      sequence: 30
+      sequence: 50
       event: bulk inactivate # 396147886239630202
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4308,7 +4404,7 @@ dynamic-actions:
       region: Tests # 7787847495128856498
 
     execution: 
-      sequence: 40
+      sequence: 60
       event: bulk inactivate # 396147886239630202
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4324,7 +4420,24 @@ dynamic-actions:
       jquery-selector: '#STANDARD_TEST_RPT'
 
     execution: 
-      sequence: 50
+      sequence: 70
+      event: bulk inactivate # 396147886239630202
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 427276670326525940
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Bulk Inactivate
+      message: This action will remove the selected test(s) from the automated run and all associated violations will be deleted within 12 hours.
+      style: Warning
+      confirm-label: Proceed
+
+    execution: 
+      sequence: 10
       event: bulk inactivate # 396147886239630202
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4335,7 +4448,7 @@ dynamic-actions:
     name: bulk activate
 
   execution: 
-    sequence: 120
+    sequence: 130
 
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
@@ -4362,7 +4475,7 @@ dynamic-actions:
       jquery-selector: '#STANDARD_TEST_RPT'
 
     execution: 
-      sequence: 10
+      sequence: 20
       event: bulk activate # 396148791559630211
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4377,14 +4490,15 @@ dynamic-actions:
       code: "apex.debug.log('selected ids :'+apex.item('P5_SELECTED_IDS').getValue())"
 
     execution: 
-      sequence: 20
+      sequence: 30
       event: bulk activate # 396148791559630211
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Execute Server-side Code ====================
+  - # ====== Action: eba_stds_standard_tests_api.bulk_activate ===
     id: 396149052715630214
     identification: 
+      name: eba_stds_standard_tests_api.bulk_activate
       action: Execute Server-side Code
 
     settings: 
@@ -4394,7 +4508,7 @@ dynamic-actions:
       - P5_SELECTED_IDS
 
     execution: 
-      sequence: 30
+      sequence: 50
       event: bulk activate # 396148791559630211
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4412,7 +4526,7 @@ dynamic-actions:
       region: Tests # 7787847495128856498
 
     execution: 
-      sequence: 40
+      sequence: 60
       event: bulk activate # 396148791559630211
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -4428,8 +4542,147 @@ dynamic-actions:
       jquery-selector: '#STANDARD_TEST_RPT'
 
     execution: 
-      sequence: 50
+      sequence: 70
       event: bulk activate # 396148791559630211
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 427276866537525942
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Bulk activate
+      message: This action will add the selected test(s) from the automated run.
+      style: Success
+      confirm-label: Proceed
+
+    execution: 
+      sequence: 10
+      event: bulk activate # 396148791559630211
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: bulk delete =========================
+  id: 427275903136525933
+  identification: 
+    name: bulk delete
+
+  execution: 
+    sequence: 120
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: BULK_DELETE # 427275616703525930
+
+  client-side-condition: 
+    type: Item is not null
+    item: P5_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Disable STANDARD_TEST_RPT ===================
+    id: 427276063489525934
+    identification: 
+      name: Disable STANDARD_TEST_RPT
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 20
+      event: bulk delete # 427275903136525933
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: log selected ids ============================
+    id: 427276167114525935
+    identification: 
+      name: log selected ids
+      action: Execute JavaScript Code
+
+    settings: 
+      code: "apex.debug.log('selected ids :'+apex.item('P5_SELECTED_IDS').getValue())"
+
+    execution: 
+      sequence: 30
+      event: bulk delete # 427275903136525933
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: eba_stds_standard_tests_api.bulk_delete =====
+    id: 427276276610525936
+    identification: 
+      name: eba_stds_standard_tests_api.bulk_delete
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: 'eba_stds_standard_tests_api.bulk_delete(p_selected_ids => :P5_SELECTED_IDS);'
+      items-to-submit: 
+      - P5_SELECTED_IDS
+
+    execution: 
+      sequence: 50
+      event: bulk delete # 427275903136525933
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh tests ===============================
+    id: 427276339270525937
+    identification: 
+      name: Refresh tests
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tests # 7787847495128856498
+
+    execution: 
+      sequence: 60
+      event: bulk delete # 427275903136525933
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Enable STANDARD_TEST_RPT ====================
+    id: 427276461825525938
+    identification: 
+      name: Enable STANDARD_TEST_RPT
+      action: Enable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#STANDARD_TEST_RPT'
+
+    execution: 
+      sequence: 70
+      event: bulk delete # 427275903136525933
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 427276707453525941
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Bulk activate
+      message: This action will permanently delete the selected tests.
+      style: Danger
+      confirm-label: Proceed
+
+    execution: 
+      sequence: 10
+      event: bulk delete # 427275903136525933
       fire-when-event-result-is: True
       fire-on-initialization: false
 

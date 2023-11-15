@@ -3870,7 +3870,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    help-text: This number helps to distinguish editions of this standard test across time and deployments
+    help-text: This number helps to distinguish editions of this standard test across time and deployments. Tests only get versions once they are active and published.
 
 - # ====== Page Item: P14_MV_DEPENDENCY ========================
   id: 378319165856244451
@@ -6018,7 +6018,11 @@ computations:
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: "apex_string.format('%s (%s)',:P14_VERSION_NUMBER,:P14_VERSION_DB)"
+    pl/sql-expression: |
+      case when :P14_VERSION_NUMBER is not null 
+           then apex_string.format('%s (%s)',:P14_VERSION_NUMBER,:P14_VERSION_DB)
+           else 'N/A'
+           end
 
 - # ====== Computation: P14_ISSUE_CATEGORY =====================
   id: 401116915539419542
