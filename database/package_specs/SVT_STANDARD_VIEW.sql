@@ -27,8 +27,7 @@ select  object_name,
         object_type,
         line,
         code,
-        unqid,
-        ref_code
+        unqid
 from svt_standard_view.v_svt_db_plsql(
                         p_test_code     => 'IDENTIFIER_NAMING',
                         p_failures_only => 'Y'); 
