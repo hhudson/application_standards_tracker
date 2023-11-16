@@ -3422,7 +3422,7 @@ page-items:
       from v_user_objects ao
       inner join table(
                     apex_string.split(
-                      svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+                      svt_preferences.get('SVT_REVIEW_SCHEMAS'), ':'
                       )
                     ) srs on srs.column_value = ao.owner
       where ao.object_type = case when :P59_ISSUE_CATEGORY = 'DB_PLSQL'

@@ -351,7 +351,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_LOKI_YN')
+    pl/sql-expression: svt_preferences.get('SVT_LOKI_YN')
     used: Only when current value in session state is null
 
   session-state: 
@@ -423,7 +423,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE')
+    pl/sql-expression: svt_preferences.get('SVT_DEFAULT_ASSIGNEE')
     used: Only when current value in session state is null
 
   session-state: 
@@ -479,7 +479,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_ADMIN_VERSION_YN')
+    pl/sql-expression: svt_preferences.get('SVT_ADMIN_VERSION_YN')
     used: Only when current value in session state is null
 
   session-state: 
@@ -545,7 +545,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_DO_NOT_ASSIGN')
+    pl/sql-expression: svt_preferences.get('SVT_DO_NOT_ASSIGN')
     used: Only when current value in session state is null
 
   session-state: 
@@ -616,7 +616,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_FROM_EMAIL')
+    pl/sql-expression: svt_preferences.get('SVT_FROM_EMAIL')
     used: Only when current value in session state is null
 
   session-state: 
@@ -676,7 +676,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_SRC_EDIT_DELAY')
+    pl/sql-expression: svt_preferences.get('SVT_SRC_EDIT_DELAY')
     used: Only when current value in session state is null
 
   default: 
@@ -740,7 +740,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_CLEANUP_DELAY')
+    pl/sql-expression: svt_preferences.get('SVT_CLEANUP_DELAY')
     used: Only when current value in session state is null
 
   default: 
@@ -813,7 +813,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS')
+    pl/sql-expression: svt_preferences.get('SVT_REVIEW_SCHEMAS')
     used: Only when current value in session state is null
 
   session-state: 
@@ -963,7 +963,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
+    pl/sql-expression: svt_preferences.get('SVT_DEFAULT_SCHEMA')
     used: Only when current value in session state is null
 
   session-state: 
@@ -1031,7 +1031,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_DB_NAME')
+    pl/sql-expression: svt_preferences.get('SVT_DB_NAME')
     used: Only when current value in session state is null
 
   session-state: 
@@ -1099,7 +1099,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_EMAIL_API')
+    pl/sql-expression: svt_preferences.get('SVT_EMAIL_API')
     used: Only when current value in session state is null
 
   session-state: 
@@ -1168,7 +1168,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_BASE_URL')
+    pl/sql-expression: svt_preferences.get('SVT_BASE_URL')
     used: Only when current value in session state is null
 
   session-state: 
@@ -1185,14 +1185,14 @@ page-items:
   help: 
     help-text: What's the base URL for this application?
 
-- # ====== Page Item: P45_SVT_DEFAULT_WORKSPACE ================
+- # ====== Page Item: P45_SVT_WORKSPACE ========================
   id: 488428296466552269
   identification: 
-    name: P45_SVT_DEFAULT_WORKSPACE
+    name: P45_SVT_WORKSPACE
     type: Popup LOV
 
   label: 
-    label: Default Workspace
+    label: Review Workspace
     alignment: Left
 
   settings: 
@@ -1236,7 +1236,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
+    pl/sql-expression: svt_preferences.get('SVT_WORKSPACE')
     used: Only when current value in session state is null
 
   session-state: 
@@ -1253,14 +1253,14 @@ page-items:
   help: 
     help-text: What workspace are we scanning for issues in?
 
-- # ====== Page Item: P45_SVT_SERT_YN ==========================
-  id: 488429020694552277
+- # ====== Page Item: P45_SVT_APEX_ISSUES_YN ===================
+  id: 488429224515552279
   identification: 
-    name: P45_SVT_SERT_YN
+    name: P45_SVT_APEX_ISSUES_YN
     type: Switch
 
   label: 
-    label: APEX SERT is installed
+    label: Create APEX Issues
     alignment: Left
 
   settings: 
@@ -1292,66 +1292,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_SERT_YN')
-    used: Only when current value in session state is null
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  server-side-condition: 
-    type: Never
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Is there a SERT schema?
-
-  configuration: 
-    build-option: TO_DELETE # 6384384957050863767
-
-- # ====== Page Item: P45_SVT_APEX_ISSUES_YN ===================
-  id: 488429224515552279
-  identification: 
-    name: P45_SVT_APEX_ISSUES_YN
-    type: Switch
-
-  label: 
-    label: Create APEX Issues
-    alignment: Left
-
-  settings: 
-    use-defaults: true
-
-  layout: 
-    sequence: 90
-    region: General # 372947696553094659
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6638107910514476202
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_APEX_ISSUES_YN')
+    pl/sql-expression: svt_preferences.get('SVT_APEX_ISSUES_YN')
     used: Only when current value in session state is null
 
   session-state: 
@@ -1404,7 +1345,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: svt_preferences.get_preference ('SVT_SCM_YN')
+    pl/sql-expression: svt_preferences.get('SVT_SCM_YN')
     used: Only when current value in session state is null
 
   session-state: 
@@ -2009,10 +1950,10 @@ processes:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Process: SVT_DEFAULT_WORKSPACE ======================
+- # ====== Process: SVT_WORKSPACE ==============================
   id: 488428405823552270
   identification: 
-    name: SVT_DEFAULT_WORKSPACE
+    name: SVT_WORKSPACE
     type: Execute Code
     execution-chain: None
 
@@ -2022,8 +1963,8 @@ processes:
     pl/sql-code: |
       begin
           svt_preferences.set_preference (
-              p_preference_name  => 'SVT_DEFAULT_WORKSPACE',
-              p_value => :P45_SVT_DEFAULT_WORKSPACE); 
+              p_preference_name  => 'SVT_WORKSPACE',
+              p_value => :P45_SVT_WORKSPACE); 
       end;
 
   execution: 
@@ -2036,7 +1977,7 @@ processes:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P45_SVT_DEFAULT_WORKSPACE
+    item: P45_SVT_WORKSPACE
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741

@@ -80,7 +80,7 @@
     sql-query: |
       select application_id r, apex_string.format('%s (%s)',  application_name, application_id) d
       from apex_applications
-      where workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
+      where workspace = svt_preferences.get('SVT_WORKSPACE')
       order by 1
 
   column-mapping: 
@@ -291,7 +291,7 @@
       select lower(email) d, upper(email) r
       from apex_workspace_developers awd
       where is_application_developer = 'Yes'
-      and workspace_name = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
+      and workspace_name = svt_preferences.get('SVT_WORKSPACE')
       order by user_name
 
   column-mapping: 
