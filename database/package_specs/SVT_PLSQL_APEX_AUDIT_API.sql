@@ -205,7 +205,7 @@ $end
 -- merge data into svt_plsql_apex_audit
 /*
 begin
- svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('svt_default_schema'));
+ svt_ctx_util.set_review_schema (p_schema => svt_preferences.get('svt_default_schema'));
  svt_plsql_apex_audit_api.merge_audit_tbl(p_issue_category => 'APEX');
  commit;
 end;

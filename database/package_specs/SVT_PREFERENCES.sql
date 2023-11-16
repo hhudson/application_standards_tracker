@@ -32,24 +32,24 @@ Instructions : Set the values of these preference in the Admin section of the ap
 begin
     svt_audit_util.set_workspace;
 end;
-select svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') default_schema,
-       svt_preferences.get_preference ('SVT_WORKSPACE') default_workspace,
-       svt_preferences.get_preference ('SVT_DB_NAME') db_name,
-       svt_preferences.get_preference ('SVT_EMAIL_API') email_api,
-       svt_preferences.get_preference ('SVT_BASE_URL') base_url,
-       svt_preferences.get_preference ('SVT_APEX_ISSUES_YN') apex_issues_yn,
-       svt_preferences.get_preference ('SVT_SCM_YN') scm_yn,
-       svt_preferences.get_preference ('SVT_FROM_EMAIL') from_email,
-       svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') default_assignee,
-       svt_preferences.get_preference ('SVT_SRC_EDIT_DELAY') src_edit_delay,
-       svt_preferences.get_preference ('SVT_CLEANUP_DELAY') cleanup_delay,
-       svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS') review_schemas,
-       svt_preferences.get_preference ('SVT_DO_NOT_ASSIGN') do_not_assign,
-       svt_preferences.get_preference ('SVT_ADMIN_VERSION_YN') admin_vsn
+select svt_preferences.get('SVT_DEFAULT_SCHEMA') default_schema,
+       svt_preferences.get('SVT_WORKSPACE') default_workspace,
+       svt_preferences.get('SVT_DB_NAME') db_name,
+       svt_preferences.get('SVT_EMAIL_API') email_api,
+       svt_preferences.get('SVT_BASE_URL') base_url,
+       svt_preferences.get('SVT_APEX_ISSUES_YN') apex_issues_yn,
+       svt_preferences.get('SVT_SCM_YN') scm_yn,
+       svt_preferences.get('SVT_FROM_EMAIL') from_email,
+       svt_preferences.get('SVT_DEFAULT_ASSIGNEE') default_assignee,
+       svt_preferences.get('SVT_SRC_EDIT_DELAY') src_edit_delay,
+       svt_preferences.get('SVT_CLEANUP_DELAY') cleanup_delay,
+       svt_preferences.get('SVT_REVIEW_SCHEMAS') review_schemas,
+       svt_preferences.get('SVT_DO_NOT_ASSIGN') do_not_assign,
+       svt_preferences.get('SVT_ADMIN_VERSION_YN') admin_vsn
 from dual;
 */
 ------------------------------------------------------------------------------
-function get_preference (p_preference_name in apex_workspace_preferences.preference_name%type)
+function get(p_preference_name in apex_workspace_preferences.preference_name%type)
 return apex_workspace_preferences.preference_value%type;
 
 

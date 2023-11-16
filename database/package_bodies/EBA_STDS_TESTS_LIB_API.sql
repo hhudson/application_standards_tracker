@@ -43,7 +43,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                                    else p_version_number
                                    end;
   c_version_db     constant eba_stds_tests_lib.version_db%type 
-                          := coalesce(p_version_db, svt_preferences.get_preference ('SVT_DB_NAME'));
+                          := coalesce(p_version_db, svt_preferences.get('SVT_DB_NAME'));
   c_id constant eba_stds_tests_lib.id%type := to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -126,7 +126,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   -- as 
   -- c_scope constant varchar2(128) := gc_scope_prefix || 'take_snapshot';
   -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  -- c_workspace constant apex_workspace_preferences.preference_value%type := svt_preferences.get_preference ('SVT_WORKSPACE');
+  -- c_workspace constant apex_workspace_preferences.preference_value%type := svt_preferences.get('SVT_WORKSPACE');
   -- begin
   --   apex_debug.message(c_debug_template,'START');
 
@@ -196,7 +196,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
                   p_test_name             => l_lib_rec.test_name,
                   p_query_clob            => l_lib_rec.query_clob,
-                  p_owner                 => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'),
+                  p_owner                 => svt_preferences.get('SVT_DEFAULT_SCHEMA'),
                   p_test_code             => l_lib_rec.test_code,
                   p_active_yn             => 'Y',
                   p_level_id              => coalesce(p_urgency_level_id, svt_urgency_level_api.get_default_level_id),

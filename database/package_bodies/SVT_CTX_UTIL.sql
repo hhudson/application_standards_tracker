@@ -3,7 +3,7 @@
 create or replace package body SVT_CTX_UTIL
 as
     gc_scope_prefix constant varchar2(32) := lower($$plsql_unit) || '.';
-    gc_default_schema constant all_users.username%type := svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA');
+    gc_default_schema constant all_users.username%type := svt_preferences.get('SVT_DEFAULT_SCHEMA');
 
     procedure set_review_schema (p_schema in all_users.username%type default null)
     is

@@ -20,10 +20,10 @@ create or replace package body SVT_PREFERENCES as
   gc_svt          constant varchar2(3) := 'SVT';
   -- gc_ast          constant varchar2(3) := 'AST';
 
-  function get_preference (p_preference_name in apex_workspace_preferences.preference_name%type)
+  function get(p_preference_name in apex_workspace_preferences.preference_name%type)
   return apex_workspace_preferences.preference_value%type 
   is
-  c_scope constant varchar2(128) := gc_scope_prefix || 'get_preference';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_preference_name constant apex_workspace_preferences.preference_name%type := upper(p_preference_name);
   l_pref_value      apex_workspace_preferences.preference_value%type;
@@ -44,7 +44,7 @@ create or replace package body SVT_PREFERENCES as
   exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
-  end get_preference;
+  end get;
 
   procedure set_preference (p_preference_name in apex_workspace_preferences.preference_name%type,
                             p_value           in apex_workspace_preferences.preference_value%type)

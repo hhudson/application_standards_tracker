@@ -471,7 +471,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_assignee constant svt_plsql_apex_audit.assignee%type := lower(
                                                                 coalesce(p_assignee,
-                                                                         svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE')
+                                                                         svt_preferences.get('SVT_DEFAULT_ASSIGNEE')
                                                                          )
                                                                  );
   begin
@@ -581,9 +581,9 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       when matched then
       update set e.assignee = h.default_developer;
 
-      if svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE') is not null then 
+      if svt_preferences.get('SVT_DEFAULT_ASSIGNEE') is not null then 
         update svt_plsql_apex_audit
-        set assignee = lower(svt_preferences.get_preference ('SVT_DEFAULT_ASSIGNEE'))
+        set assignee = lower(svt_preferences.get('SVT_DEFAULT_ASSIGNEE'))
         where assignee is null;
       end if;
 
@@ -1228,7 +1228,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         apex_debug.message(c_debug_template, 'db issue so we need to cycle through the appropriate schemas');
         for rec in (
               select column_value review_schema
-              from table(apex_string.split(svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'))
+              from table(apex_string.split(svt_preferences.get('SVT_REVIEW_SCHEMAS'), ':'))
             )
         loop
             svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
@@ -1307,7 +1307,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
     --   delete from svt_plsql_apex_audit
     --   where 1=1
-    --   and owner = case when sys_context('userenv', 'current_user') = svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
+    --   and owner = case when sys_context('userenv', 'current_user') = svt_preferences.get('SVT_DEFAULT_SCHEMA')
     --                    then svt_ctx_util.get_default_user
     --                    else sys_context('userenv', 'current_user')
     --                    end

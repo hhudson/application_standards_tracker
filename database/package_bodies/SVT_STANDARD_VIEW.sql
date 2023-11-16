@@ -720,11 +720,11 @@ create or replace package body SVT_STANDARD_VIEW as
                                    null code,
                                    validation_failure_message,
                                    issue_title,
-                                   case when created_by not in ('ORDS_PUBLIC_USER',svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                                   case when created_by not in ('ORDS_PUBLIC_USER',svt_preferences.get('SVT_DEFAULT_SCHEMA'))
                                         then created_by
                                         end apex_created_by,
                                    created_on apex_created_on,
-                                   case when last_updated_by not in ('ORDS_PUBLIC_USER',svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                                   case when last_updated_by not in ('ORDS_PUBLIC_USER',svt_preferences.get('SVT_DEFAULT_SCHEMA'))
                                         then last_updated_by
                                         end apex_last_updated_by,
                                    last_updated_on apex_last_updated_on,

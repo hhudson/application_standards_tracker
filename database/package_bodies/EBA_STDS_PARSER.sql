@@ -123,7 +123,7 @@ is
     begin
         apex_debug.message(c_debug_template,'START');
 
-        return svt_preferences.get_preference ('SVT_BASE_URL');
+        return svt_preferences.get('SVT_BASE_URL');
 
     exception when others then 
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -529,7 +529,7 @@ is
     c_template_url  constant v_svt_flow_dictionary_views.link_url%type := p_template_url;
     l_url varchar2(2000);
     c_schema      constant svt_plsql_apex_audit.owner%type := 
-                            coalesce(p_schema, svt_preferences.get_preference (p_preference_name  => 'SVT_DEFAULT_SCHEMA'));
+                            coalesce(p_schema, svt_preferences.get(p_preference_name  => 'SVT_DEFAULT_SCHEMA'));
     c_object_name constant svt_plsql_apex_audit.object_name%type := upper(p_object_name);
     c_object_type constant svt_plsql_apex_audit.object_type%type := upper(p_object_type);
     begin
@@ -827,7 +827,7 @@ is
                                                     ||chr(10)||c_50_spaces||c_3_spaces||'and aabo2.application_id = '||l_initials||'.application_id'
                                                  end;
         l_example_query := l_example_query||case when column_exists (c_workspace,l_view)
-                                                 then chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get_preference ('SVT_WORKSPACE')]', l_initials)
+                                                 then chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get('SVT_WORKSPACE')]', l_initials)
                                                  else chr(10)||apex_string.format(q'[where 1=1]', l_initials)
                                                  end;
         l_example_query := l_example_query||case when column_exists (c_page_id,l_view) and l_view != 'apex_application_pages'

@@ -16,7 +16,7 @@ union all
 select assignee
 from mv_assignee_count
 where assignee in (select lower(column_value)
-                   from table(apex_string.split(svt_preferences.get_preference ('SVT_DO_NOT_ASSIGN'), ':'))
+                   from table(apex_string.split(svt_preferences.get('SVT_DO_NOT_ASSIGN'), ':'))
                    )
 /
 

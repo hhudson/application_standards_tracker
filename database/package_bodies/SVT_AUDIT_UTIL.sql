@@ -37,10 +37,10 @@ create or replace package body SVT_AUDIT_UTIL as
                          end object_name,
                     upper(cfo.folder_name) folder_name,
                     cfi.checked_out_by,
-                    case when cfi.created_by not in ('UT_CARS', 'CARS', 'APEX_SCM', svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                    case when cfi.created_by not in ('UT_CARS', 'CARS', 'APEX_SCM', svt_preferences.get('SVT_DEFAULT_SCHEMA'))
                          then cfi.created_by
                          end created_by, 
-                    case when cfi.updated_by not in ('UT_CARS', 'CARS', 'APEX_SCM', svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'))
+                    case when cfi.updated_by not in ('UT_CARS', 'CARS', 'APEX_SCM', svt_preferences.get('SVT_DEFAULT_SCHEMA'))
                          then cfi.updated_by
                          end updated_by
                from apex_scm.ccs_files_vw cfi
@@ -237,7 +237,7 @@ create or replace package body SVT_AUDIT_UTIL as
         select column_value review_schema
         from table(
               apex_string.split(
-                svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+                svt_preferences.get('SVT_REVIEW_SCHEMAS'), ':'
                 )
               )
       )
@@ -260,7 +260,7 @@ create or replace package body SVT_AUDIT_UTIL as
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     c_workspace constant apex_workspaces.workspace%type := case when p_workspace is not null 
                                                                 then upper(p_workspace)
-                                                                else svt_preferences.get_preference ('SVT_WORKSPACE')
+                                                                else svt_preferences.get('SVT_WORKSPACE')
                                                                 end;
     begin
       apex_debug.message(c_debug_template,'START');
@@ -328,7 +328,7 @@ create or replace package body SVT_AUDIT_UTIL as
             select column_value review_schema
             from table(
                   apex_string.split(
-                    svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+                    svt_preferences.get('SVT_REVIEW_SCHEMAS'), ':'
                     )
                   )
             where column_value = p_schema or  p_schema is null

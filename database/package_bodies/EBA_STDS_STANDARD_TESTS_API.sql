@@ -102,7 +102,7 @@ create or replace package body eba_stds_standard_tests_api as
       p_explanation,
       p_fix,
       coalesce(p_version_number,gc_default_version_number),
-      coalesce(p_version_db,svt_preferences.get_preference ('SVT_DB_NAME')),
+      coalesce(p_version_db,svt_preferences.get('SVT_DB_NAME')),
       localtimestamp,
       coalesce(wwv_flow.g_user,user),
       localtimestamp,
@@ -280,7 +280,7 @@ create or replace package body eba_stds_standard_tests_api as
         declare
         l_version_number eba_stds_standard_tests.version_number%type;
         c_minor_version_increment constant number := 0.1;
-        c_db_name constant eba_stds_standard_tests.version_db%type := svt_preferences.get_preference ('SVT_DB_NAME');
+        c_db_name constant eba_stds_standard_tests.version_db%type := svt_preferences.get('SVT_DB_NAME');
         begin
 
           l_version_number := case when l_test_rec.version_db != c_db_name
@@ -393,7 +393,7 @@ create or replace package body eba_stds_standard_tests_api as
         explanation           = p_explanation,
         fix                   = p_fix,
         version_number        = coalesce(p_version_number, version_number, gc_default_version_number),
-        version_db            = coalesce(p_version_db, version_db, svt_preferences.get_preference ('SVT_DB_NAME')),
+        version_db            = coalesce(p_version_db, version_db, svt_preferences.get('SVT_DB_NAME')),
         updated               = localtimestamp,
         updated_by            = coalesce(wwv_flow.g_user,user)
       where id = p_id;

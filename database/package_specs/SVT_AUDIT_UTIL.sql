@@ -142,7 +142,7 @@ procedure assign_violations;
 --
 /*
 begin
-    svt_ctx_util.set_review_schema (p_schema => svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA'));
+    svt_ctx_util.set_review_schema (p_schema => svt_preferences.get('SVT_DEFAULT_SCHEMA'));
     svt_audit_util.initialize_standard(p_test_code => 'HTML_ESCAPING_COLS');
     commit;
 end;

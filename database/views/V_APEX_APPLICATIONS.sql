@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset view_script:V_APEX_APPLICATIONS stripComments:false endDelimiter:/ runOnChange:true
+
 --------------------------------------------------------
 --  DDL for View v_apex_applications
 --------------------------------------------------------
@@ -13,9 +16,11 @@ select application_id,
        last_updated_by, 
        last_updated_on,
        workspace
-from svt_apex_view.apex_applications(p_user => case when sys_context('userenv', 'current_user') = svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA')
+from svt_apex_view.apex_applications(p_user => case when sys_context('userenv', 'current_user') = svt_preferences.get('SVT_DEFAULT_SCHEMA')
                                                     then svt_ctx_util.get_default_user
                                                     else sys_context('userenv', 'current_user')
                                                     end) 
                                                     
 /
+
+--rollback drop view V_APEX_APPLICATIONS;
