@@ -23,7 +23,7 @@ navigation-menu:
 
 navigation: 
   cursor-focus: Do not focus cursor
-  warn-on-unsaved-changes: true
+  warn-on-unsaved-changes: false
 
 security: 
   authorization-scheme: READER RIGHTS # 275286800875611800
@@ -135,7 +135,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 20
+    sequence: 50
     parent-region: Form # 266857261206801332
     position: SUB_REGIONS
     start-new-layout: false
@@ -214,10 +214,2060 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Live Test results report ====================
+- # ====== Region: Non-APEX form ===============================
+  id: 427277064153525944
+  identification: 
+    title: Non-APEX form
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Form # 266857261206801332
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: DB_PLSQL Live Test results report ===========
+  id: 427277229970525946
+  identification: 
+    title: DB_PLSQL Live Test results report
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.pass_yn,
+             a.test_code,
+             a.schema,
+             a.object_name,
+             a.object_type,
+             a.line,
+             a.code,
+             a.unqid,
+             esst.full_standard_name,
+             esst.issue_category
+      from v_eba_stds_standard_tests esst
+      inner join svt_standard_view.v_svt_db_plsql(
+                              p_test_code     => esst.test_code,
+                              p_failures_only => 'Y',
+                              p_object_name   => :P59_OBJECT_NAME) a
+          on  esst.query_clob is not null
+          and esst.active_yn = 'Y'
+          and esst.standard_active_yn = 'Y'
+          and (esst.test_code = :P59_TEST_CODE or :P59_TEST_CODE is null)
+          and (esst.issue_category = :P59_ISSUE_CATEGORY or :P59_ISSUE_CATEGORY is null) 
+          and (esst.standard_id = :P59_STANDARD or :P59_STANDARD is null)
+          and (esst.avg_execution_seconds < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
+          and (a.object_type = :P59_OBJECT_TYPE or :P59_OBJECT_TYPE is null)
+    page-items-to-submit: 
+    - P59_TEST_CODE
+    - P59_ISSUE_CATEGORY
+    - P59_STANDARD
+    - P59_TEST_TIME_LIMIT
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7800062643236934930
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P59_ISSUE_CATEGORY = 'DB_PLSQL'"
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 427277350505525947
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: true
+      maximum-rows-to-process: 50
+
+    messages: 
+      when-no-data-found: No Violations found (yet!)
+
+    search-bar: 
+      include-search-bar: true
+      search-field: false
+      reports-select-list: false
+      rows-per-page-selector: true
+      maximum-rows-per-page: 5
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: false
+      sort: false
+      control-break: true
+      highlight: false
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: false
+      pivot: false
+      flashback: false
+      save-report: true
+      save-public-report: true
+      save-public-report-authorization: CONTRIBUTION RIGHTS # 11006626105866161752
+      reset: true
+      help: true
+      download: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 433927752354842736
+      identification: 
+        name: Primary Report
+        alias: 4339278
+
+    columns: 
+    - # ====== Column: PASS_YN =====================================
+      id: 427277652553525950
+      identification: 
+        column-name: PASS_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Pass
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 433917243608817104
+      identification: 
+        column-name: TEST_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Test Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SCHEMA ======================================
+      id: 433917945921817111
+      identification: 
+        column-name: SCHEMA
+        type: Plain Text
+
+      heading: 
+        heading: Schema
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_NAME =================================
+      id: 433918020576817112
+      identification: 
+        column-name: OBJECT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Object Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_TYPE =================================
+      id: 433918167666817113
+      identification: 
+        column-name: OBJECT_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Object Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LINE ========================================
+      id: 433918258644817114
+      identification: 
+        column-name: LINE
+        type: Plain Text
+
+      heading: 
+        heading: Line
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CODE ========================================
+      id: 433918361157817115
+      identification: 
+        column-name: CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UNQID =======================================
+      id: 433918439740817116
+      identification: 
+        column-name: UNQID
+        type: Plain Text
+
+      heading: 
+        heading: Unqid
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FULL_STANDARD_NAME ==========================
+      id: 433918507911817117
+      identification: 
+        column-name: FULL_STANDARD_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Full Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_CATEGORY ==============================
+      id: 433918652321817118
+      identification: 
+        column-name: ISSUE_CATEGORY
+        type: Plain Text
+
+      heading: 
+        heading: Issue Category
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: View Live Test results report ===============
+  id: 433918700424817119
+  identification: 
+    title: View Live Test results report
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.pass_yn,
+             a.schema,
+             a.code,
+             a.unqid,
+             a.view_name,
+             esst.full_standard_name,
+             esst.issue_category
+      from v_eba_stds_standard_tests esst
+      inner join svt_standard_view.v_svt_db_view__0(
+                              p_test_code     => esst.test_code,
+                              p_failures_only => 'Y') a
+          on  esst.query_clob is not null
+          and esst.active_yn = 'Y'
+          and esst.standard_active_yn = 'Y'
+          and (esst.test_code = :P59_TEST_CODE or :P59_TEST_CODE is null)
+          and (esst.issue_category = :P59_ISSUE_CATEGORY or :P59_ISSUE_CATEGORY is null) 
+          and (esst.standard_id = :P59_STANDARD or :P59_STANDARD is null)
+          and (esst.avg_execution_seconds < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
+          and (a.view_name = :P59_OBJECT_NAME or :P59_OBJECT_NAME is null)
+    page-items-to-submit: 
+    - P59_TEST_CODE
+    - P59_ISSUE_CATEGORY
+    - P59_STANDARD
+    - P59_TEST_TIME_LIMIT
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7800062643236934930
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P59_ISSUE_CATEGORY = 'VIEW'"
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 433918895114817120
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: true
+      maximum-rows-to-process: 50
+
+    messages: 
+      when-no-data-found: No Violations found (yet!)
+
+    search-bar: 
+      include-search-bar: true
+      search-field: false
+      reports-select-list: false
+      rows-per-page-selector: true
+      maximum-rows-per-page: 5
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: false
+      sort: false
+      control-break: true
+      highlight: false
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: false
+      pivot: false
+      flashback: false
+      save-report: true
+      save-public-report: true
+      save-public-report-authorization: CONTRIBUTION RIGHTS # 11006626105866161752
+      reset: true
+      help: true
+      download: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 434663403419807850
+      identification: 
+        name: Primary Report
+        alias: 4346635
+
+    columns: 
+    - # ====== Column: PASS_YN =====================================
+      id: 433918954776817121
+      identification: 
+        column-name: PASS_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Pass
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SCHEMA ======================================
+      id: 433919121786817123
+      identification: 
+        column-name: SCHEMA
+        type: Plain Text
+
+      heading: 
+        heading: Schema
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CODE ========================================
+      id: 433919571513817127
+      identification: 
+        column-name: CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UNQID =======================================
+      id: 433919647375817128
+      identification: 
+        column-name: UNQID
+        type: Plain Text
+
+      heading: 
+        heading: Unqid
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FULL_STANDARD_NAME ==========================
+      id: 433919794888817129
+      identification: 
+        column-name: FULL_STANDARD_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Full Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_CATEGORY ==============================
+      id: 433919808267817130
+      identification: 
+        column-name: ISSUE_CATEGORY
+        type: Plain Text
+
+      heading: 
+        heading: Issue Category
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VIEW_NAME ===================================
+      id: 433919908199817131
+      identification: 
+        column-name: VIEW_NAME
+        type: Plain Text
+
+      heading: 
+        heading: View Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: Other Live Test results report ==============
+  id: 433920010259817132
+  identification: 
+    title: Other Live Test results report
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.schema,
+             a.code,
+             a.unqid,
+             esst.full_standard_name,
+             a.issue_category,
+             a.object_name,
+             a.object_type,
+             a.validation_failure_message,
+             a.test_code,
+             a.component_id
+      from v_eba_stds_standard_tests esst
+      inner join svt_standard_view.v_svt(
+                              p_test_code     => esst.test_code,
+                              p_failures_only => 'Y') a
+          on  esst.query_clob is not null
+          and esst.active_yn = 'Y'
+          and esst.standard_active_yn = 'Y'
+          and (esst.test_code = :P59_TEST_CODE or :P59_TEST_CODE is null)
+          and (esst.issue_category = :P59_ISSUE_CATEGORY or :P59_ISSUE_CATEGORY is null) 
+          and (esst.standard_id = :P59_STANDARD or :P59_STANDARD is null)
+          and (esst.avg_execution_seconds < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
+          and (a.object_name = :P59_OBJECT_NAME or :P59_OBJECT_NAME is null)
+          and (a.object_type = :P59_OBJECT_TYPE or :P59_OBJECT_TYPE is null)
+    page-items-to-submit: 
+    - P59_TEST_CODE
+    - P59_ISSUE_CATEGORY
+    - P59_STANDARD
+    - P59_TEST_TIME_LIMIT
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7800062643236934930
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P59_ISSUE_CATEGORY in ('MV','TRIGGER')"
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 433920180672817133
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: true
+      maximum-rows-to-process: 50
+
+    messages: 
+      when-no-data-found: No Violations found (yet!)
+
+    search-bar: 
+      include-search-bar: true
+      search-field: false
+      reports-select-list: false
+      rows-per-page-selector: true
+      maximum-rows-per-page: 5
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: false
+      sort: false
+      control-break: true
+      highlight: false
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: false
+      pivot: false
+      flashback: false
+      save-report: true
+      save-public-report: true
+      save-public-report-authorization: CONTRIBUTION RIGHTS # 11006626105866161752
+      reset: true
+      help: true
+      download: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 434676654793921227
+      identification: 
+        name: Primary Report
+        alias: 4346767
+
+    columns: 
+    - # ====== Column: SCHEMA ======================================
+      id: 433920361450817135
+      identification: 
+        column-name: SCHEMA
+        type: Plain Text
+
+      heading: 
+        heading: Schema
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CODE ========================================
+      id: 433920450896817136
+      identification: 
+        column-name: CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UNQID =======================================
+      id: 433920580385817137
+      identification: 
+        column-name: UNQID
+        type: Plain Text
+
+      heading: 
+        heading: Unqid
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FULL_STANDARD_NAME ==========================
+      id: 433920632062817138
+      identification: 
+        column-name: FULL_STANDARD_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Full Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_CATEGORY ==============================
+      id: 433920743146817139
+      identification: 
+        column-name: ISSUE_CATEGORY
+        type: Plain Text
+
+      heading: 
+        heading: Issue Category
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_NAME =================================
+      id: 433921254776817144
+      identification: 
+        column-name: OBJECT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Object Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_TYPE =================================
+      id: 433921333216817145
+      identification: 
+        column-name: OBJECT_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Object Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALIDATION_FAILURE_MESSAGE ==================
+      id: 433921475894817146
+      identification: 
+        column-name: VALIDATION_FAILURE_MESSAGE
+        type: Plain Text
+
+      heading: 
+        heading: Validation Failure Message
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 434668070237906002
+      identification: 
+        column-name: TEST_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Test Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 180
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COMPONENT_ID ================================
+      id: 434668158051906003
+      identification: 
+        column-name: COMPONENT_ID
+        type: Plain Text
+
+      heading: 
+        heading: Component Id
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 190
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: Table Live Test results report ==============
+  id: 434668577720906007
+  identification: 
+    title: Table Live Test results report
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.pass_yn,
+             a.schema,
+             a.code,
+             a.unqid,
+             a.table_name,
+             a.object_id,
+             esst.full_standard_name,
+             esst.issue_category
+      from v_eba_stds_standard_tests esst
+      inner join svt_standard_view.v_svt_db_tbl__0(
+                              p_test_code     => esst.test_code,
+                              p_failures_only => 'Y') a
+          on  esst.query_clob is not null
+          and esst.active_yn = 'Y'
+          and esst.standard_active_yn = 'Y'
+          and (esst.test_code = :P59_TEST_CODE or :P59_TEST_CODE is null)
+          and (esst.issue_category = :P59_ISSUE_CATEGORY or :P59_ISSUE_CATEGORY is null) 
+          and (esst.standard_id = :P59_STANDARD or :P59_STANDARD is null)
+          and (esst.avg_execution_seconds < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
+          and (a.table_name = :P59_OBJECT_NAME or :P59_OBJECT_NAME is null)
+    page-items-to-submit: 
+    - P59_TEST_CODE
+    - P59_ISSUE_CATEGORY
+    - P59_STANDARD
+    - P59_TEST_TIME_LIMIT
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7800062643236934930
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P59_ISSUE_CATEGORY = 'TABLE'"
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 434668630870906008
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: true
+      maximum-rows-to-process: 50
+
+    messages: 
+      when-no-data-found: No Violations found (yet!)
+
+    search-bar: 
+      include-search-bar: true
+      search-field: false
+      reports-select-list: false
+      rows-per-page-selector: true
+      maximum-rows-per-page: 5
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: false
+      sort: false
+      control-break: true
+      highlight: false
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: false
+      pivot: false
+      flashback: false
+      save-report: true
+      save-public-report: true
+      save-public-report-authorization: CONTRIBUTION RIGHTS # 11006626105866161752
+      reset: true
+      help: true
+      download: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 434693381145066590
+      identification: 
+        name: Primary Report
+        alias: 4346934
+
+    columns: 
+    - # ====== Column: PASS_YN =====================================
+      id: 434668717753906009
+      identification: 
+        column-name: PASS_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Pass
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SCHEMA ======================================
+      id: 434668808262906010
+      identification: 
+        column-name: SCHEMA
+        type: Plain Text
+
+      heading: 
+        heading: Schema
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CODE ========================================
+      id: 434668985667906011
+      identification: 
+        column-name: CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UNQID =======================================
+      id: 434669044989906012
+      identification: 
+        column-name: UNQID
+        type: Plain Text
+
+      heading: 
+        heading: Unqid
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FULL_STANDARD_NAME ==========================
+      id: 434669157247906013
+      identification: 
+        column-name: FULL_STANDARD_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Full Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_CATEGORY ==============================
+      id: 434669275167906014
+      identification: 
+        column-name: ISSUE_CATEGORY
+        type: Plain Text
+
+      heading: 
+        heading: Issue Category
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TABLE_NAME ==================================
+      id: 434669429741906016
+      identification: 
+        column-name: TABLE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Table Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_ID ===================================
+      id: 434669530523906017
+      identification: 
+        column-name: OBJECT_ID
+        type: Plain Text
+
+      heading: 
+        heading: Object Id
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: DB_PLSQL form ===============================
+  id: 434669604116906018
+  identification: 
+    title: DB_PLSQL form
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Form # 266857261206801332
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: APEX Live Test results report ===============
   id: 724462783714702685
   identification: 
-    title: Live Test results report
+    title: APEX Live Test results report
     type: Interactive Report
 
   source: 
@@ -939,10 +2989,11 @@ page-items:
   list-of-values: 
     type: SQL Query
     sql-query: |
-      select apex_string.format('%s (%s)[%ss]', test_name, test_code, round(avg_exctn_scnds,1)) d, test_code r
-      from eba_stds_standard_tests
+      select apex_string.format('%s (%s)[%ss]', test_name, test_code, round(avg_execution_seconds,1)) d, test_code r
+      from v_eba_stds_standard_tests
       where (standard_id = :P59_STANDARD or :P59_STANDARD is null)
-      and (coalesce(avg_exctn_scnds, 0) < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
+      and (coalesce(avg_execution_seconds, 0) < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
+      and issue_category = :P59_ISSUE_CATEGORY
       order by 2
     display-extra-values: false
     display-null-value: true
@@ -952,9 +3003,11 @@ page-items:
     parent-item(s): 
     - P59_STANDARD
     - P59_TEST_TIME_LIMIT
+    - P59_ISSUE_CATEGORY
     items-to-submit: 
     - P59_STANDARD
     - P59_TEST_TIME_LIMIT
+    - P59_ISSUE_CATEGORY
     parent-required: false
 
   advanced: 
@@ -1014,8 +3067,17 @@ page-items:
     value-required: false
 
   list-of-values: 
-    type: Shared Component
-    list-of-values: SVT_NESTED_TABLE_TYPES.ISSUE_CATEGORY # 274716535866311897
+    type: SQL Query
+    sql-query: |
+      select  distinct 
+              case when ntt.object_type = 'APEX'
+                  then ntt.object_type
+                  else sct.friendly_name
+                  end d,
+              ntt.object_type r
+      from svt_nested_table_types ntt
+      inner join svt_component_types sct on ntt.id = sct.nt_type_id
+      order by 1
     display-extra-values: false
     display-null-value: false
 
@@ -1035,7 +3097,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     escape-special-characters: true
     restricted-characters: All characters can be saved.
 
@@ -1217,11 +3279,22 @@ page-items:
     value-required: false
 
   list-of-values: 
-    type: Shared Component
-    list-of-values: V_EBA_STDS_STANDARDS.FULL_STANDARD_NAME # 7789099193234994231
+    type: SQL Query
+    sql-query: |
+      select distinct ess.full_standard_name d, ess.id r 
+      from v_eba_stds_standards ess
+      inner join v_eba_stds_standard_tests esst on ess.id = esst.standard_id
+                                                and esst.issue_category = :P59_ISSUE_CATEGORY
     display-extra-values: false
     display-null-value: true
     null-display-value: No standard selected
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P59_ISSUE_CATEGORY
+    items-to-submit: 
+    - P59_ISSUE_CATEGORY
+    parent-required: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1303,6 +3376,152 @@ page-items:
   help: 
     help-text: Only run tests that have an average execution time (in seconds) to this value
 
+- # ====== Page Item: P59_OBJECT_NAME ==========================
+  id: 434668388439906005
+  identification: 
+    name: P59_OBJECT_NAME
+    type: Popup LOV
+
+  label: 
+    label: Object Name
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 20
+    region: Non-APEX form # 427277064153525944
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select object_name d, object_name r
+      from all_objects ao
+      inner join table(
+                    apex_string.split(
+                      svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
+                      )
+                    ) srs on srs.column_value = ao.owner
+      where ao.object_type = :P59_OBJECT_TYPE
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: No Object Selected
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P59_OBJECT_TYPE
+    items-to-submit: 
+    - P59_OBJECT_TYPE
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_OBJECT_TYPE ==========================
+  id: 434668495249906006
+  identification: 
+    name: P59_OBJECT_TYPE
+    type: Popup LOV
+
+  label: 
+    label: Object Type
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 10
+    region: DB_PLSQL form # 434669604116906018
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select distinct object_type r, object_type d
+      from all_objects
+      order by 1
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: No Object Type Selected
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: EVALUATE ====================================
   id: 266858578879801345
@@ -1341,7 +3560,7 @@ buttons:
 
   layout: 
     sequence: 40
-    region: Live Test results report # 724462783714702685
+    region: APEX Live Test results report # 724462783714702685
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -1420,7 +3639,7 @@ dynamic-actions:
       region: APEX form # 266858197054801341
 
     execution: 
-      sequence: 10
+      sequence: 40
       event: Hide/Show subforms # 266858235450801342
       fire-when-event-result-is: True
       fire-on-initialization: true
@@ -1429,6 +3648,90 @@ dynamic-actions:
       type: Item != Value
       item: P59_ISSUE_CATEGORY
       value: APEX
+
+  - # ====== Action: Show Non-APEX ===============================
+    id: 427276947056525943
+    identification: 
+      name: Show Non-APEX
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Non-APEX form # 427277064153525944
+
+    execution: 
+      sequence: 20
+      event: Hide/Show subforms # 266858235450801342
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item != Value
+      item: P59_ISSUE_CATEGORY
+      value: APEX
+
+  - # ====== Action: Hide Non-APEX ===============================
+    id: 427277130321525945
+    identification: 
+      name: Hide Non-APEX
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Non-APEX form # 427277064153525944
+
+    execution: 
+      sequence: 60
+      event: Hide/Show subforms # 266858235450801342
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item = Value
+      item: P59_ISSUE_CATEGORY
+      value: APEX
+
+  - # ====== Action: Show DB_PLSQL ===============================
+    id: 434669781225906019
+    identification: 
+      name: Show DB_PLSQL
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: DB_PLSQL form # 434669604116906018
+
+    execution: 
+      sequence: 30
+      event: Hide/Show subforms # 266858235450801342
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item = Value
+      item: P59_ISSUE_CATEGORY
+      value: DB_PLSQL
+
+  - # ====== Action: Hide DB_PLSQL ===============================
+    id: 434669873159906020
+    identification: 
+      name: Hide DB_PLSQL
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: DB_PLSQL form # 434669604116906018
+
+    execution: 
+      sequence: 70
+      event: Hide/Show subforms # 266858235450801342
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item != Value
+      item: P59_ISSUE_CATEGORY
+      value: DB_PLSQL
 
 - # ====== Dynamic Action: Hide/show page ======================
   id: 266858729213801347
@@ -1593,6 +3896,12 @@ dynamic-actions:
     event-scope: Static
     type: Immediate
 
+  server-side-condition: 
+    type: Never
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
   actions: 
   - # ====== Action: Disable evaluate ============================
     id: 275116509692484909
@@ -1609,10 +3918,6 @@ dynamic-actions:
       event: Enable disable evaluate # 275116468431484908
       fire-when-event-result-is: True
       fire-on-initialization: true
-
-    client-side-condition: 
-      type: Item is null
-      item: P59_PAGE_ID
 
   - # ====== Action: Enable evaluate =============================
     id: 275116616545484910
