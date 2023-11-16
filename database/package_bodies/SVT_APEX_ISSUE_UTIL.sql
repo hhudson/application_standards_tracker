@@ -43,7 +43,7 @@ $if oracle_apex_version.c_apex_issue_access $then
     select workspace_id
     into l_security_groupd_id
     from apex_workspaces
-    where workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE');
+    where workspace = svt_preferences.get_preference ('SVT_WORKSPACE');
 
     apex_debug.message(c_debug_template, 'l_security_groupd_id', l_security_groupd_id);
 

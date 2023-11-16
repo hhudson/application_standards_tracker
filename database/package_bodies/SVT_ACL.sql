@@ -28,7 +28,7 @@ create or replace package body SVT_ACL as
 
     for rec in (select user_name
                 from apex_workspace_developers
-                where workspace_name = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
+                where workspace_name = svt_preferences.get_preference ('SVT_WORKSPACE')
                 )
     loop
       apex_acl.add_user_role (

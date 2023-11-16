@@ -827,7 +827,7 @@ is
                                                     ||chr(10)||c_50_spaces||c_3_spaces||'and aabo2.application_id = '||l_initials||'.application_id'
                                                  end;
         l_example_query := l_example_query||case when column_exists (c_workspace,l_view)
-                                                 then chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')]', l_initials)
+                                                 then chr(10)||apex_string.format(q'[where %0.workspace = svt_preferences.get_preference ('SVT_WORKSPACE')]', l_initials)
                                                  else chr(10)||apex_string.format(q'[where 1=1]', l_initials)
                                                  end;
         l_example_query := l_example_query||case when column_exists (c_page_id,l_view) and l_view != 'apex_application_pages'

@@ -126,7 +126,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   -- as 
   -- c_scope constant varchar2(128) := gc_scope_prefix || 'take_snapshot';
   -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  -- c_workspace constant apex_workspace_preferences.preference_value%type := svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE');
+  -- c_workspace constant apex_workspace_preferences.preference_value%type := svt_preferences.get_preference ('SVT_WORKSPACE');
   -- begin
   --   apex_debug.message(c_debug_template,'START');
 

@@ -260,7 +260,7 @@ create or replace package body SVT_AUDIT_UTIL as
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     c_workspace constant apex_workspaces.workspace%type := case when p_workspace is not null 
                                                                 then upper(p_workspace)
-                                                                else svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE')
+                                                                else svt_preferences.get_preference ('SVT_WORKSPACE')
                                                                 end;
     begin
       apex_debug.message(c_debug_template,'START');

@@ -33,7 +33,7 @@ begin
     svt_audit_util.set_workspace;
 end;
 select svt_preferences.get_preference ('SVT_DEFAULT_SCHEMA') default_schema,
-       svt_preferences.get_preference ('SVT_DEFAULT_WORKSPACE') default_workspace,
+       svt_preferences.get_preference ('SVT_WORKSPACE') default_workspace,
        svt_preferences.get_preference ('SVT_DB_NAME') db_name,
        svt_preferences.get_preference ('SVT_EMAIL_API') email_api,
        svt_preferences.get_preference ('SVT_BASE_URL') base_url,
