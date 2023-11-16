@@ -99,8 +99,9 @@ create or replace package body eba_stds_standards_api as
   ) as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'updated_std';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_current_rec eba_stds_standards%rowtype;
   begin
-    apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+    l_current_rec := eba_stds_standards_api.get_rec (p_standard_id => p_id);
 
     update eba_stds_standards
     set standard_name         = p_standard_name,
@@ -118,8 +119,12 @@ create or replace package body eba_stds_standards_api as
 
     apex_debug.message(c_debug_template, 'updated : ', sql%rowcount);
 
-    if p_parent_standard_id is null then
-      eba_stds_inherited_tests_api.delete_std (p_standard_id => p_id);
+    if p_parent_standard_id is null 
+    and l_current_rec.parent_standard_id is not null 
+    then
+      eba_stds_inherited_tests_api.delete_std (
+                    p_standard_id => p_id,
+                    p_former_parent_standard_id => l_current_rec.parent_standard_id);
     end if;
 
   exception when others then

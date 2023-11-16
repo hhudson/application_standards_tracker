@@ -100,7 +100,7 @@ procedure disinherit (
 --     Date: August 17, 2023
 -- Synopsis:
 --
--- Procedure to delete all records for a given standard_id  
+-- Procedure to delete all records in eba_stds_inherited_tests for a given standard_id  
 --
 /*
 begin
@@ -108,7 +108,8 @@ begin
 end;
 */
 ------------------------------------------------------------------------------
-procedure delete_std (p_standard_id  in eba_stds_inherited_tests.standard_id%type);
+procedure delete_std (p_standard_id               in eba_stds_inherited_tests.standard_id%type,
+                      p_former_parent_standard_id in eba_stds_inherited_tests.parent_standard_id%type default null);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

@@ -707,13 +707,17 @@ begin
          o.fix,
          o.version_number,
          o.version_db,
-         gc_n inherited_yn,
+         o.inherited_yn,
          o.full_standard_name,
          o.display_sequence
   from v_eba_stds_standard_tests_w_inherited o
   where (o.standard_id = p_std_id or p_std_id is null)
   and   (o.active_yn = p_active or p_active is null)
-  and   (o.standard_active_yn = p_standard_active or p_standard_active is null);
+  and   (o.standard_active_yn = p_standard_active or p_standard_active is null)
+  and   o.inherited_yn = case when p_std_id is null
+                              then gc_n 
+                              else o.inherited_yn
+                              end;
 
   type r_aa is record (
     standard_id             number,

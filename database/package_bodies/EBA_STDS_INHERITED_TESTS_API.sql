@@ -87,15 +87,19 @@ create or replace package body eba_stds_inherited_tests_api as
       raise;
   end disinherit;
 
-  procedure delete_std (p_standard_id  in eba_stds_inherited_tests.standard_id%type)
+  procedure delete_std (p_standard_id  in eba_stds_inherited_tests.standard_id%type,
+                        p_former_parent_standard_id in eba_stds_inherited_tests.parent_standard_id%type default null)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_std';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_former_parent_standard_id', p_former_parent_standard_id);
 
     delete from eba_stds_inherited_tests
-    where standard_id = p_standard_id;
+    where standard_id = p_standard_id
+    and (parent_standard_id = p_former_parent_standard_id or p_former_parent_standard_id is null);
 
     apex_debug.message(c_debug_template, 'deleted records : ', sql%rowcount);
   
@@ -127,10 +131,12 @@ create or replace package body eba_stds_inherited_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_add';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_test_ids',p_test_ids,
+                                        'p_standard_id', p_standard_id);
 
      for rec in (select column_value test_id
-                  from table(apex_string.split(p_test_ids, ':'))
+                  from table(apex_string.split(p_test_ids, ','))
                 )
     loop
       inherit_test (
@@ -139,7 +145,7 @@ create or replace package body eba_stds_inherited_tests_api as
       );
     end loop;
   
-  exception  when others then
+  exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
       raise;
   end bulk_add;
@@ -150,10 +156,12 @@ create or replace package body eba_stds_inherited_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_remove';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
-    apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_test_ids',p_test_ids,
+                                        'p_standard_id', p_standard_id);
 
      for rec in (select column_value test_id
-                  from table(apex_string.split(p_test_ids, ':'))
+                  from table(apex_string.split(p_test_ids, ','))
                 )
     loop
       disinherit (
