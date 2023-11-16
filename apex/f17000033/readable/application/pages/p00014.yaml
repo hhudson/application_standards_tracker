@@ -3517,24 +3517,46 @@ page-items:
 
   help: 
     help-text: |
-      Write your SQL query defining your pass/fail conditions. 
-      To get a default query to get you started, erase the contents of this field and (re)select the component type - 
-      A query should automatically populate.
-      <br/><br/>
-      Explanation of requires fields:
-      <ul>
-          <li>validation_failure_message : human readable, long-form description of violation (for apex issue)</li>
-          <li>issue_title : human readable, short-form description of violation (for apex issue)</li>
-          <li>component_id: the primary key of underlying component. It is very important to get this value correct</li>
-      </ul>
-      Recommendations:
-      <ul>
-          <li>Users should be able to get a pass for the violation by placing the components or its page 
-              under a build-option that excludes the component on export.
-          </li>
-          <li>The query should be predicated with a filter on the target workspace.
-          </li>
-      </ul>
+      <p>
+          <b>What</b>: 
+          <ul>
+              <li>This field is to store your SQL query defining your pass/fail conditions.</li>
+          </ul>
+      <p>
+      <p>
+          <b>How</b>:
+          <ol>
+              <li>
+              Start yourself on the right foot by using one of the provided <b>default queries</b>. 
+              Simply, erase the contents of this field and (re)select the component type - 
+              A query should automatically populate.
+              </li>
+              <li>
+              Copy and paste your default query to somewhere you can run it (SQL Developer, SQL Workshop, etc).
+              </li>
+              <li>
+              Explore the available metadata to define the pass/fail condition you desire. 
+              Almost everything is queryable by metadata if you look for it.
+              </li>
+          </ol>
+          <br/><br/>
+          Explanation of requires fields:
+          <ul>
+              <li>validation_failure_message : human readable, long-form description of violation (for apex issue)</li>
+              <li>issue_title : human readable, short-form description of violation (for apex issue)</li>
+              <li>component_id: the primary key of underlying component. It is very important to get this value correct</li>
+          </ul>
+          Recommendations:
+          <ul>
+              <li>(For APEX only) Users should be able to get a pass for the violation by placing the components or its page 
+                  under a build-option that excludes the component on export.
+              </li>
+              <li>(For APEX only) The query should be predicated with a filter on the target workspace.
+              </li>
+          </ul>
+      </p>
+      
+      
 
 - # ====== Page Item: P14_OWNER ================================
   id: 341628821749637849

@@ -25,6 +25,15 @@ navigation:
   cursor-focus: Do not focus cursor
   warn-on-unsaved-changes: true
 
+javascript: 
+  execute-when-page-loads: |
+    $('td[headers="INSTALL_STATUS"]').each(function() {
+      let val = $(this).text();
+      if ( val === 'Installed' ) {
+        $(this).closest('tr').find('td').css({"background-color":"rgb(255, 246, 223)"});
+      }
+    });
+
 security: 
   authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
@@ -64,21 +73,25 @@ regions:
              p.col007 col007_std, 
              p.col008 col008_std, 
              p.col009 col009_std, 
-             p.col010 col010_std
-        from apex_application_temp_files f, 
-             table( apex_data_parser.parse(
+             p.col010 col010_std,
+             case when ess.id is not null 
+                  then'Installed'
+                  end install_status
+        from apex_application_temp_files f
+             cross join table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
                         p_add_headers_row   => 'Y',
                         p_row_selector      => 'std_test',
                         p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_std' ),
                         p_max_rows          => 10) ) p
+             left outer join eba_stds_standards ess on to_char(ess.id) = p.col002
        where f.name = :P81_FILE
     page-items-to-submit: 
     - P81_FILE
 
   layout: 
-    sequence: 70
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -99,6 +112,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
+    static-id: PRVW_RPT
     region-display-selector: false
     exclude-title-from-translation: false
 
@@ -481,14 +495,29 @@ regions:
     id: 356345660167199629
     identification: 
       column-name: COL010_STD
-      type: Plain Text
-
-    heading: 
-      heading: Col010 Std
-      alignment: start
+      type: Hidden Column
 
     layout: 
       sequence: 110
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: INSTALL_STATUS ==============================
+    id: 437964238421061931
+    identification: 
+      column-name: INSTALL_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Install Status
+      alignment: start
+
+    layout: 
+      sequence: 120
       column-alignment: start
 
     accessibility: 
@@ -709,20 +738,24 @@ regions:
              p.col007, 
              p.col008, 
              p.col009, 
-             p.col010
-        from apex_application_temp_files f, 
-             table( apex_data_parser.parse(
+             p.col010,
+             case when esst.id is not null 
+                  then 'Installed'
+                  end install_status
+        from apex_application_temp_files f
+             cross join table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
                         p_add_headers_row   => 'Y',
                         p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_tests' ),
                         p_max_rows          => 100) ) p
+             left outer join eba_stds_standard_tests esst on to_char(esst.test_code) = p.col004
        where f.name = :P81_FILE
     page-items-to-submit: 
     - P81_FILE
 
   layout: 
-    sequence: 80
+    sequence: 60
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -743,6 +776,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
+    static-id: PRVW_TST
     region-display-selector: false
     exclude-title-from-translation: false
 
@@ -1153,6 +1187,38 @@ regions:
     security: 
       escape-special-characters: true
 
+  - # ====== Column: INSTALL_STATUS ==============================
+    id: 437964320437061932
+    identification: 
+      column-name: INSTALL_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Install Status
+      alignment: start
+
+    layout: 
+      sequence: 120
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: File Analysis ===============================
   id: 356400514006521227
   identification: 
@@ -1194,6 +1260,61 @@ regions:
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Note ========================================
+  id: 437964445310061933
+  identification: 
+    title: Note
+    type: Static Content
+
+  source: 
+    html-code: |
+      * Standards and tests that are marked as 'Installed' (and have a pale-yellow background color) have previously been installed.
+      They will be overwritten if you proceed with loading this data.
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--horizontal
+    - t-Alert--noIcon
+    - t-Alert--warning
+    - js-headingLevel-6
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P81_FILE
 
   server-cache: 
     caching: Disabled

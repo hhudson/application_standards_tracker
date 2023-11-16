@@ -87,7 +87,7 @@ regions:
   id: 387747420506265660
   identification: 
     title: Available tests
-    type: Interactive Grid
+    type: Interactive Report
 
   source: 
     location: Local Database
@@ -95,6 +95,7 @@ regions:
     sql-query: |
       select esst.test_id,
              esst.standard_id,
+             esst.standard_name,
              esst.test_name,
              esst.test_code,
              esst.active_yn,
@@ -102,13 +103,21 @@ regions:
              case when esit.id is null
                   then 'N'
                   else 'Y'
-                  end inherited_yn
-      from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
-              p_standard_id => :P65_PARENT_STANDARD_ID
-          )  esst 
+                  end inherited_yn,
+             case when :P65_PARENT_STANDARD_ID is null
+                  then 'Y'
+                  when esst.standard_id = :P65_PARENT_STANDARD_ID
+                  then 'Y'
+                  else 'N'
+                  end parent_standard_yn
+      from v_eba_stds_standard_tests esst
+      -- eba_stds_standard_tests_api.v_eba_stds_standard_tests(
+      --         p_standard_id => :P65_PARENT_STANDARD_ID
+      --     )  esst 
       left outer join eba_stds_inherited_tests esit on esit.test_id = esst.test_id
                                                     and esit.standard_id = :P65_STANDARD_ID
       where esst.active_yn = 'Y'
+      and esst.standard_id != :P65_STANDARD_ID
     page-items-to-submit: 
     - P65_PARENT_STANDARD_ID
     - P65_STANDARD_ID
@@ -147,36 +156,45 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 387747538479265661
-    edit: 
-      enabled: true
-      lost-update-type: Row Values
-
-    performance: 
-      lazy-loading: true
-
-    appearance: 
-      select-first-row: false
-      fixed-row-height: true
+    id: 434670518571906027
+    link: 
+      link-column: Exclude Link Column
 
     pagination: 
-      type: Scroll
-      show-total-count: true
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
 
-    toolbar: 
-      show: true
-      controls: 
-      - Search Column Selection
-      - Search Field
-      - Actions Menu
-      - Reset Button
-      - Save Button
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
 
-    enable-users-to: 
-      save-public-report: false
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
       flashback: true
-      define-chart-view: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
       download: true
+      subscription: true
 
     download: 
       formats: 
@@ -195,433 +213,419 @@ regions:
     detail-view: 
       show: false
 
-    advanced: 
-      initialization-javascript-function: |
-        function(config) {
-            var $ = apex.jQuery,
-                toolbarData = $.apex.interactiveGrid.copyDefaultToolbar();
-                OthrToolbarGroup = toolbarData.toolbarFind("actions1");
-                bulkButton = {
-                    type: "BUTTON",
-                    hot: false,
-                    action: "bulk-add",
-                    icon: "fa fa-plus-circle-o",
-                    id:"bulkadd",
-                    iconBeforeLabel: true
-                };
-                OthrToolbarGroup.controls.push( bulkButton );
-                reassignButton = {
-                    type: "BUTTON",
-                    hot: false,
-                    action: "bulk-remove",
-                    icon: "fa fa-minus-square-o",
-                    id:"bulkremove",
-                    iconBeforeLabel: true
-                };
-                OthrToolbarGroup.controls.push( reassignButton );
-                config.toolbarData = toolbarData;
-            
-            // this is how actions are added
-            config.initActions = function(actions) {
-                actions.add({
-                    name: "bulk-add",
-                    // you could define the label directly as English text
-                    // label: "Create"
-                    // But better to use a message so it can be translated. In shared
-                    // components, text messages create MY_CREATE_BUTTON = Create and 
-                    // set Used in JavaScript: Yes
-                    labelKey: "Add Test(s)  ",
-                    // this sets the action to be what the hidden button does when you click it
-                    // action: $("#hiddenBulk").prop("onclick")   
-                    action: function() {
-                        apex.debug.info("bulk-add");
-                        $.event.trigger('bulkAdd');
-                    }         
-                });
-                actions.add({
-                    name: "bulk-remove",
-                    labelKey: "Remove Test(s)",
-                    action: function() {
-                        apex.debug.info("bulk-remove");
-                        $.event.trigger('bulkRemove');
-                    }         
-                });
-            }
-            return config;
-        }
-
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 387788740815568495
+      id: 437952816751960667
       identification: 
         name: Primary Report
-        alias: 1613960
-
-  columns: 
-  - # ====== Column: STANDARD_ID =================================
-    id: 387747726935265663
-    identification: 
-      column-name: STANDARD_ID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 50
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: STANDARD_ID
-      data-type: NUMBER
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: TEST_NAME ===================================
-    id: 387747845417265664
-    identification: 
-      column-name: TEST_NAME
-      type: Text Field
-
-    heading: 
-      heading: Test Name
-      alignment: start
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 40
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 64
-
-    source: 
-      type: Database Column
-      database-column: TEST_NAME
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: TEST_CODE ===================================
-    id: 387748648373265672
-    identification: 
-      column-name: TEST_CODE
-      type: Text Field
-
-    heading: 
-      heading: Test Code
-      alignment: start
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 30
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: true
-
-    validation: 
-      value-required: false
-      maximum-length: 100
-
-    source: 
-      type: Database Column
-      database-column: TEST_CODE
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: ACTIVE_YN ===================================
-    id: 387748784412265673
-    identification: 
-      column-name: ACTIVE_YN
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 60
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ACTIVE_YN
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: VERSION_NUMBER ==============================
-    id: 387749318533265679
-    identification: 
-      column-name: VERSION_NUMBER
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 70
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: VERSION_NUMBER
-      data-type: NUMBER
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: APEX$ROW_SELECTOR ===========================
-    id: 387749878625265684
-    identification: 
-      column-name: APEX$ROW_SELECTOR
-      type: Row Selector
-
-    settings: 
-      enable-multi-select: true
-      show-select-all: true
-      hide-control: false
-
-    layout: 
-      sequence: 10
-
-  - # ====== Column: INHERITED_YN ================================
-    id: 387835545817811481
-    identification: 
-      column-name: INHERITED_YN
-      type: Switch
-
-    heading: 
-      heading: Inherited
-      alignment: start
-
-    settings: 
-      use-defaults: true
-
-    layout: 
-      sequence: 80
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    source: 
-      type: Database Column
-      database-column: INHERITED_YN
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: TEST_ID =====================================
-    id: 387891234037355952
-    identification: 
-      column-name: TEST_ID
-      type: Number Field
-
-    heading: 
-      heading: Test Id
-      alignment: end
-
-    settings: 
-      number-alignment: Start
-      virtual-keyboard: Decimal
-
-    layout: 
-      sequence: 20
-      column-alignment: end
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    source: 
-      type: Database Column
-      database-column: TEST_ID
-      data-type: NUMBER
-      query-only: false
-      primary-key: true
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  printing: 
-    page: 
-      size: Letter
-      orientation: Landscape
-      units: Inches
-      width: 11
-      height: 8.5
-      border-width: 0.5
-      border-color: '#666666'
-
-    page-header: 
-      font: Helvetica
-      font-weight: Normal
-      font-size: 12
-      font-color: '#000000'
-      alignment: center
-      page-header-text: Available tests
-
-    column-headings: 
-      font: Helvetica
-      font-weight: Bold
-      font-size: 10
-      font-color: '#000000'
-      background-color: '#EEEEEE'
+        alias: 4379529
+
+    - # ====== Saved Report: Inherited tests =======================
+      id: 437981523779186397
+      identification: 
+        name: Inherited tests
+        alias: 4379816
 
     columns: 
-      font: Helvetica
-      font-weight: Normal
-      font-size: 10
-      font-color: '#000000'
-      background-color: '#FFFFFF'
+    - # ====== Column: TEST_ID =====================================
+      id: 434670665278906028
+      identification: 
+        column-name: TEST_ID
+        type: IR-Row-Selector
 
-    page-footer: 
-      font: Helvetica
-      font-weight: Normal
-      font-size: 12
-      font-color: '#000000'
-      alignment: center
+      heading: 
+        heading: Select
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      settings: 
+        primary-key-column: TEST_ID
+        output-page-item: P65_SELECTED_IDS
+
+      layout: 
+        sequence: 10
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: false
+
+    - # ====== Column: STANDARD_ID =================================
+      id: 434670750868906029
+      identification: 
+        column-name: STANDARD_ID
+        type: Plain Text
+
+      heading: 
+        heading: Standard ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_NAME ===============================
+      id: 434670819048906030
+      identification: 
+        column-name: STANDARD_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_NAME ===================================
+      id: 434670924771906031
+      identification: 
+        column-name: TEST_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Test Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 434671026022906032
+      identification: 
+        column-name: TEST_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Test Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACTIVE_YN ===================================
+      id: 434671151278906033
+      identification: 
+        column-name: ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: VERSION_NUMBER ==============================
+      id: 434671276563906034
+      identification: 
+        column-name: VERSION_NUMBER
+        type: Plain Text
+
+      heading: 
+        heading: Version Number
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: INHERITED_YN ================================
+      id: 434671345634906035
+      identification: 
+        column-name: INHERITED_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Inherited
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: PARENT_STANDARD_YN ==========================
+      id: 437961478656061903
+      identification: 
+        column-name: PARENT_STANDARD_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Parent Standard
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Available tests
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
 
 - # ====== Region: Buttons =====================================
   id: 387750014138265686
@@ -722,7 +726,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P65_TEST_ID ==============================
@@ -750,10 +754,16 @@ page-items:
     data-type: VARCHAR2
     storage: Per Session (Persistent)
 
+  server-side-condition: 
+    type: Never
+
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 - # ====== Page Item: P65_SELECTED_IDS =========================
   id: 387835610452811482
@@ -782,7 +792,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 buttons: 
@@ -816,20 +826,139 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
+- # ====== Button: CANCEL ======================================
+  id: 434670025527906022
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 387750014138265686
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7800080814852934990
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: ADD_TESTS ===================================
+  id: 434671601139906038
+  identification: 
+    button-name: ADD_TESTS
+    label: Add Test(s)
+
+  layout: 
+    sequence: 10
+    region: Available tests # 387747420506265660
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-plus-square
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: REMOVE_TESTS ================================
+  id: 434671819533906040
+  identification: 
+    button-name: REMOVE_TESTS
+    label: Remove Test(s)
+
+  layout: 
+    sequence: 20
+    region: Available tests # 387747420506265660
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-minus-square
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: RESET =======================================
+  id: 437961355529061902
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 30
+    region: Available tests # 387747420506265660
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:RR,65:P65_STANDARD_ID,P65_PARENT_STANDARD_ID:&P65_STANDARD_ID.,&P65_PARENT_STANDARD_ID.'
+      page: 65 # Manage Inherited Tests (IG)
+      clear-cache: RR,65
+      values: 
+        p65_standard_id: '&P65_STANDARD_ID.'
+        p65_parent_standard_id: '&P65_PARENT_STANDARD_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
 dynamic-actions: 
-- # ====== Dynamic Action: bulk Remove =========================
+- # ====== Dynamic Action: Remove test =========================
   id: 387835713809811483
   identification: 
-    name: bulk Remove
+    name: Remove test
 
   execution: 
     sequence: 40
 
   when: 
-    event: EVENT.EVENT.CUSTOM.CUSTOM
-    custom-event: bulkRemove
-    selection-type: JavaScript Expression
-    javascript-expression: document
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: REMOVE_TESTS # 434671819533906040
 
   client-side-condition: 
     type: Item is not null
@@ -849,35 +978,46 @@ dynamic-actions:
       action: Confirm
 
     settings: 
-      title: Bulk Exception
-      message: Are you sure you want to remove all the selected test(s) to your standard?
+      title: Remove test(s)
+      message: |
+        Are you sure you want to remove all the selected test(s) from your standard? 
+        <br/>
+        <p>
+        <small>
+        Note: This action will not delete any tests.
+        The selected test(s) will continue to exist in their originating standard. 
+        However, the selected test(s) will no longer be exported with this standard.
+        </small>
+        </p>
       style: Warning
       icon: fa-exclamation-diamond-o
 
     execution: 
       sequence: 10
-      event: bulk Remove # 387835713809811483
+      event: Remove test # 387835713809811483
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Disable =====================================
+  - # ====== Action: Disable PARENT_TESTS ========================
     id: 387835952013811485
     identification: 
+      name: Disable PARENT_TESTS
       action: Disable
 
     affected-elements: 
       selection-type: jQuery Selector
-      jquery-selector: .availTests
+      jquery-selector: '#PARENT_TESTS'
 
     execution: 
       sequence: 20
-      event: bulk Remove # 387835713809811483
+      event: Remove test # 387835713809811483
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Execute JavaScript Code =====================
+  - # ====== Action: log selected ids ============================
     id: 387836097443811486
     identification: 
+      name: log selected ids
       action: Execute JavaScript Code
 
     settings: 
@@ -885,13 +1025,14 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: bulk Remove # 387835713809811483
+      event: Remove test # 387835713809811483
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Execute Server-side Code ====================
+  - # ====== Action: eba_stds_inherited_tests_api.bulk_remove ====
     id: 387836171742811487
     identification: 
+      name: eba_stds_inherited_tests_api.bulk_remove
       action: Execute Server-side Code
 
     settings: 
@@ -903,18 +1044,20 @@ dynamic-actions:
                         );
       items-to-submit: 
       - P65_SELECTED_IDS
+      - P65_STANDARD_ID
 
     execution: 
       sequence: 40
-      event: bulk Remove # 387835713809811483
+      event: Remove test # 387835713809811483
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
-  - # ====== Action: Refresh =====================================
+  - # ====== Action: Refresh report ==============================
     id: 387889807557355938
     identification: 
+      name: Refresh report
       action: Refresh
 
     affected-elements: 
@@ -923,209 +1066,169 @@ dynamic-actions:
 
     execution: 
       sequence: 50
-      event: bulk Remove # 387835713809811483
+      event: Remove test # 387835713809811483
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Enable ======================================
+  - # ====== Action: Enable PARENT_TESTS =========================
     id: 387889948522355939
     identification: 
+      name: Enable PARENT_TESTS
       action: Enable
 
     affected-elements: 
       selection-type: jQuery Selector
-      jquery-selector: .availTests
+      jquery-selector: '#PARENT_TESTS'
 
     execution: 
       sequence: 60
-      event: bulk Remove # 387835713809811483
+      event: Remove test # 387835713809811483
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-- # ====== Dynamic Action: disable buttons =====================
+- # ====== Dynamic Action: Enable/disable bulk buttons =========
   id: 387875876151235918
   identification: 
-    name: disable buttons
+    name: Enable/disable bulk buttons
 
   execution: 
     sequence: 10
 
   when: 
-    event: EVENT.EVENT.BROWSER.READY
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P65_SELECTED_IDS
 
   execution: 
     event-scope: Static
+    type: Immediate
 
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
 
   actions: 
-  - # ====== Action: Disable =====================================
+  - # ====== Action: Disable add =================================
     id: 387876241967235921
     identification: 
+      name: Disable add
       action: Disable
 
     affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#PARENT_TESTS_ig_toolbar_bulkadd'
+      selection-type: Button
+      button: ADD_TESTS # 434671601139906038
+
+    execution: 
+      sequence: 30
+      event: Enable/disable bulk buttons # 387875876151235918
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P65_SELECTED_IDS
+
+  - # ====== Action: Disable remove ==============================
+    id: 387876792933235921
+    identification: 
+      name: Disable remove
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: REMOVE_TESTS # 434671819533906040
+
+    execution: 
+      sequence: 40
+      event: Enable/disable bulk buttons # 387875876151235918
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P65_SELECTED_IDS
+
+  - # ====== Action: Enable add ==================================
+    id: 434672126335906043
+    identification: 
+      name: Enable add
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: ADD_TESTS # 434671601139906038
 
     execution: 
       sequence: 10
-      event: disable buttons # 387875876151235918
+      event: Enable/disable bulk buttons # 387875876151235918
       fire-when-event-result-is: True
-      fire-on-initialization: true
+      fire-on-initialization: false
 
-  - # ====== Action: Disable =====================================
-    id: 387876792933235921
+    client-side-condition: 
+      type: Item is not null
+      item: P65_SELECTED_IDS
+
+  - # ====== Action: Enable remove ===============================
+    id: 434672245236906044
     identification: 
-      action: Disable
+      name: Enable remove
+      action: Enable
 
     affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#PARENT_TESTS_ig_toolbar_bulkremove'
+      selection-type: Button
+      button: REMOVE_TESTS # 434671819533906040
 
     execution: 
       sequence: 20
-      event: disable buttons # 387875876151235918
+      event: Enable/disable bulk buttons # 387875876151235918
       fire-when-event-result-is: True
-      fire-on-initialization: true
+      fire-on-initialization: false
 
-- # ====== Dynamic Action: Select Grid =========================
-  id: 387878479773258375
+    client-side-condition: 
+      type: Item is not null
+      item: P65_SELECTED_IDS
+
+- # ====== Dynamic Action: CANCEL ==============================
+  id: 434670183739906023
   identification: 
-    name: Select Grid
+    name: CANCEL
 
   execution: 
-    sequence: 20
+    sequence: 50
 
   when: 
-    event: NATIVE_IG|REGION TYPE|interactivegridselectionchange
-    selection-type: Region
-    region: Available tests # 387747420506265660
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 434670025527906022
 
   execution: 
     event-scope: Static
     type: Immediate
 
   actions: 
-  - # ====== Action: Disable =====================================
-    id: 387878849116258375
+  - # ====== Action: Cancel Dialog ===============================
+    id: 434670214541906024
     identification: 
-      action: Disable
-
-    affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#PARENT_TESTS_ig_toolbar_bulkadd'
-
-    execution: 
-      sequence: 40
-      event: Select Grid # 387878479773258375
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item / Column is null
-      component-type: Item
-      item: P65_SELECTED_IDS
-
-  - # ====== Action: Execute JavaScript Code =====================
-    id: 387879330542258376
-    identification: 
-      action: Execute JavaScript Code
-
-    settings: 
-      code: |
-        var gridView = apex.region("PARENT_TESTS").widget().interactiveGrid("getViews").grid;
-        var records = gridView.getSelectedRecords();
-        var ids = records.map(function(r) { return gridView.model.getRecordId(r); } );
-        apex.debug.info( "IDS selected :" , {ids});
-        apex.item("P65_SELECTED_IDS").setValue( ids.join(":") );
-        apex.debug.info( "P65_SELECTED_IDS :" , apex.item("P65_SELECTED_IDS").getValue());
-
-    affected-elements: 
-      selection-type: Item(s)
-      item(s): 
-      - P65_SELECTED_IDS
+      action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Select Grid # 387878479773258375
+      event: CANCEL # 434670183739906023
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Enable ======================================
-    id: 387879877962258376
-    identification: 
-      action: Enable
-
-    affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#PARENT_TESTS_ig_toolbar_bulkadd'
-
-    execution: 
-      sequence: 20
-      event: Select Grid # 387878479773258375
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item / Column is not null
-      component-type: Item
-      item: P65_SELECTED_IDS
-
-  - # ====== Action: Disable =====================================
-    id: 387880390096258377
-    identification: 
-      action: Disable
-
-    affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#PARENT_TESTS_ig_toolbar_bulkremove'
-
-    execution: 
-      sequence: 50
-      event: Select Grid # 387878479773258375
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item / Column is null
-      component-type: Item
-      item: P65_SELECTED_IDS
-
-  - # ====== Action: Enable ======================================
-    id: 387880875887258377
-    identification: 
-      action: Enable
-
-    affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#PARENT_TESTS_ig_toolbar_bulkremove'
-
-    execution: 
-      sequence: 30
-      event: Select Grid # 387878479773258375
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-    client-side-condition: 
-      type: Item / Column is not null
-      component-type: Item
-      item: P65_SELECTED_IDS
-
-- # ====== Dynamic Action: bulk Add ============================
-  id: 387884360397294890
+- # ====== Dynamic Action: Add tests ===========================
+  id: 434672317281906045
   identification: 
-    name: bulk Add
+    name: Add tests
 
   execution: 
-    sequence: 30
+    sequence: 60
 
   when: 
-    event: EVENT.EVENT.CUSTOM.CUSTOM
-    custom-event: bulkAdd
-    selection-type: JavaScript Expression
-    javascript-expression: document
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: ADD_TESTS # 434671601139906038
 
   client-side-condition: 
     type: Item is not null
@@ -1135,28 +1238,58 @@ dynamic-actions:
     event-scope: Static
     type: Immediate
 
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
-
   actions: 
-  - # ====== Action: Refresh =====================================
-    id: 387884760098294890
+  - # ====== Action: Confirm =====================================
+    id: 434672423909906046
     identification: 
-      action: Refresh
+      action: Confirm
 
-    affected-elements: 
-      selection-type: Region
-      region: Available tests # 387747420506265660
+    settings: 
+      title: Add test(s)
+      message: This action will result in your standard 'inheriting' the selected test, i.e. the exported standard will include the selected test(s).
+      style: Success
 
     execution: 
-      sequence: 50
-      event: bulk Add # 387884360397294890
+      sequence: 10
+      event: Add tests # 434672317281906045
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Execute Server-side Code ====================
-    id: 387885230495294891
+  - # ====== Action: Disable PARENT_TESTS ========================
+    id: 434672513928906047
     identification: 
+      name: Disable PARENT_TESTS
+      action: Disable
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: ' #PARENT_TESTS'
+
+    execution: 
+      sequence: 20
+      event: Add tests # 434672317281906045
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: log selected ids ============================
+    id: 434672659686906048
+    identification: 
+      name: log selected ids
+      action: Execute JavaScript Code
+
+    settings: 
+      code: "apex.debug.log('selected ids :'+apex.item('P65_SELECTED_IDS').getValue())"
+
+    execution: 
+      sequence: 40
+      event: Add tests # 434672317281906045
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: eba_stds_inherited_tests_api.bulk_add =======
+    id: 434672702885906049
+    identification: 
+      name: eba_stds_inherited_tests_api.bulk_add
       action: Execute Server-side Code
 
     settings: 
@@ -1168,75 +1301,95 @@ dynamic-actions:
                         );
       items-to-submit: 
       - P65_SELECTED_IDS
+      - P65_STANDARD_ID
 
     execution: 
-      sequence: 40
-      event: bulk Add # 387884360397294890
+      sequence: 50
+      event: Add tests # 434672317281906045
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
-  - # ====== Action: Execute JavaScript Code =====================
-    id: 387885776726294891
+  - # ====== Action: Refresh report ==============================
+    id: 434672898099906050
     identification: 
-      action: Execute JavaScript Code
-
-    settings: 
-      code: apex.debug.info("P65_SELECTED_IDS", apex.item("P65_SELECTED_IDS").getValue());
-
-    execution: 
-      sequence: 30
-      event: bulk Add # 387884360397294890
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-  - # ====== Action: Disable =====================================
-    id: 387886297800294891
-    identification: 
-      action: Disable
+      name: Refresh report
+      action: Refresh
 
     affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: .availTests
+      selection-type: Region
+      region: Available tests # 387747420506265660
 
     execution: 
-      sequence: 20
-      event: bulk Add # 387884360397294890
+      sequence: 60
+      event: Add tests # 434672317281906045
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Enable ======================================
-    id: 387886768177294892
+  - # ====== Action: Enable PARENT_TESTS =========================
+    id: 437961231245061901
     identification: 
+      name: Enable PARENT_TESTS
       action: Enable
 
     affected-elements: 
       selection-type: jQuery Selector
-      jquery-selector: .availTests
+      jquery-selector: '#PARENT_TESTS'
 
     execution: 
-      sequence: 60
-      event: bulk Add # 387884360397294890
+      sequence: 70
+      event: Add tests # 434672317281906045
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: Confirm =====================================
-    id: 387887278883294892
-    identification: 
-      action: Confirm
+processes: 
+- # ====== Process: Clear Session State ========================
+  id: 434670383337906025
+  identification: 
+    name: Clear Session State
+    type: Clear Session State
+    execution-chain: None
 
-    settings: 
-      title: Bulk Exception
-      message: Are you sure you want to add all the selected test(s) to your standard?
-      style: Warning
-      icon: fa-exclamation-diamond-o
+  settings: 
+    type: Clear all Items on the Current Page
 
-    execution: 
-      sequence: 10
-      event: bulk Add # 387884360397294890
-      fire-when-event-result-is: True
-      fire-on-initialization: false
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DONE # 387750172043265687
+    type: Never
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Process: Close Dialog ===============================
+  id: 434670479301906026
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DONE # 387750172043265687
+    type: Never
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 branches: 
 - # ====== Branch: Go to page 5 ================================

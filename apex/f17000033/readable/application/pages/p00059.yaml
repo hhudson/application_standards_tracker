@@ -3419,13 +3419,19 @@ page-items:
     type: SQL Query
     sql-query: |
       select object_name d, object_name r
-      from all_objects ao
+      from v_user_objects ao
       inner join table(
                     apex_string.split(
                       svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'
                       )
                     ) srs on srs.column_value = ao.owner
-      where ao.object_type = :P59_OBJECT_TYPE
+      where ao.object_type = case when :P59_ISSUE_CATEGORY = 'DB_PLSQL'
+                                  then :P59_OBJECT_TYPE
+                                  when :P59_ISSUE_CATEGORY in ('TABLE','VIEW','TRIGGER')
+                                  then :P59_ISSUE_CATEGORY
+                                  when :P59_ISSUE_CATEGORY in ('MV')
+                                  then 'MATERIALIZED VIEW'
+                                  end
     display-extra-values: true
     display-null-value: true
     null-display-value: No Object Selected
@@ -3433,8 +3439,10 @@ page-items:
   cascading-list-of-values: 
     parent-item(s): 
     - P59_OBJECT_TYPE
+    - P59_ISSUE_CATEGORY
     items-to-submit: 
     - P59_OBJECT_TYPE
+    - P59_ISSUE_CATEGORY
     parent-required: true
 
   advanced: 
@@ -3498,7 +3506,7 @@ page-items:
     type: SQL Query
     sql-query: |
       select distinct object_type r, object_type d
-      from all_objects
+      from v_user_objects
       order by 1
     display-extra-values: true
     display-null-value: true
