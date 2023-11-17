@@ -174,10 +174,12 @@ Standards that are *not* general standards
 | [AST_PAGE_AUTH](APEX_IDIOSYNCRATIC_212/tests/AST_PAGE_AUTH-REDWOOD.json) |  SVT Application Pages should have Authorization Schemes | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [BC_MATCHES_NAV_LIST](APEX_IDIOSYNCRATIC_212/tests/BC_MATCHES_NAV_LIST-REDWOOD.json) |  Breadcrumb hierarchy should match nav menu | v1.2 [REDWOOD] | APEX_APPLICATION_BC_ENTRIES |
 | [CREATE_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/CREATE_BUTTON_STYLE-REDWOOD.json) |  Create buttons should be styled in a consistent way | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [DEV_PAGES_HAVE_BUILDS](APEX_IDIOSYNCRATIC_212/tests/DEV_PAGES_HAVE_BUILDS-AHA_APEX.json) |  Scratch Pages have 'dev_only' builds on them | v1.1 [AHA_APEX] | APEX_APPLICATION_PAGES |
 | [DRAWERS_NOT_MODALS](APEX_IDIOSYNCRATIC_212/tests/DRAWERS_NOT_MODALS-REDWOOD.json) |  User Drawers instead of Modals | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES-REDWOOD.json) |  Page names should be human friendly | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC-REDWOOD.json) |  List Menu Entries have Descriptions (for searchability) | v1.4 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS-REDWOOD.json) |  Navigation menu list entries should have icons | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
+| [NEVER_REGIONS_HAVE_BUILDS](APEX_IDIOSYNCRATIC_212/tests/NEVER_REGIONS_HAVE_BUILDS-AHA_APEX.json) |  Regions with a 'never' condition have 'to_delete' build | v1.1 [AHA_APEX] | APEX_APPLICATION_PAGE_REGIONS |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER-REDWOOD.json) |  RDS regions should have a template of Tabs Container | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE-REDWOOD.json) |  Reset buttons should be styled in a consistent way | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS-REDWOOD.json) |  Button names and labels should be correctly capitalized | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
