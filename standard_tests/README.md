@@ -100,22 +100,22 @@ Best practices to keep things tidy
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_AVAILABLE](APEX_CLEANUP_212/tests/APP_AVAILABLE-REDWOOD.json) |  Applications are available | v1.1 [REDWOOD] | APEX_APPLICATIONS |
-| [AVAILABLE_REGION](APEX_CLEANUP_212/tests/AVAILABLE_REGION-REDWOOD.json) |  Regions should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [BUTTON_AVAILABLE](APEX_CLEANUP_212/tests/BUTTON_AVAILABLE-REDWOOD.json) |  Buttons should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [CARD_ACTIONS_AVAILABLE](APEX_CLEANUP_212/tests/CARD_ACTIONS_AVAILABLE-REDWOOD.json) |  Card Actions should be available | v1.1 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
-| [CHARTS_AVAILABLE](APEX_CLEANUP_212/tests/CHARTS_AVAILABLE-REDWOOD.json) |  Charts should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_CHART_S |
-| [MAP_LAYERS_AVAILABLE](APEX_CLEANUP_212/tests/MAP_LAYERS_AVAILABLE-REDWOOD.json) |  Map Layers should be available  | v1.1 [REDWOOD] | APEX_APPL_PAGE_MAP_LAYERS |
-| [PAGE_BRANCH_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_BRANCH_AVAILABLE-REDWOOD.json) |  Page branches should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BRANCHES |
-| [PAGE_COMP_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_COMP_AVAILABLE-REDWOOD.json) |  Page computations should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_COMP |
-| [PAGE_DA_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_DA_AVAILABLE-REDWOOD.json) |  Page dynamic actions should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
-| [PAGE_ITEM_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_ITEM_AVAILABLE-REDWOOD.json) |  Page Items should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
-| [PAGE_PROC_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_PROC_AVAILABLE-REDWOOD.json) |  Page procedures should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_PROC |
-| [PAGE_VAL_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_VAL_AVAILABLE-REDWOOD.json) |  Page Validations should be available | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_VAL |
-| [SEARCH_SOURCES_AVAILABLE](APEX_CLEANUP_212/tests/SEARCH_SOURCES_AVAILABLE-REDWOOD.json) |  Search Sources should be available | v1.1 [REDWOOD] | APEX_APPL_PAGE_SEARCH_SOURCES |
+| [AVAILABLE_REGION](APEX_CLEANUP_212/tests/AVAILABLE_REGION-REDWOOD.json) |  Regions should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [BUTTON_AVAILABLE](APEX_CLEANUP_212/tests/BUTTON_AVAILABLE-REDWOOD.json) |  Buttons should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [CARD_ACTIONS_AVAILABLE](APEX_CLEANUP_212/tests/CARD_ACTIONS_AVAILABLE-REDWOOD.json) |  Card Actions should be available | v1.2 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
+| [CHARTS_AVAILABLE](APEX_CLEANUP_212/tests/CHARTS_AVAILABLE-REDWOOD.json) |  Charts should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_CHART_S |
+| [MAP_LAYERS_AVAILABLE](APEX_CLEANUP_212/tests/MAP_LAYERS_AVAILABLE-REDWOOD.json) |  Map Layers should be available  | v1.2 [REDWOOD] | APEX_APPL_PAGE_MAP_LAYERS |
+| [PAGE_BRANCH_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_BRANCH_AVAILABLE-REDWOOD.json) |  Page branches should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BRANCHES |
+| [PAGE_COMP_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_COMP_AVAILABLE-REDWOOD.json) |  Page computations should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_COMP |
+| [PAGE_DA_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_DA_AVAILABLE-REDWOOD.json) |  Page dynamic actions should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
+| [PAGE_ITEM_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_ITEM_AVAILABLE-REDWOOD.json) |  Page Items should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [PAGE_PROC_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_PROC_AVAILABLE-REDWOOD.json) |  Page procedures should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_PROC |
+| [PAGE_VAL_AVAILABLE](APEX_CLEANUP_212/tests/PAGE_VAL_AVAILABLE-REDWOOD.json) |  Page Validations should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_VAL |
+| [SEARCH_SOURCES_AVAILABLE](APEX_CLEANUP_212/tests/SEARCH_SOURCES_AVAILABLE-REDWOOD.json) |  Search Sources should be available | v1.2 [REDWOOD] | APEX_APPL_PAGE_SEARCH_SOURCES |
 | [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION-REDWOOD.json) |  Themes should be specific numbers and subscribed | v1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 | [TOO_MANY_REGIONS](APEX_CLEANUP_212/tests/TOO_MANY_REGIONS-REDWOOD.json) |  Pages should limit their content | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [VAL_BUILD_LIST_ENTRY](APEX_CLEANUP_212/tests/VAL_BUILD_LIST_ENTRY-REDWOOD.json) |  List entries should have valid build options | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD-REDWOOD.json) |  Pages should have valid build options | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [VAL_BUILD_LIST_ENTRY](APEX_CLEANUP_212/tests/VAL_BUILD_LIST_ENTRY-REDWOOD.json) |  List entries should have valid build options | v1.2 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
+| [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD-REDWOOD.json) |  Pages should have valid build options | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
 
 ## General (Database Version 19C)
 These tests run against the DB objects and therefore may be hard to associate with a given application. They can be associated with the Application Standards Tracker app.
@@ -207,7 +207,7 @@ Standards that are *not* general standards
 |-----------|-----------|---------|----------------|
 | [ALPH_AI_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AI_NAMING-REDWOOD.json) |  Application Items should be correctly named | v1.3 [REDWOOD] | APEX_APPLICATION_ITEMS |
 | [ALPH_AP_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AP_NAMING-REDWOOD.json) |  Application Processes should be correctly named | v1.2 [REDWOOD] | APEX_APPLICATION_PROCESSES |
-| [ALPH_BTN_STC_ID_NM](APEX_MILLENIUM_GEN2_212/tests/ALPH_BTN_STC_ID_NM-REDWOOD.json) |  Button Static IDs should be correctly named | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [ALPH_BTN_STC_ID_NM](APEX_MILLENIUM_GEN2_212/tests/ALPH_BTN_STC_ID_NM-REDWOOD.json) |  Button Static IDs should be correctly named | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING-REDWOOD.json) |  Applications should have the correct error handling function set | v1 [REDWOOD] | APEX_APPLICATIONS |
 | [ALPH_RGN_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_RGN_NAMING-REDWOOD.json) |  Region Static IDs should be correctly named | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [GLOBAL_TIME_FORMATS](APEX_MILLENIUM_GEN2_212/tests/GLOBAL_TIME_FORMATS-REDWOOD.json) |  Time formats should be set in Globalization Attributes | v1 [REDWOOD] | APEX_APPLICATIONS |
