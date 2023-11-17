@@ -863,12 +863,9 @@ regions:
 
       column-formatting: 
         html-expression: |
+          <span class="c110">
           {if APPLICATION_ID/}
-              #APPLICATION_NAME# (App #APPLICATION_ID#
-              {if PAGE_ID/}
-              , Page #PAGE_ID#
-              {endif/}
-          )
+              #APPLICATION_NAME# (App #APPLICATION_ID#{if PAGE_ID/}, Page #PAGE_ID#{endif/})
           {endif/} 
           {if OBJECT_NAME/}
               #OBJECT_NAME# (#OBJECT_TYPE#)
@@ -880,7 +877,7 @@ regions:
                #APP_TYPE_CODE#
           </span>
           {endif/}
-          
+          </span>
 
       source: 
         primary-key: false
@@ -1007,7 +1004,7 @@ regions:
         heading: Test Id
 
       layout: 
-        sequence: 390
+        sequence: 410
 
       source: 
         primary-key: false
@@ -1283,7 +1280,7 @@ regions:
 
       column-formatting: 
         html-expression: |
-          <span class="c600">
+          <span class="c500">
                   #SHORT_FAILURE_MESSAGE#
               <br/>
               {if SHORT_NOTES/}
@@ -1351,7 +1348,7 @@ regions:
         heading: Issue Text
 
       layout: 
-        sequence: 380
+        sequence: 400
 
       source: 
         primary-key: false
@@ -1576,7 +1573,7 @@ regions:
         heading: Notes
 
       layout: 
-        sequence: 400
+        sequence: 420
 
       source: 
         primary-key: false
@@ -1594,7 +1591,7 @@ regions:
         heading: Action Id
 
       layout: 
-        sequence: 410
+        sequence: 430
 
       source: 
         primary-key: false
@@ -1825,7 +1822,7 @@ regions:
         heading: Link Url
 
       layout: 
-        sequence: 420
+        sequence: 440
 
       source: 
         primary-key: false
@@ -1907,7 +1904,7 @@ regions:
         heading: Link To Apex Issue
 
       layout: 
-        sequence: 430
+        sequence: 450
 
       source: 
         primary-key: false
@@ -1966,7 +1963,7 @@ regions:
         heading: Apex Issue Title
 
       layout: 
-        sequence: 440
+        sequence: 460
 
       source: 
         primary-key: false
@@ -1984,7 +1981,7 @@ regions:
         heading: Apex Issue Text
 
       layout: 
-        sequence: 450
+        sequence: 470
 
       source: 
         primary-key: false
@@ -2043,7 +2040,7 @@ regions:
         heading: Apex Issue Title Suffix
 
       layout: 
-        sequence: 460
+        sequence: 480
 
       source: 
         primary-key: false
@@ -2061,7 +2058,7 @@ regions:
         heading: Recent Yn
 
       layout: 
-        sequence: 470
+        sequence: 490
 
       source: 
         primary-key: false
@@ -2114,7 +2111,7 @@ regions:
       id: 333628659286398622
       identification: 
         column-name: TEST_CODE
-        type: Link
+        type: Plain Text
 
       heading: 
         heading: Test Code
@@ -2129,17 +2126,6 @@ regions:
 
       accessibility: 
         value-identifies-row: true
-
-      link: 
-        target: 
-          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:#TEST_CODE#'
-          page: 14 # Manage Test
-          clear-cache: RR,14
-          values: 
-            p14_test_code: '#TEST_CODE#'
-
-        link-text: '#TEST_CODE#'
-        link-attributes: 'title="Inspect Test #TEST_CODE#" aria-label="Inspect Test #TEST_CODE#" '
 
       source: 
         primary-key: false
@@ -2160,7 +2146,6 @@ regions:
         pivot: false
 
       security: 
-        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     - # ====== Column: SRC_RECENT_CHANGE_YN ========================
@@ -2173,7 +2158,7 @@ regions:
         heading: Src Recent Change Yn
 
       layout: 
-        sequence: 480
+        sequence: 500
 
       source: 
         primary-key: false
@@ -2191,7 +2176,7 @@ regions:
         heading: Legacy Yn
 
       layout: 
-        sequence: 490
+        sequence: 510
 
       source: 
         primary-key: false
@@ -2243,7 +2228,7 @@ regions:
         heading: Mv Dependency
 
       layout: 
-        sequence: 500
+        sequence: 520
 
       source: 
         primary-key: false
@@ -2306,7 +2291,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 300
+        sequence: 310
         column-alignment: start
 
       accessibility: 
@@ -2459,7 +2444,7 @@ regions:
         heading: Component Id
 
       layout: 
-        sequence: 510
+        sequence: 530
 
       source: 
         primary-key: false
@@ -2477,7 +2462,7 @@ regions:
         heading: Parent Component Id
 
       layout: 
-        sequence: 520
+        sequence: 540
 
       source: 
         primary-key: false
@@ -2495,7 +2480,7 @@ regions:
         heading: Svt Component Type Id
 
       layout: 
-        sequence: 530
+        sequence: 550
 
       source: 
         primary-key: false
@@ -2517,7 +2502,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 290
+        sequence: 300
         column-alignment: start
 
       accessibility: 
@@ -2566,7 +2551,7 @@ regions:
         heading: Prepared Url
 
       layout: 
-        sequence: 540
+        sequence: 560
 
       source: 
         primary-key: false
@@ -2584,7 +2569,7 @@ regions:
         heading: View Text
 
       layout: 
-        sequence: 550
+        sequence: 570
 
       source: 
         primary-key: false
@@ -2602,7 +2587,7 @@ regions:
         heading: Component Type ID
 
       layout: 
-        sequence: 560
+        sequence: 580
 
       source: 
         primary-key: false
@@ -2661,7 +2646,7 @@ regions:
         heading: App Type Code
 
       layout: 
-        sequence: 570
+        sequence: 590
 
       source: 
         primary-key: false
@@ -2679,7 +2664,7 @@ regions:
         heading: App Pk Id
 
       layout: 
-        sequence: 580
+        sequence: 600
 
       source: 
         primary-key: false
@@ -2697,7 +2682,7 @@ regions:
         heading: Short Failure Message
 
       layout: 
-        sequence: 590
+        sequence: 610
 
       source: 
         primary-key: false
@@ -2715,7 +2700,7 @@ regions:
         heading: Short Notes
 
       layout: 
-        sequence: 600
+        sequence: 620
 
       source: 
         primary-key: false
@@ -2733,7 +2718,7 @@ regions:
         heading: Standard Id
 
       layout: 
-        sequence: 610
+        sequence: 630
 
       source: 
         primary-key: false
@@ -2751,12 +2736,105 @@ regions:
         heading: App Type Id
 
       layout: 
-        sequence: 620
+        sequence: 640
 
       source: 
         primary-key: false
 
       security: 
+        escape-special-characters: true
+
+    - # ====== Column: IS_EXCEPTION_YN2 ============================
+      id: 437964553438061934
+      identification: 
+        column-name: IS_EXCEPTION_YN2
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Exception
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 380
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TEST_NAME ===================================
+      id: 437964615110061935
+      identification: 
+        column-name: TEST_NAME
+        type: Link
+
+      heading: 
+        heading: Test Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 290
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:#TEST_CODE#'
+          page: 14 # Manage Test
+          clear-cache: RR,14
+          values: 
+            p14_test_code: '#TEST_CODE#'
+
+        link-text: '#TEST_NAME#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     printing: 
@@ -3488,7 +3566,7 @@ buttons:
   id: 279358719356576352
   identification: 
     button-name: BULK_EXCEPTION
-    label: bulk exception
+    label: Bulk Exception
 
   layout: 
     sequence: 20
@@ -3558,7 +3636,7 @@ buttons:
   id: 281121177567786684
   identification: 
     button-name: BULK_REASSIGN
-    label: bulk reassign
+    label: Bulk Reassign
 
   layout: 
     sequence: 30
