@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset fk_script:EBA_STDS_INHERITED_TESTS stripComments:false 
+--changeset fk_script:EBA_STDS_INHERITED_TESTS stripComments:false runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:1 select count(1) from all_tables where upper(table_name) = upper('EBA_STDS_INHERITED_TESTS');
 --------------------------------------------------------------------------------

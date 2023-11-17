@@ -70,6 +70,12 @@ with aspaa as (
            paa.unqid,
            aaa.action_name,
            coalesce(aaa.include_in_report_yn, 'Y') include_in_report_yn,
+           case when aaa.include_in_report_yn is null 
+                then 'N'
+                when aaa.include_in_report_yn = 'Y'
+                then 'N'
+                else 'Y'
+                end is_exception_yn,
            src.mv_dependency,
            paa.owner,
            paa.component_id,
@@ -162,13 +168,14 @@ Audit id : %3
     a.short_notes,
     a.action_id,
     a.action_name,
+    a.include_in_report_yn,
     a.created,
     a.updated,
     a.stale_yn,
     a.assignee,
     a.link_url,
     eba_stds_parser.adapt_url( a.link_url ) prepared_url,
-    wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) view_text,
+    apex_lang.message( 'VIEW_IN_BUILDER' ) view_text,
     a.link_to_apex_issue,
     ai.issue_id apex_issue_id,
     ai.issue_title apex_issue_title,
@@ -196,13 +203,12 @@ Audit id : %3
         else 'N'
         end urgent_yn,
     a.test_code,
+    a.test_name,
     a.src_recent_change_yn,
     a.legacy_yn,
     a.unqid,
-    case when a.include_in_report_yn ='Y'
-         then 'N'
-         else 'Y'
-         end is_exception_yn,
+    a.is_exception_yn, --needed for template directive
+    a.is_exception_yn is_exception_yn2, --need for yes/no display
     a.mv_dependency,
     case when upper(a.assignee) = upper(v('APP_USER_EMAIL'))
          then 'Y'

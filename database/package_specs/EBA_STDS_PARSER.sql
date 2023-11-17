@@ -29,7 +29,7 @@ create or replace package eba_stds_parser authid definer as
          ' data-typeid="'      || component_type_id || '"' ||
          ' data-componentid="' || component_id || '"'
        end ||
-       '>' || wwv_flow_lang.system_message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button
+       '>' || apex_lang.message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button
 */
 /*
 select audit_id, test_id,
