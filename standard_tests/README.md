@@ -7,16 +7,12 @@ These are standards to maintain Accessibility.
 |-----------|-----------|---------|----------------|
 | [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE-REDWOOD.json) |  Some fields benefit from an autocomplete attribute | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ-REDWOOD.json) |  Combo of button labels + region names should be unique / page | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [ACC_CARD_LINK](APEX_ACCESSIBILITY_212/tests/ACC_CARD_LINK-REDWOOD.json) |  Card links require aria-labels | v1.7 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS-REDWOOD.json) |  DA should avoid "get focus" events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
 | [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT-REDWOOD.json) |  DA should avoid mouse events | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
 | [ACC_IG_COL_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_AUTOCOMPLETE-REDWOOD.json) |  IG Columns may need autocomplete | v1.4 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
-| [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_COL_LINK-REDWOOD.json) |  IG Column Links should have aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
-| [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_212/tests/ACC_IG_IV_LINK-REDWOOD.json) |  IG Icon View Links need aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IGS |
 | [ACC_IG_JS_SHORTCUT](APEX_ACCESSIBILITY_212/tests/ACC_IG_JS_SHORTCUT-REDWOOD.json) |  IG should avoid custom shortcuts | v1.4 [REDWOOD] | APEX_APPL_PAGE_IGS |
 | [ACC_LST_TMP_CSS_ANMTN](APEX_ACCESSIBILITY_212/tests/ACC_LST_TMP_CSS_ANMTN-REDWOOD.json) |  List templates should avoid inline CSS w blinking or animation  | v1.4 [REDWOOD] | APEX_APPLICATION_TEMP_LIST |
 | [ACC_PAGE_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_PAGE_MOUSE_EVNT-REDWOOD.json) |  Page JS must avoid mouse events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [ACC_PG_ITM_LINK](APEX_ACCESSIBILITY_212/tests/ACC_PG_ITM_LINK-REDWOOD.json) |  Page Item Quick Pick Links need aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_PG_JS_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_PG_JS_FOCUS-REDWOOD.json) |  Page JS should avoid focus events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [ACC_PG_TMP_CSS_ANMTN](APEX_ACCESSIBILITY_212/tests/ACC_PG_TMP_CSS_ANMTN-REDWOOD.json) |  Page Templates should avoid CSS animations | v1.4 [REDWOOD] | APEX_APPLICATION_TEMP_PAGE |
 | [ACC_TAB_TABINDEX](APEX_ACCESSIBILITY_212/tests/ACC_TAB_TABINDEX-REDWOOD.json) |  Application Tabs should avoid tabindex | v1.4 [REDWOOD] | APEX_APPLICATION_TABS |
@@ -27,7 +23,6 @@ These are standards to maintain Accessibility.
 | [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML-REDWOOD.json) |  Classic Columns have wellformed HTML | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT-REDWOOD.json) |  Classic Columns with images have alt text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_INACC_CSS](APEX_ACCESSIBILITY_212/tests/C_COL_INACC_CSS-REDWOOD.json) |  Classic columns should avoid animations | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
-| [C_COL_LINK](APEX_ACCESSIBILITY_212/tests/C_COL_LINK-REDWOOD.json) |  Classic Columns links must have aria-labels | v1.7 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_HEADNG-REDWOOD.json) |  Classic Report column headings are unique per region | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_VLD_HEADNG-REDWOOD.json) |  Classic Report- all columns have a header defined | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [DA_BLUR](APEX_ACCESSIBILITY_212/tests/DA_BLUR-REDWOOD.json) |  Check page JS for on blur events | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
@@ -41,11 +36,9 @@ These are standards to maintain Accessibility.
 | [IG_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_TABINDX-REDWOOD.json) |  Interactive Grids should avoid hardcorded tab indexes | v1.4 [REDWOOD] | APEX_APPL_PAGE_IGS |
 | [IR_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IR_COL_BAD_HTML-REDWOOD.json) |  IR Cols have wellformed HTML | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IR_COL_IMG_ALT_TEXT-REDWOOD.json) |  IR Columns with images have alt text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_COL_LINK](APEX_ACCESSIBILITY_212/tests/IR_COL_LINK-REDWOOD.json) |  IR Column links should have aria-labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_COL_TABINDX-REDWOOD.json) |  IR Columns should avoid harded tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ_LBL-REDWOOD.json) |  IR columns need unique labels | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/IR_COL_VLD_HEADNG-REDWOOD.json) |  IR columns are not null | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_DETL_LINK](APEX_ACCESSIBILITY_212/tests/IR_DETL_LINK-REDWOOD.json) |  IR detail link must contain aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_IR |
 | [IR_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_TABINDX-REDWOOD.json) |  IR reports should avoid hard coded indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR |
 | [LE_TABINDX](APEX_ACCESSIBILITY_212/tests/LE_TABINDX-REDWOOD.json) |  List entries should avoid hardcoding tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGE_HELP_BAD_HTML](APEX_ACCESSIBILITY_212/tests/PAGE_HELP_BAD_HTML-REDWOOD.json) |  Page Help HTML is well formed | v1.3 [REDWOOD] | APEX_APPLICATION_PAGES |
@@ -67,6 +60,21 @@ These are standards to maintain Accessibility.
 | [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-REDWOOD.json) |  Reports should have Row Headers | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-REDWOOD.json) |  Theme styles should avoid animations | v1.1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
+
+## Accessibility Missing Aria-label (APEX Version 19.1)
+Tests that ID missing aria-labels
+
+ - [Consolidated tests export](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/ALL_TESTS-APEX_ACCESSIBILITY_MISSING_ARIALABEL_191.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+| [ACC_CARD_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_CARD_LINK-REDWOOD.json) |  Card links require aria-labels | v1.7 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
+| [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_COL_LINK-REDWOOD.json) |  IG Column Links should have aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
+| [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_IV_LINK-REDWOOD.json) |  IG Icon View Links need aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IGS |
+| [ACC_PG_ITM_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_PG_ITM_LINK-REDWOOD.json) |  Page Item Quick Pick Links need aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [C_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/C_COL_LINK-REDWOOD.json) |  Classic Columns links must have aria-labels | v1.7 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
+| [IR_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_COL_LINK-REDWOOD.json) |  IR Column links should have aria-labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
+| [IR_DETL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_DETL_LINK-REDWOOD.json) |  IR detail link must contain aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_IR |
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
@@ -179,7 +187,7 @@ Standards that are *not* general standards
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES-REDWOOD.json) |  Page names should be human friendly | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC-REDWOOD.json) |  List Menu Entries have Descriptions (for searchability) | v1.4 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS-REDWOOD.json) |  Navigation menu list entries should have icons | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [NEVER_REGIONS_HAVE_BUILDS](APEX_IDIOSYNCRATIC_212/tests/NEVER_REGIONS_HAVE_BUILDS-AHA_APEX.json) |  Regions with a 'never' condition have 'to_delete' build | v1.1 [AHA_APEX] | APEX_APPLICATION_PAGE_REGIONS |
+| [NEVER_REGIONS_HAVE_BUILDS](APEX_IDIOSYNCRATIC_212/tests/NEVER_REGIONS_HAVE_BUILDS-REDWOOD.json) |  Regions with a 'never' condition have 'to_delete' build option | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER-REDWOOD.json) |  RDS regions should have a template of Tabs Container | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE-REDWOOD.json) |  Reset buttons should be styled in a consistent way | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS-REDWOOD.json) |  Button names and labels should be correctly capitalized | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -282,7 +290,6 @@ These are best practices that apply to Universal Theme applications.
 | [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
 | [FILTER_RGN_TMPLT](APEX_UNIVERSAL_THEME_212/tests/FILTER_RGN_TMPLT-REDWOOD.json) |  Filtered Regions has Card Container template | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [MODAL_FLOATING_LABEL](APEX_UNIVERSAL_THEME_212/tests/MODAL_FLOATING_LABEL-REDWOOD.json) |  Use Floating Labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
-| [NORMAL_PAGE_BREADCRUMB](APEX_UNIVERSAL_THEME_212/tests/NORMAL_PAGE_BREADCRUMB-REDWOOD.json) |  Non-modal pages should have breadcrumbs  | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING-REDWOOD.json) |  Pages should not remove padding | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 
