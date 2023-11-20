@@ -1247,6 +1247,69 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       raise;
   end refresh_for_test_code;
 
+  function total_open_violations(
+                  p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                  p_standard_id    in eba_stds_standards.id%type default null)
+  return pls_integer
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'total_open_violations';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_count pls_integer;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_application_id', p_application_id,
+                                       'p_standard_id', p_standard_id
+                     );
+
+    select count(*)
+    into l_count
+    from svt_plsql_apex_audit paa
+    inner join eba_stds_standard_tests esst on esst.test_code = paa.test_code
+    left outer join svt_audit_actions aaa on paa.action_id = aaa.id
+    where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
+    and (paa.application_id = p_application_id or p_application_id is null)
+    and (esst.standard_id = p_standard_id or p_standard_id is null);
+
+    return l_count;
+   
+  exception
+   when no_data_found then
+      return 0;
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end total_open_violations;
+
+  function percent_solved(p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                          p_standard_id    in eba_stds_standards.id%type default null)
+  return number
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'percent_solved';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  c_ttl_open_violations  constant pls_integer := total_open_violations(p_application_id => p_application_id,
+                                                                       p_standard_id => p_standard_id);
+  c_overall_count        constant pls_integer := svt_audit_on_audit_api.overall_violation_count(
+                                                    p_app_id      => p_application_id,
+                                                    p_standard_id => p_standard_id);
+  c_solved_count         constant pls_integer := c_overall_count - c_ttl_open_violations;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_application_id', p_application_id,
+                                       'p_standard_id', p_standard_id
+                     );
+
+    return case when c_ttl_open_violations = 0
+                then 100
+                when c_overall_count = 0
+                then 100
+                else round((c_solved_count / c_overall_count) * 100,0)
+                end;
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end percent_solved;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 11, 2023

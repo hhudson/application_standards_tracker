@@ -191,6 +191,24 @@ end;
 ------------------------------------------------------------------------------
     procedure update_test_avg_time;
 
+  
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 20, 2023
+-- Synopsis:
+--
+-- Function to return a random but deterministic hex color for a given standard
+--
+/*
+select eba_stds_standards_api.hex_color(p_standard_id => 1) hex
+from dual
+*/
+------------------------------------------------------------------------------
+  function hex_color(p_standard_id in eba_stds_standards.id%type)
+  return varchar2
+  deterministic 
+  result_cache;
+
 end eba_stds_standards_api;
 /
 --rollback drop package eba_stds_standards_api;

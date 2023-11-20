@@ -69,6 +69,24 @@ end;
 ------------------------------------------------------------------------------
     procedure delete_extra;    
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 20, 2023
+-- Synopsis:
+--
+-- Function to return the overall historic number of violations
+--
+/*
+select svt_audit_on_audit_api.overall_violation_count
+from dual
+*/
+------------------------------------------------------------------------------
+    function overall_violation_count (
+                        p_app_id      in svt_audit_on_audit.app_id%type default null,
+                        p_standard_id in eba_stds_standards.id%type default null)
+    return pls_integer 
+    result_cache;
+
 end SVT_AUDIT_ON_AUDIT_API;
 /
 --rollback drop package SVT_AUDIT_ON_AUDIT_API;

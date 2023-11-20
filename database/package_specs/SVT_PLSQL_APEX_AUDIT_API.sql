@@ -462,6 +462,39 @@ from dual;
   function get_assignee_email (p_username in svt_plsql_apex_audit.apex_last_updated_by%type)
   return svt_plsql_apex_audit.assignee%type;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 20, 2023
+-- Synopsis:
+--
+-- Function to return the total number of unaddressed / open violations
+--
+/*
+select svt_plsql_apex_audit_api.total_open_violations
+from dual
+*/
+------------------------------------------------------------------------------
+  function total_open_violations(
+                  p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                  p_standard_id    in eba_stds_standards.id%type default null)
+  return pls_integer;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 20, 2023
+-- Synopsis:
+--
+-- Function to calculate the percentage of violations that has been solved  
+--
+/*
+select svt_plsql_apex_audit_api.percent_solved
+from dual
+*/
+------------------------------------------------------------------------------
+  function percent_solved(p_application_id in svt_plsql_apex_audit.application_id%type default null,
+                          p_standard_id    in eba_stds_standards.id%type default null)
+  return number;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;

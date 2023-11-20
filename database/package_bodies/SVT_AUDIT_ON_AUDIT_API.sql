@@ -102,6 +102,39 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
      raise;
   end delete_extra;
 
+  function overall_violation_count (
+                        p_app_id      in svt_audit_on_audit.app_id%type default null,
+                        p_standard_id in eba_stds_standards.id%type default null)
+    return pls_integer 
+    result_cache
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'overall_violation_count';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_count pls_integer := 0;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_app_id', p_app_id,
+                                       'p_standard_id', p_standard_id
+                     );
+
+    select count (distinct aoa.unqid)
+    into l_count
+    from svt_audit_on_audit aoa
+    inner join eba_stds_standard_tests esst on esst.test_code = aoa.test_code
+    where aoa.action_name = 'INSERT'
+    and (aoa.app_id = p_app_id or p_app_id is null)
+    and (esst.standard_id = p_standard_id or p_standard_id is null);
+   
+    return l_count;
+
+  exception
+   when no_data_found then 
+    return 0;
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end overall_violation_count;
+
 
 end SVT_AUDIT_ON_AUDIT_API;
 /

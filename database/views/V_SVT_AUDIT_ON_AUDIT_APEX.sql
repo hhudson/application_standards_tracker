@@ -7,8 +7,6 @@
 create or replace force editionable view V_SVT_AUDIT_ON_AUDIT_APEX as
 with std as (select id, 
                     unqid, 
-                    instr(unqid,':',1, 1) delim1,
-                    instr(unqid,':',1, 2) delim2,
                     action_name,
                     created, 
                     created_by, 
@@ -31,9 +29,8 @@ select  std.id,
         std.audit_id,
         std.unqid, 
         esst.standard_name,
-        coalesce(std.app_id, 
-                 to_number(substr(std.unqid, std.delim1 + 1,std.delim2-std.delim1-1))
-                 ) app_id, 
+        std.app_id, 
+        esa.pk_id,
         esst.component_name,
         std.created, 
         std.test_code, 
@@ -52,6 +49,7 @@ select  std.id,
 from std
 inner join v_eba_stds_standard_tests esst on std.test_code = esst.test_code
                                           and esst.issue_category = 'APEX'
+inner join v_eba_stds_applications esa on esa.apex_app_id = std.app_id
 where std.therank = 1
 and std.action_name = 'DELETE'
 /

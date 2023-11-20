@@ -222,6 +222,33 @@ create or replace package body eba_stds_standards_api as
       raise;
   end update_test_avg_time;
 
+  function hex_color(p_standard_id in eba_stds_standards.id%type)
+  return varchar2
+  deterministic 
+  result_cache
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'hex_color';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_hex varchar2(7);
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_standard_id', p_standard_id
+                     );
+    select '#'
+       || to_char(
+              dbms_random.value(0, to_number('FFFFFF','XXXXXX'))
+              ,'fm0XXXXX')
+    into l_hex
+    from dual;
+
+    return l_hex;
+    
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end hex_color;
+
 
 end eba_stds_standards_api;
 /
