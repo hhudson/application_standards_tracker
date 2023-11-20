@@ -129,7 +129,7 @@ These tests run against the DB objects and therefore may be hard to associate wi
 | [DUPLICATE_STATEMENTS](DB_GENERAL_19C/tests/DUPLICATE_STATEMENTS-REDWOOD.json) |  Duplicate Statements | v1.5 [REDWOOD] | DATABASE SUPPORTING OBJECT |
 | [FK_INDEXED](DB_GENERAL_19C/tests/FK_INDEXED-REDWOOD.json) |  Foreign keys must be indexed | v1.2 [REDWOOD] | DATABASE TABLE |
 | [IDENTIFIER_NAMING](DB_GENERAL_19C/tests/IDENTIFIER_NAMING-REDWOOD.json) |  Naming Convention violation | v1.6 [REDWOOD] | DATABASE SUPPORTING OBJECT |
-| [MISSING_COMMENT](DB_GENERAL_19C/tests/MISSING_COMMENT-AHA_APEX.json) |  Missing Comments | v1 [AHA_APEX] | DATABASE SUPPORTING OBJECT |
+| [MISSING_COMMENT](DB_GENERAL_19C/tests/MISSING_COMMENT-REDWOOD.json) |  Missing Comments | v1 [REDWOOD] | DATABASE SUPPORTING OBJECT |
 | [UNUSED_IDENTIFIERS](DB_GENERAL_19C/tests/UNUSED_IDENTIFIERS-REDWOOD.json) |  Unused identifers | v1.3 [REDWOOD] | DATABASE SUPPORTING OBJECT |
 | [URGENT_PLSQL_WARNINGS](DB_GENERAL_19C/tests/URGENT_PLSQL_WARNINGS-REDWOOD.json) |  Urgent PLSQL Warning | v1.2 [REDWOOD] | DATABASE SUPPORTING OBJECT |
 | [VALID_OBJECTS](DB_GENERAL_19C/tests/VALID_OBJECTS-REDWOOD.json) |  Invalid Object | v1.3 [REDWOOD] | DATABASE SUPPORTING OBJECT |
@@ -192,13 +192,13 @@ Standards that are *not* general standards
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [ALPH_COL_DATATYPE](DB_MILLENIUM_GEN2_19C/tests/ALPH_COL_DATATYPE-AHA_APEX.json) |  These column datatypes are discouraged | v1.1 [AHA_APEX] | DATABASE TABLE |
+| [ALPH_COL_DATATYPE](DB_MILLENIUM_GEN2_19C/tests/ALPH_COL_DATATYPE-REDWOOD.json) |  These column datatypes are discouraged | v1 [REDWOOD] | DATABASE TABLE |
 | [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME-REDWOOD.json) |  Materialized Views should be named correctly | v1.3 [REDWOOD] | DATABASE MATERIALIZED VIEW |
 | [ALPH_VIEW_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_VIEW_NAME-REDWOOD.json) |  Alphawave Views must be correctly named | v1.3 [REDWOOD] | DATABASE VIEW |
 | [TBL_AUDIT_COLS](DB_MILLENIUM_GEN2_19C/tests/TBL_AUDIT_COLS-REDWOOD.json) |  Tables should have audit columns | v1.2 [REDWOOD] | DATABASE TABLE |
 | [TRIGGER_SCHEMA_PRFX_TBL](DB_MILLENIUM_GEN2_19C/tests/TRIGGER_SCHEMA_PRFX_TBL-REDWOOD.json) |  DML Triggers must have schema prefix for table | v1 [REDWOOD] | DATABASE TRIGGER |
-| [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE-AHA_APEX.json) |  Use Char not Bytes | v1 [AHA_APEX] | DATABASE TABLE |
-| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ-REDWOOD.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1 [REDWOOD] | DATABASE TABLE |
+| [USE_CHAR_NOT_BYTE](DB_MILLENIUM_GEN2_19C/tests/USE_CHAR_NOT_BYTE-REDWOOD.json) |  Use Char not Bytes | v1 [REDWOOD] | DATABASE TABLE |
+| [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ-REDWOOD.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1.1 [REDWOOD] | DATABASE TABLE |
 
 ## Millenium Gen2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 
@@ -210,7 +210,7 @@ Standards that are *not* general standards
 | [ALPH_AI_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AI_NAMING-REDWOOD.json) |  Application Items should be correctly named | v1.3 [REDWOOD] | APEX_APPLICATION_ITEMS |
 | [ALPH_AP_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AP_NAMING-REDWOOD.json) |  Application Processes should be correctly named | v1.2 [REDWOOD] | APEX_APPLICATION_PROCESSES |
 | [ALPH_BTN_STC_ID_NM](APEX_MILLENIUM_GEN2_212/tests/ALPH_BTN_STC_ID_NM-REDWOOD.json) |  Button Static IDs should be correctly named | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING-REDWOOD.json) |  Applications should have the correct error handling function set | v1 [REDWOOD] | APEX_APPLICATIONS |
+| [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING-REDWOOD.json) |  Applications should have the correct error handling function set | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [ALPH_RGN_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_RGN_NAMING-REDWOOD.json) |  Region Static IDs should be correctly named | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [GLOBAL_TIME_FORMATS](APEX_MILLENIUM_GEN2_212/tests/GLOBAL_TIME_FORMATS-REDWOOD.json) |  Time formats should be set in Globalization Attributes | v1 [REDWOOD] | APEX_APPLICATIONS |
 | [INVLD_END_POINTS](APEX_MILLENIUM_GEN2_212/tests/INVLD_END_POINTS-REDWOOD.json) |  These URL endpoints are deprecated | v1 [REDWOOD] | APEX_APPLICATIONS |
@@ -235,14 +235,14 @@ Standards for correctly implementing Redwood patterns
 | [RW_BNNR_MSG_LNKS](APEX_REDWOOD_212/tests/RW_BNNR_MSG_LNKS-REDWOOD.json) |  Banner Message region should only have Links | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BUTTON_ICON](APEX_REDWOOD_212/tests/RW_BUTTON_ICON-REDWOOD.json) |  Buttons should the correct icons | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [RW_BUTTON_PLACEMENT](APEX_REDWOOD_212/tests/RW_BUTTON_PLACEMENT-REDWOOD.json) |  Redwood Buttons should be correctly placed | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [RW_CTXT_INFO](APEX_REDWOOD_212/tests/RW_CTXT_INFO-REDWOOD.json) |  Contextual Info regions should be configured correctly | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_CTXT_INFO](APEX_REDWOOD_212/tests/RW_CTXT_INFO-REDWOOD.json) |  Contextual Info regions should be configured correctly | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_FOLDOUTPANEL](APEX_REDWOOD_212/tests/RW_FOLDOUTPANEL-REDWOOD.json) |  Use Foldout panels in the Panels positions | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_IO_CONTENT](APEX_REDWOOD_212/tests/RW_IO_CONTENT-REDWOOD.json) |  Item Overview Content is correctly configured | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_ITEM_OVVW_ICN](APEX_REDWOOD_212/tests/RW_ITEM_OVVW_ICN-REDWOOD.json) |  Item Overview Regions should have an Icon or Initials | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_ITM_OVRVW_POS](APEX_REDWOOD_212/tests/RW_ITM_OVRVW_POS-REDWOOD.json) |  Region in "Item Overview" position is correctly configured | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_JVSCRIPT_DOM_MANPLTN](APEX_REDWOOD_212/tests/RW_JVSCRIPT_DOM_MANPLTN-REDWOOD.json) |  Do not manipulates classes, text and attributes in Redwood | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
 | [RW_LIST_ENTRIES_ICONS](APEX_REDWOOD_212/tests/RW_LIST_ENTRIES_ICONS-REDWOOD.json) |  List Entries should use the correct icons | v1.2 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [RW_LOGIN](APEX_REDWOOD_212/tests/RW_LOGIN-REDWOOD.json) |  Login regions are configured correctly | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [RW_LOGIN](APEX_REDWOOD_212/tests/RW_LOGIN-REDWOOD.json) |  Login regions are configured correctly | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_PAGE_HEADER](APEX_REDWOOD_212/tests/RW_PAGE_HEADER-REDWOOD.json) |  Regions in the "Page Header" position are correctly config | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_PAGE_ITEM_STYLING](APEX_REDWOOD_212/tests/RW_PAGE_ITEM_STYLING-REDWOOD.json) |  Redwood Page Items should use Redwood Icons | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_PG_NAV_POS](APEX_REDWOOD_212/tests/RW_PG_NAV_POS-REDWOOD.json) |  Region in "Page Navigation" is correctly configured | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
@@ -282,6 +282,7 @@ These are best practices that apply to Universal Theme applications.
 | [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
 | [FILTER_RGN_TMPLT](APEX_UNIVERSAL_THEME_212/tests/FILTER_RGN_TMPLT-REDWOOD.json) |  Filtered Regions has Card Container template | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [MODAL_FLOATING_LABEL](APEX_UNIVERSAL_THEME_212/tests/MODAL_FLOATING_LABEL-REDWOOD.json) |  Use Floating Labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [NORMAL_PAGE_BREADCRUMB](APEX_UNIVERSAL_THEME_212/tests/NORMAL_PAGE_BREADCRUMB-REDWOOD.json) |  Non-modal pages should have breadcrumbs  | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING-REDWOOD.json) |  Pages should not remove padding | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 
@@ -292,6 +293,15 @@ Standards that are *not* general standards
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+
+## my preferences (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
+
+
+ - [Consolidated tests export](APEX_MY_PREFERENCES_212/ALL_TESTS-APEX_MY_PREFERENCES_212.json)
+
+| Test Code | Test Name | Version | Component Type |
+|-----------|-----------|---------|----------------|
+| [PAGES_HAVE_HELP](APEX_MY_PREFERENCES_212/tests/PAGES_HAVE_HELP-REDWOOD.json) |  all normal pages must have help text | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 
 
 * This consolidated tests export does not include inherited relationships. You will need to install the individual standards / tests for that purpose.    
