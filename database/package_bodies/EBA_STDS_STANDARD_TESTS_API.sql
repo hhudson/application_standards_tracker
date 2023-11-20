@@ -21,7 +21,14 @@ create or replace package body eba_stds_standard_tests_api as
   gc_y constant varchar2(1) := 'Y';
   gc_default_version_number constant number := 0;
 
-
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 20, 2023
+-- Synopsis:
+--
+-- Private function to uppercase and handle spaces in test codes  
+--
+------------------------------------------------------------------------------
     function format_test_code (p_test_code in eba_stds_standard_tests.test_code%type)
     return eba_stds_standard_tests.test_code%type
     deterministic
