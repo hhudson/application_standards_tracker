@@ -50,6 +50,23 @@
                             p_preference => 'SVT_DEFAULT_SCHEMA',
                             p_user       => 'SVT')
 
+- # ====== Application Computation: A_HISTORIC_VIOLATION_TOTAL =
+  id: 449756270861985864
+  identification: 
+    item-name: A_HISTORIC_VIOLATION_TOTAL
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_audit_on_audit_api.overall_violation_count
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
 - # ====== Application Computation: APX_BLDR_SESSION ===========
   id: 7950338294442476319
   identification: 

@@ -259,7 +259,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Audit Id
+        heading: Audit ID
         alignment: end
 
       single-row-view: 
@@ -297,10 +297,10 @@ regions:
       id: 427274787071525921
       identification: 
         column-name: APP_ID
-        type: Plain Text
+        type: Link
 
       heading: 
-        heading: App Id
+        heading: App ID
         alignment: end
 
       single-row-view: 
@@ -312,6 +312,16 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:161:&SESSION.::&DEBUG.:161:P161_PK_ID:#PK_ID#'
+          page: 161 # Edit Application
+          clear-cache: 161
+          values: 
+            p161_pk_id: '#PK_ID#'
+
+        link-text: '#APP_ID#'
 
       source: 
         primary-key: false
@@ -332,6 +342,7 @@ regions:
         pivot: true
 
       security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
         escape-special-characters: true
 
     - # ====== Column: PAGE_ID =====================================
@@ -341,7 +352,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Page Id
+        heading: Page ID
         alignment: end
 
       single-row-view: 
@@ -382,7 +393,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Component Id
+        heading: Component ID
         alignment: end
 
       single-row-view: 
@@ -981,6 +992,47 @@ regions:
       layout: 
         sequence: 110
         column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PK_ID =======================================
+      id: 437965990727061948
+      identification: 
+        column-name: PK_ID
+        type: Plain Text
+
+      heading: 
+        heading: App Primary Key
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 220
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false

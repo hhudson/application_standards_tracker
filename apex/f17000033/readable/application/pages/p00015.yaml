@@ -675,59 +675,6 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Enable disabled jobs ========================
-  id: 443887737985864046
-  identification: 
-    title: Enable disabled jobs
-    type: Static Content
-
-  layout: 
-    sequence: 60
-    parent-region: No Parent
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7800047592157934909
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--horizontal
-    - t-Alert--defaultIcons
-    - t-Alert--danger
-    - t-Alert--accessibleHeading
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Rows returned
-    sql-query: |
-      select application_id, static_id
-      from apex_appl_automations
-      where polling_status_code = 'DISABLED'
-      and application_id = :APP_ID
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 buttons: 
 - # ====== Button: MANAGE_APEX_ISSUES ==========================
   id: 269326989863808641
@@ -884,35 +831,6 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
-- # ====== Button: ENABLE_AUTOMATIONS ==========================
-  id: 443887824722864047
-  identification: 
-    button-name: ENABLE_AUTOMATIONS
-    label: Enable Automations
-
-  layout: 
-    sequence: 10
-    region: Enable disabled jobs # 443887737985864046
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7800080208901934988
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--iconLeft
-    icon: fa-exclamation
-
-  behavior: 
-    action: Submit Page
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
-
 processes: 
 - # ====== Process: manage_apex_issues =========================
   id: 269327024521808642
@@ -1015,30 +933,4 @@ processes:
 
   server-side-condition: 
     when-button-pressed: RESET_APEX_ISSUES # 443887419762864043
-
-- # ====== Process: enable automations =========================
-  id: 443887937045864048
-  identification: 
-    name: enable automations
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      begin
-          svt_monitoring.enable_automations;
-      end;
-
-  execution: 
-    sequence: 50
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: ENABLE_AUTOMATIONS # 443887824722864047
 

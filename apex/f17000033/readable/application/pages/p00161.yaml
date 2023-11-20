@@ -12,6 +12,7 @@ appearance:
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--lg
 
 dialog: 
   chained: false
@@ -42,10 +43,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Application stats ===========================
+- # ====== Region: Application Details =========================
   id: 341544130996766914
   identification: 
-    title: Application stats
+    title: Application Details
     type: Classic Report
 
   source: 
@@ -68,7 +69,7 @@ regions:
     - P161_APEX_APP_ID
 
   layout: 
-    sequence: 20
+    sequence: 60
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -78,14 +79,9 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7800063150069934935
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
-    - t-Region--noPadding
-    - js-showMaximizeButton
-    - t-Region--showIcon
-    - t-Region--noBorder
-    - t-Region--scrollBody
     icon: fa-info-circle-o
     render-components: Above Content
 
@@ -94,7 +90,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: false
+    region-display-selector: true
     exclude-title-from-translation: false
 
   server-cache: 
@@ -411,7 +407,7 @@ regions:
     include-rowid-column: false
 
   layout: 
-    sequence: 10
+    sequence: 40
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -431,7 +427,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: false
+    region-display-selector: true
     exclude-title-from-translation: false
 
   server-cache: 
@@ -490,6 +486,109 @@ regions:
       output-as: Text (escape special characters)
       show-line-breaks: true
 
+- # ====== Region: Menu ========================================
+  id: 437966090263061949
+  identification: 
+    title: Menu
+    type: Region Display Selector
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Scores ======================================
+  id: 437966149090061950
+  identification: 
+    title: Scores
+    type: APEX Percent Bargraphs
+
+  source: 
+    sql-query: |
+      select ess.full_standard_name as title,
+             svt_plsql_apex_audit_api.percent_solved(p_application_id => :P161_APEX_APP_ID, p_standard_id => ess.id) value,
+             eba_stds_standards_api.hex_color(p_standard_id => ess.id) title_color,
+             null as bar_color
+      from v_eba_stds_standards ess
+      where ess.type_name = 'APEX'
+      and ess.active_yn = 'Y'
+      order by ess.display_order, ess.full_standard_name
+    page-items-to-submit: 
+    - P161_APEX_APP_ID
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+
 page-items: 
 - # ====== Page Item: P161_TYPE_ID =============================
   id: 282209060840270572
@@ -510,7 +609,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 80
+    sequence: 90
     region: Edit Application # 341956890125466133
     position: BODY
     alignment: Left
@@ -577,7 +676,7 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 90
+    sequence: 100
     region: Edit Application # 341956890125466133
     position: BODY
     alignment: Left
@@ -638,7 +737,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 100
+    sequence: 110
     region: Edit Application # 341956890125466133
     position: BODY
     alignment: Left
@@ -692,7 +791,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: Edit Application # 341956890125466133
     position: BODY
 
@@ -734,7 +833,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Edit Application # 341956890125466133
     position: BODY
     alignment: Left
@@ -812,7 +911,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: Edit Application # 341956890125466133
     position: BODY
 
@@ -845,7 +944,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 40
+    sequence: 50
     region: Edit Application # 341956890125466133
     position: BODY
 
@@ -878,7 +977,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 50
+    sequence: 60
     region: Edit Application # 341956890125466133
     position: BODY
 
@@ -911,7 +1010,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
+    sequence: 70
     region: Edit Application # 341956890125466133
     position: BODY
 
@@ -953,7 +1052,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 70
+    sequence: 80
     region: Edit Application # 341956890125466133
     position: BODY
     alignment: Left

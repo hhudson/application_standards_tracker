@@ -192,10 +192,10 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Problem Assignees ===========================
+- # ====== Region: You must correct the following Problem Assign
   id: 280032713352364325
   identification: 
-    title: Problem Assignees
+    title: You must correct the following Problem Assignees
     type: Classic Report
 
   source: 
@@ -335,10 +335,10 @@ regions:
       authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
       escape-special-characters: true
 
-- # ====== Region: Stale Deployment Files ======================
+- # ====== Region: You must refresh these stale deployment files
   id: 280036493446802865
   identification: 
-    title: Stale Deployment Files
+    title: You must refresh these stale deployment files
     type: Classic Report
 
   source: 
@@ -862,10 +862,10 @@ regions:
     security: 
       escape-special-characters: true
 
-- # ====== Region: Missing preferences =========================
+- # ====== Region: You must configure the following Missing pref
   id: 281120240993786675
   identification: 
-    title: Missing preferences
+    title: You must configure the following Missing preferences
     type: Classic Report
 
   source: 
@@ -1048,10 +1048,10 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Unsuccessful Jobs ===========================
+- # ====== Region: You must address these Unsuccessful Jobs ====
   id: 334000408039395657
   identification: 
-    title: Unsuccessful Jobs
+    title: You must address these Unsuccessful Jobs
     type: Classic Report
 
   source: 
@@ -1273,10 +1273,10 @@ regions:
     security: 
       escape-special-characters: true
 
-- # ====== Region: Missing data ================================
+- # ====== Region: You must configure the following Missing data
   id: 356400955314521231
   identification: 
-    title: Missing data
+    title: You must configure the following Missing data
     type: Classic Report
 
   source: 
@@ -1569,6 +1569,9 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
   attributes: 
     layout: 
       number-of-rows-type: Static Value
@@ -1670,10 +1673,10 @@ regions:
     security: 
       escape-special-characters: true
 
-- # ====== Region: Enable disabled jobs ========================
+- # ====== Region: You must enable these disabled jobs =========
   id: 401118298307419555
   identification: 
-    title: Enable disabled jobs
+    title: You must enable these disabled jobs
     type: Classic Report
 
   source: 
@@ -1731,7 +1734,7 @@ regions:
       from apex_appl_automations
       where polling_status_code = 'DISABLED'
       and application_id = :APP_ID
-      and :APP_PAGE_ID != 15
+      and :APP_PAGE_ID != 18
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
@@ -2360,7 +2363,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Stale Deployment Files # 280036493446802865
+    region: You must refresh these stale deployment files # 280036493446802865
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -2398,7 +2401,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Missing preferences # 281120240993786675
+    region: You must configure the following Missing preferences # 281120240993786675
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -2437,7 +2440,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Missing data # 356400955314521231
+    region: You must configure the following Missing data # 356400955314521231
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -2474,7 +2477,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Unsuccessful Jobs # 334000408039395657
+    region: You must address these Unsuccessful Jobs # 334000408039395657
     position: EDIT
     start-new-layout: false
     start-new-row: true
@@ -2537,7 +2540,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Enable disabled jobs # 401118298307419555
+    region: You must enable these disabled jobs # 401118298307419555
     position: CREATE
     start-new-layout: false
     start-new-row: true
@@ -2556,9 +2559,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:15:&SESSION.::&DEBUG.:15::'
-      page: 15 # Run Jobs in Debug mode
-      clear-cache: 15
+      url: 'f?p=&APP_ID.:18:&SESSION.::&DEBUG.:18::'
+      page: 18 # Enable Job Automations
+      clear-cache: 18
 
     warn-on-unsaved-changes: Do Not Check
 

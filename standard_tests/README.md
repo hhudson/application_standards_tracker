@@ -5,7 +5,6 @@ These are standards to maintain Accessibility.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE-REDWOOD.json) |  Some fields benefit from an autocomplete attribute | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ-REDWOOD.json) |  Combo of button labels + region names should be unique / page | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS-REDWOOD.json) |  DA should avoid "get focus" events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
 | [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT-REDWOOD.json) |  DA should avoid mouse events | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
@@ -61,21 +60,6 @@ These are standards to maintain Accessibility.
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-REDWOOD.json) |  Theme styles should avoid animations | v1.1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 
-## Accessibility Missing Aria-label (APEX Version 19.1)
-Tests that ID missing aria-labels
-
- - [Consolidated tests export](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/ALL_TESTS-APEX_ACCESSIBILITY_MISSING_ARIALABEL_191.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-| [ACC_CARD_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_CARD_LINK-REDWOOD.json) |  Card links require aria-labels | v1.7 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
-| [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_COL_LINK-REDWOOD.json) |  IG Column Links should have aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
-| [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_IV_LINK-REDWOOD.json) |  IG Icon View Links need aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IGS |
-| [ACC_PG_ITM_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_PG_ITM_LINK-REDWOOD.json) |  Page Item Quick Pick Links need aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
-| [C_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/C_COL_LINK-REDWOOD.json) |  Classic Columns links must have aria-labels | v1.7 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
-| [IR_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_COL_LINK-REDWOOD.json) |  IR Column links should have aria-labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_DETL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_DETL_LINK-REDWOOD.json) |  IR detail link must contain aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_IR |
-
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
 
@@ -91,7 +75,7 @@ These tests identify functionality that invalid.
 | [IR_COL_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/IR_COL_AUTHR_MATCH_DEST-REDWOOD.json) |  IR Column Link Authorization Matches Destination  | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [NLE_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/NLE_AUTHR_MATCH_DEST-REDWOOD.json) |  Navigation List Entry Authorization Matches Destination | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [PAGES_CURRENT_IN_MENU](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGES_CURRENT_IN_MENU-REDWOOD.json) |  Regular Pages should be Current in Navigation | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR-REDWOOD.json) |  Pages should not have unresolved critical issues | v1.5 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR-REDWOOD.json) |  Pages should not have unresolved critical issues | v1.7 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PB_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/PB_AUTHR_MATCH_DEST-REDWOOD.json) |  Page Branch Authorization Matches Destination | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PUBLIC_PAGE_PUBLIC_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/PUBLIC_PAGE_PUBLIC_AUTH-REDWOOD.json) |  Public pages should not require authentication | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [UNREACHABLE_PAGE](APEX_BROKEN_FUNCTIONALITY_212/tests/UNREACHABLE_PAGE-REDWOOD.json) |  Pages should be reachable | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
@@ -189,7 +173,7 @@ Standards that are *not* general standards
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS-REDWOOD.json) |  Navigation menu list entries should have icons | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [NEVER_REGIONS_HAVE_BUILDS](APEX_IDIOSYNCRATIC_212/tests/NEVER_REGIONS_HAVE_BUILDS-REDWOOD.json) |  Regions with a 'never' condition have 'to_delete' build option | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER-REDWOOD.json) |  RDS regions should have a template of Tabs Container | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE-REDWOOD.json) |  Reset buttons should be styled in a consistent way | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE-REDWOOD.json) |  Reset buttons should be styled in a consistent way | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS-REDWOOD.json) |  Button names and labels should be correctly capitalized | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_SAVE_BUTTONS](APEX_IDIOSYNCRATIC_212/tests/SVT_SAVE_BUTTONS-REDWOOD.json) |  Update buttons must be labelled "Save" | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 
@@ -292,23 +276,6 @@ These are best practices that apply to Universal Theme applications.
 | [MODAL_FLOATING_LABEL](APEX_UNIVERSAL_THEME_212/tests/MODAL_FLOATING_LABEL-REDWOOD.json) |  Use Floating Labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING-REDWOOD.json) |  Pages should not remove padding | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-
-## my apex preferences 2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-Standards that are *not* general standards
-
- - [Consolidated tests export](APEX_MY_APEX_PREFERENCES_2_212/ALL_TESTS-APEX_MY_APEX_PREFERENCES_2_212.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-
-## my preferences (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-
-
- - [Consolidated tests export](APEX_MY_PREFERENCES_212/ALL_TESTS-APEX_MY_PREFERENCES_212.json)
-
-| Test Code | Test Name | Version | Component Type |
-|-----------|-----------|---------|----------------|
-| [PAGES_HAVE_HELP](APEX_MY_PREFERENCES_212/tests/PAGES_HAVE_HELP-REDWOOD.json) |  all normal pages must have help text | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 
 
 * This consolidated tests export does not include inherited relationships. You will need to install the individual standards / tests for that purpose.    

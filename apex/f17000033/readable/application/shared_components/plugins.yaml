@@ -1882,3 +1882,60 @@
       end ajax;   
       
 
+- # ====== Plugin: APEX Percent Bargraphs ======================
+  id: 79493823681626778482
+  identification: 
+    name: APEX Percent Bargraphs
+
+  source: 
+    pl/sql-code: |
+      FUNCTION F_AJAX (
+          P_REGION   IN         APEX_PLUGIN.T_REGION,
+          P_PLUGIN   IN         APEX_PLUGIN.T_PLUGIN
+      ) RETURN APEX_PLUGIN.T_REGION_AJAX_RESULT IS
+          VR_RESULT   APEX_PLUGIN.T_REGION_AJAX_RESULT;
+      BEGIN
+          APEX_UTIL.JSON_FROM_SQL(SQLQ   => RTRIM(
+              P_REGION.SOURCE,
+              ';'
+          ));
+          RETURN VR_RESULT;
+      END;
+      
+      FUNCTION F_RENDER (
+          P_REGION                IN                      APEX_PLUGIN.T_REGION,
+          P_PLUGIN                IN                      APEX_PLUGIN.T_PLUGIN,
+          P_IS_PRINTER_FRIENDLY   IN                      BOOLEAN
+      ) RETURN APEX_PLUGIN.T_REGION_RENDER_RESULT IS
+      
+          VR_RESULT         APEX_PLUGIN.T_REGION_RENDER_RESULT;
+          VR_ITEMS2SUBMIT   APEX_APPLICATION_PAGE_REGIONS.AJAX_ITEMS_TO_SUBMIT%TYPE := APEX_PLUGIN_UTIL.PAGE_ITEM_NAMES_TO_JQUERY(P_REGION.AJAX_ITEMS_TO_SUBMIT);
+      BEGIN
+          APEX_CSS.ADD_FILE(
+              P_NAME        => 'style.min',
+              P_DIRECTORY   => P_PLUGIN.FILE_PREFIX,
+              P_VERSION     => NULL,
+              P_KEY         => 'pergrcsssrc'
+          );
+      
+          APEX_JAVASCRIPT.ADD_LIBRARY(
+              P_NAME        => 'script.min',
+              P_DIRECTORY   => P_PLUGIN.FILE_PREFIX,
+              P_VERSION     => NULL,
+              P_KEY         => 'pergrjssrc'
+          );
+      
+          HTP.P('<div id="' || APEX_ESCAPE.HTML_ATTRIBUTE( P_REGION.STATIC_ID ) || '-p"></div>');
+      
+          APEX_JAVASCRIPT.ADD_ONLOAD_CODE( 'apexSkillBar.render('
+           || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.STATIC_ID, TRUE )    
+           || APEX_JAVASCRIPT.ADD_VALUE( APEX_PLUGIN.GET_AJAX_IDENTIFIER, TRUE )
+           || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.NO_DATA_FOUND_MESSAGE, TRUE )
+           || APEX_JAVASCRIPT.ADD_VALUE( VR_ITEMS2SUBMIT, TRUE )
+           || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.ESCAPE_OUTPUT, TRUE )
+           || APEX_JAVASCRIPT.ADD_VALUE( P_REGION.ATTRIBUTE_01, FALSE )
+           || ');' );
+      
+          RETURN VR_RESULT;
+      END;
+

@@ -1,33 +1,30 @@
 ---
-# ====== Page: Manage Sample Standard ========================
+# ====== Page: Enable Job Automations ========================
 id: 18
 identification: 
-  name: Manage Sample Standard
-  alias: MANAGE-SAMPLE-STANDARD
-  title: Manage Sample Standard
+  name: Enable Job Automations
+  alias: ENABLE-JOB-AUTOMATIONS
+  title: Enable Job Automations
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Theme Default
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-
-dialog: 
-  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
 
 navigation: 
   cursor-focus: Do not focus cursor
-  warn-on-unsaved-changes: false
+  warn-on-unsaved-changes: true
 
 security: 
   authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
-  form-auto-complete: On
+  form-auto-complete: Off
   browser-cache: Application Default
 
 session-management: 
@@ -35,72 +32,20 @@ session-management:
 
 advanced: 
   enable-duplicate-page-submissions: Yes - Enable page to be re-posted
-  reload-on-submit: Always
+  reload-on-submit: Only for Success
 
 server-cache: 
   caching: Disabled
 
-help: 
-  help-text: No help is available for this page.
-
-configuration: 
-  build-option: TO_DELETE # 6384384957050863767
-
 regions: 
-- # ====== Region: Buttons =====================================
-  id: 7874608554639849647
+- # ====== Region: Enable disabled jobs ========================
+  id: 893583906632518278
   identification: 
-    title: Buttons
+    title: Enable disabled jobs
     type: Static Content
 
   layout: 
-    sequence: 30
-    parent-region: Manage Sample Standard # 7883477562975434162
-    position: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Buttons Container # 7800049597329934914
-    template-options: 
-    - '#DEFAULT#'
-    - t-ButtonRegion--noPadding
-    - t-ButtonRegion--noUI
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: Manage Sample Standard ======================
-  id: 7883477562975434162
-  identification: 
-    title: Manage Sample Standard
-    type: Static Content
-
-  source: 
-    html-code: <p>This application ships with a sample Standard, which includes several automated tests. You can remove and recreate this sample Standard using this page. Note that removing or recreating the sample Standard will remove all automated tests associated with it, even if they were added by the end user; they will not be recoverable. Removing or adding the sample Standard will not affect any standards created by end users.<p>
-
-  layout: 
-    sequence: 10
+    sequence: 60
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -113,10 +58,9 @@ regions:
     template: Alert # 7800047592157934909
     template-options: 
     - '#DEFAULT#'
-    - t-Alert--wizard
+    - t-Alert--horizontal
     - t-Alert--defaultIcons
-    - t-Alert--info
-    css-classes: 
+    - t-Alert--danger
     - t-Alert--accessibleHeading
     render-components: Above Content
 
@@ -127,6 +71,14 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select application_id, static_id
+      from apex_appl_automations
+      where polling_status_code = 'DISABLED'
+      and application_id = :APP_ID
 
   server-cache: 
     caching: Disabled
@@ -140,42 +92,15 @@ regions:
       expand-shortcuts: false
 
 buttons: 
-- # ====== Button: CANCEL ======================================
-  id: 7883582584671506638
+- # ====== Button: ENABLE_AUTOMATIONS ==========================
+  id: 449703205041654252
   identification: 
-    button-name: CANCEL
-    label: Cancel
+    button-name: ENABLE_AUTOMATIONS
+    label: Enable Automations
 
   layout: 
     sequence: 10
-    region: Buttons # 7874608554639849647
-    position: PREVIOUS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7800080814852934990
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--large
-
-  behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
-
-- # ====== Button: RESET_SAMPLE_STANDARD =======================
-  id: 7883582976490513723
-  identification: 
-    button-name: RESET_SAMPLE_STANDARD
-    label: Reset Sample Standard
-
-  layout: 
-    sequence: 50
-    region: Buttons # 7874608554639849647
+    region: Enable disabled jobs # 893583906632518278
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -184,124 +109,23 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-Button--large
+    - t-Button--iconLeft
+    icon: fa-exclamation
 
   behavior: 
     action: Submit Page
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_data.is_sample_data_loaded()
-
-- # ====== Button: LOAD_SAMPLE_STANDARD ========================
-  id: 7883583563808519553
-  identification: 
-    button-name: LOAD_SAMPLE_STANDARD
-    label: Load Sample Standard
-
-  layout: 
-    sequence: 30
-    region: Buttons # 7874608554639849647
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7800080814852934990
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--large
-
-  behavior: 
-    action: Submit Page
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: not eba_stds_data.is_sample_data_loaded()
-
-- # ====== Button: REMOVE_SAMPLE_STANDARD ======================
-  id: 7883583868115521310
-  identification: 
-    button-name: REMOVE_SAMPLE_STANDARD
-    label: Remove Sample Standard
-
-  layout: 
-    sequence: 40
-    region: Buttons # 7874608554639849647
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7800080814852934990
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--large
-    - t-Button--primary
-
-  behavior: 
-    action: Submit Page
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_data.is_sample_data_loaded()
-
-dynamic-actions: 
-- # ====== Dynamic Action: Cancel Dialog =======================
-  id: 6480107263335537431
-  identification: 
-    name: Cancel Dialog
-
-  execution: 
-    sequence: 10
-
-  when: 
-    event: EVENT.EVENT.BROWSER.CLICK
-    selection-type: Button
-    button: CANCEL # 7883582584671506638
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Cancel Dialog ===============================
-    id: 6480107362892537432
-    identification: 
-      action: Cancel Dialog
-
-    execution: 
-      sequence: 10
-      event: Cancel Dialog # 6480107263335537431
-      fire-when-event-result-is: True
-      fire-on-initialization: false
 
 processes: 
-- # ====== Process: Load Sample Standard =======================
-  id: 7883585169480530663
+- # ====== Process: enable automations =========================
+  id: 449705458524654255
   identification: 
-    name: Load Sample Standard
+    name: enable automations
     type: Execute Code
     execution-chain: None
 
@@ -310,87 +134,28 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          eba_stds_data.load_sample_data();
+          svt_monitoring.enable_automations;
       end;
 
   execution: 
-    sequence: 10
+    sequence: 50
     point: Processing
     run-process: Once Per Page Visit (default)
 
   success-message: 
-    success-message: Sample Standard created.
+    success-message: Automations successfully enabled
 
   error: 
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: LOAD_SAMPLE_STANDARD # 7883583563808519553
-
-- # ====== Process: Remove Sample Standard =====================
-  id: 7883585580562533859
-  identification: 
-    name: Remove Sample Standard
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      begin
-          eba_stds_data.remove_sample_data();
-      end;
-
-  execution: 
-    sequence: 20
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  success-message: 
-    success-message: Sample Standard removed.
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: REMOVE_SAMPLE_STANDARD # 7883583868115521310
-
-- # ====== Process: Reset Sample Standard ======================
-  id: 7883585790258536680
-  identification: 
-    name: Reset Sample Standard
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      begin
-          eba_stds_data.remove_sample_data();
-          eba_stds_data.load_sample_data();
-      end;
-
-  execution: 
-    sequence: 30
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  success-message: 
-    success-message: Sample Standard reset.
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: RESET_SAMPLE_STANDARD # 7883582976490513723
+    when-button-pressed: ENABLE_AUTOMATIONS # 449703205041654252
 
 branches: 
-- # ====== Branch: Go To Page settings =========================
-  id: 7883584690315526158
+- # ====== Branch: return to home page =========================
+  id: 437964966319061938
   identification: 
-    name: Go To Page settings
+    name: return to home page
 
   execution: 
     sequence: 10
@@ -399,9 +164,10 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:settings:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
-      page: SETTINGS
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:1::&success_msg=#SUCCESS_MSG#'
+      page: 1 # Issue Tracking
+      clear-cache: 1
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 

@@ -1428,56 +1428,6 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: False Positive ==============================
-  id: 470737816327714083
-  identification: 
-    title: False Positive
-    type: Static Content
-
-  source: 
-    html-code: This Issue has been identified as a 'False Positive'. Rerun the test to update the audit log.
-
-  layout: 
-    sequence: 10
-    parent-region: Live Test Results # 470737780651714082
-    position: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7800047592157934909
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--horizontal
-    - t-Alert--defaultIcons
-    - t-Alert--warning
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Never
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 - # ====== Region: False Positive? =============================
   id: 470737938929714084
   identification: 
@@ -1572,58 +1522,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: MV Dependency ===============================
-  id: 495023785560048362
-  identification: 
-    title: MV Dependency
-    type: Static Content
-
-  source: 
-    html-code: This test has a dependency on the Materialized View `&P42_MV_DEPENDENCY.`
-
-  layout: 
-    sequence: 20
-    parent-region: Live Test Results # 470737780651714082
-    position: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7800047592157934909
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--horizontal
-    - t-Alert--defaultIcons
-    - t-Alert--warning
-    - t-Alert--accessibleHeading
-    - t-Form--slimPadding
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Never
 
   server-cache: 
     caching: Disabled
@@ -5031,36 +4929,6 @@ buttons:
     language: PL/SQL
     pl/sql-expression: "upper(:P42_LINK_TO_APEX_ISSUE) LIKE '%F?P%'"
 
-- # ====== Button: REFRESH_MV ==================================
-  id: 495023808962048363
-  identification: 
-    button-name: REFRESH_MV
-    label: Refresh Materialized View
-
-  layout: 
-    sequence: 20
-    region: MV Dependency # 495023785560048362
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7800080208901934988
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--simple
-    - t-Button--iconLeft
-    icon: fa-refresh
-
-  behavior: 
-    action: Submit Page
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
-
 - # ====== Button: RESET =======================================
   id: 495024888211048373
   identification: 
@@ -5343,7 +5211,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'SVT_AUDIT_UTIL.refresh_mv(:P42_MV_DEPENDENCY);'
+    pl/sql-code: 'svt_mv_util.refresh_mv(:P42_MV_DEPENDENCY);'
 
   execution: 
     sequence: 30
@@ -5354,7 +5222,10 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: REFRESH_MV # 495023808962048363
+    type: Never
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 branches: 
 - # ====== Branch: Go To Page 1 ================================

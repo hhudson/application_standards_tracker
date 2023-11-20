@@ -3427,6 +3427,36 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P1_PERCENT_SOLVED ========================
+  id: 437965022814061939
+  identification: 
+    name: P1_PERCENT_SOLVED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Super Breadcrumb # 370769984920860454
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P1_AUDIT_ID ==============================
   id: 495025510298048380
   identification: 
@@ -3556,9 +3586,6 @@ buttons:
 
     warn-on-unsaved-changes: Do Not Check
 
-  advanced: 
-    static-id: hiddenSub
-
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
 
@@ -3591,14 +3618,11 @@ buttons:
     action: Defined by Dynamic Action
     execute-validations: true
 
-  advanced: 
-    static-id: hiddenBulk
-
 - # ====== Button: VIOLATION_COUNT =============================
   id: 281119965805786672
   identification: 
     button-name: VIOLATION_COUNT
-    label: 'Total Violation Count: &P1_VIOLATION_COUNT.'
+    label: '&P1_PERCENT_SOLVED.% Violations Addressed'
 
   layout: 
     sequence: 30
@@ -4504,12 +4528,9 @@ computations:
     point: Before Header
 
   computation: 
-    type: SQL Query (return single value)
-    sql-query: |
-      select count(*)
-      from svt_plsql_apex_audit paa
-      left outer join svt_audit_actions aaa on paa.action_id = aaa.id
-      where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_plsql_apex_audit_api.total_open_violations
 
   security: 
     authorization-scheme: READER RIGHTS # 275286800875611800
@@ -4563,6 +4584,20 @@ computations:
   server-side-condition: 
     type: Item is NOT NULL
     item: P1_AUDIT_ID
+
+- # ====== Computation: P1_PERCENT_SOLVED ======================
+  id: 437965184815061940
+  identification: 
+    item-name: P1_PERCENT_SOLVED
+
+  execution: 
+    sequence: 40
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_plsql_apex_audit_api.percent_solved
 
 - # ====== Computation: A_LAST_VIEW ============================
   id: 12229498164893600435
