@@ -51,6 +51,7 @@ These are standards to maintain Accessibility.
 | [PG_RGN_TABINDX](APEX_ACCESSIBILITY_212/tests/PG_RGN_TABINDX-REDWOOD.json) |  Page regions should avoid hardcoded tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [PG_RPT_COL_INDX](APEX_ACCESSIBILITY_212/tests/PG_RPT_COL_INDX-REDWOOD.json) |  Page report columns should avoid tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [PI_HLP_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/PI_HLP_COL_BAD_HTML-REDWOOD.json) |  Item Help HTML is well formed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [PI_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/PI_IMG_ALT_TEXT-REDWOOD.json) |  Page items with html images have alt text | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_LBL_UNQ](APEX_ACCESSIBILITY_212/tests/PI_LBL_UNQ-REDWOOD.json) |  Page item labels  + region names must be unique | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_TABINDX](APEX_ACCESSIBILITY_212/tests/PI_TABINDX-REDWOOD.json) |  Page items should avoid hardcoded indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_VLD_LBL](APEX_ACCESSIBILITY_212/tests/PI_VLD_LBL-REDWOOD.json) |  Page Items have valid label and no blank spaces | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
