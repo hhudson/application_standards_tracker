@@ -21,16 +21,9 @@
       created_by    varchar2(255 char)                 default user not null,
       updated       timestamp (6) with local time zone default systimestamp not null,
       updated_by    varchar2(255 char)                 default user not null
+   )
 /
   create index svt_sturlv_idx2 on svt_standards_urgency_level (urgency_level) 
-/
-  alter table svt_standards_urgency_level modify (created not null enable)
-/
-  alter table svt_standards_urgency_level modify (created_by not null enable)
-/
-  alter table svt_standards_urgency_level modify (updated not null enable)
-/
-  alter table svt_standards_urgency_level modify (updated_by not null enable)
 /
   alter table svt_standards_urgency_level add constraint svt_sturlv_pk primary key (id)
   using index (create unique index svt_sturlv_pk_idx on svt_standards_urgency_level (id) 
