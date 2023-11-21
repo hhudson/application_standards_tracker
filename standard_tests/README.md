@@ -5,6 +5,7 @@ These are standards to maintain Accessibility.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
+| [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE-REDWOOD.json) |  Some fields benefit from an autocomplete attribute | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ-REDWOOD.json) |  Combo of button labels + region names should be unique / page | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS-REDWOOD.json) |  DA should avoid "get focus" events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
 | [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT-REDWOOD.json) |  DA should avoid mouse events | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
