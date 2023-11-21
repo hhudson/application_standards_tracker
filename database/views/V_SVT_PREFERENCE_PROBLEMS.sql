@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_PREFERENCE_PROBLEMS stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_PREFERENCE_PROBLEMS stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_PREFERENCE_PROBLEMS
+--  DDL for View V_SVT_PREFERENCE_PROBLEMS
 --------------------------------------------------------
 
-create or replace force editionable view V_PREFERENCE_PROBLEMS as
+create or replace force editionable view V_SVT_PREFERENCE_PROBLEMS as
 with ppref as (select replace(item_name, 'P45_') preference_name
                 from apex_application_page_items
                 where application_id = 17000033
@@ -19,4 +19,4 @@ from stmt
 where prefs is not null
 /
 
---rollback drop view V_PREFERENCE_PROBLEMS;
+--rollback drop view V_SVT_PREFERENCE_PROBLEMS;

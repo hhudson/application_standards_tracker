@@ -1060,7 +1060,7 @@ liquibase_deploy_changes() {
   # echo "log : liquibase_deploy_changes"
 
 # PRO step 0 : delete from DATABASECHANGELOGLOCK
-# delete from svt.DATABASECHANGELOGLOCK
+# delete from DATABASECHANGELOGLOCK
 # /
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
@@ -1087,14 +1087,14 @@ EOF
 
 liquibase_clear_checksums() {
   # echo "log : liquibase_clear_checksums"
+# PRO step 0 : delete from DATABASECHANGELOGLOCK
+# delete from DATABASECHANGELOGLOCK
+# /
 
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
 
-PRO step 0 : delete from DATABASECHANGELOGLOCK
-delete from svt.DATABASECHANGELOGLOCK
-/
 
 PRO step 1 : clear-checksums
 
@@ -1111,14 +1111,14 @@ EOF
 
 liquibase_validate () {
   # echo "log : liquibase_validate"
+# PRO step 0 : delete from DATABASECHANGELOGLOCK
+# delete from DATABASECHANGELOGLOCK
+# /
 
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
 
-PRO step 0 : delete from DATABASECHANGELOGLOCK
-delete from svt.DATABASECHANGELOGLOCK
-/
 
 PRO : validate
 

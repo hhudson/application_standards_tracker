@@ -100,7 +100,6 @@ begin
 
             -- Instant Tip - Error handler function 
             -- Hat tip to Roel https://roelhartman.blogspot.com/2021/02/stop-using-validations-for-checking.html
-            -- Random Thoughts: I need to 'develop' some patience...fSVT... - Demetri Martin
 
             l_result.message := apex_lang.message(l_constraint_name); /* This could be from a common text library application */
                         

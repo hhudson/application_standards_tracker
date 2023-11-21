@@ -49,7 +49,7 @@ with aspaa as (
                    p_id => paa.apex_issue_id ) 
            from dual ) link_to_apex_issue,
            (select eba_stds_parser.build_url(
-                        p_template_url          => coalesce(fdv.link_url, sct.template_url),
+                        p_template_url          => sct.template_url,
                         p_app_id                => paa.application_id,
                         p_page_id               => paa.page_id,
                         p_pk_value              => paa.component_id,
@@ -82,8 +82,7 @@ with aspaa as (
            paa.parent_component_id,
            src.svt_component_type_id,
            src.component_name, 
-           fdv.component_type_id, 
-           coalesce(fdv.link_url, sct.template_url) template_url,
+           sct.template_url,
            src.standard_name,
            src.standard_id,
            vaa.type_code app_type_code,
@@ -92,7 +91,6 @@ with aspaa as (
     inner join v_eba_stds_standard_tests src on paa.test_code  = src.test_code
     inner join svt_component_types sct on sct.id = src.svt_component_type_id
     left outer join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
-    left outer join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
 )
 select 
@@ -221,7 +219,6 @@ Audit id : %3
     a.component_id,
     a.parent_component_id,
     a.svt_component_type_id,
-    a.component_type_id,
     a.standard_name,
     a.standard_id
 from aspaa a

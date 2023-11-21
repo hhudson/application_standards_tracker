@@ -21,9 +21,9 @@
       display_from             timestamp (6) with local time zone, 
       display_until            timestamp (6) with local time zone, 
       row_version_number       number not null, 
-      created                  timestamp (6) with local time zone default systimestamp not null
-      created_by               varchar2(255 char)                 default user not null
-      updated                  timestamp (6) with local time zone default systimestamp not null
+      created                  timestamp (6) with local time zone default systimestamp not null,
+      created_by               varchar2(255 char)                 default user not null,
+      updated                  timestamp (6) with local time zone default systimestamp not null,
       updated_by               varchar2(255 char)                 default user not null
    ) 
 /

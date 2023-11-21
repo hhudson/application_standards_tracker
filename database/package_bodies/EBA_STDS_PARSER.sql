@@ -418,8 +418,8 @@ is
         raise;
     end is_valid_url;
 
-    function adapt_url (p_template_url in v_svt_flow_dictionary_views.link_url%type)
-    return v_svt_flow_dictionary_views.link_url%type
+    function adapt_url (p_template_url in svt_component_types.template_url%type)
+    return svt_component_types.template_url%type
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'adapt_url';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -469,8 +469,7 @@ is
     procedure get_component_type_rec (
                         p_svt_component_type_id in svt_component_types.id%type,
                         p_component_name        out nocopy svt_component_types.component_name%type,
-                        p_component_type_id     out nocopy v_svt_flow_dictionary_views.component_type_id%type,
-                        p_template_url          out nocopy v_svt_flow_dictionary_views.link_url%type
+                        p_template_url          out nocopy svt_component_types.template_url%type
                     ) deterministic
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_component_type_rec';
@@ -479,20 +478,10 @@ is
         apex_debug.message(c_debug_template,'START', 'p_svt_component_type_id', p_svt_component_type_id);
 
         select act.component_name, 
-               fdv.component_type_id, 
-               case when fdv.link_url is not null 
-                    then fdv.link_url
-                    -- then case when fdv.view_name in ('APEX_APPL_AUTOMATIONS')
-                    --           then ''
-                    --           else '/ords/'
-                    --           end||fdv.link_url
-                    else act.template_url 
-                    end link_url
+               act.template_url link_url
         into   p_component_name, 
-               p_component_type_id, 
                p_template_url
         from  svt_component_types act
-        left join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
         where act.id = p_svt_component_type_id;
 
     exception 
@@ -503,7 +492,7 @@ is
             raise;
     end get_component_type_rec;
 
-    function build_url( p_template_url          in v_svt_flow_dictionary_views.link_url%type,
+    function build_url( p_template_url          in svt_component_types.template_url%type,
                         p_app_id                in svt_plsql_apex_audit.application_id%type,
                         p_page_id               in svt_plsql_apex_audit.page_id%type,
                         p_pk_value              in svt_plsql_apex_audit.component_id%type,
@@ -526,7 +515,7 @@ is
     c_parent_pk_value constant varchar2(100) := p_parent_pk_value;
     c_opt_parent_pk_value constant varchar2(100) := p_opt_parent_pk_value;
     c_builder_session constant number := coalesce(v('APX_BLDR_SESSION'),p_builder_session);
-    c_template_url  constant v_svt_flow_dictionary_views.link_url%type := p_template_url;
+    c_template_url  constant svt_component_types.template_url%type := p_template_url;
     l_url varchar2(2000);
     c_schema      constant svt_plsql_apex_audit.owner%type := 
                             coalesce(p_schema, svt_preferences.get(p_preference_name  => 'SVT_DEFAULT_SCHEMA'));
