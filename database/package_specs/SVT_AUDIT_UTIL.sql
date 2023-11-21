@@ -175,6 +175,8 @@ e_timeout    exception;
 pragma exception_init(e_timeout,-4021);
 e_deadlock    exception;
 pragma exception_init(e_deadlock,-60);
+e_insufficient_privs    exception;
+pragma exception_init(e_insufficient_privs,-1031);
 
 end SVT_AUDIT_UTIL;
 /
