@@ -29,16 +29,18 @@ create or replace package EBA_STDS_TESTS_LIB_API authid definer as
 /*
 begin
     eba_stds_tests_lib_api.upsert (
-        p_standard_id           => 1,
-        p_test_name             => 'blerg',
-        p_workspace             => 'blerg',
-        p_test_id               => 1,
-        p_query_clob            => 'blerg',
-        p_standard_code         => 'blerg',
-        p_active_yn             => null,
-        p_issue_desc            => 'blerg',
-        p_mv_dependency         => null,
-        p_ast_component_type_id => 1
+        p_standard_id           => p_standard_id,
+        p_test_name             => p_test_name,
+        p_test_id               => p_test_id,
+        p_query_clob            => p_query_clob,
+        p_test_code             => p_test_code,
+        p_active_yn             => p_active_yn,
+        p_mv_dependency         => p_mv_dependency,
+        p_svt_component_type_id => p_svt_component_type_id,
+        p_explanation           => p_explanation,
+        p_fix                   => p_fix,
+        p_level_id              => p_level_id,
+        p_version_number        => p_version_number
     );
 end;
 */
@@ -46,14 +48,17 @@ end;
     procedure upsert (
         p_standard_id           in eba_stds_tests_lib.standard_id%type,
         p_test_name             in eba_stds_tests_lib.test_name%type,
-        p_workspace             in eba_stds_tests_lib.workspace%type,
         p_test_id               in eba_stds_tests_lib.test_id%type,
         p_query_clob            in eba_stds_tests_lib.query_clob%type,
-        p_standard_code         in eba_stds_tests_lib.standard_code%type,
+        p_test_code             in eba_stds_tests_lib.test_code%type,
         p_active_yn             in eba_stds_tests_lib.active_yn%type,
-        p_issue_desc            in eba_stds_tests_lib.issue_desc%type,
         p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
-        p_ast_component_type_id in eba_stds_tests_lib.ast_component_type_id%type
+        p_svt_component_type_id in eba_stds_tests_lib.svt_component_type_id%type,
+        p_explanation           in eba_stds_tests_lib.explanation%type,
+        p_fix                   in eba_stds_tests_lib.fix%type,
+        p_level_id              in eba_stds_tests_lib.level_id%type,
+        p_version_number        in eba_stds_tests_lib.version_number%type,
+        p_version_db            in eba_stds_tests_lib.version_db%type
     );
 
 ------------------------------------------------------------------------------
@@ -70,7 +75,7 @@ begin
 end;
 */
 ------------------------------------------------------------------------------
-    procedure take_snapshot;
+    -- procedure take_snapshot;
 
 
 ------------------------------------------------------------------------------
@@ -82,7 +87,7 @@ end;
 --
 /*
 begin
-    EBA_STDS_TESTS_LIB_API.install_standard_test(
+    eba_stds_tests_lib_api.install_standard_test(
                         p_id => :P60_ID,
                         p_urgency_level_id =>  :P60_URGENCY_LEVEL_ID);
 end;
@@ -93,13 +98,31 @@ end;
                                     p_urgency_level_id in eba_stds_standard_tests.level_id%type
                                     );
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 17, 2023
+-- Synopsis:
+--
+-- Procedure to install all the tests for a given standard
+--
+/*
+begin
+    eba_stds_tests_lib_api.auto_install_standard_test(p_standard_id => :P81_STANDARD_ID);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure auto_install_standard_test (
+                        p_standard_id in eba_stds_standard_tests.standard_id%type,
+                        p_test_code   in eba_stds_standard_tests.test_code%type default null);
+
     
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 26, 2023
 -- Synopsis:
 --
--- Procedure to delete a given test from the test library and zip file 
+-- Overloaded procedure to delete a given test from the test library and zip file
+-- for a given id 
 --
 /*
 begin  
@@ -108,6 +131,83 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type);
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 7, 2023
+-- Synopsis:
+--
+-- Procedure to delete a given test from the test library and zip file
+-- for a test_code
+--
+/*
+begin  
+    eba_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_test_from_lib (p_test_code in eba_stds_tests_lib.test_code%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 11, 2023
+-- Synopsis:
+--
+-- Function to get the primary key of eba_stds_tests_lib from a given test_code
+--
+/*
+        select eba_stds_tests_lib_api.get_id(:P60_TEST_CODE)
+        from dual
+*/
+------------------------------------------------------------------------------
+   function get_id(p_test_code in eba_stds_tests_lib.test_code%type)
+   return eba_stds_tests_lib.id%type;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 13, 2023
+-- Synopsis:
+--
+-- Function to return the md5 of a eba_stds_tests_lib for comparison with a eba_stds_standard_tests record
+--
+/*
+select eba_stds_tests_lib_api.current_md5(p_test_code)
+from dual
+*/
+------------------------------------------------------------------------------
+   function current_md5(p_test_code in eba_stds_tests_lib.test_code%type)
+   return varchar2;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 16, 2023
+-- Synopsis:
+--
+-- Procedure to get the md5 and version number for a given test_code 
+--
+/*
+set serveroutput on
+declare
+p_test_code eba_stds_tests_lib.test_code%type := 'RW_BUTTON_PLACEMENT';
+l_md5 varchar2(250);
+l_version_number  eba_stds_tests_lib.version_number%type;
+begin
+    EBA_STDS_TESTS_LIB_API.md5_imported_vsn_num (
+                p_test_code      => p_test_code,
+                p_md5            => l_md5,
+                p_version_number => l_version_number
+        );
+    dbms_output.put_line('l_md5 :'||l_md5);
+    dbms_output.put_line('l_version_number :'||l_version_number);
+end;
+*/
+------------------------------------------------------------------------------
+   procedure md5_imported_vsn_num (
+                p_test_code      in  eba_stds_tests_lib.test_code%type,
+                p_md5            out nocopy varchar2,
+                p_version_number out nocopy eba_stds_tests_lib.version_number%type
+   );
 
 end EBA_STDS_TESTS_LIB_API;
 /

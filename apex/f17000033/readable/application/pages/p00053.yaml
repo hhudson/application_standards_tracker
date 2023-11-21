@@ -5,11 +5,11 @@ identification:
   name: Add Multiple Users
   alias: ADD-MULTIPLE-USERS
   title: Add Multiple Users
-  page-group: ACL # 8901802019639773041
+  page-group: ACL # 9128194827115563978
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -24,15 +24,8 @@ navigation:
   cursor-focus: Do not focus cursor
   warn-on-unsaved-changes: false
 
-css: 
-  inline: |
-    .helpText {
-    padding: 8px;
-    color: #707070;
-    }
-
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -54,7 +47,7 @@ help:
 
 regions: 
 - # ====== Region: Load Multiple Users =========================
-  id: 8266147894682473042
+  id: 8492540702158263979
   identification: 
     title: Load Multiple Users
     type: Static Content
@@ -70,7 +63,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -89,13 +82,16 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
   attributes: 
     settings: 
       output-as: HTML
       expand-shortcuts: false
 
 - # ====== Region: Buttons =====================================
-  id: 8268958385321025770
+  id: 8495351192796816707
   identification: 
     title: Buttons
     type: Static Content
@@ -111,48 +107,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: Hidden Items ================================
-  id: 8270139302885423548
-  identification: 
-    title: Hidden Items
-    type: Static Content
-
-  layout: 
-    sequence: 5
-    parent-region: No Parent
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -178,7 +133,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P53_ROLE =================================
-  id: 8266148184900484752
+  id: 8492540992376275689
   identification: 
     name: P53_ROLE
     type: Radio Group
@@ -193,7 +148,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Load Multiple Users # 8266147894682473042
+    region: Load Multiple Users # 8492540702158263979
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -204,7 +159,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
@@ -215,7 +170,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: ACCESS_LEVELS # 10780251699356541048
+    list-of-values: ACCESS_LEVELS # 11006644506832331985
     display-extra-values: true
     display-null-value: false
 
@@ -239,8 +194,11 @@ page-items:
     escape-special-characters: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: Pick the role to which the user(s) should be assigned
+
 - # ====== Page Item: P53_PRELIM_USERS =========================
-  id: 8266164083253652675
+  id: 8492556890729443612
   identification: 
     name: P53_PRELIM_USERS
     type: Textarea
@@ -257,7 +215,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Load Multiple Users # 8266147894682473042
+    region: Load Multiple Users # 8492540702158263979
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -268,7 +226,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 80
@@ -300,50 +258,19 @@ page-items:
 
   help: 
     inline-help-text: Enter usernames separated by commas, semicolons, or whitespace. Existing or duplicate usernames will automatically be ignored.
-
-- # ====== Page Item: P53_USERNAME_FORMAT1 =====================
-  id: 8267474781643880601
-  identification: 
-    name: P53_USERNAME_FORMAT1
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Hidden Items # 8270139302885423548
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_fw.get_preference_value ('USERNAME_FORMAT')
-    used: Always, replacing any existing value in session state
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
+    help-text: Enter usernames separated by commas, semicolons, or whitespace. Existing or duplicate usernames will automatically be ignored.
 
 buttons: 
-- # ====== Button: CANCEL ======================================
-  id: 8266130697901286860
+- # ====== Button: ADD_ALL_DEVS ================================
+  id: 229576550214659403
   identification: 
-    button-name: CANCEL
-    label: Cancel
+    button-name: ADD_ALL_DEVS
+    label: Add All Devs
 
   layout: 
     sequence: 10
-    region: Buttons # 8268958385321025770
-    position: NEXT
+    region: Buttons # 8495351192796816707
+    position: CREATE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -351,7 +278,36 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-users-alt
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: CANCEL ======================================
+  id: 8492523505377077797
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 8495351192796816707
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -361,17 +317,17 @@ buttons:
     execute-validations: true
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Button: NEXT ========================================
-  id: 8266130997002286860
+  id: 8492523804478077797
   identification: 
     button-name: NEXT
     label: Next
 
   layout: 
     sequence: 20
-    region: Buttons # 8268958385321025770
+    region: Buttons # 8495351192796816707
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -380,11 +336,11 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-Button--iconRight
+    - t-Button--iconLeft
     - t-Button--gapLeft
     icon: fa-chevron-right
 
@@ -393,9 +349,12 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
 dynamic-actions: 
 - # ====== Dynamic Action: CNX =================================
-  id: 6253716345035746513
+  id: 6480109152511537450
   identification: 
     name: CNX
 
@@ -405,7 +364,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 8266130697901286860
+    button: CANCEL # 8492523505377077797
 
   execution: 
     event-scope: Static
@@ -413,21 +372,21 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6253716394841746514
+    id: 6480109202317537451
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: CNX # 6253716345035746513
+      event: CNX # 6480109152511537450
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 computations: 
-- # ====== Computation: LAST_VIEW ==============================
-  id: 8267481091213043338
+- # ====== Computation: A_LAST_VIEW ============================
+  id: 8493873898688834275
   identification: 
-    item-name: LAST_VIEW
+    item-name: A_LAST_VIEW
 
   execution: 
     sequence: 10
@@ -438,8 +397,52 @@ computations:
     static-value: '&APP_PAGE_ID.'
 
 processes: 
+- # ====== Process: Add all devs ===============================
+  id: 229576645325659404
+  identification: 
+    name: Add all devs
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: svt_acl.add_awd_users;
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: All workspace devs added as readers!
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ADD_ALL_DEVS # 229576550214659403
+
+- # ====== Process: Close dialog ===============================
+  id: 229576713348659405
+  identification: 
+    name: Close dialog
+    type: Close Dialog
+    execution-chain: None
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ADD_ALL_DEVS # 229576550214659403
+
 - # ====== Process: Create Collections =========================
-  id: 8266421486499298379
+  id: 8492814293975089316
   identification: 
     name: Create Collections
     type: Execute Code
@@ -508,7 +511,7 @@ processes:
               l_username := trim(l_emails(j));
       
               if l_username is not null then
-                  if eba_stds_fw.get_preference_value('USERNAME_FORMAT') = 'EMAIL' then
+                 
                     -----------
                     -- Validate
                     --
@@ -533,7 +536,7 @@ processes:
                         commit;
                         l_valid := false;
                     end if;
-                  end if;
+                  
       
       
                   l_username := trim(l_username);
@@ -553,20 +556,6 @@ processes:
                       l_valid := false;
                   end if;
       
-                  if l_valid then
-                      for c1 in (select /* APEX76a66f */ username
-                                   from eba_stds_users
-                                  where upper(username) = upper(l_username))
-                      loop
-                          wwv_flow_collection.add_member(
-                              p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
-                              p_c001            => upper(l_username),
-                              p_c002            => apex_lang.message('ALREADY_IN_ACL'));
-                          commit;
-                          l_valid := false;
-                          exit;
-                      end loop;
-                  end if;
       
                   if l_valid then
                       for c1 in (select /* APEXeaf772 */  c001
@@ -606,11 +595,14 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: NEXT # 8266130997002286860
+    when-button-pressed: NEXT # 8492523804478077797
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 branches: 
 - # ====== Branch: Go To Page 54 ===============================
-  id: 8266131393565286862
+  id: 8492524201041077799
   identification: 
     name: Go To Page 54
 
@@ -622,11 +614,11 @@ branches:
     type: Page or URL (Redirect)
     target: 
       url: 'f?p=&APP_ID.:54:&SESSION.&success_msg=#SUCCESS_MSG#'
-      page: 54 # Add Multiple Users
+      page: 54
 
   server-side-condition: 
-    when-button-pressed: NEXT # 8266130997002286860
+    when-button-pressed: NEXT # 8492523804478077797
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 

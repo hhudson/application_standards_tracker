@@ -1,34 +1,30 @@
 ---
-# ====== Page: Application Statuses ==========================
+# ====== Page: Addressed violations ==========================
 id: 25
 identification: 
-  name: Application Statuses
-  alias: APPLICATION-STATUSES
-  title: Application Statuses
+  name: Addressed violations
+  alias: ADDRESSED-VIOLATIONS
+  title: Addressed violations in APEX
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-  - js-dialog-class-t-Drawer--pullOutEnd
-
-dialog: 
-  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
 
 navigation: 
   cursor-focus: Do not focus cursor
-  warn-on-unsaved-changes: false
+  warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
-  form-auto-complete: On
+  form-auto-complete: Off
   browser-cache: Application Default
 
 session-management: 
@@ -36,30 +32,44 @@ session-management:
 
 advanced: 
   enable-duplicate-page-submissions: Yes - Enable page to be re-posted
-  reload-on-submit: Always
+  reload-on-submit: Only for Success
 
 server-cache: 
   caching: Disabled
 
 help: 
-  help-text: No help is available for this page.
+  help-text: |
+    This report tracks violations in APEX that have been 'addressed', i.e. are no longer current. 
+    The violation may no longer be current for the following reasons:
+    <ul>
+        <li>It has been corrected.</li>
+        <li>It has been deleted.</li>
+        <li>The page or component where the violation exists has been placed under a build that will not export it ('DEV_ONLY', for example).</li>
+        <li>The app containing the violation has been removed from review.</li>
+        <li>The test or standard that defined the violation has been turned off.</li>
+    </ul>
+    
+    Additional notes : 
+    <ul>
+        <li> It can happen that a violation will show as 'addressed' here but a seemingly identical violation is still current. 
+    This can happen if the component id (page_id, region_id, item_id, etc) has changed.</li>
+        <li> It can take up to 12 hours for a non-current violation to show up in this report</li>
+        <li> It can be challenging to track who is responsible for addressing the below violations so that information is not represented.</li>
+    </ul>
 
 regions: 
-- # ====== Region: Application Statuses ========================
-  id: 7578248987791190303
+- # ====== Region: Addressed violations in APEX ================
+  id: 427306103212008614
   identification: 
-    title: Application Statuses
+    title: Addressed violations in APEX
     type: Interactive Report
 
   source: 
     location: Local Database
-    type: SQL Query
-    sql-query: |
-      select id,
-          display_sequence,
-          name,
-          description
-      from eba_stds_app_statuses
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_SVT_AUDIT_ON_AUDIT_APEX
+    include-rowid-column: false
 
   layout: 
     sequence: 10
@@ -72,10 +82,9 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
-    - t-IRR-region--noBorders
     render-components: Above Content
 
   accessibility: 
@@ -93,28 +102,16 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 7578249174014190304
+    id: 427306229912008614
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_ID:#ID#'
-        page: 29 # Application Status
-        values: 
-          p29_id: '#ID#'
-
-      link-icon: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
-      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-    appearance: 
-      show-null-values-as: '-'
+      link-column: Exclude Link Column
 
     pagination: 
-      type: Row Ranges X to Y
+      type: Row Ranges X to Y of Z
       display-position: Bottom - Right
 
     performance: 
-      lazy-loading: false
-      maximum-rows-to-process: 1000000
+      lazy-loading: true
 
     messages: 
       when-no-data-found: No data found.
@@ -125,13 +122,13 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: true
+      rows-per-page-selector: false
 
     actions-menu: 
       include-actions-menu: true
       filter: true
       select-columns: true
-      rows-per-page: false
+      rows-per-page: true
       sort: true
       control-break: true
       highlight: true
@@ -142,7 +139,7 @@ regions:
       pivot: true
       flashback: true
       save-report: true
-      save-public-report: true
+      save-public-report: false
       reset: true
       help: true
       download: true
@@ -152,6 +149,8 @@ regions:
       formats: 
       - CSV
       - HTML
+      - Excel
+      - PDF
       send-as-email: true
 
     heading: 
@@ -165,45 +164,27 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 7578250980175221266
+      id: 427311084095032030
       identification: 
         name: Primary Report
-        alias: 7908009
+        alias: 4273111
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 7578249272694190306
+      id: 427273219205525906
       identification: 
         column-name: ID
-        type: Hidden Column
-
-      heading: 
-        heading: Id
-
-      layout: 
-        sequence: 1
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: false
-
-    - # ====== Column: DISPLAY_SEQUENCE ============================
-      id: 7578249386986190307
-      identification: 
-        column-name: DISPLAY_SEQUENCE
         type: Plain Text
 
       heading: 
-        heading: Display Sequence
-        alignment: start
+        heading: ID
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 2
+        sequence: 10
         column-alignment: end
 
       accessibility: 
@@ -230,21 +211,237 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: NAME ========================================
-      id: 7578249502445190307
+    - # ====== Column: UNQID =======================================
+      id: 427273341789525907
       identification: 
-        column-name: NAME
+        column-name: UNQID
         type: Plain Text
 
       heading: 
-        heading: Name
+        heading: Unique ID
         alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 3
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: true
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: AUDIT_ID ====================================
+      id: 427274603606525920
+      identification: 
+        column-name: AUDIT_ID
+        type: Plain Text
+
+      heading: 
+        heading: Audit ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_ID ======================================
+      id: 427274787071525921
+      identification: 
+        column-name: APP_ID
+        type: Link
+
+      heading: 
+        heading: App ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:161:&SESSION.::&DEBUG.:161:P161_PK_ID:#PK_ID#'
+          page: 161 # Edit Application
+          clear-cache: 161
+          values: 
+            p161_pk_id: '#PK_ID#'
+
+        link-text: '#APP_ID#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: PAGE_ID =====================================
+      id: 427274819140525922
+      identification: 
+        column-name: PAGE_ID
+        type: Plain Text
+
+      heading: 
+        heading: Page ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COMPONENT_ID ================================
+      id: 427274978054525923
+      identification: 
+        column-name: COMPONENT_ID
+        type: Plain Text
+
+      heading: 
+        heading: Component ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ASSIGNEE ====================================
+      id: 427275043702525924
+      identification: 
+        column-name: ASSIGNEE
+        type: Plain Text
+
+      heading: 
+        heading: Assignee
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
         column-alignment: start
 
       accessibility: 
@@ -271,21 +468,62 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: DESCRIPTION =================================
-      id: 7578249596623190307
+    - # ====== Column: LINE ========================================
+      id: 427275165305525925
       identification: 
-        column-name: DESCRIPTION
+        column-name: LINE
         type: Plain Text
 
       heading: 
-        heading: Description
+        heading: Line
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 170
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_NAME =================================
+      id: 427275273767525926
+      identification: 
+        column-name: OBJECT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Object Name
         alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 4
+        sequence: 180
         column-alignment: start
 
       accessibility: 
@@ -311,17 +549,567 @@ regions:
 
       security: 
         escape-special-characters: true
+
+    - # ====== Column: OBJECT_TYPE =================================
+      id: 427275345651525927
+      identification: 
+        column-name: OBJECT_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Object Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 190
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CODE ========================================
+      id: 427275423233525928
+      identification: 
+        column-name: CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 200
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: DELETE_REASON ===============================
+      id: 427275576056525929
+      identification: 
+        column-name: DELETE_REASON
+        type: Plain Text
+
+      heading: 
+        heading: Delete Reason
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 210
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_NAME ===============================
+      id: 427306563821008757
+      identification: 
+        column-name: STANDARD_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COMPONENT_NAME ==============================
+      id: 427307383995008757
+      identification: 
+        column-name: COMPONENT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Component Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED =====================================
+      id: 427307749312008758
+      identification: 
+        column-name: CREATED
+        type: Plain Text
+
+      heading: 
+        heading: Addressed Date
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 427308170863008758
+      identification: 
+        column-name: TEST_CODE
+        type: Link
+
+      heading: 
+        heading: Test Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:14:P14_TEST_CODE:#TEST_CODE#'
+          page: 14 # Manage Test
+          clear-cache: 14
+          values: 
+            p14_test_code: '#TEST_CODE#'
+
+        link-text: '#TEST_CODE#'
+        link-attributes: 'aria-label="View Test Definition for #TEST_CODE#"'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: VALIDATION_FAILURE_MESSAGE ==================
+      id: 427308580073008758
+      identification: 
+        column-name: VALIDATION_FAILURE_MESSAGE
+        type: Plain Text
+
+      heading: 
+        heading: Validation Failure Message
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: URGENCY =====================================
+      id: 427308972017008759
+      identification: 
+        column-name: URGENCY
+        type: Plain Text
+
+      heading: 
+        heading: Urgency
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: URGENCY_LEVEL ===============================
+      id: 427309388604008759
+      identification: 
+        column-name: URGENCY_LEVEL
+        type: Plain Text
+
+      heading: 
+        heading: Urgency Level
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_NAME ===================================
+      id: 427309747793008759
+      identification: 
+        column-name: TEST_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Test Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PK_ID =======================================
+      id: 437965990727061948
+      identification: 
+        column-name: PK_ID
+        type: Plain Text
+
+      heading: 
+        heading: App Primary Key
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 220
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Addressed violations in APEX
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
 
 buttons: 
 - # ====== Button: RESET =======================================
-  id: 6187582899900812831
+  id: 427274546741525919
   identification: 
     button-name: RESET
     label: Reset
 
   layout: 
     sequence: 10
-    region: Application Statuses # 7578248987791190303
+    region: Addressed violations in APEX # 427306103212008614
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -330,7 +1118,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -342,110 +1130,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:RR,::'
-      page: '&APP_PAGE_ID.'
+      url: 'f?p=&APP_ID.:25:&SESSION.::&DEBUG.:RR,::'
+      page: 25 # Addressed violations
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
-
-- # ====== Button: CREATE ======================================
-  id: 7578249804128190307
-  identification: 
-    button-name: CREATE
-    label: Add Application Status
-
-  layout: 
-    sequence: 20
-    region: Application Statuses # 7578248987791190303
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7573688007377144053
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.:29::'
-      page: 29 # Application Status
-      clear-cache: 29
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-dynamic-actions: 
-- # ====== Dynamic Action: Refresh on Add ======================
-  id: 6187583014561812832
-  identification: 
-    name: Refresh on Add
-
-  execution: 
-    sequence: 10
-
-  when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
-    selection-type: Button
-    button: CREATE # 7578249804128190307
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Refresh =====================================
-    id: 6187583077010812833
-    identification: 
-      action: Refresh
-
-    affected-elements: 
-      selection-type: Region
-      region: Application Statuses # 7578248987791190303
-
-    execution: 
-      sequence: 10
-      event: Refresh on Add # 6187583014561812832
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-- # ====== Dynamic Action: Refresh on Edit =====================
-  id: 6187583239495812834
-  identification: 
-    name: Refresh on Edit
-
-  execution: 
-    sequence: 20
-
-  when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
-    selection-type: Region
-    region: Application Statuses # 7578248987791190303
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Refresh =====================================
-    id: 6187583332030812835
-    identification: 
-      action: Refresh
-
-    affected-elements: 
-      selection-type: Region
-      region: Application Statuses # 7578248987791190303
-
-    execution: 
-      sequence: 10
-      event: Refresh on Edit # 6187583239495812834
-      fire-when-event-result-is: True
-      fire-on-initialization: false
 

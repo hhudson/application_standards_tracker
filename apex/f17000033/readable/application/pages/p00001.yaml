@@ -1,11 +1,11 @@
 ---
-# ====== Page: V_AST_PLSQL_APEX_AUDIT ========================
+# ====== Page: Issue Tracking ================================
 id: 1
 identification: 
-  name: V_AST_PLSQL_APEX_AUDIT
+  name: Issue Tracking
   alias: HOME
-  title: '&APPLICATION_TITLE. Home'
-  page-group: Home # 8901801817215772344
+  title: Violations
+  page-group: Home # 9128194624691563281
 
 appearance: 
   page-mode: Normal
@@ -23,19 +23,6 @@ navigation:
 javascript: 
   file-urls: 
   - '#APP_FILES#js/f4000_searchResults#MIN#.js'
-
-css: 
-  inline: |
-    .subInfoTextRegion {
-    font-size: 11px;
-    line-height: 16px;
-    color: #707070;
-    }
-    
-    .scrollInside div.uRegionContent {
-    height: 220px;
-    overflow: auto;
-    }
 
 security: 
   authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
@@ -59,28 +46,58 @@ help:
   help-text: <p>This application is designed to assist in the development of consistent Oracle Application Express (APEX) applications by analyzing each application for adherence to best practices. Appl ications can be divided into different types, with some standards applying only to specific types of applications. To test for compliance, create a standard and associate it with the appropriate type(s) of application(s), defining at least one test against the APEX Data Dictionary to verify compliance.</p>
 
 regions: 
-- # ====== Region: Unsuccessful Jobs ===========================
-  id: 53282081389974335
+- # ====== Region: New Assignment ==============================
+  id: 282177598720621851
   identification: 
-    title: Unsuccessful Jobs
-    type: Classic Report
-
-  source: 
-    location: Local Database
-    type: SQL Query
-    sql-query: |
-      select job_name user_name, 
-             status ALERT_ACTION, 
-             log_date_char EVENT_DATE, 
-             error_msg EVENT_TITLE ,
-             job_initials USER_AVATAR,
-             polling_interval EVENT_DESC,
-             status event_type
-      from V_AUTOMATIONS_PROBLEMS
-      order by log_date desc
+    title: New Assignment
+    type: Static Content
 
   layout: 
-    sequence: 31
+    sequence: 10
+    parent-region: Issues # 627819841557434651
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Drawer # 276548084202120147
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-class-t-Drawer--pullOutEnd
+    - js-dialog-class-t-Drawer--md
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: NEWASSIGNEE
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Jobs Status =================================
+  id: 282206700986270548
+  identification: 
+    title: Jobs Status
+    type: Static Content
+
+  layout: 
+    sequence: 80
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -90,12 +107,14 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Collapsible # 7800059901717934927
     template-options: 
     - '#DEFAULT#'
-    - t-Region--noPadding
-    - t-Region--accent12
-    - t-Region--noBorder
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--stacked
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -107,319 +126,8 @@ regions:
     region-display-selector: true
     exclude-title-from-translation: false
 
-  server-side-condition: 
-    type: Rows returned
-    sql-query: |
-      select 1 
-      from V_AUTOMATIONS_PROBLEMS
-
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: TO_DELETE # 6157992149575072830
-
-  attributes: 
-    layout: 
-      number-of-rows-type: Static Value
-      number-of-rows: 15
-
-    appearance: 
-      template-type: Theme
-      template: Timeline # 6322382606148923858
-      template-options: 
-      - '#DEFAULT#'
-      - t-Timeline--compact
-      - t-Report--hideNoPagination
-
-    pagination: 
-      type: Row Ranges X to Y (with next and previous links)
-      display-position: Bottom - Right
-      partial-page-refresh: true
-
-    performance: 
-      lazy-loading: false
-
-    break-formatting: 
-      break-columns: No Break
-
-    advanced: 
-      strip-html: false
-      sort-nulls: Last
-
-    heading: 
-      type: Custom Headings
-
-    download: 
-      csv-export-enabled: false
-
-    printing: 
-      enabled: false
-
-  columns: 
-  - # ====== Column: ALERT_ACTION ================================
-    id: 53282681362974341
-    identification: 
-      column-name: ALERT_ACTION
-      type: Plain Text
-
-    heading: 
-      heading: Alert Action
-      alignment: start
-
-    layout: 
-      sequence: 30
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_TITLE =================================
-    id: 53282843322974343
-    identification: 
-      column-name: EVENT_TITLE
-      type: Plain Text
-
-    heading: 
-      heading: Event Title
-      alignment: start
-
-    layout: 
-      sequence: 40
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_DATE ==================================
-    id: 53282906538974344
-    identification: 
-      column-name: EVENT_DATE
-      type: Plain Text
-
-    heading: 
-      heading: Event Date
-      alignment: start
-
-    layout: 
-      sequence: 50
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: USER_AVATAR =================================
-    id: 53283178117974346
-    identification: 
-      column-name: USER_AVATAR
-      type: Plain Text
-
-    heading: 
-      heading: User Avatar
-      alignment: start
-
-    layout: 
-      sequence: 70
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_DESC ==================================
-    id: 53283245963974347
-    identification: 
-      column-name: EVENT_DESC
-      type: Plain Text
-
-    heading: 
-      heading: Event Desc
-      alignment: start
-
-    layout: 
-      sequence: 80
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EVENT_TYPE ==================================
-    id: 53283396261974348
-    identification: 
-      column-name: EVENT_TYPE
-      type: Plain Text
-
-    heading: 
-      heading: Event Type
-      alignment: start
-
-    layout: 
-      sequence: 90
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: USER_NAME ===================================
-    id: 53283420487974349
-    identification: 
-      column-name: USER_NAME
-      type: Plain Text
-
-    heading: 
-      heading: User Name
-      alignment: start
-
-    layout: 
-      sequence: 100
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-- # ====== Region: Breadcrumb ==================================
-  id: 268632373208257439
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 20
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
   server-cache: 
     caching: Disabled
@@ -428,16 +136,18 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
 
 - # ====== Region: Issues ======================================
-  id: 401427034081643714
+  id: 627819841557434651
   identification: 
     title: Issues
     type: Static Content
+
+  source: 
+    html-code: <span></span>
 
   layout: 
     sequence: 41
@@ -450,15 +160,9 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7573667094242143990
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
-    - js-useLocalStorage
-    - t-Region--hideShowIconsMath
-    - t-Region--controlsPosEnd
-    - is-expanded
-    - t-Region--stacked
-    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -480,10 +184,10 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Job Status Summary ==========================
-  id: 401427066179643715
+- # ====== Region: Job Status Report ===========================
+  id: 627819873655434652
   identification: 
-    title: Job Status Summary
+    title: Job Status Report
     type: Classic Report
 
   source: 
@@ -496,13 +200,14 @@ regions:
              start_timestamp log_date,
              job_initials user_avatar,
              null event_desc,
-             start_timestamp user_name
+             start_timestamp user_name,
+             null event_link
       from V_AUTOMATIONS_STATUS
       order by start_timestamp desc
 
   layout: 
-    sequence: 51
-    parent-region: No Parent
+    sequence: 61
+    parent-region: Jobs Status # 282206700986270548
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -511,11 +216,11 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
-    - t-Region--noBorder
+    - t-Region--noUI
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -524,7 +229,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-cache: 
@@ -540,7 +245,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Timeline # 6322382606148923858
+      template: Timeline # 6548775413624714795
       template-options: 
       - '#DEFAULT#'
       - t-Timeline--compact
@@ -572,7 +277,7 @@ regions:
 
   columns: 
   - # ====== Column: EVENT_DATE ==================================
-    id: 53641041263011902
+    id: 280033848738802839
     identification: 
       column-name: EVENT_DATE
       type: Plain Text
@@ -607,7 +312,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_NAME ===================================
-    id: 53641113200011903
+    id: 280033920675802840
     identification: 
       column-name: USER_NAME
       type: Plain Text
@@ -621,7 +326,7 @@ regions:
       column-alignment: start
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     appearance: 
       format-mask: SINCE
@@ -642,7 +347,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TYPE ==================================
-    id: 53641239393011904
+    id: 280034046868802841
     identification: 
       column-name: EVENT_TYPE
       type: Plain Text
@@ -674,7 +379,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_AVATAR =================================
-    id: 53641374905011905
+    id: 280034182380802842
     identification: 
       column-name: USER_AVATAR
       type: Plain Text
@@ -706,7 +411,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TITLE =================================
-    id: 53641454468011906
+    id: 280034261943802843
     identification: 
       column-name: EVENT_TITLE
       type: Plain Text
@@ -738,7 +443,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DESC ==================================
-    id: 53641573192011907
+    id: 280034380667802844
     identification: 
       column-name: EVENT_DESC
       type: Plain Text
@@ -769,8 +474,40 @@ regions:
     security: 
       escape-special-characters: true
 
+  - # ====== Column: EVENT_LINK ==================================
+    id: 374986458257510777
+    identification: 
+      column-name: EVENT_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Event Link
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: LOG_DATE ====================================
-    id: 434861570999787175
+    id: 661254378475578112
     identification: 
       column-name: LOG_DATE
       type: Plain Text
@@ -805,21 +542,21 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Tracking issues report ======================
-  id: 506888790743553540
+  id: 733281598219344477
   identification: 
     title: Tracking issues report
-    type: Interactive Grid
+    type: Interactive Report
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_PLSQL_APEX_AUDIT
+    table-name: V_SVT_PLSQL_APEX_AUDIT
     include-rowid-column: false
 
   layout: 
     sequence: 81
-    parent-region: Issues # 401427034081643714
+    parent-region: Issues # 627819841557434651
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -828,7 +565,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     css-classes: 
@@ -854,43 +591,53 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 105063113159292749
-    edit: 
-      enabled: true
-      lost-update-type: Row Values
-
-    performance: 
-      lazy-loading: false
-
-    appearance: 
-      select-first-row: false
-      fixed-row-height: false
+    id: 292523747323693234
+    link: 
+      link-column: Exclude Link Column
 
     pagination: 
-      type: Page
-      show-total-count: true
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
-    toolbar: 
-      show: true
-      controls: 
-      - Search Column Selection
-      - Search Field
-      - Actions Menu
-      - Reset Button
-      - Save Button
+    performance: 
+      lazy-loading: true
+      maximum-rows-to-process: 1000
 
-    enable-users-to: 
-      save-public-report: true
-      save-public-report-authorization: CONTRIBUTION RIGHTS # 10780233298390370815
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: true
+      maximum-rows-per-page: 10
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: false
+      pivot: false
       flashback: false
-      define-chart-view: false
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
       download: true
+      subscription: false
 
     download: 
-      authorization: CONTRIBUTION RIGHTS # 10780233298390370815
       formats: 
       - CSV
+      - HTML
       - Excel
+      - PDF
       send-as-email: true
 
     heading: 
@@ -902,2256 +649,2244 @@ regions:
     detail-view: 
       show: false
 
-    advanced: 
-      initialization-javascript-function: |
-        function(config) {
-            var $ = apex.jQuery,
-                toolbarData = $.apex.interactiveGrid.copyDefaultToolbar(),
-                lastToolbarGroup = toolbarData.toolbarFind("actions4"),
-                subscribeButton = {
-                    type: "BUTTON",
-                    hot: false,
-                    action: "sub-email",
-                    icon: "fa fa-envelope-o"
-                };
-                lastToolbarGroup.controls.push( subscribeButton );
-                OthrToolbarGroup = toolbarData.toolbarFind("actions1");
-                bulkButton = {
-                    type: "BUTTON",
-                    hot: false,
-                    action: "bulk-exception",
-                    icon: "fa fa-th-large",
-                    id:"bulkexcept"
-                };
-                OthrToolbarGroup.controls.push( bulkButton );
-                config.toolbarData = toolbarData;
-            
-            // this is how actions are added
-            config.initActions = function(actions) {
-                actions.add({
-                    name: "bulk-exception",
-                    // you could define the label directly as English text
-                    // label: "Create"
-                    // But better to use a message so it can be translated. In shared
-                    // components, text messages create MY_CREATE_BUTTON = Create and 
-                    // set Used in JavaScript: Yes
-                    labelKey: "Bulk Exception ",
-                    // this sets the action to be what the hidden button does when you click it
-                    // action: $("#hiddenBulk").prop("onclick")   
-                    action: function() {
-                        apex.debug.info("bulk-exception");
-                        $.event.trigger('bulkException');
-                    }         
-                });
-                actions.add({
-                    name: "sub-email",
-                    // you could define the label directly as English text
-                    // label: "Create"
-                    // But better to use a message so it can be translated. In shared
-                    // components, text messages create MY_CREATE_BUTTON = Create and 
-                    // set Used in JavaScript: Yes
-                    labelKey: "Email Subscription ",
-                    // this sets the action to be what the hidden button does when you click it
-                    action: $("#hiddenSub").prop("onclick")            
-                });
-            }
-            return config;
-        }
-
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 105509277758912296
+      id: 333819102041490666
       identification: 
         name: Primary Report
-        alias: 525423
-
-  columns: 
-  - # ====== Column: AUDIT_ID ====================================
-    id: 105063215118292750
-    identification: 
-      column-name: AUDIT_ID
-      type: Link
-
-    heading: 
-      heading: Audit ID
-      alignment: center
-
-    layout: 
-      sequence: 30
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:42:P42_ID:&AUDIT_ID.'
-        page: 42 # Audit Issue &P42_AUDIT_ID.
-        clear-cache: 42
-        values: 
-          p42_id: '&AUDIT_ID.'
-
-      link-text: '&AUDIT_ID.'
-
-    source: 
-      type: Database Column
-      database-column: AUDIT_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: true
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    security: 
-      authorization-scheme: READER RIGHTS # 48893993399820863
-      escape-special-characters: true
-
-  - # ====== Column: REFERENCE_CODE ==============================
-    id: 105063277512292751
-    identification: 
-      column-name: REFERENCE_CODE
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 570
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: REFERENCE_CODE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: ISSUE_CATEGORY ==============================
-    id: 105063414731292752
-    identification: 
-      column-name: ISSUE_CATEGORY
-      type: Display Only
-
-    heading: 
-      heading: Issue Category
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 40
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ISSUE_CATEGORY
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: APPLICATION_ID ==============================
-    id: 105063491627292753
-    identification: 
-      column-name: APPLICATION_ID
-      type: Display Only
-
-    heading: 
-      heading: App ID
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 50
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APPLICATION_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: APPLICATION_NAME ============================
-    id: 105063563116292754
-    identification: 
-      column-name: APPLICATION_NAME
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 360
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APPLICATION_NAME
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: ISSUE_DESC ==================================
-    id: 105063643125292755
-    identification: 
-      column-name: ISSUE_DESC
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 370
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ISSUE_DESC
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: PAGE_ID =====================================
-    id: 105063789379292756
-    identification: 
-      column-name: PAGE_ID
-      type: Display Only
-
-    heading: 
-      heading: Page ID
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 70
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: PAGE_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: PASS_YN =====================================
-    id: 105063897650292757
-    identification: 
-      column-name: PASS_YN
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 350
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: PASS_YN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: TEST_ID =====================================
-    id: 105063974548292758
-    identification: 
-      column-name: TEST_ID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 380
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: TEST_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: URGENCY =====================================
-    id: 105064047257292759
-    identification: 
-      column-name: URGENCY
-      type: Display Only
-
-    heading: 
-      heading: Urgency
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 90
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: URGENCY
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: URGENCY_LEVEL ===============================
-    id: 105503401392911910
-    identification: 
-      column-name: URGENCY_LEVEL
-      type: Display Only
-
-    heading: 
-      heading: Urgency Level
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 100
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: URGENCY_LEVEL
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: LINE ========================================
-    id: 105503504302911911
-    identification: 
-      column-name: LINE
-      type: Display Only
-
-    heading: 
-      heading: Line
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 110
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: LINE
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: OBJECT_NAME =================================
-    id: 105503622322911912
-    identification: 
-      column-name: OBJECT_NAME
-      type: Display Only
-
-    heading: 
-      heading: Object Name
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 120
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: OBJECT_NAME
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: OBJECT_TYPE =================================
-    id: 105503625925911913
-    identification: 
-      column-name: OBJECT_TYPE
-      type: Display Only
-
-    heading: 
-      heading: Object Type
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 130
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: OBJECT_TYPE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: CODE ========================================
-    id: 105503797478911914
-    identification: 
-      column-name: CODE
-      type: Display Only
-
-    heading: 
-      heading: Code Excerpt
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 140
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: CODE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: VALIDATION_FAILURE_MESSAGE ==================
-    id: 105503877989911915
-    identification: 
-      column-name: VALIDATION_FAILURE_MESSAGE
-      type: Display Only
-
-    heading: 
-      heading: Validation Failure Message
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 160
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: VALIDATION_FAILURE_MESSAGE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: ISSUE_TEXT ==================================
-    id: 105504013614911916
-    identification: 
-      column-name: ISSUE_TEXT
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 400
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ISSUE_TEXT
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: ISSUE_TITLE =================================
-    id: 105504048221911917
-    identification: 
-      column-name: ISSUE_TITLE
-      type: Display Only
-
-    heading: 
-      heading: Issue Title
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 170
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ISSUE_TITLE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: APEX_CREATED_BY =============================
-    id: 105504195506911918
-    identification: 
-      column-name: APEX_CREATED_BY
-      type: Display Only
-
-    heading: 
-      heading: Apex Created By
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 180
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_CREATED_BY
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: APEX_CREATED_ON =============================
-    id: 105504321702911919
-    identification: 
-      column-name: APEX_CREATED_ON
-      type: Display Only
-
-    heading: 
-      heading: Apex Created On
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 190
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_CREATED_ON
-      data-type: DATE
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: Distinct Column
-      date-ranges: All
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: APEX_LAST_UPDATED_BY ========================
-    id: 105504418746911920
-    identification: 
-      column-name: APEX_LAST_UPDATED_BY
-      type: Display Only
-
-    heading: 
-      heading: Apex Last Updated By
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 210
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_LAST_UPDATED_BY
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: APEX_LAST_UPDATED_ON ========================
-    id: 105504464537911921
-    identification: 
-      column-name: APEX_LAST_UPDATED_ON
-      type: Display Only
-
-    heading: 
-      heading: Apex Last Updated On
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 220
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_LAST_UPDATED_ON
-      data-type: DATE
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: Distinct Column
-      date-ranges: All
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: NOTES =======================================
-    id: 105504569357911922
-    identification: 
-      column-name: NOTES
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 410
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: NOTES
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: ACTION_ID ===================================
-    id: 105504675293911923
-    identification: 
-      column-name: ACTION_ID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 420
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ACTION_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: ACTION_NAME =================================
-    id: 105504756054911924
-    identification: 
-      column-name: ACTION_NAME
-      type: Display Only
-
-    heading: 
-      heading: Action Name
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 230
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ACTION_NAME
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: CREATED =====================================
-    id: 105504915686911925
-    identification: 
-      column-name: CREATED
-      type: Display Only
-
-    heading: 
-      heading: Created
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 240
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    appearance: 
-      format-mask: SINCE
-
-    source: 
-      type: Database Column
-      database-column: CREATED
-      data-type: DATE
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: Distinct Column
-      date-ranges: All
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: ASSIGNEE ====================================
-    id: 105505002767911926
-    identification: 
-      column-name: ASSIGNEE
-      type: Display Only
-
-    heading: 
-      heading: Assignee
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 250
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ASSIGNEE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: LINK_URL ====================================
-    id: 105505097994911927
-    identification: 
-      column-name: LINK_URL
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 430
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: LINK_URL
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: VIEW_BUTTON =================================
-    id: 105505183309911928
-    identification: 
-      column-name: VIEW_BUTTON
-      type: HTML Expression
-
-    heading: 
-      heading: View
-      alignment: center
-
-    settings: 
-      html-expression: '&VIEW_BUTTON.'
-
-    layout: 
-      sequence: 340
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: VIEW_BUTTON
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: LINK_TO_APEX_ISSUE ==========================
-    id: 105505289450911929
-    identification: 
-      column-name: LINK_TO_APEX_ISSUE
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 440
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: LINK_TO_APEX_ISSUE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: APEX_ISSUE_ID ===============================
-    id: 105505338037911930
-    identification: 
-      column-name: APEX_ISSUE_ID
-      type: Display Only
-
-    heading: 
-      heading: Apex Issue Id
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 270
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_ISSUE_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: APEX_ISSUE_TITLE ============================
-    id: 105505507190911931
-    identification: 
-      column-name: APEX_ISSUE_TITLE
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 450
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_ISSUE_TITLE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: APEX_ISSUE_TEXT =============================
-    id: 105505544681911932
-    identification: 
-      column-name: APEX_ISSUE_TEXT
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 460
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_ISSUE_TEXT
-      data-type: CLOB
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-  - # ====== Column: ISSUE_STATUS ================================
-    id: 105505636347911933
-    identification: 
-      column-name: ISSUE_STATUS
-      type: Display Only
-
-    heading: 
-      heading: Issue Status
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 280
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: ISSUE_STATUS
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: APEX_ISSUE_TITLE_SUFFIX =====================
-    id: 105505796956911934
-    identification: 
-      column-name: APEX_ISSUE_TITLE_SUFFIX
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 390
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: APEX_ISSUE_TITLE_SUFFIX
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: FIX =========================================
-    id: 105505853852911935
-    identification: 
-      column-name: FIX
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 470
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: FIX
-      data-type: CLOB
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-  - # ====== Column: INFO ========================================
-    id: 105505985836911936
-    identification: 
-      column-name: INFO
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 480
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: INFO
-      data-type: CLOB
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-  - # ====== Column: RECENT_YN ===================================
-    id: 105506067914911937
-    identification: 
-      column-name: RECENT_YN
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 490
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: RECENT_YN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: URGENT_YN ===================================
-    id: 105506183447911938
-    identification: 
-      column-name: URGENT_YN
-      type: Display Only
-
-    heading: 
-      heading: Urgent Yn
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 290
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: URGENT_YN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: STANDARD_CODE ===============================
-    id: 105506288453911939
-    identification: 
-      column-name: STANDARD_CODE
-      type: Display Only
-
-    heading: 
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 500
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: STANDARD_CODE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: CHILD_CODE ==================================
-    id: 105506413619911940
-    identification: 
-      column-name: CHILD_CODE
-      type: Link
-
-    heading: 
-      heading: Code
-      alignment: start
-
-    layout: 
-      sequence: 300
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_STANDARD_CODE:&STANDARD_CODE.'
-        page: 14 # Manage Standard
-        clear-cache: CR,14
-        values: 
-          p14_standard_code: '&STANDARD_CODE.'
-
-      link-text: '&CHILD_CODE.'
-
-    source: 
-      type: Database Column
-      database-column: CHILD_CODE
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    security: 
-      authorization-scheme: READER RIGHTS # 48893993399820863
-      escape-special-characters: true
-
-  - # ====== Column: SRC_RECENT_CHANGE_YN ========================
-    id: 105506487034911941
-    identification: 
-      column-name: SRC_RECENT_CHANGE_YN
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 510
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: SRC_RECENT_CHANGE_YN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: LEGACY_YN ===================================
-    id: 105506533795911942
-    identification: 
-      column-name: LEGACY_YN
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 530
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: LEGACY_YN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: UNQID =======================================
-    id: 105506673303911943
-    identification: 
-      column-name: UNQID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 540
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: UNQID
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: INCLUDE_IN_REPORT_YN ========================
-    id: 105506780248911944
-    identification: 
-      column-name: INCLUDE_IN_REPORT_YN
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 550
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: INCLUDE_IN_REPORT_YN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: MV_DEPENDENCY ===============================
-    id: 105506871199911945
-    identification: 
-      column-name: MV_DEPENDENCY
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 560
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: MV_DEPENDENCY
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: ASSIGNED_TO_ME_YN ===========================
-    id: 105507007792911946
-    identification: 
-      column-name: ASSIGNED_TO_ME_YN
-      type: Select List
-
-    heading: 
-      heading: Assigned to me
-      alignment: start
-
-    layout: 
-      sequence: 310
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: YES NO # 10458821105493383260
-      display-extra-values: false
-      display-null-value: false
-
-    source: 
-      type: Database Column
-      database-column: ASSIGNED_TO_ME_YN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Use List of Values
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: OWNER =======================================
-    id: 105507056012911947
-    identification: 
-      column-name: OWNER
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 520
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: OWNER
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: RERUN =======================================
-    id: 105507139492911948
-    identification: 
-      column-name: RERUN
-      type: HTML Expression
-
-    heading: 
-      heading: Rerun
-      alignment: center
-
-    settings: 
-      html-expression: |
-        <button 
-            type="button" 
-            title="My Button" 
-            aria-label="My Button" 
-            class="t-Button t-Button--noLabel t-Button--icon t-Button--warning t-Button--noUI reRunForAD"
-            data-auditId="&AUDIT_ID."
-            >
-            <span aria-hidden="true" class="t-Icon fa fa-refresh"></span>
-        </button>
-
-    layout: 
-      sequence: 320
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: RERUN
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    security: 
-      authorization-scheme: READER RIGHTS # 48893993399820863
-
-  - # ====== Column: MARK_AS_EXCEPTION ===========================
-    id: 105507311525911949
-    identification: 
-      column-name: MARK_AS_EXCEPTION
-      type: HTML Expression
-
-    heading: 
-      heading: Exception
-      alignment: center
-
-    settings: 
-      html-expression: |
-        <button 
-            type="button" 
-            title="My Button" 
-            aria-label="My Button" 
-            class="t-Button t-Button--noLabel t-Button--icon t-Button--danger t-Button--noUI mrkExcptn"
-            data-auditId="&AUDIT_ID."
-            >
-            <span aria-hidden="true" class="t-Icon fa fa-remove"></span>
-        </button>
-
-    layout: 
-      sequence: 330
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: MARK_AS_EXCEPTION
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    security: 
-      authorization-scheme: READER RIGHTS # 48893993399820863
-
-  - # ====== Column: COMPONENT_ID ================================
-    id: 105507410328911950
-    identification: 
-      column-name: COMPONENT_ID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 580
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: COMPONENT_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: PARENT_COMPONENT_ID =========================
-    id: 105507473269911951
-    identification: 
-      column-name: PARENT_COMPONENT_ID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 590
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: PARENT_COMPONENT_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: AST_COMPONENT_TYPE_ID =======================
-    id: 105507597708911952
-    identification: 
-      column-name: AST_COMPONENT_TYPE_ID
-      type: Hidden
-
-    settings: 
-      value-protected: true
-
-    layout: 
-      sequence: 600
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: AST_COMPONENT_TYPE_ID
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    export-/-printing: 
-      include-in-export-/-print: false
-
-    enable-users-to: 
-      sort: false
-
-  - # ====== Column: APEX$ROW_SELECTOR ===========================
-    id: 105507781843911954
-    identification: 
-      column-name: APEX$ROW_SELECTOR
-      type: Row Selector
-
-    settings: 
-      enable-multi-select: true
-      show-select-all: true
-      hide-control: false
-
-    layout: 
-      sequence: 10
-
-    security: 
-      authorization-scheme: READER RIGHTS # 48893993399820863
-
-  printing: 
-    page: 
-      size: Letter
-      orientation: Landscape
-      units: Inches
-      width: 11
-      height: 8.5
-      border-width: 0.5
-      border-color: '#666666'
-
-    page-header: 
-      font: Helvetica
-      font-weight: Normal
-      font-size: 12
-      font-color: '#000000'
-      alignment: center
-      page-header-text: Tracking issues report
-
-    column-headings: 
-      font: Helvetica
-      font-weight: Bold
-      font-size: 10
-      font-color: '#000000'
-      background-color: '#EEEEEE'
+        alias: PRIMARY
+
+    - # ====== Saved Report: APEX standards ========================
+      id: 334021671925720607
+      identification: 
+        name: APEX standards
+        alias: APEX
+
+    - # ====== Saved Report: DB PLSQL standards ====================
+      id: 341524480265525807
+      identification: 
+        name: DB PLSQL standards
+        alias: DB_PLSQL
+
+    - # ====== Saved Report: Table standards =======================
+      id: 341528176169537840
+      identification: 
+        name: Table standards
+        alias: TABLE
+
+    - # ====== Saved Report: View standards ========================
+      id: 341532088089544973
+      identification: 
+        name: View standards
+        alias: VIEW
+
+    - # ====== Saved Report: Trigger standards =====================
+      id: 418932273090648987
+      identification: 
+        name: Trigger standards
+        alias: TRIGGER
+
+    - # ====== Saved Report: Materialized Views Standards ==========
+      id: 418953776319710489
+      identification: 
+        name: Materialized Views Standards
+        alias: MV
 
     columns: 
-      font: Helvetica
-      font-weight: Normal
-      font-size: 10
-      font-color: '#000000'
-      background-color: '#FFFFFF'
+    - # ====== Column: AUDIT_ID ====================================
+      id: 292523831870693235
+      identification: 
+        column-name: AUDIT_ID
+        type: Link
 
-    page-footer: 
-      font: Helvetica
-      font-weight: Normal
-      font-size: 12
-      font-color: '#000000'
-      alignment: center
+      heading: 
+        heading: Edit
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: true
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:42:P42_AUDIT_ID,P42_OWNER:#AUDIT_ID#,#OWNER#'
+          page: 42 # Edit Audit Issue
+          clear-cache: 42
+          values: 
+            p42_audit_id: '#AUDIT_ID#'
+            p42_owner: '#OWNER#'
+
+        link-text: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="pencil image">
+        link-attributes: 'title="Manage Violation Audit ID #AUDIT_ID#" aria-label="Manage Violation Audit ID #AUDIT_ID#"'
+
+      source: 
+        primary-key: true
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: false
+        filter: true
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_CATEGORY ==============================
+      id: 292523946424693236
+      identification: 
+        column-name: ISSUE_CATEGORY
+        type: Plain Text
+
+      heading: 
+        heading: Issue Category
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_ID ==============================
+      id: 292524071282693237
+      identification: 
+        column-name: APPLICATION_ID
+        type: Link
+
+      heading: 
+        heading: App ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 360
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:161:&SESSION.::&DEBUG.:161:P161_PK_ID:#APP_PK_ID#'
+          page: 161 # Edit Application
+          clear-cache: 161
+          values: 
+            p161_pk_id: '#APP_PK_ID#'
+
+        link-text: '#APPLICATION_ID#'
+        link-attributes: 'alt="edit #APPLICATION_ID#" aria-label="edit #APPLICATION_ID#"'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_NAME ============================
+      id: 292524185359693238
+      identification: 
+        column-name: APPLICATION_NAME
+        type: Plain Text
+
+      heading: 
+        heading: App
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          <span class="c110">
+          {if APPLICATION_ID/}
+              #APPLICATION_NAME# (App #APPLICATION_ID#{if PAGE_ID/}, Page #PAGE_ID#{endif/})
+          {endif/} 
+          {if OBJECT_NAME/}
+              #OBJECT_NAME# (#OBJECT_TYPE#)
+          {endif/}
+          {if APP_TYPE_CODE/}
+          <span type="button" 
+                  class="t-Button t-Button--tiny t-Button--gapTop"
+              >
+               #APP_TYPE_CODE#
+          </span>
+          {endif/}
+          </span>
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_TYPE ============================
+      id: 292524259734693239
+      identification: 
+        column-name: APPLICATION_TYPE
+        type: Link
+
+      heading: 
+        heading: Application Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 270
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:24:&SESSION.::&DEBUG.:24:P24_ID:#APP_TYPE_ID#'
+          page: 24 # Application Type
+          clear-cache: 24
+          values: 
+            p24_id: '#APP_TYPE_ID#'
+
+        link-text: '#APPLICATION_TYPE#'
+        link-attributes: 'aria-label ="view #APPLICATION_TYPE#"'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: PAGE_ID =====================================
+      id: 292524337216693240
+      identification: 
+        column-name: PAGE_ID
+        type: Plain Text
+
+      heading: 
+        heading: Page
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TEST_ID =====================================
+      id: 292524439611693241
+      identification: 
+        column-name: TEST_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Test Id
+
+      layout: 
+        sequence: 410
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: URGENCY =====================================
+      id: 292524502909693242
+      identification: 
+        column-name: URGENCY
+        type: Plain Text
+
+      heading: 
+        heading: Urgency
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: URGENCY_LEVEL ===============================
+      id: 292524650959693243
+      identification: 
+        column-name: URGENCY_LEVEL
+        type: Plain Text
+
+      heading: 
+        heading: Urgency Level
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LINE ========================================
+      id: 292524719521693244
+      identification: 
+        column-name: LINE
+        type: Plain Text
+
+      heading: 
+        heading: Line
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_NAME =================================
+      id: 292524859498693245
+      identification: 
+        column-name: OBJECT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Object Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: OBJECT_TYPE =================================
+      id: 292524955527693246
+      identification: 
+        column-name: OBJECT_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Object Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CODE ========================================
+      id: 292525038367693247
+      identification: 
+        column-name: CODE
+        type: Plain Text
+
+      heading: 
+        heading: Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALIDATION_FAILURE_MESSAGE ==================
+      id: 292525127355693248
+      identification: 
+        column-name: VALIDATION_FAILURE_MESSAGE
+        type: Plain Text
+
+      heading: 
+        heading: Validation Failure Message
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          <span class="c500">
+                  #SHORT_FAILURE_MESSAGE#
+              <br/>
+              {if SHORT_NOTES/}
+                  <i class="quttn">"#SHORT_NOTES#"</i>
+              {endif/}
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--warning t-Button--gapTop"
+                  >   
+                  Audit ID : #AUDIT_ID#
+              </span>
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--simple t-Button--danger t-Button--gapTop"
+                  >
+                  Urgency : #URGENCY#
+              </span>
+              {if !IS_EXCEPTION_YN/}
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--success t-Button--gapTop"
+                  >
+                  Created #CREATED#
+              </span>
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--gapTop"
+                  >
+                  Valid as of #UPDATED#
+              </span>
+              {else/}
+              <span type="button" 
+                  class="t-Button t-Button--hot t-Button--tiny t-Button--danger t-Button--gapTop"
+                  >
+                  EXCEPTION
+              </span>
+              <br/> Unique ID : #UNQID#
+              {endif/}
+          </span>
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_TEXT ==================================
+      id: 292525234647693249
+      identification: 
+        column-name: ISSUE_TEXT
+        type: Hidden Column
+
+      heading: 
+        heading: Issue Text
+
+      layout: 
+        sequence: 400
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_TITLE =================================
+      id: 292525365154693250
+      identification: 
+        column-name: ISSUE_TITLE
+        type: Plain Text
+
+      heading: 
+        heading: Issue Title
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_CREATED_BY =============================
+      id: 333626598814398601
+      identification: 
+        column-name: APEX_CREATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Apex Created By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_CREATED_ON =============================
+      id: 333626665358398602
+      identification: 
+        column-name: APEX_CREATED_ON
+        type: Plain Text
+
+      heading: 
+        heading: Apex Created On
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_LAST_UPDATED_BY ========================
+      id: 333626701963398603
+      identification: 
+        column-name: APEX_LAST_UPDATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Apex Last Updated By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_LAST_UPDATED_ON ========================
+      id: 333626893383398604
+      identification: 
+        column-name: APEX_LAST_UPDATED_ON
+        type: Plain Text
+
+      heading: 
+        heading: Apex Last Updated On
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 170
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: NOTES =======================================
+      id: 333626905088398605
+      identification: 
+        column-name: NOTES
+        type: Hidden Column
+
+      heading: 
+        heading: Notes
+
+      layout: 
+        sequence: 420
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACTION_ID ===================================
+      id: 333627021950398606
+      identification: 
+        column-name: ACTION_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Action Id
+
+      layout: 
+        sequence: 430
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACTION_NAME =================================
+      id: 333627182584398607
+      identification: 
+        column-name: ACTION_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Action Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 190
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED =====================================
+      id: 333627220195398608
+      identification: 
+        column-name: CREATED
+        type: Plain Text
+
+      heading: 
+        heading: Created
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 200
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 333627319047398609
+      identification: 
+        column-name: UPDATED
+        type: Plain Text
+
+      heading: 
+        heading: Updated
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 210
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STALE_YN ====================================
+      id: 333627446542398610
+      identification: 
+        column-name: STALE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Stale
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 320
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: ASSIGNEE ====================================
+      id: 333627574323398611
+      identification: 
+        column-name: ASSIGNEE
+        type: Plain Text
+
+      heading: 
+        heading: Assignee
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 220
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LINK_URL ====================================
+      id: 333627652281398612
+      identification: 
+        column-name: LINK_URL
+        type: Hidden Column
+
+      heading: 
+        heading: Link Url
+
+      layout: 
+        sequence: 440
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VIEW_BUTTON =================================
+      id: 333627761749398613
+      identification: 
+        column-name: VIEW_BUTTON
+        type: Plain Text
+
+      heading: 
+        heading: View Button
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 350
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          {if !IS_EXCEPTION_YN/}
+          <button type="button" 
+                  aria-label="View underlying component for #AUDIT_ID#" 
+                  class="a-Button edit-button t-Button t-Button--icon t-Button--primary t-Button--simple t-Button--iconLeft"
+                  data-link="#PREPARED_URL#"
+                  data-issueCategory="#ISSUE_CATEGORY#"
+                  {if COMPONENT_TYPE_ID/}
+                      data-appid="#APPLICATION_ID#"
+                      data-pageid="#PAGE_ID#"
+                      data-typeid="#COMPONENT_TYPE_ID#"
+                      data-componentid="#COMPONENT_ID#"
+                  {endif/}
+              > 
+              <div class="tooltip">
+                  <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-bullseye"></span>
+                   #VIEW_TEXT#
+                  <span class="tooltiptext">Visit underlying component</span>
+              </div> 
+          </button>
+          {endif/}
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LINK_TO_APEX_ISSUE ==========================
+      id: 333627859845398614
+      identification: 
+        column-name: LINK_TO_APEX_ISSUE
+        type: Hidden Column
+
+      heading: 
+        heading: Link To Apex Issue
+
+      layout: 
+        sequence: 450
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_ISSUE_ID ===============================
+      id: 333627990434398615
+      identification: 
+        column-name: APEX_ISSUE_ID
+        type: Plain Text
+
+      heading: 
+        heading: Apex Issue ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 230
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_ISSUE_TITLE ============================
+      id: 333628054043398616
+      identification: 
+        column-name: APEX_ISSUE_TITLE
+        type: Hidden Column
+
+      heading: 
+        heading: Apex Issue Title
+
+      layout: 
+        sequence: 460
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_ISSUE_TEXT =============================
+      id: 333628139392398617
+      identification: 
+        column-name: APEX_ISSUE_TEXT
+        type: Hidden Column
+
+      heading: 
+        heading: Apex Issue Text
+
+      layout: 
+        sequence: 470
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ISSUE_STATUS ================================
+      id: 333628224397398618
+      identification: 
+        column-name: ISSUE_STATUS
+        type: Plain Text
+
+      heading: 
+        heading: Issue Status
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 240
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APEX_ISSUE_TITLE_SUFFIX =====================
+      id: 333628310702398619
+      identification: 
+        column-name: APEX_ISSUE_TITLE_SUFFIX
+        type: Hidden Column
+
+      heading: 
+        heading: Apex Issue Title Suffix
+
+      layout: 
+        sequence: 480
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: RECENT_YN ===================================
+      id: 333628491795398620
+      identification: 
+        column-name: RECENT_YN
+        type: Hidden Column
+
+      heading: 
+        heading: Recent Yn
+
+      layout: 
+        sequence: 490
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: URGENT_YN ===================================
+      id: 333628576663398621
+      identification: 
+        column-name: URGENT_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Urgent
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 250
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TEST_CODE ===================================
+      id: 333628659286398622
+      identification: 
+        column-name: TEST_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Test Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 280
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: true
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SRC_RECENT_CHANGE_YN ========================
+      id: 333628742939398623
+      identification: 
+        column-name: SRC_RECENT_CHANGE_YN
+        type: Hidden Column
+
+      heading: 
+        heading: Src Recent Change Yn
+
+      layout: 
+        sequence: 500
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LEGACY_YN ===================================
+      id: 333628893777398624
+      identification: 
+        column-name: LEGACY_YN
+        type: Hidden Column
+
+      heading: 
+        heading: Legacy Yn
+
+      layout: 
+        sequence: 510
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UNQID =======================================
+      id: 333628986998398625
+      identification: 
+        column-name: UNQID
+        type: IR-Row-Selector
+
+      heading: 
+        heading: '<span class="irrsHeader u-selector" role="checkbox" aria-checked="false" aria-label="Select All Rows" title="Select All" aria-disabled="false" onclick="javascript:irrs.SelectAll(this);"></span>'
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      settings: 
+        primary-key-column: AUDIT_ID
+        output-page-item: P1_SELECTED_IDS
+        show-selector-y/n-field: IS_EXCEPTION_YN
+
+      layout: 
+        sequence: 10
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: false
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+
+    - # ====== Column: MV_DEPENDENCY ===============================
+      id: 333629150833398627
+      identification: 
+        column-name: MV_DEPENDENCY
+        type: Hidden Column
+
+      heading: 
+        heading: Mv Dependency
+
+      layout: 
+        sequence: 520
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ASSIGNED_TO_ME_YN ===========================
+      id: 333629210023398628
+      identification: 
+        column-name: ASSIGNED_TO_ME_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Assigned To Me
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 260
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: OWNER =======================================
+      id: 333629389914398629
+      identification: 
+        column-name: OWNER
+        type: Plain Text
+
+      heading: 
+        heading: Owner
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 310
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: RERUN =======================================
+      id: 333629458161398630
+      identification: 
+        column-name: RERUN
+        type: Plain Text
+
+      heading: 
+        heading: Rerun
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 330
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          {if !IS_EXCEPTION_YN/}
+          <button 
+              type="button" 
+              aria-label="Rerun test for #AUDIT_ID#" 
+              class="t-Button t-Button--noLabel t-Button--icon t-Button--warning t-Button--simple reRunForAD"
+              data-auditId="#AUDIT_ID#"
+              >
+              <div class="tooltip">
+                  <span aria-hidden="true" class="t-Icon fa fa-refresh"></span>
+                  <span class="tooltiptext">Re-execute test</span>
+              </div> 
+          </button>
+          {endif/}
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: MARK_AS_EXCEPTION ===========================
+      id: 333629591073398631
+      identification: 
+        column-name: MARK_AS_EXCEPTION
+        type: Plain Text
+
+      heading: 
+        heading: Mark As Exception
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 340
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          {if !IS_EXCEPTION_YN/}
+          <button 
+              type="button" 
+              aria-label="Mark #AUDIT_ID# as Exception" 
+              class="t-Button t-Button--noLabel t-Button--icon t-Button--success t-Button--simple mrkExcptn"
+              data-auditId="#AUDIT_ID#"
+              >
+              <div class="tooltip">
+                  <span aria-hidden="true" class="t-Icon fa fa-exception"></span>
+                  <span class="tooltiptext">Mark as false-positive</span>
+              </div> 
+          </button>
+          {endif/}
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: COMPONENT_ID ================================
+      id: 333629691918398632
+      identification: 
+        column-name: COMPONENT_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Component Id
+
+      layout: 
+        sequence: 530
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PARENT_COMPONENT_ID =========================
+      id: 333629789284398633
+      identification: 
+        column-name: PARENT_COMPONENT_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Parent Component Id
+
+      layout: 
+        sequence: 540
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+      id: 333629882340398634
+      identification: 
+        column-name: SVT_COMPONENT_TYPE_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Svt Component Type Id
+
+      layout: 
+        sequence: 550
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_NAME ===============================
+      id: 333629915797398635
+      identification: 
+        column-name: STANDARD_NAME
+        type: Link
+
+      heading: 
+        heading: Standard Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 300
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:#STANDARD_ID#'
+          page: 5 # Tests by Standard
+          clear-cache: 5
+          values: 
+            p5_id: '#STANDARD_ID#'
+
+        link-text: '#STANDARD_NAME#'
+        link-attributes: 'aria-label="View standard #STANDARD_NAME#"'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: PREPARED_URL ================================
+      id: 333630030242398636
+      identification: 
+        column-name: PREPARED_URL
+        type: Hidden Column
+
+      heading: 
+        heading: Prepared Url
+
+      layout: 
+        sequence: 560
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VIEW_TEXT ===================================
+      id: 333630196011398637
+      identification: 
+        column-name: VIEW_TEXT
+        type: Hidden Column
+
+      heading: 
+        heading: View Text
+
+      layout: 
+        sequence: 570
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COMPONENT_TYPE_ID ===========================
+      id: 333630216325398638
+      identification: 
+        column-name: COMPONENT_TYPE_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Component Type ID
+
+      layout: 
+        sequence: 580
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: IS_EXCEPTION_YN =============================
+      id: 333631087918398646
+      identification: 
+        column-name: IS_EXCEPTION_YN
+        type: Plain Text
+
+      heading: 
+        heading: Is Exception
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 370
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_TYPE_CODE ===============================
+      id: 341543169044766904
+      identification: 
+        column-name: APP_TYPE_CODE
+        type: Hidden Column
+
+      heading: 
+        heading: App Type Code
+
+      layout: 
+        sequence: 590
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_PK_ID ===================================
+      id: 341543973460766912
+      identification: 
+        column-name: APP_PK_ID
+        type: Hidden Column
+
+      heading: 
+        heading: App Pk Id
+
+      layout: 
+        sequence: 600
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SHORT_FAILURE_MESSAGE =======================
+      id: 341546581477766938
+      identification: 
+        column-name: SHORT_FAILURE_MESSAGE
+        type: Hidden Column
+
+      heading: 
+        heading: Short Failure Message
+
+      layout: 
+        sequence: 610
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SHORT_NOTES =================================
+      id: 376901303355189409
+      identification: 
+        column-name: SHORT_NOTES
+        type: Hidden Column
+
+      heading: 
+        heading: Short Notes
+
+      layout: 
+        sequence: 620
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STANDARD_ID =================================
+      id: 376901400808189410
+      identification: 
+        column-name: STANDARD_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Standard Id
+
+      layout: 
+        sequence: 630
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_TYPE_ID =================================
+      id: 376901557289189411
+      identification: 
+        column-name: APP_TYPE_ID
+        type: Hidden Column
+
+      heading: 
+        heading: App Type Id
+
+      layout: 
+        sequence: 640
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: IS_EXCEPTION_YN2 ============================
+      id: 437964553438061934
+      identification: 
+        column-name: IS_EXCEPTION_YN2
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Exception
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 380
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TEST_NAME ===================================
+      id: 437964615110061935
+      identification: 
+        column-name: TEST_NAME
+        type: Link
+
+      heading: 
+        heading: Test Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 290
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:RR,14:P14_TEST_CODE:#TEST_CODE#'
+          page: 14 # Manage Test
+          clear-cache: RR,14
+          values: 
+            p14_test_code: '#TEST_CODE#'
+
+        link-text: '#TEST_NAME#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Tracking issues report
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
 
 - # ====== Region: hidden ======================================
-  id: 1550078206517095080
+  id: 1776471013992886017
   identification: 
     title: hidden
     type: Static Content
 
   layout: 
-    sequence: 81
+    sequence: 100
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -3161,7 +2896,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -3187,112 +2922,8 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: ACL Warning =================================
-  id: 7993028999053617098
-  identification: 
-    title: ACL Warning
-    type: ACL Warning
-
-  layout: 
-    sequence: 21
-    parent-region: No Parent
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7573654784682143972
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--colorBG
-    - t-Alert--defaultIcons
-    - t-Alert--warning
-    - t-Alert--horizontal
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_fw.get_preference_value('ACCESS_CONTROL_ENABLED') = 'N'
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      administration-page-link: 
-        url: 'f?p=&APP_ID.:SETTINGS:&SESSION.::&DEBUG.:RP::'
-        page: SETTINGS
-        clear-cache: RP
-
-- # ====== Region: &APP_NAME. ==================================
-  id: 7993033322380617141
-  identification: 
-    title: '&APP_NAME.'
-    type: PL/SQL Dynamic Content [Legacy]
-
-  source: 
-    pl/sql-code: |
-      for c1 in ( select preference_value
-                  from eba_stds_preferences
-                  where preference_name = 'APPLICATION_SUBTITLE'
-                  union all
-                  select 'Track and manage APEX application best practices'
-                  from dual
-                  where not exists ( select null
-                                     from eba_stds_preferences
-                                     where preference_name = 'APPLICATION_SUBTITLE')
-                ) loop
-          sys.htp.p('<p>'||apex_escape.html(c1.preference_value)||'</p>');
-      end loop;
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Hero # 7573666629244143989
-    template-options: 
-    - '#DEFAULT#'
-    icon: app-application-standards-tracker
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
 - # ====== Region: Notifications ===============================
-  id: 8804286025025528500
+  id: 9030678832501319437
   identification: 
     title: Notifications
     type: Classic Report
@@ -3322,7 +2953,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -3359,7 +2990,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Alerts # 7743801435754833698
+      template: Alerts # 7970194243230624635
       template-options: 
       - '#DEFAULT#'
       show-null-values-as: ' '
@@ -3390,7 +3021,7 @@ regions:
 
   columns: 
   - # ====== Column: ALERT_TYPE ==================================
-    id: 8044599720098873452
+    id: 8270992527574664389
     identification: 
       column-name: ALERT_TYPE
       type: Plain Text
@@ -3405,6 +3036,9 @@ regions:
 
     accessibility: 
       value-identifies-row: false
+
+    column-formatting: 
+      html-expression: <span>#ALERT_TYPE#</span>
 
     sorting: 
       sortable: false
@@ -3422,7 +3056,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_TITLE =================================
-    id: 8044600135585873454
+    id: 8270992943061664391
     identification: 
       column-name: ALERT_TITLE
       type: Plain Text
@@ -3436,7 +3070,7 @@ regions:
       column-alignment: start
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     sorting: 
       sortable: false
@@ -3454,7 +3088,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_DESC ==================================
-    id: 8044600514638873454
+    id: 8270993322114664391
     identification: 
       column-name: ALERT_DESC
       type: Plain Text
@@ -3486,7 +3120,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_ACTION ================================
-    id: 8044600913247873454
+    id: 8270993720723664391
     identification: 
       column-name: ALERT_ACTION
       type: Plain Text
@@ -3518,7 +3152,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ID ==========================================
-    id: 8804286321725528505
+    id: 9030679129201319442
     identification: 
       column-name: ID
       type: Hidden Column
@@ -3533,7 +3167,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Show Timezone ===============================
-  id: 10792420595029813662
+  id: 11018813402505604599
   identification: 
     title: Show Timezone
     type: Static Content
@@ -3542,9 +3176,9 @@ regions:
     html-code: <div class="subInfoTextRegion"><p>Dates and Times are displayed in the <a href="&P1_TIMEZONE_URL.">&P1_TIMEZONE.</a> timezone.</p></div>
 
   layout: 
-    sequence: 71
+    sequence: 90
     parent-region: No Parent
-    position: BODY
+    position: REGION_POSITION_05
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -3552,7 +3186,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -3577,8 +3211,104 @@ regions:
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P1_VIOLATION_COUNT =======================
+  id: 281120021670786673
+  identification: 
+    name: P1_VIOLATION_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Super Breadcrumb # 370769984920860454
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_NEW_ASSIGNEE ==========================
+  id: 282177622648621852
+  identification: 
+    name: P1_NEW_ASSIGNEE
+    type: Popup LOV
+
+  label: 
+    label: New Assignee
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: true
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 10
+    region: New Assignment # 282177598720621851
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ASSIGNEES # 628064901719578901
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The developer to whom you wish to reassign the violation
+
 - # ====== Page Item: P1_SELECTED_IDS ==========================
-  id: 105720528380542216
+  id: 332113335856333153
   identification: 
     name: P1_SELECTED_IDS
     type: Hidden
@@ -3588,7 +3318,127 @@ page-items:
 
   layout: 
     sequence: 10
-    region: hidden # 1550078206517095080
+    region: hidden # 1776471013992886017
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_TEST_URL ==============================
+  id: 374207941320627164
+  identification: 
+    name: P1_TEST_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: hidden # 1776471013992886017
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_TEST_CODE =============================
+  id: 374208095611627165
+  identification: 
+    name: P1_TEST_CODE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: hidden # 1776471013992886017
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Always, replacing any existing value in session state
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_AUDIT_URL =============================
+  id: 374986773487510780
+  identification: 
+    name: P1_AUDIT_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: hidden # 1776471013992886017
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_PERCENT_SOLVED ========================
+  id: 437965022814061939
+  identification: 
+    name: P1_PERCENT_SOLVED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Super Breadcrumb # 370769984920860454
     position: BODY
 
   advanced: 
@@ -3608,7 +3458,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_AUDIT_ID ==============================
-  id: 268632702822257443
+  id: 495025510298048380
   identification: 
     name: P1_AUDIT_ID
     type: Hidden
@@ -3618,7 +3468,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: hidden # 1550078206517095080
+    region: hidden # 1776471013992886017
     position: BODY
 
   advanced: 
@@ -3626,7 +3476,7 @@ page-items:
 
   source: 
     type: Null
-    used: Only when current value in session state is null
+    used: Always, replacing any existing value in session state
 
   session-state: 
     data-type: VARCHAR2
@@ -3638,7 +3488,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_TIMEZONE_URL ==========================
-  id: 8835521723298581675
+  id: 9061914530774372612
   identification: 
     name: P1_TIMEZONE_URL
     type: Hidden
@@ -3648,7 +3498,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Show Timezone # 10792420595029813662
+    region: Show Timezone # 11018813402505604599
     position: BODY
 
   advanced: 
@@ -3657,7 +3507,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: "apex_util.prepare_url('f?p='||:APP_ID||':36:'||:APP_SESSION)"
+    pl/sql-expression: "apex_util.prepare_url('f?p='||:APP_ID||':45:'||:APP_SESSION)"
     used: Only when current value in session state is null
 
   session-state: 
@@ -3670,7 +3520,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_TIMEZONE ==============================
-  id: 8835521915966585151
+  id: 9061914723442376088
   identification: 
     name: P1_TIMEZONE
     type: Hidden
@@ -3680,7 +3530,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Show Timezone # 10792420595029813662
+    region: Show Timezone # 11018813402505604599
     position: BODY
 
   advanced: 
@@ -3702,15 +3552,15 @@ page-items:
     restricted-characters: All characters can be saved.
 
 buttons: 
-- # ====== Button: email_subscription ==========================
-  id: 52965537766785414
+- # ====== Button: EMAIL_SUBSCRIPTION ==========================
+  id: 279358345242576351
   identification: 
-    button-name: email_subscription
+    button-name: EMAIL_SUBSCRIPTION
     label: email subscription
 
   layout: 
     sequence: 10
-    region: hidden # 1550078206517095080
+    region: Super Breadcrumb # 370769984920860454
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -3719,10 +3569,13 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-envelope-o
 
   behavior: 
     action: Redirect to Page in this Application
@@ -3733,21 +3586,47 @@ buttons:
 
     warn-on-unsaved-changes: Do Not Check
 
-  advanced: 
-    static-id: hiddenSub
-
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: READER RIGHTS # 275286800875611800
 
-- # ====== Button: bulk_exception ==============================
-  id: 52965911880785415
+- # ====== Button: BULK_EXCEPTION ==============================
+  id: 279358719356576352
   identification: 
-    button-name: bulk_exception
-    label: bulk exception
+    button-name: BULK_EXCEPTION
+    label: Bulk Exception
 
   layout: 
     sequence: 20
-    region: hidden # 1550078206517095080
+    region: Tracking issues report # 733281598219344477
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-exception fam-plus fam-is-success
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: VIOLATION_COUNT =============================
+  id: 281119965805786672
+  identification: 
+    button-name: VIOLATION_COUNT
+    label: '&P1_PERCENT_SOLVED.% Violations Addressed'
+
+  layout: 
+    sequence: 30
+    region: Super Breadcrumb # 370769984920860454
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -3756,7 +3635,105 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-dashboard
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:41:&SESSION.::&DEBUG.:41::'
+      page: 41 # Auditing dashboard
+      clear-cache: 41
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
+- # ====== Button: BULK_REASSIGN ===============================
+  id: 281121177567786684
+  identification: 
+    button-name: BULK_REASSIGN
+    label: Bulk Reassign
+
+  layout: 
+    sequence: 30
+    region: Tracking issues report # 733281598219344477
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-users
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: REASSIGN ====================================
+  id: 282177831101621854
+  identification: 
+    button-name: REASSIGN
+    label: Reassign
+
+  layout: 
+    sequence: 20
+    region: New Assignment # 282177598720621851
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-user-slash
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
+- # ====== Button: CANCEL ======================================
+  id: 282177968280621855
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 30
+    region: New Assignment # 282177598720621851
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -3765,12 +3742,44 @@ buttons:
     action: Defined by Dynamic Action
     execute-validations: true
 
-  advanced: 
-    static-id: hiddenBulk
+- # ====== Button: RESET =======================================
+  id: 333630350694398639
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 40
+    region: Tracking issues report # 733281598219344477
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:RR,::'
+      page: 1 # Issue Tracking
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
 - # ====== Dynamic Action: Mark as Exception ===================
-  id: 1697108790057922
+  id: 228089916265848859
   identification: 
     name: Mark as Exception
 
@@ -3787,11 +3796,11 @@ dynamic-actions:
     type: Immediate
 
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: READER RIGHTS # 275286800875611800
 
   actions: 
   - # ====== Action: Disable =====================================
-    id: 1697279494057923
+    id: 228090086969848860
     identification: 
       action: Disable
 
@@ -3801,12 +3810,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: Mark as Exception # 1697108790057922
+      event: Mark as Exception # 228089916265848859
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: set audit id ================================
-    id: 1697303561057924
+    id: 228090111036848861
     identification: 
       name: set audit id
       action: Execute JavaScript Code
@@ -3816,32 +3825,32 @@ dynamic-actions:
 
     execution: 
       sequence: 20
-      event: Mark as Exception # 1697108790057922
+      event: Mark as Exception # 228089916265848859
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: mark as exception ===========================
-    id: 1697485078057925
+    id: 228090292553848862
     identification: 
       name: mark as exception
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'ast_apex_issue_util.mark_as_exception (p_audit_id => :P1_AUDIT_ID);'
+      pl/sql-code: 'svt_apex_issue_util.mark_as_exception (p_audit_id => :P1_AUDIT_ID);'
       items-to-submit: 
       - P1_AUDIT_ID
 
     execution: 
       sequence: 30
-      event: Mark as Exception # 1697108790057922
+      event: Mark as Exception # 228089916265848859
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Enable ======================================
-    id: 1697671183057927
+    id: 228090478658848864
     identification: 
       action: Enable
 
@@ -3851,32 +3860,32 @@ dynamic-actions:
 
     execution: 
       sequence: 50
-      event: Mark as Exception # 1697108790057922
+      event: Mark as Exception # 228089916265848859
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Refresh =====================================
-    id: 52755429542756814
+    id: 279148237018547751
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Tracking issues report # 506888790743553540
+      region: Tracking issues report # 733281598219344477
 
     execution: 
       sequence: 40
-      event: Mark as Exception # 1697108790057922
+      event: Mark as Exception # 228089916265848859
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: navigateInBuilderWindow =============
-  id: 42937275389017735
+  id: 269330082864808672
   identification: 
     name: navigateInBuilderWindow
 
   execution: 
-    sequence: 30
+    sequence: 40
 
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
@@ -3890,18 +3899,20 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 42937317506017736
+    id: 269330124981808673
     identification: 
       action: Execute JavaScript Code
 
     settings: 
       code: |
-        debugger;
+        //debugger;
         apex.debug.info("DA click event");
         var appId, pageId, componentId, url, match,
         instance = getBuilderInstance(),
         typeId = this.triggeringElement.dataset.typeid;  //btn$.attr( "data-typeid" );
         apex.debug.info("DA typeId", typeId);
+        issueCategory = this.triggeringElement.dataset.issuecategory; 
+        apex.debug.info("issueCategory", issueCategory);
         
         
         if ( typeId ) {
@@ -3934,64 +3945,36 @@ dynamic-actions:
             // Caution! this code makes many assumptions about how the builder opens modal dialog pages
             match = /'(f\?p.*p_dialog_cs[^']*)',(\{.*\}),'([^']*)'/.exec( url );
             if ( match ) {
-                openDialog( match[1], match[2], match[3], btn$ );
+                apex.debug.info("modal dialog");
+                 if (issueCategory !== 'APEX') {
+                    apex.navigation.redirect(url);
+                } else {
+                    openDialog( match[1], match[2], match[3], btn$ );
+                };
             } else {
+                apex.debug.info("non modal dialog");
                 navigateInBuilderWindow( url );
             }
         }
 
     execution: 
       sequence: 10
-      event: navigateInBuilderWindow # 42937275389017735
+      event: navigateInBuilderWindow # 269330082864808672
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-- # ====== Dynamic Action: disable bulk exception ==============
-  id: 52755714184756817
-  identification: 
-    name: disable bulk exception
-
-  execution: 
-    sequence: 60
-
-  when: 
-    event: EVENT.EVENT.BROWSER.READY
-
-  execution: 
-    event-scope: Static
-
-  security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
-
-  actions: 
-  - # ====== Action: Disable =====================================
-    id: 52755828850756818
-    identification: 
-      action: Disable
-
-    affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#AUDIT_RPT_ig_toolbar_bulkexcept'
-
-    execution: 
-      sequence: 10
-      event: disable bulk exception # 52755714184756817
-      fire-when-event-result-is: True
-      fire-on-initialization: true
-
 - # ====== Dynamic Action: bulk exception ======================
-  id: 52989658222794994
+  id: 279382465698585931
   identification: 
     name: bulk exception
 
   execution: 
-    sequence: 40
+    sequence: 50
 
   when: 
-    event: EVENT.EVENT.CUSTOM.CUSTOM
-    custom-event: bulkException
-    selection-type: JavaScript Expression
-    javascript-expression: document
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: BULK_EXCEPTION # 279358719356576352
 
   client-side-condition: 
     type: Item is not null
@@ -4002,11 +3985,11 @@ dynamic-actions:
     type: Immediate
 
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: READER RIGHTS # 275286800875611800
 
   actions: 
   - # ====== Action: Disable =====================================
-    id: 52755274909756812
+    id: 279148082385547749
     identification: 
       action: Disable
 
@@ -4015,13 +3998,13 @@ dynamic-actions:
       jquery-selector: .auditRpt
 
     execution: 
-      sequence: 10
-      event: bulk exception # 52989658222794994
+      sequence: 20
+      event: bulk exception # 279382465698585931
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Enable ======================================
-    id: 52755360723756813
+    id: 279148168199547750
     identification: 
       action: Enable
 
@@ -4031,46 +4014,46 @@ dynamic-actions:
 
     execution: 
       sequence: 60
-      event: bulk exception # 52989658222794994
+      event: bulk exception # 279382465698585931
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Refresh =====================================
-    id: 52990058025794995
+    id: 279382865501585932
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Tracking issues report # 506888790743553540
+      region: Tracking issues report # 733281598219344477
 
     execution: 
       sequence: 50
-      event: bulk exception # 52989658222794994
+      event: bulk exception # 279382465698585931
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Execute Server-side Code ====================
-    id: 52990516194794995
+    id: 279383323670585932
     identification: 
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'ast_apex_issue_util.bulk_mark_as_exception (p_audit_ids => :P1_SELECTED_IDS);'
+      pl/sql-code: 'svt_apex_issue_util.bulk_mark_as_exception (p_audit_ids => :P1_SELECTED_IDS);'
       items-to-submit: 
       - P1_SELECTED_IDS
 
     execution: 
       sequence: 40
-      event: bulk exception # 52989658222794994
+      event: bulk exception # 279382465698585931
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 52991070133794996
+    id: 279383877609585933
     identification: 
       action: Execute JavaScript Code
 
@@ -4079,93 +4062,362 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: bulk exception # 52989658222794994
+      event: bulk exception # 279382465698585931
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-- # ====== Dynamic Action: Select Grid =========================
-  id: 52991752025803288
+  - # ====== Action: Confirm =====================================
+    id: 282207167882270553
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Bulk Exception
+      message: Are you sure you want to declare all the selected violation(s) as valid exceptions?
+      style: Warning
+      icon: fa-exclamation-diamond-o
+
+    execution: 
+      sequence: 10
+      event: bulk exception # 279382465698585931
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: open bulk reassign region ===========
+  id: 282176901489621844
   identification: 
-    name: Select Grid
+    name: open bulk reassign region
 
   execution: 
-    sequence: 50
+    sequence: 60
 
   when: 
-    event: NATIVE_IG|REGION TYPE|interactivegridselectionchange
-    selection-type: Region
-    region: Tracking issues report # 506888790743553540
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: BULK_REASSIGN # 281121177567786684
+
+  client-side-condition: 
+    type: Item is not null
+    item: P1_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 282177076713621846
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.debug.info("P1_SELECTED_IDS", apex.item("P1_SELECTED_IDS").getValue());
+
+    execution: 
+      sequence: 20
+      event: open bulk reassign region # 282176901489621844
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Open Region =================================
+    id: 282177503428621850
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: New Assignment # 282177598720621851
+
+    execution: 
+      sequence: 30
+      event: open bulk reassign region # 282176901489621844
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Cancel reassign =====================
+  id: 282178049010621856
+  identification: 
+    name: Cancel reassign
+
+  execution: 
+    sequence: 90
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 282177968280621855
 
   execution: 
     event-scope: Static
     type: Immediate
 
   actions: 
-  - # ====== Action: Enable ======================================
-    id: 52755624394756816
+  - # ====== Action: Close Region ================================
+    id: 282178194704621857
     identification: 
-      action: Enable
+      action: Close Region
 
     affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#AUDIT_RPT_ig_toolbar_bulkexcept'
+      selection-type: Region
+      region: New Assignment # 282177598720621851
+
+    execution: 
+      sequence: 10
+      event: Cancel reassign # 282178049010621856
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Bulk Reassign =======================
+  id: 282178705858621862
+  identification: 
+    name: Bulk Reassign
+
+  execution: 
+    sequence: 100
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: REASSIGN # 282177831101621854
+
+  client-side-condition: 
+    type: Item is not null
+    item: P1_NEW_ASSIGNEE
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Execute Server-side Code ====================
+    id: 282178724781621863
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        svt_plsql_apex_audit_api.bulk_reassign (
+                                 p_audit_ids  => :P1_SELECTED_IDS,
+                                 p_assignee   => :P1_NEW_ASSIGNEE );
+      items-to-submit: 
+      - P1_SELECTED_IDS
+      - P1_NEW_ASSIGNEE
+
+    execution: 
+      sequence: 10
+      event: Bulk Reassign # 282178705858621862
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Close Region ================================
+    id: 282178821401621864
+    identification: 
+      action: Close Region
+
+    affected-elements: 
+      selection-type: Region
+      region: New Assignment # 282177598720621851
 
     execution: 
       sequence: 20
-      event: Select Grid # 52991752025803288
+      event: Bulk Reassign # 282178705858621862
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-    client-side-condition: 
-      type: Item / Column is not null
-      component-type: Item
-      item: P1_SELECTED_IDS
-
-  - # ====== Action: Disable =====================================
-    id: 52756149336756821
+  - # ====== Action: Refresh =====================================
+    id: 282178963539621865
     identification: 
-      action: Disable
+      action: Refresh
 
     affected-elements: 
-      selection-type: jQuery Selector
-      jquery-selector: '#AUDIT_RPT_ig_toolbar_bulkexcept'
+      selection-type: Region
+      region: Tracking issues report # 733281598219344477
 
     execution: 
       sequence: 30
-      event: Select Grid # 52991752025803288
+      event: Bulk Reassign # 282178705858621862
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Change in p1_selected_ids ===========
+  id: 333630524846398641
+  identification: 
+    name: Change in p1_selected_ids
+
+  execution: 
+    sequence: 130
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P1_SELECTED_IDS
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Enable bulk_exception =======================
+    id: 333630685235398642
+    identification: 
+      name: Enable bulk_exception
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_EXCEPTION # 279358719356576352
+
+    execution: 
+      sequence: 10
+      event: Change in p1_selected_ids # 333630524846398641
       fire-when-event-result-is: True
       fire-on-initialization: false
 
     client-side-condition: 
-      type: Item / Column is null
-      component-type: Item
+      type: Item is not null
       item: P1_SELECTED_IDS
 
+  - # ====== Action: Disable bulk_exception ======================
+    id: 333630714660398643
+    identification: 
+      name: Disable bulk_exception
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_EXCEPTION # 279358719356576352
+
+    execution: 
+      sequence: 30
+      event: Change in p1_selected_ids # 333630524846398641
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P1_SELECTED_IDS
+
+  - # ====== Action: Enable bulk_reassign ========================
+    id: 333630829111398644
+    identification: 
+      name: Enable bulk_reassign
+      action: Enable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_REASSIGN # 281121177567786684
+
+    execution: 
+      sequence: 50
+      event: Change in p1_selected_ids # 333630524846398641
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is not null
+      item: P1_SELECTED_IDS
+
+  - # ====== Action: Disable bulk_reassign =======================
+    id: 333630981841398645
+    identification: 
+      name: Disable bulk_reassign
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: BULK_REASSIGN # 281121177567786684
+
+    execution: 
+      sequence: 60
+      event: Change in p1_selected_ids # 333630524846398641
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is null
+      item: P1_SELECTED_IDS
+
+- # ====== Dynamic Action: open test dialog ====================
+  id: 374208362448627168
+  identification: 
+    name: open test dialog
+
+  execution: 
+    sequence: 110
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_TEST_CODE
+
+  security: 
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+  actions: 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 52992150780803288
+    id: 374208448722627169
     identification: 
       action: Execute JavaScript Code
 
     settings: 
-      code: |
-        var gridView = apex.region("AUDIT_RPT").widget().interactiveGrid("getViews").grid;
-        var records = gridView.getSelectedRecords();
-        var ids = records.map(function(r) { return gridView.model.getRecordId(r); } );
-        apex.item("P1_SELECTED_IDS").setValue( ids.join(":") );
-
-    affected-elements: 
-      selection-type: Item(s)
-      item(s): 
-      - P1_SELECTED_IDS
+      code: apex.navigation.redirect(apex.item('P1_TEST_URL').getValue())
 
     execution: 
       sequence: 10
-      event: Select Grid # 52991752025803288
+      event: open test dialog # 374208362448627168
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: open audit dialog ===================
+  id: 374986572605510778
+  identification: 
+    name: open audit dialog
+
+  execution: 
+    sequence: 120
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_AUDIT_ID
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 374986640928510779
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.navigation.redirect(apex.item('P1_AUDIT_URL').getValue())
+
+    execution: 
+      sequence: 10
+      event: open audit dialog # 374986572605510778
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: rerun For Audit ID ==================
-  id: 268632446998257440
+  id: 495025254474048377
   identification: 
     name: rerun For Audit ID
 
@@ -4182,26 +4434,26 @@ dynamic-actions:
     type: Immediate
 
   security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
+    authorization-scheme: READER RIGHTS # 275286800875611800
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 52755500429756815
+    id: 279148307905547752
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Tracking issues report # 506888790743553540
+      region: Tracking issues report # 733281598219344477
 
     execution: 
       sequence: 50
-      event: rerun For Audit ID # 268632446998257440
+      event: rerun For Audit ID # 495025254474048377
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: set audit id ================================
-    id: 268632820335257444
+    id: 495025627811048381
     identification: 
       name: set audit id
       action: Execute JavaScript Code
@@ -4211,12 +4463,12 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: rerun For Audit ID # 268632446998257440
+      event: rerun For Audit ID # 495025254474048377
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Disable =====================================
-    id: 268632914920257445
+    id: 495025722396048382
     identification: 
       action: Disable
 
@@ -4226,32 +4478,32 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: rerun For Audit ID # 268632446998257440
+      event: rerun For Audit ID # 495025254474048377
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: rerun test ==================================
-    id: 268633065286257446
+    id: 495025872762048383
     identification: 
       name: rerun test
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'ast_apex_issue_util.refresh_for_audit_id (:P1_AUDIT_ID);'
+      pl/sql-code: 'svt_apex_issue_util.refresh_for_audit_id (:P1_AUDIT_ID);'
       items-to-submit: 
       - P1_AUDIT_ID
 
     execution: 
       sequence: 40
-      event: rerun For Audit ID # 268632446998257440
+      event: rerun For Audit ID # 495025254474048377
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Enable ======================================
-    id: 268633219290257448
+    id: 495026026766048385
     identification: 
       action: Enable
 
@@ -4261,15 +4513,96 @@ dynamic-actions:
 
     execution: 
       sequence: 60
-      event: rerun For Audit ID # 268632446998257440
+      event: rerun For Audit ID # 495025254474048377
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 computations: 
-- # ====== Computation: LAST_VIEW ==============================
-  id: 12003105357417809498
+- # ====== Computation: P1_VIOLATION_COUNT =====================
+  id: 281120125177786674
   identification: 
-    item-name: LAST_VIEW
+    item-name: P1_VIOLATION_COUNT
+
+  execution: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_plsql_apex_audit_api.total_open_violations
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
+- # ====== Computation: P1_TEST_URL ============================
+  id: 374208249361627167
+  identification: 
+    item-name: P1_TEST_URL
+
+  execution: 
+    sequence: 20
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      APEX_PAGE.GET_URL (
+                  p_page   => 14,
+                  p_items  => 'P14_TEST_CODE',
+                  p_values => :P1_TEST_CODE) 
+
+  error: 
+    error-message: failure to generate link to p14
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_TEST_CODE
+
+- # ====== Computation: P1_AUDIT_URL ===========================
+  id: 374986833154510781
+  identification: 
+    item-name: P1_AUDIT_URL
+
+  execution: 
+    sequence: 30
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      APEX_PAGE.GET_URL (
+                  p_page   => 42,
+                  p_items  => 'P42_AUDIT_ID',
+                  p_values => :P1_AUDIT_ID) 
+
+  error: 
+    error-message: failure to generate link to p42
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P1_AUDIT_ID
+
+- # ====== Computation: P1_PERCENT_SOLVED ======================
+  id: 437965184815061940
+  identification: 
+    item-name: P1_PERCENT_SOLVED
+
+  execution: 
+    sequence: 40
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_plsql_apex_audit_api.percent_solved
+
+- # ====== Computation: A_LAST_VIEW ============================
+  id: 12229498164893600435
+  identification: 
+    item-name: A_LAST_VIEW
 
   execution: 
     sequence: 10
@@ -4278,28 +4611,4 @@ computations:
   computation: 
     type: Static Value
     static-value: 1
-
-processes: 
-- # ====== Process: Refresh issue summary ======================
-  id: 3421804623518553801
-  identification: 
-    name: Refresh issue summary
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: eba_stds_data.record_daily_issue_snapshot;
-
-  execution: 
-    sequence: 20
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    type: Never
 

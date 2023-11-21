@@ -8,7 +8,12 @@ create or replace force editionable view V_AUTOMATIONS_PROBLEMS as
 with vas as (select v.*,
                     case when v.status_code != 'SUCCESS'
                          then 'N'
-                         when v.start_timestamp < (systimestamp -1)
+                         when v.job_initials in ('6D')
+                         then case when v.start_timestamp < (systimestamp - INTERVAL '2' DAY)
+                                   then 'N'
+                                   else 'Y'
+                                   end
+                         when v.start_timestamp < (systimestamp - interval '1' day)
                          then 'N'
                          else 'Y'
                          end pass_yn

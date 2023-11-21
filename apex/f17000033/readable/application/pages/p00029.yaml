@@ -1,34 +1,29 @@
 ---
-# ====== Page: Application Status ============================
+# ====== Page: delete me =====================================
 id: 29
 identification: 
-  name: Application Status
-  alias: APPLICATION-STATUS
-  title: Application Status
-  page-group: Administration # 10780320217725301324
+  name: delete me
+  alias: DELETE-ME
+  title: delete me
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog # 7573653346823143970
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-
-dialog: 
-  chained: false
 
 navigation-menu: 
   override-user-interface-level: false
 
 navigation: 
-  cursor-focus: First item on page
-  warn-on-unsaved-changes: false
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
-  form-auto-complete: On
+  form-auto-complete: Off
   browser-cache: Application Default
 
 session-management: 
@@ -36,33 +31,28 @@ session-management:
 
 advanced: 
   enable-duplicate-page-submissions: Yes - Enable page to be re-posted
-  reload-on-submit: Always
+  reload-on-submit: Only for Success
 
 server-cache: 
   caching: Disabled
 
-help: 
-  help-text: No help is available for this page.
-
 configuration: 
-  build-option: TO_DELETE # 6157992149575072830
+  build-option: DEV_ONLY # 6384384616625854457
 
 regions: 
-- # ====== Region: Application Status ==========================
-  id: 7578245593262190277
+- # ====== Region: New =========================================
+  id: 427273556844525909
   identification: 
-    title: Application Status
-    type: Form
+    title: New
+    type: Interactive Grid
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: EBA_STDS_APP_STATUSES
-    include-rowid-column: true
+    type: SQL Query
+    sql-query: select 1 from dual
 
   layout: 
-    sequence: 10
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -72,13 +62,9 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
-    - t-Region--scrollBody
-    - t-Region--noBorder
-    - t-Form--labelsAbove
-    - t-Region--removeHeader js-removeLandmark
     render-components: Above Content
 
   accessibility: 
@@ -96,167 +82,168 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
+    id: 427274361990525917
     edit: 
-      enabled: true
-      allowed-operations: 
-      - Add Row
-      - Update Row
-      - Delete Row
-      lost-update-type: Row Values
+      enabled: false
 
-- # ====== Region: Buttons =====================================
-  id: 7648215530417058708
-  identification: 
-    title: Buttons
-    type: Static Content
+    performance: 
+      lazy-loading: false
 
-  layout: 
-    sequence: 20
-    parent-region: No Parent
-    position: REGION_POSITION_03
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
+    appearance: 
+      select-first-row: true
+      fixed-row-height: true
 
-  appearance: 
-    template: Buttons Container # 7573656789854143977
-    template-options: 
-    - '#DEFAULT#'
-    - t-ButtonRegion--noUI
-    render-components: Above Content
+    pagination: 
+      type: Scroll
+      show-total-count: true
 
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
+    toolbar: 
+      show: true
+      controls: 
+      - Search Column Selection
+      - Search Field
+      - Actions Menu
+      - Reset Button
+      - Save Button
 
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
+    enable-users-to: 
+      save-public-report: false
+      flashback: true
+      define-chart-view: true
+      download: true
 
-  server-cache: 
-    caching: Disabled
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
 
-  customization: 
-    customizable: Not Customizable By End Users
+    heading: 
+      fixed-to: Page
 
-  attributes: 
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 427919150187332873
+      identification: 
+        name: Primary Report
+        alias: 4279192
+
+  columns: 
+  - # ====== Column: 1 ===========================================
+    id: 427274458431525918
+    identification: 
+      column-name: 1
+      type: Number Field
+
+    heading: 
+      heading: 1
+      alignment: end
+
     settings: 
-      output-as: HTML
-      expand-shortcuts: false
+      number-alignment: Start
+      virtual-keyboard: Decimal
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: 1
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      lov-type: None
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  printing: 
+    page: 
+      size: Letter
+      orientation: Landscape
+      units: Inches
+      width: 11
+      height: 8.5
+      border-width: 0.5
+      border-color: '#666666'
+
+    page-header: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
+      page-header-text: New
+
+    column-headings: 
+      font: Helvetica
+      font-weight: Bold
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#EEEEEE'
+
+    columns: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#FFFFFF'
+
+    page-footer: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
 
 page-items: 
-- # ====== Page Item: P29_ID ===================================
-  id: 7578246987421190284
+- # ====== Page Item: P29_EMAIL ================================
+  id: 427273642051525910
   identification: 
-    name: P29_ID
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Application Status # 7578245593262190277
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Application Status # 7578245593262190277
-    column: ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: true
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P29_DISPLAY_SEQUENCE =====================
-  id: 7578247175763190288
-  identification: 
-    name: P29_DISPLAY_SEQUENCE
-    type: Number Field
-
-  label: 
-    label: Display Sequence
-    alignment: Left
-
-  settings: 
-    number-alignment: Start
-    virtual-keyboard: Decimal
-
-  layout: 
-    sequence: 30
-    region: Application Status # 7578245593262190277
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 64
-
-  validation: 
-    value-required: true
-    maximum-length: 255
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Application Status # 7578245593262190277
-    column: DISPLAY_SEQUENCE
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P29_NAME =================================
-  id: 7578247382483190289
-  identification: 
-    name: P29_NAME
+    name: P29_EMAIL
     type: Text Field
 
   label: 
-    label: Name
+    label: email
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: None
+    subtype: E-Mail
+    trim-spaces: Leading and Trailing
     text-case: NO CHANGE
     submit-when-enter-pressed: false
     disabled: false
 
   layout: 
-    sequence: 20
-    region: Application Status # 7578245593262190277
+    sequence: 60
+    region: No Parent
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -267,330 +254,197 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Optional # 7800079935674934980
     template-options: 
     - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: true
-    maximum-length: 32
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Application Status # 7578245593262190277
-    column: NAME
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P29_DESCRIPTION ==========================
-  id: 7578247600895190289
-  identification: 
-    name: P29_DESCRIPTION
-    type: Textarea
-
-  label: 
-    label: Description
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: None
-
-  layout: 
-    sequence: 40
-    region: Application Status # 7578245593262190277
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 64
-    height: 4
+    width: 30
 
   validation: 
     value-required: false
-    maximum-length: 2000
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Application Status # 7578245593262190277
-    column: DESCRIPTION
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
+    type: Null
+    used: Only when current value in session state is null
 
   session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   quick-picks: 
     show-quick-picks: false
 
   security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-buttons: 
-- # ====== Button: CREATE ======================================
-  id: 7578245776101190279
+- # ====== Page Item: P29_PHONE ================================
+  id: 427273716685525911
   identification: 
-    button-name: CREATE
-    label: Add Application Status
+    name: P29_PHONE
+    type: Text Field
 
-  layout: 
-    sequence: 40
-    region: Buttons # 7648215530417058708
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7573688007377144053
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--gapLeft
-
-  behavior: 
-    action: Submit Page
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
-    database-action: SQL INSERT action
-
-  server-side-condition: 
-    type: Item is NULL
-    item: P29_ID
-
-- # ====== Button: SAVE ========================================
-  id: 7578245875911190279
-  identification: 
-    button-name: SAVE
-    label: Apply Changes
-
-  layout: 
-    sequence: 30
-    region: Buttons # 7648215530417058708
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7573688007377144053
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--gapLeft
-
-  behavior: 
-    action: Submit Page
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
-    database-action: SQL UPDATE action
-
-  server-side-condition: 
-    type: Item is NOT NULL
-    item: P29_ID
-
-- # ====== Button: DELETE ======================================
-  id: 7578245997662190279
-  identification: 
-    button-name: DELETE
-    label: Delete
-
-  layout: 
-    sequence: 20
-    region: Buttons # 7648215530417058708
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7573688007377144053
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--simple
-    - t-Button--danger
-
-  behavior: 
-    action: Submit Page
-    execute-validations: false
-    warn-on-unsaved-changes: Do Not Check
-    database-action: SQL DELETE action
-
-  confirmation: 
-    message: '&APP_TEXT$DELETE_MSG!RAW.'
-    style: Default
-
-  server-side-condition: 
-    type: Item is NOT NULL
-    item: P29_ID
-
-- # ====== Button: CANCEL ======================================
-  id: 7578246188756190279
-  identification: 
-    button-name: CANCEL
-    label: Cancel
-
-  layout: 
-    sequence: 10
-    region: Buttons # 7648215530417058708
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7573688007377144053
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-
-  behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: false
-
-dynamic-actions: 
-- # ====== Dynamic Action: Cancel Modal ========================
-  id: 6345263179144937932
-  identification: 
-    name: Cancel Modal
-
-  execution: 
-    sequence: 10
-
-  when: 
-    event: EVENT.EVENT.BROWSER.CLICK
-    selection-type: Button
-    button: CANCEL # 7578246188756190279
-
-  execution: 
-    event-scope: Static
-    type: Immediate
-
-  actions: 
-  - # ====== Action: Cancel Dialog ===============================
-    id: 6345263323307937933
-    identification: 
-      action: Cancel Dialog
-
-    execution: 
-      sequence: 10
-      event: Cancel Modal # 6345263179144937932
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-processes: 
-- # ====== Process: Close Dialog ===============================
-  id: 6187583396040812836
-  identification: 
-    name: Close Dialog
-    type: Close Dialog
-    execution-chain: None
-
-  execution: 
-    sequence: 50
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-- # ====== Process: Fetch Row from EBA_STDS_APP_STATUSES =======
-  id: 7578248003024190290
-  identification: 
-    name: Fetch Row from EBA_STDS_APP_STATUSES
-    type: Form - Initialization
-    execution-chain: None
-    form-region: Application Status # 7578245593262190277
-
-  execution: 
-    sequence: 10
-    point: After Header
-    run-process: Once Per Page Visit (default)
-
-- # ====== Process: Process Row of EBA_STDS_APP_STATUSES =======
-  id: 7578248199489190290
-  identification: 
-    name: Process Row of EBA_STDS_APP_STATUSES
-    type: Form - Automatic Row Processing (DML)
-    execution-chain: None
-    form-region: Application Status # 7578245593262190277
+  label: 
+    label: Phone
+    alignment: Left
 
   settings: 
-    target-type: Region Source
-    prevent-lost-updates: true
-    lock-row: Yes
-    return-primary-key(s)-after-insert: false
+    subtype: Phone Number
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
 
-  execution: 
-    sequence: 30
-    point: Processing
-    run-process: Once Per Page Visit (default)
+  layout: 
+    sequence: 70
+    region: No Parent
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
 
-  success-message: 
-    success-message: Action Processed.
+  appearance: 
+    template: Optional # 7800079935674934980
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
 
-  error: 
-    display-location: Inline in Notification
+  validation: 
+    value-required: false
 
-- # ====== Process: reset page =================================
-  id: 7578248392610190291
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P29_SEARCH ===============================
+  id: 427273858130525912
   identification: 
-    name: reset page
-    type: Clear Session State
-    execution-chain: None
+    name: P29_SEARCH
+    type: Text Field
+
+  label: 
+    label: SEARCH
+    alignment: Left
 
   settings: 
-    type: Clear all Items on the Current Page
+    subtype: Search
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
 
-  execution: 
-    sequence: 40
-    point: Processing
-    run-process: Once Per Page Visit (default)
+  layout: 
+    sequence: 80
+    region: No Parent
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
 
-  error: 
-    display-location: Inline in Notification
+  appearance: 
+    template: Optional # 7800079935674934980
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
 
-  server-side-condition: 
-    when-button-pressed: DELETE # 7578245997662190279
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P29_URL ==================================
+  id: 427273957070525913
+  identification: 
+    name: P29_URL
+    type: Text Field
+
+  label: 
+    label: URL
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 90
+    region: No Parent
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7800079935674934980
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
 

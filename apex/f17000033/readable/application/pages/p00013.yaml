@@ -4,8 +4,8 @@ id: 13
 identification: 
   name: Username Format
   alias: USERNAME-FORMAT
-  title: '&APPLICATION_TITLE.  Username Format'
-  page-group: ACL # 8901802019639773041
+  title: Username Format
+  page-group: ACL # 9128194827115563978
 
 appearance: 
   page-mode: Normal
@@ -21,7 +21,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -42,54 +42,8 @@ help:
   help-text: No help is available for this page.
 
 regions: 
-- # ====== Region: Breadcrumb ==================================
-  id: 8267447489599311742
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
-
 - # ====== Region: Username Format Preference ==================
-  id: 8267447987863315839
+  id: 8493840795339106776
   identification: 
     title: Username Format Preference
     type: Static Content
@@ -108,7 +62,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
     - t-Region--hideHeader
@@ -134,75 +88,16 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-page-items: 
-- # ====== Page Item: P13_USERNAME_FORMAT ======================
-  id: 8267455482458409241
-  identification: 
-    name: P13_USERNAME_FORMAT
-    type: Radio Group
-
-  label: 
-    label: Username Format
-    alignment: Left
-
-  settings: 
-    number-of-columns: 1
-    page-action-on-selection: None
-
-  layout: 
-    sequence: 10
-    region: Username Format Preference # 8267447987863315839
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required # 7573687255378144045
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: true
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: USERNAME_FORMAT # 8267454396661403470
-    display-extra-values: true
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: eba_stds_fw.get_preference_value ('USERNAME_FORMAT')
-    used: Always, replacing any existing value in session state
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    escape-special-characters: true
-    restricted-characters: All characters can be saved.
-
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 8267450979991370321
+  id: 8493843787467161258
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Breadcrumb # 8267447489599311742
+    region: Super Breadcrumb # 370769984920860454
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -211,7 +106,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -219,20 +114,20 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:::'
-      page: '&LAST_VIEW.'
+      url: 'f?p=&APP_ID.:&A_LAST_VIEW.:&SESSION.::&DEBUG.:::'
+      page: '&A_LAST_VIEW.'
 
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: SAVE ========================================
-  id: 8267451191419373642
+  id: 8493843998895164579
   identification: 
     button-name: SAVE
     label: Apply Changes
 
   layout: 
-    sequence: 20
-    region: Breadcrumb # 8267447489599311742
+    sequence: 10
+    region: Super Breadcrumb # 370769984920860454
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -241,7 +136,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -251,40 +146,9 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
-processes: 
-- # ====== Process: Set Username Format Preference =============
-  id: 8267457688789458019
-  identification: 
-    name: Set Username Format Preference
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      eba_stds_fw.set_preference_value (
-          p_preference_name  => 'USERNAME_FORMAT',
-          p_preference_value => :P13_USERNAME_FORMAT);
-
-  execution: 
-    sequence: 10
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  success-message: 
-    success-message: Username format updated.
-
-  error: 
-    error-message: '#SQLERRM#'
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: SAVE # 8267451191419373642
-
 branches: 
 - # ====== Branch: Go To Page &LAST_VIEW. ======================
-  id: 8267458004838459621
+  id: 8493850812314250558
   identification: 
     name: Go To Page &LAST_VIEW.
 
@@ -295,9 +159,9 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
-      page: '&LAST_VIEW.'
+      url: 'f?p=&APP_ID.:&A_LAST_VIEW.:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: '&A_LAST_VIEW.'
 
   server-side-condition: 
-    when-button-pressed: SAVE # 8267451191419373642
+    when-button-pressed: SAVE # 8493843998895164579
 

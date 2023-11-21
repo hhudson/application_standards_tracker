@@ -8,7 +8,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -25,7 +25,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: READER RIGHTS # 48893993399820863
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -43,10 +43,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: &nbsp =======================================
-  id: 350108163530653391
+- # ====== Region: email subscription ==========================
+  id: 576500971006444328
   identification: 
-    title: '&nbsp'
+    title: email subscription
     type: Static Content
 
   layout: 
@@ -60,7 +60,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -84,10 +84,10 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: &nbsp =======================================
-  id: 350109026560653399
+- # ====== Region: button region ===============================
+  id: 576501834036444336
   identification: 
-    title: '&nbsp'
+    title: button region
     type: Static Content
 
   layout: 
@@ -101,7 +101,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -127,7 +127,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P52_EMAIL_SUBSCRIPTION ===================
-  id: 350108324501653392
+  id: 576501131977444329
   identification: 
     name: P52_EMAIL_SUBSCRIPTION
     type: Switch
@@ -141,7 +141,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: '&nbsp' # 350108163530653391
+    region: email subscription # 576500971006444328
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -152,7 +152,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6411715103038685265
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
@@ -167,7 +167,7 @@ page-items:
 
   source: 
     type: Preference
-    preference: AST_EMAIL_SUBSCRIPTION
+    preference: SVT_EMAIL_SUBSCRIPTION
     used: Only when current value in session state is null
 
   session-state: 
@@ -178,17 +178,47 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: A periodic email is sent out with a digest of standard violations
+
 buttons: 
-- # ====== Button: apply_changes ===============================
-  id: 350108447758653394
+- # ====== Button: CANCEL ======================================
+  id: 374986108823510774
   identification: 
-    button-name: apply_changes
-    label: Apply Changes
+    button-name: CANCEL
+    label: Cancel
 
   layout: 
     sequence: 10
-    region: '&nbsp' # 350109026560653399
-    position: CHANGE
+    region: button region # 576501834036444336
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Right
+
+  appearance: 
+    button-template: Text # 7800080814852934990
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: SAVE ========================================
+  id: 576501255234444331
+  identification: 
+    button-name: SAVE
+    label: Save
+
+  layout: 
+    sequence: 10
+    region: button region # 576501834036444336
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -196,7 +226,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -206,17 +236,47 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
-processes: 
-- # ====== Process: AST_EMAIL_SUBSCRIPTION =====================
-  id: 350108624615653395
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel dialog =======================
+  id: 374986222552510775
   identification: 
-    name: AST_EMAIL_SUBSCRIPTION
+    name: Cancel dialog
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 374986108823510774
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 374986319986510776
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel dialog # 374986222552510775
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: SVT_EMAIL_SUBSCRIPTION =====================
+  id: 576501432091444332
+  identification: 
+    name: SVT_EMAIL_SUBSCRIPTION
     type: User Preferences
     execution-chain: None
 
   settings: 
     type: Set to Item Value
-    preference-name: AST_EMAIL_SUBSCRIPTION
+    preference-name: SVT_EMAIL_SUBSCRIPTION
     item: P52_EMAIL_SUBSCRIPTION
 
   execution: 
@@ -228,7 +288,7 @@ processes:
     display-location: Inline in Notification
 
 - # ====== Process: Close Dialog ===============================
-  id: 350108653482653396
+  id: 576501460958444333
   identification: 
     name: Close Dialog
     type: Close Dialog

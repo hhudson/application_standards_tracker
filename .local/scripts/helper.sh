@@ -168,7 +168,7 @@ apex export -applicationid $p_apex_id -dir f$p_apex_id
 show errors
 exit;
 EOF
-}
+} #export_apex_app
 
 # Export APEX applications
 # Parameters
@@ -204,7 +204,31 @@ apex export -applicationid $p_apex_id -dir f$p_apex_id -expType READABLE_YAML
 show errors
 exit;
 EOF
-}
+} #export_apex_app_readable_yaml
+
+install_apex_app(){
+  # echo "log : install_apex_app"
+
+  local p_apex_id="17000033"
+  # echo "log : p_apex_id : ${p_apex_id}"
+
+    echo "APEX Install: $p_apex_id"
+
+    # Export single file app
+    cd $PROJECT_DIR
+    # echo "log : $(pwd)"
+
+$VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
+--
+-- Load user specific commands here
+@.local/scripts/apex_install.sql 17000033 SVT AHA
+--
+-- 
+--
+show errors
+exit;
+EOF
+} #install_apex_app 
 
 
 # Resets release/code/_run_code.sql and deletes all files in release/code directory
@@ -399,86 +423,6 @@ gen_object(){
 
 } # gen_object
 
-
-refresh_sert_scripts(){
-  # echo "log  :run refresh_sert_scripts"
-  FOLDER_PATH="database/views/standards/apex_sert"
-  # echo "log  :FOLDER_PATH = '$FOLDER_PATH'"
-  local p_git_email=$1
-  # echo "log  :p_git_email = '$p_git_email'"
-
-  echo "Listing files in: $FOLDER_PATH extension: $EXT_VIEW"
-for file in $FOLDER_PATH/*.$EXT_VIEW; do
-  local p_file_name_w_ext="${file##*/}"
-  local p_view_name=$(echo ${p_file_name_w_ext/.$EXT_VIEW/})
-  # echo "log  :p_view_name = $p_view_name"
-
-$VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
-set define off
-set pagesize 0
-set heading off
-set feedback off
-set wrap off
-set linesize 3000
-
-PRO step 1 : generate view script for $p_view_name
-
-spool $FOLDER_PATH/$p_view_name.$EXT_VIEW
-select column_value
-from apex_string.split(ast_apex_sert_util.generate_ast_view(
-                              p_view_name => '$p_view_name',
-                              p_author => '$p_git_email'), '
-');
-spool off
---
--- 
---
-set define on
-show errors
-exit;
-EOF
-
-done
-
-} # refresh_sert_scripts
-
-
-refresh_meta_sert_view(){
-  # echo "log  :run refresh_meta_sert_view"
-  FOLDER_PATH="database/views/standards/apex_sert/meta"
-  # echo "log  :FOLDER_PATH = '$FOLDER_PATH'"
-  local p_git_email=$1
-
-  local p_meta_view='V_AST_SERT__0'
-
-$VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
-set define off
-set pagesize 0
-set heading off
-set feedback off
-set wrap off
-set linesize 3000
-
-PRO step 2 : generate meta view script for $p_meta_view
-
-spool $FOLDER_PATH/$p_meta_view.$EXT_VIEW
-select column_value
-from apex_string.split(ast_apex_sert_util.generate_union_view(
-                              p_author => '$p_git_email'), '
-');
-spool off
---
--- 
---
-set define on
-show errors
-exit;
-EOF
-
-code $FOLDER_PATH/$p_meta_view.$EXT_VIEW
-
-}
-
 name_fixer(){
   local p_utable_name="$1"
   # echo "log :p_utable_name : ${p_utable_name}"
@@ -557,6 +501,7 @@ fi
 } #name-fixer
 
 compile_code() {
+  # called by run_sql.sh
   # echo "log : compile code"
   # Parameters
   local p_file_full_path="$1"
@@ -570,21 +515,22 @@ compile_code() {
 
   echo -e "Parsing file: ${COLOR_LIGHT_GREEN}$p_file_full_path${COLOR_RESET}"
 
-  # echo "log : AST_SCHEMA_CONFIGURED = '$AST_SCHEMA_CONFIGURED'"
-  if [[ "$AST_SCHEMA_CONFIGURED" == "Y" ]]; then
-  l_ast_command="select issue_desc, line, code, urgency
-                from ast.ast_plsql_review.issues( 
+  # echo "log : SVT_SCHEMA_CONFIGURED = '$SVT_SCHEMA_CONFIGURED'"
+  if [[ "$SVT_SCHEMA_CONFIGURED" == "Y" ]]; then
+  l_svt_command="select object_type, line, apex_string.format('%0 (%1)',code, test_code) issue, urgency
+                from svt_plsql_review.issues( 
                                   p_object_name     => '$p_file_base_name',
-                                  p_max_standard_code_count   => 3,
+                                  p_max_test_code_count   => 3,
                                   p_max_issue_count => 8,
                                   p_file_dirname => '$p_file_dir')
-                order by urgency_level,  issue_desc, object_name, object_type, line, code"
+                order by urgency, object_type, line"
    else
-   l_ast_command="select 'Standards not configured for this environment' Message from dual"
+   l_svt_command="select 'Standards not configured for this environment' Message from dual"
    fi
 
 # run sqlplus, execute the script, then get the error list and exit
 # VSCODE_TASK_COMPILE_BIN is set in the config.sh file (either sqlplus or sqlcl)
+set JAVA_TOOL_OPTIONS=-Ddev.flag=123
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 set define off
 set sqlblanklines on
@@ -607,7 +553,7 @@ $VSCODE_TASK_COMPILE_SQL_PREFIX
 set sqlblanklines off
 
 PRO running standards for $p_file_base_name
-$l_ast_command
+$l_svt_command
 
 set define on
 show errors
@@ -615,6 +561,28 @@ exit;
 EOF
 
 } # compile_code
+
+export_tests() {
+  # echo "log : export_tests"
+
+  cd $PROJECT_DIR
+  
+  echo exit | $VSCODE_TASK_COMPILE_BIN $DB_CONN -s $SCRIPT_DIR/export_tests_script.sql
+
+  rm standard_tests/temp_script.sql
+
+} # export_tests
+
+export_results() {
+  # echo "log : export_results"
+
+  cd $PROJECT_DIR
+  
+  echo exit | $VSCODE_TASK_COMPILE_BIN $DB_CONN -s $SCRIPT_DIR/export_dva_script.sql
+
+  rm standard_tests/temp_dva_script.sql
+
+} # export_results
 
 run_test() {
   # echo "log : run test"
@@ -697,7 +665,7 @@ gen_table_script() {
 # -- Load user specific commands here
 
 # PRO step 1 : generate table script for $p_utable_name
-# @$SCRIPT_DIR/spool_script.sql database AST_AUDIT_ACTIONS
+# @$SCRIPT_DIR/spool_script.sql database SVT_AUDIT_ACTIONS
 # -- @$SCRIPT_DIR/spool_script.sql 'blerg' '$P_UTABLE_NAME' '$P_AUTHOR'
 # -- spool $p_project_dir/tables/$p_utable_name.sql
 # -- select column_value
@@ -971,11 +939,11 @@ gen_insert_script_tables_sub_reference_codes() {
   # echo "log : p_project_dir = '$p_project_dir'"
   local p_nt_type_name="$3"
   # echo "log : p_nt_type_name = '$p_nt_type_name'"
-  local p_utable_name="AST_SUB_REFERENCE_CODES"
+  local p_utable_name="SVT_SUB_REFERENCE_CODES"
   # echo "log : p_utable_name = '$p_utable_name'"
   local p_filename=$(echo ${p_utable_name}_${p_nt_type_name}.sql)
   # $(echo ${p_file_dir_name/database\/tables/database})
-  # local p_filename="AST_SUB_REFERENCE_CODES_PLSQL.sql"
+  # local p_filename="SVT_SUB_REFERENCE_CODES_PLSQL.sql"
   # echo "log : p_filename = '$p_filename'"
   object_dest_file="$p_project_dir/data/tables3/$p_filename"
 
@@ -1091,9 +1059,17 @@ code release/$p_file_name.sql
 liquibase_deploy_changes() {
   # echo "log : liquibase_deploy_changes"
 
+# PRO step 0 : delete from DATABASECHANGELOGLOCK
+# delete from svt.DATABASECHANGELOGLOCK
+# /
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
+
+
+PRO step 0: turn on plscope 
+
+alter session set plscope_settings='IDENTIFIERS:ALL, STATEMENTS:ALL';
 
 PRO step 1 : deploying changes
 
@@ -1116,6 +1092,10 @@ $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
 
+PRO step 0 : delete from DATABASECHANGELOGLOCK
+delete from svt.DATABASECHANGELOGLOCK
+/
+
 PRO step 1 : clear-checksums
 
 lb clear-checksums
@@ -1136,6 +1116,10 @@ $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 --
 -- Load user specific commands here
 
+PRO step 0 : delete from DATABASECHANGELOGLOCK
+delete from svt.DATABASECHANGELOGLOCK
+/
+
 PRO : validate
 
 lb validate -changelog-file controller.xml -log true
@@ -1154,6 +1138,7 @@ invalid_objects () {
   # Parameters
   local p_file_name="$1"
   # echo "log : p_file_name = '$p_file_name'"
+  # dbms_utility.compile_schema(schema => user, compile_all => false);
 
 $VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
 set define off
@@ -1163,9 +1148,12 @@ set feedback off
 set wrap off
 set linesize 3000
 
+PRO step 0 : turn on plscope
+alter session set plscope_settings='IDENTIFIERS:ALL, STATEMENTS:ALL';
+
 PRO step 1 : compile schema 
 begin
-  dbms_utility.compile_schema(schema => user, compile_all => false);
+  dbms_utility.compile_schema(schema => user, compile_all => true);
 end;
 /
 

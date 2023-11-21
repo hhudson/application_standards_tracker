@@ -1,8 +1,8 @@
 ---
-# ====== Page: EBA_STDS_APPLICATIONS =========================
+# ====== Page: APEX Applications =============================
 id: 160
 identification: 
-  name: EBA_STDS_APPLICATIONS
+  name: APEX Applications
   alias: APPLICATIONS
   title: Applications
 
@@ -20,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -37,19 +37,38 @@ advanced:
 server-cache: 
   caching: Disabled
 
+comments: 
+  comments: EBA_STDS_APPLICATIONS
+
 regions: 
 - # ====== Region: Applications ================================
-  id: 115574106073675209
+  id: 341966913549466146
   identification: 
     title: Applications
     type: Interactive Report
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: EBA_STDS_APPLICATIONS
-    include-rowid-column: false
+    type: SQL Query
+    sql-query: |
+      select esa.pk_id, 
+             esa.apex_app_id, 
+             esa.esa_created, 
+             esa.esa_created_by, 
+             esa.esa_updated, 
+             esa.esa_updated_by, 
+             esa.default_developer,
+             aa.availability_status,
+             est.type_name application_type,
+             aa.application_name,
+             esa.notes,
+             esa.active_yn app_active_yn,
+             est.active_yn type_active_yn,
+             est.type_code
+      from eba_stds_applications esa
+      inner join apex_applications aa on esa.apex_app_id = aa.application_id
+                                      and aa.availability_status != 'Unavailable'
+      left join eba_stds_types est on est.id = esa.type_id
 
   layout: 
     sequence: 20
@@ -62,7 +81,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -82,7 +101,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 115574210235675209
+    id: 341967017711466146
     link: 
       link-column: Link to Custom Target
       target: 
@@ -93,7 +112,7 @@ regions:
           p161_pk_id: '#PK_ID#'
 
       link-icon: <span aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
-      authorization-scheme: APPLICATION SENTRY # 10780233005961370815
+      authorization-scheme: APPLICATION SENTRY # 11006625813437161752
 
     pagination: 
       type: Row Ranges X to Y
@@ -111,13 +130,13 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
 
     actions-menu: 
       include-actions-menu: true
       filter: true
       select-columns: true
-      rows-per-page: true
+      rows-per-page: false
       sort: true
       control-break: true
       highlight: true
@@ -128,7 +147,7 @@ regions:
       pivot: true
       flashback: true
       save-report: true
-      save-public-report: false
+      save-public-report: true
       reset: true
       help: true
       download: true
@@ -153,14 +172,260 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 115579391410675597
+      id: 341972198886466534
       identification: 
         name: Primary Report
         alias: 1155794
 
     columns: 
+    - # ====== Column: NOTES =======================================
+      id: 292523513553693232
+      identification: 
+        column-name: NOTES
+        type: Plain Text
+
+      heading: 
+        heading: Notes
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 56
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_TYPE ============================
+      id: 341044880167920879
+      identification: 
+        column-name: APPLICATION_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Application Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 36
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPLICATION_NAME ============================
+      id: 341044958210920880
+      identification: 
+        column-name: APPLICATION_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Application Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 46
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: true
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APP_ACTIVE_YN ===============================
+      id: 341543291644766905
+      identification: 
+        column-name: APP_ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: App Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 66
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TYPE_ACTIVE_YN ==============================
+      id: 341543316728766906
+      identification: 
+        column-name: TYPE_ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Type Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 76
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TYPE_CODE ===================================
+      id: 341543473590766907
+      identification: 
+        column-name: TYPE_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Type Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 86
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: PK_ID =======================================
-      id: 115574627136675212
+      id: 341967434612466149
       identification: 
         column-name: PK_ID
         type: Hidden Column
@@ -178,16 +443,16 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_APP_ID =================================
-      id: 115575048470675213
+      id: 341967855946466150
       identification: 
         column-name: APEX_APP_ID
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: AST_APPLICATIONS # 115581983406705754
+        list-of-values: SVT_APPLICATIONS # 341974790882496691
 
       heading: 
-        heading: Apex Application ID
+        heading: Apex Application
         alignment: start
 
       single-row-view: 
@@ -219,7 +484,7 @@ regions:
         pivot: true
 
     - # ====== Column: ESA_CREATED =================================
-      id: 115575405904675213
+      id: 341968213380466150
       identification: 
         column-name: ESA_CREATED
         type: Plain Text
@@ -261,7 +526,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ESA_CREATED_BY ==============================
-      id: 115575813281675214
+      id: 341968620757466151
       identification: 
         column-name: ESA_CREATED_BY
         type: Plain Text
@@ -302,7 +567,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ESA_UPDATED =================================
-      id: 115576243205675214
+      id: 341969050681466151
       identification: 
         column-name: ESA_UPDATED
         type: Plain Text
@@ -344,7 +609,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ESA_UPDATED_BY ==============================
-      id: 115576607714675214
+      id: 341969415190466151
       identification: 
         column-name: ESA_UPDATED_BY
         type: Plain Text
@@ -384,8 +649,49 @@ regions:
       security: 
         escape-special-characters: true
 
+    - # ====== Column: AVAILABILITY_STATUS =========================
+      id: 372947805516094660
+      identification: 
+        column-name: AVAILABILITY_STATUS
+        type: Plain Text
+
+      heading: 
+        heading: Availability Status
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 26
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: DEFAULT_DEVELOPER ===========================
-      id: 268633324291257449
+      id: 495026131767048386
       identification: 
         column-name: DEFAULT_DEVELOPER
         type: Plain Text
@@ -467,62 +773,16 @@ regions:
         font-color: '#000000'
         alignment: center
 
-- # ====== Region: Breadcrumb ==================================
-  id: 115578896080675217
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
-
 buttons: 
 - # ====== Button: CREATE ======================================
-  id: 115577153734675215
+  id: 341969961210466152
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 10
-    region: Applications # 115574106073675209
+    region: Applications # 341966913549466146
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -531,8 +791,8 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: false
+    button-template: Icon # 7800080132300934984
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI
@@ -548,17 +808,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Button: reset =======================================
-  id: 268631987172257435
+- # ====== Button: RESET =======================================
+  id: 495024794648048372
   identification: 
-    button-name: reset
+    button-name: RESET
     label: Reset
 
   layout: 
     sequence: 20
-    region: Applications # 115574106073675209
+    region: Applications # 341966913549466146
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -567,7 +827,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -580,14 +840,14 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:160:&SESSION.::&DEBUG.:RR,::'
-      page: 160 # EBA_STDS_APPLICATIONS
+      page: 160 # APEX Applications
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 115577441025675215
+  id: 341970248501466152
   identification: 
     name: Edit Report - Dialog Closed
 
@@ -597,7 +857,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: Applications # 115574106073675209
+    region: Applications # 341966913549466146
 
   execution: 
     event-scope: Static
@@ -605,17 +865,17 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 115577998548675216
+    id: 341970806024466153
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Applications # 115574106073675209
+      region: Applications # 341966913549466146
 
     execution: 
       sequence: 10
-      event: Edit Report - Dialog Closed # 115577441025675215
+      event: Edit Report - Dialog Closed # 341970248501466152
       fire-when-event-result-is: True
       fire-on-initialization: false
 

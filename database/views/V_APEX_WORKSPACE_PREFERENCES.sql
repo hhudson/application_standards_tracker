@@ -3,7 +3,7 @@
 --------------------------------------------------------
 --  DDL for View V_APEX_WORKSPACE_PREFERENCES
 /*
-Note : for AST_EMAIL_SUBSCRIPTION, use v_ast_email_subscriptions
+Note : for SVT_EMAIL_SUBSCRIPTION, use v_svt_email_subscriptions
 */
 --------------------------------------------------------
 
@@ -12,7 +12,7 @@ select workspace_name,
        user_name, 
        preference_name,
        preference_value
-from ast_apex_view.apex_workspace_preferences() 
-where user_name = 'AST'
+from svt_apex_view.apex_workspace_preferences() 
+where user_name = 'SVT'
 /
 --rollback drop view v_apex_workspace_preferences;

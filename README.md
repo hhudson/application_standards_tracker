@@ -44,19 +44,84 @@ I set session state protection to 'unrestricted' for both P19_VALIDATE and P20_V
 ## DB Requirements 2023-Apr-6
 These are the sys privs:
 ```
-CREATE ANY CONTEXT,CREATE DIMENSION,CREATE TABLE,CREATE JOB,DELETE ANY TABLE,CREATE TYPE,CREATE ANY PROCEDURE,UPDATE ANY TABLE,CREATE OPERATOR,EXECUTE ANY PROCEDURE,CREATE VIEW,CREATE PUBLIC SYNONYM,INSERT ANY TABLE,CREATE INDEXTYPE,CREATE CLUSTER,SELECT ANY TABLE,READ ANY TABLE,ALTER ANY TRIGGER,ALTER ANY PROCEDURE,CREATE PROCEDURE,CREATE SESSION,CREATE MATERIALIZED VIEW,CREATE SEQUENCE,CREATE TRIGGER,CREATE SYNONYM
-```
-These were the table privs:
-```
-grant DELETE on APEX_XXXXXX.WWV_FLOW_ISSUES to AST;-- ast_flow_issues
-grant INSERT on APEX_XXXXXX.WWV_FLOW_ISSUES to AST;
-grant UPDATE on APEX_XXXXXX.WWV_FLOW_ISSUES to AST;
-grant SELECT on APEX_SCM.CCS_FILES_VW to AST;
-```
-add the roles AST had were:
-```
-APEX_ADMINISTRATOR_ROLE
-APEX_ADMINISTRATOR_READ_ROLE
+GRANT CREATE SESSION TO SVT;
+GRANT CREATE TABLE TO SVT;
+GRANT CREATE VIEW TO SVT;
+GRANT CREATE SEQUENCE TO SVT;
+GRANT CREATE PROCEDURE TO SVT;
+GRANT CREATE TRIGGER TO SVT;
+GRANT CREATE ANY CONTEXT TO SVT;
+GRANT CREATE JOB TO SVT;
+GRANT CREATE TYPE TO SVT;
+GRANT CREATE MATERIALIZED VIEW TO SVT;
+GRANT CREATE SEQUENCE TO SVT;
+GRANT CREATE SYNONYM TO SVT;
+
+ALTER USER SVT QUOTA UNLIMITED ON USERS;
+
+GRANT DELETE ON APEX_230100.WWV_FLOW_ISSUES TO SVT;
+GRANT INSERT ON APEX_230100.WWV_FLOW_ISSUES TO SVT;
+GRANT UPDATE ON APEX_230100.WWV_FLOW_ISSUES TO SVT;
+GRANT SELECT ON APEX_230100.WWV_FLOW_ISSUES TO SVT;
+GRANT SELECT ON APEX_230100.WWV_FLOW_DICTIONARY_VIEWS to SVT;
+
+GRANT SELECT ON LOKI.LOKI_LOCKS_LOG TO SVT;
+GRANT SELECT ON LOKI.LOKI_SCHEMAS TO SVT;
+GRANT SELECT ON LOKI.LOKI_USERS TO SVT;
+
+GRANT APEX_ADMINISTRATOR_ROLE TO SVT;
+
+GRANT SELECT_CATALOG_ROLE TO SVT;
+
+GRANT SELECT ON DBA_SOURCE TO SVT;
+GRANT SELECT ON DBA_TAB_COLS TO SVT;
+GRANT SELECT ON DBA_CONS_COLUMNS TO SVT;
+GRANT SELECT ON DBA_CONSTRAINTS TO SVT;
+GRANT SELECT ON DBA_ERRORS TO SVT;
+GRANT SELECT ON DBA_IDENTIFIERS TO SVT;
+GRANT SELECT ON DBA_IND_COLUMNS TO SVT;
+GRANT SELECT ON DBA_MVIEWS TO SVT;
+GRANT SELECT ON DBA_OBJECTS TO SVT;
+GRANT SELECT ON DBA_PLSQL_OBJECT_SETTINGS TO SVT;
+GRANT SELECT ON DBA_VIEWS TO SVT;
+GRANT SELECT ON DBA_STATEMENTS TO SVT;
+GRANT SELECT ON DBA_TRIGGERS TO SVT;
+
 ```
 
-AST had unlimited quota on a TS (CARS_TS)
+TOO MUCH:
+```
+GRANT SELECT ANY TABLE TO SVT; 
+--allows me to see other ables in all_tables
+GRANT DEBUG ANY PROCEDURE TO SVT; 
+--allows me to see package body in all_source
+/*
+Justification : technically I can see anything I want from the dba_ * views but I can’t reference dba_* views in my own views, which is a bother. If I want to create view that queries the package body in a different schema, it has to be all_source, not dba_source
+*/
+```
+alternative approach :
+```
+select apex_string.format('GRANT SELECT ON %0.%1 TO SVT;',
+         p0 => dt.owner,
+         p1 => dt.object_name
+        ) stmt
+from dba_objects dt
+where object_type in ('TABLE', 'VIEW', 'MATERIALIZED VIEW')
+and   dt.owner in (select column_value
+                    from table(apex_string.split(svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'))
+                    where column_value not in ('SVT'))
+and dt.object_name not like 'XXX%'
+order by dt.object_type, dt.object_name
+union all
+select apex_string.format('GRANT DEBUG ON %0.%1 TO SVT;',
+         p0 => dt.owner,
+         p1 => dt.object_name
+        ) stmt
+from dba_objects dt
+where object_type in ('PACKAGE', 'FUNCTION', 'PROCEDURE')
+and   dt.owner in (select column_value
+                    from table(apex_string.split(svt_preferences.get_preference ('SVT_REVIEW_SCHEMAS'), ':'))
+                    where column_value not in ('SVT'))
+and dt.object_name not like 'XXX%'
+order by dt.object_type, dt.object_name
+```

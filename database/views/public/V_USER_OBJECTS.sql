@@ -5,12 +5,14 @@
 --------------------------------------------------------
 
 create or replace force editionable view v_user_objects as
-select object_name, object_type, owner, status
-from all_objects
-where owner = case when sys_context('userenv', 'current_user') = 'AST'
-                   then ast_ctx_util.get_default_user
-                   else sys_context('userenv', 'current_user')
-                   end
+select object_id, object_name, object_type, owner, status
+from dba_objects
+where owner = svt_ctx_util.get_default_user
 and object_name not like '%XXX%'
+and object_name not like 'DATABASECHANGELOG%'
+and object_name not like 'DEV%'
+and object_name not like 'EBA%'
+and object_name not like 'MLOG%'
+and object_name not like 'LOGGER%'
 /
 --rollback drop view V_USER_OBJECTS;

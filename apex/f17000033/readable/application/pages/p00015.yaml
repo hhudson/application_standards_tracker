@@ -1,10 +1,10 @@
 ---
-# ====== Page: run jobs ======================================
+# ====== Page: Run Jobs in Debug mode ========================
 id: 15
 identification: 
-  name: run jobs
+  name: Run Jobs in Debug mode
   alias: RUN-JOBS
-  title: '&APPLICATION_TITLE. Run jobs'
+  title: Run jobs in Debug Mode
 
 appearance: 
   page-mode: Normal
@@ -20,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -38,15 +38,15 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Processes ===================================
-  id: 42934066734017703
+- # ====== Region: 3. [Hourly - 40 min past] Manage APEX Issues 
+  id: 269326874209808640
   identification: 
-    title: Processes
+    title: 3. [Hourly - 40 min past] Manage APEX Issues
     type: Static Content
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
+    sequence: 70
+    parent-region: Available jobs # 370770827485860463
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -55,9 +55,12 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Alert # 7800047592157934909
     template-options: 
     - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
     render-components: Above Content
 
   accessibility: 
@@ -79,19 +82,27 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Breadcrumb ==================================
-  id: 43308658516806029
+- # ====== Region: Debug report ================================
+  id: 370769168874860446
   identification: 
-    title: Breadcrumb
-    type: Breadcrumb
+    title: Debug report
+    type: Interactive Report
 
   source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT id, message, message_timestamp, call_stack, message_level
+      FROM apex_debug_messages
+      WHERE application_id = :APP_ID
+      AND lower(message) LIKE 'svt_apex_issue_util%'
+      --AND message_timestamp = to_timestamp_tz('16-DEC-22 08.38.57.641413 PM +00:00', 'DD-MON-YY HH.MI.SS.FF PM TZH:TZM')
+      ORDER BY message_timestamp DESC
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
+    sequence: 20
+    parent-region: View Debug report # 370769898002860453
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -99,10 +110,9 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7573672802698144003
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
     render-components: Above Content
 
   accessibility: 
@@ -120,21 +130,561 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+    id: 370769288513860447
+    link: 
+      link-column: Exclude Link Column
 
-buttons: 
-- # ====== Button: manage_apex_issues ==========================
-  id: 42934182388017704
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: true
+      maximum-rows-to-process: 1000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: true
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: false
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 371536779649748979
+      identification: 
+        name: Primary Report
+        alias: 1451440
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 370769318548860448
+      identification: 
+        column-name: ID
+        type: Plain Text
+
+      heading: 
+        heading: ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MESSAGE =====================================
+      id: 370769419772860449
+      identification: 
+        column-name: MESSAGE
+        type: Plain Text
+
+      heading: 
+        heading: Message
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: true
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MESSAGE_TIMESTAMP ===========================
+      id: 370769607269860450
+      identification: 
+        column-name: MESSAGE_TIMESTAMP
+        type: Plain Text
+
+      heading: 
+        heading: Message Timestamp
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CALL_STACK ==================================
+      id: 370769681353860451
+      identification: 
+        column-name: CALL_STACK
+        type: Plain Text
+
+      heading: 
+        heading: Call Stack
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MESSAGE_LEVEL ===============================
+      id: 370769723314860452
+      identification: 
+        column-name: MESSAGE_LEVEL
+        type: Plain Text
+
+      heading: 
+        heading: Message Level
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Debug report
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: View Debug report ===========================
+  id: 370769898002860453
   identification: 
-    button-name: manage_apex_issues
-    label: Manage Apex Issues
+    title: View Debug report
+    type: Static Content
 
   layout: 
     sequence: 10
-    region: Processes # 42934066734017703
+    parent-region: 3. [Hourly - 40 min past] Manage APEX Issues # 269326874209808640
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--scrollBody
+    - margin-top-md
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: 2. [Hourly  - 10 min past] Issue Snapshot in 
+  id: 370770348913860458
+  identification: 
+    title: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table
+    type: Static Content
+
+  layout: 
+    sequence: 60
+    parent-region: Available jobs # 370770827485860463
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Enable debug ================================
+  id: 370770637665860461
+  identification: 
+    title: Enable debug
+    type: Static Content
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item = Value
+    item: DEBUG
+    value: NO
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Available jobs ==============================
+  id: 370770827485860463
+  identification: 
+    title: Available jobs
+    type: Static Content
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item = Value
+    item: DEBUG
+    value: YES
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Hard Reset ==================================
+  id: 443887387188864042
+  identification: 
+    title: Hard Reset
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: 3. [Hourly - 40 min past] Manage APEX Issues # 269326874209808640
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--accent11
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+buttons: 
+- # ====== Button: MANAGE_APEX_ISSUES ==========================
+  id: 269326989863808641
+  identification: 
+    button-name: MANAGE_APEX_ISSUES
+    label: Run job (APEX Issues)
+
+  layout: 
+    sequence: 10
+    region: 3. [Hourly - 40 min past] Manage APEX Issues # 269326874209808640
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -143,10 +693,138 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-apex
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RESET =======================================
+  id: 370770177279860456
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Debug report # 370769168874860446
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:15:&SESSION.::&DEBUG.:RR,::'
+      page: 15 # Run Jobs in Debug mode
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RECORD_DAILY_ISSUE_SNAPSHOT =================
+  id: 370770499026860459
+  identification: 
+    button-name: RECORD_DAILY_ISSUE_SNAPSHOT
+    label: Run job (Issue Snapshot)
+
+  layout: 
+    sequence: 10
+    region: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table # 370770348913860458
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-apex
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: ENABLE_DEBUG ================================
+  id: 370770775356860462
+  identification: 
+    button-name: ENABLE_DEBUG
+    label: Enable Debug
+
+  layout: 
+    sequence: 10
+    region: Enable debug # 370770637665860461
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-bug
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RESET_APEX_ISSUES ===========================
+  id: 443887419762864043
+  identification: 
+    button-name: RESET_APEX_ISSUES
+    label: Reset Apex Issues
+
+  layout: 
+    sequence: 10
+    region: Hard Reset # 443887387188864042
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-exclamation-square
 
   behavior: 
     action: Submit Page
@@ -155,7 +833,7 @@ buttons:
 
 processes: 
 - # ====== Process: manage_apex_issues =========================
-  id: 42934217046017705
+  id: 269327024521808642
   identification: 
     name: manage_apex_issues
     type: Execute Code
@@ -166,8 +844,31 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-      ast_apex_issue_util.manage_apex_issues;
+      svt_apex_issue_util.manage_apex_issues;
       end;
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: MANAGE_APEX_ISSUES # 269326989863808641
+
+- # ====== Process: set debug level ============================
+  id: 370769101859860445
+  identification: 
+    name: set debug level
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: 'apex_debug.enable(p_level => apex_debug.c_log_level_info); '
 
   execution: 
     sequence: 10
@@ -176,4 +877,60 @@ processes:
 
   error: 
     display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ENABLE_DEBUG # 370770775356860462
+
+- # ====== Process: record_daily_issue_snapshot ================
+  id: 370770524012860460
+  identification: 
+    name: record_daily_issue_snapshot
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+      svt_audit_util.record_daily_issue_snapshot;
+      end;
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: RECORD_DAILY_ISSUE_SNAPSHOT # 370770499026860459
+
+- # ====== Process: reset_apex_issues ==========================
+  id: 443887573737864044
+  identification: 
+    name: reset_apex_issues
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+      svt_apex_issue_util.hard_correct_svt_issues;
+      svt_apex_issue_util.manage_apex_issues;
+      end;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: RESET_APEX_ISSUES # 443887419762864043
 

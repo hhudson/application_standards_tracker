@@ -1,15 +1,15 @@
 ---
-# ====== Page: Add Multiple Users ============================
+# ====== Page: Adding Multiple Users Report ==================
 id: 54
 identification: 
-  name: Add Multiple Users
+  name: Adding Multiple Users Report
   alias: ADD-MULTIPLE-USERS2
   title: Add Multiple Users
-  page-group: ACL # 8901802019639773041
+  page-group: ACL # 9128194827115563978
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -24,42 +24,8 @@ navigation:
   cursor-focus: Do not focus cursor
   warn-on-unsaved-changes: false
 
-css: 
-  inline: |
-    .uReportList {
-        margin: 0;
-        list-style: none;
-    }
-    .uReportList li {
-        margin: 0 0 4px 0;
-    }
-    .check_icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        background: #69B86B;
-        color: #FFF;
-        text-align: center;
-        border-radius: 4px;
-        font-size: 15px;
-        border: 1px solid green;
-        text-shadow: 0 -1px 0 rgba(0,0,0,.15);
-        vertical-align: top;
-        margin-right: 4px;
-    }
-    .valid_user {
-        display: inline-block;
-        padding: 4px 8px 4px 4px;
-        border: 1px solid #D0D0D0;
-        border-radius: 3px;
-        line-height: 20px;
-        background-color: #F8F8F8;
-        color: #404040;
-    }
-
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -79,9 +45,12 @@ server-cache:
 help: 
   help-text: No help is available for this page.
 
+configuration: 
+  build-option: TO_DELETE # 6384384957050863767
+
 regions: 
 - # ====== Region: Bulk Load Users - Step 2 ====================
-  id: 8266132005294286864
+  id: 8492524812770077801
   identification: 
     title: Bulk Load Users - Step 2
     type: Static Content
@@ -97,7 +66,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -125,7 +94,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Users to be added ===========================
-  id: 8266523705724341772
+  id: 8492916513200132709
   identification: 
     title: Users to be added
     type: List View
@@ -141,7 +110,7 @@ regions:
 
   layout: 
     sequence: 90
-    parent-region: Bulk Load Users - Step 2 # 8266132005294286864
+    parent-region: Bulk Load Users - Step 2 # 8492524812770077801
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -150,7 +119,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7573667094242143990
+    template: Collapsible # 7800059901717934927
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -186,7 +155,7 @@ regions:
       number-of-rows: 15
 
 - # ====== Region: Exceptions ==================================
-  id: 8266524581613344321
+  id: 8492917389089135258
   identification: 
     title: Exceptions
     type: Classic Report
@@ -202,7 +171,7 @@ regions:
 
   layout: 
     sequence: 100
-    parent-region: Bulk Load Users - Step 2 # 8266132005294286864
+    parent-region: Bulk Load Users - Step 2 # 8492524812770077801
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -211,7 +180,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -240,7 +209,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Standard # 7573676953099144016
+      template: Standard # 7800069760574934953
       template-options: 
       - '#DEFAULT#'
       - t-Report--stretch
@@ -277,7 +246,7 @@ regions:
 
   columns: 
   - # ====== Column: USERNAME ====================================
-    id: 8266524781953344326
+    id: 8492917589429135263
     identification: 
       column-name: USERNAME
       type: Plain Text
@@ -309,7 +278,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: REASON ======================================
-    id: 8267613999344647299
+    id: 8494006806820438236
     identification: 
       column-name: REASON
       type: Plain Text
@@ -323,7 +292,7 @@ regions:
       column-alignment: start
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     sorting: 
       sortable: false
@@ -341,7 +310,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Hidden Items ================================
-  id: 8268910178255888239
+  id: 8495302985731679176
   identification: 
     title: Hidden Items
     type: Static Content
@@ -375,7 +344,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: No Valid Users Exist - Page Info ============
-  id: 8268911000072894601
+  id: 8495303807548685538
   identification: 
     title: No Valid Users Exist - Page Info
     type: Static Content
@@ -394,7 +363,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -426,7 +395,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Buttons =====================================
-  id: 8268959381989034261
+  id: 8495352189464825198
   identification: 
     title: Buttons
     type: Static Content
@@ -442,7 +411,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -467,7 +436,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Valid Count =================================
-  id: 8315402488460472894
+  id: 8541795295936263831
   identification: 
     title: Valid Count
     type: Translated Message
@@ -488,7 +457,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -526,7 +495,7 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: Invalid Users ===============================
-  id: 8315404399072547863
+  id: 8541797206548338800
   identification: 
     title: Invalid Users
     type: Translated Message
@@ -549,7 +518,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -589,7 +558,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P54_ROLE =================================
-  id: 8268908993032844572
+  id: 8495301800508635509
   identification: 
     name: P54_ROLE
     type: Hidden
@@ -599,7 +568,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Hidden Items # 8268910178255888239
+    region: Hidden Items # 8495302985731679176
     position: BODY
 
   advanced: 
@@ -628,7 +597,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P54_VALID_COUNT ==========================
-  id: 8268942197423541511
+  id: 8495335004899332448
   identification: 
     name: P54_VALID_COUNT
     type: Hidden
@@ -638,7 +607,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Hidden Items # 8268910178255888239
+    region: Hidden Items # 8495302985731679176
     position: BODY
 
   advanced: 
@@ -662,7 +631,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P54_INVALID_COUNT ========================
-  id: 8268942392248543892
+  id: 8495335199724334829
   identification: 
     name: P54_INVALID_COUNT
     type: Hidden
@@ -672,7 +641,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Hidden Items # 8268910178255888239
+    region: Hidden Items # 8495302985731679176
     position: BODY
 
   advanced: 
@@ -697,14 +666,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 8266132604095286866
+  id: 8492525411571077803
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 20
-    region: Buttons # 8268959381989034261
+    region: Buttons # 8495352189464825198
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -713,7 +682,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -723,17 +692,17 @@ buttons:
     execute-validations: true
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Button: FINISH ======================================
-  id: 8266132684078286866
+  id: 8492525491554077803
   identification: 
     button-name: FINISH
     label: Add Users
 
   layout: 
     sequence: 30
-    region: Buttons # 8268959381989034261
+    region: Buttons # 8495352189464825198
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -742,11 +711,12 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-Button--gapLeft
+    - t-Button--iconLeft
+    icon: fa-check
 
   behavior: 
     action: Submit Page
@@ -761,14 +731,14 @@ buttons:
        where collection_name = 'EBA_STDS_BULK_USER_VALID'
 
 - # ====== Button: PREVIOUS ====================================
-  id: 8266132780050286866
+  id: 8492525587526077803
   identification: 
     button-name: PREVIOUS
     label: Previous
 
   layout: 
     sequence: 10
-    region: Buttons # 8268959381989034261
+    region: Buttons # 8495352189464825198
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -777,10 +747,11 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
+    button-template: Icon # 7800080132300934984
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
     icon: fa-chevron-left
 
   behavior: 
@@ -791,7 +762,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: CNX =================================
-  id: 6253716073079746510
+  id: 6480108880555537447
   identification: 
     name: CNX
 
@@ -801,7 +772,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 8266132604095286866
+    button: CANCEL # 8492525411571077803
 
   execution: 
     event-scope: Static
@@ -809,19 +780,19 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6253716073647746511
+    id: 6480108881123537448
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: CNX # 6253716073079746510
+      event: CNX # 6480108880555537447
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 processes: 
 - # ====== Process: CLOSE ======================================
-  id: 6253716185242746512
+  id: 6480108992718537449
   identification: 
     name: CLOSE
     type: Close Dialog
@@ -836,7 +807,7 @@ processes:
     display-location: Inline in Notification
 
 - # ====== Process: Add Users to ACL ===========================
-  id: 8267335188237492692
+  id: 8493727995713283629
   identification: 
     name: Add Users to ACL
     type: Execute Code
@@ -883,5 +854,8 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: FINISH # 8266132684078286866
+    when-button-pressed: FINISH # 8492525491554077803
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 

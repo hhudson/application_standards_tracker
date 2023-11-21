@@ -1,20 +1,21 @@
 ---
-# ====== Page: Edit Code Help ================================
+# ====== Page: Import Standards ==============================
 id: 61
 identification: 
-  name: Edit Code Help
-  alias: EDIT-CHILD-CODE
-  title: Edit Code Help
+  name: Import Standards
+  alias: IMPORT-STANDARDS
+  title: Import Standards
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--xl
 
 dialog: 
-  chained: false
+  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -24,7 +25,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -42,18 +43,11 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Edit Code Help ==============================
-  id: 223841858101562587
+- # ====== Region: Button Bar ==================================
+  id: 538143380886016000
   identification: 
-    title: Edit Code Help
-    type: Form
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_SUB_REFERENCE_CODES
-    include-rowid-column: false
+    title: Button Bar
+    type: Static Content
 
   layout: 
     sequence: 10
@@ -66,9 +60,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
+    - t-ButtonRegion--noUI
     render-components: Above Content
 
   accessibility: 
@@ -79,6 +74,10 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P61_FILE
+
   server-cache: 
     caching: Disabled
 
@@ -86,24 +85,20 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    edit: 
-      enabled: true
-      allowed-operations: 
-      - Add Row
-      - Update Row
-      - Delete Row
-      lost-update-type: Row Values
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
 
-- # ====== Region: Buttons =====================================
-  id: 223848557243562602
+- # ====== Region: Data Source =================================
+  id: 538145337624016002
   identification: 
-    title: Buttons
+    title: Data Source
     type: Static Content
 
   layout: 
     sequence: 20
     parent-region: No Parent
-    position: REGION_POSITION_03
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -111,9 +106,12 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -135,15 +133,15 @@ regions:
       output-as: Text (escape special characters)
       show-line-breaks: true
 
-- # ====== Region: hidden ======================================
-  id: 282801553991565205
+- # ====== Region: Upload a File ===============================
+  id: 538145766857016002
   identification: 
-    title: hidden
+    title: Upload a File
     type: Static Content
 
   layout: 
-    sequence: 20
-    parent-region: No Parent
+    sequence: 30
+    parent-region: Data Source # 538145337624016002
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -152,7 +150,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -162,7 +160,526 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P61_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Loaded File =================================
+  id: 538147865758016004
+  identification: 
+    title: Loaded File
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: Data Source # 538145337624016002
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P61_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Preview =====================================
+  id: 538149484195016005
+  identification: 
+    title: Preview
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select p.line_number,
+             p.col001 standard_id, 
+             p.col002 standard_name,
+             p.col003 description, 
+             p.col004 c4, 
+             p.col005 c5,
+             p.col006 primary_developer,
+             p.col007 compatibility_mode_id,
+             p.col008 active_yn,
+             p.col009 parent_standard_id, 
+             p.col010 c10, 
+             p.col011 c11
+             -- add more columns (col011 to col300) here.
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P61_FILE
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P61_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 10
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--staticRowColors
+      - t-Report--rowHighlight
+      - t-Report--horizontalBorders
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: DESCRIPTION =================================
+    id: 398369412294454572
+    identification: 
+      column-name: DESCRIPTION
+      type: Plain Text
+
+    heading: 
+      heading: Description
+      alignment: start
+
+    layout: 
+      sequence: 131
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C4 ==========================================
+    id: 398369692458454574
+    identification: 
+      column-name: C4
+      type: Hidden Column
+
+    layout: 
+      sequence: 141
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C5 ==========================================
+    id: 398369796831454575
+    identification: 
+      column-name: C5
+      type: Hidden Column
+
+    layout: 
+      sequence: 151
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPATIBILITY_MODE_ID =======================
+    id: 398369972654454577
+    identification: 
+      column-name: COMPATIBILITY_MODE_ID
+      type: Plain Text
+
+    heading: 
+      heading: Compatibility Mode ID
+      alignment: start
+
+    layout: 
+      sequence: 161
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C10 =========================================
+    id: 398370196490454579
+    identification: 
+      column-name: C10
+      type: Hidden Column
+
+    layout: 
+      sequence: 171
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PARENT_STANDARD_ID ==========================
+    id: 398370625175454584
+    identification: 
+      column-name: PARENT_STANDARD_ID
+      type: Plain Text
+
+    heading: 
+      heading: Parent Standard ID
+      alignment: start
+
+    layout: 
+      sequence: 221
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIVE_YN ===================================
+    id: 398370833054454586
+    identification: 
+      column-name: ACTIVE_YN
+      type: Plain Text
+
+    heading: 
+      heading: Active
+      alignment: start
+
+    layout: 
+      sequence: 231
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C11 =========================================
+    id: 398370975885454587
+    identification: 
+      column-name: C11
+      type: Hidden Column
+
+    layout: 
+      sequence: 241
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LINE_NUMBER =================================
+    id: 398772045212754139
+    identification: 
+      column-name: LINE_NUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Line Number
+      alignment: end
+
+    layout: 
+      sequence: 1
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_ID =================================
+    id: 398773621880754140
+    identification: 
+      column-name: STANDARD_ID
+      type: Plain Text
+
+    heading: 
+      heading: Standard ID
+      alignment: start
+
+    layout: 
+      sequence: 111
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PRIMARY_DEVELOPER ===========================
+    id: 398811111245828338
+    identification: 
+      column-name: PRIMARY_DEVELOPER
+      type: Plain Text
+
+    heading: 
+      heading: Primary Developer
+      alignment: start
+
+    layout: 
+      sequence: 251
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_NAME ===============================
+    id: 398979788554850660
+    identification: 
+      column-name: STANDARD_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Standard Name
+      alignment: start
+
+    layout: 
+      sequence: 121
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: true
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: buttons footer ==============================
+  id: 546947414340567711
+  identification: 
+    title: buttons footer
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7800049597329934914
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-cache: 
@@ -177,318 +694,87 @@ regions:
       expand-shortcuts: false
 
 page-items: 
-- # ====== Page Item: P61_ID ===================================
-  id: 223842213794562589
+- # ====== Page Item: P61_COMPATIBILITY_MODE_ID ================
+  id: 401116801682419540
   identification: 
-    name: P61_ID
+    name: P61_COMPATIBILITY_MODE_ID
     type: Hidden
 
   settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Edit Code Help # 223841858101562587
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: ID
-    data-type: NUMBER
-    query-only: true
-    primary-key: true
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Checksum Required - Session Level
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P61_SUB_CODE =============================
-  id: 223842620465562595
-  identification: 
-    name: P61_SUB_CODE
-    type: Popup LOV
-
-  label: 
-    label: Child Code
-    alignment: Left
-
-  settings: 
-    display-as: Inline Popup
-    initial-fetch: Automatic
-    multiple-values: false
-    manual-entry: true
-    search-as-you-type: false
-
-  layout: 
-    sequence: 30
-    region: Edit Code Help # 223841858101562587
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 60
-
-  validation: 
-    value-required: true
-    maximum-length: 100
-
-  list-of-values: 
-    type: Function Body returning SQL Query
-    language: PL/SQL
-    pl/sql-function-body-returning-sql-query: 'return ast_standard_view.get_codes_for_help (:P14_STANDARD_CODE)'
-    display-extra-values: false
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: SUB_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Code to describe the standard being applied
-
-- # ====== Page Item: P61_EXPLANATION ==========================
-  id: 223843057086562596
-  identification: 
-    name: P61_EXPLANATION
-    type: Rich Text Editor
-
-  label: 
-    label: Explanation
-    alignment: Left
-
-  settings: 
-    library: CKEditor [Deprecated]
-    format: Markdown
-    minimum-height: 180
-    allow-custom-html: false
-
-  layout: 
-    sequence: 40
-    region: Edit Code Help # 223841858101562587
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: EXPLANATION
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Explain what this test is about
-
-- # ====== Page Item: P61_CREATED ==============================
-  id: 223843483881562597
-  identification: 
-    name: P61_CREATED
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 60
-    region: Edit Code Help # 223841858101562587
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: CREATED
-    data-type: DATE
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P61_CREATED_BY ===========================
-  id: 223843833513562597
-  identification: 
-    name: P61_CREATED_BY
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 70
-    region: Edit Code Help # 223841858101562587
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: CREATED_BY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P61_UPDATED ==============================
-  id: 223844220239562597
-  identification: 
-    name: P61_UPDATED
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 80
-    region: Edit Code Help # 223841858101562587
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: UPDATED
-    data-type: DATE
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P61_UPDATED_BY ===========================
-  id: 223844691732562597
-  identification: 
-    name: P61_UPDATED_BY
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 90
-    region: Edit Code Help # 223841858101562587
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: UPDATED_BY
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P61_FIX ==================================
-  id: 223845058239562597
-  identification: 
-    name: P61_FIX
-    type: Rich Text Editor
-
-  label: 
-    label: Fix
-    alignment: Left
-
-  settings: 
-    library: CKEditor [Deprecated]
-    format: Markdown
-    minimum-height: 180
-    allow-custom-html: false
+    value-protected: false
 
   layout: 
     sequence: 50
-    region: Edit Code Help # 223841858101562587
+    region: Preview # 538149484195016005
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P61_PROCESSED_ROW_COUNT ==================
+  id: 538133751671260276
+  identification: 
+    name: P61_PROCESSED_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Upload a File # 538145766857016002
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P61_FILE =================================
+  id: 538154995000016045
+  identification: 
+    name: P61_FILE
+    type: File Browse...
+
+  label: 
+    label: Upload a File
+    alignment: Left
+
+  settings: 
+    display-as: Block Dropzone
+    dropzone-description: Supported formats JSON
+    storage-type: Table APEX_APPLICATION_TEMP_FILES
+    purge-file-at: End of Session
+    allow-multiple-files: false
+    maximum-file-size: 5000
+
+  layout: 
+    sequence: 10
+    region: Upload a File # 538145766857016002
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -496,12 +782,13 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: Page Template Default
+    label-column-span: 0
 
   appearance: 
-    template: Optional - Floating # 6411715103038685265
+    template: Hidden # 7800079838425934978
     template-options: 
     - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
 
   validation: 
     value-required: false
@@ -510,41 +797,68 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: FIX
-    data-type: CLOB
-    query-only: false
-    primary-key: false
+    type: Null
+    used: Only when current value in session state is null
 
   session-state: 
-    data-type: CLOB
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Upload the json file for the test(s) you seek to import
+
+- # ====== Page Item: P61_ERROR_ROW_COUNT ======================
+  id: 538155322109016045
+  identification: 
+    name: P61_ERROR_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Upload a File # 538145766857016002
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-  help: 
-    help-text: Describe how to address the violation
-
-- # ====== Page Item: P61_TEST_ID ==============================
-  id: 223845452858562598
+- # ====== Page Item: P61_FILE_NAME ============================
+  id: 538158832933016049
   identification: 
-    name: P61_TEST_ID
-    type: Select List
+    name: P61_FILE_NAME
+    type: Display Only
 
   label: 
-    label: Test
+    label: Loaded File
     alignment: Left
 
   settings: 
-    page-action-on-selection: None
-    allow-multi-selection: false
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
 
   layout: 
     sequence: 20
-    region: Edit Code Help # 223841858101562587
+    region: Loaded File # 538147865758016004
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -555,39 +869,24 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    height: 1
-
-  validation: 
-    value-required: true
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: EBA_STDS_STANDARD_TESTS # 408630547578879702
-    display-extra-values: true
-    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Code Help # 223841858101562587
-    column: TEST_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: Pasted Data
 
   session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  read-only: 
-    type: Item is NOT NULL
-    item: P61_TEST_ID
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
@@ -595,20 +894,80 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    help-text: The test/standard being described
+    help-text: The name of the file you uploaded
 
-- # ====== Page Item: P61_STANDARD_CODE ========================
-  id: 282801674172565206
+- # ====== Page Item: P61_STANDARD_ID ==========================
+  id: 541526825426589459
   identification: 
-    name: P61_STANDARD_CODE
+    name: P61_STANDARD_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 30
+    region: Preview # 538149484195016005
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P61_ROW_COUNT ============================
+  id: 541770766291702764
+  identification: 
+    name: P61_ROW_COUNT
     type: Hidden
 
   settings: 
     value-protected: true
 
   layout: 
-    sequence: 10
-    region: hidden # 282801553991565205
+    sequence: 30
+    region: Loaded File # 538147865758016004
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P61_STANDARD_COUNT =======================
+  id: 547748426086963968
+  identification: 
+    name: P61_STANDARD_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 20
+    region: Preview # 538149484195016005
     position: BODY
 
   advanced: 
@@ -629,14 +988,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 223848985603562602
+  id: 398770480427754130
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 223848557243562602
+    region: buttons footer # 546947414340567711
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -645,7 +1004,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -654,16 +1013,16 @@ buttons:
     action: Defined by Dynamic Action
     execute-validations: true
 
-- # ====== Button: DELETE ======================================
-  id: 223850321389562606
+- # ====== Button: CLEAR =======================================
+  id: 398770813314754131
   identification: 
-    button-name: DELETE
-    label: Delete
+    button-name: CLEAR
+    label: Clear
 
   layout: 
-    sequence: 20
-    region: Buttons # 223848557243562602
-    position: DELETE
+    sequence: 10
+    region: buttons footer # 546947414340567711
+    position: PREVIOUS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -671,36 +1030,32 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--danger
     - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-undo
 
   behavior: 
     action: Submit Page
-    execute-validations: false
+    execute-validations: true
     warn-on-unsaved-changes: Do Not Check
-    database-action: SQL DELETE action
-
-  confirmation: 
-    message: '&APP_TEXT$DELETE_MSG!RAW.'
-    style: Danger
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P61_ID
+    item: P61_FILE
 
-- # ====== Button: SAVE ========================================
-  id: 223850774803562606
+- # ====== Button: LOAD ========================================
+  id: 398771282518754131
   identification: 
-    button-name: SAVE
-    label: Apply Changes
+    button-name: LOAD
+    label: Load Data
 
   layout: 
-    sequence: 30
-    region: Buttons # 223848557243562602
+    sequence: 20
+    region: buttons footer # 546947414340567711
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -709,66 +1064,72 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-upload
 
   behavior: 
     action: Submit Page
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
-    database-action: SQL UPDATE action
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P61_ID
-
-- # ====== Button: CREATE ======================================
-  id: 223851118251562606
-  identification: 
-    button-name: CREATE
-    label: Create
-
-  layout: 
-    sequence: 40
-    region: Buttons # 223848557243562602
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text # 7573688007377144053
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-
-  behavior: 
-    action: Submit Page
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
-    database-action: SQL INSERT action
-
-  server-side-condition: 
-    type: Item is NULL
-    item: P61_ID
+    item: P61_FILE
 
 dynamic-actions: 
-- # ====== Dynamic Action: Cancel Dialog =======================
-  id: 223849090533562602
+- # ====== Dynamic Action: Upload a File =======================
+  id: 398783627552754159
   identification: 
-    name: Cancel Dialog
+    name: Upload a File
 
   execution: 
     sequence: 10
 
   when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P61_FILE
+
+  client-side-condition: 
+    type: Item is not null
+    item: P61_FILE
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Submit Page =================================
+    id: 398784167320754161
+    identification: 
+      action: Submit Page
+
+    settings: 
+      show-processing: true
+
+    execution: 
+      sequence: 10
+      event: Upload a File # 398783627552754159
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Cancel ==============================
+  id: 398784592971754161
+  identification: 
+    name: Cancel
+
+  execution: 
+    sequence: 20
+
+  when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 223848985603562602
+    button: CANCEL # 398770480427754130
 
   execution: 
     event-scope: Static
@@ -776,61 +1137,284 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 223849891421562605
+    id: 398785073901754161
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Dialog # 223849090533562602
+      event: Cancel # 398784592971754161
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-processes: 
-- # ====== Process: Initialize form Edit Child Code ============
-  id: 223851583428562607
+- # ====== Dynamic Action: extract values ======================
+  id: 398785434946754162
   identification: 
-    name: Initialize form Edit Child Code
-    type: Form - Initialization
-    execution-chain: None
-    form-region: Edit Code Help # 223841858101562587
+    name: extract values
+
+  execution: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P61_FILE
+
+  actions: 
+  - # ====== Action: set standard_id =============================
+    id: 398785950125754162
+    identification: 
+      name: set standard_id
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col001
+          into :P61_STANDARD_ID
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P61_FILE
+         fetch first 1 rows only;
+      items-to-return: 
+      - P61_STANDARD_ID
+      suppress-change-event: false
+
+    execution: 
+      sequence: 50
+      event: extract values # 398785434946754162
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: alert if no compatibility_mode_id ===========
+    id: 398786988744754163
+    identification: 
+      name: alert if no compatibility_mode_id
+      action: Alert
+
+    settings: 
+      title: This is not a valid standard export script
+      message: The file you just loaded does not contain a compatibility_mode_id. Did you mean to import a test script?
+      style: Default
+      icon: fa-alert
+
+    execution: 
+      sequence: 90
+      event: extract values # 398785434946754162
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is null
+      item: P61_COMPATIBILITY_MODE_ID
+
+  - # ====== Action: disable button if no compatibility_mode_id ==
+    id: 398787428780754164
+    identification: 
+      name: disable button if no compatibility_mode_id
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: LOAD # 398771282518754131
+
+    execution: 
+      sequence: 80
+      event: extract values # 398785434946754162
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is null
+      item: P61_COMPATIBILITY_MODE_ID
+
+  - # ====== Action: set standard_count ==========================
+    id: 398787931063754165
+    identification: 
+      name: set standard_count
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        with stds as (
+            select distinct p.col001
+              from apex_application_temp_files f, 
+                   table( apex_data_parser.parse(
+                              p_content           => f.blob_content,
+                              p_file_name         => f.filename,
+                              p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
+                              p_max_rows          => 100 ) ) p
+             where f.name = :P61_FILE
+        )
+        select count(*)
+        into :P61_STANDARD_COUNT
+        from stds;
+      items-to-return: 
+      - P61_STANDARD_COUNT
+      suppress-change-event: false
+
+    execution: 
+      sequence: 30
+      event: extract values # 398785434946754162
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: set compatibility_mode_id ===================
+    id: 401116545526419538
+    identification: 
+      name: set compatibility_mode_id
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col007
+          into :P61_COMPATIBILITY_MODE_ID
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P61_FILE
+         fetch first 1 rows only;
+      items-to-return: 
+      - P61_COMPATIBILITY_MODE_ID
+      suppress-change-event: false
+
+    execution: 
+      sequence: 60
+      event: extract values # 398785434946754162
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: add to session state ========================
+    id: 401116682414419539
+    identification: 
+      name: add to session state
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: null;
+      items-to-submit: 
+      - P61_STANDARD_COUNT
+      - P61_STANDARD_ID
+      - P61_COMPATIBILITY_MODE_ID
+
+    execution: 
+      sequence: 70
+      event: extract values # 398785434946754162
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+validations: 
+- # ====== Validation: Is valid file type ======================
+  id: 398782525660754158
+  identification: 
+    name: Is valid file type
 
   execution: 
     sequence: 10
-    point: Before Header
-    run-process: Once Per Page Visit (default)
 
-- # ====== Process: Process form Edit Child Code ===============
-  id: 223851905030562607
-  identification: 
-    name: Process form Edit Child Code
-    type: Form - Automatic Row Processing (DML)
-    execution-chain: None
-    form-region: Edit Code Help # 223841858101562587
-
-  settings: 
-    target-type: Region Source
-    prevent-lost-updates: true
-    lock-row: Yes
-    return-primary-key(s)-after-insert: true
-
-  execution: 
-    sequence: 10
-    point: Processing
-    run-process: Once Per Page Visit (default)
+  validation: 
+    type: Function Body (returning Boolean)
+    language: PL/SQL
+    pl/sql-function-body: |
+      if apex_data_parser.assert_file_type(
+             p_file_name => :P61_FILE_NAME,
+             p_file_type => apex_data_parser.c_file_type_json )
+      then
+          return true;
+      else
+          :P61_FILE := null;
+          return false;
+      end if;
+    always-execute: false
 
   error: 
-    display-location: Inline in Notification
+    error-message: Invalid file type. Supported file types JSON.
+    display-location: Inline with Field and in Notification
+    associated-item: P61_FILE # 538154995000016045
 
-- # ====== Process: Close Dialog ===============================
-  id: 223852392118562608
+computations: 
+- # ====== Computation: P61_FILE_NAME ==========================
+  id: 398781783865754156
   identification: 
-    name: Close Dialog
-    type: Close Dialog
-    execution-chain: None
+    item-name: P61_FILE_NAME
 
   execution: 
-    sequence: 50
+    sequence: 10
+    point: After Submit
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select filename
+        from apex_application_temp_files 
+       where name = :P61_FILE
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P61_FILE
+
+- # ====== Computation: P61_ROW_COUNT ==========================
+  id: 398782126371754157
+  identification: 
+    item-name: P61_ROW_COUNT
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(1)
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_standards' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P61_FILE
+
+processes: 
+- # ====== Process: Load Data ==================================
+  id: 398782873522754158
+  identification: 
+    name: Load Data
+    type: Data Loading
+    execution-chain: None
+
+  settings: 
+    data-load-definition: EBA-STDS-STANDARDS # 278144654011491924
+    source-data-type: File Browse Item
+    file-browse-item: P61_FILE
+    processed-row-count-item: 
+    - P61_PROCESSED_ROW_COUNT
+    error-row-count-item: P61_ERROR_ROW_COUNT
+
+  execution: 
+    sequence: 10
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -838,6 +1422,79 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    type: Request is contained in Value
-    value: CREATE,SAVE,DELETE
+    when-button-pressed: LOAD # 398771282518754131
+
+- # ====== Process: Clear Cache ================================
+  id: 398783218360754159
+  identification: 
+    name: Clear Cache
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CLEAR # 398770813314754131
+
+branches: 
+- # ====== Branch: go to page 5 (1 standard) ===================
+  id: 398788478286754165
+  identification: 
+    name: go to page 5 (1 standard)
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:5:P5_ID:&P61_STANDARD_ID.&success_msg=#SUCCESS_MSG#'
+      page: 5 # Tests by Standard
+      clear-cache: 5
+      values: 
+        p5_id: '&P61_STANDARD_ID.'
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 398771282518754131
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |2
+          :P61_ERROR_ROW_COUNT = 0 
+      and :P61_STANDARD_ID is not null 
+      and :P61_PROCESSED_ROW_COUNT = 1
+
+- # ====== Branch: go to page 3 (+1 standards) =================
+  id: 398982506907850687
+  identification: 
+    name: go to page 3 (+1 standards)
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:3:&SESSION.::&DEBUG.:3::&success_msg=#SUCCESS_MSG#'
+      page: 3 # All Standards
+      clear-cache: 3
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 398771282518754131
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |2
+          :P61_ERROR_ROW_COUNT = 0 
+      and :P61_STANDARD_ID is not null 
+      and :P61_PROCESSED_ROW_COUNT > 1
 

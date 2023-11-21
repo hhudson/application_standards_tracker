@@ -22,11 +22,23 @@ elif [[ "$EXP_OPTION" == "2 - APEX installation file" ]]; then
     echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file${COLOR_RESET}"
     export_apex_app
 
-elif [[ "$EXP_OPTION" == "3 - All of the above" ]]; then
+elif [[ "$EXP_OPTION" == "3 - All APEX stuff (options 1 & 2)" ]]; then
 
-    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file + Readable YAML ${COLOR_RESET}"
+    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX YAML + install file${COLOR_RESET}"
+    export_apex_app_readable_yaml
+    export_apex_app
+
+elif [[ "$EXP_OPTION" == "4 - Export published tests & standards" ]]; then
+
+    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting published standards +  tests${COLOR_RESET}"
+    export_tests
+
+elif [[ "$EXP_OPTION" == "5 - All of the above" ]]; then
+
+    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file + Readable YAML + Published tests${COLOR_RESET}"
     export_apex_app
     export_apex_app_readable_yaml
+    export_tests
 
 else
 

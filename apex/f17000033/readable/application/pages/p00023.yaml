@@ -7,14 +7,10 @@ identification:
   title: Application Types
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-  - js-dialog-class-t-Drawer--pullOutEnd
-
-dialog: 
-  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -24,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -46,20 +42,17 @@ help:
 
 regions: 
 - # ====== Region: Application Types ===========================
-  id: 7578139999886132235
+  id: 7804532807361923172
   identification: 
     title: Application Types
     type: Interactive Report
 
   source: 
     location: Local Database
-    type: SQL Query
-    sql-query: |
-      select id,
-          display_sequence,
-          name,
-          description
-      from eba_stds_types
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_TYPES
+    include-rowid-column: false
 
   layout: 
     sequence: 10
@@ -72,7 +65,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     - t-IRR-region--noBorders
@@ -93,17 +86,19 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 7578140174840132235
+    id: 7804532982315923172
     link: 
       link-column: Link to Custom Target
       target: 
-        url: 'f?p=&APP_ID.:24:&APP_SESSION.::::P24_ID:#ID#'
+        url: 'f?p=&APP_ID.:24:&SESSION.::&DEBUG.:24:P24_ID:#ID#'
         page: 24 # Application Type
+        clear-cache: 24
         values: 
           p24_id: '#ID#'
 
       link-icon: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
-      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+      link-attributes: 'title = "Edit #TYPE_NAME#" aria-label = "Edit #TYPE_NAME#"'
+      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
     appearance: 
       show-null-values-as: '-'
@@ -165,14 +160,137 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 7578167492017354169
+      id: 7804560299493145106
       identification: 
         name: Primary Report
         alias: 7907174
 
     columns: 
+    - # ====== Column: TYPE_CODE ===================================
+      id: 341543567247766908
+      identification: 
+        column-name: TYPE_CODE
+        type: Plain Text
+
+      heading: 
+        heading: Type Code
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 24
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACTIVE_YN ===================================
+      id: 341543696534766909
+      identification: 
+        column-name: ACTIVE_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 34
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TYPE_NAME ===================================
+      id: 365746537195297052
+      identification: 
+        column-name: TYPE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Type Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 14
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: true
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: ID ==========================================
-      id: 7578140279434132239
+      id: 7804533086909923176
       identification: 
         column-name: ID
         type: Hidden Column
@@ -190,14 +308,14 @@ regions:
         escape-special-characters: false
 
     - # ====== Column: DISPLAY_SEQUENCE ============================
-      id: 7578140387154132243
+      id: 7804533194629923180
       identification: 
         column-name: DISPLAY_SEQUENCE
         type: Plain Text
 
       heading: 
         heading: Display Sequence
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
@@ -230,49 +348,8 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: NAME ========================================
-      id: 7578140478235132243
-      identification: 
-        column-name: NAME
-        type: Plain Text
-
-      heading: 
-        heading: Name
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 3
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: DESCRIPTION =================================
-      id: 7578140597459132243
+      id: 7804533404934923180
       identification: 
         column-name: DESCRIPTION
         type: Plain Text
@@ -314,14 +391,14 @@ regions:
 
 buttons: 
 - # ====== Button: RESET =======================================
-  id: 6187582344490812825
+  id: 6413975151966603762
   identification: 
     button-name: RESET
     label: Reset
 
   layout: 
-    sequence: 10
-    region: Application Types # 7578139999886132235
+    sequence: 30
+    region: Application Types # 7804532807361923172
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -330,7 +407,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -349,14 +426,14 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CREATE ======================================
-  id: 7578140802568132244
+  id: 7804533610043923181
   identification: 
     button-name: CREATE
-    label: Add Application Type
+    label: Create
 
   layout: 
     sequence: 20
-    region: Application Types # 7578139999886132235
+    region: Application Types # 7804532807361923172
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -365,10 +442,12 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Icon # 7800080132300934984
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-plus
 
   behavior: 
     action: Redirect to Page in this Application
@@ -380,11 +459,11 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 dynamic-actions: 
 - # ====== Dynamic Action: Refresh on Add ======================
-  id: 6187582492716812827
+  id: 6413975300192603764
   identification: 
     name: Refresh on Add
 
@@ -394,7 +473,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Button
-    button: CREATE # 7578140802568132244
+    button: CREATE # 7804533610043923181
 
   execution: 
     event-scope: Static
@@ -402,22 +481,22 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 6187582640159812828
+    id: 6413975447635603765
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Application Types # 7578139999886132235
+      region: Application Types # 7804532807361923172
 
     execution: 
       sequence: 10
-      event: Refresh on Add # 6187582492716812827
+      event: Refresh on Add # 6413975300192603764
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Refresh on Edit =====================
-  id: 6187582759761812829
+  id: 6413975567237603766
   identification: 
     name: Refresh on Edit
 
@@ -427,7 +506,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: Application Types # 7578139999886132235
+    region: Application Types # 7804532807361923172
 
   execution: 
     event-scope: Static
@@ -435,17 +514,17 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 6187582863246812830
+    id: 6413975670722603767
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Application Types # 7578139999886132235
+      region: Application Types # 7804532807361923172
 
     execution: 
       sequence: 10
-      event: Refresh on Edit # 6187582759761812829
+      event: Refresh on Edit # 6413975567237603766
       fire-when-event-result-is: True
       fire-on-initialization: false
 

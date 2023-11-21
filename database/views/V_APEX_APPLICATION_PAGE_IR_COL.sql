@@ -14,8 +14,10 @@ select application_id,
        created_on,
        updated_by,
        updated_on,
-       column_id
-from ast_apex_view.apex_application_page_ir_col() 
+       column_id,
+       workspace,
+       build_option
+from svt_apex_view.apex_application_page_ir_col() 
 /
 
 --rollback drop view v_apex_application_page_ir_col;

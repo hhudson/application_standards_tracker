@@ -1,6 +1,6 @@
 ---
 - # ====== Authorization: READER RIGHTS ========================
-  id: 48893993399820863
+  id: 275286800875611800
   identification: 
     name: READER RIGHTS
 
@@ -8,16 +8,19 @@
     type: PL/SQL Function Returning Boolean
 
   settings: 
-    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) >= 1;'
+    pl/sql-function-body: |
+      return apex_acl.has_user_any_roles (
+              p_application_id => :APP_ID, 
+              p_user_name      => :APP_USER);
 
   server-cache: 
     evaluation-point: Once per Session
 
   error: 
-    error-message: Insufficient privileges - user not a reader
+    error-message: You are not authorized to view this application, either because you have not been granted access, or your account has been locked. Please contact the application administrator.
 
 - # ====== Authorization: PERMALINK_PAGE_AUTH ==================
-  id: 8265064398508453019
+  id: 8491457205984243956
   identification: 
     name: PERMALINK_PAGE_AUTH
 
@@ -45,24 +48,25 @@
     error-message: You do not have permission to view this page.
 
 - # ====== Authorization: ADMINISTRATION RIGHTS ================
-  id: 10780232806617370804
+  id: 11006625614093161741
   identification: 
     name: ADMINISTRATION RIGHTS
 
   authorization-scheme: 
-    type: PL/SQL Function Returning Boolean
+    type: Is In Role or Group
 
   settings: 
-    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) = 3;'
+    type: Application Role
+    name(s): Administrator
 
   server-cache: 
-    evaluation-point: Once per Session
+    evaluation-point: Once per Page View
 
   error: 
     error-message: Insufficient privileges, user is not an Administrator
 
 - # ====== Authorization: APPLICATION SENTRY ===================
-  id: 10780233005961370815
+  id: 11006625813437161752
   identification: 
     name: APPLICATION SENTRY
 
@@ -87,18 +91,19 @@
     error-message: You are not authorized to view this application, either because you have not been granted access, or your account has been locked. Please contact the application administrator.
 
 - # ====== Authorization: CONTRIBUTION RIGHTS ==================
-  id: 10780233298390370815
+  id: 11006626105866161752
   identification: 
     name: CONTRIBUTION RIGHTS
 
   authorization-scheme: 
-    type: PL/SQL Function Returning Boolean
+    type: Is In Role or Group
 
   settings: 
-    pl/sql-function-body: 'return eba_stds_security.get_authorization_level(:APP_USER) >= 2;'
+    type: Application Role
+    name(s): Administrator,Contributor
 
   server-cache: 
-    evaluation-point: Once per Session
+    evaluation-point: Once per Page View
 
   error: 
     error-message: Insufficient privileges, user is not a Contributor

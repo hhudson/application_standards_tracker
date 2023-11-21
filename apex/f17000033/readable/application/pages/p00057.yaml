@@ -1,10 +1,10 @@
 ---
-# ====== Page: AST_SERT_HOW_TO_FIX ===========================
+# ====== Page: SERT How to Fix ===============================
 id: 57
 identification: 
-  name: AST_SERT_HOW_TO_FIX
+  name: SERT How to Fix
   alias: HOW-TO-FIX
-  title: '&APPLICATION_TITLE.  How to Fix'
+  title: How to Fix
 
 appearance: 
   page-mode: Normal
@@ -20,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -37,22 +37,21 @@ advanced:
 server-cache: 
   caching: Disabled
 
+comments: 
+  comments: SVT_SERT_HOW_TO_FIX
+
 regions: 
-- # ====== Region: How to Fix ==================================
-  id: 378921515157707374
+- # ====== Region: SERT Warning ================================
+  id: 372731537321697184
   identification: 
-    title: How to Fix
-    type: Interactive Report
+    title: SERT Warning
+    type: Static Content
 
   source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_SERT_HOW_TO_FIX
-    include-rowid-column: false
+    html-code: '&P57_STMT.'
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -62,7 +61,59 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: How to Fix ==================================
+  id: 605314322633498311
+  identification: 
+    title: How to Fix
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SVT_SERT_HOW_TO_FIX
+    include-rowid-column: false
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -82,7 +133,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 378921594998707374
+    id: 605314402474498311
     link: 
       link-column: Link to Custom Target
       target: 
@@ -152,14 +203,14 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 378927903134707761
+      id: 605320710610498698
       identification: 
         name: Primary Report
         alias: 688237
 
     columns: 
     - # ====== Column: SOURCE_INFO_FIX_MD5 =========================
-      id: 223433193898172333
+      id: 449826001373963270
       identification: 
         column-name: SOURCE_INFO_FIX_MD5
         type: Plain Text
@@ -200,7 +251,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: COLLECTION_NAME =============================
-      id: 223433247570172334
+      id: 449826055045963271
       identification: 
         column-name: COLLECTION_NAME
         type: Plain Text
@@ -217,7 +268,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -241,21 +292,21 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: TEST_ID =====================================
-      id: 223433353907172335
+      id: 449826161382963272
       identification: 
         column-name: TEST_ID
         type: Plain Text
 
       heading: 
         heading: Test ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 39
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -282,7 +333,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ID ==========================================
-      id: 378921968279707380
+      id: 605314775755498317
       identification: 
         column-name: ID
         type: Hidden Column
@@ -300,21 +351,21 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ATTRIBUTE_ID ================================
-      id: 378922823366707383
+      id: 605315630842498320
       identification: 
         column-name: ATTRIBUTE_ID
         type: Plain Text
 
       heading: 
         heading: Attribute ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 3
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -341,7 +392,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: INFO ========================================
-      id: 378923185040707383
+      id: 605315992516498320
       identification: 
         column-name: INFO
         type: Rich Text
@@ -369,7 +420,7 @@ regions:
         highlight: true
 
     - # ====== Column: FIX =========================================
-      id: 378923561649707384
+      id: 605316369125498321
       identification: 
         column-name: FIX
         type: Rich Text
@@ -397,7 +448,7 @@ regions:
         highlight: true
 
     - # ====== Column: CREATED =====================================
-      id: 378923949416707384
+      id: 605316756892498321
       identification: 
         column-name: CREATED
         type: Plain Text
@@ -442,7 +493,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED_BY ==================================
-      id: 378924405619707384
+      id: 605317213095498321
       identification: 
         column-name: CREATED_BY
         type: Plain Text
@@ -483,7 +534,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED =====================================
-      id: 378924821585707384
+      id: 605317629061498321
       identification: 
         column-name: UPDATED
         type: Plain Text
@@ -528,7 +579,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED_BY ==================================
-      id: 378925186194707384
+      id: 605317993670498321
       identification: 
         column-name: UPDATED_BY
         type: Plain Text
@@ -610,62 +661,47 @@ regions:
         font-color: '#000000'
         alignment: center
 
-- # ====== Region: Breadcrumb ==================================
-  id: 378927377619707390
+page-items: 
+- # ====== Page Item: P57_STMT =================================
+  id: 372731607877697185
   identification: 
-    title: Breadcrumb
-    type: Breadcrumb
+    name: P57_STMT
+    type: Hidden
 
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
+  settings: 
+    value-protected: true
 
   layout: 
     sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
+    region: SERT Warning # 372731537321697184
+    position: BODY
 
   advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
+    warn-on-unsaved-changes: Page Default
 
-  server-cache: 
-    caching: Disabled
+  source: 
+    type: Null
+    used: Only when current value in session state is null
 
-  customization: 
-    customizable: Not Customizable By End Users
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
 
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
 
 buttons: 
-- # ====== Button: reset =======================================
-  id: 282803349815565223
+- # ====== Button: RESET =======================================
+  id: 509196157291356160
   identification: 
-    button-name: reset
+    button-name: RESET
     label: Reset
 
   layout: 
     sequence: 40
-    region: How to Fix # 378921515157707374
+    region: How to Fix # 605314322633498311
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -674,7 +710,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -687,20 +723,20 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:57:&SESSION.::&DEBUG.:RR,::'
-      page: 57 # AST_SERT_HOW_TO_FIX
+      page: 57 # SERT How to Fix
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CREATE ======================================
-  id: 378925710169707385
+  id: 605318517645498322
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 30
-    region: How to Fix # 378921515157707374
+    region: How to Fix # 605314322633498311
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -709,8 +745,8 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: false
+    button-template: Icon # 7800080132300934984
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI
@@ -726,11 +762,11 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 dynamic-actions: 
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 378925943116707385
+  id: 605318750592498322
   identification: 
     name: Edit Report - Dialog Closed
 
@@ -740,7 +776,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: How to Fix # 378921515157707374
+    region: How to Fix # 605314322633498311
 
   execution: 
     event-scope: Static
@@ -748,17 +784,35 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 378926455546707387
+    id: 605319263022498324
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: How to Fix # 378921515157707374
+      region: How to Fix # 605314322633498311
 
     execution: 
       sequence: 10
-      event: Edit Report - Dialog Closed # 378925943116707385
+      event: Edit Report - Dialog Closed # 605318750592498322
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P57_STMT ===============================
+  id: 372731711839697186
+  identification: 
+    item-name: P57_STMT
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case when svt_preferences.get_preference ('SVT_SCM_YN') = 'N'
+           then 'SERT is not enabled for this application'
+           end
 

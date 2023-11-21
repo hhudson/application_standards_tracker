@@ -1,134 +1,32 @@
 ---
-- # ====== Authentication: Corp SSO via AuthProxy (survey builde
-  id: 419132214472998584
+- # ====== Authentication: noauth ==============================
+  id: 372610690134578946
   identification: 
-    name: Corp SSO via AuthProxy (survey builder)
-
-  subscription: 
-    master: 
-      referenced-id: 250516906380475879
+    name: noauth
 
   settings: 
-    type: HTTP Header Variable
-    http-header-variable-name: X-Oracle-Auth-UID
-    action-if-username-is-empty: Redirect to Built-In URL
-    verify-username: Each Request
-    logout-url-of-sso-server: /.auth/logout
-
-  source: 
-    pl/sql-code: |
-      -- set the global application item to indicate 
-      -- user is validated via support url using SSO 
-      PROCEDURE SUPPORT_AUTHENTICATED IS
-      begin
-         :G_SUPPORT_SSO_AUTHENTICATED:='Y';
-      end;
-
-  login-processing: 
-    post-authentication-procedure-name: SUPPORT_AUTHENTICATED
-    switch-in-session: false
-
-  session-sharing: 
-    cookie-name: ORA-COVID-ADMIN
-    secure: true
-
-  real-application-security: 
-    ras-mode: Disabled
-
-  comments: 
-    comments: |
-      https://covid19-support.oracle.com/
-      
-      SSO headers set by AuthProxy:
-      - X-Oracle-Auth-Email
-      - X-Oracle-Auth-UID
-      - X-Oracle-Auth-FirstName
-      - X-Oracle-Auth-LastName
-
-- # ====== Authentication: COVID IdP - DMS User ================
-  id: 6145134233259812152
-  identification: 
-    name: COVID IdP - DMS User
-
-  subscription: 
-    master: 
-      referenced-id: 128536138486784250
-
-  settings: 
-    type: Custom
-    sentry-function-name: sch_authentication.bo_user_sentry
-    enable-legacy-authentication-attributes: false
-
-  session-not-valid: 
-    redirect-to: URL
-    invalid-session-url: /account/signin/
+    type: No Authentication
+    username: nobody
 
   login-processing: 
     switch-in-session: false
 
-  post-logout-url: 
-    post-logout-url: /account/signout/
-
-  session-sharing: 
-    cookie-name: ORA-COVID-CARS
-    secure: true
-
   real-application-security: 
     ras-mode: Disabled
-
-- # ====== Authentication: Corp SSO via AuthProxy ==============
-  id: 6152889382055344539
-  identification: 
-    name: Corp SSO via AuthProxy
-
-  subscription: 
-    master: 
-      referenced-id: 3982054197511291
-
-  settings: 
-    type: HTTP Header Variable
-    http-header-variable-name: X-Oracle-Auth-UID
-    action-if-username-is-empty: Redirect to Built-In URL
-    verify-username: Each Request
-    logout-url-of-sso-server: /.auth/logout
-
-  source: 
-    pl/sql-code: |
-      -- set the global application item to indicate 
-      -- user is validated via support url using SSO 
-      PROCEDURE SUPPORT_AUTHENTICATED IS
-      begin
-         :G_SUPPORT_SSO_AUTHENTICATED:='Y';
-      end;
-
-  login-processing: 
-    post-authentication-procedure-name: SUPPORT_AUTHENTICATED
-    switch-in-session: false
-
-  session-sharing: 
-    cookie-name: ORA-COVID-ADMIN
-    secure: true
-
-  real-application-security: 
-    ras-mode: Disabled
-
-  comments: 
-    comments: |
-      https://covid19-support.oracle.com/
-      
-      SSO headers set by AuthProxy:
-      - X-Oracle-Auth-Email
-      - X-Oracle-Auth-UID
-      - X-Oracle-Auth-FirstName
-      - X-Oracle-Auth-LastName
 
 - # ====== Authentication: Application Express Accounts ========
-  id: 11984536357708947236
+  id: 12210929165184738173
   identification: 
     name: Application Express Accounts
 
   settings: 
     type: Oracle APEX Accounts
+
+  source: 
+    pl/sql-code: |
+      begin
+      :APP_USER := upper(:APP_USER);
+      end;
 
   session-not-valid: 
     redirect-to: Login Page
@@ -137,11 +35,7 @@
     switch-in-session: false
 
   post-logout-url: 
-    post-logout-url: 'f?p=&APP_ID.:home'
-
-  session-sharing: 
-    cookie-name: COOKIEMASQUERADE
-    secure: true
+    post-logout-url: 'f?p=&APP_ID.:1'
 
   real-application-security: 
     ras-mode: Disabled

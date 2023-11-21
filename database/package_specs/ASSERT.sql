@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset package_script:ASSERT stripComments:false endDelimiter:/ runOnChange:true
-create or replace PACKAGE assert  
+create or replace PACKAGE assert authid definer
 IS  
 --------------------------------------------------------------------------------
 --
@@ -77,42 +77,42 @@ IS
 --------------------------------------------------------------------------------
 
    PROCEDURE this_condition (  
-      condition_in IN BOOLEAN  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
-    , null_means_failure_in IN BOOLEAN DEFAULT TRUE  
+      p_condition_in IN BOOLEAN  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+    , p_null_means_failure_in IN BOOLEAN DEFAULT TRUE  
    );   
 
    PROCEDURE is_null (  
-      val_in IN VARCHAR2  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_val_in IN VARCHAR2  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    );  
 
    PROCEDURE is_not_null (  
-      val_in IN VARCHAR2  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_val_in IN VARCHAR2  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    );  
 
    PROCEDURE is_true (  
-      condition_in IN BOOLEAN  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_condition_in IN BOOLEAN  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    );  
 
    PROCEDURE is_false (  
-      condition_in IN BOOLEAN  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_condition_in IN BOOLEAN  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    );  
 
    PROCEDURE is_in_range (  
-      date_in IN DATE  
-    , low_date_in IN DATE  
-    , high_date_in IN DATE  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_date_in IN DATE  
+    , p_low_date_in IN DATE  
+    , p_high_date_in IN DATE  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    );  
 END assert; 
 /

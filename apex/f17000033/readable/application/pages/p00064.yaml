@@ -8,7 +8,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -24,7 +24,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -43,7 +43,7 @@ server-cache:
 
 regions: 
 - # ====== Region: Edit Nested Table Type ======================
-  id: 177229383368445811
+  id: 403622190844236748
   identification: 
     title: Edit Nested Table Type
     type: Form
@@ -52,7 +52,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_NESTED_TABLE_TYPES
+    table-name: SVT_NESTED_TABLE_TYPES
     include-rowid-column: false
 
   layout: 
@@ -66,7 +66,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -95,7 +95,7 @@ regions:
       lost-update-type: Row Values
 
 - # ====== Region: Buttons =====================================
-  id: 177234515695445825
+  id: 403627323171236762
   identification: 
     title: Buttons
     type: Static Content
@@ -111,7 +111,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -137,7 +137,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P64_ID ===================================
-  id: 177229744379445814
+  id: 403622551855236751
   identification: 
     name: P64_ID
     type: Hidden
@@ -147,14 +147,14 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Edit Nested Table Type # 177229383368445811
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: ID
     data-type: NUMBER
     query-only: true
@@ -170,13 +170,13 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P64_NT_NAME ==============================
-  id: 177230195592445820
+  id: 403623003068236757
   identification: 
     name: P64_NT_NAME
     type: Popup LOV
 
   label: 
-    label: Nt Name
+    label: Table Type Object Name
     alignment: Left
 
   settings: 
@@ -189,7 +189,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Edit Nested Table Type # 177229383368445811
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -200,13 +200,13 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 60
 
   validation: 
-    value-required: true
+    value-required: false
     maximum-length: 255
 
   list-of-values: 
@@ -223,7 +223,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: NT_NAME
     data-type: VARCHAR2
     query-only: false
@@ -244,7 +244,7 @@ page-items:
     help-text: the name of the table type that has all the fields for the object type
 
 - # ====== Page Item: P64_EXAMPLE_QUERY ========================
-  id: 177230443089445821
+  id: 403623250565236758
   identification: 
     name: P64_EXAMPLE_QUERY
     type: CodeMirror
@@ -259,8 +259,8 @@ page-items:
     validate-code: false
 
   layout: 
-    sequence: 40
-    region: Edit Nested Table Type # 177229383368445811
+    sequence: 50
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -270,18 +270,18 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
 
   validation: 
-    value-required: true
+    value-required: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: EXAMPLE_QUERY
     data-type: CLOB
     query-only: false
@@ -298,7 +298,7 @@ page-items:
     help-text: A query that has all the necessary fields for the underlying object type
 
 - # ====== Page Item: P64_CREATED ==============================
-  id: 177230829630445821
+  id: 403623637106236758
   identification: 
     name: P64_CREATED
     type: Hidden
@@ -307,17 +307,17 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 50
-    region: Edit Nested Table Type # 177229383368445811
+    sequence: 60
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: CREATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -331,7 +331,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P64_CREATED_BY ===========================
-  id: 177231231497445822
+  id: 403624038973236759
   identification: 
     name: P64_CREATED_BY
     type: Hidden
@@ -340,15 +340,15 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
-    region: Edit Nested Table Type # 177229383368445811
+    sequence: 70
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: CREATED_BY
     data-type: VARCHAR2
     query-only: false
@@ -364,7 +364,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P64_UPDATED ==============================
-  id: 177231614340445822
+  id: 403624421816236759
   identification: 
     name: P64_UPDATED
     type: Hidden
@@ -373,17 +373,17 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 70
-    region: Edit Nested Table Type # 177229383368445811
+    sequence: 80
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: UPDATED
-    data-type: DATE
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
@@ -397,7 +397,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P64_UPDATED_BY ===========================
-  id: 177232003770445822
+  id: 403624811246236759
   identification: 
     name: P64_UPDATED_BY
     type: Hidden
@@ -406,15 +406,15 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
-    region: Edit Nested Table Type # 177229383368445811
+    sequence: 90
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: UPDATED_BY
     data-type: VARCHAR2
     query-only: false
@@ -430,7 +430,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P64_OBJECT_TYPE ==========================
-  id: 223433059559172332
+  id: 449825867034963269
   identification: 
     name: P64_OBJECT_TYPE
     type: Text Field
@@ -448,7 +448,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Edit Nested Table Type # 177229383368445811
+    region: Edit Nested Table Type # 403622190844236748
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -459,20 +459,20 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 30
 
   validation: 
-    value-required: true
+    value-required: false
     maximum-length: 55
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
     column: OBJECT_TYPE
     data-type: VARCHAR2
     query-only: false
@@ -494,14 +494,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 177234992746445825
+  id: 403627800222236762
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 177234515695445825
+    region: Buttons # 403627323171236762
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -510,7 +510,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -520,14 +520,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: DELETE ======================================
-  id: 177236319492445828
+  id: 403629126968236765
   identification: 
     button-name: DELETE
     label: Delete
 
   layout: 
     sequence: 20
-    region: Buttons # 177234515695445825
+    region: Buttons # 403627323171236762
     position: DELETE
     start-new-layout: false
     start-new-row: true
@@ -536,7 +536,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -558,17 +558,17 @@ buttons:
     item: P64_ID
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Button: SAVE ========================================
-  id: 177236747915445829
+  id: 403629555391236766
   identification: 
     button-name: SAVE
-    label: Apply Changes
+    label: Save
 
   layout: 
     sequence: 30
-    region: Buttons # 177234515695445825
+    region: Buttons # 403627323171236762
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -577,7 +577,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -593,14 +593,14 @@ buttons:
     item: P64_ID
 
 - # ====== Button: CREATE ======================================
-  id: 177237195760445829
+  id: 403630003236236766
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 40
-    region: Buttons # 177234515695445825
+    region: Buttons # 403627323171236762
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -609,7 +609,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -626,7 +626,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
-  id: 177235096855445825
+  id: 403627904331236762
   identification: 
     name: Cancel Dialog
 
@@ -636,7 +636,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 177234992746445825
+    button: CANCEL # 403627800222236762
 
   execution: 
     event-scope: Static
@@ -644,24 +644,24 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 177235800451445828
+    id: 403628607927236765
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Dialog # 177235096855445825
+      event: Cancel Dialog # 403627904331236762
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 processes: 
 - # ====== Process: Initialize form Edit Nested Table Type =====
-  id: 177237575381445830
+  id: 403630382857236767
   identification: 
     name: Initialize form Edit Nested Table Type
     type: Form - Initialization
     execution-chain: None
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
 
   execution: 
     sequence: 10
@@ -669,18 +669,37 @@ processes:
     run-process: Once Per Page Visit (default)
 
 - # ====== Process: Process form Edit Nested Table Type ========
-  id: 177237973618445830
+  id: 403630781094236767
   identification: 
     name: Process form Edit Nested Table Type
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
-    form-region: Edit Nested Table Type # 177229383368445811
+    form-region: Edit Nested Table Type # 403622190844236748
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P14_ID := svt_nested_table_types_api.insert_nt (
+                          p_nt_name       => :P64_NT_NAME,
+                          p_example_query => :P64_EXAMPLE_QUERY,
+                          p_object_type   => :P64_OBJECT_TYPE
+                      );
+          when 'U' then
+            svt_nested_table_types_api.update_nt (
+                  p_id            => :P64_ID,
+                  p_nt_name       => :P64_NT_NAME,
+                  p_example_query => :P64_EXAMPLE_QUERY,
+                  p_object_type   => :P64_OBJECT_TYPE
+              );
+          when 'D' then
+            svt_nested_table_types_api.delete_nt(p_id => :P64_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10
@@ -691,7 +710,7 @@ processes:
     display-location: Inline in Notification
 
 - # ====== Process: Close Dialog ===============================
-  id: 177238388002445831
+  id: 403631195478236768
   identification: 
     name: Close Dialog
     type: Close Dialog

@@ -1,11 +1,10 @@
 ---
-# ====== Page: Set Time Zone =================================
+# ====== Page: Set Preferences ===============================
 id: 45
 identification: 
-  name: Set Time Zone
-  alias: SET-TIME-ZONE
-  title: '&APPLICATION_TITLE. Set Preferences'
-  page-group: Administration # 10780320217725301324
+  name: Set Preferences
+  alias: SET-PREFERENCES
+  title: Set Preferences
 
 appearance: 
   page-mode: Normal
@@ -21,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: READER RIGHTS # 48893993399820863
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -39,10 +38,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Other preferences ===========================
-  id: 262034199728761319
+- # ====== Region: Set Preferences =============================
+  id: 282206517946270547
   identification: 
-    title: Other preferences
+    title: Set Preferences
     type: Static Content
 
   layout: 
@@ -56,13 +55,12 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7573654784682143972
+    template: Alert # 7800047592157934909
     template-options: 
     - '#DEFAULT#'
     - t-Alert--wizard
     - t-Alert--defaultIcons
     - t-Alert--info
-    - t-Alert--accessibleHeading
     render-components: Above Content
 
   accessibility: 
@@ -70,16 +68,103 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
 
-  server-side-condition: 
-    type: Item != Value
-    item: P45_PREFERENCE_NAME
-    value: Time Zone
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Advanced ====================================
+  id: 372947557735094658
+  identification: 
+    title: Advanced
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Admin Preferences # 495023527786048360
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-collapsed
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
 
   security: 
-    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: General =====================================
+  id: 372947696553094659
+  identification: 
+    title: General
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Admin Preferences # 495023527786048360
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
 
   server-cache: 
     caching: Disabled
@@ -93,13 +178,13 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Hidden ======================================
-  id: 262034292998761320
+  id: 488427100474552257
   identification: 
     title: Hidden
     type: Static Content
 
   layout: 
-    sequence: 40
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -109,7 +194,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -134,15 +219,15 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Admin Preferences ===========================
-  id: 268630720310257423
+  id: 495023527786048360
   identification: 
     title: Admin Preferences
     type: Static Content
 
   layout: 
-    sequence: 10
-    parent-region: Other preferences # 262034199728761319
-    position: SUB_REGIONS
+    sequence: 20
+    parent-region: Set Preferences # 282206517946270547
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -150,7 +235,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -164,7 +249,7 @@ regions:
     exclude-title-from-translation: false
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
   server-cache: 
     caching: Disabled
@@ -177,61 +262,15 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Breadcrumb ==================================
-  id: 10792421326655826144
+- # ====== Region: Personal ====================================
+  id: 11018814526877621091
   identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 20
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
-
-- # ====== Region: Time Zone ===================================
-  id: 10792421719401830154
-  identification: 
-    title: Time Zone
+    title: Personal
     type: Static Content
 
   layout: 
     sequence: 10
-    parent-region: No Parent
+    parent-region: Set Preferences # 282206517946270547
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -240,12 +279,14 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7573654784682143972
+    template: Collapsible # 7800059901717934927
     template-options: 
     - '#DEFAULT#'
-    - t-Alert--wizard
-    - t-Alert--defaultIcons
-    - t-Alert--info
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -256,10 +297,8 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-side-condition: 
-    type: Item = Value
-    item: P45_PREFERENCE_NAME
-    value: Time Zone
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
 
   server-cache: 
     caching: Disabled
@@ -273,10 +312,69 @@ regions:
       expand-shortcuts: false
 
 page-items: 
-- # ====== Page Item: P45_DEFAULT_ASSIGNEE =====================
-  id: 1696567532057916
+- # ====== Page Item: P45_SVT_LOKI_YN ==========================
+  id: 217495996198073119
   identification: 
-    name: P45_DEFAULT_ASSIGNEE
+    name: P45_SVT_LOKI_YN
+    type: Switch
+
+  label: 
+    label: Loki Utility Available
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 30
+    region: Advanced # 372947557735094658
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get('SVT_LOKI_YN')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  server-side-condition: 
+    type: Never
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Are you using Loki (unusual)?
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Page Item: P45_SVT_DEFAULT_ASSIGNEE =================
+  id: 228089375007848853
+  identification: 
+    name: P45_SVT_DEFAULT_ASSIGNEE
     type: Popup LOV
 
   label: 
@@ -293,8 +391,8 @@ page-items:
     popup-width: 400
 
   layout: 
-    sequence: 130
-    region: Admin Preferences # 268630720310257423
+    sequence: 110
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -302,13 +400,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -316,7 +413,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_FROM_EMAIL # 115887574838451264
+    list-of-values: SVT_FROM_EMAIL # 342280382314242201
     display-extra-values: false
     display-null-value: false
 
@@ -326,7 +423,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_DEFAULT_ASSIGNEE')
+    pl/sql-expression: svt_preferences.get('SVT_DEFAULT_ASSIGNEE')
     used: Only when current value in session state is null
 
   session-state: 
@@ -340,10 +437,135 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_FROM_EMAIL =======================
-  id: 115637062471775408
+  help: 
+    help-text: To whom should violations be assigned failing other available assignees?
+
+- # ====== Page Item: P45_SVT_ADMIN_VERSION_YN =================
+  id: 229577802078659416
   identification: 
-    name: P45_AST_FROM_EMAIL
+    name: P45_SVT_ADMIN_VERSION_YN
+    type: Switch
+
+  label: 
+    label: Is this an Admin version of this app install?
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 40
+    region: Advanced # 372947557735094658
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get('SVT_ADMIN_VERSION_YN')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Should this app have the full functionality of the admin install? Or is there another dev environment that gets deployed over this version periodically?
+
+- # ====== Page Item: P45_SVT_DO_NOT_ASSIGN ====================
+  id: 280032478123364322
+  identification: 
+    name: P45_SVT_DO_NOT_ASSIGN
+    type: Popup LOV
+
+  label: 
+    label: Do not assign issues to these users
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ':'
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 140
+    region: General # 372947696553094659
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 12
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ASSIGNEES # 628064901719578901
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get('SVT_DO_NOT_ASSIGN')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: List the people to whom issues should be assigned
+
+- # ====== Page Item: P45_SVT_FROM_EMAIL =======================
+  id: 342029869947566345
+  identification: 
+    name: P45_SVT_FROM_EMAIL
     type: Popup LOV
 
   label: 
@@ -360,8 +582,8 @@ page-items:
     popup-width: 400
 
   layout: 
-    sequence: 120
-    region: Admin Preferences # 268630720310257423
+    sequence: 100
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -369,13 +591,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -383,17 +604,19 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_FROM_EMAIL # 115887574838451264
+    list-of-values: SVT_FROM_EMAIL # 342280382314242201
     display-extra-values: false
     display-null-value: false
 
   advanced: 
+    custom-attributes: 
+    - autocomplete="email"
     warn-on-unsaved-changes: Page Default
 
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_FROM_EMAIL')
+    pl/sql-expression: svt_preferences.get('SVT_FROM_EMAIL')
     used: Only when current value in session state is null
 
   session-state: 
@@ -407,14 +630,17 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_SRC_EDIT_DELAY ===================
-  id: 115637207098775410
+  help: 
+    help-text: From whom should the notification emails appear to be from?
+
+- # ====== Page Item: P45_SVT_SRC_EDIT_DELAY ===================
+  id: 342030014574566347
   identification: 
-    name: P45_AST_SRC_EDIT_DELAY
+    name: P45_SVT_SRC_EDIT_DELAY
     type: Number Field
 
   label: 
-    label: Day(s) delay before applying a standard change
+    label: Day(s) delay before applying a test change
     alignment: Left
 
   settings: 
@@ -424,8 +650,8 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 140
-    region: Admin Preferences # 268630720310257423
+    sequence: 120
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -433,13 +659,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -451,7 +676,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_SRC_EDIT_DELAY')
+    pl/sql-expression: svt_preferences.get('SVT_SRC_EDIT_DELAY')
     used: Only when current value in session state is null
 
   default: 
@@ -469,10 +694,13 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_CLEANUP_DELAY ====================
-  id: 133987638548486614
+  help: 
+    help-text: How much time should elapse between editing a test and sending out notifications for it?
+
+- # ====== Page Item: P45_SVT_CLEANUP_DELAY ====================
+  id: 360380446024277551
   identification: 
-    name: P45_AST_CLEANUP_DELAY
+    name: P45_SVT_CLEANUP_DELAY
     type: Number Field
 
   label: 
@@ -486,8 +714,8 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 150
-    region: Admin Preferences # 268630720310257423
+    sequence: 130
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -495,13 +723,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -513,7 +740,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_CLEANUP_DELAY')
+    pl/sql-expression: svt_preferences.get('SVT_CLEANUP_DELAY')
     used: Only when current value in session state is null
 
   default: 
@@ -531,8 +758,80 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: For how many months should a component be permitted to be unavailable?
+
+- # ====== Page Item: P45_SVT_REVIEW_SCHEMAS ===================
+  id: 443888103377864049
+  identification: 
+    name: P45_SVT_REVIEW_SCHEMAS
+    type: Popup LOV
+
+  label: 
+    label: Review Schemas
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ':'
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 50
+    region: General # 372947696553094659
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ALL_USERS.USERNAME # 452768064277971755
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get('SVT_REVIEW_SCHEMAS')
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: These schemas will be reviewed for DB violations
+
 - # ====== Page Item: P45_PREFERENCE_NAME ======================
-  id: 262034014027761318
+  id: 488426821503552255
   identification: 
     name: P45_PREFERENCE_NAME
     type: Hidden
@@ -542,7 +841,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Hidden # 262034292998761320
+    region: Hidden # 488427100474552257
     position: BODY
 
   advanced: 
@@ -561,10 +860,10 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_EMAIL_SUBSCRIPTION ===============
-  id: 262034356369761321
+- # ====== Page Item: P45_SVT_EMAIL_SUBSCRIPTION ===============
+  id: 488427163845552258
   identification: 
-    name: P45_AST_EMAIL_SUBSCRIPTION
+    name: P45_SVT_EMAIL_SUBSCRIPTION
     type: Switch
 
   label: 
@@ -575,8 +874,8 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 10
-    region: Other preferences # 262034199728761319
+    sequence: 20
+    region: Personal # 11018814526877621091
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -584,14 +883,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -601,7 +898,7 @@ page-items:
 
   source: 
     type: Preference
-    preference: AST_EMAIL_SUBSCRIPTION
+    preference: SVT_EMAIL_SUBSCRIPTION
     used: Only when current value in session state is null
 
   session-state: 
@@ -612,10 +909,13 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_DEFAULT_SCHEMA ===================
-  id: 262034665463761324
+  help: 
+    help-text: Do you want to subscribe to the daily notification?
+
+- # ====== Page Item: P45_SVT_DEFAULT_SCHEMA ===================
+  id: 488427472939552261
   identification: 
-    name: P45_AST_DEFAULT_SCHEMA
+    name: P45_SVT_DEFAULT_SCHEMA
     type: Popup LOV
 
   label: 
@@ -632,7 +932,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Admin Preferences # 268630720310257423
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -640,10 +940,10 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -652,13 +952,10 @@ page-items:
     value-required: false
 
   list-of-values: 
-    type: SQL Query
-    sql-query: |
-      select username d, username r
-      from all_users
-      order by 1,2
-    display-extra-values: true
-    display-null-value: true
+    type: Shared Component
+    list-of-values: ALL_USERS.USERNAME # 452768064277971755
+    display-extra-values: false
+    display-null-value: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -666,7 +963,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_DEFAULT_SCHEMA')
+    pl/sql-expression: svt_preferences.get('SVT_DEFAULT_SCHEMA')
     used: Only when current value in session state is null
 
   session-state: 
@@ -680,10 +977,13 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_DB_NAME ==========================
-  id: 262034842508761326
+  help: 
+    help-text: What schema are we scanning for issues in?
+
+- # ====== Page Item: P45_SVT_DB_NAME ==========================
+  id: 488427649984552263
   identification: 
-    name: P45_AST_DB_NAME
+    name: P45_SVT_DB_NAME
     type: Popup LOV
 
   label: 
@@ -694,24 +994,24 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     multiple-values: false
-    manual-entry: false
+    manual-entry: true
     search-as-you-type: true
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 50
-    region: Admin Preferences # 268630720310257423
+    sequence: 70
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -721,7 +1021,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_DB_NAMES # 431230733486067167
+    list-of-values: SVT_DB_NAMES # 657623540961858104
     display-extra-values: false
     display-null-value: true
 
@@ -731,7 +1031,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_DB_NAME')
+    pl/sql-expression: svt_preferences.get('SVT_DB_NAME')
     used: Only when current value in session state is null
 
   session-state: 
@@ -745,10 +1045,13 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_EMAIL_API ========================
-  id: 262035025787761328
+  help: 
+    help-text: What shorthand name can we use to describe this database?
+
+- # ====== Page Item: P45_SVT_EMAIL_API ========================
+  id: 488427833263552265
   identification: 
-    name: P45_AST_EMAIL_API
+    name: P45_SVT_EMAIL_API
     type: Popup LOV
 
   label: 
@@ -764,19 +1067,19 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 60
-    region: Admin Preferences # 268630720310257423
+    sequence: 40
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -786,7 +1089,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_EMAIL_SOLNS # 431229033725035394
+    list-of-values: SVT_EMAIL_SOLNS # 657621841200826331
     display-extra-values: false
     display-null-value: false
 
@@ -796,7 +1099,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_EMAIL_API')
+    pl/sql-expression: svt_preferences.get('SVT_EMAIL_API')
     used: Only when current value in session state is null
 
   session-state: 
@@ -810,10 +1113,13 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_BASE_URL =========================
-  id: 262035216656761330
+  help: 
+    help-text: What method should be used to send the periodic notification email? (see app automations)
+
+- # ====== Page Item: P45_SVT_BASE_URL =========================
+  id: 488428024132552267
   identification: 
-    name: P45_AST_BASE_URL
+    name: P45_SVT_BASE_URL
     type: Popup LOV
 
   label: 
@@ -824,14 +1130,14 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     multiple-values: false
-    manual-entry: false
+    manual-entry: true
     search-as-you-type: true
     minimum-characters: No minimum (0)
     popup-width: 400
 
   layout: 
-    sequence: 70
-    region: Admin Preferences # 268630720310257423
+    sequence: 80
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -839,13 +1145,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: 12
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
     width: 30
 
   validation: 
@@ -853,7 +1158,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_BASE_URL # 431427881171167911
+    list-of-values: SVT_BASE_URL # 657820688646958848
     display-extra-values: false
     display-null-value: false
 
@@ -863,7 +1168,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_BASE_URL')
+    pl/sql-expression: svt_preferences.get('SVT_BASE_URL')
     used: Only when current value in session state is null
 
   session-state: 
@@ -877,14 +1182,17 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_DEFAULT_WORKSPACE ================
-  id: 262035488990761332
+  help: 
+    help-text: What's the base URL for this application?
+
+- # ====== Page Item: P45_SVT_WORKSPACE ========================
+  id: 488428296466552269
   identification: 
-    name: P45_AST_DEFAULT_WORKSPACE
+    name: P45_SVT_WORKSPACE
     type: Popup LOV
 
   label: 
-    label: Default Workspace
+    label: Review Workspace
     alignment: Left
 
   settings: 
@@ -896,8 +1204,8 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 40
-    region: Admin Preferences # 268630720310257423
+    sequence: 60
+    region: General # 372947696553094659
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -905,10 +1213,10 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -918,7 +1226,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: AST_WORKSPACES # 431432284904408281
+    list-of-values: SVT_WORKSPACES # 657825092380199218
     display-extra-values: false
     display-null-value: true
 
@@ -928,7 +1236,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE')
+    pl/sql-expression: svt_preferences.get('SVT_WORKSPACE')
     used: Only when current value in session state is null
 
   session-state: 
@@ -942,62 +1250,13 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_SERT_YN ==========================
-  id: 262036213218761340
+  help: 
+    help-text: What workspace are we scanning for issues in?
+
+- # ====== Page Item: P45_SVT_APEX_ISSUES_YN ===================
+  id: 488429224515552279
   identification: 
-    name: P45_AST_SERT_YN
-    type: Switch
-
-  label: 
-    label: APEX SERT is installed
-    alignment: Left
-
-  settings: 
-    use-defaults: true
-
-  layout: 
-    sequence: 90
-    region: Admin Preferences # 268630720310257423
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: 3
-
-  appearance: 
-    template: Optional # 7573687128199144043
-    template-options: 
-    - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
-
-  validation: 
-    value-required: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_SERT_YN')
-    used: Only when current value in session state is null
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P45_AST_APEX_ISSUES_YN ===================
-  id: 262036417039761342
-  identification: 
-    name: P45_AST_APEX_ISSUES_YN
+    name: P45_SVT_APEX_ISSUES_YN
     type: Switch
 
   label: 
@@ -1008,8 +1267,8 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 100
-    region: Admin Preferences # 268630720310257423
+    sequence: 10
+    region: Advanced # 372947557735094658
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -1017,14 +1276,12 @@ page-items:
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -1035,7 +1292,7 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_APEX_ISSUES_YN')
+    pl/sql-expression: svt_preferences.get('SVT_APEX_ISSUES_YN')
     used: Only when current value in session state is null
 
   session-state: 
@@ -1046,10 +1303,13 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_AST_SCM_YN ===========================
-  id: 262036694780761344
+  help: 
+    help-text: Do you want APEX Issues to be auto-generated to promote awareness for violations?
+
+- # ====== Page Item: P45_SVT_SCM_YN ===========================
+  id: 488429502256552281
   identification: 
-    name: P45_AST_SCM_YN
+    name: P45_SVT_SCM_YN
     type: Switch
 
   label: 
@@ -1060,23 +1320,21 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 110
-    region: Admin Preferences # 268630720310257423
+    sequence: 20
+    region: Advanced # 372947557735094658
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
-    label-column-span: 3
+    label-column-span: Page Template Default
 
   appearance: 
-    template: Optional # 7573687128199144043
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
 
   validation: 
     value-required: false
@@ -1087,21 +1345,30 @@ page-items:
   source: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ast_preferences.get_preference ('AST_SCM_YN')
+    pl/sql-expression: svt_preferences.get('SVT_SCM_YN')
     used: Only when current value in session state is null
 
   session-state: 
     storage: Per Session (Persistent)
+
+  server-side-condition: 
+    type: Never
 
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P45_TIME_ZONE ============================
-  id: 10792439804528327340
+  help: 
+    help-text: Are you using Source Code Manager (unusual)?
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Page Item: P45_SVT_TIME_ZONE ========================
+  id: 11018832612004118277
   identification: 
-    name: P45_TIME_ZONE
+    name: P45_SVT_TIME_ZONE
     type: Select List
 
   label: 
@@ -1114,7 +1381,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Time Zone # 10792421719401830154
+    region: Personal # 11018814526877621091
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -1125,7 +1392,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required # 7573687255378144045
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
     height: 1
@@ -1146,12 +1413,9 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    type: SQL Query (return single value)
-    sql-query: |
-      select timezone_preference 
-      from eba_stds_tz_pref 
-      where username = :APP_USER
-    used: Always, replacing any existing value in session state
+    type: Preference
+    preference: SVT_TIME_ZONE
+    used: Only when current value in session state is null
 
   default: 
     type: Function Body
@@ -1169,16 +1433,19 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
+  help: 
+    help-text: What is your timezone
+
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 10792422124942831730
+  id: 11018814932418622667
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Breadcrumb # 10792421326655826144
+    region: Super Breadcrumb # 370769984920860454
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -1187,7 +1454,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1195,20 +1462,20 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:::'
-      page: '&LAST_VIEW.'
+      url: 'f?p=&APP_ID.:&A_LAST_VIEW.:&SESSION.::&DEBUG.:::'
+      page: '&A_LAST_VIEW.'
 
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: APPLY_CHANGES ===============================
-  id: 10792422313066831730
+  id: 11018815120542622667
   identification: 
     button-name: APPLY_CHANGES
-    label: Apply Changes
+    label: Save
 
   layout: 
     sequence: 20
-    region: Breadcrumb # 10792421326655826144
+    region: Super Breadcrumb # 370769984920860454
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -1217,7 +1484,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -1228,10 +1495,10 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 processes: 
-- # ====== Process: AST_DEFAULT_ASSIGNEE =======================
-  id: 1696692751057917
+- # ====== Process: SVT_LOKI_YN ================================
+  id: 217496032127073120
   identification: 
-    name: AST_DEFAULT_ASSIGNEE
+    name: SVT_LOKI_YN
     type: Execute Code
     execution-chain: None
 
@@ -1240,9 +1507,9 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_DEFAULT_ASSIGNEE',
-              p_value => :P45_DEFAULT_ASSIGNEE
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_LOKI_YN',
+              p_value => :P45_SVT_LOKI_YN
           );
       end;
 
@@ -1254,11 +1521,50 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Never
+
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Process: SVT_DEFAULT_ASSIGNEE =======================
+  id: 228089500226848854
+  identification: 
+    name: SVT_DEFAULT_ASSIGNEE
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_DEFAULT_ASSIGNEE',
+              p_value => :P45_SVT_DEFAULT_ASSIGNEE
+          );
+      end;
+
+  execution: 
+    sequence: 150
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_DEFAULT_ASSIGNEE
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Process: compile_conditional_compilation_version_pack
-  id: 1696770092057918
+  id: 228089577567848855
   identification: 
     name: compile_conditional_compilation_version_package_for
     type: Execute Code
@@ -1280,33 +1586,7 @@ processes:
       end;
 
   execution: 
-    sequence: 150
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-- # ====== Process: AST_FROM_EMAIL =============================
-  id: 115637121424775409
-  identification: 
-    name: AST_FROM_EMAIL
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_FROM_EMAIL',
-              p_value => :P45_AST_FROM_EMAIL
-          );
-      end;
-
-  execution: 
-    sequence: 110
+    sequence: 190
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1314,12 +1594,12 @@ processes:
     display-location: Inline in Notification
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Process: AST_SRC_EDIT_DELAY =========================
-  id: 115637328686775411
+- # ====== Process: P45_ADMIN_VERSION_YN =======================
+  id: 229577904666659417
   identification: 
-    name: AST_SRC_EDIT_DELAY
+    name: P45_ADMIN_VERSION_YN
     type: Execute Code
     execution-chain: None
 
@@ -1328,9 +1608,9 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_SRC_EDIT_DELAY',
-              p_value => :P45_AST_SRC_EDIT_DELAY
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_ADMIN_VERSION_YN',
+              p_value => :P45_SVT_ADMIN_VERSION_YN
           );
       end;
 
@@ -1342,13 +1622,17 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_ADMIN_VERSION_YN
 
-- # ====== Process: AST_CLEANUP_DELAY ==========================
-  id: 133987783121486615
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_DO_NOT_ASSIGN ==========================
+  id: 280032550838364323
   identification: 
-    name: AST_CLEANUP_DELAY
+    name: SVT_DO_NOT_ASSIGN
     type: Execute Code
     execution-chain: None
 
@@ -1357,9 +1641,41 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_CLEANUP_DELAY',
-              p_value => :P45_AST_CLEANUP_DELAY
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_DO_NOT_ASSIGN',
+              p_value => :P45_SVT_DO_NOT_ASSIGN
+          );
+      end;
+
+  execution: 
+    sequence: 180
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: APPLY_CHANGES # 11018815120542622667
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_FROM_EMAIL =============================
+  id: 342029928900566346
+  identification: 
+    name: SVT_FROM_EMAIL
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_FROM_EMAIL',
+              p_value => :P45_SVT_FROM_EMAIL
           );
       end;
 
@@ -1371,20 +1687,122 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_FROM_EMAIL
 
-- # ====== Process: AST_EMAIL_SUBSCRIPTION =====================
-  id: 262034569179761323
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_SRC_EDIT_DELAY =========================
+  id: 342030136162566348
   identification: 
-    name: AST_EMAIL_SUBSCRIPTION
+    name: SVT_SRC_EDIT_DELAY
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_SRC_EDIT_DELAY',
+              p_value => :P45_SVT_SRC_EDIT_DELAY
+          );
+      end;
+
+  execution: 
+    sequence: 160
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_SRC_EDIT_DELAY
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_CLEANUP_DELAY ==========================
+  id: 360380590597277552
+  identification: 
+    name: SVT_CLEANUP_DELAY
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_CLEANUP_DELAY',
+              p_value => :P45_SVT_CLEANUP_DELAY
+          );
+      end;
+
+  execution: 
+    sequence: 170
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_CLEANUP_DELAY
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_REVIEW_SCHEMAS =========================
+  id: 443888162632864050
+  identification: 
+    name: SVT_REVIEW_SCHEMAS
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_REVIEW_SCHEMAS',
+              p_value => :P45_SVT_REVIEW_SCHEMAS); 
+      end;
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_REVIEW_SCHEMAS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_EMAIL_SUBSCRIPTION =====================
+  id: 488427376655552260
+  identification: 
+    name: SVT_EMAIL_SUBSCRIPTION
     type: User Preferences
     execution-chain: None
 
   settings: 
     type: Set to Item Value
-    preference-name: AST_EMAIL_SUBSCRIPTION
-    item: P45_AST_EMAIL_SUBSCRIPTION
+    preference-name: SVT_EMAIL_SUBSCRIPTION
+    item: P45_SVT_EMAIL_SUBSCRIPTION
 
   execution: 
     sequence: 20
@@ -1394,13 +1812,17 @@ processes:
   error: 
     display-location: Inline in Notification
 
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_EMAIL_SUBSCRIPTION
+
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
-- # ====== Process: AST_DEFAULT_SCHEMA =========================
-  id: 262034743736761325
+- # ====== Process: SVT_DEFAULT_SCHEMA =========================
+  id: 488427551212552262
   identification: 
-    name: AST_DEFAULT_SCHEMA
+    name: SVT_DEFAULT_SCHEMA
     type: Execute Code
     execution-chain: None
 
@@ -1409,9 +1831,9 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_DEFAULT_SCHEMA',
-              p_value => :P45_AST_DEFAULT_SCHEMA); 
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_DEFAULT_SCHEMA',
+              p_value => :P45_SVT_DEFAULT_SCHEMA); 
       end;
 
   execution: 
@@ -1422,13 +1844,17 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_DEFAULT_SCHEMA
 
-- # ====== Process: AST_DB_NAME ================================
-  id: 262034934571761327
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_DB_NAME ================================
+  id: 488427742047552264
   identification: 
-    name: AST_DB_NAME
+    name: SVT_DB_NAME
     type: Execute Code
     execution-chain: None
 
@@ -1437,38 +1863,9 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_DB_NAME',
-              p_value => :P45_AST_DB_NAME
-          ); 
-      end;
-
-  execution: 
-    sequence: 50
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-- # ====== Process: AST_EMAIL_API ==============================
-  id: 262035198356761329
-  identification: 
-    name: AST_EMAIL_API
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_EMAIL_API',
-              p_value => :P45_AST_EMAIL_API
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_DB_NAME',
+              p_value => :P45_SVT_DB_NAME
           ); 
       end;
 
@@ -1480,13 +1877,17 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_DB_NAME
 
-- # ====== Process: AST_BASE_URL ===============================
-  id: 262035387491761331
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_EMAIL_API ==============================
+  id: 488428005832552266
   identification: 
-    name: AST_BASE_URL
+    name: SVT_EMAIL_API
     type: Execute Code
     execution-chain: None
 
@@ -1495,10 +1896,10 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_BASE_URL',
-              p_value => :P45_AST_BASE_URL
-          );
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_EMAIL_API',
+              p_value => :P45_SVT_EMAIL_API
+          ); 
       end;
 
   execution: 
@@ -1509,13 +1910,17 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_EMAIL_API
 
-- # ====== Process: AST_DEFAULT_WORKSPACE ======================
-  id: 262035598347761333
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_BASE_URL ===============================
+  id: 488428194967552268
   identification: 
-    name: AST_DEFAULT_WORKSPACE
+    name: SVT_BASE_URL
     type: Execute Code
     execution-chain: None
 
@@ -1524,37 +1929,9 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_DEFAULT_WORKSPACE',
-              p_value => :P45_AST_DEFAULT_WORKSPACE); 
-      end;
-
-  execution: 
-    sequence: 40
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
-
-- # ====== Process: AST_SERT_YN ================================
-  id: 262036314974761341
-  identification: 
-    name: AST_SERT_YN
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_SERT_YN',
-              p_value => :P45_AST_SERT_YN
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_BASE_URL',
+              p_value => :P45_SVT_BASE_URL
           );
       end;
 
@@ -1566,13 +1943,17 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_BASE_URL
 
-- # ====== Process: AST_APEX_ISSUES_YN =========================
-  id: 262036591337761343
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_WORKSPACE ==============================
+  id: 488428405823552270
   identification: 
-    name: AST_APEX_ISSUES_YN
+    name: SVT_WORKSPACE
     type: Execute Code
     execution-chain: None
 
@@ -1581,9 +1962,41 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_APEX_ISSUES_YN',
-              p_value => :P45_AST_APEX_ISSUES_YN
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_WORKSPACE',
+              p_value => :P45_SVT_WORKSPACE); 
+      end;
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_WORKSPACE
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_SERT_YN ================================
+  id: 488429122450552278
+  identification: 
+    name: SVT_SERT_YN
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_SERT_YN',
+              p_value => :P45_SVT_SERT_YN
           );
       end;
 
@@ -1595,13 +2008,19 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Never
 
-- # ====== Process: AST_SCM_YN =================================
-  id: 262036761633761345
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Process: SVT_APEX_ISSUES_YN =========================
+  id: 488429398813552280
   identification: 
-    name: AST_SCM_YN
+    name: SVT_APEX_ISSUES_YN
     type: Execute Code
     execution-chain: None
 
@@ -1610,9 +2029,9 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       begin
-          ast_preferences.set_preference (
-              p_preference_name  => 'AST_SCM_YN',
-              p_value => :P45_AST_SCM_YN
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_APEX_ISSUES_YN',
+              p_value => :P45_SVT_APEX_ISSUES_YN
           );
       end;
 
@@ -1624,13 +2043,17 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P45_SVT_APEX_ISSUES_YN
 
-- # ====== Process: set timezone ===============================
-  id: 10792440002928336273
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Process: SVT_SCM_YN =================================
+  id: 488429569109552282
   identification: 
-    name: set timezone
+    name: SVT_SCM_YN
     type: Execute Code
     execution-chain: None
 
@@ -1638,41 +2061,53 @@ processes:
     location: Local Database
     language: PL/SQL
     pl/sql-code: |
-      declare
-         c integer := 0;
       begin
-         for c1 in (select id, timezone_preference 
-                    from eba_stds_tz_pref 
-                    where username = :APP_USER) loop
-            update eba_stds_tz_pref
-            set timezone_preference = nvl(:P45_TIME_ZONE,'UTC')
-            where id = c1.id;
-            c := c + 1;
-         end loop;
-         if c = 0 then
-            insert into eba_stds_tz_pref (username, timezone_preference)
-            values (:APP_USER,:P45_TIME_ZONE);
-         end if;
-         APEX_UTIL.SET_SESSION_TIME_ZONE (  
-                P_TIME_ZONE => :P45_TIME_ZONE); 
-         commit;
+          svt_preferences.set_preference (
+              p_preference_name  => 'SVT_SCM_YN',
+              p_value => :P45_SVT_SCM_YN
+          );
       end;
+
+  execution: 
+    sequence: 110
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Never
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Process: SVT_TIME_ZONE ==============================
+  id: 11018832810404127210
+  identification: 
+    name: SVT_TIME_ZONE
+    type: User Preferences
+    execution-chain: None
+
+  settings: 
+    type: Set to Item Value
+    preference-name: SVT_TIME_ZONE
+    item: P45_SVT_TIME_ZONE
 
   execution: 
     sequence: 10
     point: Processing
     run-process: Once Per Page Visit (default)
 
-  success-message: 
-    success-message: Time Zone Set
-
   error: 
     display-location: Inline in Notification
 
   server-side-condition: 
-    type: Item = Value
-    item: P45_PREFERENCE_NAME
-    value: Time Zone
+    type: Item is NOT NULL
+    item: P45_SVT_TIME_ZONE
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER

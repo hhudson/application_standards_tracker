@@ -7,11 +7,8 @@
 create or replace force editionable view v_user_views as
 select owner, 
        view_name
-from all_views
-where owner = case when sys_context('userenv', 'current_user') = 'AST'
-                   then ast_ctx_util.get_default_user
-                   else sys_context('userenv', 'current_user')
-                   end
+from dba_views
+where owner = svt_ctx_util.get_default_user
 and view_name not like 'XXX%'
 /
 --rollback drop view V_USER_VIEWS;

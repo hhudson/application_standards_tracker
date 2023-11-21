@@ -16,7 +16,7 @@ create or replace package body CHANGEME as
 -- change_me  YYYY-MON-DD - created
 ---------------------------------------------------------------------------- 
 
-  gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_scope_prefix constant varchar2(41) := lower($$plsql_unit) || '.';
 
 
   procedure P_CHANGEME(

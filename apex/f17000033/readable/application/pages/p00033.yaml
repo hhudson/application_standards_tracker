@@ -5,11 +5,11 @@ identification:
   name: Confirm Disabling Job
   alias: CONFIRM-DISABLING-JOB
   title: Confirm Disabling Job
-  page-group: Administration # 10780320217725301324
+  page-group: Administration # 11006713025201092261
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog # 7573653346823143970
+  dialog-template: Wizard Modal Dialog # 7800046154298934907
   template-options: 
   - '#DEFAULT#'
 
@@ -167,7 +167,7 @@ css:
     
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Disabled
   page-access-protection: Arguments Must Have Checksum
@@ -184,9 +184,12 @@ advanced:
 server-cache: 
   caching: Disabled
 
+configuration: 
+  build-option: TO_DELETE # 6384384957050863767
+
 regions: 
 - # ====== Region: Confirm Disabling Job =======================
-  id: 7088440232099141460
+  id: 7314833039574932397
   identification: 
     title: Confirm Disabling Job
     type: Static Content
@@ -205,7 +208,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -231,7 +234,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Buttons =====================================
-  id: 8271629484569285397
+  id: 8498022292045076334
   identification: 
     title: Buttons
     type: Static Content
@@ -247,7 +250,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noUI
@@ -274,14 +277,14 @@ regions:
 
 buttons: 
 - # ====== Button: DISABLE_SCHEDULED_JOB =======================
-  id: 7088440646565141461
+  id: 7314833454040932398
   identification: 
     button-name: DISABLE_SCHEDULED_JOB
     label: Disable Job
 
   layout: 
     sequence: 20
-    region: Buttons # 8271629484569285397
+    region: Buttons # 8498022292045076334
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -290,11 +293,12 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-Button--gapLeft
+    - t-Button--iconLeft
+    icon: fa-stop
 
   behavior: 
     action: Submit Page
@@ -302,17 +306,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Button: CANCEL ======================================
-  id: 8271629663491285398
+  id: 8498022470967076335
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 8271629484569285397
+    region: Buttons # 8498022292045076334
     position: PREVIOUS
     start-new-layout: false
     start-new-row: true
@@ -321,7 +325,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -332,7 +336,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Modal ========================
-  id: 6345263637171937936
+  id: 6571656444647728873
   identification: 
     name: Cancel Modal
 
@@ -342,7 +346,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 8271629663491285398
+    button: CANCEL # 8498022470967076335
 
   execution: 
     event-scope: Static
@@ -350,19 +354,19 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6345263714269937937
+    id: 6571656521745728874
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Modal # 6345263637171937936
+      event: Cancel Modal # 6571656444647728873
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 processes: 
 - # ====== Process: Close Modal ================================
-  id: 7034146880464534903
+  id: 7260539687940325840
   identification: 
     name: Close Modal
     type: Close Dialog
@@ -377,7 +381,7 @@ processes:
     display-location: Inline in Notification
 
 - # ====== Process: Disable Automated Testing ==================
-  id: 7088440991944141461
+  id: 7314833799419932398
   identification: 
     name: Disable Automated Testing
     type: Execute Code
@@ -413,8 +417,8 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: DISABLE_SCHEDULED_JOB # 7088440646565141461
+    when-button-pressed: DISABLE_SCHEDULED_JOB # 7314833454040932398
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 

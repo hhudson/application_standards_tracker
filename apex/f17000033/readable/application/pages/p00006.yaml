@@ -1,10 +1,10 @@
 ---
-# ====== Page: AST_COMPONENT_TYPES ===========================
+# ====== Page: Component Types ===============================
 id: 6
 identification: 
-  name: AST_COMPONENT_TYPES
+  name: Component Types
   alias: COMPONENT-TYPES
-  title: '&APPLICATION_TITLE. Component Types'
+  title: Component Types
 
 appearance: 
   page-mode: Normal
@@ -24,7 +24,7 @@ javascript:
   - '#APP_FILES#js/f4000_searchResults.js'
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -41,19 +41,41 @@ advanced:
 server-cache: 
   caching: Disabled
 
+comments: 
+  comments: SVT_COMPONENT_TYPES
+
 regions: 
 - # ====== Region: Configured Component Types ==================
-  id: 42802480974068246
+  id: 269195288449859183
   identification: 
     title: Configured Component Types
     type: Interactive Report
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_COMPONENT_TYPES
-    include-rowid-column: false
+    type: SQL Query
+    sql-query: |
+      select  act.id svt_component_type_id,
+              coalesce(act.component_name, fdv.component_desc) component_name,
+              act.available_yn,
+              act.created,
+              act.created_by,
+              act.updated,
+              act.updated_by,
+              act.component_code,
+              act.nt_type_id,
+              coalesce(act.pk_value,fdv.pk_column_name) pk_value,
+              act.parent_pk_value,
+              act.template_url,
+              act.friendly_name,
+              coalesce(act.name_column, fdv.display_expression) name_column,
+              act.addl_cols,
+              case when act.id is null 
+                   then 'N'
+                   else 'Y'
+                   end configured_yn
+        from svt_component_types act 
+        left outer join v_svt_flow_dictionary_views fdv on act.component_name = fdv.view_name
 
   layout: 
     sequence: 20
@@ -66,7 +88,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -86,20 +108,20 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 42802570952068246
+    id: 269195378427859183
     link: 
       link-column: Link to Custom Target
       target: 
-        url: 'f?p=&APP_ID.:7:&APP_SESSION.::&DEBUG.:RP:P7_ID:\#ID#\'
+        url: 'f?p=&APP_ID.:7:&SESSION.::&DEBUG.:RP,:P7_ID:#SVT_COMPONENT_TYPE_ID##ID#\'
         page: 7 # Manage Component Type
         clear-cache: RP
         values: 
-          p7_id: '#ID#'
+          p7_id: '#SVT_COMPONENT_TYPE_ID##ID#\'
 
       link-icon: <span role="img" aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
 
     pagination: 
-      type: Row Ranges X to Y
+      type: Row Ranges X to Y of Z
       display-position: Bottom - Right
 
     performance: 
@@ -114,7 +136,8 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
+      maximum-rows-per-page: 10
 
     actions-menu: 
       include-actions-menu: true
@@ -131,7 +154,7 @@ regions:
       pivot: true
       flashback: true
       save-report: true
-      save-public-report: false
+      save-public-report: true
       reset: true
       help: true
       download: true
@@ -156,20 +179,20 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 42808100852069412
+      id: 269200908327860349
       identification: 
         name: Primary Report
         alias: 428082
 
     columns: 
     - # ====== Column: COMPONENT_NAME ==============================
-      id: 1699565881057946
+      id: 228092373356848883
       identification: 
         column-name: COMPONENT_NAME
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: AST_COMPONENTS # 42827838486136519
+        list-of-values: SVT_COMPONENTS # 269220645961927456
 
       heading: 
         heading: Component Name
@@ -179,11 +202,11 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 63
+        sequence: 70
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -204,7 +227,7 @@ regions:
         pivot: true
 
     - # ====== Column: COMPONENT_CODE ==============================
-      id: 1699775570057948
+      id: 228092583045848885
       identification: 
         column-name: COMPONENT_CODE
         type: Plain Text
@@ -217,7 +240,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 73
+        sequence: 80
         column-alignment: start
 
       accessibility: 
@@ -244,32 +267,14 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: ID ==========================================
-      id: 42802928632068249
-      identification: 
-        column-name: ID
-        type: Hidden Column
-
-      heading: 
-        heading: ID
-
-      layout: 
-        sequence: 0
-
-      source: 
-        primary-key: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: AVAILABLE_YN ================================
-      id: 42803745206068250
+      id: 269196552681859187
       identification: 
         column-name: AVAILABLE_YN
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10458821105493383260
+        list-of-values: YES NO # 10685213912969174197
 
       heading: 
         heading: 'Available '
@@ -279,7 +284,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 3
+        sequence: 20
         column-alignment: start
 
       accessibility: 
@@ -304,7 +309,7 @@ regions:
         pivot: true
 
     - # ====== Column: CREATED =====================================
-      id: 42804144223068251
+      id: 269196951698859188
       identification: 
         column-name: CREATED
         type: Plain Text
@@ -317,7 +322,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 23
+        sequence: 30
         column-alignment: start
 
       accessibility: 
@@ -349,7 +354,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED_BY ==================================
-      id: 42804500416068251
+      id: 269197307891859188
       identification: 
         column-name: CREATED_BY
         type: Plain Text
@@ -362,7 +367,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 33
+        sequence: 40
         column-alignment: start
 
       accessibility: 
@@ -390,7 +395,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED =====================================
-      id: 42804987809068251
+      id: 269197795284859188
       identification: 
         column-name: UPDATED
         type: Plain Text
@@ -403,7 +408,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 43
+        sequence: 50
         column-alignment: start
 
       accessibility: 
@@ -435,7 +440,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED_BY ==================================
-      id: 42805376021068251
+      id: 269198183496859188
       identification: 
         column-name: UPDATED_BY
         type: Plain Text
@@ -448,7 +453,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 53
+        sequence: 60
         column-alignment: start
 
       accessibility: 
@@ -476,13 +481,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: NT_TYPE_ID ==================================
-      id: 42937925380017742
+      id: 269330732855808679
       identification: 
         column-name: NT_TYPE_ID
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: AST_NESTED_TABLE_TYPES # 177247708904487436
+        list-of-values: SVT_NESTED_TABLE_TYPES # 403640516380278373
 
       heading: 
         heading: Underlying Type
@@ -492,7 +497,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 83
+        sequence: 90
         column-alignment: start
 
       accessibility: 
@@ -517,7 +522,7 @@ regions:
         pivot: true
 
     - # ====== Column: PK_VALUE ====================================
-      id: 42938057748017743
+      id: 269330865223808680
       identification: 
         column-name: PK_VALUE
         type: Plain Text
@@ -530,7 +535,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 93
+        sequence: 100
         column-alignment: start
 
       accessibility: 
@@ -558,7 +563,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PARENT_PK_VALUE =============================
-      id: 42938195344017744
+      id: 269331002819808681
       identification: 
         column-name: PARENT_PK_VALUE
         type: Plain Text
@@ -571,7 +576,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 103
+        sequence: 110
         column-alignment: start
 
       accessibility: 
@@ -599,7 +604,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: TEMPLATE_URL ================================
-      id: 48678548564802941
+      id: 275071356040593878
       identification: 
         column-name: TEMPLATE_URL
         type: Plain Text
@@ -612,8 +617,213 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 113
+        sequence: 120
         column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FRIENDLY_NAME ===============================
+      id: 281120522313786678
+      identification: 
+        column-name: FRIENDLY_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Friendly Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: NAME_COLUMN =================================
+      id: 281120607887786679
+      identification: 
+        column-name: NAME_COLUMN
+        type: Plain Text
+
+      heading: 
+        heading: Name Column
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ADDL_COLS ===================================
+      id: 281120941708786682
+      identification: 
+        column-name: ADDL_COLS
+        type: Plain Text
+
+      heading: 
+        heading: Addl Cols
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CONFIGURED_YN ===============================
+      id: 375362777392000741
+      identification: 
+        column-name: CONFIGURED_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Configured
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
+      id: 401117227730419545
+      identification: 
+        column-name: SVT_COMPONENT_TYPE_ID
+        type: Plain Text
+
+      heading: 
+        heading: SVT Component Type ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -681,54 +891,8 @@ regions:
         font-color: '#000000'
         alignment: center
 
-- # ====== Region: Breadcrumb ==================================
-  id: 42807587776068255
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
-
 - # ====== Region: Menu ========================================
-  id: 48674562018802901
+  id: 275067369494593838
   identification: 
     title: Menu
     type: Region Display Selector
@@ -744,7 +908,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
     - t-Region--hideHeader
@@ -766,6 +930,9 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
   attributes: 
     settings: 
       mode: View Single Region
@@ -773,28 +940,16 @@ regions:
       include-'show-all': false
       remember-selection: By User
 
-- # ====== Region: Component types not yet configured ==========
-  id: 48674616624802902
+- # ====== Region: Footer ======================================
+  id: 512416990313450003
   identification: 
-    title: Component types not yet configured
-    type: Interactive Report
-
-  source: 
-    location: Local Database
-    type: SQL Query
-    sql-query: |
-      select fdv.component_desc, fdv.pk_column_name, fdv.display_expression, fdv.view_name,
-      case when act.id is null 
-           then 'N'
-           else 'Y'
-           end configured_yn
-      from v_ast_flow_dictionary_views fdv
-      left outer join ast_component_types act on act.component_name = fdv.view_name
+    title: Footer
+    type: Static Content
 
   layout: 
-    sequence: 30
+    sequence: 40
     parent-region: No Parent
-    position: BODY
+    position: REGION_POSITION_05
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -802,9 +957,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Title Bar # 7800065610173934940
     template-options: 
     - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
     render-components: Above Content
 
   accessibility: 
@@ -812,7 +968,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-cache: 
@@ -822,328 +978,20 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 48674734371802903
-    link: 
-      link-column: Exclude Link Column
-
-    pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
-
-    performance: 
-      lazy-loading: false
-      maximum-rows-to-process: 1000000
-
-    search-bar: 
-      include-search-bar: true
-      search-field: true
-      finder-drop-down: true
-      reports-select-list: true
-      rows-per-page-selector: false
-
-    actions-menu: 
-      include-actions-menu: true
-      filter: true
-      select-columns: true
-      rows-per-page: true
-      sort: true
-      control-break: true
-      highlight: true
-      compute: true
-      aggregate: true
-      chart: true
-      group-by: true
-      pivot: true
-      flashback: true
-      save-report: true
-      save-public-report: false
-      reset: true
-      help: true
-      download: true
-      subscription: true
-
-    download: 
-      formats: 
-      - CSV
-      - HTML
-      - Excel
-      - PDF
-      send-as-email: true
-
-    heading: 
-      fixed-to: Page
-
-    icon-view: 
-      show: false
-
-    detail-view: 
-      show: false
-
-    saved-reports: 
-    - # ====== Saved Report: Primary Report ========================
-      id: 48681904039816773
-      identification: 
-        name: Primary Report
-        alias: 486820
-
-    columns: 
-    - # ====== Column: COMPONENT_DESC ==============================
-      id: 48674973628802905
-      identification: 
-        column-name: COMPONENT_DESC
-        type: Plain Text
-
-      heading: 
-        heading: Component Desc
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 10
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: PK_COLUMN_NAME ==============================
-      id: 48675018178802906
-      identification: 
-        column-name: PK_COLUMN_NAME
-        type: Plain Text
-
-      heading: 
-        heading: Pk Column Name
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 20
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: DISPLAY_EXPRESSION ==========================
-      id: 48675115406802907
-      identification: 
-        column-name: DISPLAY_EXPRESSION
-        type: Plain Text
-
-      heading: 
-        heading: Display Expression
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 30
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: VIEW_NAME ===================================
-      id: 48675210545802908
-      identification: 
-        column-name: VIEW_NAME
-        type: Plain Text
-
-      heading: 
-        heading: View Name
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 40
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: CONFIGURED_YN ===============================
-      id: 48675361227802909
-      identification: 
-        column-name: CONFIGURED_YN
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: YES NO # 10458821105493383260
-
-      heading: 
-        heading: Configured
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 50
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-    printing: 
-      output: 
-        view-file-as: Attachment
-
-      page: 
-        size: Letter
-        orientation: Landscape
-        units: Inches
-        width: 11
-        height: 8.5
-        border-width: 0.5
-        border-color: '#666666'
-
-      page-header: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 12
-        font-color: '#000000'
-        alignment: center
-        page-header-text: Component types not yet configured
-
-      column-headings: 
-        font: Helvetica
-        font-weight: Bold
-        font-size: 10
-        font-color: '#000000'
-        background-color: '#EEEEEE'
-
-      columns: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 10
-        font-color: '#000000'
-        background-color: '#FFFFFF'
-
-      page-footer: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 12
-        font-color: '#000000'
-        alignment: center
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
 
 buttons: 
 - # ====== Button: CREATE ======================================
-  id: 42805839753068252
+  id: 269198647228859189
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 20
-    region: Configured Component Types # 42802480974068246
+    region: Configured Component Types # 269195288449859183
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -1152,8 +1000,8 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: false
+    button-template: Icon # 7800080132300934984
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI
@@ -1169,17 +1017,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Button: Reset =======================================
-  id: 44219806397509650
+- # ====== Button: RESET =======================================
+  id: 270612613873300587
   identification: 
-    button-name: Reset
+    button-name: RESET
     label: Reset
 
   layout: 
     sequence: 30
-    region: Configured Component Types # 42802480974068246
+    region: Configured Component Types # 269195288449859183
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -1188,7 +1036,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1201,20 +1049,20 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:6:&SESSION.::&DEBUG.:RR,::'
-      page: 6 # AST_COMPONENT_TYPES
+      page: 6 # Component Types
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
 
-- # ====== Button: Underlying_types ============================
-  id: 48675490718802910
+- # ====== Button: UNDERLYING_TYPES ============================
+  id: 275068298194593847
   identification: 
-    button-name: Underlying_types
+    button-name: UNDERLYING_TYPES
     label: Underlying Types
 
   layout: 
     sequence: 10
-    region: Breadcrumb # 42807587776068255
+    region: Super Breadcrumb # 370769984920860454
     position: HELP
     start-new-layout: false
     start-new-row: true
@@ -1223,36 +1071,36 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--noUI
-    - t-Button--iconRight
+    - t-Button--simple
+    - t-Button--iconLeft
     icon: fa-underline
 
   behavior: 
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.:63::'
-      page: 63 # AST_NESTED_TABLE_TYPES
+      page: 63 # Nested Table Types
       clear-cache: 63
 
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
-- # ====== Button: Reset_1 =====================================
-  id: 48675591315802911
+- # ====== Button: MERGE_SAMPLE_DATA ===========================
+  id: 279501213870401485
   identification: 
-    button-name: Reset_1
-    label: Reset
+    button-name: MERGE_SAMPLE_DATA
+    label: Available Sample`Component Types`
 
   layout: 
     sequence: 10
-    region: Component types not yet configured # 48674616624802902
-    position: RIGHT_OF_IR_SEARCH_BAR
+    region: Footer # 512416990313450003
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1260,67 +1108,32 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--warning
-    - t-Button--noUI
-    - t-Button--iconRight
-    icon: fa-undo-arrow
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:6:&SESSION.::&DEBUG.:RR,::'
-      page: 6 # AST_COMPONENT_TYPES
-      clear-cache: RR
-
-    warn-on-unsaved-changes: Do Not Check
-
-- # ====== Button: Merge_sample_data ===========================
-  id: 53108406394610548
-  identification: 
-    button-name: Merge_sample_data
-    label: Available Sample Data
-
-  layout: 
-    sequence: 10
-    region: Configured Component Types # 42802480974068246
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
     - t-Button--success
-    - t-Button--noUI
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-filter
 
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:AST_COMPONENT_TYPES'
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:SVT_COMPONENT_TYPES'
       page: 44 # Inspect Static File contents
       clear-cache: CR,44
       values: 
-        p44_table_name: AST_COMPONENT_TYPES
+        p44_table_name: SVT_COMPONENT_TYPES
 
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 dynamic-actions: 
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 42806122592068253
+  id: 269198930067859190
   identification: 
     name: Edit Report - Dialog Closed
 
@@ -1330,7 +1143,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: Configured Component Types # 42802480974068246
+    region: Configured Component Types # 269195288449859183
 
   execution: 
     event-scope: Static
@@ -1338,17 +1151,17 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 42806637965068253
+    id: 269199445440859190
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Configured Component Types # 42802480974068246
+      region: Configured Component Types # 269195288449859183
 
     execution: 
       sequence: 10
-      event: Edit Report - Dialog Closed # 42806122592068253
+      event: Edit Report - Dialog Closed # 269198930067859190
       fire-when-event-result-is: True
       fire-on-initialization: false
 

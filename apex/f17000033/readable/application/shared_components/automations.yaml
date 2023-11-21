@@ -1,6 +1,6 @@
 ---
 - # ====== Automation: 3. [Hourly - 40 min past] Manage APEX Iss
-  id: 2329800219461456
+  id: 228722607695252393
   identification: 
     name: 3. [Hourly - 40 min past] Manage APEX Issues
     static-id: manage-apex-issues
@@ -19,7 +19,7 @@
 
   actions: 
   - # ====== Action: manage_apex_issues ==========================
-    id: 2330198729461458
+    id: 228723006205252395
     identification: 
       name: manage_apex_issues
       type: Execute Code
@@ -27,7 +27,23 @@
     source: 
       location: Local Database
       language: PL/SQL
-      pl/sql-code: ast_apex_issue_util.manage_apex_issues;
+      pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_message varchar2(1000);
+        begin
+          t1 := systimestamp; 
+          svt_apex_issue_util.manage_apex_issues(p_message => l_message);
+          t2 := systimestamp; 
+          apex_automation.log_info( p_message => 
+                                    apex_string.format( '%0 [in %1 second(s)]',
+                                        p0=> l_message,
+                                        p1 => extract( second from (t2-t1) )
+                                    )
+                                   );
+          commit;
+        end;
 
     execution: 
       sequence: 10
@@ -36,7 +52,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 6. [Daily] Validate APEX Version ========
-  id: 2331842124786021
+  id: 228724649600576958
   identification: 
     name: 6. [Daily] Validate APEX Version
     static-id: validate-apex-version
@@ -55,7 +71,7 @@
 
   actions: 
   - # ====== Action: Send email ==================================
-    id: 2332127749786022
+    id: 228724935225576959
     identification: 
       name: Send email
       type: Send E-Mail
@@ -64,7 +80,7 @@
       from: '&APP_EMAIL.'
       to: hayden.h.hudson@oracle.com
       subject: The Oracle APEX Version is out-of-date
-      body-plain-text: You must update oracle_apex_version & ast_flow_issues.
+      body-plain-text: You must update oracle_apex_version & svt_flow_issues.
       send-immediately: false
 
     execution: 
@@ -78,18 +94,18 @@
       language: PL/SQL
       pl/sql-function-body: |
         begin
-        ast_apex_issue_util.hard_correct_ast_issues;
+        svt_apex_issue_util.hard_correct_svt_issues;
         return false;
         exception when others then
         return true;
         end;
       execute-condition: For Each Row
 
-- # ====== Automation: 1. [Hourly on the dot] Refresh Parsed URL
-  id: 2684628413891611
+- # ====== Automation: 1. [Hourly on the dot] Refresh Materializ
+  id: 229077435889682548
   identification: 
-    name: 1. [Hourly on the dot] Refresh Parsed URLs Materialized View
-    static-id: refresh-mv-eba-stds-parsed-urls
+    name: 1. [Hourly on the dot] Refresh Materialized Views
+    static-id: refresh-all-materialized-views
 
   execution: 
     type: Scheduled
@@ -104,28 +120,8 @@
     comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=0
 
   actions: 
-  - # ====== Action: set workspace ===============================
-    id: 2684989137891611
-    identification: 
-      name: set workspace
-      type: Execute Code
-
-    source: 
-      location: Local Database
-      language: PL/SQL
-      pl/sql-code: |
-        begin
-            ast_audit_util.set_workspace;
-        end;
-
-    execution: 
-      sequence: 10
-
-    error: 
-      stop-execution-on-error: true
-
   - # ====== Action: refresh mv ==================================
-    id: 2711078475896753
+    id: 229103885951687690
     identification: 
       name: refresh mv
       type: Execute Code
@@ -135,7 +131,7 @@
       language: PL/SQL
       pl/sql-code: |
         begin
-          dbms_mview.refresh ('MV_EBA_STDS_PARSED_URLS');
+          SVT_MV_UTIL.refresh_mv();
         end;
 
     execution: 
@@ -144,10 +140,63 @@
     error: 
       stop-execution-on-error: true
 
-- # ====== Automation: 7. [Nightly] Refresh Cumulative Issues co
-  id: 54474612134518936
+- # ====== Automation: 8.[Every 6 hours -  55 min past] Delete s
+  id: 263521704929577710
   identification: 
-    name: 7. [Nightly] Refresh Cumulative Issues count
+    name: 8.[Every 6 hours -  55 min past] Delete stale issues
+    static-id: 8-nightly-delete-stale-issues
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=6;BYMINUTE=55
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  comments: 
+    comments: FREQ=HOURLY;INTERVAL=6;BYMINUTE=55
+
+  actions: 
+  - # ====== Action: svt_plsql_apex_audit_api.delete_stale =======
+    id: 263522004995577712
+    identification: 
+      name: svt_plsql_apex_audit_api.delete_stale
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_deleted_count pls_integer;
+        begin
+          t1 := systimestamp; 
+          svt_plsql_apex_audit_api.delete_stale(p_deleted_count => l_deleted_count);
+          if l_deleted_count > 0 then
+              t2 := systimestamp; 
+              apex_automation.log_info( p_message => 
+                                        apex_string.format( 'Deleted %0 violation(s) in %1 second(s)',
+                                          p0=> l_deleted_count,
+                                          p1 => extract( second from (t2-t1) )
+                                        )
+                                      );
+          end if;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 7. [Nightly @ midnight] Refresh Cumulativ
+  id: 280867419610309873
+  identification: 
+    name: 7. [Nightly @ midnight] Refresh Cumulative Issues count
     static-id: 7-nightly-refresh-cumulative-issues-count
 
   execution: 
@@ -164,7 +213,7 @@
 
   actions: 
   - # ====== Action: dbms_mview.refresh  MV_ISSUES_CREATED_BY_DAY 
-    id: 54474930658518937
+    id: 280867738134309874
     identification: 
       name: dbms_mview.refresh  MV_ISSUES_CREATED_BY_DAY
       type: Execute Code
@@ -183,29 +232,26 @@
     error: 
       stop-execution-on-error: true
 
-- # ====== Automation: 4. [Hourly - 50 min past] Clear Invalid E
-  id: 181629050155860116
+- # ====== Automation: 9. [Every morning] manage timing audits =
+  id: 293514005069795938
   identification: 
-    name: 4. [Hourly - 50 min past] Clear Invalid Exceptions
-    static-id: clear-invalid-exceptions
+    name: 9. [Every morning] manage timing audits
+    static-id: 9-clear-old-timing-records
 
   execution: 
     type: Scheduled
-    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=50
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=6;BYMINUTE=0
     schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
-    action-error-handling: Disable Automation
-
-  comments: 
-    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=50
+    action-error-handling: Ignore
 
   actions: 
-  - # ====== Action: clear_invalid_exceptions ====================
-    id: 181629312029860121
+  - # ====== Action: svt_test_timing_api.purge_old ===============
+    id: 293514390776795945
     identification: 
-      name: clear_invalid_exceptions
+      name: svt_test_timing_api.purge_old
       type: Execute Code
 
     source: 
@@ -213,7 +259,7 @@
       language: PL/SQL
       pl/sql-code: |
         begin
-        ast_plsql_review.clear_invalid_exceptions;
+            svt_test_timing_api.purge_old;
         end;
 
     execution: 
@@ -222,15 +268,124 @@
     error: 
       stop-execution-on-error: true
 
-- # ====== Automation: 2. [Hourly  - 10 min past] Issue Snapshot
-  id: 325704980825337043
+  - # ====== Action: eba_stds_standards_api.update_test_avg_time =
+    id: 293515188244870708
+    identification: 
+      name: eba_stds_standards_api.update_test_avg_time
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            eba_stds_standards_api.update_test_avg_time;
+        end;
+
+    execution: 
+      sequence: 20
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 10. [Every night at 1AM] Recompile with P
+  id: 344919856023132125
   identification: 
-    name: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table
+    name: 10. [Every night at 1AM] Recompile with PLScope
+    static-id: 10-recompile-with-plscope
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=1;BYMINUTE=0
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  actions: 
+  - # ====== Action: svt_audit_util.recompile_all_schemas_w_plscop
+    id: 344920186711132127
+    identification: 
+      name: svt_audit_util.recompile_all_schemas_w_plscope
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        begin
+            svt_audit_util.recompile_all_schemas_w_plscope;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 4. [Hourly 25 min past] Delete inactive v
+  id: 364161542893027944
+  identification: 
+    name: 4. [Hourly 25 min past] Delete inactive violations
+    static-id: 4-delete-inactive-violations
+
+  execution: 
+    type: Scheduled
+    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=25
+    schedule-status: Active
+    actions-initiated-on: Always
+
+  action-execution: 
+    action-error-handling: Ignore
+
+  comments: 
+    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=25
+
+  actions: 
+  - # ====== Action: svt_plsql_apex_audit_api.delete_inactive ====
+    id: 364161844340027947
+    identification: 
+      name: svt_plsql_apex_audit_api.delete_inactive
+      type: Execute Code
+
+    source: 
+      location: Local Database
+      language: PL/SQL
+      pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_deleted_count pls_integer;
+        begin
+          t1 := systimestamp; 
+          svt_plsql_apex_audit_api.delete_inactive(p_deleted_count => l_deleted_count);
+          if l_deleted_count > 0 then
+              t2 := systimestamp; 
+              apex_automation.log_info( p_message => 
+                                        apex_string.format( 'Deleted %0 violation(s) in %1 second(s)',
+                                          p0=> l_deleted_count,
+                                          p1 => extract( second from (t2-t1) )
+                                        )
+                                      );
+          end if;
+        end;
+
+    execution: 
+      sequence: 10
+
+    error: 
+      stop-execution-on-error: true
+
+- # ====== Automation: 2. [Bi-Hourly  - 10 min past] Issue Snaps
+  id: 552097788301127980
+  identification: 
+    name: 2. [Bi-Hourly  - 10 min past] Issue Snapshot in DB audit table
     static-id: big-job
 
   execution: 
     type: Scheduled
-    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
+    schedule-expression: FREQ=HOURLY;INTERVAL=2;BYMINUTE=10
     schedule-status: Active
     actions-initiated-on: Always
 
@@ -238,11 +393,13 @@
     action-error-handling: Disable Automation
 
   comments: 
-    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
+    comments: |
+      new : FREQ=HOURLY;INTERVAL=2;BYMINUTE=10
+      old : FREQ=HOURLY;INTERVAL=1;BYMINUTE=10
 
   actions: 
   - # ====== Action: record_daily_issue_snapshot =================
-    id: 325705293632337059
+    id: 552098101108127996
     identification: 
       name: record_daily_issue_snapshot
       type: Execute Code
@@ -250,7 +407,23 @@
     source: 
       location: Local Database
       language: PL/SQL
-      pl/sql-code: ast_audit_util.record_daily_issue_snapshot;
+      pl/sql-code: |
+        declare
+        t1 timestamp; 
+        t2 timestamp; 
+        l_message varchar2(1000);
+        begin
+          t1 := systimestamp; 
+          svt_audit_util.record_daily_issue_snapshot(p_message => l_message);
+          t2 := systimestamp; 
+          apex_automation.log_info( p_message => 
+                                    apex_string.format( '%0 [in %1 second(s)]',
+                                        p0=> l_message,
+                                        p1 => extract( second from (t2-t1) )
+                                    )
+                                   );
+          commit;
+        end;
 
     execution: 
       sequence: 10
@@ -259,7 +432,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 5. [Daily] Send Admin Email =============
-  id: 435135553730366422
+  id: 661528361206157359
   identification: 
     name: 5. [Daily] Send Admin Email
     static-id: send-admin-email
@@ -278,7 +451,7 @@
 
   actions: 
   - # ====== Action: send email ==================================
-    id: 435135920108366427
+    id: 661528727584157364
     identification: 
       name: send email
       type: Execute Code
@@ -288,8 +461,8 @@
       language: PL/SQL
       pl/sql-code: |
         begin
-            ast_monitoring.send_update(p_days_since => 2);
-                                       --p_override_email => 'hayden.h.hudson@oracle.com');
+            svt_monitoring.send_update(p_days_since => 2,
+                                       p_override_email => 'hayden.h.hudson@oracle.com');
         end;
 
     execution: 

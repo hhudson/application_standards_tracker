@@ -1,14 +1,14 @@
 ---
-- # ====== List of Values: AST_COMPONENTS ======================
-  id: 42827838486136519
+- # ====== List of Values: SVT_COMPONENTS ======================
+  id: 269220645961927456
   identification: 
-    name: AST_COMPONENTS
+    name: SVT_COMPONENTS
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_FLOW_DICTIONARY_VIEWS
+    table-name: V_SVT_FLOW_DICTIONARY_VIEWS
 
   column-mapping: 
     return: VIEW_NAME
@@ -16,16 +16,16 @@
     default-sort: COMPONENT_DESC
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_COMPONENT_CODES =================
-  id: 42942039391075235
+- # ====== List of Values: SVT_COMPONENT_CODES =================
+  id: 269334846866866172
   identification: 
-    name: AST_COMPONENT_CODES
+    name: SVT_COMPONENT_CODES
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_AST_COMPONENT_TYPES
+    table-name: V_SVT_COMPONENT_TYPES
 
   column-mapping: 
     return: ID
@@ -33,8 +33,25 @@
     default-sort: COMPONENT_CODE
     sort-direction: Ascending (Nulls Last)
 
+- # ====== List of Values: SVT_NESTED_TABLE_TYPES.ISSUE_CATEGORY
+  id: 274716535866311897
+  identification: 
+    name: SVT_NESTED_TABLE_TYPES.ISSUE_CATEGORY
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SVT_NESTED_TABLE_TYPES
+
+  column-mapping: 
+    return: OBJECT_TYPE
+    display: OBJECT_TYPE
+    default-sort: OBJECT_TYPE
+    sort-direction: Ascending (Nulls Last)
+
 - # ====== List of Values: APEX_WORKSPACE_APEX_USERS.USER_NAME =
-  id: 48891043421756469
+  id: 275283850897547406
   identification: 
     name: APEX_WORKSPACE_APEX_USERS.USER_NAME
 
@@ -52,10 +69,10 @@
     display: D
     default-sort: Use Order By from Query
 
-- # ====== List of Values: AST_APPLICATIONS ====================
-  id: 115581983406705754
+- # ====== List of Values: SVT_APPLICATIONS ====================
+  id: 341974790882496691
   identification: 
-    name: AST_APPLICATIONS
+    name: SVT_APPLICATIONS
 
   source: 
     location: Local Database
@@ -63,7 +80,7 @@
     sql-query: |
       select application_id r, apex_string.format('%s (%s)',  application_name, application_id) d
       from apex_applications
-      where workspace = ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE')
+      where workspace = svt_preferences.get('SVT_WORKSPACE')
       order by 1
 
   column-mapping: 
@@ -71,56 +88,103 @@
     display: D
     default-sort: Use Order By from Query
 
-- # ====== List of Values: AST_FROM_EMAIL ======================
-  id: 115887574838451264
+- # ====== List of Values: SVT_FROM_EMAIL ======================
+  id: 342280382314242201
   identification: 
-    name: AST_FROM_EMAIL
+    name: SVT_FROM_EMAIL
 
   source: 
     location: Static Values
 
   entries: 
   - # ====== Entry: noreply@covid19-screening.org ================
-    id: 115887854068451265
+    id: 342280661544242202
     entry: 
       sequence: 1
       display: noreply@covid19-screening.org
       return: noreply@covid19-screening.org
 
   - # ====== Entry: hayden.h.hudson@oracle.com ===================
-    id: 115888252409451265
+    id: 342281059885242202
     entry: 
       sequence: 2
       display: hayden.h.hudson@oracle.com
       return: hayden.h.hudson@oracle.com
 
-- # ====== List of Values: EBA_STDS_STANDARDS.NAME =============
-  id: 163835793448737572
+- # ====== List of Values: SVT_COMPATILIBILITY.COMPATIBILITY_DES
+  id: 387186829880515887
   identification: 
-    name: EBA_STDS_STANDARDS.NAME
+    name: SVT_COMPATILIBILITY.COMPATIBILITY_DESC
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_STDS_STANDARDS
+    table-name: V_SVT_COMPATIBILITY
 
   column-mapping: 
     return: ID
-    display: NAME
-    default-sort: NAME
-    sort-direction: Ascending (Nulls Last)
+    display: COMPATIBILITY_NAME
+    default-sort: DISPLAY_ORDER
+    sort-direction: Descending (Nulls Last)
 
-- # ====== List of Values: AST_NESTED_TABLE_TYPES ==============
-  id: 177247708904487436
+- # ====== List of Values: SVT_COMPATIBILITY.TYPE_NAME =========
+  id: 387202249117739439
   identification: 
-    name: AST_NESTED_TABLE_TYPES
+    name: SVT_COMPATIBILITY.TYPE_NAME
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: APEX =========================================
+    id: 387202592943739439
+    entry: 
+      sequence: 1
+      display: APEX
+      return: APEX
+
+  - # ====== Entry: Database =====================================
+    id: 387202948252739439
+    entry: 
+      sequence: 2
+      display: Database
+      return: DB
+
+  - # ====== Entry: N/A ==========================================
+    id: 387203406591739440
+    entry: 
+      sequence: 3
+      display: N/A
+      return: NA
+
+- # ====== List of Values: EBA_STDS_STANDARD_TESTS.TEST_NAME ===
+  id: 387782037122546889
+  identification: 
+    name: EBA_STDS_STANDARD_TESTS.TEST_NAME
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_NESTED_TABLE_TYPES
+    table-name: EBA_STDS_STANDARD_TESTS
+
+  column-mapping: 
+    return: ID
+    display: TEST_NAME
+    default-sort: TEST_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: SVT_NESTED_TABLE_TYPES ==============
+  id: 403640516380278373
+  identification: 
+    name: SVT_NESTED_TABLE_TYPES
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SVT_NESTED_TABLE_TYPES
 
   column-mapping: 
     return: ID
@@ -128,27 +192,75 @@
     default-sort: OBJECT_TYPE
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: STANDARD_CODES ======================
-  id: 190058900112492663
+- # ====== List of Values: V_SVT_WCAG.WCAG_CODE ================
+  id: 443869315140536574
   identification: 
-    name: STANDARD_CODES
+    name: V_SVT_WCAG.WCAG_CODE
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_STANDARDS_REFERENCE_CODES
+    table-name: V_SVT_WCAG
 
   column-mapping: 
     return: ID
-    display: STANDARD_CODE
-    default-sort: STANDARD_CODE
+    display: CODE_DESC
+    default-sort: WCAG_CODE
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_MATERIALIZED_VIEWS ==============
-  id: 268601580890474363
+- # ====== List of Values: WCAG_CONFORMANCE_LEVEL ==============
+  id: 443898950470022709
   identification: 
-    name: AST_MATERIALIZED_VIEWS
+    name: WCAG_CONFORMANCE_LEVEL
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: A ============================================
+    id: 443899258626022711
+    entry: 
+      sequence: 1
+      display: A
+      return: A
+
+  - # ====== Entry: AA ===========================================
+    id: 443899677320022712
+    entry: 
+      sequence: 2
+      display: AA
+      return: AA
+
+  - # ====== Entry: AAA ==========================================
+    id: 443900092682022713
+    entry: 
+      sequence: 3
+      display: AAA
+      return: AAA
+
+- # ====== List of Values: ALL_USERS.USERNAME ==================
+  id: 452768064277971755
+  identification: 
+    name: ALL_USERS.USERNAME
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select username d, username r
+      from all_users
+
+  column-mapping: 
+    return: R
+    display: D
+    default-sort: D
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: SVT_MATERIALIZED_VIEWS ==============
+  id: 494994388366265300
+  identification: 
+    name: SVT_MATERIALIZED_VIEWS
 
   source: 
     location: Local Database
@@ -157,6 +269,9 @@
       select object_name d, object_name r
       from user_objects
       where object_type = 'MATERIALIZED VIEW'
+      union all
+      select 'V_MV_SVT' d, 'V_MV_SVT' r
+      from dual
       order by 1
 
   column-mapping: 
@@ -164,93 +279,8 @@
     display: D
     default-sort: Use Order By from Query
 
-- # ====== List of Values: SCH_CFG_LOV_CODES.ICON ==============
-  id: 359407783321654497
-  identification: 
-    name: SCH_CFG_LOV_CODES.ICON
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SCH_CFG_LOV_CODES
-
-  column-mapping: 
-    return: LV_TYPE
-    display: ICON
-    default-sort: ICON
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: SCH_CFG_LOV_CODES.ICON_1 ============
-  id: 359408001386654498
-  identification: 
-    name: SCH_CFG_LOV_CODES.ICON_1
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SCH_CFG_LOV_CODES
-
-  column-mapping: 
-    return: LV_CODE
-    display: ICON
-    default-sort: ICON
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: SCH_TENANTS.NAME ====================
-  id: 359408290862654498
-  identification: 
-    name: SCH_TENANTS.NAME
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SCH_TENANTS
-
-  column-mapping: 
-    return: ID
-    display: NAME
-    default-sort: NAME
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: SCH_CFG_LOV_CODES.ICON_1_2 ==========
-  id: 359408581607654498
-  identification: 
-    name: SCH_CFG_LOV_CODES.ICON_1_2
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SCH_CFG_LOV_CODES
-
-  column-mapping: 
-    return: TENANT_ID
-    display: ICON
-    default-sort: ICON
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: AST_STANDARDS_REFERENCE_CODES.ISSUE_D
-  id: 378910553684707355
-  identification: 
-    name: AST_STANDARDS_REFERENCE_CODES.ISSUE_DESC
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_STANDARDS_REFERENCE_CODES
-
-  column-mapping: 
-    return: ID
-    display: ISSUE_DESC
-    default-sort: ISSUE_DESC
-    sort-direction: Ascending (Nulls Last)
-
 - # ====== List of Values: ASSIGNEES ===========================
-  id: 401672094243787964
+  id: 628064901719578901
   identification: 
     name: ASSIGNEES
 
@@ -261,15 +291,16 @@
       select lower(email) d, upper(email) r
       from apex_workspace_developers awd
       where is_application_developer = 'Yes'
-      and workspace_name = ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE')
+      and workspace_name = svt_preferences.get('SVT_WORKSPACE')
       order by user_name
 
   column-mapping: 
     return: R
+    display: D
     default-sort: Use Order By from Query
 
 - # ====== List of Values: EBA_STDS_STANDARD_TESTS =============
-  id: 408630547578879702
+  id: 635023355054670639
   identification: 
     name: EBA_STDS_STANDARD_TESTS
 
@@ -281,20 +312,20 @@
 
   column-mapping: 
     return: ID
-    display: NAME
-    default-sort: NAME
+    display: TEST_NAME
+    default-sort: TEST_NAME
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_AUDIT_ACTIONS ===================
-  id: 412818797667761448
+- # ====== List of Values: SVT_AUDIT_ACTIONS ===================
+  id: 639211605143552385
   identification: 
-    name: AST_AUDIT_ACTIONS
+    name: SVT_AUDIT_ACTIONS
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_AUDIT_ACTIONS
+    table-name: SVT_AUDIT_ACTIONS
 
   column-mapping: 
     return: ID
@@ -302,141 +333,128 @@
     default-sort: ACTION_NAME
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: AST_EMAIL_SOLNS =====================
-  id: 431229033725035394
+- # ====== List of Values: SVT_EMAIL_SOLNS =====================
+  id: 657621841200826331
   identification: 
-    name: AST_EMAIL_SOLNS
+    name: SVT_EMAIL_SOLNS
 
   source: 
     location: Static Values
 
   entries: 
   - # ====== Entry: AFW Messaging ================================
-    id: 431229306581035400
+    id: 657622114056826337
     entry: 
       sequence: 1
       display: AFW Messaging
       return: AFW
 
   - # ====== Entry: APEX Email ===================================
-    id: 431229772300035401
+    id: 657622579775826338
     entry: 
       sequence: 2
       display: APEX Email
       return: APEX
 
   - # ====== Entry: No Email =====================================
-    id: 431230126920035401
+    id: 657622934395826338
     entry: 
       sequence: 3
       display: No Email
       return: NA
 
-- # ====== List of Values: AST_DB_NAMES ========================
-  id: 431230733486067167
+- # ====== List of Values: SVT_DB_NAMES ========================
+  id: 657623540961858104
   identification: 
-    name: AST_DB_NAMES
+    name: SVT_DB_NAMES
 
   source: 
     location: Static Values
 
   entries: 
+  - # ====== Entry: AHA_APEX =====================================
+    id: 257054031373510220
+    entry: 
+      sequence: 21
+      display: AHA_APEX
+      return: AHA_APEX
+
   - # ====== Entry: REDWOOD ======================================
-    id: 114799052064084286
+    id: 341191859539875223
     entry: 
       sequence: 11
       display: REDWOOD
       return: REDWOOD
 
   - # ====== Entry: CARS DEV =====================================
-    id: 431231066445067168
+    id: 657623873920858105
     entry: 
       sequence: 1
       display: CARS DEV
       return: CARS DEV
 
-- # ====== List of Values: AST_BASE_URL ========================
-  id: 431427881171167911
+- # ====== List of Values: SVT_BASE_URL ========================
+  id: 657820688646958848
   identification: 
-    name: AST_BASE_URL
+    name: SVT_BASE_URL
 
   source: 
     location: Static Values
 
   entries: 
+  - # ====== Entry: https://ncygdjuof5g55ya3vehx3jzbeq.apigateway.
+    id: 257053531493506026
+    entry: 
+      sequence: 21
+      display: 'https://ncygdjuof5g55ya3vehx3jzbeq.apigateway.us-ashburn-1.oci.customer-oci.com/ords/'
+      return: 'https://ncygdjuof5g55ya3vehx3jzbeq.apigateway.us-ashburn-1.oci.customer-oci.com/ords/'
+
   - # ====== Entry: https://apexrw-dev.apexdev.oraclecorp.com/ords
-    id: 115555539134559934
+    id: 341948346610350871
     entry: 
       sequence: 11
       display: 'https://apexrw-dev.apexdev.oraclecorp.com/ords/'
       return: 'https://apexrw-dev.apexdev.oraclecorp.com/ords/'
 
   - # ====== Entry: https://ohms-apex.unstable.hcgbu.oraclecorp.co
-    id: 431428169324167917
+    id: 657820976799958854
     entry: 
       sequence: 1
       display: 'https://ohms-apex.unstable.hcgbu.oraclecorp.com/ords/'
       return: 'https://ohms-apex.unstable.hcgbu.oraclecorp.com/ords/'
 
-- # ====== List of Values: AST_WORKSPACES ======================
-  id: 431432284904408281
+- # ====== List of Values: SVT_WORKSPACES ======================
+  id: 657825092380199218
   identification: 
-    name: AST_WORKSPACES
+    name: SVT_WORKSPACES
 
   source: 
     location: Static Values
 
   entries: 
+  - # ====== Entry: AHA ==========================================
+    id: 257051142455495892
+    entry: 
+      sequence: 21
+      display: AHA
+      return: AHA
+
   - # ====== Entry: REDWOOD ======================================
-    id: 114798588445080240
+    id: 341191395920871177
     entry: 
       sequence: 11
       display: REDWOOD
       return: REDWOOD
 
   - # ====== Entry: COVID_CARS ===================================
-    id: 431432564837408282
+    id: 657825372313199219
     entry: 
       sequence: 1
       display: COVID_CARS
       return: COVID_CARS
 
-- # ====== List of Values: TPR_TENANT_PROCEDURES.DISEASE_LV_TYPE
-  id: 508846946086321159
-  identification: 
-    name: TPR_TENANT_PROCEDURES.DISEASE_LV_TYPE
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: TPR_TENANT_PROCEDURES
-
-  column-mapping: 
-    return: ID
-    display: DISEASE_LV_TYPE
-    default-sort: DISEASE_LV_TYPE
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: TPR_MESSAGE_CODES.MESSAGE_CODE ======
-  id: 508847244774321160
-  identification: 
-    name: TPR_MESSAGE_CODES.MESSAGE_CODE
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: TPR_MESSAGE_CODES
-
-  column-mapping: 
-    return: ID
-    display: MESSAGE_CODE
-    default-sort: MESSAGE_CODE
-    sort-direction: Ascending (Nulls Last)
-
 - # ====== List of Values: ISSUE_URGENCY =======================
-  id: 3436913835582113648
+  id: 3663306643057904585
   identification: 
     name: ISSUE_URGENCY
 
@@ -444,8 +462,8 @@
     location: Local Database
     type: SQL Query
     sql-query: |
-      select id r, apex_string.format('[%1] %0', name, urgency_level) d
-      from AST_STANDARDS_URGENCY_LEVEL
+      select id r, urgency_name d
+      from SVT_STANDARDS_URGENCY_LEVEL
       order by urgency_level
 
   column-mapping: 
@@ -453,118 +471,43 @@
     display: D
     default-sort: Use Order By from Query
 
-- # ====== List of Values: STANDARD TRACKER VIEWS ==============
-  id: 6147048552258121507
+- # ====== List of Values: ACCESS CONTROL SCOPE ================
+  id: 6480457417052325976
   identification: 
-    name: STANDARD TRACKER VIEWS
-
-  source: 
-    location: Local Database
-    type: SQL Query
-    sql-query: |
-      select view_name d, view_name r
-      from user_views
-      --where view_name in (select table_name
-      --                    from all_tab_cols
-      --                    where column_name = 'REFERENCE_CODE')
-      order by view_name
-
-  column-mapping: 
-    return: R
-    display: D
-    default-sort: Use Order By from Query
-
-- # ====== List of Values: SHOW ONLY ===========================
-  id: 6148411610091684056
-  identification: 
-    name: SHOW ONLY
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: Only Failures ================================
-    id: 6148411960384684059
-    entry: 
-      sequence: 1
-      display: Only Failures
-      return: F
-
-  - # ====== Entry: Only Passes ==================================
-    id: 6148412333221684060
-    entry: 
-      sequence: 2
-      display: Only Passes
-      return: P
-
-  - # ====== Entry: False Negatives ==============================
-    id: 6148412734819684061
-    entry: 
-      sequence: 3
-      display: False Negatives
-      return: N
-
-  - # ====== Entry: Legacy =======================================
-    id: 6148413106294684061
-    entry: 
-      sequence: 4
-      display: Legacy
-      return: L
-
-- # ====== List of Values: ACCESS CONTROL SCOPE1 ===============
-  id: 6254064609576535039
-  identification: 
-    name: ACCESS CONTROL SCOPE1
+    name: ACCESS CONTROL SCOPE
 
   source: 
     location: Static Values
 
   entries: 
   - # ====== Entry: Readers ======================================
-    id: 6254065046441535042
+    id: 6480457853917325979
     entry: 
       sequence: 1
       display: Readers
       return: PUBLIC_READONLY
 
   - # ====== Entry: Contributors =================================
-    id: 6254065441952535044
+    id: 6480458249428325981
     entry: 
       sequence: 2
       display: Contributors
       return: PUBLIC_CONTRIBUTE
 
-- # ====== List of Values: STANDARDS ===========================
-  id: 7562706385759203294
+- # ====== List of Values: V_EBA_STDS_STANDARDS.FULL_STANDARD_NA
+  id: 7789099193234994231
   identification: 
-    name: STANDARDS
+    name: V_EBA_STDS_STANDARDS.FULL_STANDARD_NAME
 
   source: 
     location: Local Database
     type: Legacy SQL Query
     sql-query: |
-      select name d, id r
-      from eba_stds_standards
-
-- # ====== List of Values: APPLICATION STATUSES ================
-  id: 7562728802322661593
-  identification: 
-    name: APPLICATION STATUSES
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: EBA_STDS_APP_STATUSES
-
-  column-mapping: 
-    return: ID
-    display: NAME
-    default-sort: DISPLAY_SEQUENCE
-    sort-direction: Ascending (Nulls Last)
+      select full_standard_name d, id r
+      from v_eba_stds_standards
 
 - # ====== List of Values: APPLICATION TYPES ===================
-  id: 7562735988280664207
+  id: 7789128795756455144
   identification: 
     name: APPLICATION TYPES
 
@@ -576,212 +519,12 @@
 
   column-mapping: 
     return: ID
-    display: NAME
+    display: TYPE_NAME
     default-sort: DISPLAY_SEQUENCE
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: STANDARD_STATUS_RANGES ==============
-  id: 7574399199186455150
-  identification: 
-    name: STANDARD_STATUS_RANGES
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: 0% ===========================================
-    id: 7574399482337455152
-    entry: 
-      sequence: 1
-      display: 0%
-      return: (,0]
-
-  - # ====== Entry: 1-25% ========================================
-    id: 7574399797961455156
-    entry: 
-      sequence: 2
-      display: 1-25%
-      return: (0,25]
-
-  - # ====== Entry: 26-50% =======================================
-    id: 7574400100690455156
-    entry: 
-      sequence: 3
-      display: 26-50%
-      return: (25,50]
-
-  - # ====== Entry: 51-75% =======================================
-    id: 7574400392531455156
-    entry: 
-      sequence: 4
-      display: 51-75%
-      return: (51,75]
-
-  - # ====== Entry: 76-99% =======================================
-    id: 7574400690117455156
-    entry: 
-      sequence: 5
-      display: 76-99%
-      return: (75,100)
-
-  - # ====== Entry: 100% =========================================
-    id: 7574401004503455156
-    entry: 
-      sequence: 6
-      display: 100%
-      return: '[100,)'
-
-- # ====== List of Values: OPEN_STATUS =========================
-  id: 7575372700735936188
-  identification: 
-    name: OPEN_STATUS
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: Open =========================================
-    id: 7575372996375936195
-    entry: 
-      sequence: 1
-      display: Open
-      return: O
-
-  - # ====== Entry: Implemented ==================================
-    id: 7575373298839936198
-    entry: 
-      sequence: 2
-      display: Implemented
-      return: I
-
-- # ====== List of Values: TEST TYPES ==========================
-  id: 7721015984618437645
-  identification: 
-    name: TEST TYPES
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: Pass/Fail (Y/N) ==============================
-    id: 7721016272579437660
-    entry: 
-      sequence: 1
-      display: Pass/Fail (Y/N)
-      return: PASS_FAIL
-
-  - # ====== Entry: Report =======================================
-    id: 7721016563288437667
-    entry: 
-      sequence: 2
-      display: Report
-      return: FAIL_REPORT
-
-  - # ====== Entry: Percentage ===================================
-    id: 7721016874929437668
-    entry: 
-      sequence: 3
-      display: Percentage
-      return: PERCENTAGE
-
-    server-side-condition: 
-      type: Never
-
-- # ====== List of Values: TEST LINK TYPES =====================
-  id: 7721150454522300583
-  identification: 
-    name: TEST LINK TYPES
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: Breadcrumb ===================================
-    id: 284446564132703690
-    entry: 
-      sequence: 100
-      display: Breadcrumb
-      return: BC
-
-  - # ====== Entry: Breadcrumb Entry =============================
-    id: 284458441737882975
-    entry: 
-      sequence: 110
-      display: Breadcrumb Entry
-      return: BCE
-
-  - # ====== Entry: Report Column ================================
-    id: 3305388605924398093
-    entry: 
-      sequence: 35
-      display: Report Column
-      return: REPORT_COL
-
-  - # ====== Entry: Database Supporting Object ===================
-    id: 6140577026082789104
-    entry: 
-      sequence: 900
-      display: Database Supporting Object
-      return: DB_SUPPORTING_OBJECT
-
-  - # ====== Entry: Application ==================================
-    id: 7721150777648300589
-    entry: 
-      sequence: 10
-      display: Application
-      return: APPLICATION
-
-  - # ====== Entry: Page =========================================
-    id: 7721151079284300593
-    entry: 
-      sequence: 20
-      display: Page
-      return: PAGE
-
-  - # ====== Entry: Region =======================================
-    id: 7721151369039300593
-    entry: 
-      sequence: 30
-      display: Region
-      return: REGION
-
-  - # ====== Entry: Page Item ====================================
-    id: 7721151682019300596
-    entry: 
-      sequence: 40
-      display: Page Item
-      return: PAGE_ITEM
-
-  - # ====== Entry: Application Item =============================
-    id: 7721151983980300596
-    entry: 
-      sequence: 50
-      display: Application Item
-      return: APP_ITEM
-
-  - # ====== Entry: Button =======================================
-    id: 7721152279688300596
-    entry: 
-      sequence: 60
-      display: Button
-      return: BUTTON
-
-  - # ====== Entry: List =========================================
-    id: 8326989908722199759
-    entry: 
-      sequence: 70
-      display: List
-      return: LIST
-
-  - # ====== Entry: List Entry ===================================
-    id: 8326990231179199766
-    entry: 
-      sequence: 80
-      display: List Entry
-      return: LISTENTRY
-
 - # ====== List of Values: USERNAME_FORMAT =====================
-  id: 8267454396661403470
+  id: 8493847204137194407
   identification: 
     name: USERNAME_FORMAT
 
@@ -790,93 +533,21 @@
 
   entries: 
   - # ====== Entry: Email Address ================================
-    id: 8267454694759403475
+    id: 8493847502235194412
     entry: 
       sequence: 1
       display: Email Address
       return: EMAIL
 
   - # ====== Entry: Non-Email Address ============================
-    id: 8267454985965403480
+    id: 8493847793441194417
     entry: 
       sequence: 2
       display: Non-Email Address
       return: STRING
 
-- # ====== List of Values: RANGE_DEMO ==========================
-  id: 8269725176624838582
-  identification: 
-    name: RANGE_DEMO
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: Less than 100 ================================
-    id: 8269725495632838590
-    entry: 
-      sequence: 1
-      display: Less than 100
-      return: (,100)
-
-  - # ====== Entry: 100-199 ======================================
-    id: 8269725805362838594
-    entry: 
-      sequence: 2
-      display: 100-199
-      return: '[100,199]'
-
-  - # ====== Entry: 200-299 ======================================
-    id: 8269726088562838594
-    entry: 
-      sequence: 3
-      display: 200-299
-      return: '[200,299]'
-
-  - # ====== Entry: 300-399 ======================================
-    id: 8269726396868838594
-    entry: 
-      sequence: 4
-      display: 300-399
-      return: '[300,399]'
-
-  - # ====== Entry: 400-499 ======================================
-    id: 8269726706967838594
-    entry: 
-      sequence: 5
-      display: 400-499
-      return: '[400,499]'
-
-  - # ====== Entry: 500-649 ======================================
-    id: 8269726989747838594
-    entry: 
-      sequence: 6
-      display: 500-649
-      return: '[500,649]'
-
-  - # ====== Entry: 650-799 ======================================
-    id: 8269727284394838595
-    entry: 
-      sequence: 7
-      display: 650-799
-      return: '[650,799]'
-
-  - # ====== Entry: 800-999 ======================================
-    id: 8269727589690838595
-    entry: 
-      sequence: 8
-      display: 800-999
-      return: '[800,999]'
-
-  - # ====== Entry: 1,000+ =======================================
-    id: 8269727891158838595
-    entry: 
-      sequence: 9
-      display: 1,000+
-      return: '[1000,)'
-
 - # ====== List of Values: YES NO ==============================
-  id: 10458821105493383260
+  id: 10685213912969174197
   identification: 
     name: YES NO
 
@@ -885,79 +556,21 @@
 
   entries: 
   - # ====== Entry: Yes ==========================================
-    id: 10458821411313383266
+    id: 10685214218789174203
     entry: 
       sequence: 10
       display: Yes
       return: Y
 
   - # ====== Entry: No ===========================================
-    id: 10458821611942383271
+    id: 10685214419418174208
     entry: 
       sequence: 20
       display: No
       return: N
 
-- # ====== List of Values: ROWS ================================
-  id: 10519208313952650567
-  identification: 
-    name: ROWS
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: 10 ===========================================
-    id: 10519208503538650568
-    entry: 
-      sequence: 10
-      display: 10
-      return: 10
-
-  - # ====== Entry: 20 ===========================================
-    id: 10519208699761650568
-    entry: 
-      sequence: 20
-      display: 20
-      return: 20
-
-  - # ====== Entry: 30 ===========================================
-    id: 10519208897553650568
-    entry: 
-      sequence: 30
-      display: 30
-      return: 30
-
-  - # ====== Entry: 50 ===========================================
-    id: 10519209098680650568
-    entry: 
-      sequence: 40
-      display: 50
-      return: 50
-
-  - # ====== Entry: 500 ==========================================
-    id: 10519209321534650569
-    entry: 
-      sequence: 50
-      display: 500
-      return: 500
-
-  - # ====== Entry: 1000 =========================================
-    id: 10519209509229650569
-    entry: 
-      sequence: 60
-      display: 1000
-      return: 1000
-
-  - # ====== Entry: 15 ===========================================
-    id: 10519232817415651537
-    entry: 
-      sequence: 10
-      display: 15
-      return: 15
-
 - # ====== List of Values: NOTIFICATION TYPE ===================
-  id: 10528349007042772318
+  id: 10754741814518563255
   identification: 
     name: NOTIFICATION TYPE
 
@@ -966,21 +579,21 @@
 
   entries: 
   - # ====== Entry: Yellow =======================================
-    id: 10528349295580772320
+    id: 10754742103056563257
     entry: 
       sequence: 10
       display: Yellow
       return: YELLOW
 
   - # ====== Entry: Red ==========================================
-    id: 10528349525371772321
+    id: 10754742332847563258
     entry: 
       sequence: 20
       display: Red
       return: RED
 
 - # ====== List of Values: ACCESS_LEVELS =======================
-  id: 10780251699356541048
+  id: 11006644506832331985
   identification: 
     name: ACCESS_LEVELS
 
@@ -992,38 +605,8 @@
         from eba_stds_access_levels
        order by 1
 
-- # ====== List of Values: ACCESS CONTROL SCOPE ================
-  id: 10780280703843776475
-  identification: 
-    name: ACCESS CONTROL SCOPE
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: Reader access for any authenticated user =====
-    id: 8272546284881928008
-    entry: 
-      sequence: 1
-      display: Reader access for any authenticated user
-      return: PUBLIC_READONLY
-
-  - # ====== Entry: Contributor access for any authenticated user 
-    id: 8272546594849928008
-    entry: 
-      sequence: 2
-      display: Contributor access for any authenticated user
-      return: PUBLIC_CONTRIBUTE
-
-  - # ====== Entry: Restricted to users defined in access control 
-    id: 8272546889012928008
-    entry: 
-      sequence: 3
-      display: Restricted to users defined in access control list
-      return: ACL_ONLY
-
 - # ====== List of Values: TIMEFRAME (2 WEEKS) =================
-  id: 10856398401070257272
+  id: 11082791208546048209
   identification: 
     name: TIMEFRAME (2 WEEKS)
 

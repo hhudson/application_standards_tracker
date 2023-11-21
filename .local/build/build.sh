@@ -23,8 +23,6 @@ echo -e "*** Listing all views and packages ***\n"
 list_all_files database/tables                             release/all_tables.sql $EXT_VIEW
 list_all_files database/foreign_keys                       release/all_foreign_keys.sql $EXT_VIEW
 list_all_files database/views                              release/all_views.sql $EXT_VIEW
-list_all_files database/views/standards/apex_sert          release/all_views_sert.sql $EXT_VIEW
-list_all_files database/views/standards/apex_sert/meta     release/all_views_sert_meta.sql $EXT_VIEW
 list_all_files database/views/standards/ohms_apex          release/all_views_ohms_apex.sql $EXT_VIEW
 list_all_files database/views/standards/ohms_apex/meta     release/all_views_ohms_apex_meta.sql $EXT_VIEW
 list_all_files database/views/standards/ohms_db_view       release/all_views_ohms_db_view.sql $EXT_VIEW

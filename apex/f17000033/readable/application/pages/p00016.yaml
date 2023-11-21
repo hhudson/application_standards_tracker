@@ -8,7 +8,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -24,7 +24,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -41,9 +41,59 @@ advanced:
 server-cache: 
   caching: Disabled
 
+help: 
+  help-text: |
+    <ol>
+        <li><h2>Creating a new test</h2>
+            <ol>
+                <li><h3>From Scratch</h3>
+                    <ol>
+                        <li>Pick a unique, descriptive and brief 'test code' (no spaces or special characters)</li>
+                        <li>Describe the test in a short phrase. Terms like 'should' are encouraged.</li>
+                        <li>etc</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+        <li><h2>Button Definitions</h2>
+            <ol>
+                <li><h5>Initialize</h5> This will run your test and acknowledge that existing violations pre-ceded the creation of this standard.
+                If you don't pick this option, the violations will be recorded at the time of the next scheduled job as new violations. If you are seeing this button even though the test is not new, it is because there are no existing violations for this test.
+                </li>
+                <li><h5>Run Test</h5> This will simply run the audit, just as the scheduled job would.
+                </li>
+                <li><h5>Current Violations</h5> This will force a re-direct to the home page with a filter on this violation.
+                </li>
+                <li><h5>Current Violations</h5> This will force a re-direct to the home page with a filter on this violation.
+                </li>
+            </ol>
+        </li>
+        <li><h2>How to Export & Share your test</h2>
+            <ol>
+                <li><h3>For the 1st time</h3>
+                    <p>
+                        On the `Configuration` tab, you will see that you test has a Version of 0. Click `Publish`. 
+                        This will submit the page. After refresh, you will see that your test has progressed to Version 1.
+                        Now, your test will automatically be published to the Git library via a scheduled job. 
+                        If you want to export and share your test sooner, simply click 'Download'.
+                    </p>
+                </li>
+                 <li><h3>Updating an already published test</h3>
+                    <p>
+                        On the `Configuration` tab, you will see that you test has a Version of 1 or more. 
+                        If you have made any changes to your test since publishing, you will see a `Publish` button. 
+                        If you click the `Pubish` button, this will submit the page and, after the refresh, you will see that 
+                        your version number has incremented upwards. This new version will automatically be published to the Git library via a scheduled job. 
+                        If you want to export and share your test sooner, simply click 'Download'.
+                    </p>
+                </li>
+            </ol>
+        </li>
+    </ol>
+
 regions: 
 - # ====== Region: region ======================================
-  id: 44215023441509602
+  id: 270607830917300539
   identification: 
     title: region
     type: Static Content
@@ -59,7 +109,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
     - t-Region--removeHeader js-removeLandmark
@@ -87,7 +137,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Buttons =====================================
-  id: 44215247118509604
+  id: 270608054594300541
   identification: 
     title: Buttons
     type: Static Content
@@ -103,7 +153,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -128,14 +178,14 @@ regions:
       expand-shortcuts: false
 
 page-items: 
-- # ====== Page Item: P16_FROM_STANDARD_CODE ===================
-  id: 44215558578509607
+- # ====== Page Item: P16_FROM_TEST_CODE =======================
+  id: 270608366054300544
   identification: 
-    name: P16_FROM_STANDARD_CODE
+    name: P16_FROM_TEST_CODE
     type: Text Field
 
   label: 
-    label: From Standard Code
+    label: From Test Code
     alignment: Left
 
   settings: 
@@ -147,7 +197,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: region # 44215023441509602
+    region: region # 270607830917300539
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -158,7 +208,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -181,7 +231,7 @@ page-items:
 
   read-only: 
     type: Item is NOT NULL
-    item: P16_FROM_STANDARD_CODE
+    item: P16_FROM_TEST_CODE
 
   security: 
     session-state-protection: Unrestricted
@@ -191,14 +241,14 @@ page-items:
   help: 
     help-text: The test you are copying
 
-- # ====== Page Item: P16_TO_STANDARD_CODE =====================
-  id: 44215675987509608
+- # ====== Page Item: P16_TO_TEST_CODE =========================
+  id: 270608483463300545
   identification: 
-    name: P16_TO_STANDARD_CODE
+    name: P16_TO_TEST_CODE
     type: Text Field
 
   label: 
-    label: To Standard Code
+    label: To Test Code
     alignment: Left
 
   settings: 
@@ -210,18 +260,18 @@ page-items:
 
   layout: 
     sequence: 20
-    region: region # 44215023441509602
+    region: region # 270607830917300539
     position: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -247,16 +297,49 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-buttons: 
-- # ====== Button: Duplicate ===================================
-  id: 44215314000509605
+  help: 
+    help-text: Give your new standard test a unique, descriptive, brief code (all caps, no spaces)
+
+- # ====== Page Item: P16_CORRECTED_TEST_CODE ==================
+  id: 374570304643604541
   identification: 
-    button-name: Duplicate
+    name: P16_CORRECTED_TEST_CODE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: region # 270607830917300539
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: DUPLICATE ===================================
+  id: 270608121476300542
+  identification: 
+    button-name: DUPLICATE
     label: Duplicate
 
   layout: 
     sequence: 10
-    region: Buttons # 44215247118509604
+    region: Buttons # 270608054594300541
     position: CREATE
     start-new-layout: false
     start-new-row: true
@@ -265,11 +348,11 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-Button--iconRight
+    - t-Button--iconLeft
     icon: fa-synonym
 
   behavior: 
@@ -278,11 +361,11 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 processes: 
 - # ====== Process: Duplicate ==================================
-  id: 44215438378509606
+  id: 270608245854300543
   identification: 
     name: Duplicate
     type: Execute Code
@@ -293,9 +376,80 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       eba_stds_standard_tests_api.duplicate_standard (
-                                          p_from_standard_code  => :P16_FROM_STANDARD_CODE,
-                                          p_to_standard_code    => :P16_TO_STANDARD_CODE
+                                          p_from_test_code  => :P16_FROM_TEST_CODE,
+                                          p_to_test_code    => :P16_CORRECTED_TEST_CODE
                                       );
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Test copied!
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DUPLICATE # 270608121476300542
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
+- # ====== Process: Close Dialog ===============================
+  id: 374569956108604538
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    items-to-return-: 
+    - P0_SUCCESS
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Process: success message ============================
+  id: 374570029721604539
+  identification: 
+    name: success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: P16_CORRECTED_TEST_CODE ====================
+  id: 374570402111604542
+  identification: 
+    name: P16_CORRECTED_TEST_CODE
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ":P16_CORRECTED_TEST_CODE := upper(replace(:P16_TO_TEST_CODE, ' ', '_'));"
 
   execution: 
     sequence: 10
@@ -305,17 +459,11 @@ processes:
   error: 
     display-location: Inline in Notification
 
-  server-side-condition: 
-    when-button-pressed: Duplicate # 44215314000509605
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
 branches: 
-- # ====== Branch: Go To Page 14 ===============================
-  id: 44215740711509609
+- # ====== Branch: Go To Page 1 ================================
+  id: 270608548187300546
   identification: 
-    name: Go To Page 14
+    name: Go To Page 1
 
   execution: 
     sequence: 10
@@ -324,9 +472,33 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_STANDARD_CODE:&P16_TO_STANDARD_CODE.&success_msg=#SUCCESS_MSG#'
-      page: 14 # Manage Standard
+      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:P1_TEST_CODE:&P16_TO_TEST_CODE.&success_msg=#SUCCESS_MSG#'
+      page: 1 # Issue Tracking
+      clear-cache: CR,1
+      values: 
+        p1_test_code: '&P16_TO_TEST_CODE.'
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+- # ====== Branch: Go To Page 14 ===============================
+  id: 374570132743604540
+  identification: 
+    name: Go To Page 14
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.:CR,14:P14_TEST_CODE:&P16_CORRECTED_TEST_CODE.&success_msg=#SUCCESS_MSG#'
+      page: 14 # Manage Test
       clear-cache: CR,14
       values: 
-        p14_standard_code: '&P16_TO_STANDARD_CODE.'
+        p14_test_code: '&P16_CORRECTED_TEST_CODE.'
+
+  server-side-condition: 
+    when-button-pressed: DUPLICATE # 270608121476300542
 

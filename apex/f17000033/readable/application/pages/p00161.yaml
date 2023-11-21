@@ -8,10 +8,11 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--lg
 
 dialog: 
   chained: false
@@ -24,7 +25,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: READER RIGHTS # 48893993399820863
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -42,8 +43,358 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: Application Details =========================
+  id: 341544130996766914
+  identification: 
+    title: Application Details
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select aa.application_name,
+             aa.availability_status,
+             est.type_name application_type,
+             est.id type_id,
+             aa.created_by,
+             aa.created_on,
+             aa.last_updated_on,
+             aa.last_updated_by
+      from eba_stds_applications esa
+      inner join apex_applications aa on esa.apex_app_id = aa.application_id
+      left outer join eba_stds_types est on est.id = esa.type_id
+      where esa.apex_app_id = :P161_APEX_APP_ID
+    page-items-to-submit: 
+    - P161_APEX_APP_ID
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-info-circle-o
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Value Attribute Pairs - Column # 7800071677763934956
+      template-options: 
+      - '#DEFAULT#'
+      - t-AVPList--leftAligned
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: AVAILABILITY_STATUS =========================
+    id: 341544693565766919
+    identification: 
+      column-name: AVAILABILITY_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Availability Status
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APPLICATION_TYPE ============================
+    id: 341544730267766920
+    identification: 
+      column-name: APPLICATION_TYPE
+      type: Link
+
+    heading: 
+      heading: Application Type
+      alignment: start
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:24:&SESSION.::&DEBUG.:24:P24_ID:#TYPE_ID#'
+        page: 24 # Application Type
+        clear-cache: 24
+        values: 
+          p24_id: '#TYPE_ID#'
+
+      link-text: '#APPLICATION_TYPE#'
+      link-attributes: 'title = "Edit  #APPLICATION_TYPE#" aria-label = "Edit  #APPLICATION_TYPE#"'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      authorization-scheme: READER RIGHTS # 275286800875611800
+      escape-special-characters: true
+
+  - # ====== Column: APPLICATION_NAME ============================
+    id: 341544866462766921
+    identification: 
+      column-name: APPLICATION_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Application Name
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: true
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TYPE_ID =====================================
+    id: 341545356001766926
+    identification: 
+      column-name: TYPE_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 50
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED_BY ==================================
+    id: 341545469938766927
+    identification: 
+      column-name: CREATED_BY
+      type: Plain Text
+
+    heading: 
+      heading: Created By
+      alignment: start
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED_ON ==================================
+    id: 341545593314766928
+    identification: 
+      column-name: CREATED_ON
+      type: Plain Text
+
+    heading: 
+      heading: Created On
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LAST_UPDATED_ON =============================
+    id: 341545670859766929
+    identification: 
+      column-name: LAST_UPDATED_ON
+      type: Plain Text
+
+    heading: 
+      heading: Last Updated On
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LAST_UPDATED_BY =============================
+    id: 341545781363766930
+    identification: 
+      column-name: LAST_UPDATED_BY
+      type: Plain Text
+
+    heading: 
+      heading: Last Updated By
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Edit Application ============================
-  id: 115564082649675196
+  id: 341956890125466133
   identification: 
     title: Edit Application
     type: Form
@@ -56,7 +407,7 @@ regions:
     include-rowid-column: false
 
   layout: 
-    sequence: 10
+    sequence: 40
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -66,7 +417,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -76,7 +427,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: false
+    region-display-selector: true
     exclude-title-from-translation: false
 
   server-cache: 
@@ -95,7 +446,7 @@ regions:
       lost-update-type: Row Values
 
 - # ====== Region: Buttons =====================================
-  id: 115569369926675204
+  id: 341962177402466141
   identification: 
     title: Buttons
     type: Static Content
@@ -111,7 +462,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -135,9 +486,303 @@ regions:
       output-as: Text (escape special characters)
       show-line-breaks: true
 
+- # ====== Region: Menu ========================================
+  id: 437966090263061949
+  identification: 
+    title: Menu
+    type: Region Display Selector
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Scores ======================================
+  id: 437966149090061950
+  identification: 
+    title: Scores
+    type: APEX Percent Bargraphs
+
+  source: 
+    sql-query: |
+      select ess.full_standard_name as title,
+             svt_plsql_apex_audit_api.percent_solved(p_application_id => :P161_APEX_APP_ID, p_standard_id => ess.id) value,
+             eba_stds_standards_api.hex_color(p_standard_id => ess.id) title_color,
+             null as bar_color
+      from v_eba_stds_standards ess
+      where ess.type_name = 'APEX'
+      and ess.active_yn = 'Y'
+      order by ess.display_order, ess.full_standard_name
+    page-items-to-submit: 
+    - P161_APEX_APP_ID
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+
 page-items: 
+- # ====== Page Item: P161_TYPE_ID =============================
+  id: 282209060840270572
+  identification: 
+    name: P161_TYPE_ID
+    type: Popup LOV
+
+  label: 
+    label: Type
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 90
+    region: Edit Application # 341956890125466133
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: APPLICATION TYPES # 7789128795756455144
+    display-extra-values: false
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Application # 341956890125466133
+    column: TYPE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Assign the application to a group
+
+- # ====== Page Item: P161_NOTES ===============================
+  id: 292523633814693233
+  identification: 
+    name: P161_NOTES
+    type: Textarea
+
+  label: 
+    label: Notes
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 100
+    region: Edit Application # 341956890125466133
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Application # 341956890125466133
+    column: NOTES
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Provide any contextual notes for this application useful for handling its violations
+
+- # ====== Page Item: P161_ACTIVE_YN ===========================
+  id: 341543099248766903
+  identification: 
+    name: P161_ACTIVE_YN
+    type: Switch
+
+  label: 
+    label: Active
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 110
+    region: Edit Application # 341956890125466133
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Edit Application # 341956890125466133
+    column: ACTIVE_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: Y
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Only "active" applications are scanned for violations
+
 - # ====== Page Item: P161_PK_ID ===============================
-  id: 115564362747675197
+  id: 341957170223466134
   identification: 
     name: P161_PK_ID
     type: Hidden
@@ -146,15 +791,15 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 10
-    region: Edit Application # 115564082649675196
+    sequence: 20
+    region: Edit Application # 341956890125466133
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
     column: PK_ID
     data-type: NUMBER
     query-only: true
@@ -170,7 +815,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P161_APEX_APP_ID =========================
-  id: 115564761595675199
+  id: 341957569071466136
   identification: 
     name: P161_APEX_APP_ID
     type: Popup LOV
@@ -183,13 +828,13 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     multiple-values: false
-    manual-entry: false
+    manual-entry: true
     search-as-you-type: true
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 20
-    region: Edit Application # 115564082649675196
+    sequence: 30
+    region: Edit Application # 341956890125466133
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -200,7 +845,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 32
@@ -216,7 +861,7 @@ page-items:
       from 
       (select to_number(application_id) application_id
        from apex_applications
-       where workspace = ast_preferences.get_preference ('AST_DEFAULT_WORKSPACE')
+       where workspace = svt_preferences.get('SVT_WORKSPACE')
        minus 
        select to_number(apex_app_id)
        from eba_stds_applications) aa1
@@ -232,7 +877,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
     column: APEX_APP_ID
     data-type: NUMBER
     query-only: false
@@ -257,7 +902,7 @@ page-items:
     help-text: The application id of your application
 
 - # ====== Page Item: P161_ESA_CREATED =========================
-  id: 268633483111257450
+  id: 495026290587048387
   identification: 
     name: P161_ESA_CREATED
     type: Hidden
@@ -266,15 +911,15 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 30
-    region: Edit Application # 115564082649675196
+    sequence: 40
+    region: Edit Application # 341956890125466133
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
     column: ESA_CREATED
     data-type: TIMESTAMP WITH LOCAL TIME ZONE
     query-only: false
@@ -290,7 +935,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P161_ESA_CREATED_BY ======================
-  id: 282801101776565201
+  id: 509193909252356138
   identification: 
     name: P161_ESA_CREATED_BY
     type: Hidden
@@ -299,15 +944,15 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 40
-    region: Edit Application # 115564082649675196
+    sequence: 50
+    region: Edit Application # 341956890125466133
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
     column: ESA_CREATED_BY
     data-type: VARCHAR2
     query-only: false
@@ -323,7 +968,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P161_ESA_UPDATED =========================
-  id: 282801242352565202
+  id: 509194049828356139
   identification: 
     name: P161_ESA_UPDATED
     type: Hidden
@@ -332,15 +977,15 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 50
-    region: Edit Application # 115564082649675196
+    sequence: 60
+    region: Edit Application # 341956890125466133
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
     column: ESA_UPDATED
     data-type: TIMESTAMP WITH LOCAL TIME ZONE
     query-only: false
@@ -356,7 +1001,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P161_ESA_UPDATED_BY ======================
-  id: 282801306418565203
+  id: 509194113894356140
   identification: 
     name: P161_ESA_UPDATED_BY
     type: Hidden
@@ -365,15 +1010,15 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
-    region: Edit Application # 115564082649675196
+    sequence: 70
+    region: Edit Application # 341956890125466133
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
     column: ESA_UPDATED_BY
     data-type: VARCHAR2
     query-only: false
@@ -389,7 +1034,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P161_DEFAULT_DEVELOPER ===================
-  id: 282801466940565204
+  id: 509194274416356141
   identification: 
     name: P161_DEFAULT_DEVELOPER
     type: Popup LOV
@@ -407,8 +1052,8 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 70
-    region: Edit Application # 115564082649675196
+    sequence: 80
+    region: Edit Application # 341956890125466133
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -419,7 +1064,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6411715103038685265
+    template: Optional - Floating # 6638107910514476202
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -430,7 +1075,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: ASSIGNEES # 401672094243787964
+    list-of-values: ASSIGNEES # 628064901719578901
     display-extra-values: false
     display-null-value: true
 
@@ -438,7 +1083,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
     column: DEFAULT_DEVELOPER
     data-type: VARCHAR2
     query-only: false
@@ -460,14 +1105,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 115569738608675205
+  id: 341962546084466142
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 115569369926675204
+    region: Buttons # 341962177402466141
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -476,7 +1121,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -486,14 +1131,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: DELETE ======================================
-  id: 115571148798675207
+  id: 341963956274466144
   identification: 
     button-name: DELETE
     label: Delete
 
   layout: 
     sequence: 20
-    region: Buttons # 115569369926675204
+    region: Buttons # 341962177402466141
     position: DELETE
     start-new-layout: false
     start-new-row: true
@@ -502,7 +1147,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -524,17 +1169,17 @@ buttons:
     item: P161_PK_ID
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Button: SAVE ========================================
-  id: 115571579255675207
+  id: 341964386731466144
   identification: 
     button-name: SAVE
-    label: Apply Changes
+    label: Save
 
   layout: 
     sequence: 30
-    region: Buttons # 115569369926675204
+    region: Buttons # 341962177402466141
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -543,7 +1188,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -559,17 +1204,17 @@ buttons:
     item: P161_PK_ID
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Button: CREATE ======================================
-  id: 115571905553675207
+  id: 341964713029466144
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 40
-    region: Buttons # 115569369926675204
+    region: Buttons # 341962177402466141
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -578,7 +1223,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -594,11 +1239,11 @@ buttons:
     item: P161_PK_ID
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
-  id: 115569826293675205
+  id: 341962633769466142
   identification: 
     name: Cancel Dialog
 
@@ -608,7 +1253,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 115569738608675205
+    button: CANCEL # 341962546084466142
 
   execution: 
     event-scope: Static
@@ -616,24 +1261,24 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 115570651139675206
+    id: 341963458615466143
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Dialog # 115569826293675205
+      event: Cancel Dialog # 341962633769466142
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 processes: 
 - # ====== Process: Initialize form Edit Application ===========
-  id: 115572396377675207
+  id: 341965203853466144
   identification: 
     name: Initialize form Edit Application
     type: Form - Initialization
     execution-chain: None
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
 
   execution: 
     sequence: 10
@@ -641,18 +1286,41 @@ processes:
     run-process: Once Per Page Visit (default)
 
 - # ====== Process: Process form Edit Application ==============
-  id: 115572718679675208
+  id: 341965526155466145
   identification: 
     name: Process form Edit Application
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
-    form-region: Edit Application # 115564082649675196
+    form-region: Edit Application # 341956890125466133
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P161_PK_ID := eba_stds_applications_api.insert_app (
+                          p_apex_app_id       => :P161_APEX_APP_ID,
+                          p_default_developer => :P161_DEFAULT_DEVELOPER,
+                          p_type_id           => :P161_TYPE_ID,
+                          p_notes             => :P161_NOTES,
+                          p_active_yn         => :P161_ACTIVE_YN
+                      );
+          when 'U' then
+            eba_stds_applications_api.update_app(
+                  p_id                => :P161_PK_ID,
+                  p_apex_app_id       => :P161_APEX_APP_ID,
+                  p_default_developer => :P161_DEFAULT_DEVELOPER,
+                  p_type_id           => :P161_TYPE_ID,
+                  p_notes             => :P161_NOTES,
+                  p_active_yn         => :P161_ACTIVE_YN
+              );
+          when 'D' then
+            eba_stds_applications_api.delete_app(p_id => :P161_PK_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10
@@ -663,10 +1331,10 @@ processes:
     display-location: Inline in Notification
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Process: Close Dialog ===============================
-  id: 115573170717675208
+  id: 341965978193466145
   identification: 
     name: Close Dialog
     type: Close Dialog

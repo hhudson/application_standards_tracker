@@ -1,11 +1,11 @@
 ---
-# ====== Page: AST_STANDARDS_URGENCY_LEVEL ===================
+# ====== Page: Urgency Levels ================================
 id: 38
 identification: 
-  name: AST_STANDARDS_URGENCY_LEVEL
+  name: Urgency Levels
   alias: STANDARD-REFERENCE-CODES
-  title: '&APPLICATION_TITLE.  Standard Reference Codes'
-  page-group: Reports # 8901801614791771653
+  title: Urgency Levels
+  page-group: Reports # 9128194422267562590
 
 appearance: 
   page-mode: Normal
@@ -21,7 +21,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -38,20 +38,20 @@ advanced:
 server-cache: 
   caching: Disabled
 
-regions: 
-- # ====== Region: Breadcrumb ==================================
-  id: 3392912985037104839
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
+comments: 
+  comments: SVT_STANDARDS_URGENCY_LEVEL
 
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
+regions: 
+- # ====== Region: Footer ======================================
+  id: 655451529107171795
+  identification: 
+    title: Footer
+    type: Static Content
 
   layout: 
-    sequence: 10
+    sequence: 60
     parent-region: No Parent
-    position: REGION_POSITION_01
+    position: REGION_POSITION_05
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -59,7 +59,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7573672802698144003
+    template: Title Bar # 7800065610173934940
     template-options: 
     - '#DEFAULT#'
     - t-BreadcrumbRegion--useBreadcrumbTitle
@@ -80,13 +80,12 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
 
 - # ====== Region: Urgency =====================================
-  id: 3421805537734553810
+  id: 3648198345210344747
   identification: 
     title: Urgency
     type: Static Content
@@ -102,7 +101,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -127,7 +126,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Urgency Levels ==============================
-  id: 6563813631927179382
+  id: 6790206439402970319
   identification: 
     title: Urgency Levels
     type: Interactive Report
@@ -136,12 +135,12 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_STANDARDS_URGENCY_LEVEL
+    table-name: SVT_STANDARDS_URGENCY_LEVEL
     include-rowid-column: false
 
   layout: 
     sequence: 10
-    parent-region: Urgency # 3421805537734553810
+    parent-region: Urgency # 3648198345210344747
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -150,7 +149,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -170,7 +169,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 6563813974959179382
+    id: 6790206782434970319
     link: 
       link-column: Link to Custom Target
       target: 
@@ -241,28 +240,81 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 3437018949303471731
+      id: 3663411756779262668
       identification: 
         name: Primary Report
         alias: 31269148
 
     columns: 
-    - # ====== Column: ID ==========================================
-      id: 3436905897934043891
+    - # ====== Column: URGENCY_NAME ================================
+      id: 365746327444297050
       identification: 
-        column-name: ID
-        type: Plain Text
+        column-name: URGENCY_NAME
+        type: Link
 
       heading: 
-        heading: ID
+        heading: Urgency Name
         alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 1
+        sequence: 17
         column-alignment: start
+
+      accessibility: 
+        value-identifies-row: true
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:RR,:IR[STANDARD_TEST_RPT]EQ_URGENCY_LEVEL:#URGENCY_LEVEL#'
+          page: 5 # Tests by Standard
+          clear-cache: RR
+          values: 
+            ir[standard_test_rpt]eq_urgency_level: '#URGENCY_LEVEL#'
+
+        link-text: '#URGENCY_NAME#'
+        link-attributes: title="#URGENCY_NAME# Urgency Violations" aria-label="#URGENCY_NAME# Urgency Violations"
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        authorization-scheme: READER RIGHTS # 275286800875611800
+        escape-special-characters: true
+
+    - # ====== Column: ID ==========================================
+      id: 3663298705409834828
+      identification: 
+        column-name: ID
+        type: Plain Text
+
+      heading: 
+        heading: ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 1
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -289,7 +341,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: URGENCY_LEVEL ===============================
-      id: 3436906156573043895
+      id: 3663298964048834832
       identification: 
         column-name: URGENCY_LEVEL
         type: Plain Text
@@ -329,49 +381,8 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: NAME ========================================
-      id: 3436906581530043896
-      identification: 
-        column-name: NAME
-        type: Plain Text
-
-      heading: 
-        heading: Name
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 3
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: CREATED =====================================
-      id: 3436907004163043896
+      id: 3663299811638834833
       identification: 
         column-name: CREATED
         type: Plain Text
@@ -413,7 +424,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED_BY ==================================
-      id: 3436907353009043896
+      id: 3663300160484834833
       identification: 
         column-name: CREATED_BY
         type: Plain Text
@@ -454,7 +465,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED =====================================
-      id: 3436907770623043896
+      id: 3663300578098834833
       identification: 
         column-name: UPDATED
         type: Plain Text
@@ -496,7 +507,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED_BY ==================================
-      id: 3436908142483043896
+      id: 3663300949958834833
       identification: 
         column-name: UPDATED_BY
         type: Plain Text
@@ -578,17 +589,48 @@ regions:
         font-color: '#000000'
         alignment: center
 
-buttons: 
-- # ====== Button: Merge_sample_data ===========================
-  id: 53115545744627518
+page-items: 
+- # ====== Page Item: P38_ID ===================================
+  id: 369384462080739563
   identification: 
-    button-name: Merge_sample_data
-    label: Available Sample Data
+    name: P38_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
 
   layout: 
     sequence: 10
-    region: Urgency Levels # 6563813631927179382
-    position: RIGHT_OF_IR_SEARCH_BAR
+    region: Urgency Levels # 6790206439402970319
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: AVAILABLE_SAMPLE_DATA =======================
+  id: 279508353220418455
+  identification: 
+    button-name: AVAILABLE_SAMPLE_DATA
+    label: Available Sample `Urgency Levels`
+
+  layout: 
+    sequence: 10
+    region: Footer # 655451529107171795
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -596,38 +638,38 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
     - t-Button--success
-    - t-Button--noUI
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-filter
 
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:AST_STANDARDS_URGENCY_LEVEL'
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:SVT_STANDARDS_URGENCY_LEVEL'
       page: 44 # Inspect Static File contents
       clear-cache: CR,44
       values: 
-        p44_table_name: AST_STANDARDS_URGENCY_LEVEL
+        p44_table_name: SVT_STANDARDS_URGENCY_LEVEL
 
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
-- # ====== Button: Reset =======================================
-  id: 282803099221565220
+- # ====== Button: RESET =======================================
+  id: 509195906697356157
   identification: 
-    button-name: Reset
+    button-name: RESET
     label: Reset
 
   layout: 
     sequence: 30
-    region: Urgency Levels # 6563813631927179382
+    region: Urgency Levels # 6790206439402970319
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -636,7 +678,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -649,20 +691,20 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:38:&SESSION.::&DEBUG.:RR,::'
-      page: 38 # AST_STANDARDS_URGENCY_LEVEL
+      page: 38 # Urgency Levels
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CREATE_URGENCY ==============================
-  id: 3436908544300043899
+  id: 3663301351775834836
   identification: 
     button-name: CREATE_URGENCY
     label: Create Urgency
 
   layout: 
     sequence: 20
-    region: Urgency Levels # 6563813631927179382
+    region: Urgency Levels # 6790206439402970319
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -671,8 +713,8 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: false
+    button-template: Icon # 7800080132300934984
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI
@@ -688,11 +730,11 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 dynamic-actions: 
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 3436908980013047140
+  id: 3663301787488838077
   identification: 
     name: Edit Report - Dialog Closed
 
@@ -702,25 +744,48 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: Urgency Levels # 6563813631927179382
+    region: Urgency Levels # 6790206439402970319
 
   execution: 
     event-scope: Static
     type: Immediate
 
   actions: 
+  - # ====== Action: Set Value ===================================
+    id: 369384528602739564
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: Dialog Return Item
+      return-item: P50_ID
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P38_ID
+
+    execution: 
+      sequence: 10
+      event: Edit Report - Dialog Closed # 3663301787488838077
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
   - # ====== Action: Refresh =====================================
-    id: 3436909364526047143
+    id: 3663302172001838080
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Urgency Levels # 6563813631927179382
+      region: Urgency Levels # 6790206439402970319
 
     execution: 
-      sequence: 10
-      event: Edit Report - Dialog Closed # 3436908980013047140
+      sequence: 20
+      event: Edit Report - Dialog Closed # 3663301787488838077
       fire-when-event-result-is: True
       fire-on-initialization: false
 

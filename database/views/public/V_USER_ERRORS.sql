@@ -5,11 +5,16 @@
 --------------------------------------------------------
 
 create or replace force editionable view v_user_errors as
-select *
-from all_errors
-where owner = case when sys_context('userenv', 'current_user') = 'AST'
-                   then ast_ctx_util.get_default_user
-                   else sys_context('userenv', 'current_user')
-                   end
+select name, 
+       type,
+       line, 
+       text,
+       message_number, 
+       sequence,
+       position,
+       attribute,
+       owner
+from dba_errors
+where owner = svt_ctx_util.get_default_user
 /
 --rollback drop view V_USER_ERRORS;

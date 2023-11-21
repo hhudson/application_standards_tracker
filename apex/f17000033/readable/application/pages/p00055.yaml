@@ -1,11 +1,11 @@
 ---
-# ====== Page: AST_AUDIT_ACTIONS =============================
+# ====== Page: Audit Actions =================================
 id: 55
 identification: 
-  name: AST_AUDIT_ACTIONS
-  alias: AUDIT-ACTIONS1
-  title: '&APPLICATION_TITLE.  audit actions'
-  page-group: Core Application - Data Editing # 8251655203367951471
+  name: Audit Actions
+  alias: AUDIT-ACTIONS
+  title: Audit Actions
+  page-group: Core Application - Data Editing # 8478048010843742408
 
 appearance: 
   page-mode: Normal
@@ -21,7 +21,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -38,55 +38,12 @@ advanced:
 server-cache: 
   caching: Disabled
 
+comments: 
+  comments: SVT_AUDIT_ACTIONS
+
 regions: 
-- # ====== Region: Breadcrumb ==================================
-  id: 408612484750352422
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
-
 - # ====== Region: audit actions ===============================
-  id: 408613078859352424
+  id: 635005886335143361
   identification: 
     title: audit actions
     type: Interactive Report
@@ -95,7 +52,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_AUDIT_ACTIONS
+    table-name: SVT_AUDIT_ACTIONS
     include-rowid-column: false
 
   layout: 
@@ -109,7 +66,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -129,7 +86,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 408613177533352424
+    id: 635005985009143361
     link: 
       link-column: Link to Custom Target
       target: 
@@ -140,7 +97,8 @@ regions:
           p56_id: '#ID#'
 
       link-icon: <img src="#APEX_FILES#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
-      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+      link-attributes: 'title =" Edit #ACTION_NAME#" aria-label ="Edit #ACTION_NAME#"'
+      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
     pagination: 
       type: Row Ranges X to Y
@@ -200,14 +158,55 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 408616350405377728
+      id: 635009157881168665
       identification: 
         name: Primary Report
         alias: 985122
 
     columns: 
+    - # ====== Column: INCLUDE_IN_REPORT_YN ========================
+      id: 372730916519697178
+      identification: 
+        column-name: INCLUDE_IN_REPORT_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: YES NO # 10685213912969174197
+
+      heading: 
+        heading: Include In Report
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 16
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
     - # ====== Column: ID ==========================================
-      id: 408613592019352432
+      id: 635006399495143369
       identification: 
         column-name: ID
         type: Hidden Column
@@ -225,7 +224,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ACTION_NAME =================================
-      id: 408613977109352432
+      id: 635006784585143369
       identification: 
         column-name: ACTION_NAME
         type: Plain Text
@@ -242,7 +241,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -266,7 +265,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED =====================================
-      id: 408614428295352433
+      id: 635007235771143370
       identification: 
         column-name: CREATED
         type: Plain Text
@@ -311,7 +310,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED_BY ==================================
-      id: 408614741132352433
+      id: 635007548608143370
       identification: 
         column-name: CREATED_BY
         type: Plain Text
@@ -352,7 +351,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED =====================================
-      id: 408615230949352433
+      id: 635008038425143370
       identification: 
         column-name: UPDATED
         type: Plain Text
@@ -397,7 +396,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED_BY ==================================
-      id: 408615634143352433
+      id: 635008441619143370
       identification: 
         column-name: UPDATED_BY
         type: Plain Text
@@ -479,17 +478,16 @@ regions:
         font-color: '#000000'
         alignment: center
 
-buttons: 
-- # ====== Button: Merge_sample_data ===========================
-  id: 52756721897756827
+- # ====== Region: Footer ======================================
+  id: 941523163756634193
   identification: 
-    button-name: Merge_sample_data
-    label: Available Sample Data
+    title: Footer
+    type: Static Content
 
   layout: 
-    sequence: 10
-    region: audit actions # 408613078859352424
-    position: RIGHT_OF_IR_SEARCH_BAR
+    sequence: 90
+    parent-region: No Parent
+    position: REGION_POSITION_05
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -497,38 +495,81 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    template: Title Bar # 7800065610173934940
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+buttons: 
+- # ====== Button: AVAILABLE_SAMPLE_DATA =======================
+  id: 279149529373547764
+  identification: 
+    button-name: AVAILABLE_SAMPLE_DATA
+    label: Available Sample `Audit Actions`
+
+  layout: 
+    sequence: 10
+    region: Footer # 941523163756634193
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
     - t-Button--success
-    - t-Button--noUI
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-filter
 
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:AST_AUDIT_ACTIONS'
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:SVT_AUDIT_ACTIONS'
       page: 44 # Inspect Static File contents
       clear-cache: CR,44
       values: 
-        p44_table_name: AST_AUDIT_ACTIONS
+        p44_table_name: SVT_AUDIT_ACTIONS
 
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
-- # ====== Button: reset =======================================
-  id: 282803269806565222
+- # ====== Button: RESET =======================================
+  id: 509196077282356159
   identification: 
-    button-name: reset
+    button-name: RESET
     label: Reset
 
   layout: 
     sequence: 40
-    region: audit actions # 408613078859352424
+    region: audit actions # 635005886335143361
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -537,7 +578,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -550,20 +591,20 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:55:&SESSION.::&DEBUG.:RR,::'
-      page: 55 # AST_AUDIT_ACTIONS
+      page: 55 # Audit Actions
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
 
-- # ====== Button: Create_new_action ===========================
-  id: 401426234021643706
+- # ====== Button: CREATE_NEW_ACTION ===========================
+  id: 627819041497434643
   identification: 
-    button-name: Create_new_action
+    button-name: CREATE_NEW_ACTION
     label: Create
 
   layout: 
     sequence: 30
-    region: audit actions # 408613078859352424
+    region: audit actions # 635005886335143361
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -572,8 +613,8 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: false
+    button-template: Icon # 7800080132300934984
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI
@@ -589,11 +630,11 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 dynamic-actions: 
 - # ====== Dynamic Action: refresh =============================
-  id: 401425955372643704
+  id: 627818762848434641
   identification: 
     name: refresh
 
@@ -603,7 +644,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: audit actions # 408613078859352424
+    region: audit actions # 635005886335143361
 
   execution: 
     event-scope: Static
@@ -611,17 +652,17 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 401426082163643705
+    id: 627818889639434642
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: audit actions # 408613078859352424
+      region: audit actions # 635005886335143361
 
     execution: 
       sequence: 10
-      event: refresh # 401425955372643704
+      event: refresh # 627818762848434641
       fire-when-event-result-is: True
       fire-on-initialization: false
 

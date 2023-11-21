@@ -1,10 +1,10 @@
 ---
-# ====== Page: Preferences ===================================
+# ====== Page: Standard Compatibility Types ==================
 id: 36
 identification: 
-  name: Preferences
-  alias: PREFERENCES
-  title: '&APPLICATION_TITLE.  Preferences'
+  name: Standard Compatibility Types
+  alias: COMPATIBILITY
+  title: Compatibility
 
 appearance: 
   page-mode: Normal
@@ -17,14 +17,14 @@ navigation-menu:
 
 navigation: 
   cursor-focus: Do not focus cursor
-  warn-on-unsaved-changes: false
+  warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: READER RIGHTS # 48893993399820863
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
-  page-access-protection: Unrestricted
-  form-auto-complete: On
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
   browser-cache: Application Default
 
 session-management: 
@@ -32,23 +32,27 @@ session-management:
 
 advanced: 
   enable-duplicate-page-submissions: Yes - Enable page to be re-posted
-  reload-on-submit: Always
+  reload-on-submit: Only for Success
 
 server-cache: 
   caching: Disabled
 
-help: 
-  help-text: No help is available for this page.
+comments: 
+  comments: SVT_COMPATIBILITY
 
 regions: 
-- # ====== Region: Preferences =================================
-  id: 7648215252386058705
+- # ====== Region: Compatibility ===============================
+  id: 387168626426357857
   identification: 
-    title: Preferences
-    type: List
+    title: Compatibility
+    type: Interactive Report
 
   source: 
-    list: Preferences # 10792440703667364893
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SVT_COMPATIBILITY
+    include-rowid-column: false
 
   layout: 
     sequence: 10
@@ -61,12 +65,9 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7573670342594143998
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
-    - t-Region--noPadding
-    - t-Region--scrollBody
-    - t-Region--hideHeader
     render-components: Above Content
 
   accessibility: 
@@ -74,7 +75,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-cache: 
@@ -84,24 +85,489 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      list-template: Media List # 7573683387866144028
-      template-options: 
-      - '#DEFAULT#'
+    id: 387168744445357857
+    link: 
+      link-column: Link to Custom Target
+      target: 
+        url: 'f?p=&APP_ID.:46:&APP_SESSION.::&DEBUG.:RP:P46_ID:\#ID#\'
+        page: 46 # Manage compatibility
+        clear-cache: RP
+        values: 
+          p46_id: '#ID#'
 
-- # ====== Region: Breadcrumb ==================================
-  id: 7648215321648058706
+      link-icon: <span role="img" aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 387173515079358480
+      identification: 
+        name: Primary Report
+        alias: 1607808
+
+    columns: 
+    - # ====== Column: DISPLAY_ORDER ===============================
+      id: 387003144119604850
+      identification: 
+        column-name: DISPLAY_ORDER
+        type: Plain Text
+
+      heading: 
+        heading: Display Order
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 17
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TYPE_NAME ===================================
+      id: 387003515457604854
+      identification: 
+        column-name: TYPE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Type Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 27
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ID ==========================================
+      id: 387169177385357860
+      identification: 
+        column-name: ID
+        type: Hidden Column
+
+      heading: 
+        heading: ID
+
+      layout: 
+        sequence: 0
+
+      source: 
+        primary-key: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COMPATIBILITY_MODE ==========================
+      id: 387169554039357860
+      identification: 
+        column-name: COMPATIBILITY_MODE
+        type: Plain Text
+
+      heading: 
+        heading: Compatibility Mode
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 2
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: true
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COMPATIBILITY_DESC ==========================
+      id: 387169989217357861
+      identification: 
+        column-name: COMPATIBILITY_DESC
+        type: Plain Text
+
+      heading: 
+        heading: Compatibility Desc
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 3
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED =====================================
+      id: 387170373251357861
+      identification: 
+        column-name: CREATED
+        type: Plain Text
+
+      heading: 
+        heading: Created
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 4
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 387170782507357861
+      identification: 
+        column-name: CREATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Created By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 5
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 387171183942357862
+      identification: 
+        column-name: UPDATED
+        type: Plain Text
+
+      heading: 
+        heading: Updated
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 6
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 387171578894357862
+      identification: 
+        column-name: UPDATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Updated By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 7
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Compatibility
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 387172044782357863
   identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
+    button-name: CREATE
+    label: Create
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
+    sequence: 20
+    region: Compatibility # 387168626426357857
+    position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -109,29 +575,91 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7573672802698144003
+    button-template: Icon # 7800080132300934984
+    hot: true
     template-options: 
     - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
+    - t-Button--noUI
+    icon: fa-plus
 
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:46:&APP_SESSION.::&DEBUG.:46::'
+      page: 46 # Manage compatibility
+      clear-cache: 46
 
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
+    warn-on-unsaved-changes: Do Not Check
 
-  server-cache: 
-    caching: Disabled
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
-  customization: 
-    customizable: Not Customizable By End Users
+- # ====== Button: RESET =======================================
+  id: 387890208360355942
+  identification: 
+    button-name: RESET
+    label: Reset
 
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+  layout: 
+    sequence: 30
+    region: Compatibility # 387168626426357857
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--noUI
+    - t-Button--iconRight
+    icon: fa-undo-arrow
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:36:&SESSION.::&DEBUG.:RR,::'
+      page: 36 # Standard Compatibility Types
+      clear-cache: RR
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Edit Report - Dialog Closed =========
+  id: 387172386026357863
+  identification: 
+    name: Edit Report - Dialog Closed
+
+  execution: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Compatibility # 387168626426357857
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 387172882289357864
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Compatibility # 387168626426357857
+
+    execution: 
+      sequence: 10
+      event: Edit Report - Dialog Closed # 387172386026357863
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 

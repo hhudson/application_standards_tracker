@@ -1,10 +1,10 @@
 ---
-# ====== Page: AST_NESTED_TABLE_TYPES ========================
+# ====== Page: Nested Table Types ============================
 id: 63
 identification: 
-  name: AST_NESTED_TABLE_TYPES
+  name: Nested Table Types
   alias: NESTED-TABLE-TYPES
-  title: '&APPLICATION_TITLE.  Underlying Object Types'
+  title: Underlying Object Types
 
 appearance: 
   page-mode: Normal
@@ -20,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -37,9 +37,12 @@ advanced:
 server-cache: 
   caching: Disabled
 
+comments: 
+  comments: SVT_NESTED_TABLE_TYPES
+
 regions: 
 - # ====== Region: Underlying Object Types =====================
-  id: 177239357483445837
+  id: 403632164959236774
   identification: 
     title: Underlying Object Types
     type: Interactive Report
@@ -48,7 +51,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: AST_NESTED_TABLE_TYPES
+    table-name: SVT_NESTED_TABLE_TYPES
     include-rowid-column: false
 
   layout: 
@@ -62,7 +65,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -82,7 +85,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 177239498068445837
+    id: 403632305544236774
     link: 
       link-column: Link to Custom Target
       target: 
@@ -93,10 +96,10 @@ regions:
           p64_id: '#ID#'
 
       link-icon: <span aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
-      authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
     pagination: 
-      type: Row Ranges X to Y
+      type: Row Ranges X to Y of Z
       display-position: Bottom - Right
 
     performance: 
@@ -111,7 +114,7 @@ regions:
       search-field: true
       finder-drop-down: true
       reports-select-list: true
-      rows-per-page-selector: false
+      rows-per-page-selector: true
 
     actions-menu: 
       include-actions-menu: true
@@ -128,7 +131,7 @@ regions:
       pivot: true
       flashback: true
       save-report: true
-      save-public-report: false
+      save-public-report: true
       reset: true
       help: true
       download: true
@@ -153,14 +156,14 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 177244924427446223
+      id: 403637731903237160
       identification: 
         name: Primary Report
         alias: 1772450
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 177239872105445842
+      id: 403632679581236779
       identification: 
         column-name: ID
         type: Hidden Column
@@ -178,7 +181,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: NT_NAME =====================================
-      id: 177240245124445845
+      id: 403633052600236782
       identification: 
         column-name: NT_NAME
         type: Plain Text
@@ -195,7 +198,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -219,10 +222,10 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: EXAMPLE_QUERY ===============================
-      id: 177240675685445845
+      id: 403633483161236782
       identification: 
         column-name: EXAMPLE_QUERY
-        type: Rich Text
+        type: Plain Text
 
       heading: 
         heading: Example Query
@@ -235,19 +238,35 @@ regions:
         sequence: 3
         column-alignment: start
 
-      settings: 
-        format: Markdown
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: <code class="queryColSummary">#EXAMPLE_QUERY#</code>
 
       source: 
         primary-key: false
 
+      column-filter: 
+        type: Default Based on Column Type
+
       enable-users-to: 
         hide: true
+        sort: true
         filter: true
         highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
 
     - # ====== Column: CREATED =====================================
-      id: 177241050144445845
+      id: 403633857620236782
       identification: 
         column-name: CREATED
         type: Plain Text
@@ -292,7 +311,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED_BY ==================================
-      id: 177241441456445846
+      id: 403634248932236783
       identification: 
         column-name: CREATED_BY
         type: Plain Text
@@ -333,7 +352,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED =====================================
-      id: 177241852566445846
+      id: 403634660042236783
       identification: 
         column-name: UPDATED
         type: Plain Text
@@ -378,7 +397,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED_BY ==================================
-      id: 177242213488445846
+      id: 403635020964236783
       identification: 
         column-name: UPDATED_BY
         type: Plain Text
@@ -419,7 +438,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: OBJECT_TYPE =================================
-      id: 223432933305172331
+      id: 449825740780963268
       identification: 
         column-name: OBJECT_TYPE
         type: Plain Text
@@ -501,19 +520,16 @@ regions:
         font-color: '#000000'
         alignment: center
 
-- # ====== Region: Breadcrumb ==================================
-  id: 177244498655445851
+- # ====== Region: Footer ======================================
+  id: 1084560239524374992
   identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
+    title: Footer
+    type: Static Content
 
   layout: 
-    sequence: 10
+    sequence: 90
     parent-region: No Parent
-    position: REGION_POSITION_01
+    position: REGION_POSITION_05
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -521,7 +537,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7573672802698144003
+    template: Title Bar # 7800065610173934940
     template-options: 
     - '#DEFAULT#'
     - t-BreadcrumbRegion--useBreadcrumbTitle
@@ -542,22 +558,21 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
 
 buttons: 
-- # ====== Button: Merge_sample_data ===========================
-  id: 53113803844619552
+- # ====== Button: AVAILABLE_SAMPLE_DATA =======================
+  id: 279506611320410489
   identification: 
-    button-name: Merge_sample_data
-    label: Available Sample Data
+    button-name: AVAILABLE_SAMPLE_DATA
+    label: Available Sample `Types`
 
   layout: 
     sequence: 10
-    region: Underlying Object Types # 177239357483445837
-    position: RIGHT_OF_IR_SEARCH_BAR
+    region: Footer # 1084560239524374992
+    position: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -565,38 +580,38 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
     - t-Button--success
-    - t-Button--noUI
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-filter
 
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:AST_NESTED_TABLE_TYPES'
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:SVT_NESTED_TABLE_TYPES'
       page: 44 # Inspect Static File contents
       clear-cache: CR,44
       values: 
-        p44_table_name: AST_NESTED_TABLE_TYPES
+        p44_table_name: SVT_NESTED_TABLE_TYPES
 
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 - # ====== Button: CREATE ======================================
-  id: 177242777851445846
+  id: 403635585327236783
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 20
-    region: Underlying Object Types # 177239357483445837
+    region: Underlying Object Types # 403632164959236774
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -605,8 +620,8 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: false
+    button-template: Icon # 7800080132300934984
+    hot: true
     template-options: 
     - '#DEFAULT#'
     - t-Button--noUI
@@ -622,17 +637,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Button: reset =======================================
-  id: 282803402320565224
+- # ====== Button: RESET =======================================
+  id: 509196209796356161
   identification: 
-    button-name: reset
+    button-name: RESET
     label: Reset
 
   layout: 
     sequence: 30
-    region: Underlying Object Types # 177239357483445837
+    region: Underlying Object Types # 403632164959236774
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -641,7 +656,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -654,14 +669,14 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.:RR,::'
-      page: 63 # AST_NESTED_TABLE_TYPES
+      page: 63 # Nested Table Types
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 177243089217445847
+  id: 403635896693236784
   identification: 
     name: Edit Report - Dialog Closed
 
@@ -671,7 +686,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: Underlying Object Types # 177239357483445837
+    region: Underlying Object Types # 403632164959236774
 
   execution: 
     event-scope: Static
@@ -679,17 +694,17 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 177243550137445848
+    id: 403636357613236785
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Underlying Object Types # 177239357483445837
+      region: Underlying Object Types # 403632164959236774
 
     execution: 
       sequence: 10
-      event: Edit Report - Dialog Closed # 177243089217445847
+      event: Edit Report - Dialog Closed # 403635896693236784
       fire-when-event-result-is: True
       fire-on-initialization: false
 

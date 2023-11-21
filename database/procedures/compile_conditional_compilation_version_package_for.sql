@@ -13,7 +13,7 @@
 --    );
 -- end;
 
-create or replace procedure compile_conditional_compilation_version_package_for (
+create or replace procedure COMPILE_CONDITIONAL_COMPILATION_VERSION_PACKAGE_FOR (
    p_product_name             in varchar2,
    p_product_version_function in varchar2,
    p_min_version_number       in integer,
@@ -93,31 +93,6 @@ begin
       end loop;
    end loop;
    
-   <<sert_yn>>
-   declare
-   l_access_to_sert_yn varchar2(1) := 'N';
-   begin
-
-      begin <<subsert>>
-         select preference_value
-         into l_access_to_sert_yn
-         from apex_workspace_preferences
-         where preference_name = 'AST_SERT_YN'
-         order by user_name
-         fetch first 1 rows only;
-      exception when no_data_found then
-         l_access_to_sert_yn := 'N';
-      end subsert;
-
-      add_line(apex_string.format(q'[c_sert_access constant boolean := %s;]', 
-                                    case when l_access_to_sert_yn = 'Y'
-                                       then 'true'
-                                       else 'false'
-                                       end
-                                 )
-               );
-   end sert_yn;
-
    <<apex_i_yn>>
    declare 
    l_access_to_apex_issues_yn varchar2(1) := 'N';
@@ -127,7 +102,7 @@ begin
          select preference_value
          into l_access_to_apex_issues_yn
          from apex_workspace_preferences
-         where preference_name = 'AST_APEX_ISSUES_YN'
+         where preference_name = 'SVT_APEX_ISSUES_YN'
          order by user_name
          fetch first 1 rows only;
       exception when no_data_found then
@@ -152,7 +127,7 @@ begin
          select preference_value
          into l_scm_utility_yn
          from apex_workspace_preferences
-         where preference_name = 'AST_SCM_YN'
+         where preference_name = 'SVT_SCM_YN'
          order by user_name
          fetch first 1 rows only;
       exception when no_data_found then
@@ -168,6 +143,32 @@ begin
                );
                
    end scm_yn;
+
+   <<loki_yn>>
+   declare 
+   l_loki_yn_yn varchar2(1) := 'N';
+   begin
+
+      begin <<subscm>>
+         select preference_value
+         into l_loki_yn_yn
+         from apex_workspace_preferences
+         where preference_name = 'SVT_LOKI_YN'
+         order by user_name
+         fetch first 1 rows only;
+      exception when no_data_found then
+         l_loki_yn_yn := 'N';
+      end subscm;
+
+      add_line(apex_string.format(q'[c_loki_access constant boolean := %s;]', 
+                                    case when l_loki_yn_yn = 'Y'
+                                       then 'true'
+                                       else 'false'
+                                       end
+                                 )
+               );
+               
+   end loki_yn;
    
    <<email_soln>>
    declare 
@@ -178,7 +179,7 @@ begin
          select preference_value
          into l_email_api
          from apex_workspace_preferences
-         where preference_name = 'AST_EMAIL_API'
+         where preference_name = 'SVT_EMAIL_API'
          order by user_name
          fetch first 1 rows only;
       exception when no_data_found then

@@ -1,39 +1,8 @@
 ---
-- # ====== Search Configuration: Navigation Search =============
-  id: 52162388826308523
+- # ====== Search Configuration: V_SVT_NAV_MENU ================
+  id: 278857895392180385
   identification: 
-    name: Navigation Search
-
-  source: 
-    search-type: APEX List
-    list: Navigation # 7103771714069154120
-
-  column-mapping: 
-    primary-key-1-column-name: 1
-    title-column-name: 2
-    custom-column-name-1: 8
-
-  link: 
-    type: Redirect to URL
-    target: '&ENTRY_TARGET.'
-
-  icon-and-badge: 
-    icon-source: Icon Class Column
-    icon-column: 5
-
-  messages: 
-    when-no-data-found: No Results Found
-
-  advanced: 
-    static-id: navigation
-
-  security: 
-    authorization-scheme: READER RIGHTS # 48893993399820863
-
-- # ====== Search Configuration: V_Ast_Nav_Menu ================
-  id: 52465087916389448
-  identification: 
-    name: V_Ast_Nav_Menu
+    name: V_SVT_NAV_MENU
 
   source: 
     search-type: Simple (APEX Data Source)
@@ -42,28 +11,132 @@
     sql-query: |
       select list_entry_id,
              entry_text, 
-             destination_page_id, 
-             element_authorization,
-             entry_attribute_01,
+             entry_url,
+             addl_info,
              entry_image
-      from V_AST_NAV_MENU
-    searchable-columns: 'ENTRY_TEXT:ENTRY_ATTRIBUTE_01'
+      from V_SVT_NAV_MENU
+    searchable-columns: 'ENTRY_TEXT:ADDL_INFO'
+
+  order-by: 
+    order-by-clause: entry_text
 
   column-mapping: 
     primary-key-1-column-name: LIST_ENTRY_ID
     title-column-name: ENTRY_TEXT
-    description-column-name: ENTRY_ATTRIBUTE_01
+    description-column-name: ADDL_INFO
 
   link: 
-    type: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:&DESTINATION_PAGE_ID.:&APP_SESSION.::&DEBUG.:::'
-      page: '&DESTINATION_PAGE_ID.'
+    type: Redirect to URL
+    target: '&ENTRY_URL.'
 
   icon-and-badge: 
     icon-source: Icon Class Column
     icon-column: ENTRY_IMAGE
 
   advanced: 
-    static-id: v_ast_nav_menu
+    static-id: v_svt_nav_menu
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
+- # ====== Search Configuration: Standard Groups ===============
+  id: 374196750409028866
+  identification: 
+    name: Standard Groups
+
+  source: 
+    search-type: Simple (APEX Data Source)
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARDS
+    where-clause: active_yn = 'Y'
+    searchable-columns: 'STANDARD_NAME:DESCRIPTION'
+
+  order-by: 
+    order-by-clause: standard_name
+
+  column-mapping: 
+    primary-key-1-column-name: ID
+    title-column-name: STANDARD_NAME
+    description-column-name: DESCRIPTION
+
+  link: 
+    type: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:5:&APP_SESSION.::&DEBUG.:RP,5:P5_ID:&ID.'
+      page: 5 # Tests by Standard
+      clear-cache: RP,5
+      values: 
+        p5_id: '&ID.'
+
+  icon-and-badge: 
+    icon-source: Initials
+
+  column-formatting: 
+    html-expression: |
+      <div class="a-ResultsItem &RESULT_CSS_CLASSES!ATTR.">
+       <div class="a-ResultItem-initials u-color-var">&INITIALS.</div>
+        <div class="a-ResultsItem-content">
+          <div class="a-ResultsItem-header">
+            <span class="a-ResultsItem-title"><a href="f?p=&APP_ID.:5:&SESSION.::::P5_ID:&ID.">&STANDARD_NAME.</a></span>
+            <span class="a-ResultsItem-badge">standard</span>
+          </div>
+          <div class="a-ResultsItem-description">&DESCRIPTION.</div>
+        </div>
+      </div>
+
+  advanced: 
+    static-id: standard_groups
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
+- # ====== Search Configuration: Tests =========================
+  id: 374198534405058360
+  identification: 
+    name: Tests
+
+  source: 
+    search-type: Simple (APEX Data Source)
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EBA_STDS_STANDARD_TESTS
+    searchable-columns: 'EXPLANATION:MV_DEPENDENCY:TEST_NAME:TEST_CODE'
+
+  order-by: 
+    order-by-clause: test_name
+
+  column-mapping: 
+    primary-key-1-column-name: ID
+    title-column-name: TEST_NAME
+    description-column-name: EXPLANATION
+    custom-column-name-1: MV_DEPENDENCY
+
+  icon-and-badge: 
+    icon-source: Initials
+
+  column-formatting: 
+    html-expression: |
+      <div class="a-ResultsItem &RESULT_CSS_CLASSES!ATTR.">
+       <div class="a-ResultItem-initials u-color-var">&INITIALS.</div>
+        <div class="a-ResultsItem-content">
+          <div class="a-ResultsItem-header">
+            <span class="a-ResultsItem-title"><a href="f?p=&APP_ID.:1:&SESSION.::::P1_TEST_CODE:&TEST_CODE.">&TEST_NAME.</a></span>
+            <span class="a-ResultsItem-badge">test</span>
+          </div>
+          <div class="a-ResultsItem-description">&EXPLANATION.</div>
+          <div class="a-ResultsItem-attributes">
+            <span class="a-ResultsItem-attribute">&TEST_CODE.</span>
+          </div>
+          {if ?MV_DEPENDENCY/}<div class="a-ResultsItem-misc">&MV_DEPENDENCY.</div>{endif/}
+        </div>
+      </div>
+
+  advanced: 
+    static-id: tests
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
 

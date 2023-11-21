@@ -3,19 +3,19 @@
 create or replace PACKAGE BODY assert  
 IS  
    PROCEDURE this_condition (  
-      condition_in IN BOOLEAN  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
-    , null_means_failure_in IN BOOLEAN DEFAULT TRUE  
+      p_condition_in IN BOOLEAN  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+    , p_null_means_failure_in IN BOOLEAN DEFAULT TRUE  
    )  
    IS  
    BEGIN  
-      IF NOT condition_in  
-         OR (null_means_failure_in AND condition_in IS NULL)  
+      IF NOT p_condition_in  
+         OR (p_null_means_failure_in AND p_condition_in IS NULL)  
       THEN  
-         IF display_call_stack_in  
+         IF p_display_call_stack_in  
          THEN  
-            DBMS_OUTPUT.put_line ('ASSERTION VIOLATION! ' || msg_in);  
+            DBMS_OUTPUT.put_line ('ASSERTION VIOLATION! ' || p_msg_in);  
             DBMS_OUTPUT.put_line ('Path taken to assertion violation:');  
 
             /* Uncomment when you install in your own environment;  
@@ -23,67 +23,67 @@ IS
               DBMS_OUTPUT.put_line (DBMS_UTILITY.format_call_stack); */ 
          END IF;  
 
-         raise_application_error (-20000, 'ASSERTION VIOLATION! ' || msg_in);  
+         raise_application_error (-20000, 'ASSERTION VIOLATION! ' || p_msg_in);  
       END IF;  
    END;  
 
    PROCEDURE is_null (  
-      val_in IN VARCHAR2  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_val_in IN VARCHAR2  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    )  
    IS  
    BEGIN  
-      this_condition (val_in IS NULL  
-               , msg_in  
-               , display_call_stack_in  
-               , null_means_failure_in      => FALSE  
+      this_condition (p_val_in IS NULL  
+               , p_msg_in  
+               , p_display_call_stack_in  
+               , p_null_means_failure_in      => FALSE  
                 );  
    END is_null;  
 
    PROCEDURE is_not_null (  
-      val_in IN VARCHAR2  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_val_in IN VARCHAR2  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    )  
    IS  
    BEGIN  
-      this_condition (val_in IS NOT NULL, msg_in, display_call_stack_in);  
+      this_condition (p_val_in IS NOT NULL, p_msg_in, p_display_call_stack_in);  
    END is_not_null;  
 
    PROCEDURE is_true (  
-      condition_in IN BOOLEAN  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_condition_in IN BOOLEAN  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    )  
    IS  
    BEGIN  
-      this_condition (condition_in, msg_in, display_call_stack_in);  
+      this_condition (p_condition_in, p_msg_in, p_display_call_stack_in);  
    END is_true;  
 
    PROCEDURE is_false (  
-      condition_in IN BOOLEAN  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+      p_condition_in IN BOOLEAN  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    )  
    IS  
    BEGIN  
-      this_condition (NOT condition_in, msg_in, display_call_stack_in);  
+      this_condition (NOT p_condition_in, p_msg_in, p_display_call_stack_in);  
    END is_false;  
 
    PROCEDURE is_in_range (  
-      date_in IN DATE  
-    , low_date_in IN DATE  
-    , high_date_in IN DATE  
-    , msg_in IN VARCHAR2  
-    , display_call_stack_in IN BOOLEAN DEFAULT FALSE  
-   )  
+      p_date_in IN DATE  
+    , p_low_date_in IN DATE  
+    , p_high_date_in IN DATE  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+   )
    IS  
    BEGIN  
-      this_condition (TRUNC (date_in) BETWEEN TRUNC (low_date_in)  
-                                     AND TRUNC (high_date_in)  
-               , msg_in  
-               , display_call_stack_in  
+      this_condition (TRUNC (p_date_in) BETWEEN TRUNC (p_low_date_in)  
+                                     AND TRUNC (p_high_date_in)  
+               , p_msg_in  
+               , p_display_call_stack_in  
                 );  
    END is_in_range;  
 END assert; 

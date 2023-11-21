@@ -139,7 +139,7 @@
     },
     // EXPORT apex applications
     {
-      "label": "apex export",
+      "label": "export",
       "type": "shell",
       "command": ".vscode/scripts/apex_export.sh",
       "args": ["${input:apexExportType}"],
@@ -181,6 +181,37 @@
       "options": {},
       "problemMatcher": []
     },
+    {
+      "label": "Run execution plan",
+      "type": "shell",
+      "command": ".vscode/scripts/run_execution_plan.sh",
+      "args": [
+        "\"${relativeFile}\"",
+        "\"${file}\"",
+        "\"${fileBasenameNoExtension}\"",
+        "\"${fileDirnameBasename}\""
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {},
+      "problemMatcher": []
+    },
+    // {
+    //   "label": "Export published tests",
+    //   "type": "shell",
+    //   "command": ".vscode/scripts/export_published_tests.sh",
+    //   "args": [],
+    //   "group": "build",
+    //   "presentation": {
+    //     "reveal": "always",
+    //     "panel": "dedicated"
+    //   },
+    //   "options": {},
+    //   "problemMatcher": []
+    // },
   ],
   "inputs": [
     {
@@ -247,7 +278,9 @@
       // Note: these options must match what's in scripts/project-config.sh
       "options": [
         "1 - refresh APEX SERT views",
-        "2 - List invalid objects"
+        "2 - List invalid objects",
+        "3 - Install APEX app",
+        "4 - Export results JSON file"
       ]
     },
     {
@@ -258,7 +291,9 @@
       "options": [
         "1 - APEX Readable YAML",
         "2 - APEX installation file",
-        "3 - All of the above"
+        "3 - All APEX stuff (options 1 & 2)",
+        "4 - Export published tests & standards",
+        "5 - All of the above"
       ]
     },
     {

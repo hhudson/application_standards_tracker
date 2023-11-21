@@ -4,7 +4,7 @@ id: 22
 identification: 
   name: 'Parsed URLs '
   alias: PARSED-URLS
-  title: '&APPLICATION_TITLE.  Parsed URLs '
+  title: 'Parsed URLs '
 
 appearance: 
   page-mode: Normal
@@ -20,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: READER RIGHTS # 48893993399820863
+  authorization-scheme: READER RIGHTS # 275286800875611800
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Unrestricted
@@ -38,54 +38,8 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Breadcrumb ==================================
-  id: 3256484763226892672
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
-
 - # ====== Region: Parsed URLs  ================================
-  id: 3256485400866892674
+  id: 3482878208342683611
   identification: 
     title: 'Parsed URLs '
     type: Interactive Report
@@ -94,7 +48,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: MV_EBA_STDS_PARSED_URLS
+    table-name: V_MV_SVT
     include-rowid-column: false
 
   layout: 
@@ -108,7 +62,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Interactive Report # 7800062643236934930
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -128,7 +82,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 3256485445237892674
+    id: 3482878252713683611
     link: 
       link-column: Exclude Link Column
 
@@ -190,14 +144,55 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 3256492778196903492
+      id: 3482885585672694429
       identification: 
         name: Primary Report
         alias: 29463886
 
     columns: 
+    - # ====== Column: OPT_PARENT_ELEMENT_ID =======================
+      id: 282208037451270562
+      identification: 
+        column-name: OPT_PARENT_ELEMENT_ID
+        type: Plain Text
+
+      heading: 
+        heading: Opt Parent Element ID
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 96
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: DESTINATION_PAGE_NAME =======================
-      id: 282802119317565211
+      id: 509194926793356148
       identification: 
         column-name: DESTINATION_PAGE_NAME
         type: Plain Text
@@ -238,7 +233,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: DESTINATION_APP_NAME ========================
-      id: 282802261609565212
+      id: 509195069085356149
       identification: 
         column-name: DESTINATION_APP_NAME
         type: Plain Text
@@ -279,7 +274,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED_BY ==================================
-      id: 282802377836565213
+      id: 509195185312356150
       identification: 
         column-name: CREATED_BY
         type: Plain Text
@@ -320,7 +315,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED_ON ==================================
-      id: 282802428630565214
+      id: 509195236106356151
       identification: 
         column-name: CREATED_ON
         type: Plain Text
@@ -362,7 +357,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: LAST_UPDATED_BY =============================
-      id: 282802539527565215
+      id: 509195347003356152
       identification: 
         column-name: LAST_UPDATED_BY
         type: Plain Text
@@ -403,7 +398,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: LAST_UPDATED_ON =============================
-      id: 282802683587565216
+      id: 509195491063356153
       identification: 
         column-name: LAST_UPDATED_ON
         type: Plain Text
@@ -445,7 +440,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PAGE_MODE ===================================
-      id: 282802784652565217
+      id: 509195592128356154
       identification: 
         column-name: PAGE_MODE
         type: Plain Text
@@ -486,24 +481,24 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_ID ==============================
-      id: 3256485865165892680
+      id: 3482878672641683617
       identification: 
         column-name: APPLICATION_ID
         type: Plain Text
 
       heading: 
         heading: Application ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 1
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -527,7 +522,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_NAME ============================
-      id: 3256486281340892684
+      id: 3482879088816683621
       identification: 
         column-name: APPLICATION_NAME
         type: Plain Text
@@ -568,7 +563,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: URL_TYPE ====================================
-      id: 3256486681275892684
+      id: 3482879488751683621
       identification: 
         column-name: URL_TYPE
         type: Plain Text
@@ -585,7 +580,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -609,7 +604,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ELEMENT_URL =================================
-      id: 3256487125055892684
+      id: 3482879932531683621
       identification: 
         column-name: ELEMENT_URL
         type: Plain Text
@@ -650,21 +645,21 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ELEMENT_ID ==================================
-      id: 3256487490630892684
+      id: 3482880298106683621
       identification: 
         column-name: ELEMENT_ID
         type: Plain Text
 
       heading: 
         heading: Element ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 5
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -691,7 +686,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ELEMENT_LABEL ===============================
-      id: 3256487923044892684
+      id: 3482880730520683621
       identification: 
         column-name: ELEMENT_LABEL
         type: Plain Text
@@ -732,7 +727,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ELEMENT_NAME ================================
-      id: 3256488301886892684
+      id: 3482881109362683621
       identification: 
         column-name: ELEMENT_NAME
         type: Plain Text
@@ -773,7 +768,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ELEMENT_AUTHORIZATION =======================
-      id: 3256488686189892685
+      id: 3482881493665683622
       identification: 
         column-name: ELEMENT_AUTHORIZATION
         type: Plain Text
@@ -814,21 +809,21 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PARENT_ELEMENT_ID ===========================
-      id: 3256489094960892685
+      id: 3482881902436683622
       identification: 
         column-name: PARENT_ELEMENT_ID
         type: Plain Text
 
       heading: 
         heading: Parent Element ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 9
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -855,7 +850,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PARENT_ELEMENT_NAME =========================
-      id: 3256489451897892685
+      id: 3482882259373683622
       identification: 
         column-name: PARENT_ELEMENT_NAME
         type: Plain Text
@@ -896,7 +891,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PARENT_ELEMENT_AUTHORIZATION ================
-      id: 3256489919391892685
+      id: 3482882726867683622
       identification: 
         column-name: PARENT_ELEMENT_AUTHORIZATION
         type: Plain Text
@@ -937,24 +932,24 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PAGE_ID =====================================
-      id: 3256490325906892685
+      id: 3482883133382683622
       identification: 
         column-name: PAGE_ID
         type: Plain Text
 
       heading: 
         heading: Page ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 12
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -978,7 +973,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PAGE_NAME ===================================
-      id: 3256490665542892685
+      id: 3482883473018683622
       identification: 
         column-name: PAGE_NAME
         type: Plain Text
@@ -1019,7 +1014,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PAGE_AUTHORIZATION ==========================
-      id: 3256491067605892686
+      id: 3482883875081683623
       identification: 
         column-name: PAGE_AUTHORIZATION
         type: Plain Text
@@ -1060,21 +1055,21 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: DESTINATION_APP_ID ==========================
-      id: 3256491535001892686
+      id: 3482884342477683623
       identification: 
         column-name: DESTINATION_APP_ID
         type: Plain Text
 
       heading: 
         heading: Destination App ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 15
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -1101,21 +1096,21 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: DESTINATION_PAGE_ID =========================
-      id: 3256491921574892686
+      id: 3482884729050683623
       identification: 
         column-name: DESTINATION_PAGE_ID
         type: Plain Text
 
       heading: 
         heading: Destination Page ID
-        alignment: start
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 16
-        column-alignment: start
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -1184,15 +1179,15 @@ regions:
         alignment: center
 
 buttons: 
-- # ====== Button: Reset =======================================
-  id: 282802821526565218
+- # ====== Button: RESET =======================================
+  id: 509195629002356155
   identification: 
-    button-name: Reset
+    button-name: RESET
     label: Reset
 
   layout: 
     sequence: 20
-    region: 'Parsed URLs ' # 3256485400866892674
+    region: 'Parsed URLs ' # 3482878208342683611
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -1201,7 +1196,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1219,15 +1214,15 @@ buttons:
 
     warn-on-unsaved-changes: Do Not Check
 
-- # ====== Button: refresh_mview ===============================
-  id: 3247789000223780496
+- # ====== Button: REFRESH_MVIEW ===============================
+  id: 3474181807699571433
   identification: 
-    button-name: refresh_mview
+    button-name: REFRESH_MVIEW
     label: Refresh
 
   layout: 
     sequence: 10
-    region: 'Parsed URLs ' # 3256485400866892674
+    region: 'Parsed URLs ' # 3482878208342683611
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -1236,11 +1231,11 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--iconRight
+    - t-Button--iconLeft
     icon: fa-refresh
 
   behavior: 
@@ -1250,7 +1245,7 @@ buttons:
 
 processes: 
 - # ====== Process: refresh mview ==============================
-  id: 3247789115686780497
+  id: 3474181923162571434
   identification: 
     name: refresh mview
     type: Execute Code

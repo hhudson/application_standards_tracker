@@ -10,7 +10,7 @@ create or replace package eba_stds_data authid definer is
 
     procedure remove_sample_data;
 
-    function is_sample_data_loaded return boolean;
+    -- function is_sample_data_loaded return boolean;
 
 end eba_stds_data;
 /

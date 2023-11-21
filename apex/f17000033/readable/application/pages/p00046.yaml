@@ -1,20 +1,20 @@
 ---
-# ====== Page: Manage Test Help Library ======================
+# ====== Page: Manage compatibility ==========================
 id: 46
 identification: 
-  name: Manage Test Help Library
-  alias: MANAGE-TEST-HELP-LIBRARY
-  title: Manage Test Help Library
+  name: Manage compatibility
+  alias: MANAGE-COMPATIBILITY
+  title: Manage compatibility
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 49917157161329006
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
 
 dialog: 
-  chained: true
+  chained: false
 
 navigation-menu: 
   override-user-interface-level: false
@@ -24,7 +24,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 10780232806617370804
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -42,17 +42,17 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Manage Test Help Library ====================
-  id: 55075125566150709
+- # ====== Region: Manage compatibility ========================
+  id: 387158700283357840
   identification: 
-    title: Manage Test Help Library
+    title: Manage compatibility
     type: Form
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_TEST_HELP_LIB
+    table-name: SVT_COMPATIBILITY
     include-rowid-column: false
 
   layout: 
@@ -66,7 +66,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7573656657747143975
+    template: Blank with Attributes # 7800049465222934912
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -78,9 +78,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  read-only: 
-    type: Always
 
   server-cache: 
     caching: Disabled
@@ -98,7 +95,7 @@ regions:
       lost-update-type: Row Values
 
 - # ====== Region: Buttons =====================================
-  id: 55080364274150719
+  id: 387163890453357850
   identification: 
     title: Buttons
     type: Static Content
@@ -114,7 +111,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7573656789854143977
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -139,8 +136,131 @@ regions:
       show-line-breaks: true
 
 page-items: 
+- # ====== Page Item: P46_DISPLAY_ORDER ========================
+  id: 387003238318604851
+  identification: 
+    name: P46_DISPLAY_ORDER
+    type: Number Field
+
+  label: 
+    label: Display Order
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 40
+    region: Manage compatibility # 387158700283357840
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage compatibility # 387158700283357840
+    column: DISPLAY_ORDER
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The order in which these are displayed in the drop down
+
+- # ====== Page Item: P46_TYPE_NAME ============================
+  id: 387003670698604855
+  identification: 
+    name: P46_TYPE_NAME
+    type: Radio Group
+
+  label: 
+    label: Type Name
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 50
+    region: Manage compatibility # 387158700283357840
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--radioButtonGroup
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SVT_COMPATIBILITY.TYPE_NAME # 387202249117739439
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage compatibility # 387158700283357840
+    column: TYPE_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Identify the nature of the compatibility
+
 - # ====== Page Item: P46_ID ===================================
-  id: 55075432631150710
+  id: 387158941024357841
   identification: 
     name: P46_ID
     type: Hidden
@@ -150,14 +270,14 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Manage Test Help Library # 55075125566150709
+    region: Manage compatibility # 387158700283357840
     position: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Manage Test Help Library # 55075125566150709
+    form-region: Manage compatibility # 387158700283357840
     column: ID
     data-type: NUMBER
     query-only: true
@@ -172,14 +292,14 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P46_WORKSPACE ============================
-  id: 55075893549150713
+- # ====== Page Item: P46_COMPATIBILITY_MODE ===================
+  id: 387159361745357844
   identification: 
-    name: P46_WORKSPACE
+    name: P46_COMPATIBILITY_MODE
     type: Text Field
 
   label: 
-    label: Workspace
+    label: Compatibility Mode
     alignment: Left
 
   settings: 
@@ -191,7 +311,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Manage Test Help Library # 55075125566150709
+    region: Manage compatibility # 387158700283357840
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -202,21 +322,21 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6411714809400685265
+    template: Required - Floating # 6638107616876476202
     template-options: 
     - '#DEFAULT#'
     width: 32
 
   validation: 
     value-required: true
-    maximum-length: 225
+    maximum-length: 4
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Manage Test Help Library # 55075125566150709
-    column: WORKSPACE
+    form-region: Manage compatibility # 387158700283357840
+    column: COMPATIBILITY_MODE
     data-type: VARCHAR2
     query-only: false
     primary-key: false
@@ -233,304 +353,213 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    help-text: The workspace from which this data originates
+    help-text: The lowest compatibility version in the set of compatibility. Keep it brief because it may be used as a shorthand for the description.
 
-- # ====== Page Item: P46_TEST_ID ==============================
-  id: 55076272699150714
+- # ====== Page Item: P46_COMPATIBILITY_DESC ===================
+  id: 387159717288357845
   identification: 
-    name: P46_TEST_ID
+    name: P46_COMPATIBILITY_DESC
+    type: Text Field
+
+  label: 
+    label: Compatibility Desc
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: Manage compatibility # 387158700283357840
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 6638107616876476202
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: true
+    maximum-length: 400
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage compatibility # 387158700283357840
+    column: COMPATIBILITY_DESC
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: What is the nature of the compatibility? List version numbers here, for eg.
+
+- # ====== Page Item: P46_CREATED ==============================
+  id: 387160119417357845
+  identification: 
+    name: P46_CREATED
     type: Hidden
 
   settings: 
     value-protected: true
 
   layout: 
-    sequence: 30
-    region: Manage Test Help Library # 55075125566150709
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Manage Test Help Library # 55075125566150709
-    column: TEST_ID
-    data-type: NUMBER
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P46_STANDARD_CODE ========================
-  id: 55076625794150715
-  identification: 
-    name: P46_STANDARD_CODE
-    type: Text Field
-
-  label: 
-    label: Standard Code
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: None
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 40
-    region: Manage Test Help Library # 55075125566150709
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6411714809400685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: true
-    maximum-length: 100
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Manage Test Help Library # 55075125566150709
-    column: STANDARD_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: The Standard Code to which this help belongs
-
-- # ====== Page Item: P46_SUB_CODE =============================
-  id: 55077000164150715
-  identification: 
-    name: P46_SUB_CODE
-    type: Text Field
-
-  label: 
-    label: Sub Code
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: None
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 50
-    region: Manage Test Help Library # 55075125566150709
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: false
-    maximum-length: 100
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Manage Test Help Library # 55075125566150709
-    column: SUB_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: A code that uniquely describes the help entry
-
-- # ====== Page Item: P46_EXPLANATION ==========================
-  id: 55077467221150715
-  identification: 
-    name: P46_EXPLANATION
-    type: Textarea
-
-  label: 
-    label: Explanation
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
-
-  layout: 
-    sequence: 60
-    region: Manage Test Help Library # 55075125566150709
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 60
-    height: 4
-
-  validation: 
-    value-required: false
-    maximum-length: 4000
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Manage Test Help Library # 55075125566150709
-    column: EXPLANATION
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Description of why the violation is a problem
-
-- # ====== Page Item: P46_FIX ==================================
-  id: 55077806001150716
-  identification: 
-    name: P46_FIX
-    type: Textarea
-
-  label: 
-    label: Fix
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
-
-  layout: 
     sequence: 70
-    region: Manage Test Help Library # 55075125566150709
+    region: Manage compatibility # 387158700283357840
     position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating # 6411715103038685265
-    template-options: 
-    - '#DEFAULT#'
-    width: 60
-    height: 4
-
-  validation: 
-    value-required: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: Manage Test Help Library # 55075125566150709
-    column: FIX
-    data-type: CLOB
+    form-region: Manage compatibility # 387158700283357840
+    column: CREATED
+    data-type: TIMESTAMP
     query-only: false
     primary-key: false
 
   session-state: 
-    data-type: CLOB
+    data-type: VARCHAR2
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-  help: 
-    help-text: How to fix the violation
+- # ====== Page Item: P46_CREATED_BY ===========================
+  id: 387160561065357847
+  identification: 
+    name: P46_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 80
+    region: Manage compatibility # 387158700283357840
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage compatibility # 387158700283357840
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P46_UPDATED ==============================
+  id: 387160950279357847
+  identification: 
+    name: P46_UPDATED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 90
+    region: Manage compatibility # 387158700283357840
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage compatibility # 387158700283357840
+    column: UPDATED
+    data-type: TIMESTAMP
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P46_UPDATED_BY ===========================
+  id: 387161359252357847
+  identification: 
+    name: P46_UPDATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 100
+    region: Manage compatibility # 387158700283357840
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage compatibility # 387158700283357840
+    column: UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 55080762514150719
+  id: 387164269178357851
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 55080364274150719
+    region: Buttons # 387163890453357850
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -539,7 +568,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -549,14 +578,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: DELETE ======================================
-  id: 55082170304150721
+  id: 387165613037357853
   identification: 
     button-name: DELETE
     label: Delete
 
   layout: 
     sequence: 20
-    region: Buttons # 55080364274150719
+    region: Buttons # 387163890453357850
     position: DELETE
     start-new-layout: false
     start-new-row: true
@@ -565,7 +594,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7573688007377144053
+    button-template: Text # 7800080814852934990
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -586,9 +615,73 @@ buttons:
     type: Item is NOT NULL
     item: P46_ID
 
+- # ====== Button: SAVE ========================================
+  id: 387166104986357853
+  identification: 
+    button-name: SAVE
+    label: Save
+
+  layout: 
+    sequence: 30
+    region: Buttons # 387163890453357850
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7800080814852934990
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P46_ID
+
+- # ====== Button: CREATE ======================================
+  id: 387166472238357853
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 40
+    region: Buttons # 387163890453357850
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7800080814852934990
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P46_ID
+
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
-  id: 55080858683150719
+  id: 387164381861357851
   identification: 
     name: Cancel Dialog
 
@@ -598,7 +691,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 55080762514150719
+    button: CANCEL # 387164269178357851
 
   execution: 
     event-scope: Static
@@ -606,43 +699,64 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 55081637690150720
+    id: 387165170472357852
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Dialog # 55080858683150719
+      event: Cancel Dialog # 387164381861357851
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 processes: 
-- # ====== Process: Initialize form Manage Test Help Library ===
-  id: 55083368866150722
+- # ====== Process: Initialize form Manage compatibility =======
+  id: 387166897367357854
   identification: 
-    name: Initialize form Manage Test Help Library
+    name: Initialize form Manage compatibility
     type: Form - Initialization
     execution-chain: None
-    form-region: Manage Test Help Library # 55075125566150709
+    form-region: Manage compatibility # 387158700283357840
 
   execution: 
     sequence: 10
     point: Before Header
     run-process: Once Per Page Visit (default)
 
-- # ====== Process: Process form Manage Test Help Library ======
-  id: 55083711698150722
+- # ====== Process: Process form Manage compatibility ==========
+  id: 387167260916357854
   identification: 
-    name: Process form Manage Test Help Library
+    name: Process form Manage compatibility
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
-    form-region: Manage Test Help Library # 55075125566150709
+    form-region: Manage compatibility # 387158700283357840
 
   settings: 
-    target-type: Region Source
+    target-type: PL/SQL Code
+    pl/sql-code-to-insert/update/delete: |
+      begin
+        case :APEX$ROW_STATUS
+          when 'C' then
+            :P46_ID := svt_compatibility_api.insert_cmp (
+                          p_display_order      => :P46_DISPLAY_ORDER,
+                          p_compatibility_mode => :P46_COMPATIBILITY_MODE,
+                          p_compatibility_desc => :P46_COMPATIBILITY_DESC,
+                          p_type_name          => :P46_TYPE_NAME
+                      );
+          when 'U' then
+            svt_compatibility_api.update_cmp (
+                  p_id                 => :P46_ID,
+                  p_display_order      => :P46_DISPLAY_ORDER,
+                  p_compatibility_mode => :P46_COMPATIBILITY_MODE,
+                  p_compatibility_desc => :P46_COMPATIBILITY_DESC,
+                  p_type_name          => :P46_TYPE_NAME
+              );
+          when 'D' then
+            svt_compatibility_api.delete_cmp(p_id => :P46_ID);
+        end case;
+      end;
     prevent-lost-updates: true
     lock-row: Yes
-    return-primary-key(s)-after-insert: true
 
   execution: 
     sequence: 10
@@ -653,7 +767,7 @@ processes:
     display-location: Inline in Notification
 
 - # ====== Process: Close Dialog ===============================
-  id: 55084148711150723
+  id: 387167679301357855
   identification: 
     name: Close Dialog
     type: Close Dialog

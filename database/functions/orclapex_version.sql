@@ -4,7 +4,7 @@
 --------------------------------------------------------
 
 -- https://livesql.oracle.com/apex/livesql/file/content_MYKQ2SIS76LD5JDBJGKKEXK6V.html
-create or replace function orclapex_version return number authid definer
+create or replace function ORCLAPEX_VERSION return number authid definer
 is
    vr number;
 begin

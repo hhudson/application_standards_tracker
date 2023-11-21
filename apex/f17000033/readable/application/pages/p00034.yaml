@@ -1,17 +1,21 @@
 ---
-# ====== Page: AST_SUB_REFERENCE_CODES =======================
+# ====== Page: Import Tests ==================================
 id: 34
 identification: 
-  name: AST_SUB_REFERENCE_CODES
-  alias: CHILD-CODES
-  title: '&APPLICATION_TITLE. Child Codes'
-  page-group: Administration # 10780320217725301324
+  name: Import Tests
+  alias: IMPORT-TESTS
+  title: Import Test(s)
 
 appearance: 
-  page-mode: Normal
-  page-template: Theme Default
+  page-mode: Modal Dialog
+  dialog-template: Drawer # 276309964637119943
   template-options: 
   - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--xl
+
+dialog: 
+  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -21,7 +25,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -29,7 +33,7 @@ security:
   browser-cache: Application Default
 
 session-management: 
-  rejoin-sessions: Disabled
+  rejoin-sessions: Application Default
 
 advanced: 
   enable-duplicate-page-submissions: Yes - Enable page to be re-posted
@@ -39,18 +43,11 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Child Codes =================================
-  id: 223853362933562613
+- # ====== Region: Button Bar ==================================
+  id: 365766379040052832
   identification: 
-    title: Child Codes
-    type: Interactive Report
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: AST_SUB_REFERENCE_CODES
-    include-rowid-column: false
+    title: Button Bar
+    type: Static Content
 
   layout: 
     sequence: 10
@@ -63,9 +60,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7573669835761143993
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
+    - t-ButtonRegion--noUI
     render-components: Above Content
 
   accessibility: 
@@ -76,493 +74,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    id: 223853483164562613
-    link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:61:&APP_SESSION.::&DEBUG.:RP:P61_ID:\#ID#\'
-        page: 61 # Edit Code Help
-        clear-cache: RP
-        values: 
-          p61_id: '#ID#'
-
-      link-icon: <span aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
-      authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
-    pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
-
-    performance: 
-      lazy-loading: false
-
-    messages: 
-      when-no-data-found: No data found.
-      when-more-data-found: 'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
-
-    search-bar: 
-      include-search-bar: true
-      search-field: true
-      finder-drop-down: true
-      reports-select-list: true
-      rows-per-page-selector: false
-
-    actions-menu: 
-      include-actions-menu: true
-      filter: true
-      select-columns: true
-      rows-per-page: true
-      sort: true
-      control-break: true
-      highlight: true
-      compute: true
-      aggregate: true
-      chart: true
-      group-by: true
-      pivot: true
-      flashback: true
-      save-report: true
-      save-public-report: false
-      reset: true
-      help: true
-      download: true
-      subscription: true
-
-    download: 
-      formats: 
-      - CSV
-      - HTML
-      - Excel
-      - PDF
-      send-as-email: true
-
-    heading: 
-      fixed-to: Page
-
-    icon-view: 
-      show: false
-
-    detail-view: 
-      show: false
-
-    saved-reports: 
-    - # ====== Saved Report: Primary Report ========================
-      id: 223859605286562997
-      identification: 
-        name: Primary Report
-        alias: 2238597
-
-    columns: 
-    - # ====== Column: ID ==========================================
-      id: 223853783189562618
-      identification: 
-        column-name: ID
-        type: Hidden Column
-
-      heading: 
-        heading: ID
-
-      layout: 
-        sequence: 0
-
-      source: 
-        primary-key: false
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: SUB_CODE ====================================
-      id: 223854181758562618
-      identification: 
-        column-name: SUB_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Sub Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 2
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: EXPLANATION =================================
-      id: 223854534427562619
-      identification: 
-        column-name: EXPLANATION
-        type: Rich Text
-
-      heading: 
-        heading: Explanation
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 3
-        column-alignment: start
-
-      settings: 
-        format: Markdown
-
-      source: 
-        primary-key: false
-
-      enable-users-to: 
-        hide: true
-        filter: true
-        highlight: true
-
-    - # ====== Column: CREATED =====================================
-      id: 223854921280562619
-      identification: 
-        column-name: CREATED
-        type: Plain Text
-
-      heading: 
-        heading: Created
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 4
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      appearance: 
-        format-mask: SINCE
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: CREATED_BY ==================================
-      id: 223855308014562619
-      identification: 
-        column-name: CREATED_BY
-        type: Plain Text
-
-      heading: 
-        heading: Created By
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 5
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: UPDATED =====================================
-      id: 223855710605562619
-      identification: 
-        column-name: UPDATED
-        type: Plain Text
-
-      heading: 
-        heading: Updated
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 6
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      appearance: 
-        format-mask: SINCE
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-        date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: UPDATED_BY ==================================
-      id: 223856155788562619
-      identification: 
-        column-name: UPDATED_BY
-        type: Plain Text
-
-      heading: 
-        heading: Updated By
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 7
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: FIX =========================================
-      id: 223856570286562620
-      identification: 
-        column-name: FIX
-        type: Rich Text
-
-      heading: 
-        heading: Fix
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 8
-        column-alignment: start
-
-      settings: 
-        format: Markdown
-
-      source: 
-        primary-key: false
-
-      enable-users-to: 
-        hide: true
-        filter: true
-        highlight: true
-
-    - # ====== Column: TEST_ID =====================================
-      id: 223856939691562620
-      identification: 
-        column-name: TEST_ID
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: EBA_STDS_STANDARD_TESTS # 408630547578879702
-
-      heading: 
-        heading: Test
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 9
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-    printing: 
-      output: 
-        view-file-as: Attachment
-
-      page: 
-        size: Letter
-        orientation: Landscape
-        units: Inches
-        width: 11
-        height: 8.5
-        border-width: 0.5
-        border-color: '#666666'
-
-      page-header: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 12
-        font-color: '#000000'
-        alignment: center
-        page-header-text: Child Codes
-
-      column-headings: 
-        font: Helvetica
-        font-weight: Bold
-        font-size: 10
-        font-color: '#000000'
-        background-color: '#EEEEEE'
-
-      columns: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 10
-        font-color: '#000000'
-        background-color: '#FFFFFF'
-
-      page-footer: 
-        font: Helvetica
-        font-weight: Normal
-        font-size: 12
-        font-color: '#000000'
-        alignment: center
-
-- # ====== Region: Breadcrumb ==================================
-  id: 223859196043562625
-  identification: 
-    title: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: ' Breadcrumb' # 11984537740102947250
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    position: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar # 7573672802698144003
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
 
   server-cache: 
     caching: Disabled
@@ -571,62 +85,20 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb # 7573688177511144054
-      template-options: 
-      - '#DEFAULT#'
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
 
-buttons: 
-- # ====== Button: Merge_sample_data ===========================
-  id: 53116792450636703
+- # ====== Region: Data Source =================================
+  id: 365768335778052834
   identification: 
-    button-name: Merge_sample_data
-    label: Available Sample Data
-
-  layout: 
-    sequence: 10
-    region: Child Codes # 223853362933562613
-    position: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7573687401426144051
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--success
-    - t-Button--noUI
-    - t-Button--iconLeft
-    icon: fa-filter
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:AST_SUB_REFERENCE_CODES'
-      page: 44 # Inspect Static File contents
-      clear-cache: CR,44
-      values: 
-        p44_table_name: AST_SUB_REFERENCE_CODES
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
-
-- # ====== Button: CREATE ======================================
-  id: 223857402867562620
-  identification: 
-    button-name: CREATE
-    label: Create
+    title: Data Source
+    type: Static Content
 
   layout: 
     sequence: 20
-    region: Child Codes # 223853362933562613
-    position: RIGHT_OF_IR_SEARCH_BAR
+    parent-region: No Parent
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -634,35 +106,43 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7573687324825144047
-    hot: false
+    template: Standard # 7800063150069934935
     template-options: 
     - '#DEFAULT#'
-    - t-Button--noUI
-    icon: fa-plus
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
 
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:61:&APP_SESSION.::&DEBUG.:61::'
-      page: 61 # Edit Code Help
-      clear-cache: 61
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
 
-    warn-on-unsaved-changes: Do Not Check
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
 
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 10780233298390370815
+  server-cache: 
+    caching: Disabled
 
-- # ====== Button: Reset =======================================
-  id: 282802994886565219
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Upload a File ===============================
+  id: 365768765011052834
   identification: 
-    button-name: Reset
-    label: Reset
+    title: Upload a File
+    type: Static Content
 
   layout: 
     sequence: 30
-    region: Child Codes # 223853362933562613
-    position: RIGHT_OF_IR_SEARCH_BAR
+    parent-region: Data Source # 365768335778052834
+    position: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -670,55 +150,1598 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7573687401426144051
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P34_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Loaded File =================================
+  id: 365770863912052836
+  identification: 
+    title: Loaded File
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: Data Source # 365768335778052834
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Preview =====================================
+  id: 365772482349052837
+  identification: 
+    title: Preview
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select p.line_number,
+             p.col001 test_id, 
+             p.col002 active_yn,
+             p.col003 test_name, 
+             p.col004 c4, 
+             p.col005 standard_id,
+             p.col006 c6,
+             p.col007 test_code,
+             p.col008 c8,
+             p.col009 c9, 
+             p.col010 explanation, 
+             p.col011 level_id,
+             p.col012 vsn_number,
+             p.col013 vsn_db,
+             p.col014 c14,
+             p.col015 c15,
+             p.col016 c16,
+             p.col017 c17,
+             p.col018 c18,
+             p.col019 c19,
+             p.col020 c20
+             -- add more columns (col011 to col300) here.
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P34_FILE
+    page-items-to-submit: 
+    - P34_FILE
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 10
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--staticRowColors
+      - t-Report--rowHighlight
+      - t-Report--horizontalBorders
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: C4 ==========================================
+    id: 292521913797693216
+    identification: 
+      column-name: C4
+      type: Hidden Column
+
+    layout: 
+      sequence: 211
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C6 ==========================================
+    id: 292522045876693217
+    identification: 
+      column-name: C6
+      type: Hidden Column
+
+    layout: 
+      sequence: 221
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C8 ==========================================
+    id: 292522150194693218
+    identification: 
+      column-name: C8
+      type: Hidden Column
+
+    layout: 
+      sequence: 231
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C9 ==========================================
+    id: 292522235109693219
+    identification: 
+      column-name: C9
+      type: Hidden Column
+
+    layout: 
+      sequence: 241
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TEST_ID =====================================
+    id: 292522603140693223
+    identification: 
+      column-name: TEST_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 251
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIVE_YN ===================================
+    id: 292522771455693224
+    identification: 
+      column-name: ACTIVE_YN
+      type: Plain Text
+
+    heading: 
+      heading: Active
+      alignment: start
+
+    layout: 
+      sequence: 261
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TEST_NAME ===================================
+    id: 292522830531693225
+    identification: 
+      column-name: TEST_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Test Name
+      alignment: start
+
+    layout: 
+      sequence: 271
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STANDARD_ID =================================
+    id: 292522968154693226
+    identification: 
+      column-name: STANDARD_ID
+      type: Plain Text
+
+    heading: 
+      heading: Standard ID
+      alignment: start
+
+    layout: 
+      sequence: 281
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TEST_CODE ===================================
+    id: 292523083189693227
+    identification: 
+      column-name: TEST_CODE
+      type: Plain Text
+
+    heading: 
+      heading: Test Code
+      alignment: start
+
+    layout: 
+      sequence: 291
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXPLANATION =================================
+    id: 292523120515693228
+    identification: 
+      column-name: EXPLANATION
+      type: Plain Text
+
+    heading: 
+      heading: Explanation
+      alignment: start
+
+    layout: 
+      sequence: 301
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LEVEL_ID ====================================
+    id: 292523236254693229
+    identification: 
+      column-name: LEVEL_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 311
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: VSN_NUMBER ==================================
+    id: 292523337363693230
+    identification: 
+      column-name: VSN_NUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Vsn Number
+      alignment: start
+
+    layout: 
+      sequence: 321
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: VSN_DB ======================================
+    id: 292523422605693231
+    identification: 
+      column-name: VSN_DB
+      type: Plain Text
+
+    heading: 
+      heading: Vsn Db
+      alignment: start
+
+    layout: 
+      sequence: 331
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LINE_NUMBER =================================
+    id: 365772867616052842
+    identification: 
+      column-name: LINE_NUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Line Number
+      alignment: end
+
+    layout: 
+      sequence: 1
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: true
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C14 =========================================
+    id: 398981198802850674
+    identification: 
+      column-name: C14
+      type: Hidden Column
+
+    layout: 
+      sequence: 121
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C15 =========================================
+    id: 398981295846850675
+    identification: 
+      column-name: C15
+      type: Hidden Column
+
+    layout: 
+      sequence: 131
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C16 =========================================
+    id: 398981390019850676
+    identification: 
+      column-name: C16
+      type: Hidden Column
+
+    layout: 
+      sequence: 141
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C17 =========================================
+    id: 398981459954850677
+    identification: 
+      column-name: C17
+      type: Hidden Column
+
+    layout: 
+      sequence: 151
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C18 =========================================
+    id: 398981568599850678
+    identification: 
+      column-name: C18
+      type: Hidden Column
+
+    layout: 
+      sequence: 161
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C19 =========================================
+    id: 398981670388850679
+    identification: 
+      column-name: C19
+      type: Hidden Column
+
+    layout: 
+      sequence: 171
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C20 =========================================
+    id: 398981724642850680
+    identification: 
+      column-name: C20
+      type: Hidden Column
+
+    layout: 
+      sequence: 181
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: buttons footer ==============================
+  id: 374570412494604543
+  identification: 
+    title: buttons footer
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7800049597329934914
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P34_TEST_NAME ============================
+  id: 341045291054920883
+  identification: 
+    name: P34_TEST_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 20
+    region: Preview # 365772482349052837
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_TEST_CODE ============================
+  id: 365747203700297058
+  identification: 
+    name: P34_TEST_CODE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 10
+    region: Preview # 365772482349052837
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_PROCESSED_ROW_COUNT ==================
+  id: 365747962177297066
+  identification: 
+    name: P34_PROCESSED_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Upload a File # 365768765011052834
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_FILE =================================
+  id: 365769205506052835
+  identification: 
+    name: P34_FILE
+    type: File Browse...
+
+  label: 
+    label: Upload a File
+    alignment: Left
+
+  settings: 
+    display-as: Block Dropzone
+    dropzone-description: Supported formats JSON
+    storage-type: Table APEX_APPLICATION_TEMP_FILES
+    purge-file-at: End of Session
+    allow-multiple-files: false
+    maximum-file-size: 5000
+
+  layout: 
+    sequence: 10
+    region: Upload a File # 365768765011052834
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 0
+
+  appearance: 
+    template: Hidden # 7800079838425934978
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Upload the json file for the test(s) you seek to import
+
+- # ====== Page Item: P34_ERROR_ROW_COUNT ======================
+  id: 365769532615052835
+  identification: 
+    name: P34_ERROR_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Upload a File # 365768765011052834
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_FILE_NAME ============================
+  id: 365771275772052836
+  identification: 
+    name: P34_FILE_NAME
+    type: Display Only
+
+  label: 
+    label: Loaded File
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 20
+    region: Loaded File # 365770863912052836
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6638107910514476202
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: Pasted Data
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The name of the file you uploaded
+
+- # ====== Page Item: P34_STANDARD_ID ==========================
+  id: 369143218342626253
+  identification: 
+    name: P34_STANDARD_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 40
+    region: Preview # 365772482349052837
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_ROW_COUNT ============================
+  id: 369383209130739551
+  identification: 
+    name: P34_ROW_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Loaded File # 365770863912052836
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_STANDARD_COUNT =======================
+  id: 375364819003000762
+  identification: 
+    name: P34_STANDARD_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 30
+    region: Preview # 365772482349052837
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CLEAR =======================================
+  id: 365766840573052833
+  identification: 
+    button-name: CLEAR
+    label: Clear
+
+  layout: 
+    sequence: 10
+    region: buttons footer # 374570412494604543
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
     hot: false
     template-options: 
     - '#DEFAULT#'
-    - t-Button--warning
-    - t-Button--noUI
-    - t-Button--iconRight
-    icon: fa-undo-arrow
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-undo
 
   behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:RR,::'
-      page: 34 # AST_SUB_REFERENCE_CODES
-      clear-cache: RR
-
+    action: Submit Page
+    execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
-dynamic-actions: 
-- # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 223857704596562621
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+- # ====== Button: LOAD ========================================
+  id: 365767181469052833
   identification: 
-    name: Edit Report - Dialog Closed
+    button-name: LOAD
+    label: Load Data
+
+  layout: 
+    sequence: 20
+    region: buttons footer # 374570412494604543
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-upload
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+- # ====== Button: CANCEL ======================================
+  id: 374570551000604544
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: buttons footer # 374570412494604543
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7800080814852934990
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: Upload a File =======================
+  id: 365769942783052835
+  identification: 
+    name: Upload a File
 
   execution: 
     sequence: 10
 
   when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
-    selection-type: Region
-    region: Child Codes # 223853362933562613
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P34_FILE
+
+  client-side-condition: 
+    type: Item is not null
+    item: P34_FILE
 
   execution: 
     event-scope: Static
     type: Immediate
 
   actions: 
-  - # ====== Action: Refresh =====================================
-    id: 223858275231562622
+  - # ====== Action: Submit Page =================================
+    id: 365770430749052836
     identification: 
-      action: Refresh
+      action: Submit Page
 
-    affected-elements: 
-      selection-type: Region
-      region: Child Codes # 223853362933562613
+    settings: 
+      show-processing: true
 
     execution: 
       sequence: 10
-      event: Edit Report - Dialog Closed # 223857704596562621
+      event: Upload a File # 365769942783052835
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+- # ====== Dynamic Action: Cancel ==============================
+  id: 374570691614604545
+  identification: 
+    name: Cancel
+
+  execution: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 374570551000604544
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 374570756075604546
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel # 374570691614604545
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: extract values ======================
+  id: 374571248659604551
+  identification: 
+    name: extract values
+
+  execution: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+  actions: 
+  - # ====== Action: set test_name ===============================
+    id: 341045367589920884
+    identification: 
+      name: set test_name
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col003 test_name
+          into :P34_TEST_NAME
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P34_FILE
+         fetch first 1 rows only;
+      items-to-submit: 
+      - P34_TEST_NAME
+      - P34_FILE
+      items-to-return: 
+      - P34_TEST_NAME
+      suppress-change-event: false
+
+    execution: 
+      sequence: 60
+      event: extract values # 374571248659604551
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: add to session state ========================
+    id: 341045485092920885
+    identification: 
+      name: add to session state
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: null;
+      items-to-submit: 
+      - P34_TEST_CODE
+      - P34_STANDARD_COUNT
+      - P34_TEST_NAME
+
+    execution: 
+      sequence: 70
+      event: extract values # 374571248659604551
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: set test_code ===============================
+    id: 374571348230604552
+    identification: 
+      name: set test_code
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col007
+          into :P34_TEST_CODE
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P34_FILE
+         fetch first 1 rows only;
+      items-to-submit: 
+      - P34_TEST_CODE
+      - P34_FILE
+      items-to-return: 
+      - P34_TEST_CODE
+      suppress-change-event: false
+
+    execution: 
+      sequence: 10
+      event: extract values # 374571248659604551
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: set standard_id =============================
+    id: 374571431378604553
+    identification: 
+      name: set standard_id
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select p.col005 standard_id
+          into :P34_STANDARD_ID
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                          p_max_rows          => 1 ) ) p
+         where f.name = :P34_FILE
+         fetch first 1 rows only;
+      items-to-submit: 
+      - P34_STANDARD_ID
+      - P34_FILE
+      items-to-return: 
+      - P34_STANDARD_ID
+      suppress-change-event: false
+
+    execution: 
+      sequence: 50
+      event: extract values # 374571248659604551
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: set standard_count ==========================
+    id: 375364986428000763
+    identification: 
+      name: set standard_count
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        with stds as (
+            select distinct p.col005 standard_id
+              from apex_application_temp_files f, 
+                   table( apex_data_parser.parse(
+                              p_content           => f.blob_content,
+                              p_file_name         => f.filename,
+                              p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                              p_max_rows          => 100 ) ) p
+             where f.name = :P34_FILE
+        )
+        select count(*)
+        into :P34_STANDARD_COUNT
+        from stds;
+      items-to-submit: 
+      - P34_FILE
+      - P34_STANDARD_COUNT
+      items-to-return: 
+      - P34_STANDARD_COUNT
+      suppress-change-event: false
+
+    execution: 
+      sequence: 30
+      event: extract values # 374571248659604551
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: alert if no test_name =======================
+    id: 398368796128454565
+    identification: 
+      name: alert if no test_name
+      action: Alert
+
+    settings: 
+      title: This is not a valid test export script
+      message: The file you just loaded does not contain a test_name. Did you mean to import a standard script?
+      style: Default
+      icon: fa-alert
+
+    execution: 
+      sequence: 90
+      event: extract values # 374571248659604551
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is null
+      item: P34_TEST_NAME
+
+  - # ====== Action: disable button if no test_name ==============
+    id: 398368833362454566
+    identification: 
+      name: disable button if no test_name
+      action: Disable
+
+    affected-elements: 
+      selection-type: Button
+      button: LOAD # 365767181469052833
+
+    execution: 
+      sequence: 80
+      event: extract values # 374571248659604551
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is null
+      item: P34_TEST_NAME
+
+validations: 
+- # ====== Validation: Is valid file type ======================
+  id: 365772134615052837
+  identification: 
+    name: Is valid file type
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Function Body (returning Boolean)
+    language: PL/SQL
+    pl/sql-function-body: |
+      if apex_data_parser.assert_file_type(
+             p_file_name => :P34_FILE_NAME,
+             p_file_type => apex_data_parser.c_file_type_json )
+      then
+          return true;
+      else
+          :P34_FILE := null;
+          return false;
+      end if;
+    always-execute: false
+
+  error: 
+    error-message: Invalid file type. Supported file types JSON.
+    display-location: Inline with Field and in Notification
+    associated-item: P34_FILE # 365769205506052835
+
+computations: 
+- # ====== Computation: P34_FILE_NAME ==========================
+  id: 365771744629052837
+  identification: 
+    item-name: P34_FILE_NAME
+
+  execution: 
+    sequence: 10
+    point: After Submit
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select filename
+        from apex_application_temp_files 
+       where name = :P34_FILE
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P34_FILE
+
+- # ====== Computation: P34_ROW_COUNT ==========================
+  id: 369383366290739552
+  identification: 
+    item-name: P34_ROW_COUNT
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(1)
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'eba_stds_tests_lib' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P34_FILE
+
+processes: 
+- # ====== Process: Load Data ==================================
+  id: 365767658305052833
+  identification: 
+    name: Load Data
+    type: Data Loading
+    execution-chain: None
+
+  settings: 
+    data-load-definition: EBA-STDS-TESTS-LIB # 278467543937240890
+    source-data-type: File Browse Item
+    file-browse-item: P34_FILE
+    processed-row-count-item: 
+    - P34_PROCESSED_ROW_COUNT
+    error-row-count-item: P34_ERROR_ROW_COUNT
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 365767181469052833
+
+- # ====== Process: Clear Cache ================================
+  id: 365768092049052834
+  identification: 
+    name: Clear Cache
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CLEAR # 365766840573052833
+
+branches: 
+- # ====== Branch: go to page 60 (1 test) ======================
+  id: 365747028800297057
+  identification: 
+    name: go to page 60 (1 test)
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:60:&SESSION.::&DEBUG.:60:P60_TEST_CODE:&P34_TEST_CODE.&success_msg=#SUCCESS_MSG#'
+      page: 60 # Manage Library Test
+      clear-cache: 60
+      values: 
+        p60_test_code: '&P34_TEST_CODE.'
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 365767181469052833
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |2
+          :P34_ERROR_ROW_COUNT = 0 
+      and :P34_TEST_CODE is not null 
+      and :P34_PROCESSED_ROW_COUNT = 1
+
+- # ====== Branch: go to page 17 (1 standard) ==================
+  id: 369143564920626256
+  identification: 
+    name: go to page 17 (1 standard)
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:RR,17:IR[TEST_LIB]EQ_STANDARD_ID:&P34_STANDARD_ID.&success_msg=#SUCCESS_MSG#'
+      page: 17 # Tests Library
+      clear-cache: RR,17
+      values: 
+        ir[test_lib]eq_standard_id: '&P34_STANDARD_ID.'
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 365767181469052833
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |2
+          :P34_ERROR_ROW_COUNT = 0 
+      and :P34_STANDARD_ID is not null
+      and :P34_STANDARD_COUNT = 1 
+      and :P34_PROCESSED_ROW_COUNT > 1
+
+- # ====== Branch: go to page 17 (all tests) ===================
+  id: 375365024555000764
+  identification: 
+    name: go to page 17 (all tests)
+
+  execution: 
+    sequence: 30
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:RR,17::&success_msg=#SUCCESS_MSG#'
+      page: 17 # Tests Library
+      clear-cache: RR,17
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 365767181469052833
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |2
+          :P34_ERROR_ROW_COUNT = 0 
+      and :P34_STANDARD_COUNT > 1 
+      and :P34_PROCESSED_ROW_COUNT > 1
 

@@ -3,6 +3,8 @@
 create or replace package body eba_stds as
 
     gc_scope_prefix constant varchar2(32) := lower($$plsql_unit) || '.';
+    gc_y constant varchar2(1) := 'Y';
+    gc_n constant varchar2(1) := 'N';
 
     -------------------------------------------------------------------------
     -- Generates a unique Identifier
@@ -34,7 +36,7 @@ create or replace package body eba_stds as
     end register_job;
 
 
-    function get_standard_id (p_standard_name in eba_stds_standards.name%type)
+    function get_standard_id (p_standard_name in eba_stds_standards.standard_name%type)
     return eba_stds_standards.id%type
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_standard_id';
@@ -47,7 +49,7 @@ create or replace package body eba_stds as
         select id
         into l_id 
         from eba_stds_standards
-        where upper(name) =  upper(p_standard_name);
+        where upper(standard_name) =  upper(p_standard_name);
 
         return l_id;
 
@@ -56,19 +58,19 @@ create or replace package body eba_stds as
         raise;
     end get_standard_id;
 
-    function get_mv_dependency(p_standard_code in eba_stds_standard_tests.standard_code%type) 
+    function get_mv_dependency(p_test_code in eba_stds_standard_tests.test_code%type) 
     return eba_stds_standard_tests.mv_dependency%type
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_mv_dependency';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     l_mv_dependency eba_stds_standard_tests.mv_dependency%type;
     begin
-      apex_debug.message(c_debug_template,'START', 'p_standard_code', p_standard_code);
+      apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
       select mv_dependency 
       into l_mv_dependency
       from eba_stds_standard_tests
-      where standard_code = p_standard_code;
+      where test_code = p_test_code;
 
       return l_mv_dependency;
     
@@ -81,8 +83,8 @@ create or replace package body eba_stds as
     end get_mv_dependency;
 
     function display_initialize_button (
-        p_standard_code in ast_plsql_apex_audit.standard_code%type,
-        p_level_id      in ast_standards_urgency_level.id%type
+        p_test_code     in svt_plsql_apex_audit.test_code%type,
+        p_level_id      in svt_standards_urgency_level.id%type
     ) return boolean
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'display_initialize_button';
@@ -93,31 +95,31 @@ create or replace package body eba_stds as
     l_urgent_yn varchar2(1);
     begin
         apex_debug.message(c_debug_template,'START', 
-                                            'p_standard_code', p_standard_code,
+                                            'p_test_code', p_test_code,
                                             'p_level_id', p_level_id
                                             );
         select count(1)
         into l_issue_count
-        from ast_plsql_apex_audit
-        where standard_code = p_standard_code;
+        from svt_plsql_apex_audit
+        where test_code = p_test_code;
 
         select count(1)
         into l_standard_count
         from eba_stds_standard_tests
-        where standard_code = p_standard_code
-        and active_yn = 'Y';
+        where test_code = p_test_code
+        and active_yn = gc_y;
 
         select case when urgency_level <= 100
-                then 'Y'
-                else 'N'
+                then gc_y
+                else gc_n
                 end 
         into l_urgent_yn
-        from ast_standards_urgency_level
+        from svt_standards_urgency_level
         where id = p_level_id;
 
         if l_issue_count = 0 
         and l_standard_count  = 1 
-        and l_urgent_yn = 'Y'
+        and l_urgent_yn = gc_y
         then
             l_display := true;
         else 
@@ -134,6 +136,58 @@ create or replace package body eba_stds as
             apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
             raise;
     end display_initialize_button;
+
+
+    function close_test_modal (p_request   in varchar2,
+                               p_test_code in svt_plsql_apex_audit.test_code%type,
+                               p_level_id  in svt_standards_urgency_level.id%type
+    ) return boolean
+    as 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'close_test_modal';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    begin
+        apex_debug.message(c_debug_template,'START', 
+                                            'p_request', p_request,
+                                            'p_test_code', p_test_code,
+                                            'p_level_id', p_level_id);
+    
+        return case when p_request in ('DELETE')
+                    then true
+                    when p_request in ('CREATE')
+                    then false
+                    when p_request in ('SAVE') 
+                    and display_initialize_button (
+                            p_test_code  => p_test_code,
+                            p_level_id   => p_level_id
+                        )
+                    then false
+                    else false
+                    end;
+    exception
+        when others then
+            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+            raise;
+    end close_test_modal;
+
+    function file_name (p_standard_name in eba_stds_standards.standard_name%type)
+    return eba_stds_standards.standard_name%type
+    as 
+    c_scope constant varchar2(128) := gc_scope_prefix || 'file_name';
+    c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+    begin
+        apex_debug.message(c_debug_template,'START', 'p_standard_name', p_standard_name);
+
+        return upper(
+                     replace(
+                        regexp_replace(p_standard_name,'[[:punct:]]')
+                                                , ' ', '_'
+                            )
+                    );
+
+    exception when others then
+            apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+            raise;
+    end file_name;
 
 end eba_stds;
 /
