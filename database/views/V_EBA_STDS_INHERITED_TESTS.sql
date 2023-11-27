@@ -11,7 +11,7 @@ select sit.id,
        sit.standard_id,
        sst.test_code
 from svt_stds_inherited_tests sit
-inner join eba_stds_standard_tests sst on sit.test_id = sst.id
+inner join svt_stds_standard_tests sst on sit.test_id = sst.id
 /
 
 --rollback drop view V_SVT_STDS_INHERITED_TESTS;

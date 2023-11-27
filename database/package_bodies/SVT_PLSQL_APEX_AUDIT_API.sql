@@ -399,7 +399,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         where test_code is not null
         and action_id is null --not sure when to delete exceptions
         and test_code not in (select test_code
-                                from eba_stds_standard_tests
+                                from svt_stds_standard_tests
                                 where active_yn = gc_y)
       ) loop 
         l_count := l_count + 1;
@@ -974,7 +974,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
              paa.component_id, 
              act.component_name view_name
       from svt_plsql_apex_audit paa
-      inner join eba_stds_standard_tests st on paa.test_code = st.test_code
+      inner join svt_stds_standard_tests st on paa.test_code = st.test_code
       inner join svt_component_types act on act.id = st.svt_component_type_id 
       where paa.issue_category = gc_apex
       and paa.component_id is not null
@@ -1081,7 +1081,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
   procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
                               p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                              p_test_code      in eba_stds_standard_tests.test_code%type,
+                              p_test_code      in svt_stds_standard_tests.test_code%type,
                               p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
                               p_audit_id       in svt_plsql_apex_audit.id%type default null,
                               p_issue_category in svt_plsql_apex_audit.issue_category%type default null
@@ -1089,7 +1089,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'merge_audit_tbl';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  c_test_code constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
   c_legacy_yn constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = gc_y
                                                                       then gc_y
                                                                       else gc_n
@@ -1132,7 +1132,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                     coalesce(a.schema, svt_ctx_util.get_default_user) owner,
                     a.component_id,
                     a.parent_component_id 
-                  from v_eba_stds_standard_tests esst
+                  from v_svt_stds_standard_tests esst
                   join svt_standard_view.v_svt(p_test_code => esst.test_code, 
                                                p_failures_only => gc_y, 
                                                p_urgent_only => gc_y,
@@ -1207,8 +1207,8 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_test_code      constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
-  c_mv_dependency  constant eba_stds_standard_tests.mv_dependency%type 
+  c_test_code      constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
+  c_mv_dependency  constant svt_stds_standard_tests.mv_dependency%type 
                   := eba_stds.get_mv_dependency(p_test_code => p_test_code);
   c_sysdate        constant date := sysdate;
   begin
@@ -1261,7 +1261,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     select count(*)
     into l_count
     from svt_plsql_apex_audit paa
-    inner join eba_stds_standard_tests esst on esst.test_code = paa.test_code
+    inner join svt_stds_standard_tests esst on esst.test_code = paa.test_code
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
     where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
     and (paa.application_id = p_application_id or p_application_id is null)
@@ -1353,7 +1353,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     -- end assign_from_scm;
 
     -- procedure delete_obsolete_violations (
-    --               p_test_code      in eba_stds_standard_tests.test_code%type default null,
+    --               p_test_code      in svt_stds_standard_tests.test_code%type default null,
     --               p_application_id in svt_plsql_apex_audit.application_id%type default null,
     --               p_page_id        in svt_plsql_apex_audit.page_id%type default null)
     -- is

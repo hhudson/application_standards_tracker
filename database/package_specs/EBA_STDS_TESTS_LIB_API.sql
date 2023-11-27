@@ -83,7 +83,7 @@ end;
 --     Date: June 14, 2023
 -- Synopsis:
 --
--- Procedure to insert from eba_stds_tests_lib into eba_stds_standard_tests
+-- Procedure to insert from eba_stds_tests_lib into svt_stds_standard_tests
 --
 /*
 begin
@@ -94,8 +94,8 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure install_standard_test(p_id               in eba_stds_tests_lib.id%type,
-                                    p_standard_id      in eba_stds_standard_tests.standard_id%type,
-                                    p_urgency_level_id in eba_stds_standard_tests.level_id%type
+                                    p_standard_id      in svt_stds_standard_tests.standard_id%type,
+                                    p_urgency_level_id in svt_stds_standard_tests.level_id%type
                                     );
 
 ------------------------------------------------------------------------------
@@ -112,8 +112,8 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure auto_install_standard_test (
-                        p_standard_id in eba_stds_standard_tests.standard_id%type,
-                        p_test_code   in eba_stds_standard_tests.test_code%type default null);
+                        p_standard_id in svt_stds_standard_tests.standard_id%type,
+                        p_test_code   in svt_stds_standard_tests.test_code%type default null);
 
     
 ------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ end;
 --     Date: July 13, 2023
 -- Synopsis:
 --
--- Function to return the md5 of a eba_stds_tests_lib for comparison with a eba_stds_standard_tests record
+-- Function to return the md5 of a eba_stds_tests_lib for comparison with a svt_stds_standard_tests record
 --
 /*
 select eba_stds_tests_lib_api.current_md5(p_test_code)

@@ -139,7 +139,7 @@ create or replace package body SVT_PLSQL_REVIEW as
                         end;
 
   c_plsql_stmt      constant varchar2(512) := q'[ALTER SESSION SET PLSCOPE_SETTINGS = 'IDENTIFIERS:ALL, STATEMENTS:ALL']';
-  l_test_code       eba_stds_standard_tests.test_code%type := 'blank';
+  l_test_code       svt_stds_standard_tests.test_code%type := 'blank';
   c_max_test_code_count    constant pls_integer := coalesce(p_max_test_code_count, 50);
   c_max_issue_count        constant pls_integer := coalesce(p_max_issue_count, 999999);
   l_test_code_count        pls_integer   := 0;
@@ -158,7 +158,7 @@ create or replace package body SVT_PLSQL_REVIEW as
         esst.urgency,
         esst.urgency_level,
         esst.test_code
-      from v_eba_stds_standard_tests esst
+      from v_svt_stds_standard_tests esst
       join svt_standard_view.v_svt_db_plsql(p_test_code => esst.test_code, 
                                             p_failures_only => gc_y,
                                             p_object_name => c_object_name) dp
@@ -214,7 +214,7 @@ create or replace package body SVT_PLSQL_REVIEW as
       into l_count
       from sys.dual where exists (
           select 1
-          from v_eba_stds_standard_tests
+          from v_svt_stds_standard_tests
       );
 
       if l_count = 0 then

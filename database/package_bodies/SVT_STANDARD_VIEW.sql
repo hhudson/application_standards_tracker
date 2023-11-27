@@ -127,7 +127,7 @@ create or replace package body SVT_STANDARD_VIEW as
 -- private function to determine whether a function is urgent
 --
 ------------------------------------------------------------------------------
-    function standard_is_urgent (p_test_code in eba_stds_standard_tests.test_code%type) 
+    function standard_is_urgent (p_test_code in svt_stds_standard_tests.test_code%type) 
     return boolean 
     deterministic 
     result_cache
@@ -145,7 +145,7 @@ create or replace package body SVT_STANDARD_VIEW as
                         end into l_is_urgent_yn
                 from sys.dual where exists (
                     select * 
-                    from eba_stds_standard_tests rc 
+                    from svt_stds_standard_tests rc 
                     inner join svt_standards_urgency_level ul on ul.id = rc.level_id
                                                               and ul.urgency_level <= c_max_urgency
                     where rc.test_code = upper(p_test_code)
@@ -171,16 +171,16 @@ create or replace package body SVT_STANDARD_VIEW as
 -- private function to get the query clob for a given test code 
 --
 ------------------------------------------------------------------------------
-  function get_query_clob (p_test_code     in eba_stds_standard_tests.test_code%type,
+  function get_query_clob (p_test_code     in svt_stds_standard_tests.test_code%type,
                            p_nt_name       in svt_nested_table_types.nt_name%type,
                            p_select_stmt   in varchar2
-  ) return eba_stds_standard_tests.query_clob%type 
+  ) return svt_stds_standard_tests.query_clob%type 
   deterministic
   is
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'get_query_clob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-  l_query_clob eba_stds_standard_tests.query_clob%type;
+  l_query_clob svt_stds_standard_tests.query_clob%type;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_test_code', p_test_code,
@@ -189,7 +189,7 @@ create or replace package body SVT_STANDARD_VIEW as
 
     select p_select_stmt||esst.query_clob||') mydata'
     into l_query_clob
-    from eba_stds_standard_tests esst
+    from svt_stds_standard_tests esst
     inner join svt_component_types act on esst.svt_component_type_id = act.id
     inner join svt_nested_table_types antt on act.nt_type_id = antt.id 
                                            and lower(antt.nt_name) = p_nt_name
@@ -205,7 +205,7 @@ create or replace package body SVT_STANDARD_VIEW as
     raise;
   end get_query_clob;
 
-  function v_svt_db_plsql(p_test_code     in eba_stds_standard_tests.test_code%type,
+  function v_svt_db_plsql(p_test_code     in svt_stds_standard_tests.test_code%type,
                           p_failures_only in varchar2 default 'N',
                           p_object_name   in svt_plsql_apex_audit.object_name%type default null)
   return v_svt_db_plsql_ref_nt pipelined
@@ -214,8 +214,8 @@ create or replace package body SVT_STANDARD_VIEW as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   cur_v_svt_db_plsql sys_refcursor;
-  l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  l_query_clob svt_stds_standard_tests.query_clob%type;
+  c_test_code constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_test_code', p_test_code,
@@ -274,7 +274,7 @@ create or replace package body SVT_STANDARD_VIEW as
       raise;
   end v_svt_db_plsql;
 
-  function v_svt_apex(p_test_code            in eba_stds_standard_tests.test_code%type,
+  function v_svt_apex(p_test_code            in svt_stds_standard_tests.test_code%type,
                       p_failures_only        in varchar2 default 'N',
                       p_production_apps_only in varchar2 default 'N',
                       p_application_id       in svt_plsql_apex_audit.application_id%type default null,
@@ -285,8 +285,8 @@ create or replace package body SVT_STANDARD_VIEW as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   cur_v_svt_apex sys_refcursor;
-  l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  l_query_clob svt_stds_standard_tests.query_clob%type;
+  c_test_code constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
 
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -369,7 +369,7 @@ create or replace package body SVT_STANDARD_VIEW as
       raise;
   end v_svt_apex;
 
-  function v_svt_db_view__0(p_test_code     in eba_stds_standard_tests.test_code%type,
+  function v_svt_db_view__0(p_test_code     in svt_stds_standard_tests.test_code%type,
                             p_failures_only in varchar2 default 'N')
   return v_svt_db_view__0_nt pipelined
   is
@@ -377,8 +377,8 @@ create or replace package body SVT_STANDARD_VIEW as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   cur_v_svt_db_view__0 sys_refcursor;
-  l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  l_query_clob svt_stds_standard_tests.query_clob%type;
+  c_test_code constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
 
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -426,7 +426,7 @@ create or replace package body SVT_STANDARD_VIEW as
       raise;
   end v_svt_db_view__0;
 
-  function v_svt_db_tbl__0(p_test_code     in eba_stds_standard_tests.test_code%type,
+  function v_svt_db_tbl__0(p_test_code     in svt_stds_standard_tests.test_code%type,
                            p_failures_only in varchar2 default 'N')
   return v_svt_db_tbl__0_nt pipelined
   is
@@ -434,8 +434,8 @@ create or replace package body SVT_STANDARD_VIEW as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
   cur_v_svt_db_tbl__0 sys_refcursor;
-  l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  l_query_clob svt_stds_standard_tests.query_clob%type;
+  c_test_code constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
 
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -484,7 +484,7 @@ create or replace package body SVT_STANDARD_VIEW as
       raise;
   end v_svt_db_tbl__0;
 
-  function v_svt(p_test_code            in eba_stds_standard_tests.test_code%type,
+  function v_svt(p_test_code            in svt_stds_standard_tests.test_code%type,
                  p_failures_only        in varchar2 default 'N',
                  p_urgent_only          in varchar2 default 'N',
                  p_production_apps_only in varchar2 default 'N',
@@ -499,8 +499,8 @@ create or replace package body SVT_STANDARD_VIEW as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   
   cur_v_svt sys_refcursor;
-  l_query_clob eba_stds_standard_tests.query_clob%type;
-  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  l_query_clob svt_stds_standard_tests.query_clob%type;
+  c_test_code constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
   c_apex      constant varchar2(4) := 'APEX';
 
   ------------------------------------------------------------------------------
@@ -538,7 +538,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                                   end;
   l_unqid_predicate varchar2(1200) := apex_string.format(q'^ and unqid = '%s' ^', c_unqid);
   c_nt_name        constant svt_nested_table_types.nt_name%type
-                   :=  eba_stds_standard_tests_api.nt_name(p_test_code => c_test_code);
+                   :=  svt_stds_standard_tests_api.nt_name(p_test_code => c_test_code);
   c_issue_category constant svt_plsql_apex_audit.issue_category%type 
                    :=  svt_nested_table_types_api.issue_category(p_nt_name => c_nt_name);
   begin
@@ -978,8 +978,8 @@ create or replace package body SVT_STANDARD_VIEW as
       raise;
   end improve_error_msg;
 
-  function query_feedback (p_query_code            in eba_stds_standard_tests.query_clob%type,
-                           p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type)
+  function query_feedback (p_query_code            in svt_stds_standard_tests.query_clob%type,
+                           p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type)
   return varchar2
   is 
   c_scope          constant varchar2(128)  := gc_scope_prefix || 'query_feedback';

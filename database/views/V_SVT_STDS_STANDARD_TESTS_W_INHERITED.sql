@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:v_eba_stds_standard_tests_w_inherited stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:v_svt_stds_standard_tests_w_inherited stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View v_eba_stds_standard_tests_w_inherited
+--  DDL for View v_svt_stds_standard_tests_w_inherited
 --------------------------------------------------------
 
-create or replace force editionable view v_eba_stds_standard_tests_w_inherited as
+create or replace force editionable view v_svt_stds_standard_tests_w_inherited as
 select   o.standard_id,
          o.test_id,
          o.level_id,
@@ -27,7 +27,7 @@ select   o.standard_id,
          o.version_db,
          'N' inherited_yn,
          o.display_sequence
-  from v_eba_stds_standard_tests o
+  from v_svt_stds_standard_tests o
   union all
   select esit.standard_id,
          i.test_id,
@@ -51,9 +51,9 @@ select   o.standard_id,
          i.version_db,
          'Y' inherited_yn,
          i.display_sequence
-  from v_eba_stds_standard_tests i
+  from v_svt_stds_standard_tests i
   inner join svt_stds_inherited_tests esit on i.test_id = esit.test_id
                                            and i.standard_id = esit.parent_standard_id
 /
 
---rollback drop view v_eba_stds_standard_tests_w_inherited;
+--rollback drop view v_svt_stds_standard_tests_w_inherited;

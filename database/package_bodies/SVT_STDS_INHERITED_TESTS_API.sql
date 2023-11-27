@@ -25,7 +25,7 @@ create or replace package body svt_stds_inherited_tests_api as
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'inherit_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_parent_standard_id eba_stds_standard_tests.standard_id%type;
+  l_parent_standard_id svt_stds_standard_tests.standard_id%type;
   c_sysdate constant svt_stds_inherited_tests.updated%type := sysdate;
   c_user    constant svt_stds_inherited_tests.updated_by%type 
                      := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
@@ -35,7 +35,7 @@ create or replace package body svt_stds_inherited_tests_api as
                                         'p_standard_id', p_standard_id
                                         );
 
-    l_parent_standard_id := eba_stds_standard_tests_api.get_standard_id (p_test_id => p_test_id);
+    l_parent_standard_id := svt_stds_standard_tests_api.get_standard_id (p_test_id => p_test_id);
 
     insert into svt_stds_inherited_tests 
            (parent_standard_id,
@@ -191,7 +191,7 @@ create or replace package body svt_stds_inherited_tests_api as
       apex_debug.message(c_debug_template,'p_standard_id is null');
     else 
       for rec in (select test_id
-                  from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
+                  from svt_stds_standard_tests_api.v_svt_stds_standard_tests(
                             p_standard_id => p_parent_standard_id
                         ) 
                   )

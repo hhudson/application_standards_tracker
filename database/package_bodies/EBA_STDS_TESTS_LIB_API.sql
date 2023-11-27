@@ -143,7 +143,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   --            fix,
   --            level_id,
   --            version_number
-  --     from eba_stds_standard_tests
+  --     from svt_stds_standard_tests
   --     order by 1
   --   ) loop
   --     upsert (
@@ -169,13 +169,13 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   -- end take_snapshot;
 
   procedure install_standard_test(p_id               in eba_stds_tests_lib.id%type,
-                                  p_standard_id      in eba_stds_standard_tests.standard_id%type,
-                                  p_urgency_level_id in eba_stds_standard_tests.level_id%type)
+                                  p_standard_id      in svt_stds_standard_tests.standard_id%type,
+                                  p_urgency_level_id in svt_stds_standard_tests.level_id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'install_standard_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_lib_rec eba_stds_tests_lib%rowtype;
-  l_existing_rec eba_stds_standard_tests%rowtype;
+  l_existing_rec svt_stds_standard_tests%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -187,11 +187,11 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     from eba_stds_tests_lib
     where id = p_id;
 
-    l_existing_rec := eba_stds_standard_tests_api.get_test_rec(p_test_code => l_lib_rec.test_code);
+    l_existing_rec := svt_stds_standard_tests_api.get_test_rec(p_test_code => l_lib_rec.test_code);
 
     if l_existing_rec.test_code is null then
 
-      eba_stds_standard_tests_api.insert_test(
+      svt_stds_standard_tests_api.insert_test(
                   p_id                    => l_lib_rec.test_id,
                   p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
                   p_test_name             => l_lib_rec.test_name,
@@ -209,7 +209,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                   );
     
     else 
-      eba_stds_standard_tests_api.update_test(
+      svt_stds_standard_tests_api.update_test(
                           p_id                    => l_existing_rec.id,
                           p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
                           p_test_name             => l_lib_rec.test_name,
@@ -234,8 +234,8 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   end install_standard_test;
 
   procedure auto_install_standard_test (
-                      p_standard_id in eba_stds_standard_tests.standard_id%type,
-                      p_test_code   in eba_stds_standard_tests.test_code%type default null)
+                      p_standard_id in svt_stds_standard_tests.standard_id%type,
+                      p_test_code   in svt_stds_standard_tests.test_code%type default null)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'auto_install_standard_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -340,7 +340,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     from eba_stds_tests_lib
     where test_code = p_test_code;
 
-    p_md5 := eba_stds_standard_tests_api.build_test_md5(
+    p_md5 := svt_stds_standard_tests_api.build_test_md5(
                       l_lib_rec.test_name,
                       l_lib_rec.query_clob,
                       l_lib_rec.test_code,

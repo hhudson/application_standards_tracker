@@ -213,7 +213,7 @@ end;
 ------------------------------------------------------------------------------
     procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                               p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                               p_test_code      in svt_stds_standard_tests.test_code%type default null,
                                p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
                                p_audit_id       in svt_plsql_apex_audit.id%type default null,
                                p_issue_category in svt_plsql_apex_audit.issue_category%type default null
@@ -346,7 +346,7 @@ begin
     select paa.component_id, act.component_name view_name
     into l_component_id, l_view_name
     from svt_plsql_apex_audit paa
-    inner join eba_stds_standard_tests st on paa.test_code = st.test_code
+    inner join svt_stds_standard_tests st on paa.test_code = st.test_code
     inner join svt_component_types act on act.id = st.svt_component_type_id
     where paa.issue_category = 'APEX'
     and paa.application_id = 17000033
@@ -398,7 +398,7 @@ select paa.component_id,
             p_view_name    => act.component_nameview_name
         ) assignee
 from svt_plsql_apex_audit paa
-inner join eba_stds_standard_tests st on paa.test_code = st.test_code
+inner join svt_stds_standard_tests st on paa.test_code = st.test_code
 inner join svt_component_types act on act.id = st.svt_component_type_id
 where paa.issue_category = 'APEX'
 and paa.application_id = 17000033

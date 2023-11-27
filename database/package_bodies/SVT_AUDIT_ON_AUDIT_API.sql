@@ -120,7 +120,7 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
     select count (distinct aoa.unqid)
     into l_count
     from svt_audit_on_audit aoa
-    inner join eba_stds_standard_tests esst on esst.test_code = aoa.test_code
+    inner join svt_stds_standard_tests esst on esst.test_code = aoa.test_code
     where aoa.action_name = 'INSERT'
     and (aoa.app_id = p_app_id or p_app_id is null)
     and (esst.standard_id = p_standard_id or p_standard_id is null);

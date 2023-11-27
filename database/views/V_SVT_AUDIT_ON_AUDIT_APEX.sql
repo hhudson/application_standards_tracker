@@ -47,7 +47,7 @@ select  std.id,
         std.code,
         std.delete_reason
 from std
-inner join v_eba_stds_standard_tests esst on std.test_code = esst.test_code
+inner join v_svt_stds_standard_tests esst on std.test_code = esst.test_code
                                           and esst.issue_category = 'APEX'
 inner join v_svt_stds_applications esa on esa.apex_app_id = std.app_id
 where std.therank = 1

@@ -61,7 +61,7 @@ create or replace package body SVT_MONITORING as
   end db_unique_name;
 
   function unassigned_src_html 
-    (p_test_code  in eba_stds_standard_tests.test_code%type,
+    (p_test_code  in svt_stds_standard_tests.test_code%type,
      p_days_since in number default 1,
      p_fetch_rows in number default null
     ) return varchar2
@@ -101,7 +101,7 @@ create or replace package body SVT_MONITORING as
     ------------------------------------------------------------------------------
     -- nested function to add html rows
     ------------------------------------------------------------------------------
-    function html_rows(p_test_code in eba_stds_standard_tests.test_code%type) 
+    function html_rows(p_test_code in svt_stds_standard_tests.test_code%type) 
     return varchar2
     is 
     l_row_count pls_integer := 0;
@@ -245,7 +245,7 @@ create or replace package body SVT_MONITORING as
     apex_debug.message(c_debug_template,'START', 'p_days_since', p_days_since);
 
     for rec in (select src.test_code
-                from v_eba_stds_standard_tests src
+                from v_svt_stds_standard_tests src
                 where src.urgency_level <= gc_max_urgency
                 order by src.urgency_level, src.test_code
                 -- fetch first gc_max_row_count rows only

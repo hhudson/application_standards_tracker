@@ -98,7 +98,7 @@ create or replace package body svt_stds_data is
         --     load_eba_stds_standards;
 
         --     -- Create a few sample tests.
-        --     load_eba_stds_standard_tests;
+        --     load_svt_stds_standard_tests;
         -- end if;
     end load_sample_data;
     procedure remove_sample_data is

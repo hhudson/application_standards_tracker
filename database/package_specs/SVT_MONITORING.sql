@@ -31,7 +31,7 @@ from dual;
 */
 ------------------------------------------------------------------------------
 function unassigned_src_html 
-    (p_test_code     in eba_stds_standard_tests.test_code%type,
+    (p_test_code     in svt_stds_standard_tests.test_code%type,
      p_days_since    in number default 1,
      p_fetch_rows    in number default null
     )

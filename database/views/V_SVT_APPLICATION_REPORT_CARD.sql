@@ -9,7 +9,7 @@ with rptcrd as (select application_id, critical_urgency, high_urgency, med_urgen
                     from (
                       select paa.application_id, esst.urgency
                         from svt_plsql_apex_audit paa
-                        inner join v_eba_stds_standard_tests esst on paa.test_code = esst.test_code
+                        inner join v_svt_stds_standard_tests esst on paa.test_code = esst.test_code
                         left outer join svt_audit_actions aaa on paa.action_id = aaa.id
                         where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
                     )

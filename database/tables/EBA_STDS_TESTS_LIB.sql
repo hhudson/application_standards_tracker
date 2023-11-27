@@ -9,7 +9,7 @@
 --        Date:  08-Jun-2023 21:55
 --     Purpose:  Table creation DDL for table EBA_STDS_TESTS_LIB
 --               and related objects.
--- preserves contents of EBA_STDS_STANDARD_TESTS for deployment
+-- preserves contents of SVT_STDS_STANDARD_TESTS for deployment
 --
 --------------------------------------------------------------------------------
   

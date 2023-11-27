@@ -39,7 +39,7 @@ with lib as (select estl.id,
                          then 'Y'
                          else 'N'
                          end upgrade_needed_yn,
-                    eba_stds_standard_tests_api.build_test_md5 (
+                    svt_stds_standard_tests_api.build_test_md5 (
                          p_test_name             => estl.test_name,
                          p_query_clob            => estl.query_clob,
                          p_test_code             => estl.test_code,
@@ -51,7 +51,7 @@ with lib as (select estl.id,
                          p_version_number        => estl.version_number,
                          p_version_db            => estl.version_db
                     ) estl_md5,
-                    eba_stds_standard_tests_api.build_test_md5 (
+                    svt_stds_standard_tests_api.build_test_md5 (
                          p_test_name             => esst.test_name,
                          p_query_clob            => esst.query_clob,
                          p_test_code             => esst.test_code,
@@ -64,7 +64,7 @@ with lib as (select estl.id,
                          p_version_db            => esst.version_db
                     ) esst_md5
                from eba_stds_tests_lib estl
-               left outer join eba_stds_standard_tests esst on estl.test_code = esst.test_code)
+               left outer join svt_stds_standard_tests esst on estl.test_code = esst.test_code)
 select lib.id,
        lib.standard_id,
        lib.test_name,

@@ -23,7 +23,7 @@ select a.issue_category,
        a.apex_last_updated_on,
        esst.test_code,
        a.unqid
-from v_eba_stds_standard_tests esst
+from v_svt_stds_standard_tests esst
 join svt_standard_view.v_svt(p_test_code        => esst.test_code,
                              p_failures_only        => 'Y',
                              p_urgent_only          => 'Y',

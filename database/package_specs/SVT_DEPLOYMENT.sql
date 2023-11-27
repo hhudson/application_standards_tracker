@@ -32,7 +32,7 @@ declare
 l_clob clob;
 begin
     l_clob := svt_deployment.assemble_json_query (
-                p_table_name => 'V_EBA_STDS_STANDARD_TESTS_EXPORT',
+                p_table_name => 'V_SVT_STDS_STANDARD_TESTS_EXPORT',
                 p_standard_id => :p_standard_id,
                 p_datatype => 'clob');
     dbms_output.put_line(l_clob);
@@ -42,7 +42,7 @@ end;
     function assemble_json_query (
                 p_table_name    in user_tables.table_name%type,
                 p_row_limit     in number default null,
-                p_test_code     in eba_stds_standard_tests.test_code%type default null,
+                p_test_code     in svt_stds_standard_tests.test_code%type default null,
                 p_standard_id   in eba_stds_standards.id%type default null,
                 p_datatype      in varchar2 default 'blob')
     return clob;
@@ -68,7 +68,7 @@ end;
 ------------------------------------------------------------------------------
     function assemble_json_std_tsts_qry (
                   p_standard_id   in eba_stds_standards.id%type,
-                  p_test_code     in eba_stds_standard_tests.test_code%type default null,
+                  p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
     return clob;
 
@@ -91,7 +91,7 @@ end;
 ------------------------------------------------------------------------------
     function json_standard_tests_clob (
                   p_standard_id in eba_stds_standards.id%type,
-                  p_test_code   in eba_stds_standard_tests.test_code%type default null
+                  p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return clob;
 
 ------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ end;
 ------------------------------------------------------------------------------
     function json_standard_tests_blob (
                   p_standard_id in eba_stds_standards.id%type,
-                  p_test_code   in eba_stds_standard_tests.test_code%type default null
+                  p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return blob;
     
 ------------------------------------------------------------------------------
@@ -122,13 +122,13 @@ end;
 -- function to return a blob of the json output of a table
 --
 /*
-select svt_deployment.json_content_blob (p_table_name => 'EBA_STDS_STANDARD_TESTS')
+select svt_deployment.json_content_blob (p_table_name => 'SVT_STDS_STANDARD_TESTS')
 from dual
 */
 ------------------------------------------------------------------------------
     function json_content_blob (p_table_name     in user_tables.table_name%type,
                                 p_row_limit      in number default null,
-                                p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                                p_test_code      in svt_stds_standard_tests.test_code%type default null,
                                 p_standard_id    in eba_stds_standards.id%type default null,
                                 p_zip_yn         in varchar2 default null)
     return blob;
@@ -146,7 +146,7 @@ declare
 l_clob clob;
 begin
     l_clob := svt_deployment.json_content_clob (
-                p_table_name => 'EBA_STDS_STANDARD_TESTS',
+                p_table_name => 'SVT_STDS_STANDARD_TESTS',
                 p_test_code => 'PG_NAME_TITLE');
     dbms_output.put_line(l_clob);
 end;
@@ -154,7 +154,7 @@ end;
 ------------------------------------------------------------------------------
     function json_content_clob (p_table_name    in user_tables.table_name%type,
                                 p_row_limit     in number default null,
-                                p_test_code     in eba_stds_standard_tests.test_code%type default null,
+                                p_test_code     in svt_stds_standard_tests.test_code%type default null,
                                 p_standard_id   in eba_stds_standards.id%type default null)
     return clob;
 

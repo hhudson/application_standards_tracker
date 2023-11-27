@@ -210,7 +210,7 @@ create or replace package body eba_stds_standards_api as
   begin
     apex_debug.message(c_debug_template,'START');
     
-    merge into eba_stds_standard_tests e
+    merge into svt_stds_standard_tests e
     using (select test_code, avg_seconds from v_svt_test_timing) h
     on (e.test_code = h.test_code)
     when matched then

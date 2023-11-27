@@ -31,15 +31,15 @@ from dual
 --     Date: May 16, 2023
 -- Synopsis:
 --
--- function to get eba_stds_standard_tests.mv_dependency for a given test code
+-- function to get svt_stds_standard_tests.mv_dependency for a given test code
 --
 /*
 select eba_stds.get_mv_dependency(p_test_code => 'UNREACHABLE_PAGE') mv
 from dual;
 */
 ------------------------------------------------------------------------------
-    function get_mv_dependency(p_test_code in eba_stds_standard_tests.test_code%type) 
-    return eba_stds_standard_tests.mv_dependency%type;
+    function get_mv_dependency(p_test_code in svt_stds_standard_tests.test_code%type) 
+    return svt_stds_standard_tests.mv_dependency%type;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson

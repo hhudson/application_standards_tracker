@@ -181,7 +181,7 @@ end;
 --     Date: October 9, 2023
 -- Synopsis:
 --
--- procedure to update eba_stds_standard_tests.avg_exctn_scnds from v_svt_test_timing
+-- procedure to update svt_stds_standard_tests.avg_exctn_scnds from v_svt_test_timing
 --
 /*
 begin

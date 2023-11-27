@@ -275,7 +275,7 @@ $if oracle_apex_version.c_apex_issue_access $then
                                  p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                  p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                  p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                                 p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                                 p_test_code      in svt_stds_standard_tests.test_code%type default null,
                                  p_message        out nocopy varchar2
                                 )
   is 
@@ -559,7 +559,7 @@ $end
                              := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
   l_svt_plsql_apex_audit_rec2 svt_plsql_apex_audit%rowtype;
   l_apex_issue_id svt_plsql_apex_audit.apex_issue_id%type;
-  c_mv_dependency constant eba_stds_standard_tests.mv_dependency%type 
+  c_mv_dependency constant svt_stds_standard_tests.mv_dependency%type 
                     := eba_stds.get_mv_dependency(p_test_code => c_svt_plsql_apex_audit_rec1.test_code);
   l_message varchar2(500);
   begin

@@ -137,7 +137,7 @@ create or replace package body svt_nested_table_types_api as
       raise;
   end issue_category;
 
-  function issue_category (p_test_code in eba_stds_standard_tests.test_code%type)
+  function issue_category (p_test_code in svt_stds_standard_tests.test_code%type)
   return svt_plsql_apex_audit.issue_category%type
   deterministic
   as 
@@ -149,7 +149,7 @@ create or replace package body svt_nested_table_types_api as
 
     select issue_category
     into l_issue_category
-    from v_eba_stds_standard_tests
+    from v_svt_stds_standard_tests
     where test_code = p_test_code;
 
     return l_issue_category;

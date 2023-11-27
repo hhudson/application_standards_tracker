@@ -78,7 +78,7 @@ create or replace package body SVT_MV_UTIL as
       raise;
   end mv_svt_query;
 
-  procedure refresh_mv(p_mv_list in eba_stds_standard_tests.mv_dependency%type default null)
+  procedure refresh_mv(p_mv_list in svt_stds_standard_tests.mv_dependency%type default null)
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_mv';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

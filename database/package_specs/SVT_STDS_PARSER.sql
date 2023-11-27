@@ -5,7 +5,7 @@ create or replace package svt_stds_parser authid definer as
     -- g_false_neg  constant varchar2(31) := 'FALSE_NEGATIVE';
     -- g_legacy     constant varchar2(31) := 'LEGACY';
     -- g_ticket     constant varchar2(31) := 'TICKET';
-    -- g_dummy_name constant eba_stds_standard_tests.test_name%type := 'DUMMY';
+    -- g_dummy_name constant svt_stds_standard_tests.test_name%type := 'DUMMY';
 
 
     -- function view_sql (p_view_name in user_views.view_name%type,

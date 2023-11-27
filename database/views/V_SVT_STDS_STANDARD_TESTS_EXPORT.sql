@@ -1,7 +1,7 @@
 --liquibase formatted sql
---changeset view_script:v_eba_stds_standard_tests_export stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:v_svt_stds_standard_tests_export stripComments:false endDelimiter:/ runOnChange:true
 
-create or replace force view V_EBA_STDS_STANDARD_TESTS_EXPORT as 
+create or replace force view V_SVT_STDS_STANDARD_TESTS_EXPORT as 
 select standard_id,
        test_id,
        urgency,
@@ -33,6 +33,6 @@ select standard_id,
        published_yn,
        null publish_button_html,
        download_css dlclss
-from eba_stds_standard_tests_api.v_eba_stds_standard_tests() 
+from svt_stds_standard_tests_api.v_svt_stds_standard_tests() 
 /
---rollback drop view v_eba_stds_standard_tests_export;
+--rollback drop view v_svt_stds_standard_tests_export;

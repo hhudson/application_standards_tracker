@@ -58,18 +58,18 @@ create or replace package body eba_stds as
         raise;
     end get_standard_id;
 
-    function get_mv_dependency(p_test_code in eba_stds_standard_tests.test_code%type) 
-    return eba_stds_standard_tests.mv_dependency%type
+    function get_mv_dependency(p_test_code in svt_stds_standard_tests.test_code%type) 
+    return svt_stds_standard_tests.mv_dependency%type
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_mv_dependency';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-    l_mv_dependency eba_stds_standard_tests.mv_dependency%type;
+    l_mv_dependency svt_stds_standard_tests.mv_dependency%type;
     begin
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
       select mv_dependency 
       into l_mv_dependency
-      from eba_stds_standard_tests
+      from svt_stds_standard_tests
       where test_code = p_test_code;
 
       return l_mv_dependency;
@@ -105,7 +105,7 @@ create or replace package body eba_stds as
 
         select count(1)
         into l_standard_count
-        from eba_stds_standard_tests
+        from svt_stds_standard_tests
         where test_code = p_test_code
         and active_yn = gc_y;
 
