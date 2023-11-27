@@ -39,13 +39,13 @@ create or replace package body SVT_APEX_ISSUE_LINK as
                    then 'p_app_id_is_null'
                    when p_id is null 
                    then 'p_id_is_null'
-                   when eba_stds_parser.is_logged_into_builder() = false
+                   when svt_stds_parser.is_logged_into_builder() = false
                    then 'not_logged_into_builder'
-                   when eba_stds_parser.app_in_current_workspace(p_app_id) = false 
+                   when svt_stds_parser.app_in_current_workspace(p_app_id) = false 
                    then 'app_not_in_current_workspace'
                    else apex_string.format(
                           p_message => '%0f?p=%1:%2:%3:::RP:P100_ISSUE_ID:%4',
-                          p0 => eba_stds_parser.get_base_url(),
+                          p0 => svt_stds_parser.get_base_url(),
                           p1 => c_team_dev_app,
                           p2 => c_issue_page,
                           p3 => c_builder_session,

@@ -37,7 +37,7 @@ create or replace package body SVT_MONITORING as
 
     return apex_string.format(
             p_message => '%0f?p=%1',
-            p0 => eba_stds_parser.get_base_url(),
+            p0 => svt_stds_parser.get_base_url(),
             p1 => svt_apex_view.gc_svt_app_id
     );
 
@@ -215,7 +215,7 @@ create or replace package body SVT_MONITORING as
         p0 => get_db_name(),
         p1 => p_days_since,
         p2 => app_url(),
-        p3 => eba_stds_parser.get_base_url(),
+        p3 => svt_stds_parser.get_base_url(),
         p4 => gc_max_urgency,
         p5 => 'This email is subscribed to by : '||l_subscriber_list,
         p6 => db_unique_name

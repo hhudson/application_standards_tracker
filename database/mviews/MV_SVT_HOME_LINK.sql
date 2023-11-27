@@ -28,8 +28,8 @@ create materialized view MV_SVT_HOME_LINK
         aa.authorization_scheme element_authorization,
         aa.authorization_scheme parent_element_authorization,
         aa.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => aa.application_id, p_url => aa.home_link) destination_page_id,
         aa.last_updated_by,
         aa.last_updated_on
         from  apex_applications aa

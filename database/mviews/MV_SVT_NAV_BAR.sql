@@ -29,8 +29,8 @@ refresh on demand
         nb.application_name parent_element_name,
         nb.authorization_scheme parent_element_authorization,
         nb.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => nb.application_id, p_url => nb.icon_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => nb.application_id, p_url => nb.icon_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => nb.application_id, p_url => nb.icon_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => nb.application_id, p_url => nb.icon_target) destination_page_id,
         nb.last_updated_by,
         nb.last_updated_on
         from apex_application_nav_bar nb

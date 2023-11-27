@@ -31,8 +31,8 @@ create materialized view MV_SVT_PAGE_MENU_ENTRIES
         pme.page_id,
         pme.page_name,
         pme.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => pme.application_id, p_url => pme.link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => pme.application_id, p_url => pme.link_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => pme.application_id, p_url => pme.link_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => pme.application_id, p_url => pme.link_target) destination_page_id,
         pme.last_updated_by,
         pme.last_updated_on
         from  apex_appl_page_menu_entries pme

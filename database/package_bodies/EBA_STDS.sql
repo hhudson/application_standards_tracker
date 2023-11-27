@@ -22,7 +22,7 @@ create or replace package body eba_stds as
     begin
         l_app_id := coalesce(wwv_flow_application_install.get_application_id,v('FB_FLOW_ID'));
         l_stmt := q'[begin #PKG#.create_job( job_name => 'EBA_STDS_TEST_UPD_JOB', ]'
-            ||q'[job_type => 'PLSQL_BLOCK', job_action => 'eba_stds_parser.update_standard_status;', ]'
+            ||q'[job_type => 'PLSQL_BLOCK', job_action => 'svt_stds_parser.update_standard_status;', ]'
             ||q'[repeat_interval => 'FREQ=DAILY;interval=1', enabled => TRUE); end;]';
         for c1 in ( select object_name
                     from sys.all_objects

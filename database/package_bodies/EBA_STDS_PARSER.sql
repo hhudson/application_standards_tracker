@@ -1,7 +1,7 @@
 --liquibase formatted sql
---changeset package_body_script:EBA_STDS_PARSER stripComments:false endDelimiter:/ runOnChange:true
+--changeset package_body_script:SVT_STDS_PARSER stripComments:false endDelimiter:/ runOnChange:true
 -- set define off
-create or replace package body eba_stds_parser  
+create or replace package body svt_stds_parser  
 is
 
     gc_scope_prefix         constant varchar2(31) := lower($$plsql_unit) || '.';
@@ -892,7 +892,7 @@ is
     end valid_html_yn;
 
 
-end EBA_STDS_PARSER;
+end SVT_STDS_PARSER;
 /
 
---rollback drop package EBA_STDS_PARSER;
+--rollback drop package SVT_STDS_PARSER;

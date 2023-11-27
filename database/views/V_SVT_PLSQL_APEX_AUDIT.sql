@@ -48,7 +48,7 @@ with aspaa as (
                    p_app_id => paa.application_id,
                    p_id => paa.apex_issue_id ) 
            from dual ) link_to_apex_issue,
-           (select eba_stds_parser.build_url(
+           (select svt_stds_parser.build_url(
                         p_template_url          => sct.template_url,
                         p_app_id                => paa.application_id,
                         p_page_id               => paa.page_id,
@@ -147,10 +147,10 @@ Audit id : %3
                 then 'Assignee : '||a.assignee
                 end,
     p6 => a.test_code,
-    p7 => '[General info on issue + fix]('||eba_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_TEST_CODE:'||a.test_code||')',
+    p7 => '[General info on issue + fix]('||svt_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_TEST_CODE:'||a.test_code||')',
     p8 => a.application_id,
     p9 => a.page_id,
-    p10 => '[Manage Issue]('||eba_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_AUDIT_ID:'||a.audit_id||')'
+    p10 => '[Manage Issue]('||svt_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_AUDIT_ID:'||a.audit_id||')'
     ) issue_text,
     apex_string.format(
         p_message => '[%0] %1',
@@ -173,7 +173,7 @@ Audit id : %3
     a.stale_yn,
     a.assignee,
     a.link_url,
-    eba_stds_parser.adapt_url( a.link_url ) prepared_url,
+    svt_stds_parser.adapt_url( a.link_url ) prepared_url,
     apex_lang.message( 'VIEW_IN_BUILDER' ) view_text,
     a.link_to_apex_issue,
     ai.issue_id apex_issue_id,

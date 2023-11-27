@@ -30,8 +30,8 @@ with parsed_urls as (
         ale.list_id as parent_element_id, 
         ale.list_entry_parent_id as opt_parent_element_id,
         ale.list_name as parent_element_name,
-        eba_stds_parser.app_from_url  (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_page_id,
         ale.last_updated_by,
         ale.last_updated_on,
         ale.workspace

@@ -28,8 +28,8 @@ refresh on demand
         aasc.authorization_scheme element_authorization,
         aasc.authorization_scheme parent_element_authorization,
         aasc.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => aasc.application_id, p_url => aasc.link_target) destination_page_id,
         aasc.last_updated_by,
         aasc.last_updated_on
         from  apex_appl_search_configs aasc

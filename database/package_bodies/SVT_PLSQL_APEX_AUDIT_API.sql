@@ -771,19 +771,19 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
               p1 => l_parent_view_name,
               p2 => l_parent_pk_value,
               p3 => p_parent_pk_id,
-              p4 => case when  eba_stds_parser.column_exists 
+              p4 => case when  svt_stds_parser.column_exists 
                                 (p_column_name => c_updated_by,
                                 p_table_name => l_parent_view_name
                                 )
                           then c_updated_by
-                          when  eba_stds_parser.column_exists 
+                          when  svt_stds_parser.column_exists 
                                 (p_column_name => c_last_updated_by,
                                 p_table_name => l_parent_view_name
                                 )
                           then c_last_updated_by
                           else c_null 
                           end,
-              p5 => case when  eba_stds_parser.column_exists 
+              p5 => case when  svt_stds_parser.column_exists 
                                 (p_column_name => c_created_by,
                                 p_table_name => l_parent_view_name
                                 )

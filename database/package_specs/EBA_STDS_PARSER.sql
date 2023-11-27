@@ -1,7 +1,7 @@
 --liquibase formatted sql
---changeset package_script:EBA_STDS_PARSER stripComments:false endDelimiter:/ runOnChange:true
-create or replace package eba_stds_parser authid definer as
-    -- g_collection constant varchar2(255):= 'EBA_STDS_PARSER';
+--changeset package_script:SVT_STDS_PARSER stripComments:false endDelimiter:/ runOnChange:true
+create or replace package svt_stds_parser authid definer as
+    -- g_collection constant varchar2(255):= 'SVT_STDS_PARSER';
     -- g_false_neg  constant varchar2(31) := 'FALSE_NEGATIVE';
     -- g_legacy     constant varchar2(31) := 'LEGACY';
     -- g_ticket     constant varchar2(31) := 'TICKET';
@@ -33,7 +33,7 @@ create or replace package eba_stds_parser authid definer as
 */
 /*
 select audit_id, test_id,
-       eba_stds_parser.build_url(
+       svt_stds_parser.build_url(
                         p_svt_component_type_id => svt_component_type_id,
                         p_app_id                => application_id,
                         p_page_id               => page_id,
@@ -74,7 +74,7 @@ l_component_name    svt_component_types.component_name%type;
 l_component_type_id svt_component_types.component_type_id%type;
 l_template_url      svt_component_types.template_url%type;
 begin
-    eba_stds_parser.get_component_type_rec (
+    svt_stds_parser.get_component_type_rec (
                         p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID, --11
                         p_component_name        => l_component_name,
                         p_component_type_id     => l_component_type_id,
@@ -135,7 +135,7 @@ end;
 -- function to extract the page_id from a url  
 --
 /*
-select eba_stds_parser.page_from_url(p_origin_app_id => application_id,
+select svt_stds_parser.page_from_url(p_origin_app_id => application_id,
                                      p_url => home_link)
 from apex_applications
 */
@@ -157,7 +157,7 @@ declare
 l_boolean boolean;
 l_override_value number := 123123123;
 begin
-    l_boolean := eba_stds_parser.is_logged_into_builder(l_override_value);
+    l_boolean := svt_stds_parser.is_logged_into_builder(l_override_value);
     if l_boolean then 
         dbms_output.put_line('logged in');
     else 
@@ -179,7 +179,7 @@ end;
 declare
 l_boolean boolean
 begin
-    l_boolean := eba_stds_parser.app_in_current_workspace(100);
+    l_boolean := svt_stds_parser.app_in_current_workspace(100);
 end;
 */
 ------------------------------------------------------------------------------
@@ -194,7 +194,7 @@ end;
 -- Function to return a default query, given an svt_component_type_id
 --
 /*
-select eba_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID) stmt
+select svt_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID) stmt
 from dual
 */
 ------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ from dual
 -- Function to convert a url to friendly as appropriate 
 --
 /*
-select eba_stds_parser.adapt_url()
+select svt_stds_parser.adapt_url()
 from dual
 */
 ------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ from dual
 -- Function to return the base url for an apex workspace
 --
 /*
-select eba_stds_parser.get_base_url()
+select svt_stds_parser.get_base_url()
 from dual;
 */
 ------------------------------------------------------------------------------
@@ -238,7 +238,7 @@ from dual;
 -- Function to determine whether or not an HTML block is valid
 --
 /*
-    select eba_stds_parser.valid_html_yn('<b>hello</b>') valid_yn
+    select svt_stds_parser.valid_html_yn('<b>hello</b>') valid_yn
     from dual;
 */
 ------------------------------------------------------------------------------
@@ -257,7 +257,7 @@ set serveroutput on
 declare
 l_bool boolean;
 begin
-    l_bool := eba_stds_parser.column_exists 
+    l_bool := svt_stds_parser.column_exists 
                     (p_column_name => 'UPDATED_BY',
                      p_table_name => 'APEX_APPLICATION_PAGE_REGIONS'
                     );
@@ -284,7 +284,7 @@ end;
     e_invalid_object exception;
     pragma exception_init(e_invalid_object, -44002);
 
-end eba_stds_parser;
+end svt_stds_parser;
 /
 
---rollback drop package EBA_STDS_PARSER;
+--rollback drop package SVT_STDS_PARSER;

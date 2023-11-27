@@ -32,8 +32,8 @@ create materialized view MV_SVT_CHART_S
         pcs.page_id,
         pcs.page_name,
         pcs.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => pcs.application_id, p_url => pcs.link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => pcs.application_id, p_url => pcs.link_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => pcs.application_id, p_url => pcs.link_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => pcs.application_id, p_url => pcs.link_target) destination_page_id,
         pcs.last_updated_by,
         pcs.last_updated_on
         from  apex_application_page_chart_s pcs
