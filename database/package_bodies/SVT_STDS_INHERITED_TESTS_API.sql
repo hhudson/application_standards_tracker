@@ -1,12 +1,12 @@
 --liquibase formatted sql
---changeset package_body_script:eba_stds_inherited_tests_api_body stripComments:false endDelimiter:/ runOnChange:true
+--changeset package_body_script:svt_stds_inherited_tests_api_body stripComments:false endDelimiter:/ runOnChange:true
 
-create or replace package body eba_stds_inherited_tests_api as
+create or replace package body svt_stds_inherited_tests_api as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   eba_stds_inherited_tests_api
+--   svt_stds_inherited_tests_api
 --
 -- DESCRIPTION
 --
@@ -20,14 +20,14 @@ create or replace package body eba_stds_inherited_tests_api as
 
 
   procedure inherit_test (
-    p_test_id            in eba_stds_inherited_tests.test_id%type,
-    p_standard_id        in eba_stds_inherited_tests.standard_id%type)
+    p_test_id            in svt_stds_inherited_tests.test_id%type,
+    p_standard_id        in svt_stds_inherited_tests.standard_id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'inherit_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_parent_standard_id eba_stds_standard_tests.standard_id%type;
-  c_sysdate constant eba_stds_inherited_tests.updated%type := sysdate;
-  c_user    constant eba_stds_inherited_tests.updated_by%type 
+  c_sysdate constant svt_stds_inherited_tests.updated%type := sysdate;
+  c_user    constant svt_stds_inherited_tests.updated_by%type 
                      := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -37,7 +37,7 @@ create or replace package body eba_stds_inherited_tests_api as
 
     l_parent_standard_id := eba_stds_standard_tests_api.get_standard_id (p_test_id => p_test_id);
 
-    insert into eba_stds_inherited_tests 
+    insert into svt_stds_inherited_tests 
            (parent_standard_id,
            test_id,
            standard_id,
@@ -65,8 +65,8 @@ create or replace package body eba_stds_inherited_tests_api as
   end inherit_test;
 
   procedure disinherit (
-    p_test_id            in eba_stds_inherited_tests.test_id%type,
-    p_standard_id        in eba_stds_inherited_tests.standard_id%type)
+    p_test_id            in svt_stds_inherited_tests.test_id%type,
+    p_standard_id        in svt_stds_inherited_tests.standard_id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'disinherit';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -75,7 +75,7 @@ create or replace package body eba_stds_inherited_tests_api as
                                         'p_test_id', p_test_id,
                                         'p_standard_id', p_standard_id);
     
-    delete from eba_stds_inherited_tests
+    delete from svt_stds_inherited_tests
     where test_id = p_test_id
     and standard_id = p_standard_id;
 
@@ -87,8 +87,8 @@ create or replace package body eba_stds_inherited_tests_api as
       raise;
   end disinherit;
 
-  procedure delete_std (p_standard_id  in eba_stds_inherited_tests.standard_id%type,
-                        p_former_parent_standard_id in eba_stds_inherited_tests.parent_standard_id%type default null)
+  procedure delete_std (p_standard_id  in svt_stds_inherited_tests.standard_id%type,
+                        p_former_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type default null)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_std';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -97,7 +97,7 @@ create or replace package body eba_stds_inherited_tests_api as
                                         'p_standard_id', p_standard_id,
                                         'p_former_parent_standard_id', p_former_parent_standard_id);
 
-    delete from eba_stds_inherited_tests
+    delete from svt_stds_inherited_tests
     where standard_id = p_standard_id
     and (parent_standard_id = p_former_parent_standard_id or p_former_parent_standard_id is null);
 
@@ -108,14 +108,14 @@ create or replace package body eba_stds_inherited_tests_api as
       raise;
   end delete_std;
 
-  procedure delete_test (p_test_id  in eba_stds_inherited_tests.test_id%type)
+  procedure delete_test (p_test_id  in svt_stds_inherited_tests.test_id%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_id', p_test_id);
 
-    delete from eba_stds_inherited_tests
+    delete from svt_stds_inherited_tests
     where test_id = p_test_id;
 
     apex_debug.message(c_debug_template, 'deleted records : ', sql%rowcount);
@@ -126,7 +126,7 @@ create or replace package body eba_stds_inherited_tests_api as
   end delete_test;
 
   procedure bulk_add(p_test_ids    in varchar2,
-                     p_standard_id in eba_stds_inherited_tests.standard_id%type)
+                     p_standard_id in svt_stds_inherited_tests.standard_id%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_add';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -151,7 +151,7 @@ create or replace package body eba_stds_inherited_tests_api as
   end bulk_add;
 
   procedure bulk_remove(p_test_ids    in varchar2,
-                        p_standard_id in eba_stds_inherited_tests.standard_id%type)
+                        p_standard_id in svt_stds_inherited_tests.standard_id%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_remove';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -176,8 +176,8 @@ create or replace package body eba_stds_inherited_tests_api as
   end bulk_remove;
 
   procedure inherit_all(
-                p_parent_standard_id in eba_stds_inherited_tests.parent_standard_id%type,
-                p_standard_id        in eba_stds_inherited_tests.standard_id%type)
+                p_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type,
+                p_standard_id        in svt_stds_inherited_tests.standard_id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'inherit_all';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -210,6 +210,6 @@ create or replace package body eba_stds_inherited_tests_api as
 
 
 
-end eba_stds_inherited_tests_api;
+end svt_stds_inherited_tests_api;
 /
---rollback drop package body eba_stds_inherited_tests_api;
+--rollback drop package body svt_stds_inherited_tests_api;

@@ -52,7 +52,7 @@ select   o.standard_id,
          'Y' inherited_yn,
          i.display_sequence
   from v_eba_stds_standard_tests i
-  inner join eba_stds_inherited_tests esit on i.test_id = esit.test_id
+  inner join svt_stds_inherited_tests esit on i.test_id = esit.test_id
                                            and i.standard_id = esit.parent_standard_id
 /
 

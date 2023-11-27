@@ -1,15 +1,15 @@
 --liquibase formatted sql
---changeset package_script:eba_stds_inherited_tests_api stripComments:false endDelimiter:/ runOnChange:true
+--changeset package_script:svt_stds_inherited_tests_api stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for Package eba_stds_inherited_tests_api
+--  DDL for Package svt_stds_inherited_tests_api
 --------------------------------------------------------
 
-create or replace package eba_stds_inherited_tests_api authid definer as
+create or replace package svt_stds_inherited_tests_api authid definer as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   eba_stds_inherited_tests_api
+--   svt_stds_inherited_tests_api
 --
 -- DESCRIPTION
 --
@@ -21,17 +21,17 @@ create or replace package eba_stds_inherited_tests_api authid definer as
 begin
   case :APEX$ROW_STATUS
     when 'C' then
-        eba_stds_inherited_tests_api.inherit_test (
+        svt_stds_inherited_tests_api.inherit_test (
             p_test_id            => :P79_TEST_ID,
             p_standard_id        => :P79_STANDARD_ID
         );
     when 'U' then
-      eba_stds_inherited_tests_api.inherit_test (
+      svt_stds_inherited_tests_api.inherit_test (
             p_test_id            => :P79_TEST_ID,
             p_standard_id        => :P79_STANDARD_ID
         );
     when 'D' then
-       eba_stds_inherited_tests_api.disinherit (
+       svt_stds_inherited_tests_api.disinherit (
         p_test_id            => :P79_TEST_ID,
         p_standard_id        => :P79_STANDARD_ID
     );
@@ -45,7 +45,7 @@ end;
 --     Date: August 17, 2023
 -- Synopsis:
 --
--- procedure to add a record to eba_stds_inherited_tests
+-- procedure to add a record to svt_stds_inherited_tests
 --
 /*
 declare
@@ -64,7 +64,7 @@ begin
     where standard_id = l_parent_standard_id
     fetch first 1 rows only;
     
-    eba_stds_inherited_tests_api.inherit_test (
+    svt_stds_inherited_tests_api.inherit_test (
         p_test_id            => l_test_id,
         p_standard_id        => c_standard_id
     );
@@ -72,8 +72,8 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure inherit_test (
-    p_test_id            in eba_stds_inherited_tests.test_id%type,
-    p_standard_id        in eba_stds_inherited_tests.standard_id%type);
+    p_test_id            in svt_stds_inherited_tests.test_id%type,
+    p_standard_id        in svt_stds_inherited_tests.standard_id%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -84,7 +84,7 @@ procedure inherit_test (
 --
 /*
 begin
-    eba_stds_inherited_tests_api.disinherit (
+    svt_stds_inherited_tests_api.disinherit (
         p_test_id            => l_test_id,
         p_standard_id        => c_standard_id
     );
@@ -92,24 +92,24 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure disinherit (
-    p_test_id            in eba_stds_inherited_tests.test_id%type,
-    p_standard_id        in eba_stds_inherited_tests.standard_id%type);
+    p_test_id            in svt_stds_inherited_tests.test_id%type,
+    p_standard_id        in svt_stds_inherited_tests.standard_id%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 17, 2023
 -- Synopsis:
 --
--- Procedure to delete all records in eba_stds_inherited_tests for a given standard_id  
+-- Procedure to delete all records in svt_stds_inherited_tests for a given standard_id  
 --
 /*
 begin
-    eba_stds_inherited_tests_api.delete_std (p_standard_id => p_standard_id);
+    svt_stds_inherited_tests_api.delete_std (p_standard_id => p_standard_id);
 end;
 */
 ------------------------------------------------------------------------------
-procedure delete_std (p_standard_id               in eba_stds_inherited_tests.standard_id%type,
-                      p_former_parent_standard_id in eba_stds_inherited_tests.parent_standard_id%type default null);
+procedure delete_std (p_standard_id               in svt_stds_inherited_tests.standard_id%type,
+                      p_former_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type default null);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -120,22 +120,22 @@ procedure delete_std (p_standard_id               in eba_stds_inherited_tests.st
 --
 /*
 begin
-    eba_stds_inherited_tests_api.delete_test (p_test_id => p_test_id);
+    svt_stds_inherited_tests_api.delete_test (p_test_id => p_test_id);
 end;
 */
 ------------------------------------------------------------------------------
-procedure delete_test (p_test_id  in eba_stds_inherited_tests.test_id%type);
+procedure delete_test (p_test_id  in svt_stds_inherited_tests.test_id%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 17, 2023
 -- Synopsis:
 --
--- Procedure to add colon-delimited test_ids to eba_stds_inherited_tests
+-- Procedure to add colon-delimited test_ids to svt_stds_inherited_tests
 --
 /*
 begin
-    eba_stds_inherited_tests_api.bulk_add(
+    svt_stds_inherited_tests_api.bulk_add(
                     p_test_ids    => :P65_SELECTED_IDS,
                     p_standard_id => :P65_STANDARD_ID
                 );
@@ -143,18 +143,18 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure bulk_add(p_test_ids    in varchar2,
-                   p_standard_id in eba_stds_inherited_tests.standard_id%type);
+                   p_standard_id in svt_stds_inherited_tests.standard_id%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 17, 2023
 -- Synopsis:
 --
--- Procedure to remove colon-delimited test_ids to eba_stds_inherited_tests
+-- Procedure to remove colon-delimited test_ids to svt_stds_inherited_tests
 --
 /*
 begin
-    eba_stds_inherited_tests_api.bulk_remove(
+    svt_stds_inherited_tests_api.bulk_remove(
                     p_test_ids    => :P65_SELECTED_IDS,
                     p_standard_id => :P65_STANDARD_ID
                 );
@@ -162,7 +162,7 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure bulk_remove(p_test_ids    in varchar2,
-                      p_standard_id in eba_stds_inherited_tests.standard_id%type);
+                      p_standard_id in svt_stds_inherited_tests.standard_id%type);
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -173,16 +173,16 @@ procedure bulk_remove(p_test_ids    in varchar2,
 --
 /*
 begin
-    eba_stds_inherited_tests_api.inherit_all(
+    svt_stds_inherited_tests_api.inherit_all(
                       p_parent_standard_id => p_parent_standard_id,
                       p_standard_id        => p_standard_id
                     );
 end;
 */
 ------------------------------------------------------------------------------
-procedure inherit_all(p_parent_standard_id in eba_stds_inherited_tests.parent_standard_id%type,
-                      p_standard_id        in eba_stds_inherited_tests.standard_id%type);
+procedure inherit_all(p_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type,
+                      p_standard_id        in svt_stds_inherited_tests.standard_id%type);
 
-end eba_stds_inherited_tests_api;
+end svt_stds_inherited_tests_api;
 /
---rollback drop package eba_stds_inherited_tests_api;
+--rollback drop package svt_stds_inherited_tests_api;

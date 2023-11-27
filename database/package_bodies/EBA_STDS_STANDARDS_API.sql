@@ -73,7 +73,7 @@ create or replace package body eba_stds_standards_api as
       gc_user
     );
 
-    eba_stds_inherited_tests_api.inherit_all(
+    svt_stds_inherited_tests_api.inherit_all(
                     p_parent_standard_id => p_parent_standard_id,
                     p_standard_id => c_id
                 );
@@ -122,7 +122,7 @@ create or replace package body eba_stds_standards_api as
     if p_parent_standard_id is null 
     and l_current_rec.parent_standard_id is not null 
     then
-      eba_stds_inherited_tests_api.delete_std (
+      svt_stds_inherited_tests_api.delete_std (
                     p_standard_id => p_id,
                     p_former_parent_standard_id => l_current_rec.parent_standard_id);
     end if;
@@ -164,7 +164,7 @@ create or replace package body eba_stds_standards_api as
   begin
     apex_debug.message(c_debug_template,'START', 'p_standard_id', p_standard_id);
 
-    eba_stds_inherited_tests_api.delete_std (p_standard_id => p_standard_id);
+    svt_stds_inherited_tests_api.delete_std (p_standard_id => p_standard_id);
 
     delete from eba_stds_standards
     where id = p_standard_id;
