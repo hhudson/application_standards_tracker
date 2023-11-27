@@ -22,7 +22,6 @@ create or replace package body SVT_COMPONENT_TYPES_API as
 
   function insert_cmp (
        p_component_name    in svt_component_types.component_name%type,
-       p_component_code    in svt_component_types.component_code%type,
        p_available_yn      in svt_component_types.available_yn%type,
        p_nt_type_id        in svt_component_types.nt_type_id%type,
        p_pk_value          in svt_component_types.pk_value%type,
@@ -44,7 +43,6 @@ create or replace package body SVT_COMPONENT_TYPES_API as
    insert into svt_component_types
    (
     component_name,
-    component_code,
     available_yn,
     nt_type_id,
     pk_value,
@@ -59,7 +57,6 @@ create or replace package body SVT_COMPONENT_TYPES_API as
     updated_by
    ) values (
     p_component_name,
-    p_component_code,
     p_available_yn,
     p_nt_type_id,
     p_pk_value,
@@ -85,7 +82,6 @@ create or replace package body SVT_COMPONENT_TYPES_API as
   procedure update_cmp (
        p_id                in svt_component_types.id%type,
        p_component_name    in svt_component_types.component_name%type,
-       p_component_code    in svt_component_types.component_code%type,
        p_available_yn      in svt_component_types.available_yn%type,
        p_nt_type_id        in svt_component_types.nt_type_id%type,
        p_pk_value          in svt_component_types.pk_value%type,
@@ -105,7 +101,6 @@ create or replace package body SVT_COMPONENT_TYPES_API as
    
    update svt_component_types
    set component_name  = p_component_name,
-       component_code  = p_component_code,
        available_yn    = p_available_yn,
        nt_type_id      = p_nt_type_id,
        pk_value        = p_pk_value,

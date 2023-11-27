@@ -87,7 +87,6 @@ select lib.id,
        lib.estl_md5,
        lib.esst_md5,
        ess.standard_name,
-       act.component_code,
        ess.active_yn standard_active_yn,
        asul.urgency_name,
        case  when lib.active_yn = 'N'

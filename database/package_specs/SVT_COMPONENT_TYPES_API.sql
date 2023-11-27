@@ -24,7 +24,6 @@ begin
     when 'C' then
       :P7_ID := svt_component_types_api.insert_cmp (
                     p_component_name    => :P7_COMPONENT_NAME,
-                    p_component_code    => :P7_COMPONENT_CODE,
                     p_available_yn      => :P7_AVAILABLE_YN,
                     p_nt_type_id        => :P7_NT_TYPE_ID,
                     p_pk_value          => :P7_PK_VALUE,
@@ -38,7 +37,6 @@ begin
       svt_component_types_api.update_cmp (
             p_id                 => :P7_ID,
             p_component_name    => :P7_COMPONENT_NAME,
-            p_component_code    => :P7_COMPONENT_CODE,
             p_available_yn      => :P7_AVAILABLE_YN,
             p_nt_type_id        => :P7_NT_TYPE_ID,
             p_pk_value          => :P7_PK_VALUE,
@@ -65,7 +63,6 @@ end;
 ------------------------------------------------------------------------------
     function insert_cmp (
        p_component_name    in svt_component_types.component_name%type,
-       p_component_code    in svt_component_types.component_code%type,
        p_available_yn      in svt_component_types.available_yn%type,
        p_nt_type_id        in svt_component_types.nt_type_id%type,
        p_pk_value          in svt_component_types.pk_value%type,
@@ -87,7 +84,6 @@ end;
     procedure update_cmp (
        p_id                in svt_component_types.id%type,
        p_component_name    in svt_component_types.component_name%type,
-       p_component_code    in svt_component_types.component_code%type,
        p_available_yn      in svt_component_types.available_yn%type,
        p_nt_type_id        in svt_component_types.nt_type_id%type,
        p_pk_value          in svt_component_types.pk_value%type,

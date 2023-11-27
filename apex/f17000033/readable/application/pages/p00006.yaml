@@ -56,26 +56,24 @@ regions:
     type: SQL Query
     sql-query: |
       select  act.id svt_component_type_id,
-              coalesce(act.component_name, fdv.component_desc) component_name,
+              act.component_name,
               act.available_yn,
               act.created,
               act.created_by,
               act.updated,
               act.updated_by,
-              act.component_code,
               act.nt_type_id,
-              coalesce(act.pk_value,fdv.pk_column_name) pk_value,
+              act.pk_value,
               act.parent_pk_value,
               act.template_url,
               act.friendly_name,
-              coalesce(act.name_column, fdv.display_expression) name_column,
+              act.name_column,
               act.addl_cols,
               case when act.id is null 
                    then 'N'
                    else 'Y'
                    end configured_yn
         from svt_component_types act 
-        left outer join v_svt_flow_dictionary_views fdv on act.component_name = fdv.view_name
 
   layout: 
     sequence: 20
@@ -225,47 +223,6 @@ regions:
         chart: true
         group-by: true
         pivot: true
-
-    - # ====== Column: COMPONENT_CODE ==============================
-      id: 228092583045848885
-      identification: 
-        column-name: COMPONENT_CODE
-        type: Plain Text
-
-      heading: 
-        heading: Component Code
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 80
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
 
     - # ====== Column: AVAILABLE_YN ================================
       id: 269196552681859187
