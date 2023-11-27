@@ -91,7 +91,7 @@ with aspaa as (
     from svt_plsql_apex_audit paa
     inner join v_eba_stds_standard_tests src on paa.test_code  = src.test_code
     inner join svt_component_types sct on sct.id = src.svt_component_type_id
-    left outer join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
+    left outer join v_svt_stds_applications vaa on paa.application_id = vaa.apex_app_id
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
 )
 select 

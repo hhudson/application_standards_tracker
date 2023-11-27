@@ -155,7 +155,7 @@ is
 
     --     for i in 1..wwv_flow.g_f01.count loop
     --         f := wwv_flow.g_f01(i);
-    --         insert into eba_stds_applications(apex_app_id) values (f);
+    --         insert into svt_stds_applications(apex_app_id) values (f);
     --     end loop;
 
     -- exception when others then

@@ -358,7 +358,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         where application_id is not null
         and action_id is null --not sure when to delete exceptions
         and application_id not in (select apex_app_id
-                                    from v_eba_stds_applications
+                                    from v_svt_stds_applications
                                     where app_active_yn = gc_y
                                     and type_active_yn = gc_y)
       ) loop 
@@ -575,7 +575,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                   from svt_plsql_apex_audit 
                   where assignee is null) e
       using (select apex_app_id, lower(default_developer) default_developer
-             from v_eba_stds_applications
+             from v_svt_stds_applications
              where default_developer is not null) h
       on (e.application_id = h.apex_app_id)
       when matched then

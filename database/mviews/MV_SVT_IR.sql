@@ -11,7 +11,8 @@ begin
 end;
 */
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_IR
+-- /
 create materialized view MV_SVT_IR
 refresh on demand
     evaluate using current edition
@@ -39,7 +40,7 @@ refresh on demand
         pir.updated_on last_updated_on,
         apg.page_mode
         from apex_application_page_ir pir
-        inner join v_eba_stds_applications esa on pir.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pir.application_id = esa.apex_app_id
         inner join apex_applications aa on aa.application_id = esa.apex_app_id
         inner join apex_application_page_regions pg on  pir.application_id = pg.application_id
                                                     and pir.page_id = pg.page_id

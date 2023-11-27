@@ -11,7 +11,8 @@ begin
 end;
 */
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_CHART_S
+-- /
 create materialized view MV_SVT_CHART_S
     refresh on demand
     evaluate using current edition
@@ -37,7 +38,7 @@ create materialized view MV_SVT_CHART_S
         pcs.last_updated_by,
         pcs.last_updated_on
         from  apex_application_page_chart_s pcs
-        inner join v_eba_stds_applications esa on pcs.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pcs.application_id = esa.apex_app_id
         where pcs.link_target is not null
  )
     select
@@ -50,7 +51,6 @@ create materialized view MV_SVT_CHART_S
         pu.element_name, 
         pu.element_authorization,
         pu.parent_element_id,
-        -- pu.opt_parent_element_id,
         pu.parent_element_name,
         pu.parent_element_authorization,
         pu.page_id,
@@ -60,11 +60,8 @@ create materialized view MV_SVT_CHART_S
         pu.destination_page_id,
         aap.page_name destination_page_name,
         aap.application_name destination_app_name,
-        -- pu.created_by,
-        -- pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on
-        -- pu.page_mode
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id
                                                and pu.destination_page_id = aap.page_id

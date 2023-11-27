@@ -301,7 +301,7 @@ create or replace package body SVT_STANDARD_VIEW as
                                     p_select_stmt => gc_apex_select_stmt);
 
     l_query_clob := case when p_production_apps_only = gc_y
-                         then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
+                         then l_query_clob||q'[ inner join v_svt_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
                          else l_query_clob 
                          end;
 
@@ -735,7 +735,7 @@ create or replace package body SVT_STANDARD_VIEW as
                           p0 => c_issue_category)
       );
       l_query_clob := case when p_production_apps_only = gc_y
-                           then l_query_clob||q'[ inner join v_eba_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
+                           then l_query_clob||q'[ inner join v_svt_stds_applications esa on mydata.application_id  = esa.apex_app_id ]'
                            else l_query_clob 
                            end;
       -- l_unqid_predicate := apex_string.format(q'^ and application_id||case when parent_component_id is not null then ':'||parent_component_id||':'||component_id else case when  component_id != application_id then ':'||component_id end end = '%s' ^', c_unqid);

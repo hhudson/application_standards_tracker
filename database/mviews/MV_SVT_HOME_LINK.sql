@@ -11,7 +11,8 @@ begin
 end;
 */
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_HOME_LINK
+-- /
 create materialized view MV_SVT_HOME_LINK
     refresh on demand
     evaluate using current edition
@@ -33,7 +34,7 @@ create materialized view MV_SVT_HOME_LINK
         aa.last_updated_by,
         aa.last_updated_on
         from  apex_applications aa
-        inner join v_eba_stds_applications esa on aa.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on aa.application_id = esa.apex_app_id
         where aa.home_link is not null
 )
     select

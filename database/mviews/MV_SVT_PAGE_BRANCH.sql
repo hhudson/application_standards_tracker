@@ -37,7 +37,7 @@ refresh on demand
         pg.page_mode,
         apb.workspace
         from apex_application_page_branches apb
-        inner join v_eba_stds_applications esa on apb.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on apb.application_id = esa.apex_app_id
         inner join apex_application_pages pg on apb.application_id = pg.application_id
                                             and apb.page_id = pg.page_id
         where apb.branch_action is not null
@@ -52,10 +52,6 @@ refresh on demand
         pu.element_label, 
         pu.element_name, 
         pu.element_authorization,
-        --pu.parent_element_id,
-        --pu.opt_parent_element_id,
-        --pu.parent_element_name,
-        --pu.parent_element_authorization,
         pu.page_id,
         pu.page_name,
         pu.page_authorization,
@@ -63,8 +59,6 @@ refresh on demand
         pu.destination_page_id,
         aap.page_name destination_page_name,
         aap.application_name destination_app_name,
-        --pu.created_by,
-        --pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
         pu.page_mode,

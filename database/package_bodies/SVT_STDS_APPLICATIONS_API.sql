@@ -1,12 +1,12 @@
 --liquibase formatted sql
---changeset package_body_script:EBA_STDS_APPLICATIONS_API_body stripComments:false endDelimiter:/ runOnChange:true
+--changeset package_body_script:SVT_STDS_APPLICATIONS_API_body stripComments:false endDelimiter:/ runOnChange:true
 
-create or replace package body EBA_STDS_APPLICATIONS_API as
+create or replace package body SVT_STDS_APPLICATIONS_API as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   EBA_STDS_APPLICATIONS_API
+--   SVT_STDS_APPLICATIONS_API
 --
 -- DESCRIPTION
 --
@@ -21,17 +21,17 @@ create or replace package body EBA_STDS_APPLICATIONS_API as
   gc_user         constant svt_standards_urgency_level.created_by%type := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
 
   function insert_app (
-        p_id                in eba_stds_applications.pk_id%type default null,
-        p_apex_app_id       in eba_stds_applications.apex_app_id%type,
-        p_default_developer in eba_stds_applications.default_developer%type,
-        p_type_id           in eba_stds_applications.type_id%type,
-        p_notes             in eba_stds_applications.notes%type,
-        p_active_yn         in eba_stds_applications.active_yn%type default 'Y'
-    ) return eba_stds_applications.pk_id%type
+        p_id                in svt_stds_applications.pk_id%type default null,
+        p_apex_app_id       in svt_stds_applications.apex_app_id%type,
+        p_default_developer in svt_stds_applications.default_developer%type,
+        p_type_id           in svt_stds_applications.type_id%type,
+        p_notes             in svt_stds_applications.notes%type,
+        p_active_yn         in svt_stds_applications.active_yn%type default 'Y'
+    ) return svt_stds_applications.pk_id%type
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'insert_app';
     c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
-    c_id constant eba_stds_applications.pk_id%type 
+    c_id constant svt_stds_applications.pk_id%type 
                   := coalesce(p_id, 
                               to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
     begin
@@ -43,7 +43,7 @@ create or replace package body EBA_STDS_APPLICATIONS_API as
                                          'p_notes', p_notes,
                                          'p_active_yn', p_active_yn
                        );
-      insert into eba_stds_applications
+      insert into svt_stds_applications
       (
         pk_id,
         apex_app_id,
@@ -80,12 +80,12 @@ create or replace package body EBA_STDS_APPLICATIONS_API as
     end insert_app;
 
     procedure update_app ( 
-        p_id                in eba_stds_applications.pk_id%type,
-        p_apex_app_id       in eba_stds_applications.apex_app_id%type,
-        p_default_developer in eba_stds_applications.default_developer%type,
-        p_type_id           in eba_stds_applications.type_id%type,
-        p_notes             in eba_stds_applications.notes%type,
-        p_active_yn         in eba_stds_applications.active_yn%type default 'Y'
+        p_id                in svt_stds_applications.pk_id%type,
+        p_apex_app_id       in svt_stds_applications.apex_app_id%type,
+        p_default_developer in svt_stds_applications.default_developer%type,
+        p_type_id           in svt_stds_applications.type_id%type,
+        p_notes             in svt_stds_applications.notes%type,
+        p_active_yn         in svt_stds_applications.active_yn%type default 'Y'
     )
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'update_app';
@@ -94,7 +94,7 @@ create or replace package body EBA_STDS_APPLICATIONS_API as
      apex_debug.message(c_debug_template,'START',
                                          'p_id', p_id
                        );
-     update eba_stds_applications
+     update svt_stds_applications
      set apex_app_id       = p_apex_app_id,
          default_developer = p_default_developer,
          type_id           = p_type_id,
@@ -111,7 +111,7 @@ create or replace package body EBA_STDS_APPLICATIONS_API as
     end update_app;
 
     procedure delete_app (
-        p_id in eba_stds_applications.pk_id%type
+        p_id in svt_stds_applications.pk_id%type
     )
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'delete_app';
@@ -120,7 +120,7 @@ create or replace package body EBA_STDS_APPLICATIONS_API as
      apex_debug.message(c_debug_template,'START',
                                          'p_id', p_id
                        );
-     delete from  eba_stds_applications
+     delete from  svt_stds_applications
      where pk_id = p_id;
 
      apex_debug.info(c_debug_template, 'deleted :', sql%rowcount);
@@ -132,6 +132,6 @@ create or replace package body EBA_STDS_APPLICATIONS_API as
     end delete_app;
 
 
-end EBA_STDS_APPLICATIONS_API;
+end SVT_STDS_APPLICATIONS_API;
 /
---rollback drop package body EBA_STDS_APPLICATIONS_API;
+--rollback drop package body SVT_STDS_APPLICATIONS_API;

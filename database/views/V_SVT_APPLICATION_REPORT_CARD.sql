@@ -24,7 +24,7 @@ select esa.apex_app_id application_id,
        esa.default_developer,
        apex_string.format('%s (%s)', aa.application_name, esa.apex_app_id) application_name,
        est.type_name application_type
-from eba_stds_applications esa
+from svt_stds_applications esa
 inner join apex_applications aa on aa.application_id = esa.apex_app_id
 inner join eba_stds_types est on est.id = esa.type_id
 left outer join rptcrd on esa.apex_app_id = rptcrd.application_id

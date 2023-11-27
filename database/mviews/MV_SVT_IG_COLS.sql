@@ -40,7 +40,7 @@ with parsed_urls as (
         pg.page_mode,
         pigc.workspace
         from apex_appl_page_ig_columns pigc
-        inner join v_eba_stds_applications esa on pigc.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pigc.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  pigc.application_id = apr.application_id
                                                 and pigc.page_id = apr.page_id
                                                 and pigc.region_id = apr.region_id

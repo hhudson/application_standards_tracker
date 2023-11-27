@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_EBA_STDS_APPLICATIONS stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_STDS_APPLICATIONS stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_EBA_STDS_APPLICATIONS
+--  DDL for View V_SVT_STDS_APPLICATIONS
 --------------------------------------------------------
 
-create or replace force editionable view V_EBA_STDS_APPLICATIONS as
+create or replace force editionable view V_SVT_STDS_APPLICATIONS as
 select /*+ result_cache */
        esa.pk_id, 
        esa.apex_app_id, 
@@ -21,7 +21,7 @@ select /*+ result_cache */
        esa.active_yn app_active_yn,
        est.active_yn type_active_yn,
        est.type_code
-from eba_stds_applications esa
+from svt_stds_applications esa
 inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                 and aa.availability_status != 'Unavailable'
 inner join eba_stds_types est on est.id = esa.type_id
@@ -29,4 +29,4 @@ inner join eba_stds_types est on est.id = esa.type_id
 where esa.active_yn = 'Y'
 /
 
---rollback drop view V_EBA_STDS_APPLICATIONS;
+--rollback drop view V_SVT_STDS_APPLICATIONS;

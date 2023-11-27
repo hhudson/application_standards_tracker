@@ -152,7 +152,7 @@ result_cache;
 --     Date: May 16, 2023
 -- Synopsis:
 --
--- procedure to assign apex violations to developers according to v_eba_stds_applications.default_developer
+-- procedure to assign apex violations to developers according to v_svt_stds_applications.default_developer
 -- called by assign_violations
 --
 /*

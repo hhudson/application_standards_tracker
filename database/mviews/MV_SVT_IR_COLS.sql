@@ -42,7 +42,7 @@ with parsed_urls as (
         pg.page_mode,
         pic.workspace
         from apex_application_page_ir_col pic
-        inner join v_eba_stds_applications esa on pic.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pic.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  pic.application_id = apr.application_id
                                                 and pic.page_id = apr.page_id
                                                 and pic.region_id = apr.region_id
@@ -60,7 +60,6 @@ with parsed_urls as (
         pu.element_name, 
         pu.element_authorization,
         pu.parent_element_id,
-        --opt_parent_element_id,
         pu.parent_element_name,
         pu.parent_element_authorization,
         pu.page_id,
