@@ -24,7 +24,7 @@ create or replace package SVT_APEX_ISSUE_UTIL authid current_user as
 --     date: october 5, 2022
 -- synopsis:
 --
--- grouping all the procedures that need to be run by eba_stds_data.record_daily_issue_snapshot
+-- grouping all the procedures that need to be run by svt_stds_data.record_daily_issue_snapshot
 --
 /*
 declare

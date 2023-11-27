@@ -190,7 +190,7 @@ create or replace package body SVT_AUDIT_UTIL as
                     where (upos.plscope_settings != 'IDENTIFIERS:ALL, STATEMENTS:ALL' or plscope_settings is null)
                     and upos.name not like 'BIN$%'
                     and upos.name not like 'XXX%'
-                    -- and name not in ('EBA_STDS_DATA', 'SCH_ESI_LISTEN_QUEUES')
+                    -- and name not in ('SVT_STDS_DATA', 'SCH_ESI_LISTEN_QUEUES')
                     and upos.type  = 'PACKAGE BODY'
                     -- and vlo.object_id is null --eliminate locked objects
                     order by 1, 2

@@ -3,7 +3,7 @@
 --preconditions onFail:MARK_RAN onError:HALT
 --------------------------------------------------------
 --  DDL for View v_svt_db_apex__0
--- used in eba_stds_data.merge_audit_tbl to populate the svt_plsql_apex_audit table
+-- used in svt_stds_data.merge_audit_tbl to populate the svt_plsql_apex_audit table
 --------------------------------------------------------
 
 create or replace force editionable view V_SVT_PLSQL_APEX__0 as

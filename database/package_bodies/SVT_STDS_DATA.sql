@@ -1,6 +1,6 @@
 --liquibase formatted sql
---changeset package_body_script:EBA_STDS_DATA stripComments:false endDelimiter:/ runOnChange:true
-create or replace package body eba_stds_data is
+--changeset package_body_script:SVT_STDS_DATA stripComments:false endDelimiter:/ runOnChange:true
+create or replace package body svt_stds_data is
 
     gc_scope_prefix constant varchar2(32) := lower($$plsql_unit) || '.';
 
@@ -107,7 +107,7 @@ create or replace package body eba_stds_data is
         where id < 100;
     end remove_sample_data;
 
-end eba_stds_data;
+end svt_stds_data;
 /
 
---rollback drop package EBA_STDS_DATA;
+--rollback drop package SVT_STDS_DATA;
