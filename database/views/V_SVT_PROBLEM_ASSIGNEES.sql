@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_PROBLEM_ASSIGNEES stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_PROBLEM_ASSIGNEES stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_PROBLEM_ASSIGNEES
+--  DDL for View V_SVT_PROBLEM_ASSIGNEES
 --------------------------------------------------------
 
-create or replace force editionable view V_PROBLEM_ASSIGNEES as
+create or replace force editionable view V_SVT_PROBLEM_ASSIGNEES as
 select assignee
 from mv_assignee_count
 where assignee not like '%@%'
@@ -20,4 +20,4 @@ where assignee in (select lower(column_value)
                    )
 /
 
---rollback drop view V_PROBLEM_ASSIGNEES;
+--rollback drop view V_SVT_PROBLEM_ASSIGNEES;
