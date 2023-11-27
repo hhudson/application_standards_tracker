@@ -95,7 +95,7 @@ create or replace package body svt_stds_data is
         apex_debug.message(c_debug_template,'START');
 
         -- if not is_sample_data_loaded() then
-        --     load_eba_stds_standards;
+        --     load_svt_stds_standards;
 
         --     -- Create a few sample tests.
         --     load_svt_stds_standard_tests;
@@ -103,7 +103,7 @@ create or replace package body svt_stds_data is
     end load_sample_data;
     procedure remove_sample_data is
     begin
-        delete from eba_stds_standards
+        delete from svt_stds_standards
         where id < 100;
     end remove_sample_data;
 

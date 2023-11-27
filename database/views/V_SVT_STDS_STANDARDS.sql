@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_EBA_STDS_STANDARDS stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_STDS_STANDARDS stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_EBA_STDS_STANDARDS
+--  DDL for View V_SVT_STDS_STANDARDS
 --------------------------------------------------------
 
-create or replace force editionable view V_EBA_STDS_STANDARDS as
+create or replace force editionable view V_SVT_STDS_STANDARDS as
 select ess.id,
        ess.standard_name,
        ess.description,
@@ -42,8 +42,8 @@ select ess.id,
                           ) full_standard_name,
        ess.parent_standard_id,
        sc.display_order
-from eba_stds_standards ess
+from svt_stds_standards ess
 inner join svt_compatibility sc on ess.compatibility_mode_id = sc.id
 /
 
---rollback drop view V_EBA_STDS_STANDARDS;
+--rollback drop view V_SVT_STDS_STANDARDS;

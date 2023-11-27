@@ -5,7 +5,7 @@
 /*
 select *  
 from   except_cols (  
-  eba_stds_standards,  
+  svt_stds_standards,  
   columns ( created_on, created_by )  
 )
 */

@@ -20,7 +20,7 @@
 --precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STSTTS_EBA_STDSTN_FK1';
 
   ALTER TABLE SVT_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STSTTS_EBA_STDSTN_FK1 FOREIGN KEY (STANDARD_ID)
-	  REFERENCES EBA_STDS_STANDARDS (ID) ENABLE
+	  REFERENCES SVT_STDS_STANDARDS (ID) ENABLE
 /
 
 --precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STSTTS_EBA_STDSTN_FK2';

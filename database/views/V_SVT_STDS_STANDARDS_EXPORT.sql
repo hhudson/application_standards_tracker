@@ -1,7 +1,7 @@
 --liquibase formatted sql
---changeset view_script:v_eba_stds_standards_export stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:v_svt_stds_standards_export stripComments:false endDelimiter:/ runOnChange:true
 
-create or replace force view V_EBA_STDS_STANDARDS_EXPORT as
+create or replace force view V_SVT_STDS_STANDARDS_EXPORT as
 with jcb as (select id standard_id,
                     standard_name, 
                     description, 
@@ -20,7 +20,7 @@ with jcb as (select id standard_id,
                     svt_deployment.json_standard_tests_blob (p_standard_id => id) all_tests_file_blob,
                     compatibility_mode,
                     full_standard_name
-            from v_eba_stds_standards)
+            from v_svt_stds_standards)
 select jcb.standard_id, 
        jcb.standard_name, 
        jcb.full_standard_name,
@@ -44,4 +44,4 @@ select jcb.standard_id,
 from jcb
 /
 
---rollback drop view v_eba_stds_standards_export;
+--rollback drop view v_svt_stds_standards_export;

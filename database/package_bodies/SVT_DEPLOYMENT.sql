@@ -26,7 +26,7 @@ create or replace package body SVT_DEPLOYMENT as
                 p_table_name    in user_tables.table_name%type,
                 p_row_limit     in number default null,
                 p_test_code     in svt_stds_standard_tests.test_code%type default null,
-                p_standard_id   in eba_stds_standards.id%type default null,
+                p_standard_id   in svt_stds_standards.id%type default null,
                 p_datatype      in varchar2 default 'blob')
   return clob 
   as 
@@ -80,9 +80,9 @@ create or replace package body SVT_DEPLOYMENT as
                  end,
       p3 => case when c_table_name = 'V_SVT_STDS_STANDARD_TESTS' and c_test_code is not null
                  then apex_string.format(q'[where test_code = '%s']', c_test_code)
-                 when c_table_name = 'EBA_STDS_STANDARDS' and p_standard_id is not null
+                 when c_table_name = 'SVT_STDS_STANDARDS' and p_standard_id is not null
                  then apex_string.format(q'[where id = '%s']', p_standard_id)
-                 when c_table_name = 'EBA_STDS_STANDARDS' and p_standard_id is null
+                 when c_table_name = 'SVT_STDS_STANDARDS' and p_standard_id is null
                  then q'[where active_yn = 'Y']'
                  end,
       p4 => case when c_table_name in ('V_SVT_STDS_STANDARD_TESTS','V_SVT_STDS_STANDARD_TESTS_EXPORT')
@@ -101,7 +101,7 @@ create or replace package body SVT_DEPLOYMENT as
   end assemble_json_query;
 
   function assemble_json_std_tsts_qry (
-                  p_standard_id   in eba_stds_standards.id%type,
+                  p_standard_id   in svt_stds_standards.id%type,
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
   return clob 
@@ -113,7 +113,7 @@ create or replace package body SVT_DEPLOYMENT as
                                           then gc_blob
                                           else gc_clob
                                           end;
-  c_standard_id constant eba_stds_standards.id%type 
+  c_standard_id constant svt_stds_standards.id%type 
                := case when p_test_code is null 
                        then p_standard_id
                        else svt_stds_standard_tests_api.get_standard_id (p_test_code => p_test_code)
@@ -161,7 +161,7 @@ create or replace package body SVT_DEPLOYMENT as
          )
          returning %1
         ) thejson
-    from eba_stds_standards ess
+    from svt_stds_standards ess
     inner join v_svt_stds_standard_tests_w_inherited esst on ess.id = esst.standard_id
     where ess.active_yn = 'Y'
     and esst.active_yn = 'Y'
@@ -188,7 +188,7 @@ create or replace package body SVT_DEPLOYMENT as
   end assemble_json_std_tsts_qry;
 
   function json_standard_tests_clob (
-                  p_standard_id in eba_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
    ) return clob
   is 
@@ -218,7 +218,7 @@ create or replace package body SVT_DEPLOYMENT as
   end json_standard_tests_clob;
   
   function json_standard_tests_blob (
-                  p_standard_id in eba_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
   ) return blob
   is 
@@ -254,7 +254,7 @@ create or replace package body SVT_DEPLOYMENT as
   function json_content_blob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
                               p_test_code     in svt_stds_standard_tests.test_code%type default null,
-                              p_standard_id   in eba_stds_standards.id%type default null,
+                              p_standard_id   in svt_stds_standards.id%type default null,
                               p_zip_yn        in varchar2 default null)
   return blob
   as 
@@ -307,7 +307,7 @@ create or replace package body SVT_DEPLOYMENT as
   function json_content_clob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
                               p_test_code     in svt_stds_standard_tests.test_code%type default null,
-                              p_standard_id   in eba_stds_standards.id%type default null)
+                              p_standard_id   in svt_stds_standards.id%type default null)
   return clob
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_content_clob';
@@ -616,7 +616,7 @@ create or replace package body SVT_DEPLOYMENT as
     apex_debug.message(c_debug_template,'START');
 
     for srec in (select id, standard_name, eba_stds.file_name(full_standard_name) file_name, description, compatibility_text
-                 from v_eba_stds_standards
+                 from v_svt_stds_standards
                  where active_yn = gc_y
                  order by standard_name, display_order)
     loop 

@@ -1246,7 +1246,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
   function total_open_violations(
                   p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                  p_standard_id    in eba_stds_standards.id%type default null)
+                  p_standard_id    in svt_stds_standards.id%type default null)
   return pls_integer
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'total_open_violations';
@@ -1278,7 +1278,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   end total_open_violations;
 
   function percent_solved(p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                          p_standard_id    in eba_stds_standards.id%type default null)
+                          p_standard_id    in svt_stds_standards.id%type default null)
   return number
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'percent_solved';

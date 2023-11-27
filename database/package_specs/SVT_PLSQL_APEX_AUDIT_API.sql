@@ -474,7 +474,7 @@ from dual
 ------------------------------------------------------------------------------
   function total_open_violations(
                   p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                  p_standard_id    in eba_stds_standards.id%type default null)
+                  p_standard_id    in svt_stds_standards.id%type default null)
   return pls_integer;
 
 ------------------------------------------------------------------------------
@@ -490,7 +490,7 @@ from dual
 */
 ------------------------------------------------------------------------------
   function percent_solved(p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                          p_standard_id    in eba_stds_standards.id%type default null)
+                          p_standard_id    in svt_stds_standards.id%type default null)
   return number;
 
 e_compilation_error    exception;

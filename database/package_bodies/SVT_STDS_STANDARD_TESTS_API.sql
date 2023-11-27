@@ -764,7 +764,7 @@ begin
     open cur_aa (p_std_id          => p_standard_id,
                  p_active          => p_active_yn,
                  p_standard_active => p_standard_active_yn,
-                 p_calling_std     => eba_stds_standards_api.get_full_name (p_standard_id => p_standard_id));
+                 p_calling_std     => svt_stds_standards_api.get_full_name (p_standard_id => p_standard_id));
 
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;

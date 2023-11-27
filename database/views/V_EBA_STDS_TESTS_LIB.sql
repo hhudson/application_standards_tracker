@@ -98,7 +98,7 @@ select lib.id,
              else 'N'
              end published_yn
 from lib
-left outer join eba_stds_standards ess on ess.id = lib.standard_id
+left outer join svt_stds_standards ess on ess.id = lib.standard_id
 left outer join svt_component_types act on act.id = lib.svt_component_type_id
 left outer join svt_standards_urgency_level asul on asul.id = lib.level_id
 /

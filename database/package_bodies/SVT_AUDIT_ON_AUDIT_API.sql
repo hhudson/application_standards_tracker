@@ -104,7 +104,7 @@ create or replace package body SVT_AUDIT_ON_AUDIT_API as
 
   function overall_violation_count (
                         p_app_id      in svt_audit_on_audit.app_id%type default null,
-                        p_standard_id in eba_stds_standards.id%type default null)
+                        p_standard_id in svt_stds_standards.id%type default null)
     return pls_integer 
     result_cache
   as

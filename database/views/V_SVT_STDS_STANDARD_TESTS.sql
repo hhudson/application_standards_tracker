@@ -36,7 +36,7 @@ select  /*+ result_cache */
        antt.object_type issue_category,
        coalesce(st.avg_exctn_scnds, 0) avg_execution_seconds
 from svt_stds_standard_tests st
-inner join v_eba_stds_standards ess on st.standard_id = ess.id
+inner join v_svt_stds_standards ess on st.standard_id = ess.id
 inner join svt_component_types act on act.id = st.svt_component_type_id
 inner join svt_nested_table_types antt on act.nt_type_id = antt.id
 inner join svt_standards_urgency_level asul on asul.id = st.level_id

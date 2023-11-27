@@ -49,13 +49,13 @@ end;
 --
 /*
 declare
-c_standard_id eba_stds_standards.id%type := 4064835866137640665977205961047451272;
-l_parent_standard_id eba_stds_standards.parent_standard_id%type;
+c_standard_id svt_stds_standards.id%type := 4064835866137640665977205961047451272;
+l_parent_standard_id svt_stds_standards.parent_standard_id%type;
 l_test_id svt_stds_standard_tests.id%type;
 begin
     select parent_standard_id
     into l_parent_standard_id
-    from  eba_stds_standards
+    from  svt_stds_standards
     where id = c_standard_id;
     
     select id 

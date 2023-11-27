@@ -36,19 +36,19 @@ create or replace package body eba_stds as
     end register_job;
 
 
-    function get_standard_id (p_standard_name in eba_stds_standards.standard_name%type)
-    return eba_stds_standards.id%type
+    function get_standard_id (p_standard_name in svt_stds_standards.standard_name%type)
+    return svt_stds_standards.id%type
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'get_standard_id';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
 
-    l_id eba_stds_standards.id%type;
+    l_id svt_stds_standards.id%type;
     begin
         apex_debug.message(c_debug_template,'START', 'p_standard_name', p_standard_name);
 
         select id
         into l_id 
-        from eba_stds_standards
+        from svt_stds_standards
         where upper(standard_name) =  upper(p_standard_name);
 
         return l_id;
@@ -169,8 +169,8 @@ create or replace package body eba_stds as
             raise;
     end close_test_modal;
 
-    function file_name (p_standard_name in eba_stds_standards.standard_name%type)
-    return eba_stds_standards.standard_name%type
+    function file_name (p_standard_name in svt_stds_standards.standard_name%type)
+    return svt_stds_standards.standard_name%type
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'file_name';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

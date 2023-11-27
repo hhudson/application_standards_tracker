@@ -23,8 +23,8 @@ select eba_stds.get_standard_id (p_standard_name => :P34_STANDARD_NAME)
 from dual
 */
 ------------------------------------------------------------------------------
-    function get_standard_id (p_standard_name in eba_stds_standards.standard_name%type) 
-    return eba_stds_standards.id%type;
+    function get_standard_id (p_standard_name in svt_stds_standards.standard_name%type) 
+    return svt_stds_standards.id%type;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -113,8 +113,8 @@ select eba_stds.file_name('Idiosyncratic, workspace specific')
 from dual
 */
 ------------------------------------------------------------------------------
-    function file_name (p_standard_name in eba_stds_standards.standard_name%type)
-    return eba_stds_standards.standard_name%type;
+    function file_name (p_standard_name in svt_stds_standards.standard_name%type)
+    return svt_stds_standards.standard_name%type;
 
 end eba_stds;
 /

@@ -15,5 +15,5 @@
 --precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'SVT_STDS_INHERITED_TESTS_FK';
 
   alter table svt_stds_inherited_tests add constraint svt_stds_inherited_tests_fk foreign key (standard_id)
-	  references eba_stds_standards (id) enable
+	  references svt_stds_standards (id) enable
 /
