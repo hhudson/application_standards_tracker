@@ -28,7 +28,8 @@ select table_name,
        zip_blob,
        zip_mime_type,
        zip_charset,
-       zip_updated_on
+       zip_updated_on,
+       display_order
   from SVT_DEPLOYMENT.V_SVT_TABLE_DATA_LOAD_DEF(P_APPLICATION_ID => V('APP_ID'))
 /
 

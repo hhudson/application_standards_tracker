@@ -37,7 +37,8 @@
         ZIP_UPDATED_ON               DATE,
         TABLE_LAST_UPDATED_ON        DATE,
         STATIC_FILE_CREATED_ON       DATE,
-        STALE_YN                     CHAR(1)
+        STALE_YN                     CHAR(1),
+        DISPLAY_ORDER                NUMBER
     )
 /
 --rollback drop type V_SVT_TABLE_DATA_LOAD_DEF_OT;
