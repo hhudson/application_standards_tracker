@@ -1,12 +1,12 @@
 --liquibase formatted sql
---changeset package_body_script:EBA_STDS_NOTIFICATIONS_API_body stripComments:false endDelimiter:/ runOnChange:true
+--changeset package_body_script:SVT_STDS_NOTIFICATIONS_API_body stripComments:false endDelimiter:/ runOnChange:true
 
-create or replace package body EBA_STDS_NOTIFICATIONS_API as
+create or replace package body SVT_STDS_NOTIFICATIONS_API as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   EBA_STDS_NOTIFICATIONS_API
+--   SVT_STDS_NOTIFICATIONS_API
 --
 -- DESCRIPTION
 --
@@ -21,18 +21,18 @@ create or replace package body EBA_STDS_NOTIFICATIONS_API as
   gc_user         constant svt_standards_urgency_level.created_by%type := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
 
     function insert_ntf (
-       p_id                       in eba_stds_notifications.id%type default null,
-       p_notification_name        in eba_stds_notifications.notification_name%type,
-       p_notification_description in eba_stds_notifications.notification_description%type,
-       p_notification_type        in eba_stds_notifications.notification_type%type,
-       p_display_sequence         in eba_stds_notifications.display_sequence%type,
-       p_display_from             in eba_stds_notifications.display_from%type,
-       p_display_until            in eba_stds_notifications.display_until%type
-    ) return eba_stds_notifications.id%type
+       p_id                       in svt_stds_notifications.id%type default null,
+       p_notification_name        in svt_stds_notifications.notification_name%type,
+       p_notification_description in svt_stds_notifications.notification_description%type,
+       p_notification_type        in svt_stds_notifications.notification_type%type,
+       p_display_sequence         in svt_stds_notifications.display_sequence%type,
+       p_display_from             in svt_stds_notifications.display_from%type,
+       p_display_until            in svt_stds_notifications.display_until%type
+    ) return svt_stds_notifications.id%type
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'insert_ntf';
     c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
-    c_id constant eba_stds_notifications.id%type 
+    c_id constant svt_stds_notifications.id%type 
                   := coalesce(p_id, 
                               to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
     begin
@@ -46,7 +46,7 @@ create or replace package body EBA_STDS_NOTIFICATIONS_API as
                                          'p_display_until', p_display_until
                        );
                        
-     insert into eba_stds_notifications
+     insert into svt_stds_notifications
       (
         id,
         notification_name,
@@ -88,13 +88,13 @@ create or replace package body EBA_STDS_NOTIFICATIONS_API as
     end insert_ntf;
 
     procedure update_ntf (
-       p_id                       in eba_stds_notifications.id%type,
-       p_notification_name        in eba_stds_notifications.notification_name%type,
-       p_notification_description in eba_stds_notifications.notification_description%type,
-       p_notification_type        in eba_stds_notifications.notification_type%type,
-       p_display_sequence         in eba_stds_notifications.display_sequence%type,
-       p_display_from             in eba_stds_notifications.display_from%type,
-       p_display_until            in eba_stds_notifications.display_until%type
+       p_id                       in svt_stds_notifications.id%type,
+       p_notification_name        in svt_stds_notifications.notification_name%type,
+       p_notification_description in svt_stds_notifications.notification_description%type,
+       p_notification_type        in svt_stds_notifications.notification_type%type,
+       p_display_sequence         in svt_stds_notifications.display_sequence%type,
+       p_display_from             in svt_stds_notifications.display_from%type,
+       p_display_until            in svt_stds_notifications.display_until%type
     )
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'update_ntf';
@@ -104,7 +104,7 @@ create or replace package body EBA_STDS_NOTIFICATIONS_API as
                                          'p_id', p_id
                        );
 
-     update eba_stds_notifications
+     update svt_stds_notifications
      set notification_name        = p_notification_name,
          notification_description = p_notification_description,
          notification_type        = p_notification_type,
@@ -123,7 +123,7 @@ create or replace package body EBA_STDS_NOTIFICATIONS_API as
     end update_ntf;
 
     procedure delete_ntf (
-        p_id in eba_stds_notifications.id%type
+        p_id in svt_stds_notifications.id%type
     )
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'delete_ntf';
@@ -133,7 +133,7 @@ create or replace package body EBA_STDS_NOTIFICATIONS_API as
                                          'p_id', p_id
                        );
      
-     delete from eba_stds_notifications
+     delete from svt_stds_notifications
      where id = p_id;
 
      apex_debug.info(c_debug_template, 'deleted :', sql%rowcount);
@@ -145,6 +145,6 @@ create or replace package body EBA_STDS_NOTIFICATIONS_API as
     end delete_ntf;
 
 
-end EBA_STDS_NOTIFICATIONS_API;
+end SVT_STDS_NOTIFICATIONS_API;
 /
---rollback drop package body EBA_STDS_NOTIFICATIONS_API;
+--rollback drop package body SVT_STDS_NOTIFICATIONS_API;
