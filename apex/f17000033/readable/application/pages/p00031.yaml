@@ -56,7 +56,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_STDS_NOTIFICATIONS
+    table-name: SVT_STDS_NOTIFICATIONS
     include-rowid-column: false
 
   layout: 
@@ -158,7 +158,7 @@ regions:
           display_until,
           created
       from
-          eba_stds_notifications
+          svt_stds_notifications
       order by
           updated
 
@@ -1261,10 +1261,10 @@ processes:
   error: 
     display-location: Inline in Notification
 
-- # ====== Process: Fetch Row from EBA_STDS_NOTIFICATIONS ======
+- # ====== Process: Fetch Row from SVT_STDS_NOTIFICATIONS ======
   id: 10754741029121563252
   identification: 
-    name: Fetch Row from EBA_STDS_NOTIFICATIONS
+    name: Fetch Row from SVT_STDS_NOTIFICATIONS
     type: Form - Initialization
     execution-chain: None
     form-region: Notification # 10754737627985563231
@@ -1274,10 +1274,10 @@ processes:
     point: After Header
     run-process: Once Per Page Visit (default)
 
-- # ====== Process: Process Row of EBA_STDS_NOTIFICATIONS ======
+- # ====== Process: Process Row of SVT_STDS_NOTIFICATIONS ======
   id: 10754741230766563253
   identification: 
-    name: Process Row of EBA_STDS_NOTIFICATIONS
+    name: Process Row of SVT_STDS_NOTIFICATIONS
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
     form-region: Notification # 10754737627985563231
@@ -1288,7 +1288,7 @@ processes:
       begin
         case :APEX$ROW_STATUS
           when 'C' then
-            :P31_ID := eba_stds_notifications_api.insert_ntf (
+            :P31_ID := svt_stds_notifications_api.insert_ntf (
                           p_notification_name        => :P31_NOTIFICATION_NAME,
                           p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
                           p_notification_type        => :P31_NOTIFICATION_TYPE,
@@ -1297,7 +1297,7 @@ processes:
                           p_display_until            => :P31_DISPLAY_UNTIL
                       );
           when 'U' then
-            eba_stds_notifications_api.update_ntf(
+            svt_stds_notifications_api.update_ntf(
                   p_id                       => :P31_ID,
                   p_notification_name        => :P31_NOTIFICATION_NAME,
                   p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
@@ -1307,7 +1307,7 @@ processes:
                   p_display_until            => :P31_DISPLAY_UNTIL
               );
           when 'D' then
-            eba_stds_notifications_api.delete_ntf(p_id => :P31_ID);
+            svt_stds_notifications_api.delete_ntf(p_id => :P31_ID);
         end case;
       end;
     prevent-lost-updates: true

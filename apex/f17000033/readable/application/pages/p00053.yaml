@@ -45,6 +45,9 @@ server-cache:
 help: 
   help-text: Enter or copy and paste usernames separated by commas, semicolons, or whitespace. All usernames provided will be added as the selected role. Existing or duplicate usernames will be ignored.
 
+configuration: 
+  build-option: TO_DELETE # 6384384957050863767
+
 regions: 
 - # ====== Region: Load Multiple Users =========================
   id: 8492540702158263979
@@ -169,8 +172,8 @@ page-items:
     value-required: true
 
   list-of-values: 
-    type: Shared Component
-    list-of-values: ACCESS_LEVELS # 11006644506832331985
+    type: Static Values
+    static-values: 'STATIC:Display1;Return1,Display2;Return2'
     display-extra-values: true
     display-null-value: false
 
@@ -440,165 +443,6 @@ processes:
 
   server-side-condition: 
     when-button-pressed: ADD_ALL_DEVS # 229576550214659403
-
-- # ====== Process: Create Collections =========================
-  id: 8492814293975089316
-  identification: 
-    name: Create Collections
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      declare
-          l_line      varchar2(32767);
-          l_emails    wwv_flow_global.vc_arr2;
-          l_username  varchar2(4000);
-          l_at        number;
-          l_dot       number;
-          l_valid     boolean := true;
-          l_domain    varchar2(4000);
-      begin
-          ---------------------
-          -- create collections
-          --
-          apex_collection.CREATE_OR_TRUNCATE_COLLECTION ('EBA_STDS_BULK_USER_INVALID');
-          apex_collection.CREATE_OR_TRUNCATE_COLLECTION ('EBA_STDS_BULK_USER_VALID');
-          apex_collection.CREATE_OR_TRUNCATE_COLLECTION ('EBA_STDS_BULK_USER_CREATE');
-      
-          --------------------------------------------
-          -- replace delimiting characters with commas
-          --
-          l_line := :P53_PRELIM_USERS;
-          l_line := replace(l_line,chr(10),' ');
-          l_line := replace(l_line,chr(13),' ');
-          l_line := replace(l_line,chr(9),' ');
-          l_line := replace(l_line,'<',' ');
-          l_line := replace(l_line,'>',' ');
-          l_line := replace(l_line,';',' ');
-          l_line := replace(l_line,':',' ');
-          l_line := replace(l_line,'(',' ');
-          l_line := replace(l_line,')',' ');
-          l_line := replace(l_line,' ',',');
-      
-          -----------------------------------------
-          -- get one comma separated line of emails
-          --
-          for j in 1..1000 loop
-              if instr(l_line,',,') > 0 then
-                 l_line := replace(l_line,',,',',');
-              else
-                 exit;
-              end if;
-          end loop;
-      
-          -------------------------
-          -- get an array of emails
-          --
-          l_emails := wwv_flow_utilities.string_to_table(l_line,',');
-      
-          -----------------------------
-          -- add emails to a collection
-          --
-          l_username := null;
-          l_domain := null;
-          l_at := 0;
-          l_dot := 0;
-          for j in 1..l_emails.count loop
-              l_valid := true;
-              l_username := trim(l_emails(j));
-      
-              if l_username is not null then
-                 
-                    -----------
-                    -- Validate
-                    --
-                    l_at := instr(nvl(l_username,'x'),'@');
-                    l_domain := substr(l_username,l_at+1);
-                    l_dot := instr(l_domain,'.');
-                    if l_at < 2 then
-                        -- invalid email
-                        apex_collection.add_member(
-                            p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
-                            p_c001            => l_username,
-                            p_c002            => apex_lang.message('MISSING_AT_SIGN'));
-                        commit;
-                        l_valid := false;
-                    end if;
-      
-                    if l_dot = 0 and l_valid then
-                        apex_collection.add_member(
-                            p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
-                            p_c001            => l_username,
-                            p_c002            => apex_lang.message('MISSING_DOT'));
-                        commit;
-                        l_valid := false;
-                    end if;
-                  
-      
-      
-                  l_username := trim(l_username);
-                  l_username := trim(both '.' from l_username);
-                  l_username := replace(l_username,' ',null);
-                  l_username := replace(l_username,chr(10),null);
-                  l_username := replace(l_username,chr(9),null);
-                  l_username := replace(l_username,chr(13),null);
-                  l_username := replace(l_username,chr(49824),null);
-      
-                  if l_valid and length(l_username) > 255 then
-                      apex_collection.add_member(
-                          p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
-                          p_c001            => upper(l_username),
-                          p_c002            => apex_lang.message('USERNAME_TOO_LONG'));
-                      commit;
-                      l_valid := false;
-                  end if;
-      
-      
-                  if l_valid then
-                      for c1 in (select /* APEXeaf772 */  c001
-                                   from wwv_flow_collections
-                                  where collection_name = 'EBA_STDS_BULK_USER_VALID'
-                                    and c001 = upper(l_username))
-                      loop
-                          apex_collection.add_member(
-                              p_collection_name => 'EBA_STDS_BULK_USER_INVALID',
-                              p_c001            => upper(l_username),
-                              p_c002            => apex_lang.message('DUPLICATE_USER'));
-                              commit;
-                          l_valid := false;
-                          exit;
-                      end loop;
-                  end if;
-      
-                  if l_valid then
-                      apex_collection.add_member(
-                          p_collection_name => 'EBA_STDS_BULK_USER_VALID',
-                          p_c001            => upper(l_username));
-                          commit;
-                  end if;
-      
-              end if;
-              l_username := null;
-          end loop;
-      end;
-
-  execution: 
-    sequence: 10
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    error-message: '#SQLERRM@'
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: NEXT # 8492523804478077797
-
-  configuration: 
-    build-option: TO_DELETE # 6384384957050863767
 
 branches: 
 - # ====== Branch: Go To Page 54 ===============================

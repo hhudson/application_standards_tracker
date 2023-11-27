@@ -1243,31 +1243,3 @@ buttons:
     execute-validations: true
     warn-on-unsaved-changes: Do Not Check
 
-processes: 
-- # ====== Process: refresh mview ==============================
-  id: 3474181923162571434
-  identification: 
-    name: refresh mview
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      begin
-      dbms_mview.refresh ('MV_EBA_STDS_PARSED_URLS');
-      end;
-
-  execution: 
-    sequence: 10
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  success-message: 
-    success-message: data refreshed
-
-  error: 
-    error-message: 'failure to refresh data: #SQLERRM_TEXT#'
-    display-location: Inline in Notification
-

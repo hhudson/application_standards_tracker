@@ -38,7 +38,7 @@ server-cache:
   caching: Disabled
 
 comments: 
-  comments: EBA_STDS_APPLICATIONS
+  comments: SVT_STDS_APPLICATIONS
 
 regions: 
 - # ====== Region: Applications ================================
@@ -65,10 +65,10 @@ regions:
              esa.active_yn app_active_yn,
              est.active_yn type_active_yn,
              est.type_code
-      from eba_stds_applications esa
+      from svt_stds_applications esa
       inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                       and aa.availability_status != 'Unavailable'
-      left join eba_stds_types est on est.id = esa.type_id
+      left join svt_stds_types est on est.id = esa.type_id
 
   layout: 
     sequence: 20

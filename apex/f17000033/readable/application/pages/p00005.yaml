@@ -93,7 +93,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARDS_EXPORT
+    table-name: V_SVT_STDS_STANDARDS_EXPORT
     include-rowid-column: false
     where-clause: |
       standard_id = :P5_ID
@@ -425,7 +425,7 @@ regions:
 
     blob-attributes: 
       table-owner: Parsing Schema
-      table-name: V_EBA_STDS_STANDARDS_EXPORT
+      table-name: V_SVT_STDS_STANDARDS_EXPORT
       blob-column: ALL_TESTS_FILE_BLOB
       primary-key-column-1: STANDARD_ID
       mime-type-column: MIME_TYPE
@@ -434,7 +434,6 @@ regions:
       character-set-column: CHARACTER_SET
 
     appearance: 
-      download-text: '<span aria-hidden="true" class="fa fa-file-arrow-down"> Download published test(s) '
       content-disposition: Attachment
 
     sorting: 
@@ -567,7 +566,7 @@ regions:
              download_css dlclss,
              inherited_yn,
              calling_standard_name
-      from eba_stds_standard_tests_api.v_eba_stds_standard_tests(
+      from svt_stds_standard_tests_api.v_svt_stds_standard_tests(
           p_standard_id => :P5_ID
       ) 
     page-items-to-submit: 
@@ -1338,7 +1337,7 @@ regions:
 
       blob-attributes: 
         table-owner: Parsing Schema
-        table-name: V_EBA_STDS_STANDARD_TESTS_EXPORT
+        table-name: V_SVT_STDS_STANDARD_TESTS_EXPORT
         blob-column: FILE_BLOB
         primary-key-column-1: TEST_ID
         mime-type-column: MIME_TYPE
@@ -1364,7 +1363,6 @@ regions:
         pivot: false
 
       appearance: 
-        download-text: '<span class="#DLCLSS#"> <span aria-hidden="true" class="fa fa-file-arrow-down"></span> #VSN# </span>'
         content-disposition: Attachment
 
       security: 
@@ -2110,7 +2108,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARDS
+    table-name: V_SVT_STDS_STANDARDS
     include-rowid-column: false
     where-clause: 'id = :P5_ID'
     page-items-to-submit: 
@@ -2375,6 +2373,102 @@ regions:
     security: 
       escape-special-characters: true
 
+  - # ====== Column: FULL_STANDARD_NAME ==========================
+    id: 517454038604072713
+    identification: 
+      column-name: FULL_STANDARD_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Full Standard Name
+      alignment: start
+
+    layout: 
+      sequence: 127
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PARENT_STANDARD_ID ==========================
+    id: 517454187367072714
+    identification: 
+      column-name: PARENT_STANDARD_ID
+      type: Plain Text
+
+    heading: 
+      heading: Parent Standard Id
+      alignment: end
+
+    layout: 
+      sequence: 137
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DISPLAY_ORDER ===============================
+    id: 517454251902072715
+    identification: 
+      column-name: DISPLAY_ORDER
+      type: Plain Text
+
+    heading: 
+      heading: Display Order
+      alignment: end
+
+    layout: 
+      sequence: 147
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: ID ==========================================
     id: 7787849391626856506
     identification: 
@@ -2512,7 +2606,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_STANDARDS
+    table-name: V_SVT_STDS_STANDARDS
     include-rowid-column: false
 
   layout: 
@@ -4046,15 +4140,15 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: eba_stds_standard_tests_api.bulk_publish ====
+  - # ====== Action: svt_stds_standard_tests_api.bulk_publish ====
     id: 341547660780766949
     identification: 
-      name: eba_stds_standard_tests_api.bulk_publish
+      name: svt_stds_standard_tests_api.bulk_publish
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'eba_stds_standard_tests_api.bulk_publish(p_selected_ids => :P5_SELECTED_IDS);'
+      pl/sql-code: 'svt_stds_standard_tests_api.bulk_publish(p_selected_ids => :P5_SELECTED_IDS);'
       items-to-submit: 
       - P5_SELECTED_IDS
 
@@ -4191,15 +4285,15 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: eba_stds_standard_tests_api.publish_test ====
+  - # ====== Action: svt_stds_standard_tests_api.publish_test ====
     id: 369846397570997687
     identification: 
-      name: eba_stds_standard_tests_api.publish_test
+      name: svt_stds_standard_tests_api.publish_test
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'eba_stds_standard_tests_api.publish_test(p_test_code => :P5_TEST_CODE);'
+      pl/sql-code: 'svt_stds_standard_tests_api.publish_test(p_test_code => :P5_TEST_CODE);'
       items-to-submit: 
       - P5_TEST_CODE
 
@@ -4379,15 +4473,15 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: eba_stds_standard_tests_api.bulk_inactivate =
+  - # ====== Action: svt_stds_standard_tests_api.bulk_inactivate =
     id: 396148163843630205
     identification: 
-      name: eba_stds_standard_tests_api.bulk_inactivate
+      name: svt_stds_standard_tests_api.bulk_inactivate
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'eba_stds_standard_tests_api.bulk_inactivate(p_selected_ids => :P5_SELECTED_IDS);'
+      pl/sql-code: 'svt_stds_standard_tests_api.bulk_inactivate(p_selected_ids => :P5_SELECTED_IDS);'
       items-to-submit: 
       - P5_SELECTED_IDS
 
@@ -4501,15 +4595,15 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: eba_stds_standard_tests_api.bulk_activate ===
+  - # ====== Action: svt_stds_standard_tests_api.bulk_activate ===
     id: 396149052715630214
     identification: 
-      name: eba_stds_standard_tests_api.bulk_activate
+      name: svt_stds_standard_tests_api.bulk_activate
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'eba_stds_standard_tests_api.bulk_activate(p_selected_ids => :P5_SELECTED_IDS);'
+      pl/sql-code: 'svt_stds_standard_tests_api.bulk_activate(p_selected_ids => :P5_SELECTED_IDS);'
       items-to-submit: 
       - P5_SELECTED_IDS
 
@@ -4623,15 +4717,15 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: eba_stds_standard_tests_api.bulk_delete =====
+  - # ====== Action: svt_stds_standard_tests_api.bulk_delete =====
     id: 427276276610525936
     identification: 
-      name: eba_stds_standard_tests_api.bulk_delete
+      name: svt_stds_standard_tests_api.bulk_delete
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
-      pl/sql-code: 'eba_stds_standard_tests_api.bulk_delete(p_selected_ids => :P5_SELECTED_IDS);'
+      pl/sql-code: 'svt_stds_standard_tests_api.bulk_delete(p_selected_ids => :P5_SELECTED_IDS);'
       items-to-submit: 
       - P5_SELECTED_IDS
 
@@ -4727,7 +4821,7 @@ dynamic-actions:
     type: No Rows returned
     sql-query: |
       select null
-      from eba_stds_standard_tests
+      from svt_stds_standard_tests
       where standard_id = :P5_ID
           and id = :P5_TEST_ID
 
@@ -4807,7 +4901,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: SVT_DEPLOYMENT.upsert_static_file(p_table_name => 'EBA_STDS_TESTS_LIB');
+    pl/sql-code: SVT_DEPLOYMENT.upsert_static_file(p_table_name => 'SVT_STDS_TESTS_LIB');
 
   execution: 
     sequence: 20
@@ -4826,10 +4920,10 @@ processes:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Process: Fetch Row from EBA_STDS_STANDARDS ==========
+- # ====== Process: Fetch Row from SVT_STDS_STANDARDS ==========
   id: 387002417711604843
   identification: 
-    name: Fetch Row from EBA_STDS_STANDARDS
+    name: Fetch Row from SVT_STDS_STANDARDS
     type: Form - Initialization
     execution-chain: None
     form-region: Manage Standard # 7948485527682750619

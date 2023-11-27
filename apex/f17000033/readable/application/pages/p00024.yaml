@@ -98,7 +98,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_STDS_TYPES
+    table-name: SVT_STDS_TYPES
     include-rowid-column: false
 
   layout: 
@@ -177,7 +177,7 @@ page-items:
     width: 30
 
   validation: 
-    value-required: false
+    value-required: true
     maximum-length: 10
 
   advanced: 
@@ -669,10 +669,10 @@ processes:
   error: 
     display-location: Inline in Notification
 
-- # ====== Process: Fetch Row from EBA_STDS_TYPES ==============
+- # ====== Process: Fetch Row from SVT_STDS_TYPES ==============
   id: 7804531795867923154
   identification: 
-    name: Fetch Row from EBA_STDS_TYPES
+    name: Fetch Row from SVT_STDS_TYPES
     type: Form - Initialization
     execution-chain: None
     form-region: Application Type # 7804529408368923119
@@ -682,10 +682,10 @@ processes:
     point: After Header
     run-process: Once Per Page Visit (default)
 
-- # ====== Process: Process Row of EBA_STDS_TYPES ==============
+- # ====== Process: Process Row of SVT_STDS_TYPES ==============
   id: 7804531994625923157
   identification: 
-    name: Process Row of EBA_STDS_TYPES
+    name: Process Row of SVT_STDS_TYPES
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
     form-region: Application Type # 7804529408368923119
@@ -696,7 +696,7 @@ processes:
       begin
         case :APEX$ROW_STATUS
           when 'C' then
-            :P24_ID := eba_stds_types_api.insert_typ (
+            :P24_ID := svt_stds_types_api.insert_typ (
                           p_display_sequence => :P24_DISPLAY_SEQUENCE,
                           p_type_name        => :P24_TYPE_NAME,
                           p_type_code        => :P24_TYPE_CODE,
@@ -704,7 +704,7 @@ processes:
                           p_active_yn        => :P24_ACTIVE_YN
                       );
           when 'U' then
-            eba_stds_types_api.update_typ(
+            svt_stds_types_api.update_typ(
                   p_id               => :P24_ID,
                   p_display_sequence => :P24_DISPLAY_SEQUENCE,
                   p_type_name        => :P24_TYPE_NAME,
@@ -713,7 +713,7 @@ processes:
                   p_active_yn        => :P24_ACTIVE_YN
               );
           when 'D' then
-            eba_stds_types_api.delete_typ(p_id => :P24_ID);
+            svt_stds_types_api.delete_typ(p_id => :P24_ID);
         end case;
       end;
     prevent-lost-updates: true

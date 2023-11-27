@@ -275,7 +275,7 @@ regions:
              a.unqid,
              esst.full_standard_name,
              esst.issue_category
-      from v_eba_stds_standard_tests esst
+      from v_svt_stds_standard_tests esst
       inner join svt_standard_view.v_svt_db_plsql(
                               p_test_code     => esst.test_code,
                               p_failures_only => 'Y',
@@ -817,7 +817,7 @@ regions:
              a.view_name,
              esst.full_standard_name,
              esst.issue_category
-      from v_eba_stds_standard_tests esst
+      from v_svt_stds_standard_tests esst
       inner join svt_standard_view.v_svt_db_view__0(
                               p_test_code     => esst.test_code,
                               p_failures_only => 'Y') a
@@ -1238,7 +1238,7 @@ regions:
              a.validation_failure_message,
              a.test_code,
              a.component_id
-      from v_eba_stds_standard_tests esst
+      from v_svt_stds_standard_tests esst
       inner join svt_standard_view.v_svt(
                               p_test_code     => esst.test_code,
                               p_failures_only => 'Y') a
@@ -1781,7 +1781,7 @@ regions:
              a.object_id,
              esst.full_standard_name,
              esst.issue_category
-      from v_eba_stds_standard_tests esst
+      from v_svt_stds_standard_tests esst
       inner join svt_standard_view.v_svt_db_tbl__0(
                               p_test_code     => esst.test_code,
                               p_failures_only => 'Y') a
@@ -2287,7 +2287,7 @@ regions:
              a.component_id,
              esst.full_standard_name,
              esst.issue_category
-      from v_eba_stds_standard_tests esst
+      from v_svt_stds_standard_tests esst
       inner join svt_standard_view.v_svt_apex(
                       p_test_code => esst.test_code,
                       p_failures_only => 'Y',
@@ -2990,7 +2990,7 @@ page-items:
     type: SQL Query
     sql-query: |
       select apex_string.format('%s (%s)[%ss]', test_name, test_code, round(avg_execution_seconds,1)) d, test_code r
-      from v_eba_stds_standard_tests
+      from v_svt_stds_standard_tests
       where (standard_id = :P59_STANDARD or :P59_STANDARD is null)
       and (coalesce(avg_execution_seconds, 0) < :P59_TEST_TIME_LIMIT or :P59_TEST_TIME_LIMIT is null)
       and issue_category = :P59_ISSUE_CATEGORY
@@ -3282,8 +3282,8 @@ page-items:
     type: SQL Query
     sql-query: |
       select distinct ess.full_standard_name d, ess.id r 
-      from v_eba_stds_standards ess
-      inner join v_eba_stds_standard_tests esst on ess.id = esst.standard_id
+      from v_svt_stds_standards ess
+      inner join v_svt_stds_standard_tests esst on ess.id = esst.standard_id
                                                 and esst.issue_category = :P59_ISSUE_CATEGORY
     display-extra-values: false
     display-null-value: true

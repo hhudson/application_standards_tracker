@@ -41,7 +41,7 @@ help:
   help-text: This page provides an overview of the standards which have been defined.
 
 comments: 
-  comments: EBA_STDS_STANDARDS
+  comments: SVT_STDS_STANDARDS
 
 regions: 
 - # ====== Region: Search Results ==============================
@@ -85,20 +85,20 @@ regions:
              ess.compatibility_text,
              ess.compatibility_text card_subtitle,
              ess.type_name
-        from v_eba_stds_standards ess
+        from v_svt_stds_standards ess
         left outer join 
         (select standard_id, count(*) active_test_count
-          from eba_stds_standard_tests
+          from svt_stds_standard_tests
           where active_yn ='Y'
           group by standard_id) esst on esst.standard_id = ess.id
          left outer join 
         (select standard_id, count(*) inactive_test_count
-          from eba_stds_standard_tests
+          from svt_stds_standard_tests
           where active_yn ='N'
           group by standard_id) iesst on iesst.standard_id = ess.id
          left outer join 
          (select standard_id, count(*) test_count
-          from eba_stds_inherited_tests
+          from svt_stds_inherited_tests
           group by standard_id) it on it.standard_id = ess.id
       union all
       select 1 display_sequence,
@@ -121,7 +121,7 @@ regions:
              null card_subtitle,
              null type_name
       from (select count(*) test_count
-              from eba_stds_standard_tests
+              from svt_stds_standard_tests
               where active_yn ='Y') esst
 
   layout: 
@@ -1563,11 +1563,11 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:EBA_STDS_STANDARDS'
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:CR,44:P44_TABLE_NAME:SVT_STDS_STANDARDS'
       page: 44 # Inspect Static File contents
       clear-cache: CR,44
       values: 
-        p44_table_name: EBA_STDS_STANDARDS
+        p44_table_name: SVT_STDS_STANDARDS
 
     warn-on-unsaved-changes: Do Not Check
 

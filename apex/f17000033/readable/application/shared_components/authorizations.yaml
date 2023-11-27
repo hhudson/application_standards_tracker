@@ -19,34 +19,6 @@
   error: 
     error-message: You are not authorized to view this application, either because you have not been granted access, or your account has been locked. Please contact the application administrator.
 
-- # ====== Authorization: PERMALINK_PAGE_AUTH ==================
-  id: 8491457205984243956
-  identification: 
-    name: PERMALINK_PAGE_AUTH
-
-  authorization-scheme: 
-    type: PL/SQL Function Returning Boolean
-
-  settings: 
-    pl/sql-function-body: |
-      begin
-          if eba_stds_security.is_authorized_viewer(:APP_USER) = 'Y' then
-              return true;
-          else
-              return false;
-          end if;
-      exception
-          when no_data_found then
-              -- Not a controlled report page.
-              return true;
-      end;
-
-  server-cache: 
-    evaluation-point: Once per Page View
-
-  error: 
-    error-message: You do not have permission to view this page.
-
 - # ====== Authorization: ADMINISTRATION RIGHTS ================
   id: 11006625614093161741
   identification: 
@@ -76,12 +48,7 @@
   settings: 
     pl/sql-function-body: |
       begin
-          if :APP_PAGE_ID = 101 then
-              return true;
-          else
-              --return (eba_stds_security.get_authorization_level(:APP_USER) > 0);
-              return true;
-          end if;
+          return true;
       end;
 
   server-cache: 
