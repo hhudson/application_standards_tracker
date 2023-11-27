@@ -1,12 +1,12 @@
 --liquibase formatted sql
---changeset package_body_script:EBA_STDS_TESTS_LIB_API_body stripComments:false endDelimiter:/ runOnChange:true
+--changeset package_body_script:SVT_STDS_TESTS_LIB_API_body stripComments:false endDelimiter:/ runOnChange:true
 
-create or replace package body EBA_STDS_TESTS_LIB_API as
+create or replace package body SVT_STDS_TESTS_LIB_API as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
 -- 
 -- NAME
---   EBA_STDS_TESTS_LIB_API
+--   SVT_STDS_TESTS_LIB_API
 --
 -- DESCRIPTION
 --
@@ -20,31 +20,31 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
 
 
   procedure upsert (
-        p_standard_id           in eba_stds_tests_lib.standard_id%type,
-        p_test_name             in eba_stds_tests_lib.test_name%type,
-        p_test_id               in eba_stds_tests_lib.test_id%type,
-        p_query_clob            in eba_stds_tests_lib.query_clob%type,
-        p_test_code             in eba_stds_tests_lib.test_code%type,
-        p_active_yn             in eba_stds_tests_lib.active_yn%type,
-        p_mv_dependency         in eba_stds_tests_lib.mv_dependency%type,
-        p_svt_component_type_id in eba_stds_tests_lib.svt_component_type_id%type,
-        p_explanation           in eba_stds_tests_lib.explanation%type,
-        p_fix                   in eba_stds_tests_lib.fix%type,
-        p_level_id              in eba_stds_tests_lib.level_id%type,
-        p_version_number        in eba_stds_tests_lib.version_number%type,
-        p_version_db            in eba_stds_tests_lib.version_db%type
+        p_standard_id           in svt_stds_tests_lib.standard_id%type,
+        p_test_name             in svt_stds_tests_lib.test_name%type,
+        p_test_id               in svt_stds_tests_lib.test_id%type,
+        p_query_clob            in svt_stds_tests_lib.query_clob%type,
+        p_test_code             in svt_stds_tests_lib.test_code%type,
+        p_active_yn             in svt_stds_tests_lib.active_yn%type,
+        p_mv_dependency         in svt_stds_tests_lib.mv_dependency%type,
+        p_svt_component_type_id in svt_stds_tests_lib.svt_component_type_id%type,
+        p_explanation           in svt_stds_tests_lib.explanation%type,
+        p_fix                   in svt_stds_tests_lib.fix%type,
+        p_level_id              in svt_stds_tests_lib.level_id%type,
+        p_version_number        in svt_stds_tests_lib.version_number%type,
+        p_version_db            in svt_stds_tests_lib.version_db%type
     )
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'upsert';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_version_number constant eba_stds_tests_lib.version_number%type
+  c_version_number constant svt_stds_tests_lib.version_number%type
                            := case when p_version_number = 0
                                    then null -- you cannot import an unpublished test
                                    else p_version_number
                                    end;
-  c_version_db     constant eba_stds_tests_lib.version_db%type 
+  c_version_db     constant svt_stds_tests_lib.version_db%type 
                           := coalesce(p_version_db, svt_preferences.get('SVT_DB_NAME'));
-  c_id constant eba_stds_tests_lib.id%type := to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+  c_id constant svt_stds_tests_lib.id%type := to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
@@ -56,7 +56,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                                         'p_version_db',p_version_db
                                         );
 
-    merge into eba_stds_tests_lib e
+    merge into svt_stds_tests_lib e
     using (select p_standard_id           standard_id,
                   p_test_name             test_name,
                   p_test_id               test_id,
@@ -168,13 +168,13 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   --   raise;
   -- end take_snapshot;
 
-  procedure install_standard_test(p_id               in eba_stds_tests_lib.id%type,
+  procedure install_standard_test(p_id               in svt_stds_tests_lib.id%type,
                                   p_standard_id      in svt_stds_standard_tests.standard_id%type,
                                   p_urgency_level_id in svt_stds_standard_tests.level_id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'install_standard_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_lib_rec eba_stds_tests_lib%rowtype;
+  l_lib_rec svt_stds_tests_lib%rowtype;
   l_existing_rec svt_stds_standard_tests%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -184,7 +184,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
 
     select *
     into l_lib_rec
-    from eba_stds_tests_lib
+    from svt_stds_tests_lib
     where id = p_id;
 
     l_existing_rec := svt_stds_standard_tests_api.get_test_rec(p_test_code => l_lib_rec.test_code);
@@ -245,7 +245,7 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
                                         'p_test_code', p_test_code);
     
     for rec in (select id, standard_id, level_id
-                from eba_stds_tests_lib
+                from svt_stds_tests_lib
                 where standard_id = p_standard_id
                 and (test_code = p_test_code or p_test_code is null)
                 )
@@ -259,14 +259,14 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     raise;
   end auto_install_standard_test;
 
-  procedure delete_test_from_lib (p_id in eba_stds_tests_lib.id%type)
+  procedure delete_test_from_lib (p_id in svt_stds_tests_lib.id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 1';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START', 'p_id', p_id);
 
-    delete from eba_stds_tests_lib
+    delete from svt_stds_tests_lib
     where id = p_id;
     
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
@@ -276,14 +276,14 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
     raise;
   end delete_test_from_lib;
 
-  procedure delete_test_from_lib (p_test_code in eba_stds_tests_lib.test_code%type)
+  procedure delete_test_from_lib (p_test_code in svt_stds_tests_lib.test_code%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 2';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
-    delete from eba_stds_tests_lib
+    delete from svt_stds_tests_lib
     where test_code = p_test_code;
     
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
@@ -293,24 +293,24 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   raise;
   end delete_test_from_lib;
 
-  function get_id(p_test_code in eba_stds_tests_lib.test_code%type)
-  return eba_stds_tests_lib.id%type
+  function get_id(p_test_code in svt_stds_tests_lib.test_code%type)
+  return svt_stds_tests_lib.id%type
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'get_id';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_space_index constant number := instr(p_test_code,' ');
-  c_test_code constant eba_stds_tests_lib.test_code%type 
+  c_test_code constant svt_stds_tests_lib.test_code%type 
                   := case when c_space_index = 0
                           then upper(p_test_code)
                           else substr (upper(p_test_code), 1,c_space_index - 1)
                           end;
-  l_id eba_stds_tests_lib.id%type;
+  l_id svt_stds_tests_lib.id%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
     
     select id
     into l_id
-    from eba_stds_tests_lib
+    from svt_stds_tests_lib
     where test_code = c_test_code;
 
     return l_id;
@@ -324,20 +324,20 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   end get_id;
 
   procedure md5_imported_vsn_num (
-                p_test_code      in  eba_stds_tests_lib.test_code%type,
+                p_test_code      in  svt_stds_tests_lib.test_code%type,
                 p_md5            out nocopy varchar2,
-                p_version_number out nocopy eba_stds_tests_lib.version_number%type
+                p_version_number out nocopy svt_stds_tests_lib.version_number%type
               )
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'md5_imported_vsn_num';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_lib_rec eba_stds_tests_lib%rowtype;
+  l_lib_rec svt_stds_tests_lib%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
   
     select *
     into l_lib_rec
-    from eba_stds_tests_lib
+    from svt_stds_tests_lib
     where test_code = p_test_code;
 
     p_md5 := svt_stds_standard_tests_api.build_test_md5(
@@ -363,13 +363,13 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
       raise;
   end md5_imported_vsn_num;
 
-  function current_md5(p_test_code in eba_stds_tests_lib.test_code%type)
+  function current_md5(p_test_code in svt_stds_tests_lib.test_code%type)
   return varchar2
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'current_md5';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_md5 varchar2(250);
-  l_version_number eba_stds_tests_lib.version_number%type;
+  l_version_number svt_stds_tests_lib.version_number%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
@@ -390,6 +390,6 @@ create or replace package body EBA_STDS_TESTS_LIB_API as
   end current_md5;
 
 
-end EBA_STDS_TESTS_LIB_API;
+end SVT_STDS_TESTS_LIB_API;
 /
---rollback drop package body EBA_STDS_TESTS_LIB_API;
+--rollback drop package body SVT_STDS_TESTS_LIB_API;

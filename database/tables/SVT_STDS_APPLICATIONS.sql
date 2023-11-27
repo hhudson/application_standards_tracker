@@ -35,14 +35,14 @@ Initialize this table with the a2_initial_data_load script
   using index  enable
 /
 
---precondition-sql-check expectedResult:0 select count(*) from user_constraints where upper(constraint_name)  = 'EBA_STDAPP_UK1'
+--precondition-sql-check expectedResult:0 select count(*) from user_constraints where upper(constraint_name)  = 'SVT_STDAPP_UK1'
 
-  alter table svt_stds_applications add constraint eba_stdapp_uk1 unique (apex_app_id)
-  using index (create unique index eba_stdapp_uk1_idx on svt_stds_applications (apex_app_id) 
+  alter table svt_stds_applications add constraint svt_stdapp_uk1 unique (apex_app_id)
+  using index (create unique index svt_stdapp_uk1_idx on svt_stds_applications (apex_app_id) 
   )  enable
 /
 
-create index eba_stdapp_idx1 on svt_stds_applications (type_id)
+create index svt_stdapp_idx1 on svt_stds_applications (type_id)
 /
 
 --rollback drop table SVT_STDS_APPLICATIONS;

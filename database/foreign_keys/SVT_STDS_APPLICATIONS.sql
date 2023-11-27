@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset fk_script:SVT_STDS_APPLICATIONS stripComments:false 
+--changeset fk_script:SVT_STDS_APPLICATIONS stripComments:false runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:1 select count(1) from all_tables where upper(table_name) = upper('SVT_STDS_APPLICATIONS');
 --------------------------------------------------------------------------------
@@ -15,5 +15,5 @@
 --precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'SVT_STDS_APPLICATIONS_FK';
 
   ALTER TABLE SVT_STDS_APPLICATIONS ADD CONSTRAINT SVT_STDS_APPLICATIONS_FK FOREIGN KEY (TYPE_ID)
-	  REFERENCES eba_stds_types (ID) ENABLE
+	  REFERENCES svt_stds_types (ID) ENABLE
 /

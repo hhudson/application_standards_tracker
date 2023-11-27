@@ -24,7 +24,7 @@ select /*+ result_cache */
 from svt_stds_applications esa
 inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                 and aa.availability_status != 'Unavailable'
-inner join eba_stds_types est on est.id = esa.type_id
+inner join svt_stds_types est on est.id = esa.type_id
                               and est.active_yn = 'Y'
 where esa.active_yn = 'Y'
 /

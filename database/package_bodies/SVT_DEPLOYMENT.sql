@@ -476,7 +476,7 @@ create or replace package body SVT_DEPLOYMENT as
     where ut.table_name not like 'DATABASECHANGELOG%'
     and ut.table_name not like 'DEV%'
     and ut.table_name not like 'MV%'
-    and ut.table_name not in ('SVT_STDS_STANDARD_TESTS','EBA_STDS_TESTS_LIB')
+    and ut.table_name not in ('SVT_STDS_STANDARD_TESTS','SVT_STDS_TESTS_LIB')
   )
     select std.table_name, 
           std.mime_type,
@@ -544,7 +544,7 @@ create or replace package body SVT_DEPLOYMENT as
         <<load_block>>
         declare
         c_overwrite_table_name constant varchar2(255) := l_aat (rec).table_name;
-              -- := case when l_aat (rec).table_name = 'EBA_STDS_TESTS_LIB'
+              -- := case when l_aat (rec).table_name = 'SVT_STDS_TESTS_LIB'
               --         then 'SVT_STDS_STANDARD_TESTS'
               --         else l_aat (rec).table_name
               --         end;
@@ -615,7 +615,7 @@ create or replace package body SVT_DEPLOYMENT as
   begin
     apex_debug.message(c_debug_template,'START');
 
-    for srec in (select id, standard_name, eba_stds.file_name(full_standard_name) file_name, description, compatibility_text
+    for srec in (select id, standard_name, svt_stds.file_name(full_standard_name) file_name, description, compatibility_text
                  from v_svt_stds_standards
                  where active_yn = gc_y
                  order by standard_name, display_order)

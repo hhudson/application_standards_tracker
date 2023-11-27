@@ -11,9 +11,9 @@ create or replace package body svt_stds_data is
     type rec_data is varray(3) of varchar2(4000);
     type tab_data is table of rec_data index by pls_integer;
 
-        procedure load_eba_stds_types is 
+        procedure load_svt_stds_types is 
         l_data tab_data;
-        l_row eba_stds_types%rowtype;
+        l_row svt_stds_types%rowtype;
         begin
             l_data(l_data.count + 1) := rec_data('Default'               , '10', 1);
             l_data(l_data.count + 1) := rec_data('Information Technology', '20', 2);
@@ -29,7 +29,7 @@ create or replace package body svt_stds_data is
                 l_row.id := l_data(i)(2);
                 l_row.display_sequence := l_data(i)(3);
 
-                merge into eba_stds_types dest
+                merge into svt_stds_types dest
                 using (
                     select
                     l_row.type_name type_name
@@ -54,13 +54,13 @@ create or replace package body svt_stds_data is
                     l_row.display_sequence)
                 ;
             end loop;
-        end load_eba_stds_types;
+        end load_svt_stds_types;
 
     begin
         apex_debug.message(c_debug_template,'START');
 
         if not is_initial_data_loaded() then
-            load_eba_stds_types;
+            load_svt_stds_types;
         end if;
 
     exception when others then 
@@ -76,7 +76,7 @@ create or replace package body svt_stds_data is
         apex_debug.message(c_debug_template,'START');
 
         for c1 in ( select 1
-                    from eba_stds_types
+                    from svt_stds_types
                     where id < 100
                      ) loop
             return true;

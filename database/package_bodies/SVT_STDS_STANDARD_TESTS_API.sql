@@ -271,7 +271,7 @@ create or replace package body svt_stds_standard_tests_api as
     l_test_rec := svt_stds_standard_tests_api.get_test_rec(p_test_code => p_test_code);
 
     if l_test_rec.active_yn = gc_y then
-      l_lib_md5 := coalesce(eba_stds_tests_lib_api.current_md5(p_test_code => p_test_code),'NA');
+      l_lib_md5 := coalesce(svt_stds_tests_lib_api.current_md5(p_test_code => p_test_code),'NA');
 
       l_something_to_publish_yn := case when p_test_code is null
                                         then gc_n
@@ -304,7 +304,7 @@ create or replace package body svt_stds_standard_tests_api as
               updated_by = coalesce(wwv_flow.g_user,user)
           where test_code = p_test_code;
 
-          eba_stds_tests_lib_api.upsert (
+          svt_stds_tests_lib_api.upsert (
             p_standard_id           => l_test_rec.standard_id,
             p_test_name             => l_test_rec.test_name,
             p_test_id               => l_test_rec.id,
@@ -517,7 +517,7 @@ create or replace package body svt_stds_standard_tests_api as
     delete from svt_stds_standard_tests
     where id = p_id;
 
-    eba_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
+    svt_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
 
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
     
@@ -794,11 +794,11 @@ begin
                                           p_version_db            => l_aat (rec).version_db
                                       );
         l_lib_md5 varchar2(250);
-        l_lib_version_number eba_stds_tests_lib.version_number%type;
+        l_lib_version_number svt_stds_tests_lib.version_number%type;
         l_published_yn varchar2(1) := gc_n;
         l_piperow_yn varchar2(1) := gc_y;
         begin
-        eba_stds_tests_lib_api.md5_imported_vsn_num (
+        svt_stds_tests_lib_api.md5_imported_vsn_num (
                 p_test_code      => l_aat (rec).test_code,
                 p_md5            => l_lib_md5,
                 p_version_number => l_lib_version_number

@@ -110,7 +110,7 @@ end;
 --     Date: June 14, 2023
 -- Synopsis:
 --
--- Procedure to insert new record into  svt_stds_standard_tests (called by EBA_STDS_TESTS_LIB_API.install_standard_test)
+-- Procedure to insert new record into  svt_stds_standard_tests (called by SVT_STDS_TESTS_LIB_API.install_standard_test)
 --
 /*
 begin

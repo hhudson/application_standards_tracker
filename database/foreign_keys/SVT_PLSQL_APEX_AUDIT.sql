@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset fk_script:SVT_PLSQL_APEX_AUDIT stripComments:false 
+--changeset fk_script:SVT_PLSQL_APEX_AUDIT stripComments:false runOnChange:true
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:1 select count(1) from all_tables where upper(table_name) = upper('SVT_PLSQL_APEX_AUDIT');
 --------------------------------------------------------------------------------

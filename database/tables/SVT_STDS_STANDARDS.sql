@@ -31,22 +31,22 @@
    ) 
 /
  
-  alter table svt_stds_standards add constraint eba_stdstn_pk primary key (id)
-  using index (create unique index eba_stdstn_pk_idx on svt_stds_standards (id) 
+  alter table svt_stds_standards add constraint svt_stdstn_pk primary key (id)
+  using index (create unique index svt_stdstn_pk_idx on svt_stds_standards (id) 
   )  enable
 /
 
-alter table svt_stds_standards add constraint eba_stdstn_uk unique (standard_name, compatibility_mode_id)
+alter table svt_stds_standards add constraint svt_stdstn_uk unique (standard_name, compatibility_mode_id)
 /
 
-  alter table svt_stds_standards add constraint eba_stdstn_uk2 unique (id, parent_standard_id)
+  alter table svt_stds_standards add constraint svt_stdstn_uk2 unique (id, parent_standard_id)
   using index  enable
 /
 
-create index eba_stdstn_idx1 on svt_stds_standards (compatibility_mode_id)
+create index svt_stdstn_idx1 on svt_stds_standards (compatibility_mode_id)
 /
 
-create index eba_stdstn_idx2 on svt_stds_standards (parent_standard_id)
+create index svt_stdstn_idx2 on svt_stds_standards (parent_standard_id)
 /
 
 --rollback drop table SVT_STDS_STANDARDS;

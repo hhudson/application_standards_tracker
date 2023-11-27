@@ -11,7 +11,7 @@ create or replace package SVT_PLSQL_REVIEW authid current_user as
     --
     /*
     select issue_desc, object_type, line, code, check_type, urgency, object_name, reference_code
-    from svt_plsql_review.issues(p_object_name   => 'eba_stds')
+    from svt_plsql_review.issues(p_object_name   => 'svt_stds')
     order by urgency_level,  issue_desc, object_name, object_type, line, code
     */
     ------------------------------------------------------------------------------

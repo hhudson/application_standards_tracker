@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_EBA_STDS_TESTS_LIB stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_STDS_TESTS_LIB stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_EBA_STDS_TESTS_LIB
+--  DDL for View V_SVT_STDS_TESTS_LIB
 --------------------------------------------------------
 
-create or replace force editionable view V_EBA_STDS_TESTS_LIB as
+create or replace force editionable view V_SVT_STDS_TESTS_LIB as
 with lib as (select estl.id,
                     estl.standard_id,
                     estl.test_name,
@@ -63,7 +63,7 @@ with lib as (select estl.id,
                          p_version_number        => esst.version_number,
                          p_version_db            => esst.version_db
                     ) esst_md5
-               from eba_stds_tests_lib estl
+               from svt_stds_tests_lib estl
                left outer join svt_stds_standard_tests esst on estl.test_code = esst.test_code)
 select lib.id,
        lib.standard_id,
@@ -104,4 +104,4 @@ left outer join svt_standards_urgency_level asul on asul.id = lib.level_id
 /
 
 
---rollback drop view V_EBA_STDS_TESTS_LIB;
+--rollback drop view V_SVT_STDS_TESTS_LIB;

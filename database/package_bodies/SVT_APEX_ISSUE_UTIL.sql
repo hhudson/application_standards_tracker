@@ -560,7 +560,7 @@ $end
   l_svt_plsql_apex_audit_rec2 svt_plsql_apex_audit%rowtype;
   l_apex_issue_id svt_plsql_apex_audit.apex_issue_id%type;
   c_mv_dependency constant svt_stds_standard_tests.mv_dependency%type 
-                    := eba_stds.get_mv_dependency(p_test_code => c_svt_plsql_apex_audit_rec1.test_code);
+                    := svt_stds.get_mv_dependency(p_test_code => c_svt_plsql_apex_audit_rec1.test_code);
   l_message varchar2(500);
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);

@@ -135,13 +135,13 @@ is
     -- c_scope constant varchar2(128) := gc_scope_prefix || 'add_applications';
     -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20'; 
     -- f number;
-    -- l_default_id eba_stds_types.id%type;
+    -- l_default_id svt_stds_types.id%type;
     --     procedure get_default_id
     --     is 
     --     begin
     --        select id 
     --         into l_default_id
-    --         from eba_stds_types
+    --         from svt_stds_types
     --         where lower(type_name) = 'default';
 
     --     exception when no_data_found then 

@@ -12,20 +12,20 @@
 --
 --------------------------------------------------------------------------------
 
---precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STSTTS_EBA_STDSTN_FK5';
+--precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'SVT_STSTTS_SVT_STDSTN_FK5';
 
-  ALTER TABLE SVT_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STSTTS_EBA_STDSTN_FK5 FOREIGN KEY (LEVEL_ID)
+  ALTER TABLE SVT_STDS_STANDARD_TESTS ADD CONSTRAINT SVT_STSTTS_SVT_STDSTN_FK5 FOREIGN KEY (LEVEL_ID)
 	  REFERENCES SVT_STANDARDS_URGENCY_LEVEL (ID) ENABLE
 /
---precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STSTTS_EBA_STDSTN_FK1';
+--precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'SVT_STSTTS_SVT_STDSTN_FK1';
 
-  ALTER TABLE SVT_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STSTTS_EBA_STDSTN_FK1 FOREIGN KEY (STANDARD_ID)
+  ALTER TABLE SVT_STDS_STANDARD_TESTS ADD CONSTRAINT SVT_STSTTS_SVT_STDSTN_FK1 FOREIGN KEY (STANDARD_ID)
 	  REFERENCES SVT_STDS_STANDARDS (ID) ENABLE
 /
 
---precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'EBA_STSTTS_EBA_STDSTN_FK2';
+--precondition-sql-check expectedResult:0 select count(1) from all_constraints where upper(constraint_name) = 'SVT_STSTTS_SVT_STDSTN_FK2';
 
-  ALTER TABLE SVT_STDS_STANDARD_TESTS ADD CONSTRAINT EBA_STSTTS_EBA_STDSTN_FK2 FOREIGN KEY (SVT_COMPONENT_TYPE_ID)
+  ALTER TABLE SVT_STDS_STANDARD_TESTS ADD CONSTRAINT SVT_STSTTS_SVT_STDSTN_FK2 FOREIGN KEY (SVT_COMPONENT_TYPE_ID)
 	  REFERENCES SVT_COMPONENT_TYPES (ID) ENABLE
 /
 

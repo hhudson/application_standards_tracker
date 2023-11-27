@@ -1,6 +1,6 @@
 --liquibase formatted sql
---changeset package_script:EBA_STDS stripComments:false endDelimiter:/ runOnChange:true
-create or replace package eba_stds authid definer is
+--changeset package_script:SVT_STDS stripComments:false endDelimiter:/ runOnChange:true
+create or replace package svt_stds authid definer is
     -------------------------------------------------------------------------
     -- Generates a unique Identifier
     -------------------------------------------------------------------------
@@ -19,7 +19,7 @@ create or replace package eba_stds authid definer is
 -- public function to convert a standard name into it's primary key
 --
 /*
-select eba_stds.get_standard_id (p_standard_name => :P34_STANDARD_NAME)
+select svt_stds.get_standard_id (p_standard_name => :P34_STANDARD_NAME)
 from dual
 */
 ------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ from dual
 -- function to get svt_stds_standard_tests.mv_dependency for a given test code
 --
 /*
-select eba_stds.get_mv_dependency(p_test_code => 'UNREACHABLE_PAGE') mv
+select svt_stds.get_mv_dependency(p_test_code => 'UNREACHABLE_PAGE') mv
 from dual;
 */
 ------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ set serveroutput on
 declare
 l_boolean boolean;
 begin
-    l_boolean := eba_stds.display_initialize_button (
+    l_boolean := svt_stds.display_initialize_button (
                     p_test_code     => :P14_TEST_CODE,
                     p_level_id      => :P14_LEVEL_ID
                 );
@@ -83,7 +83,7 @@ set serveroutput on
 declare
 l_boolean boolean;
 begin
-    l_boolean := eba_stds.close_test_modal (
+    l_boolean := svt_stds.close_test_modal (
                     p_request       => :REQUEST,
                     p_test_code     => :P14_TEST_CODE,
                     p_level_id      => :P14_LEVEL_ID
@@ -109,14 +109,14 @@ end;
 -- Convert the name of your standard into something that is compatible with a file / folder name
 --
 /*
-select eba_stds.file_name('Idiosyncratic, workspace specific')
+select svt_stds.file_name('Idiosyncratic, workspace specific')
 from dual
 */
 ------------------------------------------------------------------------------
     function file_name (p_standard_name in svt_stds_standards.standard_name%type)
     return svt_stds_standards.standard_name%type;
 
-end eba_stds;
+end svt_stds;
 /
 
---rollback drop package EBA_STDS;
+--rollback drop package SVT_STDS;

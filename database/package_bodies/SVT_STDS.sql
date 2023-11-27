@@ -1,6 +1,6 @@
 --liquibase formatted sql
---changeset package_body_script:EBA_STDS stripComments:false endDelimiter:/ runOnChange:true
-create or replace package body eba_stds as
+--changeset package_body_script:SVT_STDS stripComments:false endDelimiter:/ runOnChange:true
+create or replace package body svt_stds as
 
     gc_scope_prefix constant varchar2(32) := lower($$plsql_unit) || '.';
     gc_y constant varchar2(1) := 'Y';
@@ -21,7 +21,7 @@ create or replace package body eba_stds as
         l_stmt varchar2(1000);
     begin
         l_app_id := coalesce(wwv_flow_application_install.get_application_id,v('FB_FLOW_ID'));
-        l_stmt := q'[begin #PKG#.create_job( job_name => 'EBA_STDS_TEST_UPD_JOB', ]'
+        l_stmt := q'[begin #PKG#.create_job( job_name => 'SVT_STDS_TEST_UPD_JOB', ]'
             ||q'[job_type => 'PLSQL_BLOCK', job_action => 'svt_stds_parser.update_standard_status;', ]'
             ||q'[repeat_interval => 'FREQ=DAILY;interval=1', enabled => TRUE); end;]';
         for c1 in ( select object_name
@@ -189,7 +189,7 @@ create or replace package body eba_stds as
             raise;
     end file_name;
 
-end eba_stds;
+end svt_stds;
 /
 
---rollback drop package EBA_STDS;
+--rollback drop package SVT_STDS;

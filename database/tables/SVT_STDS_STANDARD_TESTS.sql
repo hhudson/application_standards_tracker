@@ -9,7 +9,7 @@
 --        Date:  10-Apr-2023 17:45
 --     Purpose:  Table creation DDL for table SVT_STDS_STANDARD_TESTS
 --               and related objects.
--- data is deployed via EBA_STDS_TESTS_LIB
+-- data is deployed via SVT_STDS_TESTS_LIB
 --
 --------------------------------------------------------------------------------
 
@@ -38,15 +38,15 @@
    ) 
 /
 
-  create index eba_ststts_idx1 on svt_stds_standard_tests (standard_id) 
+  create index svt_ststts_idx1 on svt_stds_standard_tests (standard_id) 
 /
-  create index eba_ststts_idx4 on svt_stds_standard_tests (level_id) 
+  create index svt_ststts_idx4 on svt_stds_standard_tests (level_id) 
 /
   alter table svt_stds_standard_tests add constraint svt_stds_standard_tests_uk1 unique (test_name)
   using index  enable
 /
-  alter table svt_stds_standard_tests add constraint eba_ststts_pk primary key (id)
-  using index (create unique index eba_ststts_pk_idx on svt_stds_standard_tests (id) 
+  alter table svt_stds_standard_tests add constraint svt_ststts_pk primary key (id)
+  using index (create unique index svt_ststts_pk_idx on svt_stds_standard_tests (id) 
   )  enable
 /
 

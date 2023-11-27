@@ -28,18 +28,18 @@
    ) 
 /
 
-  alter table svt_stds_notifications add constraint eba_stdntf_ck1 check (notification_type in ('RED','YELLOW')) enable
+  alter table svt_stds_notifications add constraint svt_stdntf_ck1 check (notification_type in ('RED','YELLOW')) enable
 /
 
 
-  alter table svt_stds_notifications add constraint eba_stdntf_pk primary key (id)
-  using index (create unique index eba_stdntf_pk_idx on svt_stds_notifications (id) 
+  alter table svt_stds_notifications add constraint svt_stdntf_pk primary key (id)
+  using index (create unique index svt_stdntf_pk_idx on svt_stds_notifications (id) 
   )  enable
 /
 
 
-  alter table svt_stds_notifications add constraint eba_stdntf_uk1 unique (notification_name)
-  using index (create unique index eba_stdntf_uk1_idx on svt_stds_notifications (notification_name) 
+  alter table svt_stds_notifications add constraint svt_stdntf_uk1 unique (notification_name)
+  using index (create unique index svt_stdntf_uk1_idx on svt_stds_notifications (notification_name) 
   )  enable
 /
 

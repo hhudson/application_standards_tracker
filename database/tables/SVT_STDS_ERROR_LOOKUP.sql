@@ -19,14 +19,14 @@
    ) 
 /
 
-  alter table svt_stds_error_lookup add constraint eba_sterlk_pk primary key (constraint_name)
-  using index (create unique index eba_sterlk_pk_idx on svt_stds_error_lookup (constraint_name) 
+  alter table svt_stds_error_lookup add constraint svt_sterlk_pk primary key (constraint_name)
+  using index (create unique index svt_sterlk_pk_idx on svt_stds_error_lookup (constraint_name) 
   )  enable
 /
 
 
-  alter table svt_stds_error_lookup add constraint eba_sterlk_uk1 unique (constraint_name, language_code)
-  using index (create unique index eba_sterlk_uk1_idx on svt_stds_error_lookup (constraint_name, language_code) 
+  alter table svt_stds_error_lookup add constraint svt_sterlk_uk1 unique (constraint_name, language_code)
+  using index (create unique index svt_sterlk_uk1_idx on svt_stds_error_lookup (constraint_name, language_code) 
   )  enable
 /
 

@@ -5,7 +5,7 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_SVT_MISSING_BASE_DATA as
-with std as (select count(*) rwcount, 'eba_stds_types' tbl_name from sys.dual where exists ( select 1 from eba_stds_types)
+with std as (select count(*) rwcount, 'svt_stds_types' tbl_name from sys.dual where exists ( select 1 from svt_stds_types)
              union all
              select count(*) rwcount, 'svt_audit_actions' tbl_name from sys.dual where exists ( select 1 from svt_audit_actions)
              union all

@@ -1209,7 +1209,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_test_code      constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
   c_mv_dependency  constant svt_stds_standard_tests.mv_dependency%type 
-                  := eba_stds.get_mv_dependency(p_test_code => p_test_code);
+                  := svt_stds.get_mv_dependency(p_test_code => p_test_code);
   c_sysdate        constant date := sysdate;
   begin
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
