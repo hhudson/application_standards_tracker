@@ -5,7 +5,7 @@ These are standards to maintain Accessibility.
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
-| [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE-REDWOOD.json) |  Some fields benefit from an autocomplete attribute | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE-REDWOOD.json) |  Some fields benefit from an autocomplete attribute | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ-REDWOOD.json) |  Combo of button labels + region names should be unique / page | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [ACC_DA_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_DA_FOCUS-REDWOOD.json) |  DA should avoid "get focus" events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
 | [ACC_DA_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_DA_MOUSE_EVNT-REDWOOD.json) |  DA should avoid mouse events | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
@@ -20,7 +20,7 @@ These are standards to maintain Accessibility.
 | [BTN_TABINDX](APEX_ACCESSIBILITY_212/tests/BTN_TABINDX-REDWOOD.json) |  Buttons should avoid hardcoded tab indexes | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [COL_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/COL_ALT_TEXT-REDWOOD.json) |  Column image links should have alt text | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [CRD_ACTNS_TAB_INDX](APEX_ACCESSIBILITY_212/tests/CRD_ACTNS_TAB_INDX-REDWOOD.json) |  Card Actions should avoid hard coded tab indexes | v1.4 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
-| [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML-REDWOOD.json) |  Classic Columns have wellformed HTML | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
+| [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML-REDWOOD.json) |  Classic Columns have wellformed HTML | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT-REDWOOD.json) |  Classic Columns with images have alt text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_INACC_CSS](APEX_ACCESSIBILITY_212/tests/C_COL_INACC_CSS-REDWOOD.json) |  Classic columns should avoid animations | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/C_COL_UNQ_HEADNG-REDWOOD.json) |  Classic Report column headings are unique per region | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
@@ -28,20 +28,20 @@ These are standards to maintain Accessibility.
 | [DA_BLUR](APEX_ACCESSIBILITY_212/tests/DA_BLUR-REDWOOD.json) |  Check page JS for on blur events | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [DA_FOCUS](APEX_ACCESSIBILITY_212/tests/DA_FOCUS-REDWOOD.json) |  DAs should avoid Lose Focus or Get Focus triggering events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_DA |
 | [DA_JS_INTRVL_TIMT](APEX_ACCESSIBILITY_212/tests/DA_JS_INTRVL_TIMT-REDWOOD.json) |  DA should avoid js that is setting intervals or timeouts | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
-| [IG_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IG_COL_BAD_HTML-REDWOOD.json) |  HTML should be correctly configured in IG Cols | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
+| [IG_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IG_COL_BAD_HTML-REDWOOD.json) |  HTML should be correctly configured in IG Cols | v1.2 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IG_COL_IMG_ALT_TEXT-REDWOOD.json) |  IG Columns with images have alt text | v1.4 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_COL_TABINDX-REDWOOD.json) |  IG Columns should avoid hard coded tab indexes | v1.5 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_UNQ_HEADNG](APEX_ACCESSIBILITY_212/tests/IG_COL_UNQ_HEADNG-REDWOOD.json) |  Interactive Grid Columns headings are unique | v1.4 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_COL_VLD](APEX_ACCESSIBILITY_212/tests/IG_COL_VLD-REDWOOD.json) |  Interactive Grid Columns are not null | v1.4 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [IG_TABINDX](APEX_ACCESSIBILITY_212/tests/IG_TABINDX-REDWOOD.json) |  Interactive Grids should avoid hardcorded tab indexes | v1.4 [REDWOOD] | APEX_APPL_PAGE_IGS |
-| [IR_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IR_COL_BAD_HTML-REDWOOD.json) |  IR Cols have wellformed HTML | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
+| [IR_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/IR_COL_BAD_HTML-REDWOOD.json) |  IR Cols have wellformed HTML | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/IR_COL_IMG_ALT_TEXT-REDWOOD.json) |  IR Columns with images have alt text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_COL_TABINDX-REDWOOD.json) |  IR Columns should avoid harded tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_UNQ_LBL](APEX_ACCESSIBILITY_212/tests/IR_COL_UNQ_LBL-REDWOOD.json) |  IR columns need unique labels | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_COL_VLD_HEADNG](APEX_ACCESSIBILITY_212/tests/IR_COL_VLD_HEADNG-REDWOOD.json) |  IR columns are not null | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_TABINDX](APEX_ACCESSIBILITY_212/tests/IR_TABINDX-REDWOOD.json) |  IR reports should avoid hard coded indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_IR |
 | [LE_TABINDX](APEX_ACCESSIBILITY_212/tests/LE_TABINDX-REDWOOD.json) |  List entries should avoid hardcoding tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [PAGE_HELP_BAD_HTML](APEX_ACCESSIBILITY_212/tests/PAGE_HELP_BAD_HTML-REDWOOD.json) |  Page Help HTML is well formed | v1.3 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [PAGE_HELP_BAD_HTML](APEX_ACCESSIBILITY_212/tests/PAGE_HELP_BAD_HTML-REDWOOD.json) |  Page Help HTML is well formed | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_INACC_CSS](APEX_ACCESSIBILITY_212/tests/PAGE_INACC_CSS-REDWOOD.json) |  Pages should avoid inline CSS for blinking or animation logic | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_JS_INTRVL_TIMT](APEX_ACCESSIBILITY_212/tests/PAGE_JS_INTRVL_TIMT-REDWOOD.json) |  Page JS should avoid intervals and timeouts | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_TABINDX](APEX_ACCESSIBILITY_212/tests/PAGE_TABINDX-REDWOOD.json) |  Pages should avoid hardcoding tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
@@ -50,7 +50,7 @@ These are standards to maintain Accessibility.
 | [PG_RGN_COL_TABINDX](APEX_ACCESSIBILITY_212/tests/PG_RGN_COL_TABINDX-REDWOOD.json) |  Page region columns should avoid tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
 | [PG_RGN_TABINDX](APEX_ACCESSIBILITY_212/tests/PG_RGN_TABINDX-REDWOOD.json) |  Page regions should avoid hardcoded tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [PG_RPT_COL_INDX](APEX_ACCESSIBILITY_212/tests/PG_RPT_COL_INDX-REDWOOD.json) |  Page report columns should avoid tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
-| [PI_HLP_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/PI_HLP_COL_BAD_HTML-REDWOOD.json) |  Item Help HTML is well formed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [PI_HLP_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/PI_HLP_COL_BAD_HTML-REDWOOD.json) |  Item Help HTML is well formed | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/PI_IMG_ALT_TEXT-REDWOOD.json) |  Page items with html images have alt text | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_LBL_UNQ](APEX_ACCESSIBILITY_212/tests/PI_LBL_UNQ-REDWOOD.json) |  Page item labels  + region names must be unique | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PI_TABINDX](APEX_ACCESSIBILITY_212/tests/PI_TABINDX-REDWOOD.json) |  Page items should avoid hardcoded indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
@@ -59,7 +59,7 @@ These are standards to maintain Accessibility.
 | [RGN_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/RGN_IMG_ALT_TEXT-REDWOOD.json) |  Regions with HTML images should have alt text | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RGN_UNQ](APEX_ACCESSIBILITY_212/tests/RGN_UNQ-REDWOOD.json) |  Regions on a page must be unique | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-REDWOOD.json) |  Reports should have Row Headers | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-REDWOOD.json) |  Theme styles should avoid animations | v1.1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
@@ -76,15 +76,15 @@ These tests identify functionality that invalid.
 | [IG_COL_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/IG_COL_AUTHR_MATCH_DEST-REDWOOD.json) |  IG Column Link Authorization Matches Destination  | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [IR_COL_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/IR_COL_AUTHR_MATCH_DEST-REDWOOD.json) |  IR Column Link Authorization Matches Destination  | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [NLE_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/NLE_AUTHR_MATCH_DEST-REDWOOD.json) |  Navigation List Entry Authorization Matches Destination | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [PAGES_CURRENT_IN_MENU](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGES_CURRENT_IN_MENU-REDWOOD.json) |  Regular Pages should be Current in Navigation | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [PAGES_CURRENT_IN_MENU](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGES_CURRENT_IN_MENU-REDWOOD.json) |  Regular Pages should be Current in Navigation | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR-REDWOOD.json) |  Pages should not have unresolved critical issues | v1.7 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PB_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/PB_AUTHR_MATCH_DEST-REDWOOD.json) |  Page Branch Authorization Matches Destination | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PUBLIC_PAGE_PUBLIC_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/PUBLIC_PAGE_PUBLIC_AUTH-REDWOOD.json) |  Public pages should not require authentication | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [UNREACHABLE_PAGE](APEX_BROKEN_FUNCTIONALITY_212/tests/UNREACHABLE_PAGE-REDWOOD.json) |  Pages should be reachable | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [VAL_BUTTON_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_BUTTON_LINKS-REDWOOD.json) |  Button URLs should be valid | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [VAL_BUTTON_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_BUTTON_LINKS-REDWOOD.json) |  Button URLs should be valid | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [VAL_COL_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_COL_AUTH-REDWOOD.json) |  Columns should have a valid authorization scheme | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [VAL_COL_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_COL_LINKS-REDWOOD.json) |  Column Link should be valid | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [VAL_LIST_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_LIST_LINKS-REDWOOD.json) |  List URLs should be valid | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
+| [VAL_COL_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_COL_LINKS-REDWOOD.json) |  Column Link should be valid | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [VAL_LIST_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_LIST_LINKS-REDWOOD.json) |  List URLs should be valid | v1.2 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 
 ## Cleanup (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Best practices to keep things tidy
@@ -206,7 +206,7 @@ Standards that are *not* general standards
 | [ALPH_BTN_STC_ID_NM](APEX_MILLENIUM_GEN2_212/tests/ALPH_BTN_STC_ID_NM-REDWOOD.json) |  Button Static IDs should be correctly named | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [ALPH_ERROR_HANDLING](APEX_MILLENIUM_GEN2_212/tests/ALPH_ERROR_HANDLING-REDWOOD.json) |  Applications should have the correct error handling function set | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [ALPH_RGN_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_RGN_NAMING-REDWOOD.json) |  Region Static IDs should be correctly named | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [GLOBAL_TIME_FORMATS](APEX_MILLENIUM_GEN2_212/tests/GLOBAL_TIME_FORMATS-REDWOOD.json) |  Time formats should be set in Globalization Attributes | v1 [REDWOOD] | APEX_APPLICATIONS |
+| [GLOBAL_TIME_FORMATS](APEX_MILLENIUM_GEN2_212/tests/GLOBAL_TIME_FORMATS-REDWOOD.json) |  Time formats should be set in Globalization Attributes | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [INVLD_END_POINTS](APEX_MILLENIUM_GEN2_212/tests/INVLD_END_POINTS-REDWOOD.json) |  These URL endpoints are deprecated | v1 [REDWOOD] | APEX_APPLICATIONS |
 
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
