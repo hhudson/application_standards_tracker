@@ -11,7 +11,8 @@ begin
 end;
 */
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_IG
+-- /
 create materialized view MV_SVT_IG
 refresh on demand
     evaluate using current edition
@@ -29,13 +30,13 @@ refresh on demand
         pig.page_id,
         pg.page_name,
         aa.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => pig.application_id, p_url => pig.icon_view_link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => pig.application_id, p_url => pig.icon_view_link_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => pig.application_id, p_url => pig.icon_view_link_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => pig.application_id, p_url => pig.icon_view_link_target) destination_page_id,
         pig.last_updated_by,
         pig.last_updated_on,
         apg.page_mode
         from apex_appl_page_igs pig
-        inner join v_eba_stds_applications esa on pig.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pig.application_id = esa.apex_app_id
         inner join apex_applications aa on aa.application_id = esa.apex_app_id
         inner join apex_application_page_regions pg on pig.application_id = pg.application_id
                                                     and pig.page_id = pg.page_id
@@ -48,11 +49,8 @@ refresh on demand
         pu.url_type,
         pu.element_url,
         pu.element_id,
-        -- pu.element_label, 
-        -- pu.element_name, 
         pu.element_authorization,
         pu.parent_element_id,
-        -- pu.opt_parent_element_id,
         pu.parent_element_name,
         pu.parent_element_authorization,
         pu.page_id,
@@ -62,8 +60,6 @@ refresh on demand
         pu.destination_page_id,
         aap.page_name destination_page_name,
         aap.application_name destination_app_name,
-        -- pu.created_by,
-        -- pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
         pu.page_mode

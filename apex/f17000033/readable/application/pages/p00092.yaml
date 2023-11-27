@@ -318,8 +318,8 @@ page-items:
     value-required: true
 
   list-of-values: 
-    type: Shared Component
-    list-of-values: ACCESS_LEVELS # 11006644506832331985
+    type: Static Values
+    static-values: 'STATIC:Display1;Return1,Display2;Return2'
     display-extra-values: true
     display-null-value: false
 
@@ -599,33 +599,6 @@ validations:
     error-message: This username has already been added. Please enter a unique username.
     display-location: Inline with Field and in Notification
     associated-item: P92_USERNAME # 7533854295592893293
-
-- # ====== Validation: cannot update yourself ==================
-  id: 7533859763082893301
-  identification: 
-    name: cannot update yourself
-
-  execution: 
-    sequence: 10
-
-  validation: 
-    type: No Rows returned
-    sql-query: |
-      select 1
-        from eba_stds_users
-       where upper(username) = :APP_USER
-         and upper(username) = upper(:P92_USERNAME)
-    always-execute: false
-
-  error: 
-    error-message: You cannot update your own record.
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: SAVE # 7533857599807893299
-
-  configuration: 
-    build-option: TO_DELETE # 6384384957050863767
 
 processes: 
 - # ====== Process: Add User to Collection =====================

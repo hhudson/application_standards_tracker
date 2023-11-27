@@ -46,7 +46,7 @@ begin
 end;
 */
 ------------------------------------------------------------------------------
-procedure refresh_mv(p_mv_list in eba_stds_standard_tests.mv_dependency%type default null);
+procedure refresh_mv(p_mv_list in svt_stds_standard_tests.mv_dependency%type default null);
 
 end SVT_MV_UTIL;
 /

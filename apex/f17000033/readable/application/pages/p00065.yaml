@@ -110,11 +110,8 @@ regions:
                   then 'Y'
                   else 'N'
                   end parent_standard_yn
-      from v_eba_stds_standard_tests esst
-      -- eba_stds_standard_tests_api.v_eba_stds_standard_tests(
-      --         p_standard_id => :P65_PARENT_STANDARD_ID
-      --     )  esst 
-      left outer join eba_stds_inherited_tests esit on esit.test_id = esst.test_id
+      from v_svt_stds_standard_tests esst
+      left outer join svt_stds_inherited_tests esit on esit.test_id = esst.test_id
                                                     and esit.standard_id = :P65_STANDARD_ID
       where esst.active_yn = 'Y'
       and esst.standard_id != :P65_STANDARD_ID
@@ -1031,16 +1028,16 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: eba_stds_inherited_tests_api.bulk_remove ====
+  - # ====== Action: svt_stds_inherited_tests_api.bulk_remove ====
     id: 387836171742811487
     identification: 
-      name: eba_stds_inherited_tests_api.bulk_remove
+      name: svt_stds_inherited_tests_api.bulk_remove
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
-        eba_stds_inherited_tests_api.bulk_remove(
+        svt_stds_inherited_tests_api.bulk_remove(
                             p_test_ids    => :P65_SELECTED_IDS,
                             p_standard_id => :P65_STANDARD_ID
                         );
@@ -1288,16 +1285,16 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
-  - # ====== Action: eba_stds_inherited_tests_api.bulk_add =======
+  - # ====== Action: svt_stds_inherited_tests_api.bulk_add =======
     id: 434672702885906049
     identification: 
-      name: eba_stds_inherited_tests_api.bulk_add
+      name: svt_stds_inherited_tests_api.bulk_add
       action: Execute Server-side Code
 
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
-        eba_stds_inherited_tests_api.bulk_add(
+        svt_stds_inherited_tests_api.bulk_add(
                             p_test_ids    => :P65_SELECTED_IDS,
                             p_standard_id => :P65_STANDARD_ID
                         );

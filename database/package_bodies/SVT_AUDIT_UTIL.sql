@@ -190,7 +190,7 @@ create or replace package body SVT_AUDIT_UTIL as
                     where (upos.plscope_settings != 'IDENTIFIERS:ALL, STATEMENTS:ALL' or plscope_settings is null)
                     and upos.name not like 'BIN$%'
                     and upos.name not like 'XXX%'
-                    -- and name not in ('EBA_STDS_DATA', 'SCH_ESI_LISTEN_QUEUES')
+                    -- and name not in ('SVT_STDS_DATA', 'SCH_ESI_LISTEN_QUEUES')
                     and upos.type  = 'PACKAGE BODY'
                     -- and vlo.object_id is null --eliminate locked objects
                     order by 1, 2
@@ -300,8 +300,8 @@ create or replace package body SVT_AUDIT_UTIL as
 
     procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                           p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                                          p_test_code      in eba_stds_standard_tests.test_code%type default null,
-                                          p_standard_id    in eba_stds_standard_tests.standard_id%type default null,
+                                          p_test_code      in svt_stds_standard_tests.test_code%type default null,
+                                          p_standard_id    in svt_stds_standard_tests.standard_id%type default null,
                                           p_schema         in all_users.username%type default null,
                                           p_issue_category in svt_plsql_apex_audit.issue_category%type default null,
                                           p_message        out nocopy varchar2
@@ -340,7 +340,7 @@ create or replace package body SVT_AUDIT_UTIL as
             svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
 
             for ic_rec in (select issue_category, test_code
-                            from v_eba_stds_standard_tests
+                            from v_svt_stds_standard_tests
                             where issue_category != c_apex
                             and (issue_category = p_issue_category or p_issue_category is null)
                             and (test_code = p_test_code or p_test_code is null)
@@ -378,7 +378,7 @@ create or replace package body SVT_AUDIT_UTIL as
         begin 
           apex_debug.message(c_debug_template, '2. APEX Tests');
           for apx_rec in (select issue_category, test_code
-                          from v_eba_stds_standard_tests
+                          from v_svt_stds_standard_tests
                           where issue_category = c_apex
                           and (issue_category = p_issue_category or p_issue_category is null)
                           and (test_code = p_test_code or p_test_code is null)
@@ -423,7 +423,7 @@ create or replace package body SVT_AUDIT_UTIL as
         raise;
     end record_daily_issue_snapshot;
 
-    procedure initialize_standard(p_test_code  in eba_stds_standard_tests.test_code%type)
+    procedure initialize_standard(p_test_code  in svt_stds_standard_tests.test_code%type)
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'initialize_standard';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';

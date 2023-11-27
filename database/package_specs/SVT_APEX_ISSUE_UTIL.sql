@@ -24,7 +24,7 @@ create or replace package SVT_APEX_ISSUE_UTIL authid current_user as
 --     date: october 5, 2022
 -- synopsis:
 --
--- grouping all the procedures that need to be run by eba_stds_data.record_daily_issue_snapshot
+-- grouping all the procedures that need to be run by svt_stds_data.record_daily_issue_snapshot
 --
 /*
 declare
@@ -99,7 +99,7 @@ procedure merge_from_audit_tbl(p_issue_category in svt_plsql_apex_audit.issue_ca
                                p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                p_audit_id       in svt_plsql_apex_audit.id%type default null,
-                               p_test_code      in eba_stds_standard_tests.test_code%type default null,
+                               p_test_code      in svt_stds_standard_tests.test_code%type default null,
                                p_message        out nocopy varchar2
                               );
 

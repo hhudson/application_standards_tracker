@@ -30,13 +30,13 @@ with parsed_urls as (
         ale.list_id as parent_element_id, 
         ale.list_entry_parent_id as opt_parent_element_id,
         ale.list_name as parent_element_name,
-        eba_stds_parser.app_from_url  (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => ale.application_id, p_url => ale.entry_target) destination_page_id,
         ale.last_updated_by,
         ale.last_updated_on,
         ale.workspace
         from apex_application_list_entries ale
-        inner join v_eba_stds_applications esa on ale.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on ale.application_id = esa.apex_app_id
         where ale.entry_text is not null
 )
     select
@@ -51,19 +51,12 @@ with parsed_urls as (
         pu.parent_element_id,
         pu.opt_parent_element_id,
         pu.parent_element_name,
-        --pu.parent_element_authorization,
-        --pu.page_id,
-        --pu.page_name,
-        --pu.page_authorization,
         pu.destination_app_id,
         pu.destination_page_id,
         aap.page_name destination_page_name,
         aap.application_name destination_app_name,
-        --pu.created_by,
-        --pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
-        --pu.page_mode
         pu.workspace
     from parsed_urls pu
     left outer join apex_application_pages aap on  pu.destination_app_id = aap.application_id

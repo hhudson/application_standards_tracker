@@ -269,7 +269,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_STDS_STANDARDS
+    table-name: SVT_STDS_STANDARDS
     include-rowid-column: false
 
   layout: 
@@ -799,7 +799,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: V_EBA_STDS_STANDARDS.FULL_STANDARD_NAME # 7789099193234994231
+    list-of-values: V_SVT_STDS_STANDARDS.FULL_STANDARD_NAME # 7789099193234994231
     display-extra-values: false
     display-null-value: true
     null-display-value: No parent standard
@@ -969,7 +969,7 @@ page-items:
     width: 30
 
   validation: 
-    value-required: false
+    value-required: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1322,7 +1322,7 @@ dynamic-actions:
         into :P11_STANDARD_NAME, 
              :P11_DESCRIPTION,
              :P11_PRIMARY_DEVELOPER
-        from eba_stds_standards
+        from svt_stds_standards
         where id = :P11_PARENT_STANDARD_ID;
       items-to-submit: 
       - P11_PARENT_STANDARD_ID
@@ -1920,10 +1920,10 @@ dynamic-actions:
       fire-on-initialization: false
 
 processes: 
-- # ====== Process: Fetch Row from EBA_STDS_STANDARDS ==========
+- # ====== Process: Fetch Row from SVT_STDS_STANDARDS ==========
   id: 7787858810038891797
   identification: 
-    name: Fetch Row from EBA_STDS_STANDARDS
+    name: Fetch Row from SVT_STDS_STANDARDS
     type: Form - Initialization
     execution-chain: None
     form-region: Manage Standard # 7787854890306891774
@@ -1933,10 +1933,10 @@ processes:
     point: After Header
     run-process: Once Per Page Visit (default)
 
-- # ====== Process: Process Row of EBA_STDS_STANDARDS ==========
+- # ====== Process: Process Row of SVT_STDS_STANDARDS ==========
   id: 7787858983825891799
   identification: 
-    name: Process Row of EBA_STDS_STANDARDS
+    name: Process Row of SVT_STDS_STANDARDS
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
     form-region: Manage Standard # 7787854890306891774
@@ -1947,7 +1947,7 @@ processes:
       begin
         case :APEX$ROW_STATUS
           when 'C' then
-            :P11_ID := eba_stds_standards_api.insert_std (
+            :P11_ID := svt_stds_standards_api.insert_std (
                       p_standard_name         => :P11_STANDARD_NAME,
                       p_description           => :P11_DESCRIPTION,
                       p_primary_developer     => :P11_PRIMARY_DEVELOPER,
@@ -1959,7 +1959,7 @@ processes:
                       p_parent_standard_id    => :P11_PARENT_STANDARD_ID
               );
           when 'U' then
-             eba_stds_standards_api.updated_std (
+             svt_stds_standards_api.updated_std (
                   p_id                    => :P11_ID,
                   p_standard_name         => :P11_STANDARD_NAME,
                   p_description           => :P11_DESCRIPTION,
@@ -1972,7 +1972,7 @@ processes:
                   p_parent_standard_id    => :P11_PARENT_STANDARD_ID
               );
           when 'D' then
-            eba_stds_standards_api.delete_std(p_standard_id => :P11_ID);
+            svt_stds_standards_api.delete_std(p_standard_id => :P11_ID);
         end case;
       end;
     prevent-lost-updates: true

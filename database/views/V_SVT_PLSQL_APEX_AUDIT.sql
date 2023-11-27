@@ -48,8 +48,8 @@ with aspaa as (
                    p_app_id => paa.application_id,
                    p_id => paa.apex_issue_id ) 
            from dual ) link_to_apex_issue,
-           (select eba_stds_parser.build_url(
-                        p_template_url          => coalesce(fdv.link_url, sct.template_url),
+           (select svt_stds_parser.build_url(
+                        p_template_url          => sct.template_url,
                         p_app_id                => paa.application_id,
                         p_page_id               => paa.page_id,
                         p_pk_value              => paa.component_id,
@@ -82,17 +82,16 @@ with aspaa as (
            paa.parent_component_id,
            src.svt_component_type_id,
            src.component_name, 
-           fdv.component_type_id, 
-           coalesce(fdv.link_url, sct.template_url) template_url,
+           sct.component_type_id, 
+           sct.template_url,
            src.standard_name,
            src.standard_id,
            vaa.type_code app_type_code,
            vaa.pk_id app_pk_id
     from svt_plsql_apex_audit paa
-    inner join v_eba_stds_standard_tests src on paa.test_code  = src.test_code
+    inner join v_svt_stds_standard_tests src on paa.test_code  = src.test_code
     inner join svt_component_types sct on sct.id = src.svt_component_type_id
-    left outer join v_eba_stds_applications vaa on paa.application_id = vaa.apex_app_id
-    left outer join v_svt_flow_dictionary_views fdv on fdv.view_name = src.component_name
+    left outer join v_svt_stds_applications vaa on paa.application_id = vaa.apex_app_id
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
 )
 select 
@@ -148,10 +147,10 @@ Audit id : %3
                 then 'Assignee : '||a.assignee
                 end,
     p6 => a.test_code,
-    p7 => '[General info on issue + fix]('||eba_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_TEST_CODE:'||a.test_code||')',
+    p7 => '[General info on issue + fix]('||svt_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_TEST_CODE:'||a.test_code||')',
     p8 => a.application_id,
     p9 => a.page_id,
-    p10 => '[Manage Issue]('||eba_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_AUDIT_ID:'||a.audit_id||')'
+    p10 => '[Manage Issue]('||svt_stds_parser.get_base_url()||'f?p=17000033:1::::1:P1_AUDIT_ID:'||a.audit_id||')'
     ) issue_text,
     apex_string.format(
         p_message => '[%0] %1',
@@ -174,7 +173,7 @@ Audit id : %3
     a.stale_yn,
     a.assignee,
     a.link_url,
-    eba_stds_parser.adapt_url( a.link_url ) prepared_url,
+    svt_stds_parser.adapt_url( a.link_url ) prepared_url,
     apex_lang.message( 'VIEW_IN_BUILDER' ) view_text,
     a.link_to_apex_issue,
     ai.issue_id apex_issue_id,

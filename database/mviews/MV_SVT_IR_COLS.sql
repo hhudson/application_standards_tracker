@@ -33,8 +33,8 @@ with parsed_urls as (
         pic.page_id,
         apr.page_name,
         pg.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => pic.application_id, p_url => pic.column_link) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => pic.application_id, p_url => pic.column_link) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => pic.application_id, p_url => pic.column_link) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => pic.application_id, p_url => pic.column_link) destination_page_id,
         pic.created_by,
         pic.created_on,
         pic.updated_by,
@@ -42,7 +42,7 @@ with parsed_urls as (
         pg.page_mode,
         pic.workspace
         from apex_application_page_ir_col pic
-        inner join v_eba_stds_applications esa on pic.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pic.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  pic.application_id = apr.application_id
                                                 and pic.page_id = apr.page_id
                                                 and pic.region_id = apr.region_id
@@ -60,7 +60,6 @@ with parsed_urls as (
         pu.element_name, 
         pu.element_authorization,
         pu.parent_element_id,
-        --opt_parent_element_id,
         pu.parent_element_name,
         pu.parent_element_authorization,
         pu.page_id,

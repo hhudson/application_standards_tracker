@@ -33,7 +33,7 @@ from svt_standard_view.v_svt_db_plsql(
                         p_failures_only => 'Y'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_db_plsql(p_test_code     in eba_stds_standard_tests.test_code%type,
+  function v_svt_db_plsql(p_test_code     in svt_stds_standard_tests.test_code%type,
                           p_failures_only in varchar2 default 'N',
                           p_object_name   in svt_plsql_apex_audit.object_name%type default null )
   return v_svt_db_plsql_ref_nt pipelined;
@@ -61,7 +61,7 @@ from svt_standard_view.v_svt_apex(
                         p_failures_only => 'Y'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_apex(p_test_code            in eba_stds_standard_tests.test_code%type,
+  function v_svt_apex(p_test_code            in svt_stds_standard_tests.test_code%type,
                       p_failures_only        in varchar2 default 'N',
                       p_production_apps_only in varchar2 default 'N',
                       p_application_id       in svt_plsql_apex_audit.application_id%type default null,
@@ -81,7 +81,7 @@ from svt_standard_view.v_svt_db_view__0(
                         p_test_code => 'VIEW_NAME'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_db_view__0(p_test_code     in eba_stds_standard_tests.test_code%type,
+  function v_svt_db_view__0(p_test_code     in svt_stds_standard_tests.test_code%type,
                             p_failures_only in varchar2 default 'N')
   return v_svt_db_view__0_nt pipelined;
 
@@ -98,7 +98,7 @@ from svt_standard_view.v_svt_db_tbl__0(
                         p_test_code => 'fk_indexed'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt_db_tbl__0(p_test_code     in eba_stds_standard_tests.test_code%type,
+  function v_svt_db_tbl__0(p_test_code     in svt_stds_standard_tests.test_code%type,
                            p_failures_only in varchar2 default 'N')
   return v_svt_db_tbl__0_nt pipelined;
 
@@ -114,7 +114,7 @@ select *
 from svt_standard_view.v_svt(p_test_code => 'MISSING_COMMENT'); 
 */
 ------------------------------------------------------------------------------
-  function v_svt(p_test_code            in eba_stds_standard_tests.test_code%type,
+  function v_svt(p_test_code            in svt_stds_standard_tests.test_code%type,
                  p_failures_only        in varchar2 default 'N',
                  p_urgent_only          in varchar2 default 'N',
                  p_production_apps_only in varchar2 default 'N',
@@ -140,8 +140,8 @@ return svt_standard_view.query_feedback (
               );
 */
 ------------------------------------------------------------------------------
-  function query_feedback (p_query_code            in eba_stds_standard_tests.query_clob%type,
-                           p_svt_component_type_id in eba_stds_standard_tests.svt_component_type_id%type)
+  function query_feedback (p_query_code            in svt_stds_standard_tests.query_clob%type,
+                           p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type)
   return varchar2;
 
 ------------------------------------------------------------------------------

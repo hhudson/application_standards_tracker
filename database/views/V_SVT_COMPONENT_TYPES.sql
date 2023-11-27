@@ -7,7 +7,6 @@
 create or replace force editionable view V_SVT_COMPONENT_TYPES as
 select id, 
        component_name, 
-       component_code, 
        apex_string.format('%0 %1', 
                           p0 => friendly_name, 
                           p1 => '('||component_name||')'

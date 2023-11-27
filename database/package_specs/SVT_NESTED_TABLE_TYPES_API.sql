@@ -112,7 +112,7 @@ select svt_nested_table_types_api.issue_category(p_test_code => 'APP_AUTH') ic
 from dual
 */
 ------------------------------------------------------------------------------
-    function issue_category (p_test_code in eba_stds_standard_tests.test_code%type)
+    function issue_category (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_plsql_apex_audit.issue_category%type
     deterministic;
 

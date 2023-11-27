@@ -3,7 +3,7 @@
 --preconditions onFail:MARK_RAN onError:HALT
 --------------------------------------------------------
 --  DDL for View v_svt_db_apex__0
--- used in eba_stds_data.merge_audit_tbl to populate the svt_plsql_apex_audit table
+-- used in svt_stds_data.merge_audit_tbl to populate the svt_plsql_apex_audit table
 --------------------------------------------------------
 
 create or replace force editionable view V_SVT_PLSQL_APEX__0 as
@@ -23,7 +23,7 @@ select a.issue_category,
        a.apex_last_updated_on,
        esst.test_code,
        a.unqid
-from v_eba_stds_standard_tests esst
+from v_svt_stds_standard_tests esst
 join svt_standard_view.v_svt(p_test_code        => esst.test_code,
                              p_failures_only        => 'Y',
                              p_urgent_only          => 'Y',

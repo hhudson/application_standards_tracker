@@ -11,7 +11,8 @@ begin
 end;
 */
 --------------------------------------------------------
-
+-- drop materialized view MV_SVT_IR
+-- /
 create materialized view MV_SVT_IR
 refresh on demand
     evaluate using current edition
@@ -31,15 +32,15 @@ refresh on demand
         pir.page_id,
         pg.page_name,
         aa.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => pir.application_id, p_url => pir.detail_link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => pir.application_id, p_url => pir.detail_link_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => pir.application_id, p_url => pir.detail_link_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => pir.application_id, p_url => pir.detail_link_target) destination_page_id,
         pir.created_by,
         pir.created_on,
         pir.updated_by last_updated_by,
         pir.updated_on last_updated_on,
         apg.page_mode
         from apex_application_page_ir pir
-        inner join v_eba_stds_applications esa on pir.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pir.application_id = esa.apex_app_id
         inner join apex_applications aa on aa.application_id = esa.apex_app_id
         inner join apex_application_page_regions pg on  pir.application_id = pg.application_id
                                                     and pir.page_id = pg.page_id

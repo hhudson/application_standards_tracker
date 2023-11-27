@@ -1864,15 +1864,15 @@ processes:
   server-side-condition: 
     when-button-pressed: LOAD_SUBSET # 279672676599765250
 
-- # ====== Process: load EBA_STDS_TESTS_LIB ====================
+- # ====== Process: load SVT_STDS_TESTS_LIB ====================
   id: 278485298069291341
   identification: 
-    name: load EBA_STDS_TESTS_LIB
+    name: load SVT_STDS_TESTS_LIB
     type: Data Loading
     execution-chain: None
 
   settings: 
-    data-load-definition: EBA-STDS-TESTS-LIB # 278467543937240890
+    data-load-definition: SVT-STDS-TESTS-LIB # 278467543937240890
     source-data-type: SQL Query
     sql-query: |
       select apex_zip.get_file_content (
@@ -1899,7 +1899,7 @@ processes:
     when-button-pressed: LOAD # 278485152142291340
     type: Item = Value
     item: P44_TABLE_NAME
-    value: EBA_STDS_TESTS_LIB
+    value: SVT_STDS_TESTS_LIB
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
@@ -2087,15 +2087,15 @@ processes:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Process: load EBA_STDS_STANDARDS ====================
+- # ====== Process: load SVT_STDS_STANDARDS ====================
   id: 278486788479291356
   identification: 
-    name: load EBA_STDS_STANDARDS
+    name: load SVT_STDS_STANDARDS
     type: Data Loading
     execution-chain: None
 
   settings: 
-    data-load-definition: EBA-STDS-STANDARDS # 278144654011491924
+    data-load-definition: SVT-STDS-STANDARDS # 278144654011491924
     source-data-type: SQL Query
     sql-query: |
       select apex_zip.get_file_content (
@@ -2122,7 +2122,7 @@ processes:
     when-button-pressed: LOAD # 278485152142291340
     type: Item = Value
     item: P44_TABLE_NAME
-    value: EBA_STDS_STANDARDS
+    value: SVT_STDS_STANDARDS
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
@@ -2166,7 +2166,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: eba_stds_tests_lib_api.take_snapshot;
+    pl/sql-code: svt_stds_tests_lib_api.take_snapshot;
 
   execution: 
     sequence: 160
@@ -2181,12 +2181,13 @@ processes:
 
   server-side-condition: 
     when-button-pressed: UPDATE_FROM_LOCAL # 279150857460547777
-    type: Item = Value
-    item: P44_TABLE_NAME
-    value: EBA_STDS_TESTS_LIB
+    type: Never
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
 
 - # ====== Process: load SVT_WCAG ==============================
   id: 356401332981521235
@@ -2268,15 +2269,15 @@ processes:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
-- # ====== Process: load EBA_STDS_TYPES ========================
+- # ====== Process: load SVT_STDS_TYPES ========================
   id: 356401566366521237
   identification: 
-    name: load EBA_STDS_TYPES
+    name: load SVT_STDS_TYPES
     type: Data Loading
     execution-chain: None
 
   settings: 
-    data-load-definition: EBA-STDS-TYPES # 257628652143583369
+    data-load-definition: SVT-STDS-TYPES # 257628652143583369
     source-data-type: SQL Query
     sql-query: |
       select apex_zip.get_file_content (
@@ -2303,7 +2304,7 @@ processes:
     when-button-pressed: LOAD # 278485152142291340
     type: Item = Value
     item: P44_TABLE_NAME
-    value: EBA_STDS_TYPES
+    value: SVT_STDS_TYPES
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741

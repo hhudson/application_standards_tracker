@@ -1,6 +1,6 @@
 --changeset function_script:ORCLAPEX_VERSION stripComments:false runOnChange:true
 --------------------------------------------------------
---  DDL for function ORCLAPEX_VERSION
+--  DDL for function orclapex_version
 --------------------------------------------------------
 
 -- https://livesql.oracle.com/apex/livesql/file/content_MYKQ2SIS76LD5JDBJGKKEXK6V.html

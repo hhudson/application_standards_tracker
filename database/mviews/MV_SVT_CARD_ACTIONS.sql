@@ -34,13 +34,13 @@ create materialized view MV_SVT_CARD_ACTIONS
         pca.page_id,
         pca.page_name,
         pca.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => pca.application_id, p_url => pca.link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => pca.application_id, p_url => pca.link_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => pca.application_id, p_url => pca.link_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => pca.application_id, p_url => pca.link_target) destination_page_id,
         pca.last_updated_by,
         pca.last_updated_on,
         pg.page_mode
         from  apex_appl_page_card_actions pca
-        inner join v_eba_stds_applications esa on pca.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pca.application_id = esa.apex_app_id
         inner join apex_application_pages pg on  pca.application_id = pg.application_id
                                              and pca.page_id = pg.page_id
         where pca.link_target is not null
@@ -65,8 +65,6 @@ create materialized view MV_SVT_CARD_ACTIONS
         pu.destination_page_id,
         aap.page_name destination_page_name,
         aap.application_name destination_app_name,
-        -- pu.created_by,
-        -- pu.created_on,
         pu.last_updated_by,
         pu.last_updated_on,
         pu.page_mode

@@ -358,7 +358,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         where application_id is not null
         and action_id is null --not sure when to delete exceptions
         and application_id not in (select apex_app_id
-                                    from v_eba_stds_applications
+                                    from v_svt_stds_applications
                                     where app_active_yn = gc_y
                                     and type_active_yn = gc_y)
       ) loop 
@@ -399,7 +399,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         where test_code is not null
         and action_id is null --not sure when to delete exceptions
         and test_code not in (select test_code
-                                from eba_stds_standard_tests
+                                from svt_stds_standard_tests
                                 where active_yn = gc_y)
       ) loop 
         l_count := l_count + 1;
@@ -575,7 +575,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                   from svt_plsql_apex_audit 
                   where assignee is null) e
       using (select apex_app_id, lower(default_developer) default_developer
-             from v_eba_stds_applications
+             from v_svt_stds_applications
              where default_developer is not null) h
       on (e.application_id = h.apex_app_id)
       when matched then
@@ -681,17 +681,17 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   procedure get_assignee_from_parent_apex_audit (
       p_application_id in svt_plsql_apex_audit.application_id%type,
       p_component_id   in svt_plsql_apex_audit.component_id%type,
-      p_view_name      in v_svt_flow_dictionary_views.view_name%type,
+      p_view_name      in svt_component_types.component_name%type,
       p_query1         out nocopy clob,
       p_query2         out nocopy clob,
       p_assignee       out nocopy svt_plsql_apex_audit.assignee%type,
       p_parent_pk_id   out nocopy svt_plsql_apex_audit.component_id%type,
-      p_parent_view    out nocopy v_svt_flow_dictionary_views.view_name%type
+      p_parent_view    out nocopy svt_component_types.component_name%type
   )
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'get_assignee_from_parent_apex_audit';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_parent_view_name v_svt_flow_dictionary_views.view_name%type;
+  l_parent_view_name svt_component_types.component_name%type;
   l_pk_value         svt_component_types.pk_value%type;
   l_parent_pk_value  svt_component_types.parent_pk_value%type;
   l_query            clob;
@@ -700,7 +700,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_created_by      constant varchar2(25) := 'created_by';
   c_updated_by      constant varchar2(25) := 'updated_by';
   c_last_updated_by constant varchar2(25) := 'last_updated_by';
-  c_view_name       constant v_svt_flow_dictionary_views.view_name%type 
+  c_view_name       constant svt_component_types.component_name%type 
                     := dbms_assert.noop (upper(p_view_name));
   BEGIN
     apex_debug.message(c_debug_template,'START', 
@@ -715,8 +715,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       into l_pk_value,
            l_parent_pk_value
       from svt_component_types act
-      inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
-      where fdv.view_name = c_view_name;
+      where act.component_name = c_view_name;
       apex_debug.message(c_debug_template, 'l_pk_value', l_pk_value);
       apex_debug.message(c_debug_template, 'l_parent_pk_value', l_parent_pk_value);
 
@@ -747,10 +746,9 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
       if p_parent_pk_id is not null then
         begin <<viewname2>>
-          select fdv.view_name
+          select act.component_name view_name
           into l_parent_view_name
           from svt_component_types act 
-          inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
           where pk_value = replace(l_parent_pk_value,'PARENT_')
           fetch first 1 rows only;
         exception when no_data_found then 
@@ -773,19 +771,19 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
               p1 => l_parent_view_name,
               p2 => l_parent_pk_value,
               p3 => p_parent_pk_id,
-              p4 => case when  eba_stds_parser.column_exists 
+              p4 => case when  svt_stds_parser.column_exists 
                                 (p_column_name => c_updated_by,
                                 p_table_name => l_parent_view_name
                                 )
                           then c_updated_by
-                          when  eba_stds_parser.column_exists 
+                          when  svt_stds_parser.column_exists 
                                 (p_column_name => c_last_updated_by,
                                 p_table_name => l_parent_view_name
                                 )
                           then c_last_updated_by
                           else c_null 
                           end,
-              p5 => case when  eba_stds_parser.column_exists 
+              p5 => case when  svt_stds_parser.column_exists 
                                 (p_column_name => c_created_by,
                                 p_table_name => l_parent_view_name
                                 )
@@ -826,7 +824,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
   function get_assignee_from_parent_apex_audit (
     p_component_id   in svt_plsql_apex_audit.component_id%type,
-    p_view_name      in v_svt_flow_dictionary_views.view_name%type,
+    p_view_name      in svt_component_types.component_name%type,
     p_application_id in svt_plsql_apex_audit.application_id%type,
     p_page_id        in svt_plsql_apex_audit.page_id%type
   ) return svt_plsql_apex_audit.assignee%type
@@ -836,9 +834,9 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   l_query1        clob;
   l_query2        clob;
   l_parent_pk_id  svt_plsql_apex_audit.component_id%type;
-  l_parent_view   v_svt_flow_dictionary_views.view_name%type;
+  l_parent_view   svt_component_types.component_name%type;
   l_assignee      svt_plsql_apex_audit.assignee%type;
-  c_view_name     constant v_svt_flow_dictionary_views.view_name%type 
+  c_view_name     constant svt_component_types.component_name%type 
                   := dbms_assert.noop (upper(p_view_name));
   BEGIN
     apex_debug.message(c_debug_template,'START', 
@@ -862,7 +860,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
       <<take2>>
       declare 
       l_parent_pk_id2  svt_plsql_apex_audit.component_id%type;
-      l_parent_view2   v_svt_flow_dictionary_views.view_name%type;
+      l_parent_view2   svt_component_types.component_name%type;
       begin
         apex_debug.message(c_debug_template,'START take 2', 
                                             'l_parent_pk_id', l_parent_pk_id,
@@ -882,7 +880,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
           <<take3>>
           declare 
           l_parent_pk_id3  svt_plsql_apex_audit.component_id%type;
-          l_parent_view3   v_svt_flow_dictionary_views.view_name%type;
+          l_parent_view3   svt_component_types.component_name%type;
           begin
             apex_debug.message(c_debug_template,'START take 3', 
                                                 'l_parent_pk_id2', l_parent_pk_id2,
@@ -902,7 +900,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
               <<take4>>
               declare 
               l_parent_pk_id4  svt_plsql_apex_audit.component_id%type;
-              l_parent_view4   v_svt_flow_dictionary_views.view_name%type;
+              l_parent_view4   svt_component_types.component_name%type;
               begin
                 apex_debug.message(c_debug_template,'START take 4', 
                                                     'l_parent_pk_id3', l_parent_pk_id3,
@@ -974,11 +972,10 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
              paa.application_id,
              paa.page_id,
              paa.component_id, 
-             fdv.view_name
+             act.component_name view_name
       from svt_plsql_apex_audit paa
-      inner join eba_stds_standard_tests st on paa.test_code = st.test_code
+      inner join svt_stds_standard_tests st on paa.test_code = st.test_code
       inner join svt_component_types act on act.id = st.svt_component_type_id 
-      inner join v_svt_flow_dictionary_views fdv on fdv.view_name = act.component_name
       where paa.issue_category = gc_apex
       and paa.component_id is not null
       and paa.assignee is null
@@ -1084,7 +1081,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
   procedure merge_audit_tbl (p_application_id in svt_plsql_apex_audit.application_id%type default null,
                               p_page_id        in svt_plsql_apex_audit.page_id%type default null,
-                              p_test_code      in eba_stds_standard_tests.test_code%type,
+                              p_test_code      in svt_stds_standard_tests.test_code%type,
                               p_legacy_yn      in svt_plsql_apex_audit.legacy_yn%type default 'N',
                               p_audit_id       in svt_plsql_apex_audit.id%type default null,
                               p_issue_category in svt_plsql_apex_audit.issue_category%type default null
@@ -1092,7 +1089,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'merge_audit_tbl';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_test_code constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
+  c_test_code constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
   c_legacy_yn constant svt_plsql_apex_audit.legacy_yn%type := case when upper(p_legacy_yn) = gc_y
                                                                       then gc_y
                                                                       else gc_n
@@ -1135,7 +1132,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                     coalesce(a.schema, svt_ctx_util.get_default_user) owner,
                     a.component_id,
                     a.parent_component_id 
-                  from v_eba_stds_standard_tests esst
+                  from v_svt_stds_standard_tests esst
                   join svt_standard_view.v_svt(p_test_code => esst.test_code, 
                                                p_failures_only => gc_y, 
                                                p_urgent_only => gc_y,
@@ -1210,9 +1207,9 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  c_test_code      constant eba_stds_standard_tests.test_code%type := upper(p_test_code);
-  c_mv_dependency  constant eba_stds_standard_tests.mv_dependency%type 
-                  := eba_stds.get_mv_dependency(p_test_code => p_test_code);
+  c_test_code      constant svt_stds_standard_tests.test_code%type := upper(p_test_code);
+  c_mv_dependency  constant svt_stds_standard_tests.mv_dependency%type 
+                  := svt_stds.get_mv_dependency(p_test_code => p_test_code);
   c_sysdate        constant date := sysdate;
   begin
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
@@ -1249,7 +1246,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
 
   function total_open_violations(
                   p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                  p_standard_id    in eba_stds_standards.id%type default null)
+                  p_standard_id    in svt_stds_standards.id%type default null)
   return pls_integer
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'total_open_violations';
@@ -1264,7 +1261,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     select count(*)
     into l_count
     from svt_plsql_apex_audit paa
-    inner join eba_stds_standard_tests esst on esst.test_code = paa.test_code
+    inner join svt_stds_standard_tests esst on esst.test_code = paa.test_code
     left outer join svt_audit_actions aaa on paa.action_id = aaa.id
     where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
     and (paa.application_id = p_application_id or p_application_id is null)
@@ -1281,7 +1278,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   end total_open_violations;
 
   function percent_solved(p_application_id in svt_plsql_apex_audit.application_id%type default null,
-                          p_standard_id    in eba_stds_standards.id%type default null)
+                          p_standard_id    in svt_stds_standards.id%type default null)
   return number
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'percent_solved';
@@ -1356,7 +1353,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     -- end assign_from_scm;
 
     -- procedure delete_obsolete_violations (
-    --               p_test_code      in eba_stds_standard_tests.test_code%type default null,
+    --               p_test_code      in svt_stds_standard_tests.test_code%type default null,
     --               p_application_id in svt_plsql_apex_audit.application_id%type default null,
     --               p_page_id        in svt_plsql_apex_audit.page_id%type default null)
     -- is

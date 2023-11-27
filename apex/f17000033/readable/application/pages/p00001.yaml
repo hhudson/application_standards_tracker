@@ -2937,7 +2937,7 @@ regions:
           NOTIFICATION_NAME as ALERT_TITLE,
           NOTIFICATION_DESCRIPTION as ALERT_DESC,
           '' alert_action
-        from eba_stds_NOTIFICATIONS
+        from svt_stds_NOTIFICATIONS
        where (DISPLAY_FROM is null or DISPLAY_FROM <= current_date) and
              (DISPLAY_UNTIL is null or DISPLAY_UNTIL >= current_date)
        order by nvl(DISPLAY_SEQUENCE,0),NOTIFICATION_NAME
@@ -2973,7 +2973,7 @@ regions:
     type: Rows returned
     sql-query: |
       select null
-        from eba_stds_NOTIFICATIONS
+        from svt_stds_NOTIFICATIONS
        where (DISPLAY_FROM is null or DISPLAY_FROM <= current_date) and
              (DISPLAY_UNTIL is null or DISPLAY_UNTIL >= current_date)
 
@@ -3622,7 +3622,7 @@ buttons:
   id: 281119965805786672
   identification: 
     button-name: VIOLATION_COUNT
-    label: '&P1_PERCENT_SOLVED.% Violations Addressed'
+    label: '&P1_PERCENT_SOLVED.% of Violations Addressed'
 
   layout: 
     sequence: 30

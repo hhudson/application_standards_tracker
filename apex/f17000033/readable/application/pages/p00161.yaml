@@ -61,9 +61,9 @@ regions:
              aa.created_on,
              aa.last_updated_on,
              aa.last_updated_by
-      from eba_stds_applications esa
+      from svt_stds_applications esa
       inner join apex_applications aa on esa.apex_app_id = aa.application_id
-      left outer join eba_stds_types est on est.id = esa.type_id
+      left outer join svt_stds_types est on est.id = esa.type_id
       where esa.apex_app_id = :P161_APEX_APP_ID
     page-items-to-submit: 
     - P161_APEX_APP_ID
@@ -403,7 +403,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: EBA_STDS_APPLICATIONS
+    table-name: SVT_STDS_APPLICATIONS
     include-rowid-column: false
 
   layout: 
@@ -542,9 +542,9 @@ regions:
     sql-query: |
       select ess.full_standard_name as title,
              svt_plsql_apex_audit_api.percent_solved(p_application_id => :P161_APEX_APP_ID, p_standard_id => ess.id) value,
-             eba_stds_standards_api.hex_color(p_standard_id => ess.id) title_color,
+             svt_stds_standards_api.hex_color(p_standard_id => ess.id) title_color,
              null as bar_color
-      from v_eba_stds_standards ess
+      from v_svt_stds_standards ess
       where ess.type_name = 'APEX'
       and ess.active_yn = 'Y'
       order by ess.display_order, ess.full_standard_name
@@ -754,7 +754,7 @@ page-items:
     - '#DEFAULT#'
 
   validation: 
-    value-required: true
+    value-required: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -864,7 +864,7 @@ page-items:
        where workspace = svt_preferences.get('SVT_WORKSPACE')
        minus 
        select to_number(apex_app_id)
-       from eba_stds_applications) aa1
+       from svt_stds_applications) aa1
       inner join apex_applications aa2 on aa1.application_id = aa2.application_id
       union all 
       select :P161_APEX_APP_ID d, to_number(:P161_APEX_APP_ID) r
@@ -1299,7 +1299,7 @@ processes:
       begin
         case :APEX$ROW_STATUS
           when 'C' then
-            :P161_PK_ID := eba_stds_applications_api.insert_app (
+            :P161_PK_ID := svt_stds_applications_api.insert_app (
                           p_apex_app_id       => :P161_APEX_APP_ID,
                           p_default_developer => :P161_DEFAULT_DEVELOPER,
                           p_type_id           => :P161_TYPE_ID,
@@ -1307,7 +1307,7 @@ processes:
                           p_active_yn         => :P161_ACTIVE_YN
                       );
           when 'U' then
-            eba_stds_applications_api.update_app(
+            svt_stds_applications_api.update_app(
                   p_id                => :P161_PK_ID,
                   p_apex_app_id       => :P161_APEX_APP_ID,
                   p_default_developer => :P161_DEFAULT_DEVELOPER,
@@ -1316,7 +1316,7 @@ processes:
                   p_active_yn         => :P161_ACTIVE_YN
               );
           when 'D' then
-            eba_stds_applications_api.delete_app(p_id => :P161_PK_ID);
+            svt_stds_applications_api.delete_app(p_id => :P161_PK_ID);
         end case;
       end;
     prevent-lost-updates: true

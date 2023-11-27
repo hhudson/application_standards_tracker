@@ -85,7 +85,7 @@ regions:
                         p_row_selector      => 'std_test',
                         p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_std' ),
                         p_max_rows          => 10) ) p
-             left outer join eba_stds_standards ess on to_char(ess.id) = p.col002
+             left outer join svt_stds_standards ess on to_char(ess.id) = p.col002
        where f.name = :P81_FILE
     page-items-to-submit: 
     - P81_FILE
@@ -749,7 +749,7 @@ regions:
                         p_add_headers_row   => 'Y',
                         p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_tests' ),
                         p_max_rows          => 100) ) p
-             left outer join eba_stds_standard_tests esst on to_char(esst.test_code) = p.col004
+             left outer join svt_stds_standard_tests esst on to_char(esst.test_code) = p.col004
        where f.name = :P81_FILE
     page-items-to-submit: 
     - P81_FILE
@@ -2127,7 +2127,7 @@ processes:
     location: Local Database
     language: PL/SQL
     pl/sql-code: |
-      eba_stds_tests_lib_api.auto_install_standard_test(
+      svt_stds_tests_lib_api.auto_install_standard_test(
               p_standard_id => :P81_STANDARD_ID,
               p_test_code   => :P81_TEST_CODE);
 

@@ -275,7 +275,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_EBA_STDS_TESTS_LIB
+    table-name: V_SVT_STDS_TESTS_LIB
     include-rowid-column: false
 
   layout: 
@@ -511,11 +511,11 @@ page-items:
     width: 30
 
   validation: 
-    value-required: true
+    value-required: false
 
   list-of-values: 
     type: Shared Component
-    list-of-values: V_EBA_STDS_STANDARDS.FULL_STANDARD_NAME # 7789099193234994231
+    list-of-values: V_SVT_STDS_STANDARDS.FULL_STANDARD_NAME # 7789099193234994231
     display-extra-values: false
     display-null-value: false
 
@@ -791,42 +791,6 @@ page-items:
 
   help: 
     help-text: A materialized view referenced in the query
-
-- # ====== Page Item: P60_COMPONENT_CODE =======================
-  id: 279545309229667890
-  identification: 
-    name: P60_COMPONENT_CODE
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 210
-    region: Load Sample Standard Test # 279541053322667884
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Load Sample Standard Test # 279541053322667884
-    column: COMPONENT_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: The type of component targeted by the test. This choice informs where the test links to
 
 - # ====== Page Item: P60_TEST_ID ==============================
   id: 279546181757667890
@@ -1475,7 +1439,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: SVT_COMPONENT_CODES # 269334846866866172
+    list-of-values: SVT_COMPONENT_TYPES # 269334846866866172
     display-extra-values: true
     display-null-value: true
 
@@ -1494,10 +1458,6 @@ page-items:
 
   quick-picks: 
     show-quick-picks: false
-
-  read-only: 
-    type: Item is NOT NULL
-    item: P60_COMPONENT_CODE
 
   security: 
     session-state-protection: Unrestricted
@@ -1630,6 +1590,127 @@ page-items:
   session-state: 
     data-type: VARCHAR2
     storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_ESST_MD5 =============================
+  id: 517454303983072716
+  identification: 
+    name: P60_ESST_MD5
+    type: Textarea
+
+  label: 
+    label: Esst Md5
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 270
+    region: Load Sample Standard Test # 279541053322667884
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7800079935674934980
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 279541053322667884
+    column: ESST_MD5
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P60_PUBLISHED_YN =========================
+  id: 517454403139072717
+  identification: 
+    name: P60_PUBLISHED_YN
+    type: Text Field
+
+  label: 
+    label: Published Yn
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 280
+    region: Load Sample Standard Test # 279541053322667884
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7800079935674934980
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 1
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Load Sample Standard Test # 279541053322667884
+    column: PUBLISHED_YN
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
@@ -1945,7 +2026,7 @@ computations:
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'eba_stds_tests_lib_api.get_id(:P60_TEST_CODE)'
+    pl/sql-expression: 'svt_stds_tests_lib_api.get_id(:P60_TEST_CODE)'
 
   server-side-condition: 
     type: Expression
@@ -1964,7 +2045,7 @@ processes:
     location: Local Database
     language: PL/SQL
     pl/sql-code: |
-      EBA_STDS_TESTS_LIB_API.install_standard_test(
+      SVT_STDS_TESTS_LIB_API.install_standard_test(
                               p_id => :P60_ID,
                               p_urgency_level_id =>  :P60_LEVEL_ID,
                               p_standard_id => :P60_STANDARD_ID);
@@ -2027,7 +2108,7 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: 'eba_stds_tests_lib_api.delete_test_from_lib (p_id => :P60_ID);'
+    pl/sql-code: 'svt_stds_tests_lib_api.delete_test_from_lib (p_id => :P60_ID);'
 
   execution: 
     sequence: 10

@@ -5,7 +5,7 @@
 /*
 select *  
 from   except_cols (  
-  eba_stds_standards,  
+  svt_stds_standards,  
   columns ( created_on, created_by )  
 )
 */
@@ -16,6 +16,6 @@ create or replace function EXCEPT_COLS (
   p_except_cols columns  
 ) return table pipelined   
   row polymorphic   
-  using except_cols_pkg;
+  using except_cols_pkg
 /
 --rollback drop function EXCEPT_COLS;

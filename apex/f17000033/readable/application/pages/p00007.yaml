@@ -207,42 +207,6 @@ page-items:
   help: 
     help-text: Pick the apex component view you are enabling for targeting with your tests
 
-- # ====== Page Item: P7_COMPONENT_CODE ========================
-  id: 228092636184848886
-  identification: 
-    name: P7_COMPONENT_CODE
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 150
-    region: Manage Component Type # 269185236959859172
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: Manage Component Type # 269185236959859172
-    column: COMPONENT_CODE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Request (Memory Only)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: You can include a descriptive code (may be dropped at some point)
-
 - # ====== Page Item: P7_ID ====================================
   id: 269185641762859172
   identification: 
@@ -983,6 +947,105 @@ page-items:
   help: 
     help-text: These columns will be added to the default query
 
+- # ====== Page Item: P7_COMPONENT_TYPE_ID =====================
+  id: 517452835727072701
+  identification: 
+    name: P7_COMPONENT_TYPE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 200
+    region: Manage Component Type # 269185236959859172
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Component Type # 269185236959859172
+    column: COMPONENT_TYPE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P7_FDV_ID ================================
+  id: 517452913530072702
+  identification: 
+    name: P7_FDV_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 210
+    region: Manage Component Type # 269185236959859172
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Component Type # 269185236959859172
+    column: FDV_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P7_FDV_PARENT_VIEW_ID ====================
+  id: 517453095709072703
+  identification: 
+    name: P7_FDV_PARENT_VIEW_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 220
+    region: Manage Component Type # 269185236959859172
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Manage Component Type # 269185236959859172
+    column: FDV_PARENT_VIEW_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: CANCEL ======================================
   id: 269190977232859179
@@ -1164,7 +1227,6 @@ processes:
           when 'C' then
             :P7_ID := svt_component_types_api.insert_cmp (
                           p_component_name    => :P7_COMPONENT_NAME,
-                          p_component_code    => :P7_COMPONENT_CODE,
                           p_available_yn      => :P7_AVAILABLE_YN,
                           p_nt_type_id        => :P7_NT_TYPE_ID,
                           p_pk_value          => :P7_PK_VALUE,
@@ -1178,7 +1240,6 @@ processes:
             svt_component_types_api.update_cmp (
                   p_id                => :P7_ID,
                   p_component_name    => :P7_COMPONENT_NAME,
-                  p_component_code    => :P7_COMPONENT_CODE,
                   p_available_yn      => :P7_AVAILABLE_YN,
                   p_nt_type_id        => :P7_NT_TYPE_ID,
                   p_pk_value          => :P7_PK_VALUE,

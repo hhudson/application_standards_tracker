@@ -33,14 +33,14 @@ with parsed_urls as (
         pigc.page_id,
         apr.page_name,
         pg.authorization_scheme as page_authorization,
-        eba_stds_parser.app_from_url  (p_origin_app_id => pigc.application_id, p_url => pigc.link_target) destination_app_id,
-        eba_stds_parser.page_from_url (p_origin_app_id => pigc.application_id, p_url => pigc.link_target) destination_page_id,
+        svt_stds_parser.app_from_url  (p_origin_app_id => pigc.application_id, p_url => pigc.link_target) destination_app_id,
+        svt_stds_parser.page_from_url (p_origin_app_id => pigc.application_id, p_url => pigc.link_target) destination_page_id,
         pigc.last_updated_by,
         pigc.last_updated_on,
         pg.page_mode,
         pigc.workspace
         from apex_appl_page_ig_columns pigc
-        inner join v_eba_stds_applications esa on pigc.application_id = esa.apex_app_id
+        inner join v_svt_stds_applications esa on pigc.application_id = esa.apex_app_id
         inner join apex_application_page_regions apr on  pigc.application_id = apr.application_id
                                                 and pigc.page_id = apr.page_id
                                                 and pigc.region_id = apr.region_id

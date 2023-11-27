@@ -130,7 +130,7 @@ regions:
         sql-query: |
           select paa.test_code, count(*) issue_count
           from svt_plsql_apex_audit paa
-          inner join eba_stds_standard_tests esst on esst.test_code = paa.test_code
+          inner join svt_stds_standard_tests esst on esst.test_code = paa.test_code
           inner join svt_standards_urgency_level asul on asul.id = esst.level_id
                                                       and asul.urgency_name in ('High','Critical')
           left outer join svt_audit_actions aaa on paa.action_id = aaa.id
@@ -247,8 +247,8 @@ regions:
         sql-query: |
           select ess.standard_name standard_name, src.standard_id, count(*) issue_count
           from svt_plsql_apex_audit paa
-          inner join eba_stds_standard_tests src on paa.test_code  = src.test_code
-          inner join eba_stds_standards ess on src.standard_id = ess.id
+          inner join svt_stds_standard_tests src on paa.test_code  = src.test_code
+          inner join svt_stds_standards ess on src.standard_id = ess.id
           left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
           group by ess.standard_name, src.standard_id
@@ -485,7 +485,7 @@ regions:
         sql-query: |
           select paa.assignee, count(*) issue_count
           from svt_plsql_apex_audit paa
-          inner join eba_stds_standard_tests esst on esst.test_code = paa.test_code
+          inner join svt_stds_standard_tests esst on esst.test_code = paa.test_code
           left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'Y'
           group by paa.assignee
@@ -600,8 +600,8 @@ regions:
         sql-query: |
           select src.test_code, count(*) issue_count
           from svt_plsql_apex_audit paa
-          inner join eba_stds_standard_tests src on paa.test_code  = src.test_code
-          inner join eba_stds_standards ess on src.standard_id = ess.id
+          inner join svt_stds_standard_tests src on paa.test_code  = src.test_code
+          inner join svt_stds_standards ess on src.standard_id = ess.id
           left outer join svt_audit_actions aaa on paa.action_id = aaa.id
           where coalesce(aaa.include_in_report_yn,'Y') = 'N'
           group by src.test_code
