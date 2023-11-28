@@ -6,7 +6,7 @@
 
 create or replace force editionable view v_user_plsql_object_settings as
 select *
-from dba_plsql_object_settings
+from all_plsql_object_settings
 where owner = svt_ctx_util.get_default_user
 /
 --rollback drop view V_USER_PLSQL_OBJECT_SETTINGS;
