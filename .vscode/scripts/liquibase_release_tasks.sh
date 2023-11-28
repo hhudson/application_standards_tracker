@@ -29,6 +29,11 @@ elif [[ "$ADM_OPTION" == "4 - Validate" ]]; then
   echo -e "Gen option : ${COLOR_LIGHT_GREEN}4 - Validate${COLOR_RESET}"
   liquibase_validate
 
+elif [[ "$ADM_OPTION" == "5 - Clean slate" ]]; then
+
+  echo -e "Gen option : ${COLOR_LIGHT_GREEN}5 - Clean slate${COLOR_RESET}"
+  liquibase_cleanslate
+
 else
 
   echo -e "Gen option : ${COLOR_RED}unknown option${COLOR_RESET}"
