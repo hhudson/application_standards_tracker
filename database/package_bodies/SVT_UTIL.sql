@@ -51,67 +51,67 @@ create or replace package body SVT_UTIL as
   begin <<missing_data>>
     if l_alerts_yn = gc_n then
       select case when count(*) = 1
-                            then 'Y'
-                            else 'N'
-                            end into l_alerts_yn
-                    from sys.dual where exists (
-                        select 1 
-                        from v_svt_missing_base_data
-                    );
+                  then gc_y
+                  else gc_y
+                  end into l_alerts_yn
+          from sys.dual where exists (
+              select 1 
+              from v_svt_missing_base_data
+          );
     end if;
   end missing_data;
 
   begin <<disabled_jobs>>
     if l_alerts_yn = gc_n then
       select case when count(*) = 1
-                            then 'Y'
-                            else 'N'
-                            end into l_alerts_yn
-                    from sys.dual where exists (
-                        select 1
-                        from apex_appl_automations
-                        where polling_status_code = 'DISABLED'
-                        and application_id = v('APP_ID')
-                    );
+                  then gc_y
+                  else gc_y
+                  end into l_alerts_yn
+          from sys.dual where exists (
+              select 1
+              from apex_appl_automations
+              where polling_status_code = 'DISABLED'
+              and application_id = v('APP_ID')
+          );
     end if;
   end disabled_jobs;
 
   begin <<failed_jobs>>
     if l_alerts_yn = gc_n then
       select case when count(*) = 1
-                            then 'Y'
-                            else 'N'
-                            end into l_alerts_yn
-                    from sys.dual where exists (
-                        select 1 
-                        from v_automations_problems
-                    );
+                  then gc_y
+                  else gc_y
+                  end into l_alerts_yn
+          from sys.dual where exists (
+              select 1 
+              from v_automations_problems
+          );
     end if;
   end failed_jobs;
 
   begin <<missing_preferences>>
     if l_alerts_yn = gc_n then
       select case when count(*) = 1
-                            then 'Y'
-                            else 'N'
-                            end into l_alerts_yn
-                    from sys.dual where exists (
-                        select 1 
-                        from v_svt_preference_problems
-                    );
+                  then gc_y
+                  else gc_y
+                  end into l_alerts_yn
+          from sys.dual where exists (
+              select 1 
+              from v_svt_preference_problems
+          );
     end if;
   end missing_preferences;
 
   begin <<problem_assignments>>
     if l_alerts_yn = gc_n then
       select case when count(*) = 1
-                            then 'Y'
-                            else 'N'
-                            end into l_alerts_yn
-                    from sys.dual where exists (
-                        select 1 
-                        from v_svt_problem_assignees
-                    );
+                  then gc_y
+                  else gc_y
+                  end into l_alerts_yn
+          from sys.dual where exists (
+              select 1 
+              from v_svt_problem_assignees
+          );
     end if;
   end problem_assignments;
 

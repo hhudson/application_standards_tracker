@@ -6112,7 +6112,9 @@ computations:
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: 'svt_apex_view.rpt_link_request(p_issue_category => :P14_ISSUE_CATEGORY)'
+    pl/sql-expression: |
+      svt_apex_view.rpt_link_request(p_issue_category => :P14_ISSUE_CATEGORY,
+                                     p_application_id => :APP_ID)
 
 - # ====== Computation: P14_ID =================================
   id: 449824220827963253
@@ -6129,35 +6131,6 @@ computations:
     pl/sql-expression: 'svt_stds_standard_tests_api.get_test_id (p_test_code => :P14_TEST_CODE)'
 
 processes: 
-- # ====== Process: Set COMPONENT_TYPE_ID on load ==============
-  id: 269328738870808659
-  identification: 
-    name: Set COMPONENT_TYPE_ID on load
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      svt_stds_parser.get_component_type_rec (
-                              p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
-                              p_component_name        => :P14_COMPONENT_NAME,
-                              p_component_type_id     => :P14_COMPONENT_TYPE_ID,
-                              p_template_url          => :P14_TEMPLATE_URL
-      );
-
-  execution: 
-    sequence: 30
-    point: Before Regions
-    run-process: Once Per Page Visit (default)
-
-  server-side-condition: 
-    type: Never
-
-  configuration: 
-    build-option: TO_DELETE # 6384384957050863767
-
 - # ====== Process: Publish test ===============================
   id: 369845654794997680
   identification: 

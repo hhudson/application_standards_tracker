@@ -9,7 +9,7 @@ with ppref as (select replace(item_name, 'P45_') preference_name
                 from apex_application_page_items
                 where page_id = 45
                 and application_name = 'Standard Violation Tracker'
-                and item_name not in ('P45_SVT_TIME_ZONE')
+                and item_name not in ('P45_SVT_TIME_ZONE','P45_SVT_EMAIL_SUBSCRIPTION')
                 and coalesce(condition_type_code,'NA') != 'NEVER'),
     stmt as (select 'The following preferences have not been configured : ' intro, listagg(ppref.preference_name, ', ') within group (order by ppref.preference_name) prefs     
                 from ppref

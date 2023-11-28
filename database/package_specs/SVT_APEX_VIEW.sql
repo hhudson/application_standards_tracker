@@ -142,9 +142,10 @@ from dual
 ------------------------------------------------------------------------------
 function rpt_link_request(
               p_issue_category   in svt_plsql_apex_audit.issue_category%type,
-              p_dest_region_name in apex_appl_page_ig_rpts.region_name%type default null,
-              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type default null,
-              p_report_type      in varchar2 default 'IR'
+              p_report_type      in varchar2 default 'IR',
+              p_dest_region_name in apex_appl_page_ig_rpts.region_name%type    default null,
+              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type        default null,
+              p_application_id   in apex_appl_page_ig_rpts.application_id%type default null
         )
 return varchar2;
 

@@ -38,8 +38,7 @@ select aaa.name ||
 from apex_appl_automations aaa
 left outer join aal on aaa.automation_id = aal.automation_id
                     and aal.therank = 1
-where aaa.application_id = 17000033
--- and aaa.workspace != svt_preferences.get('SVT_DEFAULT_SCHEMA') -- do not install the application in the AST schema, it belongs in the schema of objects being reviewed
+where aaa.application_name = 'Standard Violation Tracker'
 /
 
 --rollback drop view V_AUTOMATIONS_STATUS;
