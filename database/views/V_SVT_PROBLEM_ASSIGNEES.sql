@@ -5,15 +5,15 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_SVT_PROBLEM_ASSIGNEES as
-select assignee
+select assignee, assignee display_assignee
 from mv_svt_assignee_count
 where assignee not like '%@%'
 union all
-select assignee
+select assignee, 'null' display_assignee
 from mv_svt_assignee_count
 where assignee is null
 union all
-select assignee
+select assignee, assignee display_assignee
 from mv_svt_assignee_count
 where assignee in (select lower(column_value)
                    from table(apex_string.split(svt_preferences.get('SVT_DO_NOT_ASSIGN'), ':'))

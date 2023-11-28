@@ -1079,6 +1079,14 @@ lb update -changelog-file controller.xml -debug true -log true
 --
 set define on
 show errors
+
+PRO step 2 : query invalid objects
+
+select object_name, object_type
+from user_objects
+where status != 'VALID'
+order by object_name
+;
 exit;
 EOF
 

@@ -87,8 +87,44 @@ IS
       p_val_in IN VARCHAR2  
     , p_msg_in IN VARCHAR2  
     , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+   );
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Procedure, used to assert email address 
+--
+/*
+begin
+   assert.is_email (  
+      p_val_in => p_assignee
+    , p_msg_in => 'Assignee must be an email address');
+end;
+*/
+------------------------------------------------------------------------------
+   PROCEDURE is_email (  
+      p_val_in IN VARCHAR2  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
    );  
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Procedure to assert a value is not null
+--
+/*
+begin
+   assert.is_not_null (  
+      p_val_in => p_app_id
+    , p_msg_in => 'App id cannot be null');
+end;
+*/
+------------------------------------------------------------------------------
    PROCEDURE is_not_null (  
       p_val_in IN VARCHAR2  
     , p_msg_in IN VARCHAR2  
