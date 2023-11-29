@@ -162,6 +162,78 @@ create or replace package body svt_nested_table_types_api as
       raise;
   end issue_category;
 
+  function nt_name (p_object_type in svt_nested_table_types.object_type%type)
+  return svt_nested_table_types.nt_name%type
+  deterministic
+  result_cache
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'nt_name';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_nt_name svt_nested_table_types.nt_name%type;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_object_type', p_object_type
+                     );
+   
+   select nt_name 
+   into l_nt_name 
+   from svt_nested_table_types
+   where object_type = p_object_type;
+   
+   return l_nt_name;
+   
+  exception
+   when no_data_found then return null;
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end nt_name;
+
+  function nt_count 
+  return pls_integer result_cache
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'nt_count';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_count pls_integer;
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+
+   select count(*)
+   into l_count
+   from svt_nested_table_types;
+   
+   return l_count;
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end nt_count;
+
+  function nt_list 
+  return varchar2 result_cache
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || ' nt_list';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_list varchar2(4000);
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+    select 'APEX, '
+          ||listagg(sct.friendly_name, ', ' on overflow truncate) within group (order by sct.friendly_name)
+    into l_list
+    from svt_component_types sct
+    inner join svt_nested_table_types ntt on ntt.id = sct.nt_type_id
+                                          and ntt.object_type != 'APEX';
+
+   return l_list;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end  nt_list;
+
 
 end svt_nested_table_types_api;
 /

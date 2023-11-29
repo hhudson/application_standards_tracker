@@ -1,7 +1,11 @@
+# Standards and Tests available for download and import
+
+## Summary and instructions
+This page lists 185 published tests distributed across 12 standards (*Accessibility, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*).Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are standards to maintain Accessibility.
 
- - [Consolidated tests export](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
+ - [Consolidated tests export for Accessibility](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -65,7 +69,7 @@ These are standards to maintain Accessibility.
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that invalid.
 
- - [Consolidated tests export](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
+ - [Consolidated tests export for Broken Functionality](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -89,7 +93,7 @@ These tests identify functionality that invalid.
 ## Cleanup (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Best practices to keep things tidy
 
- - [Consolidated tests export](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
+ - [Consolidated tests export for Cleanup](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -114,7 +118,7 @@ Best practices to keep things tidy
 ## General (Database Version 19C)
 These tests run against the DB objects and therefore may be hard to associate with a given application. They can be associated with the Application Standards Tracker app.
 
- - [Consolidated tests export](DB_GENERAL_19C/ALL_TESTS-DB_GENERAL_19C.json)
+ - [Consolidated tests export for General](DB_GENERAL_19C/ALL_TESTS-DB_GENERAL_19C.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -132,7 +136,7 @@ These tests run against the DB objects and therefore may be hard to associate wi
 ## General (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Non theme specific standards
 
- - [Consolidated tests export](APEX_GENERAL_212/ALL_TESTS-APEX_GENERAL_212.json)
+ - [Consolidated tests export for General](APEX_GENERAL_212/ALL_TESTS-APEX_GENERAL_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -145,7 +149,7 @@ Non theme specific standards
 ## Idiosyncratic (Database Version 19C)
 Standards that are *not* general standards
 
- - [Consolidated tests export](DB_IDIOSYNCRATIC_19C/ALL_TESTS-DB_IDIOSYNCRATIC_19C.json)
+ - [Consolidated tests export for Idiosyncratic](DB_IDIOSYNCRATIC_19C/ALL_TESTS-DB_IDIOSYNCRATIC_19C.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -154,7 +158,7 @@ Standards that are *not* general standards
 ## Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards that are *not* general standards
 
- - [Consolidated tests export](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
+ - [Consolidated tests export for Idiosyncratic](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -182,7 +186,7 @@ Standards that are *not* general standards
 ## Millenium Gen2 (Database Version 19C)
 
 
- - [Consolidated tests export](DB_MILLENIUM_GEN2_19C/ALL_TESTS-DB_MILLENIUM_GEN2_19C.json)
+ - [Consolidated tests export for Millenium Gen2](DB_MILLENIUM_GEN2_19C/ALL_TESTS-DB_MILLENIUM_GEN2_19C.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -197,7 +201,7 @@ Standards that are *not* general standards
 ## Millenium Gen2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 
 
- - [Consolidated tests export](APEX_MILLENIUM_GEN2_212/ALL_TESTS-APEX_MILLENIUM_GEN2_212.json)
+ - [Consolidated tests export for Millenium Gen2](APEX_MILLENIUM_GEN2_212/ALL_TESTS-APEX_MILLENIUM_GEN2_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -212,7 +216,7 @@ Standards that are *not* general standards
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
 
- - [Consolidated tests export](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
+ - [Consolidated tests export for Redwood](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -255,7 +259,7 @@ Standards for correctly implementing Redwood patterns
 ## Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These standards enforce security
 
- - [Consolidated tests export](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
+ - [Consolidated tests export for Security](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -267,7 +271,7 @@ These standards enforce security
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.
 
- - [Consolidated tests export](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
+ - [Consolidated tests export for Universal Theme](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
 
 | Test Code | Test Name | Version | Component Type |
 |-----------|-----------|---------|----------------|
@@ -279,5 +283,4 @@ These are best practices that apply to Universal Theme applications.
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING-REDWOOD.json) |  Pages should not remove padding | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 
-
-* This consolidated tests export does not include inherited relationships. You will need to install the individual standards / tests for that purpose.    
+    

@@ -604,16 +604,31 @@ create or replace package body SVT_DEPLOYMENT as
   c_scope constant varchar2(128) := gc_scope_prefix || 'markdown_summary';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_md_clob clob;
+  c_intro constant clob :=
+  '# Standards and Tests available for download and import'
+  ||chr(10)
+  ||chr(10);
+  c_summary constant clob :=
+  '## Summary and instructions' 
+  ||chr(10)
+  || apex_string.format(q'[This page lists %0 published tests distributed across %1 standards (*%2*) and %3 issue categories (*%4*).]',
+                          p0 => svt_stds_standard_tests_api.active_test_count,
+                          p1 => svt_stds_standards_api.active_standard_count,
+                          p2 => svt_stds_standards_api.active_standard_list,
+                          p3 => svt_nested_table_types_api.nt_count,
+                          p4 => svt_nested_table_types_api.nt_list)                
+  ||' Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.'
+  ||chr(10);
+  ||chr(10);
   c_headers_md constant clob := chr(10)||
    '| Test Code | Test Name | Version | Component Type |'||
    chr(10)||
    '|-----------|-----------|---------|----------------|'||
    chr(10);
-  c_addendum constant clob := chr(10)||
-  '* This consolidated tests export does not include inherited relationships.'||
-  ' You will need to install the individual standards / tests for that purpose.';
   begin
     apex_debug.message(c_debug_template,'START');
+
+    l_md_clob := c_intro || c_summary;
 
     for srec in (select id, standard_name, svt_stds.file_name(full_standard_name) file_name, description, compatibility_text
                  from v_svt_stds_standards
@@ -633,7 +648,7 @@ create or replace package body SVT_DEPLOYMENT as
                    ||chr(10);
       l_md_clob := l_md_clob
                    ||apex_string.format(
-                      ' - [Consolidated tests export](%1/ALL_TESTS-%1.json)',
+                      ' - [Consolidated tests export for %0](%1/ALL_TESTS-%1.json)',
                       p0 => srec.standard_name,
                       p1 => srec.file_name,
                       p2 => srec.compatibility_text)
@@ -673,8 +688,6 @@ create or replace package body SVT_DEPLOYMENT as
       end test_sec;
 
     end loop;
-
-    l_md_clob := l_md_clob || c_addendum;
 
     return l_md_clob;
   

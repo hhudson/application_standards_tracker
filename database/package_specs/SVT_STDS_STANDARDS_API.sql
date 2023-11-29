@@ -209,6 +209,34 @@ from dual
   deterministic 
   result_cache;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return the count of active standards
+--
+/*
+select svt_stds_standards_api.active_standard_count
+from dual
+*/
+------------------------------------------------------------------------------
+  function active_standard_count return pls_integer;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return a comma separated list of active standards
+--
+/*
+select svt_stds_standards_api.active_standard_list
+from dual
+*/
+------------------------------------------------------------------------------
+    function active_standard_list return varchar2;
+
 end svt_stds_standards_api;
 /
 --rollback drop package svt_stds_standards_api;

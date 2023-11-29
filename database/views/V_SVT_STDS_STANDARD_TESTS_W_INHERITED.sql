@@ -26,7 +26,8 @@ select   o.standard_id,
          o.version_number,
          o.version_db,
          'N' inherited_yn,
-         o.display_sequence
+         o.display_sequence,
+         o.issue_category
   from v_svt_stds_standard_tests o
   union all
   select esit.standard_id,
@@ -50,7 +51,8 @@ select   o.standard_id,
          i.version_number,
          i.version_db,
          'Y' inherited_yn,
-         i.display_sequence
+         i.display_sequence,
+         i.issue_category
   from v_svt_stds_standard_tests i
   inner join svt_stds_inherited_tests esit on i.test_id = esit.test_id
                                            and i.standard_id = esit.parent_standard_id
