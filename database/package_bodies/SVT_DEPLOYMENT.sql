@@ -618,13 +618,17 @@ create or replace package body SVT_DEPLOYMENT as
                           p3 => svt_nested_table_types_api.nt_count,
                           p4 => svt_nested_table_types_api.nt_list)                
   ||' Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.'
-  ||chr(10);
+  ||chr(10)
   ||chr(10);
   c_headers_md constant clob := chr(10)||
-   '| Test Code | Test Name | Version | Component Type |'||
+   '| Test Code | Test Name | Version* | Component Type |'||
    chr(10)||
    '|-----------|-----------|---------|----------------|'||
    chr(10);
+  c_addendum constant clob :=
+  chr(10)
+  ||'* Test versions are idenfied by an incrementing number and the name of the database on which they were developed.'
+  ||' The addition of the database name allows us to distinguish between tests that have been imported and untouched and ones that have been modified locally after import.';
   begin
     apex_debug.message(c_debug_template,'START');
 
@@ -688,6 +692,8 @@ create or replace package body SVT_DEPLOYMENT as
       end test_sec;
 
     end loop;
+
+      l_md_clob := l_md_clob || c_addendum;
 
     return l_md_clob;
   
