@@ -1,11 +1,11 @@
 --liquibase formatted sql
---changeset view_script:V_APEX_APPLICATIONS stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_APEX_APPLICATIONS stripComments:false endDelimiter:/ runOnChange:true
 
 --------------------------------------------------------
---  DDL for View v_apex_applications
+--  DDL for View v_svt_apex_applications
 --------------------------------------------------------
 
-create or replace force editionable view v_apex_applications as
+create or replace force editionable view v_svt_apex_applications as
 select application_id, 
        application_name, 
        application_group, 
@@ -23,4 +23,4 @@ from svt_apex_view.apex_applications(p_user => case when sys_context('userenv', 
                                                     
 /
 
---rollback drop view V_APEX_APPLICATIONS;
+--rollback drop view V_SVT_APEX_APPLICATIONS;

@@ -23,7 +23,7 @@ These tests help support Accessibility standards. They are not substitutes for s
 | [ACC_TAB_TABINDEX](APEX_ACCESSIBILITY_212/tests/ACC_TAB_TABINDEX-REDWOOD.json) |  Application Tabs should avoid tabindex | v1.4 [REDWOOD] | APEX_APPLICATION_TABS |
 | [ACC_VAL_DSPLY_LOCN](APEX_ACCESSIBILITY_212/tests/ACC_VAL_DSPLY_LOCN-REDWOOD.json) |  Inline with field error notification is insufficient | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_VAL |
 | [BTN_TABINDX](APEX_ACCESSIBILITY_212/tests/BTN_TABINDX-REDWOOD.json) |  Buttons should avoid hardcoded tab indexes | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [COL_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/COL_ALT_TEXT-REDWOOD.json) |  Column image links should have alt text | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
+| [COL_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/COL_ALT_TEXT-ILA.json) |  Column image links should have alt text | v1 [ILA] | APEX_APPLICATION_PAGE_IR_COL |
 | [CRD_ACTNS_TAB_INDX](APEX_ACCESSIBILITY_212/tests/CRD_ACTNS_TAB_INDX-REDWOOD.json) |  Card Actions should avoid hard coded tab indexes | v1.4 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
 | [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML-REDWOOD.json) |  Classic Columns have wellformed HTML | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT-REDWOOD.json) |  Classic Columns with images have alt text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
@@ -63,7 +63,7 @@ These tests help support Accessibility standards. They are not substitutes for s
 | [PRNT_TAB_INDX](APEX_ACCESSIBILITY_212/tests/PRNT_TAB_INDX-REDWOOD.json) |  Parent tab should avoid hard coded tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PARENT_TABS |
 | [RGN_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/RGN_IMG_ALT_TEXT-REDWOOD.json) |  Regions with HTML images should have alt text | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RGN_UNQ](APEX_ACCESSIBILITY_212/tests/RGN_UNQ-REDWOOD.json) |  Regions on a page must be unique | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-REDWOOD.json) |  Reports should have Row Headers | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-ILA.json) |  Reports should have Row Headers | v1 [ILA] | APEX_APPLICATION_PAGE_REGIONS |
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-REDWOOD.json) |  Theme styles should avoid animations | v1.1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 
@@ -84,12 +84,12 @@ These tests identify functionality that appears unintentional and could cause pr
 | [PAGES_CURRENT_IN_MENU](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGES_CURRENT_IN_MENU-REDWOOD.json) |  Regular Pages should be Current in Navigation | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGE_ERROR](APEX_BROKEN_FUNCTIONALITY_212/tests/PAGE_ERROR-REDWOOD.json) |  Pages should not have unresolved critical issues | v1.7 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PB_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/PB_AUTHR_MATCH_DEST-REDWOOD.json) |  Page Branch Authorization Matches Destination | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [PUBLIC_PAGE_PUBLIC_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/PUBLIC_PAGE_PUBLIC_AUTH-REDWOOD.json) |  Public pages should not require authentication | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [PUBLIC_PAGE_PUBLIC_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/PUBLIC_PAGE_PUBLIC_AUTH-ILA.json) |  Public pages should not require authentication | v1 [ILA] | APEX_APPLICATION_PAGES |
 | [UNREACHABLE_PAGE](APEX_BROKEN_FUNCTIONALITY_212/tests/UNREACHABLE_PAGE-REDWOOD.json) |  Pages should be reachable | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [VAL_BUTTON_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_BUTTON_LINKS-REDWOOD.json) |  Button URLs should be valid | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [VAL_COL_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_COL_AUTH-REDWOOD.json) |  Columns should have a valid authorization scheme | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [VAL_COL_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_COL_LINKS-REDWOOD.json) |  Column Link should be valid | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [VAL_LIST_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_LIST_LINKS-REDWOOD.json) |  List URLs should be valid | v1.2 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
+| [VAL_BUTTON_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_BUTTON_LINKS-ILA.json) |  Button URLs should be valid | v1 [ILA] | APEX_APPLICATION_PAGE_BUTTONS |
+| [VAL_COL_AUTH](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_COL_AUTH-ILA.json) |  Columns should have a valid authorization scheme | v1 [ILA] | APEX_APPLICATION_PAGE_REGIONS |
+| [VAL_COL_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_COL_LINKS-ILA.json) |  Column Link should be valid | v1 [ILA] | APEX_APPLICATION_PAGE_REGIONS |
+| [VAL_LIST_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_LIST_LINKS-ILA.json) |  List URLs should be valid | v1 [ILA] | APEX_APPLICATION_LIST_ENTRIES |
 
 ## Cleanup (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests describe general best practices to keep things tidy (housekeeping)
@@ -98,7 +98,7 @@ These tests describe general best practices to keep things tidy (housekeeping)
 
 | Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
-| [APP_AVAILABLE](APEX_CLEANUP_212/tests/APP_AVAILABLE-REDWOOD.json) |  Applications are available | v1.1 [REDWOOD] | APEX_APPLICATIONS |
+| [APP_AVAILABLE](APEX_CLEANUP_212/tests/APP_AVAILABLE-ILA.json) |  Applications are available | v1 [ILA] | APEX_APPLICATIONS |
 | [AVAILABLE_REGION](APEX_CLEANUP_212/tests/AVAILABLE_REGION-REDWOOD.json) |  Regions should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [BUTTON_AVAILABLE](APEX_CLEANUP_212/tests/BUTTON_AVAILABLE-REDWOOD.json) |  Buttons should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [CARD_ACTIONS_AVAILABLE](APEX_CLEANUP_212/tests/CARD_ACTIONS_AVAILABLE-REDWOOD.json) |  Card Actions should be available | v1.2 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
@@ -113,8 +113,8 @@ These tests describe general best practices to keep things tidy (housekeeping)
 | [SEARCH_SOURCES_AVAILABLE](APEX_CLEANUP_212/tests/SEARCH_SOURCES_AVAILABLE-REDWOOD.json) |  Search Sources should be available | v1.2 [REDWOOD] | APEX_APPL_PAGE_SEARCH_SOURCES |
 | [THEME_SUBSCRIPTION](APEX_CLEANUP_212/tests/THEME_SUBSCRIPTION-REDWOOD.json) |  Themes should be specific numbers and subscribed | v1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 | [TOO_MANY_REGIONS](APEX_CLEANUP_212/tests/TOO_MANY_REGIONS-REDWOOD.json) |  Pages should limit their content | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [VAL_BUILD_LIST_ENTRY](APEX_CLEANUP_212/tests/VAL_BUILD_LIST_ENTRY-REDWOOD.json) |  List entries should have valid build options | v1.2 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD-REDWOOD.json) |  Pages should have valid build options | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [VAL_BUILD_LIST_ENTRY](APEX_CLEANUP_212/tests/VAL_BUILD_LIST_ENTRY-ILA.json) |  List entries should have valid build options | v1 [ILA] | APEX_APPLICATION_LIST_ENTRIES |
+| [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD-ILA.json) |  Pages should have valid build options | v1 [ILA] | APEX_APPLICATION_PAGES |
 
 ## General (Database Version 19C)
 These tests describe general tests to run against DB objects
@@ -164,7 +164,7 @@ Tests that are *not* general standards. You are welcome to disagree with them.
 | Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_BUILDS](APEX_IDIOSYNCRATIC_212/tests/APP_BUILDS-REDWOOD.json) |  Apps should have particular set of builds | v1.1 [REDWOOD] | APEX_APPLICATIONS |
-| [APP_ITEM_NAMING](APEX_IDIOSYNCRATIC_212/tests/APP_ITEM_NAMING-REDWOOD.json) |  Application Item incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_ITEMS |
+| [APP_ITEM_NAMING](APEX_IDIOSYNCRATIC_212/tests/APP_ITEM_NAMING-ILA.json) |  Application Item incorrectly prefixed | v1 [ILA] | APEX_APPLICATION_ITEMS |
 | [AST_BREADCRUMB_STYLING](APEX_IDIOSYNCRATIC_212/tests/AST_BREADCRUMB_STYLING-REDWOOD.json) |  AST Breadcrumbs are correctly styled | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [AST_BUTTONS_HAVE_ICONS](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTONS_HAVE_ICONS-REDWOOD.json) |  All AST Standard Buttons have left-sided icons | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [AST_BUTTON_SIMPLE](APEX_IDIOSYNCRATIC_212/tests/AST_BUTTON_SIMPLE-REDWOOD.json) |  AST buttons should be simple | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -228,8 +228,8 @@ Standards for correctly implementing Redwood patterns
 | [COL_HEADERS_C](APEX_REDWOOD_212/tests/COL_HEADERS_C-REDWOOD.json) |  Classic Column header is appropriate | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [COL_HEADERS_IR](APEX_REDWOOD_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [FIELD_NAMES](APEX_REDWOOD_212/tests/FIELD_NAMES-REDWOOD.json) |  Form field label is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
-| [NO_CSS_IN_PAGE](APEX_REDWOOD_212/tests/NO_CSS_IN_PAGE-REDWOOD.json) |  Pages should not have local CSS | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
-| [PAGE_ITEM_NAMING](APEX_REDWOOD_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [NO_CSS_IN_PAGE](APEX_REDWOOD_212/tests/NO_CSS_IN_PAGE-ILA.json) |  Pages should not have local CSS | v1 [ILA] | APEX_APPLICATION_PAGES |
+| [PAGE_ITEM_NAMING](APEX_REDWOOD_212/tests/PAGE_ITEM_NAMING-ILA.json) |  Page Items incorrectly prefixed | v1 [ILA] | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_ADDL_INFO](APEX_REDWOOD_212/tests/RW_ADDL_INFO-REDWOOD.json) |  Additional Info regions are correctly configured | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BNNR_MSG_LNKS](APEX_REDWOOD_212/tests/RW_BNNR_MSG_LNKS-REDWOOD.json) |  Banner Message region should only have Links | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BUTTON_ICON](APEX_REDWOOD_212/tests/RW_BUTTON_ICON-REDWOOD.json) |  Buttons should the correct icons | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -264,10 +264,10 @@ These standards enforce security
 
 | Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
-| [APP_AUTH](APEX_SECURITY_212/tests/APP_AUTH-REDWOOD.json) |  Application has Authorization Scheme | v1.1 [REDWOOD] | APEX_APPLICATIONS |
-| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IG_HTML_ESCAPING_COLS-REDWOOD.json) |  HTML should be escaped in IG Columns | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
-| [IR_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IR_HTML_ESCAPING_COLS-REDWOOD.json) |  HTML should be escaped in IR Columns | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [PAGE_AUTH](APEX_SECURITY_212/tests/PAGE_AUTH-REDWOOD.json) |  Application Pages should have Authorization Schemes | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
+| [APP_AUTH](APEX_SECURITY_212/tests/APP_AUTH-ILA.json) |  Application has Authorization Scheme | v1 [ILA] | APEX_APPLICATIONS |
+| [IG_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IG_HTML_ESCAPING_COLS-ILA.json) |  HTML should be escaped in IG Columns | v1 [ILA] | APEX_APPL_PAGE_IG_COLUMNS |
+| [IR_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IR_HTML_ESCAPING_COLS-ILA.json) |  HTML should be escaped in IR Columns | v1 [ILA] | APEX_APPLICATION_PAGE_IR_COL |
+| [PAGE_AUTH](APEX_SECURITY_212/tests/PAGE_AUTH-ILA.json) |  Application Pages should have Authorization Schemes | v1 [ILA] | APEX_APPLICATION_PAGES |
 
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.

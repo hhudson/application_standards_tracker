@@ -1,71 +1,191 @@
 ---
-- # ====== Install Script: Application Types ===================
-  id: 533313929626905347
+- # ====== Install Script: (DDL) Create all tables =============
+  id: 15689637929177112
   identification: 
-    name: Application Types
+    name: (DDL) Create all tables
 
   execution: 
     sequence: 10
 
   server-side-condition: 
     type: No Rows returned
-    sql-query: select 1 from svt_stds_types
+    sql-query: select 1 from user_tables where table_name = 'SVT_STDS_STANDARDS';
 
-- # ====== Install Script: Audit Actions =======================
-  id: 533314810241917536
+- # ====== Install Script: (DDL) Create all object types =======
+  id: 15694584589216228
   identification: 
-    name: Audit Actions
+    name: (DDL) Create all object types
 
   execution: 
     sequence: 20
 
   server-side-condition: 
     type: No Rows returned
-    sql-query: select 1 from svt_audit_actions
+    sql-query: select 1 from user_types where type_name = 'SVT_APEX_APPLICATIONS_OT';
 
-- # ====== Install Script: Test urgency ========================
-  id: 533315599172928950
+- # ====== Install Script: (DDL) Create all table types ========
+  id: 15698277848228579
   identification: 
-    name: Test urgency
+    name: (DDL) Create all table types
 
   execution: 
     sequence: 30
+
+- # ====== Install Script: (DDL) Create all svt package specs ==
+  id: 15703766167256207
+  identification: 
+    name: (DDL) Create all svt package specs
+
+  execution: 
+    sequence: 40
+
+- # ====== Install Script: (DDL) Create user views =============
+  id: 15711442225266830
+  identification: 
+    name: (DDL) Create user views
+
+  execution: 
+    sequence: 50
+
+- # ====== Install Script: (DDL) Create svt views ==============
+  id: 15715931671473403
+  identification: 
+    name: (DDL) Create svt views
+
+  execution: 
+    sequence: 60
+
+- # ====== Install Script: (DDL) Create functions ==============
+  id: 15723473357479694
+  identification: 
+    name: (DDL) Create functions
+
+  execution: 
+    sequence: 70
+
+- # ====== Install Script: (DDL) Create ASSERT package =========
+  id: 15724893244501657
+  identification: 
+    name: (DDL) Create ASSERT package
+
+  execution: 
+    sequence: 41
+
+- # ====== Install Script: (DDL) Create EXCEPT_COLS_PKG  =======
+  id: 15725305354507172
+  identification: 
+    name: '(DDL) Create EXCEPT_COLS_PKG '
+
+  execution: 
+    sequence: 42
+
+- # ====== Install Script: (DDL) Create procedures =============
+  id: 15726048418521605
+  identification: 
+    name: (DDL) Create procedures
+
+  execution: 
+    sequence: 80
+
+- # ====== Install Script: (DDL) Create ORACLE_APEX_VERSION scri
+  id: 15726334322531305
+  identification: 
+    name: (DDL) Create ORACLE_APEX_VERSION script
+
+  execution: 
+    sequence: 90
+
+- # ====== Install Script: (DDL) Create all package bodies =====
+  id: 15726673452539028
+  identification: 
+    name: (DDL) Create all package bodies
+
+  execution: 
+    sequence: 100
+
+- # ====== Install Script: (DDL) materialized view log on svt_pl
+  id: 15733989642553355
+  identification: 
+    name: (DDL) materialized view log on svt_plsql_apex_audit
+
+  execution: 
+    sequence: 110
+
+- # ====== Install Script: (DDL) Create MV =====================
+  id: 15734332718569362
+  identification: 
+    name: (DDL) Create MV
+
+  execution: 
+    sequence: 120
+
+- # ====== Install Script: (DML) Insert Application Types ======
+  id: 533313929626905347
+  identification: 
+    name: (DML) Insert Application Types
+
+  execution: 
+    sequence: 510
+
+  server-side-condition: 
+    type: No Rows returned
+    sql-query: select 1 from svt_stds_types
+
+- # ====== Install Script: (DML) Insert Audit Actions ==========
+  id: 533314810241917536
+  identification: 
+    name: (DML) Insert Audit Actions
+
+  execution: 
+    sequence: 520
+
+  server-side-condition: 
+    type: No Rows returned
+    sql-query: select 1 from svt_audit_actions
+
+- # ====== Install Script: (DML) Insert Test urgency ===========
+  id: 533315599172928950
+  identification: 
+    name: (DML) Insert Test urgency
+
+  execution: 
+    sequence: 530
 
   server-side-condition: 
     type: No Rows returned
     sql-query: select 1 from svt_standards_urgency_level
 
-- # ====== Install Script: Standard Compatibility ==============
+- # ====== Install Script: (DML) Insert Standard Compatibility =
   id: 533316108428935510
   identification: 
-    name: Standard Compatibility
+    name: (DML) Insert Standard Compatibility
 
   execution: 
-    sequence: 40
+    sequence: 540
 
   server-side-condition: 
     type: No Rows returned
     sql-query: select 1 from svt_compatibility
 
-- # ====== Install Script: Nested Table Types ==================
+- # ====== Install Script: (DML) Insert Nested Table Types =====
   id: 533316610454942915
   identification: 
-    name: Nested Table Types
+    name: (DML) Insert Nested Table Types
 
   execution: 
-    sequence: 50
+    sequence: 550
 
   server-side-condition: 
     type: No Rows returned
     sql-query: select 1 from svt_nested_table_types
 
-- # ====== Install Script: Component Types =====================
+- # ====== Install Script: (DML) Insert Component Types ========
   id: 533317106630948958
   identification: 
-    name: Component Types
+    name: (DML) Insert Component Types
 
   execution: 
-    sequence: 60
+    sequence: 560
 
   server-side-condition: 
     type: No Rows returned

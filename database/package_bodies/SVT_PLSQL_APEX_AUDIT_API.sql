@@ -616,7 +616,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
     begin
       select email
       into l_email
-      from v_apex_workspace_developers
+      from v_svt_apex_workspace_developers
       where lower(user_name) = p_username;
 
       return lower(l_email);
@@ -658,7 +658,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
                                then paa.apex_created_by
                                end assignee
                     from svt_plsql_apex_audit paa
-                    left join v_apex_workspace_developers awd on coalesce(paa.apex_last_updated_by, paa.apex_created_by) = awd.user_name
+                    left join v_svt_apex_workspace_developers awd on coalesce(paa.apex_last_updated_by, paa.apex_created_by) = awd.user_name
                     where issue_category in (gc_apex)
                     and paa.assignee is null
                   )

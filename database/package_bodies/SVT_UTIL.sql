@@ -93,11 +93,11 @@ create or replace package body SVT_UTIL as
                   end into l_alerts_yn
           from sys.dual where exists (
               select 1 
-              from v_automations_problems
+              from v_svt_automations_problems
           );
       apex_debug.info(c_debug_template, 'failed_jobs', l_alerts_yn);
       if l_alerts_yn = gc_y then
-        l_alert_source := 'v_automations_problems';
+        l_alert_source := 'v_svt_automations_problems';
       end if;
     end if;
   end failed_jobs;

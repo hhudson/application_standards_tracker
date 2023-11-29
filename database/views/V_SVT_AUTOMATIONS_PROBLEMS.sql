@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_AUTOMATIONS_PROBLEMS stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_AUTOMATIONS_PROBLEMS stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_AUTOMATIONS_PROBLEMS
+--  DDL for View V_SVT_AUTOMATIONS_PROBLEMS
 --------------------------------------------------------
 
-create or replace force editionable view V_AUTOMATIONS_PROBLEMS as
+create or replace force editionable view V_SVT_AUTOMATIONS_PROBLEMS as
 with vas as (select v.*,
                     case when v.status_code != 'SUCCESS'
                          then 'N'
@@ -17,7 +17,7 @@ with vas as (select v.*,
                          then 'N'
                          else 'Y'
                          end pass_yn
-             from v_automations_status v)
+             from v_svt_automations_status v)
 select job_name, 
        job_initials, 
        status, 
@@ -32,4 +32,4 @@ from vas
 where pass_yn = 'N'
 /
 
---rollback drop view V_AUTOMATIONS_PROBLEMS;
+--rollback drop view V_SVT_AUTOMATIONS_PROBLEMS;

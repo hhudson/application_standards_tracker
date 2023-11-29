@@ -53,7 +53,7 @@ create or replace package body SVT_AUDIT_UTIL as
             )
         select scm2.object_name, coalesce(upper(awd.email), upper(scm2.assignee)) email, folder_name, null lock_rank
         from scm2 
-        left outer join v_apex_workspace_developers awd on scm2.assignee = awd.user_name
+        left outer join v_svt_apex_workspace_developers awd on scm2.assignee = awd.user_name
       $else 
         select 
           null object_name,
