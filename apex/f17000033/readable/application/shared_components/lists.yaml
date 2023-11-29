@@ -1,6 +1,6 @@
 ---
 - # ====== List: Navigation Menu Child Entries =================
-  id: 275818445723351491
+  id: 290920871705235517
   identification: 
     name: Navigation Menu Child Entries
 
@@ -49,7 +49,7 @@
       
 
 - # ====== List: Change Logs ===================================
-  id: 3529581454561236081
+  id: 3544683880543120107
   identification: 
     name: Change Logs
 
@@ -57,7 +57,7 @@
     type: Static Values
 
 - # ====== List: Navigation ====================================
-  id: 7330164521544945057
+  id: 7345266947526829083
   identification: 
     name: Navigation
 
@@ -66,7 +66,7 @@
 
   entries: 
   - # ====== Entry: Inherited test relationships =================
-    id: 229544184859650244
+    id: 244646610841534270
     label: 
       label: Inherited test relationships
 
@@ -75,7 +75,7 @@
 
     layout: 
       sequence: 500
-      parent-entry: Administration # 7876421288469564722
+      parent-entry: Administration # 7891523714451448748
 
     is-current: 
       type: Pages
@@ -96,10 +96,10 @@
       4.: Manage entries in SVT_STDS_INHERITED_TESTS
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Help =========================================
-    id: 260835402372152876
+    id: 275937828354036902
     label: 
       label: Help
 
@@ -131,7 +131,7 @@
       authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
   - # ====== Entry: &APP_USER. ===================================
-    id: 260839399949160113
+    id: 275941825931044139
     label: 
       label: '&APP_USER.'
 
@@ -158,7 +158,7 @@
       authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
   - # ====== Entry: Auditing Dashboard ===========================
-    id: 260879494698494328
+    id: 275981920680378354
     label: 
       label: Auditing Dashboard
 
@@ -167,7 +167,7 @@
 
     layout: 
       sequence: 25
-      parent-entry: '&APP_USER.' # 260839399949160113
+      parent-entry: '&APP_USER.' # 275941825931044139
 
     is-current: 
       type: Target Page
@@ -185,40 +185,10 @@
       4.: Critical KPIs for the application
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
-
-  - # ====== Entry: Preferences ==================================
-    id: 260879715062503255
-    label: 
-      label: Preferences
-
-    icon: 
-      image/icon-css-classes: fa-adjust
-
-    layout: 
-      sequence: 40
-      parent-entry: '&APP_USER.' # 260839399949160113
-
-    is-current: 
-      type: Target Page
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.::::'
-        page: 45 # Set Preferences
-
-    click-counting: 
-      count-clicks: false
-
-    user-defined-attributes: 
-      translatable: false
-      4.: Set Preferences for the application
-
-    security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Sign Out =====================================
-    id: 260881397696508406
+    id: 275983823678392432
     label: 
       label: Sign Out
 
@@ -227,7 +197,7 @@
 
     layout: 
       sequence: 50
-      parent-entry: '&APP_USER.' # 260839399949160113
+      parent-entry: '&APP_USER.' # 275941825931044139
 
     is-current: 
       type: Target Page
@@ -243,7 +213,7 @@
       4.: Log out
 
   - # ====== Entry: Component Types ==============================
-    id: 269194836552859183
+    id: 284297262534743209
     label: 
       label: Component Types
 
@@ -252,7 +222,7 @@
 
     layout: 
       sequence: 220
-      parent-entry: Managing Data # 275829835910531556
+      parent-entry: Managing Data # 290932261892415582
 
     is-current: 
       type: Pages
@@ -273,10 +243,10 @@
       4.: List of elements that tests can target and link to (with sample data) [SVT_COMPONENT_TYPES]
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Run jobs =====================================
-    id: 269700947563596965
+    id: 284803373545480991
     label: 
       label: Run jobs
 
@@ -285,7 +255,7 @@
 
     layout: 
       sequence: 230
-      parent-entry: Administration # 7876421288469564722
+      parent-entry: Administration # 7891523714451448748
 
     is-current: 
       type: Pages
@@ -305,10 +275,10 @@
       4.: Run the scheduled jobs from APEX to facilitate debugging
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Ad Hoc =======================================
-    id: 274630891636699615
+    id: 289733317618583641
     label: 
       label: Ad Hoc
 
@@ -334,11 +304,16 @@
       translatable: false
       4.: Run Ad Hoc Reports
 
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: svt_stds_standard_tests_api.active_test_count > 0
+
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: General Administration =======================
-    id: 275823676897405155
+    id: 290926102879289181
     label: 
       label: General Administration
 
@@ -347,7 +322,7 @@
 
     layout: 
       sequence: 240
-      parent-entry: Administration # 7876421288469564722
+      parent-entry: Administration # 7891523714451448748
 
     is-current: 
       type: Target Page
@@ -365,10 +340,10 @@
       4.: Dashboard for handling common admin tasks (access levels, users, access control, application appearance (theme style), build options, rename application, error log, sample data, notifications, application types)
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Managing Data ================================
-    id: 275829835910531556
+    id: 290932261892415582
     label: 
       label: Managing Data
 
@@ -377,7 +352,7 @@
 
     layout: 
       sequence: 250
-      parent-entry: Administration # 7876421288469564722
+      parent-entry: Administration # 7891523714451448748
 
     is-current: 
       type: Pages
@@ -397,10 +372,10 @@
       4.: Dashboard for handling DML (manage sample data)
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Username Format ==============================
-    id: 275896159902803390
+    id: 290998585884687416
     label: 
       label: Username Format
 
@@ -409,7 +384,7 @@
 
     layout: 
       sequence: 260
-      parent-entry: General Administration # 275823676897405155
+      parent-entry: General Administration # 290926102879289181
 
     is-current: 
       type: Target Page
@@ -427,10 +402,10 @@
       4.: ID whether username should be in an email/non-email format
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Exceptions ===================================
-    id: 275897472070825976
+    id: 290999898052710002
     label: 
       label: Exceptions
 
@@ -439,7 +414,7 @@
 
     layout: 
       sequence: 270
-      parent-entry: Reports # 7330164937817945063
+      parent-entry: Reports # 7345267363799829089
 
     is-current: 
       type: Pages
@@ -459,10 +434,10 @@
       4.: Report on violation false-positives
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Deploying data ===============================
-    id: 277599986927418613
+    id: 292702412909302639
     label: 
       label: Deploying data
 
@@ -471,7 +446,7 @@
 
     layout: 
       sequence: 280
-      parent-entry: Managing Data # 275829835910531556
+      parent-entry: Managing Data # 290932261892415582
 
     is-current: 
       type: Pages
@@ -491,10 +466,10 @@
       4.: Dashboard for preparing data static files and merging them locally (manage sample data, stale files)
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Test Library =================================
-    id: 278445693540046187
+    id: 293548119521930213
     label: 
       label: Test Library
 
@@ -503,7 +478,7 @@
 
     layout: 
       sequence: 300
-      parent-entry: Managing Data # 275829835910531556
+      parent-entry: Managing Data # 290932261892415582
 
     is-current: 
       type: Pages
@@ -523,10 +498,10 @@
       4.: '[Sample Data] Mature test queries that have been collected from all participating installations of this applications'
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Auditing dashboard ===========================
-    id: 280770736805364130
+    id: 295873162787248156
     label: 
       label: Auditing dashboard
 
@@ -535,7 +510,7 @@
 
     layout: 
       sequence: 330
-      parent-entry: Reports # 7330164937817945063
+      parent-entry: Reports # 7345267363799829089
 
     is-current: 
       type: Pages
@@ -555,10 +530,10 @@
       4.: Cumulative Violation Count over Time & by Standard Group, Top Test Codes by Violation Count
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Preferences ==================================
-    id: 282311652929335494
+    id: 297414078911219520
     label: 
       label: Preferences
 
@@ -567,7 +542,7 @@
 
     layout: 
       sequence: 340
-      parent-entry: Administration # 7876421288469564722
+      parent-entry: '&APP_USER.' # 275941825931044139
 
     is-current: 
       type: Target Page
@@ -585,10 +560,10 @@
       4.: Set preferences (time zone, email subscription and other admin settings)
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Application Types ============================
-    id: 282335234165897265
+    id: 297437660147781291
     label: 
       label: Application Types
 
@@ -597,7 +572,7 @@
 
     layout: 
       sequence: 350
-      parent-entry: Applications # 341966557955466146
+      parent-entry: Managing Data # 290932261892415582
 
     is-current: 
       type: Target Page
@@ -615,10 +590,10 @@
       4.: Types that Applications into which may be grouped [svt_stds_types]
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Notifications ================================
-    id: 283046370346397114
+    id: 298148796328281140
     label: 
       label: Notifications
 
@@ -627,7 +602,7 @@
 
     layout: 
       sequence: 360
-      parent-entry: General Administration # 275823676897405155
+      parent-entry: General Administration # 290926102879289181
 
     is-current: 
       type: Target Page
@@ -645,10 +620,10 @@
       4.: Make an announcement visible to all logged in users - displayed on the front page [svt_stds_notifications]
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Access Control List ==========================
-    id: 283070283499877484
+    id: 298172709481761510
     label: 
       label: Access Control List
 
@@ -657,7 +632,7 @@
 
     layout: 
       sequence: 370
-      parent-entry: General Administration # 275823676897405155
+      parent-entry: General Administration # 290926102879289181
 
     is-current: 
       type: Target Page
@@ -672,13 +647,13 @@
 
     user-defined-attributes: 
       translatable: false
-      4.: Manage the access levels of users
+      4.: Manage the access levels of users [ACL, app users, application users, developers]
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Applications =================================
-    id: 341966557955466146
+    id: 357068983937350172
     label: 
       label: Applications
 
@@ -686,8 +661,7 @@
       image/icon-css-classes: fa-apex
 
     layout: 
-      sequence: 210
-      parent-entry: Managing Data # 275829835910531556
+      sequence: 20
 
     is-current: 
       type: Pages
@@ -698,20 +672,20 @@
     link: 
       target: 
         url: 'f?p=&APP_ID.:160:&SESSION.::&DEBUG.::::'
-        page: 160 # APEX Applications
+        page: 160 # Registered APEX Applications
 
     click-counting: 
       count-clicks: false
 
     user-defined-attributes: 
       translatable: false
-      4.: Manage the list of applications under review [SVT_STDS_APPLICATIONS]
+      4.: Manage the list of registered applications under review [SVT_STDS_APPLICATIONS, apps]
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Application Report Card ======================
-    id: 369477392305802095
+    id: 384579818287686121
     label: 
       label: Application Report Card
 
@@ -720,7 +694,7 @@
 
     layout: 
       sequence: 380
-      parent-entry: Reports # 7330164937817945063
+      parent-entry: Reports # 7345267363799829089
 
     is-current: 
       type: Pages
@@ -740,10 +714,10 @@
       4.: Violation counts by Application (grade)
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Compatibility ================================
-    id: 387168232961357855
+    id: 402270658943241881
     label: 
       label: Compatibility
 
@@ -752,7 +726,7 @@
 
     layout: 
       sequence: 390
-      parent-entry: Managing Data # 275829835910531556
+      parent-entry: Managing Data # 290932261892415582
 
     is-current: 
       type: Pages
@@ -773,10 +747,10 @@
       4.: Classify the compatibility of standards according to APEX and Database Version [SVT_COMPATIBILITY]
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Underlying Types =============================
-    id: 403631806040236768
+    id: 418734232022120794
     label: 
       label: Underlying Types
 
@@ -785,7 +759,7 @@
 
     layout: 
       sequence: 170
-      parent-entry: Component Types # 269194836552859183
+      parent-entry: Component Types # 284297262534743209
 
     is-current: 
       type: Pages
@@ -806,10 +780,10 @@
       4.: Available table types, which determine the necessary fields in the standard test query (nested table types) [SVT_NESTED_TABLE_TYPES]
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Load Component Types =========================
-    id: 452715292683568405
+    id: 467817718665452431
     label: 
       label: Load Component Types
 
@@ -818,7 +792,7 @@
 
     layout: 
       sequence: 420
-      parent-entry: Component Types # 269194836552859183
+      parent-entry: Component Types # 284297262534743209
 
     is-current: 
       type: Target Page
@@ -836,10 +810,10 @@
       4.: Load Component Types JSON script
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Load Nested Table Types JSON Script ==========
-    id: 452719165473603497
+    id: 467821591455487523
     label: 
       label: Load Nested Table Types JSON Script
 
@@ -848,7 +822,7 @@
 
     layout: 
       sequence: 430
-      parent-entry: Underlying Types # 403631806040236768
+      parent-entry: Underlying Types # 418734232022120794
 
     is-current: 
       type: Target Page
@@ -866,10 +840,10 @@
       4.: Load Nested Table Types JSON Script
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Load Compatibility JSON script ===============
-    id: 452721502600638510
+    id: 467823928582522536
     label: 
       label: Load Compatibility JSON script
 
@@ -878,7 +852,7 @@
 
     layout: 
       sequence: 440
-      parent-entry: Compatibility # 387168232961357855
+      parent-entry: Compatibility # 402270658943241881
 
     is-current: 
       type: Target Page
@@ -896,10 +870,10 @@
       4.: Load Compatibility JSON script
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Load Urgency JSON Script =====================
-    id: 452723862642667265
+    id: 467826288624551291
     label: 
       label: Load Urgency JSON Script
 
@@ -908,7 +882,7 @@
 
     layout: 
       sequence: 450
-      parent-entry: Urgency Levels # 3619303961006895768
+      parent-entry: Urgency Levels # 3634406386988779794
 
     is-current: 
       type: Target Page
@@ -926,10 +900,10 @@
       4.: Load Urgency JSON Script
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Load Application Types JSON script ===========
-    id: 452724525787690997
+    id: 467826951769575023
     label: 
       label: Load Application Types JSON script
 
@@ -938,7 +912,7 @@
 
     layout: 
       sequence: 460
-      parent-entry: Application Types # 282335234165897265
+      parent-entry: Application Types # 297437660147781291
 
     is-current: 
       type: Target Page
@@ -956,10 +930,10 @@
       4.: Load Application Types JSON script
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Audit Actions ================================
-    id: 635004783813143353
+    id: 650107209795027379
     label: 
       label: Audit Actions
 
@@ -968,7 +942,7 @@
 
     layout: 
       sequence: 130
-      parent-entry: Managing Data # 275829835910531556
+      parent-entry: Managing Data # 290932261892415582
 
     is-current: 
       type: Pages
@@ -988,10 +962,10 @@
       4.: Available actions to handle violations (ignore / legacy / etc) - with sample data [SVT_AUDIT_ACTIONS]
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Parsed URLs ==================================
-    id: 3482877070613683602
+    id: 3497979496595567628
     label: 
       label: Parsed URLs
 
@@ -1000,7 +974,7 @@
 
     layout: 
       sequence: 80
-      parent-entry: Reports # 7330164937817945063
+      parent-entry: Reports # 7345267363799829089
 
     is-current: 
       type: Pages
@@ -1020,10 +994,10 @@
       4.: Materialized view that analyzes all stored APEX URLs
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Urgency Levels ===============================
-    id: 3619303961006895768
+    id: 3634406386988779794
     label: 
       label: Urgency Levels
 
@@ -1032,7 +1006,7 @@
 
     layout: 
       sequence: 100
-      parent-entry: Managing Data # 275829835910531556
+      parent-entry: Managing Data # 290932261892415582
 
     is-current: 
       type: Pages
@@ -1053,55 +1027,10 @@
       4.: Urgency-levels with which tests should be handled (with Sample Data) [SVT_STANDARDS_URGENCY_LEVEL]
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
-
-  - # ====== Entry: Home =========================================
-    id: 7330164637473945060
-    label: 
-      label: Home
-
-    icon: 
-      image/icon-css-classes: fa-home
-
-    layout: 
-      sequence: 1
-
-    is-current: 
-      type: Pages
-      pages: 
-      - 1
-      - 13
-      - 27
-      - 31
-      - 35
-      - 45
-      - 39
-      - 53
-      - 54
-      - 24
-      - 29
-      - 36
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.::::'
-        page: 1 # Issue Tracking
-
-    click-counting: 
-      count-clicks: false
-
-    user-defined-attributes: 
-      translatable: false
-      1.: Welcome page with violation dashboard
-
-    security: 
-      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
-
-    configuration: 
-      build-option: TO_DELETE # 6384384957050863767
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Standards [&A_NUM_STDS.] =====================
-    id: 7330164834754945063
+    id: 7345267260736829089
     label: 
       label: Standards [&A_NUM_STDS.]
 
@@ -1134,10 +1063,10 @@
       4.: List of standards by which to organize tests (with sample data) [SVT_STDS_STANDARDS]
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Reports ======================================
-    id: 7330164937817945063
+    id: 7345267363799829089
     label: 
       label: Reports
 
@@ -1146,7 +1075,7 @@
 
     layout: 
       sequence: 4
-      parent-entry: Administration # 7876421288469564722
+      parent-entry: Administration # 7891523714451448748
 
     is-current: 
       type: Target Page
@@ -1164,10 +1093,10 @@
       4.: Admin Reports (page views, exceptions, etc)
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Administration ===============================
-    id: 7876421288469564722
+    id: 7891523714451448748
     label: 
       label: Administration
 
@@ -1176,7 +1105,7 @@
 
     layout: 
       sequence: 70
-      parent-entry: '&APP_USER.' # 260839399949160113
+      parent-entry: '&APP_USER.' # 275941825931044139
 
     is-current: 
       type: Pages
@@ -1213,10 +1142,10 @@
       4.: Landing page for administration content
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Page Views ===================================
-    id: 13733150009960503162
+    id: 13748252435942387188
     label: 
       label: Page Views
 
@@ -1225,7 +1154,7 @@
 
     layout: 
       sequence: 40
-      parent-entry: Reports # 7330164937817945063
+      parent-entry: Reports # 7345267363799829089
 
     is-current: 
       type: Target Page
@@ -1243,10 +1172,10 @@
       4.: Interactive report of page views per user.
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Top Users ====================================
-    id: 13733157414808504604
+    id: 13748259840790388630
     label: 
       label: Top Users
 
@@ -1255,7 +1184,7 @@
 
     layout: 
       sequence: 50
-      parent-entry: Reports # 7330164937817945063
+      parent-entry: Reports # 7345267363799829089
 
     is-current: 
       type: Target Page
@@ -1273,10 +1202,10 @@
       4.: Report of page views aggregated by user.
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
 - # ====== List: Navigation Bar ================================
-  id: 7812774090806268713
+  id: 7827876516788152739
   identification: 
     name: Navigation Bar
 
@@ -1285,7 +1214,7 @@
 
   entries: 
   - # ====== Entry: Auditing Dashboard ===========================
-    id: 281917297527409130
+    id: 297019723509293156
     label: 
       label: Auditing Dashboard
 
@@ -1294,7 +1223,7 @@
 
     layout: 
       sequence: 25
-      parent-entry: '&APP_USER.' # 7812774964987268750
+      parent-entry: '&APP_USER.' # 7827877390969152776
 
     is-current: 
       type: Target Page
@@ -1312,10 +1241,10 @@
       4.: KPIs for this application
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Preferences ==================================
-    id: 282289956192959341
+    id: 297392382174843367
     label: 
       label: Preferences
 
@@ -1324,7 +1253,7 @@
 
     layout: 
       sequence: 40
-      parent-entry: '&APP_USER.' # 7812774964987268750
+      parent-entry: '&APP_USER.' # 7827877390969152776
 
     is-current: 
       type: Target Page
@@ -1342,16 +1271,16 @@
       4.: Preferences
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: --- ==========================================
-    id: 7421115754918461533
+    id: 7436218180900345559
     label: 
       label: '---'
 
     layout: 
       sequence: 44
-      parent-entry: '&APP_USER.' # 7812774964987268750
+      parent-entry: '&APP_USER.' # 7827877390969152776
 
     is-current: 
       type: Target Page
@@ -1368,7 +1297,7 @@
       4.: separator
 
   - # ====== Entry: Help =========================================
-    id: 7812774646394268750
+    id: 7827877072376152776
     label: 
       label: Help
 
@@ -1400,7 +1329,7 @@
       authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
   - # ====== Entry: &APP_USER. ===================================
-    id: 7812774964987268750
+    id: 7827877390969152776
     label: 
       label: '&APP_USER.'
 
@@ -1425,7 +1354,7 @@
       4.: Username
 
   - # ====== Entry: Sign Out =====================================
-    id: 7812775563637268750
+    id: 7827877989619152776
     label: 
       label: Sign Out
 
@@ -1434,7 +1363,7 @@
 
     layout: 
       sequence: 50
-      parent-entry: '&APP_USER.' # 7812774964987268750
+      parent-entry: '&APP_USER.' # 7827877390969152776
 
     is-current: 
       type: Target Page
@@ -1450,7 +1379,7 @@
       4.: Logout
 
 - # ====== List: Automated Testing Job =========================
-  id: 7949544281685662414
+  id: 7964646707667546440
   identification: 
     name: Automated Testing Job
 
@@ -1458,7 +1387,7 @@
     type: Static Values
 
 - # ====== List: Utilities =====================================
-  id: 8478016012837411807
+  id: 8493118438819295833
   identification: 
     name: Utilities
 
@@ -1467,7 +1396,7 @@
 
   entries: 
   - # ====== Entry: Rename Application ===========================
-    id: 8478016208097411810
+    id: 8493118634079295836
     label: 
       label: Rename Application
 
@@ -1495,10 +1424,10 @@
       4.: Change the application name, displayed on the top left of each page, to one of your choosing.  By default, the application name is "&APP_NAME.".
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Application Error Log ========================
-    id: 8478017082567411823
+    id: 8493119508549295849
     label: 
       label: Application Error Log
 
@@ -1526,10 +1455,10 @@
       4.: Report of all internal errors encountered within the application.
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Build Options ================================
-    id: 8489941800682502535
+    id: 8505044226664386561
     label: 
       label: Build Options
 
@@ -1556,10 +1485,10 @@
       4.: Manage the status of build options. Build options allow application functionality to be included or excluded from an application.  Use build options to factor your application.
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Application Appearance =======================
-    id: 8498150180717484690
+    id: 8513252606699368716
     label: 
       label: Application Appearance
 
@@ -1585,10 +1514,10 @@
       4.: Change user interface theme style for all users.
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
 - # ====== List: Access Control ================================
-  id: 11006676823237599702
+  id: 11021779249219483728
   identification: 
     name: Access Control
 
@@ -1597,7 +1526,7 @@
 
   entries: 
   - # ====== Entry: Username Format ==============================
-    id: 8493849904041229251
+    id: 8508952330023113277
     label: 
       label: Username Format
 
@@ -1627,43 +1556,10 @@
       type: Never
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
-
-  - # ====== Entry: Access Control ===============================
-    id: 11006677312619599712
-    label: 
-      label: Access Control
-
-    icon: 
-      image/icon-css-classes: fa-key
-
-    layout: 
-      sequence: 20
-
-    is-current: 
-      type: Target Page
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:35:&SESSION.::&DEBUG.::::'
-        page: 35 # Access Control Configuration
-
-    click-counting: 
-      count-clicks: false
-
-    user-defined-attributes: 
-      translatable: false
-      2.: switchIcon
-      4.: Use to change the Access Control Scope or to disable Access Control.
-
-    security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
-
-    configuration: 
-      build-option: TO_DELETE # 6384384957050863767
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Users ========================================
-    id: 11006677622786599712
+    id: 11021780048768483738
     label: 
       label: Users
 
@@ -1691,10 +1587,10 @@
       4.: Administrators can define the domain of users and assign each a role.
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
 - # ====== List: Preferences ===================================
-  id: 11018833511143155830
+  id: 11033935937125039856
   identification: 
     name: Preferences
 
@@ -1703,7 +1599,7 @@
 
   entries: 
   - # ====== Entry: Other Preferences ============================
-    id: 656821329797616036
+    id: 671923755779500062
     label: 
       label: Other Preferences
 
@@ -1730,10 +1626,10 @@
       4.: Subscribe to the weekly summary of violations
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
   - # ====== Entry: Time Zone ====================================
-    id: 11018833717522155834
+    id: 11033936143504039860
     label: 
       label: Time Zone
 
@@ -1762,10 +1658,10 @@
       4.: Set time zone for the current user.
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 
 - # ====== List: Code Tables ===================================
-  id: 11310097758981651835
+  id: 11325200184963535861
   identification: 
     name: Code Tables
 
@@ -1774,7 +1670,7 @@
 
   entries: 
   - # ====== Entry: Manage Sample Data ===========================
-    id: 7883586592447555592
+    id: 7898689018429439618
     label: 
       label: Manage Sample Data
 
@@ -1801,10 +1697,10 @@
       4.: This application ships with a sample Standard. You can remove or recreate the sample Standard using this administrative page.
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Application Types ============================
-    id: 8478020705473443059
+    id: 8493123131455327085
     label: 
       label: Application Types
 
@@ -1832,10 +1728,10 @@
       4.: Manage the types of applications which standards can apply to; one standard can be applied to multiple application types.
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
   - # ====== Entry: Notifications ================================
-    id: 10754681004169558089
+    id: 10769783430151442115
     label: 
       label: Notifications
 
@@ -1862,10 +1758,10 @@
       4.: Manage notification messages displayed on the home page of this application.  Use notifications to alert application users of important information.
 
     security: 
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
 - # ====== List: Activity Reports ==============================
-  id: 12229537150262965142
+  id: 12244639576244849168
   identification: 
     name: Activity Reports
 
@@ -1874,7 +1770,7 @@
 
   entries: 
   - # ====== Entry: Page Views ===================================
-    id: 12230765041763249381
+    id: 12245867467745133407
     label: 
       label: Page Views
 
@@ -1901,10 +1797,10 @@
       4.: Interactive report of page views per user.
 
     security: 
-      authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+      authorization-scheme: CONTRIBUTION RIGHTS # 11021728531848045778
 
   - # ====== Entry: Top Users ====================================
-    id: 12230772446611250823
+    id: 12245874872593134849
     label: 
       label: Top Users
 
@@ -1931,5 +1827,5 @@
       4.: Report of page views aggregated by user.
 
     security: 
-      authorization-scheme: READER RIGHTS # 275286800875611800
+      authorization-scheme: READER RIGHTS # 290389226857495826
 

@@ -5,11 +5,11 @@ identification:
   name: Rename Application
   alias: RENAME-APPLICATION
   title: Rename Application
-  page-group: Administration # 11006713025201092261
+  page-group: Administration # 11021815451182976287
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 276309964637119943
+  dialog-template: Drawer # 291412390619003969
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -27,7 +27,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+  authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -49,7 +49,7 @@ help:
 
 regions: 
 - # ====== Region: Buttons =====================================
-  id: 7874608868536849650
+  id: 7889711294518733676
   identification: 
     title: Buttons
     type: Static Content
@@ -65,7 +65,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7800049597329934914
+    template: Buttons Container # 7815152023311818940
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noUI
@@ -91,7 +91,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Rename Application ==========================
-  id: 9134058104434575310
+  id: 9149160530416459336
   identification: 
     title: Rename Application
     type: Static Content
@@ -107,7 +107,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7800063150069934935
+    template: Standard # 7815165576051818961
     template-options: 
     - '#DEFAULT#'
     - t-Region--scrollBody
@@ -136,7 +136,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P8_APPLICATION_TITLE =====================
-  id: 9134058629050586316
+  id: 9149161055032470342
   identification: 
     name: P8_APPLICATION_TITLE
     type: Text Field
@@ -154,7 +154,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Rename Application # 9134058104434575310
+    region: Rename Application # 9149160530416459336
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -165,7 +165,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6638107616876476202
+    template: Required - Floating # 6653210042858360228
     template-options: 
     - '#DEFAULT#'
     width: 64
@@ -202,14 +202,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 9134058729499592005
+  id: 9149161155481476031
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 7874608868536849650
+    region: Buttons # 7889711294518733676
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -218,7 +218,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text # 7815183240834819016
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -228,14 +228,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: SAVE ========================================
-  id: 9134058917855598034
+  id: 9149161343837482060
   identification: 
     button-name: SAVE
     label: Apply Changes
 
   layout: 
     sequence: 20
-    region: Buttons # 7874608868536849650
+    region: Buttons # 7889711294518733676
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -244,7 +244,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text # 7815183240834819016
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -257,7 +257,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Modal ========================
-  id: 6571656645869728875
+  id: 6586759071851612901
   identification: 
     name: Cancel Modal
 
@@ -267,7 +267,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 9134058729499592005
+    button: CANCEL # 9149161155481476031
 
   execution: 
     event-scope: Static
@@ -275,19 +275,19 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6571656757222728876
+    id: 6586759183204612902
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel Modal # 6571656645869728875
+      event: Cancel Modal # 6586759071851612901
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 branches: 
 - # ====== Branch: Go To Page settings =========================
-  id: 9134062927300617592
+  id: 9149165353282501618
   identification: 
     name: Go To Page settings
 
@@ -302,8 +302,8 @@ branches:
       page: SETTINGS
 
   server-side-condition: 
-    when-button-pressed: SAVE # 9134058917855598034
+    when-button-pressed: SAVE # 9149161343837482060
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+    authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
