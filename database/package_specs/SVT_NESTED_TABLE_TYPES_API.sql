@@ -99,6 +99,23 @@ from dual
     deterministic
     result_cache;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-29
+-- Synopsis:
+--
+-- Function to return the nt_name for a given issue_category
+--
+/*
+select svt_nested_table_types_api.nt_name(p_object_type => 'APEX') ic
+from dual
+*/
+------------------------------------------------------------------------------
+    function nt_name (p_object_type in svt_nested_table_types.object_type%type)
+    return svt_nested_table_types.nt_name%type
+    deterministic
+    result_cache;
+
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -115,6 +132,34 @@ from dual
     function issue_category (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_plsql_apex_audit.issue_category%type
     deterministic;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 29, 2023
+-- Synopsis:
+--
+-- Function to return the count of nested table types that have been defined
+--
+/*
+select svt_nested_table_types_api.nt_count
+from dual
+*/
+------------------------------------------------------------------------------
+    function nt_count return pls_integer result_cache;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 29, 2023
+-- Synopsis:
+--
+-- Function to return a list of nested table types by friendly name
+--
+/*
+select svt_nested_table_types_api.nt_list
+from dual
+*/
+------------------------------------------------------------------------------
+    function nt_list return varchar2 result_cache;
 
 end svt_nested_table_types_api;
 /

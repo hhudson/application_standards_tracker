@@ -1,4 +1,4 @@
---changeset function_script:EXCEPT_COLS stripComments:false endDelimiter:/ runOnChange:true
+--changeset function_script:EXCEPT_COLS stripComments:false runOnChange:true
 --------------------------------------------------------
 --  DDL for function EXCEPT_COLS
 -- from livesql script : https://livesql.oracle.com/apex/livesql/file/content_MXV7PC2TNA6BX952VHRGQ7P3B.html
@@ -16,6 +16,6 @@ create or replace function EXCEPT_COLS (
   p_except_cols columns  
 ) return table pipelined   
   row polymorphic   
-  using except_cols_pkg
-/
+  using except_cols_pkg;
+
 --rollback drop function EXCEPT_COLS;

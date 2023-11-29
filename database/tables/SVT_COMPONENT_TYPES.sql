@@ -43,10 +43,6 @@ create table svt_component_types (
   updated_by         varchar2(255 char)                 default user not null
 )
 /
-alter table svt_component_types add component_type_id  number;
-alter table svt_component_types add fdv_id             number;
-alter table svt_component_types add fdv_parent_view_id number;
-/
 alter table svt_component_types add constraint uk_componentname unique(component_name)
 /
 alter table svt_component_types add constraint svt_component_types_pk primary key (id)

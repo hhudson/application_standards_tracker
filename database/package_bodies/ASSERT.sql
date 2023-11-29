@@ -41,6 +41,19 @@ IS
                 );  
    END is_null;  
 
+   PROCEDURE is_email (  
+      p_val_in IN VARCHAR2  
+    , p_msg_in IN VARCHAR2  
+    , p_display_call_stack_in IN BOOLEAN DEFAULT FALSE  
+   )
+   IS  
+   l_instr pls_integer := 0;
+   BEGIN  
+      l_instr := regexp_instr(p_val_in,
+               '[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*', 1);
+      this_condition (l_instr > 0, p_msg_in, p_display_call_stack_in);  
+   END is_email;  
+
    PROCEDURE is_not_null (  
       p_val_in IN VARCHAR2  
     , p_msg_in IN VARCHAR2  

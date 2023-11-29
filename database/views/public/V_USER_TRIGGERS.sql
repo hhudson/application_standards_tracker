@@ -14,8 +14,8 @@ select dt.owner,
        dt.table_name, 
        dt.description,
        dob.object_id
-from dba_triggers dt
-inner join dba_objects dob on dob.object_name = dt.trigger_name
+from all_triggers dt
+inner join all_objects dob on dob.object_name = dt.trigger_name
                            and dob.object_type = 'TRIGGER'
                            and dob.owner = dt.owner
 where dt.owner = svt_ctx_util.get_default_user

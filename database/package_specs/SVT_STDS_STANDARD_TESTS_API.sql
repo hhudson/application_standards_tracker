@@ -444,7 +444,9 @@ from svt_stds_standard_tests_api.v_svt_stds_standard_tests()
                      p_standard_id        in svt_stds_standard_tests.standard_id%type default null,
                      p_active_yn          in svt_stds_standard_tests.active_yn%type default null,
                      p_published_yn       in varchar2 default null,
-                     p_standard_active_yn in varchar2 default null
+                     p_standard_active_yn in varchar2 default null,
+                     p_issue_category     in svt_nested_table_types.nt_name%type default null,
+                     p_inherited_yn       in varchar2 default null
               )
   return v_svt_stds_standard_tests_nt pipelined;
 
@@ -464,6 +466,23 @@ from dual
   return svt_nested_table_types.nt_name%type
   deterministic 
   result_cache;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return the count of active tests
+--
+/*
+select svt_stds_standard_tests_api.active_test_count
+from dual
+*/
+------------------------------------------------------------------------------
+  function active_test_count (
+              p_published_yn   in varchar2 default null,
+              p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return pls_integer;
 
 end svt_stds_standard_tests_api;
 /

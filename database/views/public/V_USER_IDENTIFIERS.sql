@@ -6,7 +6,7 @@
 
 create or replace force editionable view v_user_identifiers as
 select signature, line, name, object_name, object_type, type, usage_context_id, usage, implicit, owner
-from dba_identifiers
+from all_identifiers
 where owner = svt_ctx_util.get_default_user
 and name not in ('LOGGER')
 /

@@ -1,9 +1,14 @@
+# Standards and Tests available for download and import
+
+## Summary and instructions
+This page lists 185 published tests distributed across 12 standards (*Accessibility, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
+
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-These are standards to maintain Accessibility.
+These tests help support Accessibility standards. They are not substitutes for screen reader tests and other manual tests.
 
- - [Consolidated tests export](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
+ - [Consolidated tests export for Accessibility](APEX_ACCESSIBILITY_212/ALL_TESTS-APEX_ACCESSIBILITY_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [ACC_AUTOCOMPLETE](APEX_ACCESSIBILITY_212/tests/ACC_AUTOCOMPLETE-REDWOOD.json) |  Some fields benefit from an autocomplete attribute | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [ACC_BTN_UNQ](APEX_ACCESSIBILITY_212/tests/ACC_BTN_UNQ-REDWOOD.json) |  Combo of button labels + region names should be unique / page | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -63,11 +68,11 @@ These are standards to maintain Accessibility.
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-REDWOOD.json) |  Theme styles should avoid animations | v1.1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-These tests identify functionality that invalid.
+These tests identify functionality that appears unintentional and could cause problems.
 
- - [Consolidated tests export](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
+ - [Consolidated tests export for Broken Functionality](APEX_BROKEN_FUNCTIONALITY_212/ALL_TESTS-APEX_BROKEN_FUNCTIONALITY_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [BC_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/BC_AUTHR_MATCH_DEST-REDWOOD.json) |  Breadcrumb Authorization Matches Destination | v1.1 [REDWOOD] | APEX_APPLICATION_BC_ENTRIES |
 | [BUTTON_AUTHR_MATCH_DEST](APEX_BROKEN_FUNCTIONALITY_212/tests/BUTTON_AUTHR_MATCH_DEST-REDWOOD.json) |  Button Authorization Matches Destination | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -87,11 +92,11 @@ These tests identify functionality that invalid.
 | [VAL_LIST_LINKS](APEX_BROKEN_FUNCTIONALITY_212/tests/VAL_LIST_LINKS-REDWOOD.json) |  List URLs should be valid | v1.2 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 
 ## Cleanup (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-Best practices to keep things tidy
+These tests describe general best practices to keep things tidy (housekeeping)
 
- - [Consolidated tests export](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
+ - [Consolidated tests export for Cleanup](APEX_CLEANUP_212/ALL_TESTS-APEX_CLEANUP_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_AVAILABLE](APEX_CLEANUP_212/tests/APP_AVAILABLE-REDWOOD.json) |  Applications are available | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [AVAILABLE_REGION](APEX_CLEANUP_212/tests/AVAILABLE_REGION-REDWOOD.json) |  Regions should be available | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
@@ -112,11 +117,11 @@ Best practices to keep things tidy
 | [VAL_PAGE_BUILD](APEX_CLEANUP_212/tests/VAL_PAGE_BUILD-REDWOOD.json) |  Pages should have valid build options | v1.2 [REDWOOD] | APEX_APPLICATION_PAGES |
 
 ## General (Database Version 19C)
-These tests run against the DB objects and therefore may be hard to associate with a given application. They can be associated with the Application Standards Tracker app.
+These tests describe general tests to run against DB objects
 
- - [Consolidated tests export](DB_GENERAL_19C/ALL_TESTS-DB_GENERAL_19C.json)
+ - [Consolidated tests export for General](DB_GENERAL_19C/ALL_TESTS-DB_GENERAL_19C.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [DBMS_ASSERT](DB_GENERAL_19C/tests/DBMS_ASSERT-REDWOOD.json) |  Missing DBMS_ASSERT | v1.5 [REDWOOD] | DATABASE SUPPORTING OBJECT |
 | [DISCOURAGED_CODE](DB_GENERAL_19C/tests/DISCOURAGED_CODE-REDWOOD.json) |  Discouraged code | v1.6 [REDWOOD] | DATABASE SUPPORTING OBJECT |
@@ -130,11 +135,11 @@ These tests run against the DB objects and therefore may be hard to associate wi
 | [VALID_VIEW](DB_GENERAL_19C/tests/VALID_VIEW-REDWOOD.json) |  Fix Invalid View | v1.2 [REDWOOD] | DATABASE VIEW |
 
 ## General (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-Non theme specific standards
+These are general tests with no theme-specific angle
 
- - [Consolidated tests export](APEX_GENERAL_212/ALL_TESTS-APEX_GENERAL_212.json)
+ - [Consolidated tests export for General](APEX_GENERAL_212/ALL_TESTS-APEX_GENERAL_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [APT_PAGE_ITEM_SUBTYPE](APEX_GENERAL_212/tests/APT_PAGE_ITEM_SUBTYPE-REDWOOD.json) |  Use the appropriate page item subtype | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [FORM_ITEM_HELP](APEX_GENERAL_212/tests/FORM_ITEM_HELP-REDWOOD.json) |  Form Elements may benefit from help text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
@@ -143,20 +148,20 @@ Non theme specific standards
 | [RGN_STTC_NODASH](APEX_GENERAL_212/tests/RGN_STTC_NODASH-REDWOOD.json) |  Region Static IDs can have underscores not dashes | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 
 ## Idiosyncratic (Database Version 19C)
-Standards that are *not* general standards
+Tests that are *not* general standards. You are welcome to disagree with them.
 
- - [Consolidated tests export](DB_IDIOSYNCRATIC_19C/ALL_TESTS-DB_IDIOSYNCRATIC_19C.json)
+ - [Consolidated tests export for Idiosyncratic](DB_IDIOSYNCRATIC_19C/ALL_TESTS-DB_IDIOSYNCRATIC_19C.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [NO_TRIGGERS](DB_IDIOSYNCRATIC_19C/tests/NO_TRIGGERS-REDWOOD.json) |  This schema should not have triggers | v1 [REDWOOD] | DATABASE TRIGGER |
 
 ## Idiosyncratic (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
-Standards that are *not* general standards
+Tests that are *not* general standards. You are welcome to disagree with them.
 
- - [Consolidated tests export](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
+ - [Consolidated tests export for Idiosyncratic](APEX_IDIOSYNCRATIC_212/ALL_TESTS-APEX_IDIOSYNCRATIC_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_BUILDS](APEX_IDIOSYNCRATIC_212/tests/APP_BUILDS-REDWOOD.json) |  Apps should have particular set of builds | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [APP_ITEM_NAMING](APEX_IDIOSYNCRATIC_212/tests/APP_ITEM_NAMING-REDWOOD.json) |  Application Item incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_ITEMS |
@@ -180,11 +185,11 @@ Standards that are *not* general standards
 | [SVT_SAVE_BUTTONS](APEX_IDIOSYNCRATIC_212/tests/SVT_SAVE_BUTTONS-REDWOOD.json) |  Update buttons must be labelled "Save" | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 
 ## Millenium Gen2 (Database Version 19C)
+Tests that are specific to the Millenium Gen2 project
 
+ - [Consolidated tests export for Millenium Gen2](DB_MILLENIUM_GEN2_19C/ALL_TESTS-DB_MILLENIUM_GEN2_19C.json)
 
- - [Consolidated tests export](DB_MILLENIUM_GEN2_19C/ALL_TESTS-DB_MILLENIUM_GEN2_19C.json)
-
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [ALPH_COL_DATATYPE](DB_MILLENIUM_GEN2_19C/tests/ALPH_COL_DATATYPE-REDWOOD.json) |  These column datatypes are discouraged | v1 [REDWOOD] | DATABASE TABLE |
 | [ALPH_MV_NAME](DB_MILLENIUM_GEN2_19C/tests/ALPH_MV_NAME-REDWOOD.json) |  Materialized Views should be named correctly | v1.3 [REDWOOD] | DATABASE MATERIALIZED VIEW |
@@ -195,11 +200,11 @@ Standards that are *not* general standards
 | [USE_TS_W_TZ](DB_MILLENIUM_GEN2_19C/tests/USE_TS_W_TZ-REDWOOD.json) |  Use TIMESTAMP WITH TIME ZONE where appropriate | v1.1 [REDWOOD] | DATABASE TABLE |
 
 ## Millenium Gen2 (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
+Tests that are specific to the Millenium Gen2 project
 
+ - [Consolidated tests export for Millenium Gen2](APEX_MILLENIUM_GEN2_212/ALL_TESTS-APEX_MILLENIUM_GEN2_212.json)
 
- - [Consolidated tests export](APEX_MILLENIUM_GEN2_212/ALL_TESTS-APEX_MILLENIUM_GEN2_212.json)
-
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [ALPH_AI_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AI_NAMING-REDWOOD.json) |  Application Items should be correctly named | v1.3 [REDWOOD] | APEX_APPLICATION_ITEMS |
 | [ALPH_AP_NAMING](APEX_MILLENIUM_GEN2_212/tests/ALPH_AP_NAMING-REDWOOD.json) |  Application Processes should be correctly named | v1.2 [REDWOOD] | APEX_APPLICATION_PROCESSES |
@@ -212,9 +217,9 @@ Standards that are *not* general standards
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
 
- - [Consolidated tests export](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
+ - [Consolidated tests export for Redwood](APEX_REDWOOD_212/ALL_TESTS-APEX_REDWOOD_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_CSS_FILE](APEX_REDWOOD_212/tests/APP_CSS_FILE-REDWOOD.json) |  Apps should have a centralized css file | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [COL_ALIGNMENT_CLASSIC](APEX_REDWOOD_212/tests/COL_ALIGNMENT_CLASSIC-REDWOOD.json) |  Classic Columns are correctly aligned | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
@@ -255,9 +260,9 @@ Standards for correctly implementing Redwood patterns
 ## Security (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These standards enforce security
 
- - [Consolidated tests export](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
+ - [Consolidated tests export for Security](APEX_SECURITY_212/ALL_TESTS-APEX_SECURITY_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [APP_AUTH](APEX_SECURITY_212/tests/APP_AUTH-REDWOOD.json) |  Application has Authorization Scheme | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [IG_HTML_ESCAPING_COLS](APEX_SECURITY_212/tests/IG_HTML_ESCAPING_COLS-REDWOOD.json) |  HTML should be escaped in IG Columns | v1.1 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
@@ -267,9 +272,9 @@ These standards enforce security
 ## Universal Theme (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are best practices that apply to Universal Theme applications.
 
- - [Consolidated tests export](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
+ - [Consolidated tests export for Universal Theme](APEX_UNIVERSAL_THEME_212/ALL_TESTS-APEX_UNIVERSAL_THEME_212.json)
 
-| Test Code | Test Name | Version | Component Type |
+| Test Code | Test Name | Version* | Component Type |
 |-----------|-----------|---------|----------------|
 | [BUTTON_DEFAULT_SIZE](APEX_UNIVERSAL_THEME_212/tests/BUTTON_DEFAULT_SIZE-REDWOOD.json) |  Button size should be default | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [BUTTON_STYLING](APEX_UNIVERSAL_THEME_212/tests/BUTTON_STYLING-REDWOOD.json) |  Buttons should be styled correctly | v1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -280,4 +285,4 @@ These are best practices that apply to Universal Theme applications.
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 
 
-* This consolidated tests export does not include inherited relationships. You will need to install the individual standards / tests for that purpose.    
+* Test versions are idenfied by an incrementing number and the name of the database on which they were developed. The addition of the database name allows us to distinguish between tests that have been imported and untouched and ones that have been modified locally after import.    

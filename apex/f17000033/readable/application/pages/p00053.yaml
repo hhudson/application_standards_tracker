@@ -410,7 +410,10 @@ processes:
   source: 
     location: Local Database
     language: PL/SQL
-    pl/sql-code: svt_acl.add_awd_users;
+    pl/sql-code: |
+      begin
+          svt_acl.add_awd_users(p_application_id => :APP_ID);
+      end;
 
   execution: 
     sequence: 20

@@ -1079,6 +1079,14 @@ lb update -changelog-file controller.xml -debug true -log true
 --
 set define on
 show errors
+
+PRO step 2 : query invalid objects
+
+select object_name, object_type
+from user_objects
+where status != 'VALID'
+order by object_name
+;
 exit;
 EOF
 
@@ -1108,6 +1116,31 @@ exit;
 EOF
 
 } # liquibase_clear_checksums
+
+liquibase_cleanslate() {
+  # echo "log : liquibase_cleanslate"
+# PRO step 0 : delete from DATABASECHANGELOGLOCK
+# delete from DATABASECHANGELOGLOCK
+# /
+
+$VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
+--
+-- Load user specific commands here
+
+
+PRO step 1 : delete from databasechangelog
+
+delete from databasechangelog
+/
+--
+-- 
+--
+set define on
+show errors
+exit;
+EOF
+
+} # liquibase_cleanslate
 
 liquibase_validate () {
   # echo "log : liquibase_validate"

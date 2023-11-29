@@ -98,7 +98,7 @@ regions:
 
   layout: 
     sequence: 80
-    parent-region: No Parent
+    parent-region: Main Region # 517454522191072718
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -123,7 +123,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
     exclude-title-from-translation: false
 
   security: 
@@ -140,17 +140,14 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: Issues ======================================
-  id: 627819841557434651
+- # ====== Region: Main Region =================================
+  id: 517454522191072718
   identification: 
-    title: Issues
+    title: Main Region
     type: Static Content
 
-  source: 
-    html-code: <span></span>
-
   layout: 
-    sequence: 41
+    sequence: 60
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -170,7 +167,98 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: true
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: There are no alerts at this time ============
+  id: 517455606311072729
+  identification: 
+    title: There are no alerts at this time
+    type: Static Content
+
+  layout: 
+    sequence: 100
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--success
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item = Value
+    item: P1_ALERT_YN
+    value: N
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Issues ======================================
+  id: 627819841557434651
+  identification: 
+    title: Issues
+    type: Static Content
+
+  layout: 
+    sequence: 70
+    parent-region: Main Region # 517454522191072718
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7800049465222934912
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
     exclude-title-from-translation: false
 
   server-cache: 
@@ -2879,14 +2967,14 @@ regions:
         font-color: '#000000'
         alignment: center
 
-- # ====== Region: hidden ======================================
-  id: 1776471013992886017
+- # ====== Region: Alerts ======================================
+  id: 800798413783769692
   identification: 
-    title: hidden
+    title: Alerts
     type: Static Content
 
   layout: 
-    sequence: 100
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -2896,9 +2984,11 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7800049465222934912
+    template: Inline Drawer # 276548084202120147
     template-options: 
     - '#DEFAULT#'
+    - js-dialog-class-t-Drawer--pullOutEnd
+    - js-dialog-class-t-Drawer--lg
     render-components: Above Content
 
   accessibility: 
@@ -2906,10 +2996,28 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    custom-attributes: 
-    - 'style="display:none"'
-    region-display-selector: true
-    exclude-title-from-translation: true
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      declare
+      
+      l_page_mode     varchar2(200);
+      begin
+        select page_mode 
+          into l_page_mode
+          from apex_application_pages
+          where application_id = :APP_ID
+            and page_id = :APP_PAGE_ID;
+      
+        return l_page_mode = 'Normal' and :APP_PAGE_ID not in (9999,101); -- 9999 is the login page
+      end;
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
   server-cache: 
     caching: Disabled
@@ -2921,6 +3029,1783 @@ regions:
     settings: 
       output-as: HTML
       expand-shortcuts: false
+
+- # ====== Region: You must correct the following Problem Assign
+  id: 800798507245769693
+  identification: 
+    title: You must correct the following Problem Assignees
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select assignee problem_assignee, display_assignee
+      from V_SVT_PROBLEM_ASSIGNEES
+      order by assignee desc
+
+  layout: 
+    sequence: 90
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--accent11
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: |
+      The following assignees are problematic for one or more of the following reasons:
+      <ol>
+          <li>They are not email addresses</li>
+          <li>They are null</li>
+          <li>They have been explicitly banned by the SVT_DO_NOT_ASSIGN preference</li>
+      </ol>
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 
+      from V_SVT_PROBLEM_ASSIGNEES
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      - t-Report--inline
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: DISPLAY_ASSIGNEE ============================
+    id: 517455203121072725
+    identification: 
+      column-name: DISPLAY_ASSIGNEE
+      type: Hidden Column
+
+    layout: 
+      sequence: 20
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROBLEM_ASSIGNEE ============================
+    id: 520773222621405380
+    identification: 
+      column-name: PROBLEM_ASSIGNEE
+      type: Link
+
+    heading: 
+      heading: Problem Assignee
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: true
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:CR,1:IR[AUDIT_RPT]EQ_ASSIGNEE,P1_SUPPRESS_ALERTS_YN:#PROBLEM_ASSIGNEE#,Y'
+        page: 1 # Issue Tracking
+        clear-cache: CR,1
+        values: 
+          ir[audit_rpt]eq_assignee: '#PROBLEM_ASSIGNEE#'
+          p1_suppress_alerts_yn: Y
+
+      link-text: '#DISPLAY_ASSIGNEE#'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+      escape-special-characters: true
+
+- # ====== Region: You must refresh these stale deployment files
+  id: 800802287340208233
+  identification: 
+    title: You must refresh these stale deployment files
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select table_name user_name,
+             'STALE' ALERT_ACTION,
+             'This file may need to be updated' event_type,
+             file_blob,
+             mime_type,
+             file_name,
+             static_file_name EVENT_TITLE,
+             character_set,
+             file_size,
+             download,
+             data_load_definition_name,
+             static_application_file_name,
+             inspect_static_file_icon,
+             page_id,
+             page_id_icon,
+             application_file_id,
+             zip_blob,
+             zip_file_size,
+             zip_download,
+             zip_mime_type,
+             zip_charset,
+             zip_updated_on,
+             table_last_updated_on EVENT_DATE,
+             static_file_created_on event_desc,
+             stale_yn,
+             apex_string.get_initials(table_name) user_avatar,
+             null EVENT_LINK
+      from svt_deployment.v_svt_table_data_load_def(p_application_id => :APP_ID) 
+      where stale_yn = 'Y'
+
+  layout: 
+    sequence: 110
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7800063150069934935
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--accent10
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Timeline # 6548775413624714795
+      template-options: 
+      - '#DEFAULT#'
+      - t-Timeline--compact
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: APPLICATION_FILE_ID =========================
+    id: 520778982626405385
+    identification: 
+      column-name: APPLICATION_FILE_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 160
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_BLOB ====================================
+    id: 520779344092405385
+    identification: 
+      column-name: ZIP_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 280
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_FILE_SIZE ===============================
+    id: 520779790619405386
+    identification: 
+      column-name: ZIP_FILE_SIZE
+      type: Hidden Column
+
+    layout: 
+      sequence: 180
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_DOWNLOAD ================================
+    id: 520780171584405386
+    identification: 
+      column-name: ZIP_DOWNLOAD
+      type: Hidden Column
+
+    layout: 
+      sequence: 190
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_MIME_TYPE ===============================
+    id: 520780598967405386
+    identification: 
+      column-name: ZIP_MIME_TYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 200
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_CHARSET =================================
+    id: 520780958818405387
+    identification: 
+      column-name: ZIP_CHARSET
+      type: Hidden Column
+
+    layout: 
+      sequence: 210
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ZIP_UPDATED_ON ==============================
+    id: 520781335514405387
+    identification: 
+      column-name: ZIP_UPDATED_ON
+      type: Hidden Column
+
+    layout: 
+      sequence: 220
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PAGE_ID_ICON ================================
+    id: 520781792375405387
+    identification: 
+      column-name: PAGE_ID_ICON
+      type: Hidden Column
+
+    layout: 
+      sequence: 30
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DATE ==================================
+    id: 520782158541405388
+    identification: 
+      column-name: EVENT_DATE
+      type: Hidden Column
+
+    layout: 
+      sequence: 230
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DESC ==================================
+    id: 520782555759405388
+    identification: 
+      column-name: EVENT_DESC
+      type: Hidden Column
+
+    layout: 
+      sequence: 140
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STALE_YN ====================================
+    id: 520782911599405388
+    identification: 
+      column-name: STALE_YN
+      type: Hidden Column
+
+    layout: 
+      sequence: 250
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_AVATAR =================================
+    id: 520783362328405389
+    identification: 
+      column-name: USER_AVATAR
+      type: Hidden Column
+
+    layout: 
+      sequence: 290
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_LINK ==================================
+    id: 520783735294405389
+    identification: 
+      column-name: EVENT_LINK
+      type: Hidden Column
+
+    layout: 
+      sequence: 320
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_ACTION ================================
+    id: 520784189042405390
+    identification: 
+      column-name: ALERT_ACTION
+      type: Hidden Column
+
+    layout: 
+      sequence: 50
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TYPE ==================================
+    id: 520784503774405390
+    identification: 
+      column-name: EVENT_TYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 310
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_BLOB ===================================
+    id: 520784914082405391
+    identification: 
+      column-name: FILE_BLOB
+      type: Hidden Column
+
+    layout: 
+      sequence: 260
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MIME_TYPE ===================================
+    id: 520785335971405391
+    identification: 
+      column-name: MIME_TYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 70
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_NAME ===================================
+    id: 520785786640405391
+    identification: 
+      column-name: FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 270
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TITLE =================================
+    id: 520786131199405392
+    identification: 
+      column-name: EVENT_TITLE
+      type: Hidden Column
+
+    layout: 
+      sequence: 90
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CHARACTER_SET ===============================
+    id: 520786522289405392
+    identification: 
+      column-name: CHARACTER_SET
+      type: Hidden Column
+
+    layout: 
+      sequence: 100
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_SIZE ===================================
+    id: 520786925403405392
+    identification: 
+      column-name: FILE_SIZE
+      type: Hidden Column
+
+    layout: 
+      sequence: 110
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DOWNLOAD ====================================
+    id: 520787382612405393
+    identification: 
+      column-name: DOWNLOAD
+      type: Hidden Column
+
+    layout: 
+      sequence: 120
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DATA_LOAD_DEFINITION_NAME ===================
+    id: 520787796019405393
+    identification: 
+      column-name: DATA_LOAD_DEFINITION_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 130
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATIC_APPLICATION_FILE_NAME ================
+    id: 520788171304405393
+    identification: 
+      column-name: STATIC_APPLICATION_FILE_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 300
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_NAME ===================================
+    id: 520788566155405393
+    identification: 
+      column-name: USER_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 40
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: INSPECT_STATIC_FILE_ICON ====================
+    id: 520788949877405394
+    identification: 
+      column-name: INSPECT_STATIC_FILE_ICON
+      type: Hidden Column
+
+    layout: 
+      sequence: 150
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PAGE_ID =====================================
+    id: 520789320649405394
+    identification: 
+      column-name: PAGE_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 20
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: You must configure the following Missing pref
+  id: 801886034887192043
+  identification: 
+    title: You must configure the following Missing preferences
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_SVT_PREFERENCE_PROBLEMS
+    include-rowid-column: false
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 80
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: There are many APEX Preferences that must be configured for the correct operations of this application.
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+      from V_SVT_PREFERENCE_PROBLEMS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: STMT ========================================
+    id: 520777822799405384
+    identification: 
+      column-name: STMT
+      type: Plain Text
+
+    heading: 
+      heading: Stmt
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: true
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: You must address these Unsuccessful Jobs ====
+  id: 854766201932801025
+  identification: 
+    title: You must address these Unsuccessful Jobs
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select job_name user_name, 
+             status ALERT_ACTION, 
+             log_date_char EVENT_DATE, 
+             error_msg EVENT_TITLE ,
+             job_initials USER_AVATAR,
+             polling_interval EVENT_DESC,
+             status event_type,
+             null EVENT_LINK
+      from V_AUTOMATIONS_PROBLEMS
+      order by log_date desc
+
+  layout: 
+    sequence: 60
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--accent11
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: The following APEX Automations failed. You must address them.
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 
+      from V_AUTOMATIONS_PROBLEMS
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Timeline # 6548775413624714795
+      template-options: 
+      - '#DEFAULT#'
+      - t-Timeline--compact
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: USER_NAME ===================================
+    id: 520773990740405380
+    identification: 
+      column-name: USER_NAME
+      type: Hidden Column
+
+    layout: 
+      sequence: 100
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_ACTION ================================
+    id: 520774355957405381
+    identification: 
+      column-name: ALERT_ACTION
+      type: Hidden Column
+
+    layout: 
+      sequence: 30
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DATE ==================================
+    id: 520774789055405381
+    identification: 
+      column-name: EVENT_DATE
+      type: Hidden Column
+
+    layout: 
+      sequence: 50
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TITLE =================================
+    id: 520775130434405381
+    identification: 
+      column-name: EVENT_TITLE
+      type: Hidden Column
+
+    layout: 
+      sequence: 40
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_AVATAR =================================
+    id: 520775517246405382
+    identification: 
+      column-name: USER_AVATAR
+      type: Hidden Column
+
+    layout: 
+      sequence: 70
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DESC ==================================
+    id: 520775980284405382
+    identification: 
+      column-name: EVENT_DESC
+      type: Hidden Column
+
+    layout: 
+      sequence: 80
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TYPE ==================================
+    id: 520776348863405382
+    identification: 
+      column-name: EVENT_TYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 90
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_LINK ==================================
+    id: 520776771899405383
+    identification: 
+      column-name: EVENT_LINK
+      type: Hidden Column
+
+    layout: 
+      sequence: 110
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: You must configure the following Missing data
+  id: 877166749207926599
+  identification: 
+    title: You must configure the following Missing data
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_SVT_MISSING_BASE_DATA
+    include-rowid-column: false
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7800047592157934909
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: |
+      There exist some base tables that must have data in order for the application to function correctly.
+      Ideally this data should have been populated by the Application Supporting Objects Installation, but this step must have been skipped.
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+      from V_SVT_MISSING_BASE_DATA
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: TBL_NAME ====================================
+    id: 520766373606405371
+    identification: 
+      column-name: TBL_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Tbl Name
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: true
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Team mismatch Assignees =====================
+  id: 897667471665594780
+  identification: 
+    title: Team mismatch Assignees
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SVT_AHA_TEAM_MISMATCH_ASSIGNMENTS
+    include-rowid-column: false
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 100
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--accent11
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: TO_DELETE # 6384384957050863767
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 7800069760574934953
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      - t-Report--inline
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ASSIGNED_APP_TYPE ===========================
+    id: 520767442545405374
+    identification: 
+      column-name: ASSIGNED_APP_TYPE
+      type: Link
+
+    heading: 
+      heading: Assigned App Type
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: true
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&SESSION.:IR[AUDIT_RPT]_APEX:&DEBUG.:CR,:IR[AUDIT_RPT]EQ_ASSIGNEE,IR[AUDIT_RPT]EQ_APPLICATION_TYPE:#ASSIGNEE#,#ASSIGNED_APP_TYPE#'
+        page: 1 # Issue Tracking
+        request: IR[AUDIT_RPT]_APEX
+        clear-cache: CR
+        values: 
+          ir[audit_rpt]eq_assignee: '#ASSIGNEE#'
+          ir[audit_rpt]eq_application_type: '#ASSIGNED_APP_TYPE#'
+
+      link-text: '#ASSIGNED_APP_TYPE# + #ASSIGNEE#'
+      link-attributes: 'aria-label = "view #ASSIGNED_APP_TYPE# + #ASSIGNEE#"'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+      escape-special-characters: true
+
+  - # ====== Column: ASSIGNEE ====================================
+    id: 520767838780405375
+    identification: 
+      column-name: ASSIGNEE
+      type: Hidden Column
+
+    layout: 
+      sequence: 20
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: You must enable these disabled jobs =========
+  id: 921884092200824923
+  identification: 
+    title: You must enable these disabled jobs
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select name user_name, 
+             polling_status_code ALERT_ACTION, 
+             null EVENT_DATE, 
+             NULL EVENT_TITLE ,
+             apex_string.get_initials(name) USER_AVATAR,
+             polling_interval EVENT_DESC,
+             polling_status_code event_type,
+             null EVENT_LINK,
+             application_id, static_id
+      from apex_appl_automations
+      where polling_status_code = 'DISABLED'
+      and application_id = :APP_ID
+      order by 1
+
+  layout: 
+    sequence: 50
+    parent-region: Alerts # 800798413783769692
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 7800059901717934927
+    template-options: 
+    - '#DEFAULT#'
+    - js-useLocalStorage
+    - t-Region--hideShowIconsMath
+    - t-Region--controlsPosEnd
+    - is-expanded
+    - t-Region--scrollBody
+    icon: fa-gears
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: The application periodic functions are entirely controlled by Automations. They must be enabled for the intended usage.
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select * 
+      from apex_appl_automations
+      where polling_status_code = 'DISABLED'
+      and application_id = :APP_ID
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Timeline # 6548775413624714795
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: USER_NAME ===================================
+    id: 520768539514405375
+    identification: 
+      column-name: USER_NAME
+      type: Plain Text
+
+    heading: 
+      heading: User Name
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: true
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_ACTION ================================
+    id: 520768965360405376
+    identification: 
+      column-name: ALERT_ACTION
+      type: Plain Text
+
+    heading: 
+      heading: Alert Action
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DATE ==================================
+    id: 520769327896405376
+    identification: 
+      column-name: EVENT_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Event Date
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TITLE =================================
+    id: 520769700289405376
+    identification: 
+      column-name: EVENT_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Event Title
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_AVATAR =================================
+    id: 520770135629405377
+    identification: 
+      column-name: USER_AVATAR
+      type: Plain Text
+
+    heading: 
+      heading: User Avatar
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DESC ==================================
+    id: 520770595184405377
+    identification: 
+      column-name: EVENT_DESC
+      type: Plain Text
+
+    heading: 
+      heading: Event Desc
+      alignment: start
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TYPE ==================================
+    id: 520770935214405378
+    identification: 
+      column-name: EVENT_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Event Type
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_LINK ==================================
+    id: 520771353217405378
+    identification: 
+      column-name: EVENT_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Event Link
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATIC_ID ===================================
+    id: 520771767061405378
+    identification: 
+      column-name: STATIC_ID
+      type: Plain Text
+
+    heading: 
+      heading: Static ID
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APPLICATION_ID ==============================
+    id: 520772132653405379
+    identification: 
+      column-name: APPLICATION_ID
+      type: Plain Text
+
+    heading: 
+      heading: Application ID
+      alignment: end
+
+    layout: 
+      sequence: 90
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
 
 - # ====== Region: Notifications ===============================
   id: 9030678832501319437
@@ -3166,10 +5051,10 @@ regions:
     security: 
       escape-special-characters: true
 
-- # ====== Region: Show Timezone ===============================
+- # ====== Region: Footer region ===============================
   id: 11018813402505604599
   identification: 
-    title: Show Timezone
+    title: Footer region
     type: Static Content
 
   source: 
@@ -3186,9 +5071,11 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7800049465222934912
+    template: Buttons Container # 7800049597329934914
     template-options: 
     - '#DEFAULT#'
+    - t-ButtonRegion--stickToBottom
+    - t-ButtonRegion--noUI
     render-components: Above Content
 
   accessibility: 
@@ -3318,7 +5205,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: hidden # 1776471013992886017
+    region: Issues # 627819841557434651
     position: BODY
 
   advanced: 
@@ -3348,7 +5235,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: hidden # 1776471013992886017
+    region: Issues # 627819841557434651
     position: BODY
 
   advanced: 
@@ -3378,7 +5265,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: hidden # 1776471013992886017
+    region: Issues # 627819841557434651
     position: BODY
 
   advanced: 
@@ -3408,7 +5295,7 @@ page-items:
 
   layout: 
     sequence: 40
-    region: hidden # 1776471013992886017
+    region: Issues # 627819841557434651
     position: BODY
 
   advanced: 
@@ -3468,7 +5355,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: hidden # 1776471013992886017
+    region: Issues # 627819841557434651
     position: BODY
 
   advanced: 
@@ -3487,6 +5374,70 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P1_SUPPRESS_ALERTS_YN ====================
+  id: 517454882597072721
+  identification: 
+    name: P1_SUPPRESS_ALERTS_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Alerts # 800798413783769692
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Ignore
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: N
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_ALERT_YN ==============================
+  id: 517454969100072722
+  identification: 
+    name: P1_ALERT_YN
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Alerts # 800798413783769692
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P1_TIMEZONE_URL ==========================
   id: 9061914530774372612
   identification: 
@@ -3498,7 +5449,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Show Timezone # 11018813402505604599
+    region: Footer region # 11018813402505604599
     position: BODY
 
   advanced: 
@@ -3530,7 +5481,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Show Timezone # 11018813402505604599
+    region: Footer region # 11018813402505604599
     position: BODY
 
   advanced: 
@@ -3776,6 +5727,223 @@ buttons:
       clear-cache: RR
 
     warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: OPEN_ALERTS =================================
+  id: 517455369016072726
+  identification: 
+    button-name: OPEN_ALERTS
+    label: Open Alerts
+
+  layout: 
+    sequence: 40
+    region: Footer region # 11018813402505604599
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-alert
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Button: DEPLOY_DATA =================================
+  id: 520766735170405372
+  identification: 
+    button-name: DEPLOY_DATA
+    label: Install Data
+
+  layout: 
+    sequence: 10
+    region: You must configure the following Missing data # 877166749207926599
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-upload
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:43::'
+      page: 43 # Deploying data
+      clear-cache: 43
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
+
+- # ====== Button: ENABLE_JOBS =================================
+  id: 520772587051405379
+  identification: 
+    button-name: ENABLE_JOBS
+    label: Enable Jobs
+
+  layout: 
+    sequence: 10
+    region: You must enable these disabled jobs # 921884092200824923
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-power-off
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:18:&SESSION.::&DEBUG.:18::'
+      page: 18 # Enable Job Automations
+      clear-cache: 18
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Button: DEBUG_JOB ===================================
+  id: 520777170775405383
+  identification: 
+    button-name: DEBUG_JOB
+    label: Debug Job
+
+  layout: 
+    sequence: 10
+    region: You must address these Unsuccessful Jobs # 854766201932801025
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-bug-slash
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:15:&SESSION.:DEBUG:&DEBUG.:15::#YES'
+      page: 15 # Run Jobs in Debug mode
+      request: DEBUG
+      clear-cache: 15
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+- # ====== Button: CONFIGURE_PREFS =============================
+  id: 520778265994405384
+  identification: 
+    button-name: CONFIGURE_PREFS
+    label: Configure Preferences
+
+  layout: 
+    sequence: 10
+    region: You must configure the following Missing preferences # 801886034887192043
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-pie-chart-50
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.:45::'
+      page: 45 # Set Preferences
+      clear-cache: 45
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 275286800875611800
+
+- # ====== Button: MNG_DEP_FILES ===============================
+  id: 520789782271405394
+  identification: 
+    button-name: MNG_DEP_FILES
+    label: Manage Deployment Files
+
+  layout: 
+    sequence: 10
+    region: You must refresh these stale deployment files # 800802287340208233
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7800080208901934988
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--primary
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-database-cursor
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:43::'
+      page: 43 # Deploying data
+      clear-cache: 43
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 11006626105866161752
 
 dynamic-actions: 
 - # ====== Dynamic Action: Mark as Exception ===================
@@ -4517,6 +6685,77 @@ dynamic-actions:
       fire-when-event-result-is: True
       fire-on-initialization: false
 
+- # ====== Dynamic Action: open alerts region ==================
+  id: 517454674746072719
+  identification: 
+    name: open alerts region
+
+  execution: 
+    sequence: 140
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  execution: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P1_SUPPRESS_ALERTS_YN = 'N' and :P1_ALERT_YN = 'Y'"
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+
+  actions: 
+  - # ====== Action: Open Region =================================
+    id: 517454754612072720
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Alerts # 800798413783769692
+
+    execution: 
+      sequence: 10
+      event: open alerts region # 517454674746072719
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: open alerts =========================
+  id: 517455402329072727
+  identification: 
+    name: open alerts
+
+  execution: 
+    sequence: 150
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: OPEN_ALERTS # 517455369016072726
+
+  execution: 
+    event-scope: Static
+    type: Immediate
+
+  actions: 
+  - # ====== Action: Open Region =================================
+    id: 517455546684072728
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Alerts # 800798413783769692
+
+    execution: 
+      sequence: 10
+      event: open alerts # 517455402329072727
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 computations: 
 - # ====== Computation: P1_VIOLATION_COUNT =====================
   id: 281120125177786674
@@ -4598,6 +6837,23 @@ computations:
     type: Expression
     language: PL/SQL
     pl/sql-expression: svt_plsql_apex_audit_api.percent_solved
+
+- # ====== Computation: P1_ALERT_YN ============================
+  id: 517455150397072724
+  identification: 
+    item-name: P1_ALERT_YN
+
+  execution: 
+    sequence: 50
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_util.alerts_yn
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
 
 - # ====== Computation: A_LAST_VIEW ============================
   id: 12229498164893600435

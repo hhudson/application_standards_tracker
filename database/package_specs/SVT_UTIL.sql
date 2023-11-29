@@ -33,6 +33,20 @@ from dual
 ------------------------------------------------------------------------------
     function app_name return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to detect presence of alerts that need to be addressed
+--
+/*
+select svt_util.alerts_yn
+from dual
+*/
+------------------------------------------------------------------------------
+    function alerts_yn return varchar2;
+
 end SVT_UTIL;
 /
 --rollback drop package SVT_UTIL;

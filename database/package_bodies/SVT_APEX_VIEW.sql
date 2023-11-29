@@ -402,11 +402,12 @@ create or replace package body SVT_APEX_VIEW as
 
   function rpt_link_request(
               p_issue_category   in svt_plsql_apex_audit.issue_category%type,
-              p_dest_region_name in apex_appl_page_ig_rpts.region_name%type default null,
-              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type default null,
-              p_report_type      in varchar2 default 'IR'
+              p_report_type      in varchar2 default 'IR',
+              p_dest_region_name in apex_appl_page_ig_rpts.region_name%type    default null,
+              p_dest_page_id     in apex_appl_page_ig_rpts.page_id%type        default null,
+              p_application_id   in apex_appl_page_ig_rpts.application_id%type default null
         )
-  return varchar2 
+  return varchar2
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'rpt_link_request';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -416,6 +417,8 @@ create or replace package body SVT_APEX_VIEW as
                      := coalesce(p_dest_page_id,1);
   c_ir constant varchar2(2) := 'IR';
   c_ig constant varchar2(2) := 'IG';
+  c_application_id constant apex_appl_page_ig_rpts.application_id%type
+                   := coalesce(p_application_id, svt_apex_view.gc_svt_app_id);
   l_link_request varchar2(50);
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -437,7 +440,7 @@ create or replace package body SVT_APEX_VIEW as
       where pir.region_name = c_dest_region_name
       and pir.name is not null
       and pir.type = 'ALTERNATIVE'
-      and pir.application_id = svt_apex_view.gc_svt_app_id
+      and pir.application_id = c_application_id
       and pir.page_id = c_dest_page_id
       and pir.static_id = p_issue_category
       fetch first 1 rows only;
@@ -455,7 +458,7 @@ create or replace package body SVT_APEX_VIEW as
       where apr.region_name = c_dest_region_name
       and pir.status = 'PUBLIC'
       and pir.report_name is not null
-      and pir.application_id = svt_apex_view.gc_svt_app_id
+      and pir.application_id = c_application_id
       and pir.page_id = c_dest_page_id
       and pir.report_alias = p_issue_category
       fetch first 1 rows only;

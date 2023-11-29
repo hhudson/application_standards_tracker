@@ -682,7 +682,9 @@ begin
                 p_standard_id        in svt_stds_standard_tests.standard_id%type default null,
                 p_active_yn          in svt_stds_standard_tests.active_yn%type default null,
                 p_published_yn       in varchar2 default null,
-                p_standard_active_yn in varchar2 default null
+                p_standard_active_yn in varchar2 default null,
+                p_issue_category     in svt_nested_table_types.nt_name%type default null,
+                p_inherited_yn       in varchar2 default null
             )
   return v_svt_stds_standard_tests_nt pipelined
   as
@@ -692,7 +694,9 @@ begin
   cursor cur_aa (p_std_id          in number,
                  p_active          in varchar2,
                  p_standard_active in varchar2,
-                 p_calling_std     in varchar2)
+                 p_calling_std     in varchar2,
+                 p_category        in varchar2,
+                 p_inherited       in varchar2)
   is 
   select o.standard_id,
          o.test_id,
@@ -721,7 +725,10 @@ begin
   where (o.standard_id = p_std_id or p_std_id is null)
   and   (o.active_yn = p_active or p_active is null)
   and   (o.standard_active_yn = p_standard_active or p_standard_active is null)
-  and   o.inherited_yn = case when p_std_id is null
+  and   (o.issue_category = p_category or p_category is null)
+  and   o.inherited_yn = case when p_inherited is not null
+                              then p_inherited
+                              when p_std_id is null
                               then gc_n 
                               else o.inherited_yn
                               end;
@@ -758,13 +765,18 @@ begin
                                         'p_standard_id', p_standard_id,
                                         'p_active_yn', p_active_yn,
                                         'p_published_yn', p_published_yn,
-                                        'p_standard_active_yn', p_standard_active_yn
+                                        'p_standard_active_yn', p_standard_active_yn,
+                                        'p_issue_category', p_issue_category,
+                                        'p_inherited_yn', p_inherited_yn
                                         );
 
     open cur_aa (p_std_id          => p_standard_id,
                  p_active          => p_active_yn,
                  p_standard_active => p_standard_active_yn,
-                 p_calling_std     => svt_stds_standards_api.get_full_name (p_standard_id => p_standard_id));
+                 p_calling_std     => svt_stds_standards_api.get_full_name (p_standard_id => p_standard_id),
+                 p_category        => p_issue_category,
+                 p_inherited       => p_inherited_yn
+                 );
 
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;
@@ -900,6 +912,35 @@ begin
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end nt_name;
+
+  function active_test_count (
+              p_published_yn   in varchar2 default null,
+              p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return pls_integer
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'active_test_count';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_count pls_integer;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                        'p_issue_category', p_issue_category
+                     );
+   
+   select count(*) 
+   into l_count
+   from v_svt_stds_standard_tests(
+          p_active_yn => gc_y,
+          p_standard_active_yn => gc_y,
+          p_published_yn => p_published_yn,
+          p_issue_category => p_issue_category);
+
+    return l_count;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end active_test_count;
 
 end svt_stds_standard_tests_api;
 /

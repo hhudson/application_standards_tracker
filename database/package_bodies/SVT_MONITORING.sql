@@ -28,17 +28,20 @@ create or replace package body SVT_MONITORING as
   gc_max_title_length constant number := 100;
   gc_max_row_count constant pls_integer := 9;
 
-  function app_url return varchar2
+  function app_url (p_application_id in apex_applications.application_id%type default null) 
+  return varchar2
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'app_url';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  c_application_id constant apex_applications.application_id%type
+                   := coalesce(p_application_id, svt_apex_view.gc_svt_app_id);
   begin
     apex_debug.message(c_debug_template,'START');
 
     return apex_string.format(
             p_message => '%0f?p=%1',
             p0 => svt_stds_parser.get_base_url(),
-            p1 => svt_apex_view.gc_svt_app_id
+            p1 => c_application_id
     );
 
   exception when others then
@@ -177,6 +180,7 @@ create or replace package body SVT_MONITORING as
     p_unassigned_html in varchar2,
     p_assigned_html   in varchar2,
     p_days_since      in number,
+    p_application_id  in apex_applications.application_id%type default null,
     p_subject         out nocopy varchar2,
     p_html            out nocopy clob,
     p_text            out nocopy clob
@@ -186,6 +190,8 @@ create or replace package body SVT_MONITORING as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_html        clob;
   l_subscriber_list varchar2(4000);
+  c_application_id  constant apex_applications.application_id%type :=
+                    coalesce(p_application_id, svt_apex_view.gc_svt_app_id);
   begin
     apex_debug.message(c_debug_template,'START');
 
@@ -220,7 +226,7 @@ create or replace package body SVT_MONITORING as
         p5 => 'This email is subscribed to by : '||l_subscriber_list,
         p6 => db_unique_name
       ),
-      p_application_id    => svt_apex_view.gc_svt_app_id, 
+      p_application_id    => c_application_id, 
       p_subject           => p_subject,
       p_html              => l_html,
       p_text              => p_text
@@ -495,18 +501,20 @@ create or replace package body SVT_MONITORING as
     raise;
   end send_update;
 
-  procedure enable_automations
+  procedure enable_automations (p_application_id in apex_applications.application_id%type default null)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'enable_automations';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_disabled constant apex_appl_automations.polling_status_code%type := 'DISABLED';
+  c_application_id constant apex_applications.application_id%type 
+                   := coalesce(p_application_id, svt_apex_view.gc_svt_app_id);
   begin
     apex_debug.message(c_debug_template,'START');
 
     for rec in (select application_id, static_id
                 from apex_appl_automations
                 where polling_status_code = c_disabled
-                and application_id = svt_apex_view.gc_svt_app_id)
+                and application_id = c_application_id)
     loop
       apex_automation.enable(
           p_application_id  => rec.application_id,

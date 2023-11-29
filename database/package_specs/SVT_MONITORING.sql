@@ -69,7 +69,8 @@ procedure send_update(p_days_since     in number default 1,
   from dual;
   */
   ------------------------------------------------------------------------------
-  function app_url return varchar2;
+  function app_url (p_application_id in apex_applications.application_id%type default null) 
+  return varchar2;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -197,11 +198,11 @@ from dual
 --
 /*
 begin
-  svt_monitoring.enable_automations;
+    svt_monitoring.enable_automations(p_application_id => :APP_ID);
 end;
 */
 ------------------------------------------------------------------------------
-  procedure enable_automations;
+  procedure enable_automations (p_application_id in apex_applications.application_id%type default null);
 
 
 end SVT_MONITORING;

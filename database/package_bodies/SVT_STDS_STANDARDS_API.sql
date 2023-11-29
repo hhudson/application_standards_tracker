@@ -19,6 +19,8 @@ create or replace package body svt_stds_standards_api as
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_localtimestamp constant svt_stds_standards.created%type := localtimestamp;
   gc_user constant svt_stds_standards.created_by%type := coalesce(wwv_flow.g_user,user);
+  gc_y constant varchar2(1) := 'Y';
+  gc_n constant varchar2(1) := 'N';
 
   function insert_std (
     p_standard_name         in svt_stds_standards.standard_name%type,
@@ -248,6 +250,50 @@ create or replace package body svt_stds_standards_api as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
      raise;
   end hex_color;
+
+  function active_standard_count return pls_integer
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'active_standard_count';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_count pls_integer;
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+   
+   select count(*)
+   into l_count
+   from svt_stds_standards
+   where active_yn = gc_y;
+
+   return l_count;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end active_standard_count;
+
+  function active_standard_list return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'active_standard_list';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_list varchar2(4000);
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+   
+   select listagg(distinct standard_name, ', ' on overflow truncate) within group (order by standard_name) thelist
+   into l_list
+   from svt_stds_standards
+   where active_yn = gc_y;
+   
+   return l_list;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end active_standard_list;
 
 
 end svt_stds_standards_api;

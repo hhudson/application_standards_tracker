@@ -124,6 +124,9 @@ drop materialized view mv_svt_nav_bar;
 drop materialized view mv_svt_page_branch;
 drop materialized view mv_svt_page_menu_entries;
 drop materialized view mv_svt_search_config;
+drop table svt_test_timing cascade constraints;
+drop table mv_svt_issues_created_by_day cascade constraints;
+drop table mv_svt_assignee_count cascade constraints;
 
 /*
 select apex_string.format('drop package %0;',lower(object_name)) stmt
@@ -223,4 +226,13 @@ drop view v_user_statements;
 drop view v_user_views;
 drop view v_eba_stds_inherited_tests;
 drop view v_eba_stds_standard_tests_w_inherited;
-
+drop view v_svt_audit_on_audit_apex;
+drop view v_svt_audit_on_audit_keep_these;
+drop view v_svt_missing_base_data;
+drop view v_svt_nested_table_types;
+drop view v_svt_preference_problems;
+drop view v_svt_problem_assignees;
+drop view v_svt_test_timing;
+drop view v_user_mviews;
+drop view v_user_tab_cols;
+drop view v_user_triggers;

@@ -101,6 +101,14 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   begin
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
+    assert.is_not_null (  
+      p_val_in => p_assignee
+    , p_msg_in => 'Assignee cannot be null');
+
+    assert.is_email (  
+      p_val_in => p_assignee
+    , p_msg_in => 'Assignee value must be an email address');
+
     update svt_plsql_apex_audit
     set assignee  = lower(p_assignee),
         notes     = p_notes,

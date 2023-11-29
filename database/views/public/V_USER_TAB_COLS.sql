@@ -11,7 +11,7 @@ select owner,
        data_type,
        char_used,
        data_length
-from dba_tab_cols
+from all_tab_cols
 where owner = svt_ctx_util.get_default_user
 and table_name not like '%XXX%'
 and table_name not like 'LOGGER%'

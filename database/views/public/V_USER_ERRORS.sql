@@ -14,7 +14,7 @@ select name,
        position,
        attribute,
        owner
-from dba_errors
+from all_errors
 where owner = svt_ctx_util.get_default_user
 /
 --rollback drop view V_USER_ERRORS;
