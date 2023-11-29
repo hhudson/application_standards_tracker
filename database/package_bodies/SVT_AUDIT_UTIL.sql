@@ -442,6 +442,26 @@ create or replace package body SVT_AUDIT_UTIL as
       raise;
     end initialize_standard;
 
+    function min_not_met_error_msg return varchar2
+    as
+    c_scope constant varchar2(128) := gc_scope_prefix || 'min_not_met_error_msg';
+    c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+    begin
+     apex_debug.message(c_debug_template,'START'
+                       );
+     
+      return case when svt_stds_applications_api.active_app_count = 0
+                  then 'No violations found because no apps have been registered.'
+                  when svt_stds_standard_tests_api.active_test_count = 0
+                  then 'No violations found because active tests have been registered.'
+                  end;
+
+    exception
+     when others then
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+       raise;
+    end min_not_met_error_msg;
+
 end SVT_AUDIT_UTIL;
 /
 

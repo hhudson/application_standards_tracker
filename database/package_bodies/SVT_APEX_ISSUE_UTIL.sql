@@ -605,7 +605,7 @@ $end
               p_application_id             => l_svt_plsql_apex_audit_rec2.application_id,
               p_page_id                    => l_svt_plsql_apex_audit_rec2.page_id,
               p_component_id               => l_svt_plsql_apex_audit_rec2.component_id,
-              p_assignee                   => l_svt_plsql_apex_audit_rec2.assignee,
+              p_assignee                   => c_svt_plsql_apex_audit_rec1.assignee,
               p_line                       => l_svt_plsql_apex_audit_rec2.line,
               p_object_name                => l_svt_plsql_apex_audit_rec2.object_name,
               p_object_type                => l_svt_plsql_apex_audit_rec2.object_type,

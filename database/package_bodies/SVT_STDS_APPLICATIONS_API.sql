@@ -19,6 +19,7 @@ create or replace package body SVT_STDS_APPLICATIONS_API as
   gc_scope_prefix constant varchar2(41) := lower($$plsql_unit) || '.';
   gc_systimestamp constant svt_standards_urgency_level.created%type := systimestamp;
   gc_user         constant svt_standards_urgency_level.created_by%type := coalesce(sys_context('APEX$SESSION','APP_USER'),user);
+  gc_y            constant varchar2(1) := 'Y';
 
   function insert_app (
         p_id                in svt_stds_applications.pk_id%type default null,
@@ -130,6 +131,29 @@ create or replace package body SVT_STDS_APPLICATIONS_API as
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
        raise;
     end delete_app;
+
+    function active_app_count return pls_integer
+    as
+    c_scope constant varchar2(128) := gc_scope_prefix || 'active_app_count';
+    c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+    l_count pls_integer;
+    begin
+     apex_debug.message(c_debug_template,'START'
+                       );
+     
+     select count(*)
+     into l_count
+     from v_svt_stds_applications
+     where app_active_yn = gc_y
+     and type_active_yn = gc_y;
+
+     return l_count;
+     
+    exception
+     when others then
+        apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+       raise;
+    end active_app_count;
 
 
 end SVT_STDS_APPLICATIONS_API;

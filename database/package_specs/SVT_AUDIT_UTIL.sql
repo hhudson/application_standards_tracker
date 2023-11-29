@@ -165,6 +165,21 @@ end;
 ------------------------------------------------------------------------------
 procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null);
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 29, 2023
+-- Synopsis:
+--
+-- Function to return a description of what minimum conditions have not yet been met
+-- for any tests to be run and return any results. A null response is a success
+--
+/*
+select svt_audit_util.min_not_met_error_msg
+from dual
+*/
+------------------------------------------------------------------------------
+function min_not_met_error_msg return varchar2;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;

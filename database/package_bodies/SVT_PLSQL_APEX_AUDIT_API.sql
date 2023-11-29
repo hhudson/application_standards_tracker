@@ -268,7 +268,7 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
         p_app_id                     => p_application_id,
         p_page_id                    => p_page_id,
         p_component_id               => p_component_id,
-        p_assignee                   => null,
+        p_assignee                   => p_assignee,
         p_line                       => p_line,
 	      p_object_name                => p_object_name,
 	      p_object_type                => p_object_type,
