@@ -1,6 +1,6 @@
 ---
 - # ====== Automation: 3. [Hourly - 40 min past] Manage APEX Iss
-  id: 276315485800312540
+  id: 284776433398751837
   identification: 
     name: 3. [Hourly - 40 min past] Manage APEX Issues
     static-id: manage-apex-issues
@@ -8,7 +8,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=40
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -24,7 +24,7 @@
 
   actions: 
   - # ====== Action: manage_apex_issues ==========================
-    id: 276315884310312542
+    id: 284776831908751839
     identification: 
       name: manage_apex_issues
       type: Execute Code
@@ -63,7 +63,7 @@
       execute-condition: For Each Row
 
 - # ====== Automation: 6. [Daily] Validate APEX Version ========
-  id: 276317527705637105
+  id: 284778475304076402
   identification: 
     name: 6. [Daily] Validate APEX Version
     static-id: validate-apex-version
@@ -71,7 +71,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -87,7 +87,7 @@
 
   actions: 
   - # ====== Action: Send email ==================================
-    id: 276317813330637106
+    id: 284778760929076403
     identification: 
       name: Send email
       type: Send E-Mail
@@ -118,7 +118,7 @@
       execute-condition: For Each Row
 
 - # ====== Automation: 1. [Hourly on the dot] Refresh Materializ
-  id: 276670313994742695
+  id: 285131261593181992
   identification: 
     name: 1. [Hourly on the dot] Refresh Materialized Views
     static-id: refresh-all-materialized-views
@@ -126,7 +126,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=0
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -137,7 +137,7 @@
 
   actions: 
   - # ====== Action: refresh mv ==================================
-    id: 276696764056747837
+    id: 285157711655187134
     identification: 
       name: refresh mv
       type: Execute Code
@@ -157,7 +157,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 8. [Every 6 hours -  55 min past] Delete 
-  id: 311114583034637857
+  id: 319575530633077154
   identification: 
     name: 8. [Every 6 hours -  55 min past] Delete stale issues
     static-id: 8-nightly-delete-stale-issues
@@ -165,7 +165,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=HOURLY;INTERVAL=6;BYMINUTE=55
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -176,7 +176,7 @@
 
   actions: 
   - # ====== Action: svt_plsql_apex_audit_api.delete_stale =======
-    id: 311114883100637859
+    id: 319575830699077156
     identification: 
       name: svt_plsql_apex_audit_api.delete_stale
       type: Execute Code
@@ -210,7 +210,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 7. [Nightly @ midnight] Refresh Cumulativ
-  id: 328460297715370020
+  id: 336921245313809317
   identification: 
     name: 7. [Nightly @ midnight] Refresh Cumulative Issues count
     static-id: 7-nightly-refresh-cumulative-issues-count
@@ -218,7 +218,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -229,7 +229,7 @@
 
   actions: 
   - # ====== Action: dbms_mview.refresh  MV_SVT_ISSUES_CREATED_BY_
-    id: 328460616239370021
+    id: 336921563837809318
     identification: 
       name: dbms_mview.refresh  MV_SVT_ISSUES_CREATED_BY_DAY
       type: Execute Code
@@ -249,7 +249,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 9. [Every morning] manage timing audits =
-  id: 341106883174856085
+  id: 349567830773295382
   identification: 
     name: 9. [Every morning] manage timing audits
     static-id: 9-clear-old-timing-records
@@ -257,7 +257,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=6;BYMINUTE=0
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -265,7 +265,7 @@
 
   actions: 
   - # ====== Action: svt_test_timing_api.purge_old ===============
-    id: 341107268881856092
+    id: 349568216480295389
     identification: 
       name: svt_test_timing_api.purge_old
       type: Execute Code
@@ -285,7 +285,7 @@
       stop-execution-on-error: true
 
   - # ====== Action: svt_stds_standards_api.update_test_avg_time =
-    id: 341108066349930855
+    id: 349569013948370152
     identification: 
       name: svt_stds_standards_api.update_test_avg_time
       type: Execute Code
@@ -305,7 +305,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 10. [Every night at 1AM] Recompile with P
-  id: 392512734128192272
+  id: 400973681726631569
   identification: 
     name: 10. [Every night at 1AM] Recompile with PLScope
     static-id: 10-recompile-with-plscope
@@ -313,7 +313,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=1;BYMINUTE=0
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -321,7 +321,7 @@
 
   actions: 
   - # ====== Action: svt_audit_util.recompile_all_schemas_w_plscop
-    id: 392513064816192274
+    id: 400974012414631571
     identification: 
       name: svt_audit_util.recompile_all_schemas_w_plscope
       type: Execute Code
@@ -341,7 +341,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 4. [Hourly 25 min past] Delete inactive v
-  id: 411754420998088091
+  id: 420215368596527388
   identification: 
     name: 4. [Hourly 25 min past] Delete inactive violations
     static-id: 4-delete-inactive-violations
@@ -349,7 +349,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=25
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -360,7 +360,7 @@
 
   actions: 
   - # ====== Action: svt_plsql_apex_audit_api.delete_inactive ====
-    id: 411754722445088094
+    id: 420215670043527391
     identification: 
       name: svt_plsql_apex_audit_api.delete_inactive
       type: Execute Code
@@ -394,7 +394,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 2. [Bi-Hourly  - 10 min past] Issue Snaps
-  id: 599690666406188127
+  id: 608151614004627424
   identification: 
     name: 2. [Bi-Hourly  - 10 min past] Issue Snapshot in DB audit table
     static-id: big-job
@@ -402,7 +402,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=HOURLY;INTERVAL=2;BYMINUTE=10
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -415,7 +415,7 @@
 
   actions: 
   - # ====== Action: record_daily_issue_snapshot =================
-    id: 599690979213188143
+    id: 608151926811627440
     identification: 
       name: record_daily_issue_snapshot
       type: Execute Code
@@ -448,7 +448,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 5. [Daily] Send Admin Email =============
-  id: 709121239311217506
+  id: 717582186909656803
   identification: 
     name: 5. [Daily] Send Admin Email
     static-id: send-admin-email
@@ -456,7 +456,7 @@
   execution: 
     type: Scheduled
     schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=11;BYMINUTE=0
-    schedule-status: Disabled
+    schedule-status: Active
     actions-initiated-on: Always
 
   action-execution: 
@@ -478,7 +478,7 @@
 
   actions: 
   - # ====== Action: send email ==================================
-    id: 709121605689217511
+    id: 717582553287656808
     identification: 
       name: send email
       type: Execute Code

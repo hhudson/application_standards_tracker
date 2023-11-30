@@ -1,1838 +1,4 @@
 
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS" authid definer is
-    -------------------------------------------------------------------------
-    -- Generates a unique Identifier
-    -------------------------------------------------------------------------
-    function gen_id return number;
-    -------------------------------------------------------------------------
-    -- Handle the process of registering the scheduled job.
-    -------------------------------------------------------------------------
-    procedure register_job;
-
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: January 24, 2023
--- Synopsis:
---
--- public function to convert a standard name into it's primary key
---
-/*
-select svt_stds.get_standard_id (p_standard_name => :P34_STANDARD_NAME)
-from dual
-*/
-------------------------------------------------------------------------------
-    function get_standard_id (p_standard_name in svt_stds_standards.standard_name%type) 
-    return svt_stds_standards.id%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 16, 2023
--- Synopsis:
---
--- function to get svt_stds_standard_tests.mv_dependency for a given test code
---
-/*
-select svt_stds.get_mv_dependency(p_test_code => 'UNREACHABLE_PAGE') mv
-from dual;
-*/
-------------------------------------------------------------------------------
-    function get_mv_dependency(p_test_code in svt_stds_standard_tests.test_code%type) 
-    return svt_stds_standard_tests.mv_dependency%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 19, 2023
--- Synopsis:
---
--- Function to determine whether to display the 'initialize standard' on p14 
---
-/*
-set serveroutput on
-declare
-l_boolean boolean;
-begin
-    l_boolean := svt_stds.display_initialize_button (
-                    p_test_code     => :P14_TEST_CODE,
-                    p_level_id      => :P14_LEVEL_ID
-                );
-    if l_boolean then 
-        dbms_output.put_line('display');
-    else 
-        dbms_output.put_line('do not display');
-    end if;
-end;
-*/
-------------------------------------------------------------------------------
-    function display_initialize_button (
-        p_test_code     in svt_plsql_apex_audit.test_code%type,
-        p_level_id      in svt_standards_urgency_level.id%type
-    ) return boolean;
-
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 4, 2023
--- Synopsis:
---
--- Function to determine whether or not to close the test modal (p14) 
---
-/*
-set serveroutput on
-declare
-l_boolean boolean;
-begin
-    l_boolean := svt_stds.close_test_modal (
-                    p_request       => :REQUEST,
-                    p_test_code     => :P14_TEST_CODE,
-                    p_level_id      => :P14_LEVEL_ID
-                );
-    if l_boolean then 
-        dbms_output.put_line('display');
-    else 
-        dbms_output.put_line('do not display');
-    end if;
-end;
-*/
-------------------------------------------------------------------------------
-    function close_test_modal (p_request   in varchar2,
-                               p_test_code in svt_plsql_apex_audit.test_code%type,
-                               p_level_id  in svt_standards_urgency_level.id%type
-    ) return boolean;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 2, 2023
--- Synopsis:
---
--- Convert the name of your standard into something that is compatible with a file / folder name
---
-/*
-select svt_stds.file_name('Idiosyncratic, workspace specific')
-from dual
-*/
-------------------------------------------------------------------------------
-    function file_name (p_standard_name in svt_stds_standards.standard_name%type)
-    return svt_stds_standards.standard_name%type;
-
-end svt_stds;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_APPLICATIONS_API" authid definer as
-----------------------------------------------------------------------------
--- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
--- 
--- NAME
---   SVT_STDS_APPLICATIONS_API
---
--- DESCRIPTION
---
--- RUNTIME DEPLOYMENT: Yes
---
--- MODIFIED  (YYYY-MON-DD)
--- hayhudso  2023-Nov-9 - created
----------------------------------------------------------------------------- 
-/*
-begin
-  case :APEX$ROW_STATUS
-    when 'C' then
-      :P161_PK_ID := svt_stds_applications_api.insert_app (
-                    p_apex_app_id       => :P161_APEX_APP_ID,
-                    p_default_developer => :P161_DEFAULT_DEVELOPER,
-                    p_type_id           => :P161_TYPE_ID,
-                    p_notes             => :P161_NOTES,
-                    p_active_yn         => :P161_ACTIVE_YN
-                );
-    when 'U' then
-      svt_stds_applications_api.update_app(
-            p_id                => :P161_PK_ID,
-            p_apex_app_id       => :P161_APEX_APP_ID,
-            p_default_developer => :P161_DEFAULT_DEVELOPER,
-            p_type_id           => :P161_TYPE_ID,
-            p_notes             => :P161_NOTES,
-            p_active_yn         => :P161_ACTIVE_YN
-        );
-    when 'D' then
-      svt_stds_applications_api.delete_app(p_id => :P161_PK_ID);
-  end case;
-end;
-*/
----------------------------------------------------------------------------- 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-9
--- Synopsis:
---
--- Procedure to insert records into SVT_STDS_APPLICATIONS
---
-------------------------------------------------------------------------------
-    function insert_app (
-        p_id                in svt_stds_applications.pk_id%type default null,
-        p_apex_app_id       in svt_stds_applications.apex_app_id%type,
-        p_default_developer in svt_stds_applications.default_developer%type,
-        p_type_id           in svt_stds_applications.type_id%type,
-        p_notes             in svt_stds_applications.notes%type,
-        p_active_yn         in svt_stds_applications.active_yn%type default 'Y'
-    ) return svt_stds_applications.pk_id%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-9
--- Synopsis:
---
--- Procedure to update records into SVT_STDS_APPLICATIONS
---
-------------------------------------------------------------------------------
-    procedure update_app (
-        p_id                in svt_stds_applications.pk_id%type,
-        p_apex_app_id       in svt_stds_applications.apex_app_id%type,
-        p_default_developer in svt_stds_applications.default_developer%type,
-        p_type_id           in svt_stds_applications.type_id%type,
-        p_notes             in svt_stds_applications.notes%type,
-        p_active_yn         in svt_stds_applications.active_yn%type default 'Y'
-    );
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-9
--- Synopsis:
---
--- Procedure to delete records into SVT_STDS_APPLICATIONS
---
-------------------------------------------------------------------------------
-    procedure delete_app (
-        p_id in svt_stds_applications.pk_id%type
-    );
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: November 29, 2023
--- Synopsis:
---
--- Function to return the number of active, registered applications to scan
---
-/*
-select svt_stds_applications_api.active_app_count
-from dual
-*/
-------------------------------------------------------------------------------
-    function active_app_count return pls_integer;
-
-end SVT_STDS_APPLICATIONS_API;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_DATA" authid definer is
-
-    procedure load_initial_data;
-
-    function is_initial_data_loaded return boolean;
-
-    procedure load_sample_data;
-
-    procedure remove_sample_data;
-
-    -- function is_sample_data_loaded return boolean;
-
-end svt_stds_data;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_INHERITED_TESTS_API" authid definer as
-----------------------------------------------------------------------------
--- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
--- 
--- NAME
---   svt_stds_inherited_tests_api
---
--- DESCRIPTION
---
--- RUNTIME DEPLOYMENT: Yes
---
--- MODIFIED  (YYYY-MON-DD)
--- hayhudso  2023-Aug-17 - created
-/*
-begin
-  case :APEX$ROW_STATUS
-    when 'C' then
-        svt_stds_inherited_tests_api.inherit_test (
-            p_test_id            => :P79_TEST_ID,
-            p_standard_id        => :P79_STANDARD_ID
-        );
-    when 'U' then
-      svt_stds_inherited_tests_api.inherit_test (
-            p_test_id            => :P79_TEST_ID,
-            p_standard_id        => :P79_STANDARD_ID
-        );
-    when 'D' then
-       svt_stds_inherited_tests_api.disinherit (
-        p_test_id            => :P79_TEST_ID,
-        p_standard_id        => :P79_STANDARD_ID
-    );
-  end case;
-end;
-*/
----------------------------------------------------------------------------- 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- procedure to add a record to svt_stds_inherited_tests
---
-/*
-declare
-c_standard_id svt_stds_standards.id%type := 4064835866137640665977205961047451272;
-l_parent_standard_id svt_stds_standards.parent_standard_id%type;
-l_test_id svt_stds_standard_tests.id%type;
-begin
-    select parent_standard_id
-    into l_parent_standard_id
-    from  svt_stds_standards
-    where id = c_standard_id;
-    
-    select id 
-    into l_test_id
-    from svt_stds_standard_tests
-    where standard_id = l_parent_standard_id
-    fetch first 1 rows only;
-    
-    svt_stds_inherited_tests_api.inherit_test (
-        p_test_id            => l_test_id,
-        p_standard_id        => c_standard_id
-    );
-end;
-*/
-------------------------------------------------------------------------------
-procedure inherit_test (
-    p_test_id            in svt_stds_inherited_tests.test_id%type,
-    p_standard_id        in svt_stds_inherited_tests.standard_id%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- Procedure sever the relationship between a standard and a test from it's parent standard  
---
-/*
-begin
-    svt_stds_inherited_tests_api.disinherit (
-        p_test_id            => l_test_id,
-        p_standard_id        => c_standard_id
-    );
-end;
-*/
-------------------------------------------------------------------------------
-procedure disinherit (
-    p_test_id            in svt_stds_inherited_tests.test_id%type,
-    p_standard_id        in svt_stds_inherited_tests.standard_id%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- Procedure to delete all records in svt_stds_inherited_tests for a given standard_id  
---
-/*
-begin
-    svt_stds_inherited_tests_api.delete_std (p_standard_id => p_standard_id);
-end;
-*/
-------------------------------------------------------------------------------
-procedure delete_std (p_standard_id               in svt_stds_inherited_tests.standard_id%type,
-                      p_former_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type default null);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Aug-21
--- Synopsis:
---
--- Procedure to delete all records for a given test_id  
---
-/*
-begin
-    svt_stds_inherited_tests_api.delete_test (p_test_id => p_test_id);
-end;
-*/
-------------------------------------------------------------------------------
-procedure delete_test (p_test_id  in svt_stds_inherited_tests.test_id%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- Procedure to add colon-delimited test_ids to svt_stds_inherited_tests
---
-/*
-begin
-    svt_stds_inherited_tests_api.bulk_add(
-                    p_test_ids    => :P65_SELECTED_IDS,
-                    p_standard_id => :P65_STANDARD_ID
-                );
-end;
-*/
-------------------------------------------------------------------------------
-procedure bulk_add(p_test_ids    in varchar2,
-                   p_standard_id in svt_stds_inherited_tests.standard_id%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- Procedure to remove colon-delimited test_ids to svt_stds_inherited_tests
---
-/*
-begin
-    svt_stds_inherited_tests_api.bulk_remove(
-                    p_test_ids    => :P65_SELECTED_IDS,
-                    p_standard_id => :P65_STANDARD_ID
-                );
-end;
-*/
-------------------------------------------------------------------------------
-procedure bulk_remove(p_test_ids    in varchar2,
-                      p_standard_id in svt_stds_inherited_tests.standard_id%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 18, 2023
--- Synopsis:
---
--- Procedure to pass on every test from one standard to another 
---
-/*
-begin
-    svt_stds_inherited_tests_api.inherit_all(
-                      p_parent_standard_id => p_parent_standard_id,
-                      p_standard_id        => p_standard_id
-                    );
-end;
-*/
-------------------------------------------------------------------------------
-procedure inherit_all(p_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type,
-                      p_standard_id        in svt_stds_inherited_tests.standard_id%type);
-
-end svt_stds_inherited_tests_api;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_NOTIFICATIONS_API" authid definer as
-----------------------------------------------------------------------------
--- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
--- 
--- NAME
---   SVT_STDS_NOTIFICATIONS_API
---
--- DESCRIPTION
---
--- RUNTIME DEPLOYMENT: Yes
---
--- MODIFIED  (YYYY-MON-DD)
--- hayhudso  2023-Nov-10 - created
----------------------------------------------------------------------------- 
-/*
-begin
-  case :APEX$ROW_STATUS
-    when 'C' then
-      :P31_ID := svt_stds_notifications_api.insert_ntf (
-                    p_notification_name        => :P31_NOTIFICATION_NAME,
-                    p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
-                    p_notification_type        => :P31_NOTIFICATION_TYPE,
-                    p_display_sequence         => :P31_DISPLAY_SEQUENCE,
-                    p_display_from             => :P31_DISPLAY_FROM,
-                    p_display_until            => :P31_DISPLAY_UNTIL
-                );
-    when 'U' then
-      svt_stds_notifications_api.update_ntf(
-            p_id                       => :P31_ID,
-            p_notification_name        => :P31_NOTIFICATION_NAME,
-            p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
-            p_notification_type        => :P31_NOTIFICATION_TYPE,
-            p_display_sequence         => :P31_DISPLAY_SEQUENCE,
-            p_display_from             => :P31_DISPLAY_FROM,
-            p_display_until            => :P31_DISPLAY_UNTIL
-        );
-    when 'D' then
-      svt_stds_notifications_api.delete_ntf(p_id => :P31_ID);
-  end case;
-end;
-*/
----------------------------------------------------------------------------- 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-10
--- Synopsis:
---
--- Procedure to insert records into SVT_STDS_NOTIFICATIONS
---
-------------------------------------------------------------------------------
-    function insert_ntf (
-       p_id                       in svt_stds_notifications.id%type default null,
-       p_notification_name        in svt_stds_notifications.notification_name%type,
-       p_notification_description in svt_stds_notifications.notification_description%type,
-       p_notification_type        in svt_stds_notifications.notification_type%type,
-       p_display_sequence         in svt_stds_notifications.display_sequence%type,
-       p_display_from             in svt_stds_notifications.display_from%type,
-       p_display_until            in svt_stds_notifications.display_until%type
-    ) return svt_stds_notifications.id%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-10
--- Synopsis:
---
--- Procedure to update records into SVT_STDS_NOTIFICATIONS
---
-------------------------------------------------------------------------------
-    procedure update_ntf (
-       p_id                       in svt_stds_notifications.id%type,
-       p_notification_name        in svt_stds_notifications.notification_name%type,
-       p_notification_description in svt_stds_notifications.notification_description%type,
-       p_notification_type        in svt_stds_notifications.notification_type%type,
-       p_display_sequence         in svt_stds_notifications.display_sequence%type,
-       p_display_from             in svt_stds_notifications.display_from%type,
-       p_display_until            in svt_stds_notifications.display_until%type
-    );
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-10
--- Synopsis:
---
--- Procedure to delete records into SVT_STDS_NOTIFICATIONS
---
-------------------------------------------------------------------------------
-    procedure delete_ntf (
-        p_id in svt_stds_notifications.id%type
-    );
-
-
-end SVT_STDS_NOTIFICATIONS_API;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_PARSER" authid definer as
-    -- g_collection constant varchar2(255):= 'SVT_STDS_PARSER';
-    -- g_false_neg  constant varchar2(31) := 'FALSE_NEGATIVE';
-    -- g_legacy     constant varchar2(31) := 'LEGACY';
-    -- g_ticket     constant varchar2(31) := 'TICKET';
-    -- g_dummy_name constant svt_stds_standard_tests.test_name%type := 'DUMMY';
-
-
-    -- function view_sql (p_view_name in user_views.view_name%type,
-    --                    p_owner     in all_views.owner%type default null) return clob;
-
-    
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 25, 2023
--- Synopsis:
---
--- function to replace build_link using svt_component_types.template_url/component_type_id 
--- see p8000 in app 4000 and f4000_searchResults.js
-/*
-'<button type="button" class="a-Button edit-button" data-link="' ||
-       wwv_flow_utilities.prepare_url( link_url ) || '"' ||
-       case when component_type_id is not null then
-         ' data-appid="'       || flow_id || '"' ||
-         ' data-pageid="'      || page_id || '"' ||
-         ' data-typeid="'      || component_type_id || '"' ||
-         ' data-componentid="' || component_id || '"'
-       end ||
-       '>' || apex_lang.message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button
-*/
-/*
-select audit_id, test_id,
-       svt_stds_parser.build_url(
-                        p_svt_component_type_id => svt_component_type_id,
-                        p_app_id                => application_id,
-                        p_page_id               => page_id,
-                        p_pk_value              => component_id,
-                        p_parent_pk_value       => parent_component_id,
-                        p_builder_session       => v('APX_BLDR_SESSION')
-       ) the_url
-from v_svt_plsql_apex_audit
-where audit_id = 78318
-*/
-------------------------------------------------------------------------------
-    function build_url( p_template_url          in svt_component_types.template_url%type,
-                        p_app_id                in svt_plsql_apex_audit.application_id%type,
-                        p_page_id               in svt_plsql_apex_audit.page_id%type,
-                        p_pk_value              in svt_plsql_apex_audit.component_id%type,
-                        p_parent_pk_value       in svt_plsql_apex_audit.object_name%type,
-                        p_issue_category        in svt_plsql_apex_audit.issue_category%type,
-                        p_opt_parent_pk_value   in svt_plsql_apex_audit.object_type%type default null,
-                        p_line                  in svt_plsql_apex_audit.line%type default null, 
-                        p_object_name           in svt_plsql_apex_audit.object_name%type default null,
-                        p_object_type           in svt_plsql_apex_audit.object_type%type default null,
-                        p_schema                in svt_plsql_apex_audit.owner%type default null,
-                        p_builder_session       in number default null
-                        )
-    return varchar2 deterministic result_cache;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 26, 2023
--- Synopsis:
---
--- Procedure to retrieve key values about component types 
---
-/*
-set serveroutput on
-declare
-l_component_name    svt_component_types.component_name%type;
-l_component_type_id svt_component_types.component_type_id%type;
-l_template_url      svt_component_types.template_url%type;
-begin
-    svt_stds_parser.get_component_type_rec (
-                        p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID, --11
-                        p_component_name        => l_component_name,
-                        p_component_type_id     => l_component_type_id,
-                        p_template_url          => l_template_url
-                    );
-    dbms_output.put_line('l_component_name :'||l_component_name);
-    dbms_output.put_line('l_component_type_id :'||l_component_type_id);
-    dbms_output.put_line('l_template_url :'||l_template_url);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure get_component_type_rec (
-                        p_svt_component_type_id in svt_component_types.id%type,
-                        p_component_name        out nocopy svt_component_types.component_name%type,
-                        p_component_type_id     out nocopy svt_component_types.component_type_id%type,
-                        p_template_url          out nocopy svt_component_types.template_url%type
-                    ) deterministic;
-
-
-
-    -- procedure add_applications;
-
-    -- function default_app_id  
-    --     return apex_applications.application_id%type deterministic;
-
-    -- function accessibility_app_id
-    --     return apex_applications.application_id%type deterministic;
-
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 25, 2023
--- Synopsis:
---
--- Function to determine whether a given url is valid. Used by the 'val_button_links' test, for eg
---
-------------------------------------------------------------------------------
-    function is_valid_url (p_origin_app_id in apex_applications.application_id%type,
-                           p_url in varchar2) 
-        return varchar2 deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 25, 2023
--- Synopsis:
---
--- Function to extract the app_id from a url, used by all the mv views (mv_svt_buttons for eg)  
---
-------------------------------------------------------------------------------
-    function app_from_url ( p_origin_app_id in apex_applications.application_id%type,
-                            p_url           in varchar2) return  apex_applications.application_id%type deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 24, 2023
--- Synopsis:
---
--- function to extract the page_id from a url  
---
-/*
-select svt_stds_parser.page_from_url(p_origin_app_id => application_id,
-                                     p_url => home_link)
-from apex_applications
-*/
-------------------------------------------------------------------------------
-    function page_from_url (p_origin_app_id in apex_applications.application_id%type,
-                            p_url           in varchar2) return apex_application_pages.page_id%type deterministic;
-
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: December 21, 2022
--- Synopsis:
---
--- function to id whether or not it is being called from a builder session
---
-/*
-set serveroutput on
-declare
-l_boolean boolean;
-l_override_value number := 123123123;
-begin
-    l_boolean := svt_stds_parser.is_logged_into_builder(l_override_value);
-    if l_boolean then 
-        dbms_output.put_line('logged in');
-    else 
-        dbms_output.put_line('not logged in');
-    end if;
-end;
-*/
-------------------------------------------------------------------------------
-    function is_logged_into_builder (p_override_value in number default null) return boolean;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: December 21, 2022
--- Synopsis:
---
--- Procedure to determine if a given application is in the same workspace as the Application Standard Tracker
---
-/*
-declare
-l_boolean boolean
-begin
-    l_boolean := svt_stds_parser.app_in_current_workspace(100);
-end;
-*/
-------------------------------------------------------------------------------
-    function app_in_current_workspace (p_app_id in apex_applications.application_id%type) 
-    return boolean;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 30, 2023
--- Synopsis:
---
--- Function to return a default query, given an svt_component_type_id
---
-/*
-select svt_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID) stmt
-from dual
-*/
-------------------------------------------------------------------------------
-    function seed_default_query(p_svt_component_type_id in svt_component_types.id%type)
-    return varchar2;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: October 23, 2023
--- Synopsis:
---
--- Function to convert a url to friendly as appropriate 
---
-/*
-select svt_stds_parser.adapt_url()
-from dual
-*/
-------------------------------------------------------------------------------
-    function adapt_url (p_template_url in svt_component_types.template_url%type)
-    return svt_component_types.template_url%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: December 21, 2022
--- Synopsis:
---
--- Function to return the base url for an apex workspace
---
-/*
-select svt_stds_parser.get_base_url()
-from dual;
-*/
-------------------------------------------------------------------------------
-    function get_base_url return varchar2 deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 24, 2023
--- Synopsis:
---
--- Function to determine whether or not an HTML block is valid
---
-/*
-    select svt_stds_parser.valid_html_yn('<b>hello</b>') valid_yn
-    from dual;
-*/
-------------------------------------------------------------------------------
-    function valid_html_yn (p_html in clob) 
-    return varchar2
-    deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: October 2, 2023
--- Synopsis:
---
--- Function to determine whether a given column exists in a given table 
-/*
-set serveroutput on
-declare
-l_bool boolean;
-begin
-    l_bool := svt_stds_parser.column_exists 
-                    (p_column_name => 'UPDATED_BY',
-                     p_table_name => 'APEX_APPLICATION_PAGE_REGIONS'
-                    );
-    if l_bool then 
-        dbms_output.put_line('column exists');
-    else 
-        dbms_output.put_line('column does not exist');
-    end if;
-end;
-*/
-------------------------------------------------------------------------------
-    function column_exists (p_column_name in all_tab_cols.column_name%type,
-                            p_table_name  in all_tab_cols.table_name%type) 
-    return boolean;
-
-    e_subscript_beyond_count exception;
-    pragma exception_init(e_subscript_beyond_count, -6533);
-    e_not_a_number exception;
-    pragma exception_init(e_not_a_number, -6502);
-    e_number_conversion exception;
-    pragma exception_init(e_number_conversion, -1722);
-    e_table_not_exist exception;
-    pragma exception_init(e_table_not_exist, -942);
-    e_invalid_object exception;
-    pragma exception_init(e_invalid_object, -44002);
-
-end svt_stds_parser;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_STANDARDS_API" authid definer as
-----------------------------------------------------------------------------
--- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
--- 
--- NAME
---   svt_stds_standards_api
---
--- DESCRIPTION
---
--- RUNTIME DEPLOYMENT: Yes
---
--- MODIFIED  (YYYY-MON-DD)
--- hayhudso  2023-Aug-17 - created
-
-/*
-begin
-  case :APEX$ROW_STATUS
-    when 'C' then
-      :P11_ID := svt_stds_standards_api.insert_std (
-                p_standard_name         => :P11_STANDARD_NAME,
-                p_description           => :P11_DESCRIPTION,
-                p_primary_developer     => :P11_PRIMARY_DEVELOPER,
-                p_implementation        => :P11_IMPLEMENTATION,
-                p_date_started          => :P11_DATE_STARTED,
-                p_standard_group        => :P11_STANDARD_GROUP,
-                p_active_yn             => :P11_ACTIVE_YN,
-                p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
-                p_parent_standard_id    => :P11_PARENT_STANDARD_ID
-        );
-    when 'U' then
-       svt_stds_standards_api.updated_std (
-            p_id                    => :P11_ID,
-            p_standard_name         => :P11_STANDARD_NAME,
-            p_description           => :P11_DESCRIPTION,
-            p_primary_developer     => :P11_PRIMARY_DEVELOPER,
-            p_implementation        => :P11_IMPLEMENTATION,
-            p_date_started          => :P11_DATE_STARTED,
-            p_standard_group        => :P11_STANDARD_GROUP,
-            p_active_yn             => :P11_ACTIVE_YN,
-            p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
-            p_parent_standard_id    => :P11_PARENT_STANDARD_ID
-        );
-    when 'D' then
-      svt_stds_standards_api.delete_std(p_standard_id => :P11_ID);
-  end case;
-end;
-*/
----------------------------------------------------------------------------- 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- function to created a record
---
-/*
-begin
-    :P11_ID := svt_stds_standards_api.insert_std (
-                p_standard_name         => :P11_STANDARD_NAME,
-                p_description           => :P11_DESCRIPTION,
-                p_primary_developer     => :P11_PRIMARY_DEVELOPER,
-                p_implementation        => :P11_IMPLEMENTATION,
-                p_date_started          => :P11_DATE_STARTED,
-                p_standard_group        => :P11_STANDARD_GROUP,
-                p_active_yn             => :P11_ACTIVE_YN,
-                p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
-                p_parent_standard_id    => :P11_PARENT_STANDARD_ID
-    );
-end;
-*/
-------------------------------------------------------------------------------
-function insert_std (
-    p_standard_name         in svt_stds_standards.standard_name%type,
-    p_description           in svt_stds_standards.description%type,
-    p_primary_developer     in svt_stds_standards.primary_developer%type,
-    p_implementation        in svt_stds_standards.implementation%type,
-    p_date_started          in svt_stds_standards.date_started%type,
-    p_standard_group        in svt_stds_standards.standard_group%type,
-    p_active_yn             in svt_stds_standards.active_yn%type,
-    p_compatibility_mode_id in svt_stds_standards.compatibility_mode_id%type,
-    p_parent_standard_id    in svt_stds_standards.parent_standard_id%type
-) return svt_stds_standards.id%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- Procedure to update a record
---
-/*
-begin
-    svt_stds_standards_api.updated_std (
-        p_id                    => :P11_ID,
-        p_standard_name         => :P11_STANDARD_NAME,
-        p_description           => :P11_DESCRIPTION,
-        p_primary_developer     => :P11_PRIMARY_DEVELOPER,
-        p_implementation        => :P11_IMPLEMENTATION,
-        p_date_started          => :P11_DATE_STARTED,
-        p_standard_group        => :P11_STANDARD_GROUP,
-        p_active_yn             => :P11_ACTIVE_YN,
-        p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
-        p_parent_standard_id    => :P11_PARENT_STANDARD_ID
-    );
-end;
-*/
-------------------------------------------------------------------------------
-procedure updated_std (
-    p_id                    in svt_stds_standards.id%type,
-    p_standard_name         in svt_stds_standards.standard_name%type,
-    p_description           in svt_stds_standards.description%type,
-    p_primary_developer     in svt_stds_standards.primary_developer%type,
-    p_implementation        in svt_stds_standards.implementation%type,
-    p_date_started          in svt_stds_standards.date_started%type,
-    p_standard_group        in svt_stds_standards.standard_group%type,
-    p_active_yn             in svt_stds_standards.active_yn%type,
-    p_compatibility_mode_id in svt_stds_standards.compatibility_mode_id%type,
-    p_parent_standard_id    in svt_stds_standards.parent_standard_id%type
-);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- function to retrieve a row of svt_stds_standards for a given standard id.  
---
-/*
-set serveroutput on
-declare
-l_rec svt_stds_standards%rowtype;
-begin
-    l_rec := svt_stds_standards_api.get_rec (p_standard_id => 1);
-    dbms_output.put_line('standard name :'||l_rec.standard_name);
-end;
-*/
-------------------------------------------------------------------------------
-    function get_rec (p_standard_id in svt_stds_standards.id%type)
-    return svt_stds_standards%rowtype;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 17, 2023
--- Synopsis:
---
--- Procedure to delete a standard 
---
-/*
-begin
-    svt_stds_standards_api.delete_std(p_standard_id => :P11_ID);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure delete_std (p_standard_id in svt_stds_standards.id%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 18, 2023
--- Synopsis:
---
--- Function to get the full name (including compatibility description) for a given standard_id 
---
-/*
-    select svt_stds_standards_api.get_full_name(p_standard_id => 1) fname
-    from dual;
-*/
-------------------------------------------------------------------------------
-    function get_full_name (p_standard_id in svt_stds_standards.id%type)
-    return svt_stds_standards.standard_name%type
-    deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: October 9, 2023
--- Synopsis:
---
--- procedure to update svt_stds_standard_tests.avg_exctn_scnds from v_svt_test_timing
---
-/*
-begin
-    svt_stds_standards_api.update_test_avg_time;
-end;
-*/
-------------------------------------------------------------------------------
-    procedure update_test_avg_time;
-
-  
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: November 20, 2023
--- Synopsis:
---
--- Function to return a random but deterministic hex color for a given standard
---
-/*
-select svt_stds_standards_api.hex_color(p_standard_id => 1) hex
-from dual
-*/
-------------------------------------------------------------------------------
-  function hex_color(p_standard_id in svt_stds_standards.id%type)
-  return varchar2
-  deterministic 
-  result_cache;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: November 28, 2023
--- Synopsis:
---
--- Function to return the count of active standards
---
-/*
-select svt_stds_standards_api.active_standard_count
-from dual
-*/
-------------------------------------------------------------------------------
-  function active_standard_count return pls_integer;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: November 28, 2023
--- Synopsis:
---
--- Function to return a comma separated list of active standards
---
-/*
-select svt_stds_standards_api.active_standard_list
-from dual
-*/
-------------------------------------------------------------------------------
-    function active_standard_list return varchar2;
-
-end svt_stds_standards_api;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_STANDARD_TESTS_API" authid definer as
-----------------------------------------------------------------------------
--- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
--- 
--- NAME
---   svt_stds_standard_tests_api
---
--- DESCRIPTION
---
--- RUNTIME DEPLOYMENT: Yes
---
--- MODIFIED  (YYYY-MON-DD)
--- change_me  YYYY-MON-DD - created
-/*
-begin
-  case :APEX$ROW_STATUS
-    when 'C' then
-      :P14_ID := svt_stds_standard_tests_api.insert_test(
-                  p_id                    => :P14_ID,
-                  p_standard_id           => :P14_STANDARD_ID,
-                  p_test_name             => :P14_SHORT_NAME,
-                  p_display_sequence      => :P14_DISPLAY_SEQUENCE,
-                  p_query_clob            => :P14_QUERY_CLOB,
-                  p_owner                 => :P14_OWNER,
-                  p_test_code             => :P14_TEST_CODE,
-                  p_active_yn             => :P14_ACTIVE_YN,
-                  p_level_id              => :P14_LEVEL_ID,
-                  p_mv_dependency         => :P14_MV_DEPENDENCY,
-                  p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
-                  p_explanation           => :P14_EXPLANATION,
-                  p_fix                   => :P14_FIX
-                );
-    when 'U' then
-      svt_stds_standard_tests_api.update_test(
-                          p_id                    => :P14_ID,
-                          p_standard_id           => :P14_STANDARD_ID,
-                          p_test_name             => :P14_SHORT_NAME,
-                          p_display_sequence      => :P14_DISPLAY_SEQUENCE,
-                          p_query_clob            => :P14_QUERY_CLOB,
-                          p_owner                 => :P14_OWNER,
-                          p_test_code             => :P14_TEST_CODE,
-                          p_active_yn             => :P14_ACTIVE_YN,
-                          p_level_id              => :P14_LEVEL_ID,
-                          p_mv_dependency         => :P14_MV_DEPENDENCY,
-                          p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
-                          p_explanation           => :P14_EXPLANATION,
-                          p_fix                   => :P14_FIX
-                        );
-    when 'D' then
-      svt_stds_standard_tests_api.delete_test(p_id => :P14_ID);
-  end case;
-end;
-*/
----------------------------------------------------------------------------- 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Jul-10
--- Synopsis:
---
--- Procedure to insert new record into  svt_stds_standard_tests
---
-/*
-declare 
-l_id svt_stds_standard_tests.id%type;
-begin
-    l_id := svt_stds_standard_tests_api.insert_test(
-                p_standard_id           => p_standard_id,
-                p_test_name             => p_test_name,
-                p_display_sequence      => p_display_sequence,
-                p_query_clob            => p_query_clob,
-                p_owner                 => p_owner,
-                p_test_code             => p_test_code,
-                p_active_yn             => p_active_yn,
-                p_level_id              => p_level_id,
-                p_mv_dependency         => p_mv_dependency,
-                p_svt_component_type_id => p_svt_component_type_id,
-                p_explanation           => p_explanation,
-                p_fix                   => p_fix
-              );
-end;
-*/
-------------------------------------------------------------------------------
-  function insert_test(p_id                    in svt_stds_standard_tests.id%type default null,
-                       p_standard_id           in svt_stds_standard_tests.standard_id%type,
-                       p_test_name             in svt_stds_standard_tests.test_name%type,
-                       p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
-                       p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                       p_owner                 in svt_stds_standard_tests.owner%type,
-                       p_test_code             in svt_stds_standard_tests.test_code%type,
-                       p_active_yn             in svt_stds_standard_tests.active_yn%type,
-                       p_level_id              in svt_stds_standard_tests.level_id%type,
-                       p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
-                       p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
-                       p_explanation           in svt_stds_standard_tests.explanation%type,
-                       p_fix                   in svt_stds_standard_tests.fix%type,
-                       p_version_number        in svt_stds_standard_tests.version_number%type default null,
-                       p_version_db            in svt_stds_standard_tests.version_db%type default null
-                       )
-  return svt_stds_standard_tests.id%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: June 14, 2023
--- Synopsis:
---
--- Procedure to insert new record into  svt_stds_standard_tests (called by SVT_STDS_TESTS_LIB_API.install_standard_test)
---
-/*
-begin
-    svt_stds_standard_tests_api.insert_test(
-                p_id                    => p_id,
-                p_standard_id           => p_standard_id,
-                p_test_name             => p_test_name,
-                p_display_sequence      => p_display_sequence,
-                p_query_clob            => p_query_clob,
-                p_owner                 => p_owner,
-                p_test_code             => p_test_code,
-                p_active_yn             => p_active_yn,
-                p_level_id              => p_level_id,
-                p_mv_dependency         => p_mv_dependency,
-                p_svt_component_type_id => p_svt_component_type_id);
-end;
-*/
-------------------------------------------------------------------------------
-  procedure insert_test(p_id                    in svt_stds_standard_tests.id%type default null,
-                        p_standard_id           in svt_stds_standard_tests.standard_id%type,
-                        p_test_name             in svt_stds_standard_tests.test_name%type,
-                        p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
-                        p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                        p_owner                 in svt_stds_standard_tests.owner%type,
-                        p_test_code             in svt_stds_standard_tests.test_code%type,
-                        p_active_yn             in svt_stds_standard_tests.active_yn%type,
-                        p_level_id              in svt_stds_standard_tests.level_id%type,
-                        p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
-                        p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
-                        p_explanation           in svt_stds_standard_tests.explanation%type,
-                        p_fix                   in svt_stds_standard_tests.fix%type,
-                        p_version_number        in svt_stds_standard_tests.version_number%type default null,
-                        p_version_db            in svt_stds_standard_tests.version_db%type default null
-                      );
-  
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 13, 2023
--- Synopsis:
---
--- function to get md5 for a record of svt_stds_standard_tests
---
-/*
-select svt_stds_standard_tests_api.build_test_md5 (
-        p_test_name             => esst.test_name,
-        p_query_clob            => esst.query_clob,
-        p_test_code             => esst.test_code,
-        p_level_id              => esst.level_id,
-        p_mv_dependency         => esst.mv_dependency,
-        p_svt_component_type_id => esst.svt_component_type_id,
-        p_explanation           => esst.explanation,
-        p_fix                   => esst.fix,
-        p_version_number        => esst.version_number,
-        p_version_db            => esst.version_db
-    ) esst_md5
-from svt_stds_standard_tests esst;
-*/
-------------------------------------------------------------------------------
-  function build_test_md5 (
-      p_test_name             in svt_stds_standard_tests.test_name%type,
-      p_query_clob            in svt_stds_standard_tests.query_clob%type,
-      p_test_code             in svt_stds_standard_tests.test_code%type,
-      p_level_id              in svt_stds_standard_tests.level_id%type,
-      p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
-      p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
-      p_explanation           in svt_stds_standard_tests.explanation%type,
-      p_fix                   in svt_stds_standard_tests.fix%type,
-      p_version_number        in svt_stds_standard_tests.version_number%type,
-      p_version_db            in svt_stds_standard_tests.version_db%type
-  ) return varchar2 deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 10, 2023
--- Synopsis:
---
--- Procedure to update svt_stds_standard_tests
---
-/*
-begin
-  svt_stds_standard_tests_api.update_test(
-                          p_id                    => :P14_ID,
-                          p_standard_id           => :P14_STANDARD_ID,
-                          p_test_name             => :P14_TEST_NAME,
-                          p_display_sequence      => :P14_DISPLAY_SEQUENCE,
-                          p_query_clob            => :P14_QUERY_CLOB,
-                          p_owner                 => :P14_OWNER,
-                          p_test_code             => :P14_TEST_CODE,
-                          p_active_yn             => :P14_ACTIVE_YN,
-                          p_level_id              => :P14_LEVEL_ID,
-                          p_mv_dependency         => :P14_MV_DEPENDENCY,
-                          p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
-                          p_explanation           => :P14_EXPLANATION,
-                          p_fix                   => :P14_FIX,
-                          p_version_number        => :P14_VERSION_NUMBER
-                        );
-end;
-*/
-------------------------------------------------------------------------------
-    procedure update_test(p_id                    in svt_stds_standard_tests.id%type default null,
-                          p_standard_id           in svt_stds_standard_tests.standard_id%type,
-                          p_test_name             in svt_stds_standard_tests.test_name%type,
-                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
-                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                          p_owner                 in svt_stds_standard_tests.owner%type,
-                          p_test_code             in svt_stds_standard_tests.test_code%type,
-                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
-                          p_level_id              in svt_stds_standard_tests.level_id%type,
-                          p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
-                          p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
-                          p_explanation           in svt_stds_standard_tests.explanation%type,
-                          p_fix                   in svt_stds_standard_tests.fix%type,
-                          p_version_number        in svt_stds_standard_tests.version_number%type default null,
-                          p_version_db            in svt_stds_standard_tests.version_db%type default null
-                        );
-    
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 13, 2023
--- Synopsis:
---
--- Publish a given svt_stds_standard_tests record 
---
-/*
-begin
-  svt_stds_standard_tests_api.publish_test(p_test_code => :P14_TEST_CODE);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure publish_test(p_test_code in svt_stds_standard_tests.test_code%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: October 16, 2023
--- Synopsis:
---
--- Procedure to publish tests in bulk
---
-/*
-begin
-  svt_stds_standard_tests_api.bulk_publish(p_selected_ids => :P5_SELECTED_IDS);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure bulk_publish(p_selected_ids in varchar2);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Oct-31
--- Synopsis:
---
--- Procedure to inactivate tests in bulk
---
-/*
-begin
-  svt_stds_standard_tests_api.bulk_inactivate(p_selected_ids => :P5_SELECTED_IDS);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure bulk_inactivate(p_selected_ids in varchar2);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-15
--- Synopsis:
---
--- Procedure to delete tests in bulk
---
-/*
-begin
-  svt_stds_standard_tests_api.bulk_delete(p_selected_ids => :P5_SELECTED_IDS);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure bulk_delete(p_selected_ids in varchar2);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Oct-31
--- Synopsis:
---
--- Procedure to activate tests in bulk
---
-/*
-begin
-  svt_stds_standard_tests_api.bulk_activate(p_selected_ids => :P5_SELECTED_IDS);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure bulk_activate(p_selected_ids in varchar2);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 10, 2023
--- Synopsis:
---
--- Procedure to delete test
---
-/*
-begin
-  svt_stds_standard_tests_api.delete_test(p_id => :P14_ID,
-                                          p_test_code => :P14_TEST_CODE);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure delete_test(p_id        in svt_stds_standard_tests.id%type,
-                          p_test_code in svt_stds_standard_tests.test_code%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 16, 2023
--- Synopsis:
---
--- overloaded function to get svt_stds_standard_tests record for a given test code
---
-/*
-set serveroutput on;
-declare
-l_rec svt_stds_standard_tests%rowtype;
-begin
-    l_rec := svt_stds_standard_tests_api.get_test_rec(p_test_code => 'UNREACHABLE_PAGE');
-    dbms_output.put_line('code :'||l_rec.test_code);
-end;
-*/
-------------------------------------------------------------------------------
-    function get_test_rec(p_test_code in svt_stds_standard_tests.test_code%type) 
-    return svt_stds_standard_tests%rowtype;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Aug-17
--- Synopsis:
---
--- overloaded function to get svt_stds_standard_tests record for a given test id
---
-/*
-set serveroutput on;
-declare
-l_rec svt_stds_standard_tests%rowtype;
-begin
-    l_rec := svt_stds_standard_tests_api.get_test_rec(p_test_id => :p_test_id);
-    dbms_output.put_line('code :'||l_rec.test_code);
-end;
-*/
-------------------------------------------------------------------------------
-    function get_test_rec(p_test_id in svt_stds_standard_tests.id%type) 
-    return svt_stds_standard_tests%rowtype;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: May 31, 2023
--- Synopsis:
---
--- Function to duplicate a standard (p14) 
---
-/*
-begin
-  svt_stds_standard_tests_api.duplicate_standard (
-                                    p_from_test_code  => :P16_FROM_TEST_CODE,
-                                    p_to_test_code    => :P16_TO_TEST_CODE
-                                );
-end;
-*/
-------------------------------------------------------------------------------
-  procedure duplicate_standard (
-                                    p_from_test_code in svt_stds_standard_tests.test_code%type,
-                                    p_to_test_code   in svt_stds_standard_tests.test_code%type
-                                );
-
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: June 2, 2023
--- Synopsis:
---
--- Function to get the pk of a svt_stds_standard_tests record, given a test code
---
-/*
-select svt_stds_standard_tests_api.get_test_id (p_test_code => :P14_TEST_CODE)
-from dual
-*/
-------------------------------------------------------------------------------
-    function get_test_id (p_test_code in svt_stds_standard_tests.test_code%type)
-    return svt_stds_standard_tests.id%type deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Aug-17
--- Synopsis:
---
--- Overloaded Function to get the standard_id of a svt_stds_standard_tests record, given a test id
---
-/*
-select svt_stds_standard_tests_api.get_standard_id (p_test_id => :p_test_id)
-from dual
-*/
-------------------------------------------------------------------------------
-    function get_standard_id (p_test_id in svt_stds_standard_tests.id%type)
-    return svt_stds_standard_tests.standard_id%type deterministic;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-1
---
--- OVerloaded Function to get the standard_id of a svt_stds_standard_tests record, given a test code
---
-/*
-select svt_stds_standard_tests_api.get_standard_id (p_test_code => :p_test_code)
-from dual
-*/
-------------------------------------------------------------------------------
-    function get_standard_id (p_test_code in svt_stds_standard_tests.test_code%type)
-    return svt_stds_standard_tests.standard_id%type deterministic;
-
- 
- ------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 10, 2023
--- Synopsis:
---
--- Function to query the V_SVT_STDS_STANDARD_TESTS view with some additional columns
--- namely the download test sample file
---
-/*
-select *
-from svt_stds_standard_tests_api.v_svt_stds_standard_tests()
-*/
-------------------------------------------------------------------------------
-  function v_svt_stds_standard_tests (
-                     p_standard_id        in svt_stds_standard_tests.standard_id%type default null,
-                     p_active_yn          in svt_stds_standard_tests.active_yn%type default null,
-                     p_published_yn       in varchar2 default null,
-                     p_standard_active_yn in varchar2 default null,
-                     p_issue_category     in svt_nested_table_types.nt_name%type default null,
-                     p_inherited_yn       in varchar2 default null
-              )
-  return v_svt_stds_standard_tests_nt pipelined;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 23, 2023
--- Synopsis:
---
--- function to retrieve the nt_name for a given test_code
---
-/*
-select svt_stds_standard_tests_api.nt_name(p_test_code => 'APP_AUTH')
-from dual
-*/
-------------------------------------------------------------------------------
-  function nt_name(p_test_code in svt_stds_standard_tests.test_code%type)
-  return svt_nested_table_types.nt_name%type
-  deterministic 
-  result_cache;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: November 28, 2023
--- Synopsis:
---
--- Function to return the count of active tests
---
-/*
-select svt_stds_standard_tests_api.active_test_count
-from dual
-*/
-------------------------------------------------------------------------------
-  function active_test_count (
-              p_published_yn   in varchar2 default null,
-              p_issue_category in svt_nested_table_types.object_type%type default null) 
-  return pls_integer;
-
-end svt_stds_standard_tests_api;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_TESTS_LIB_API" authid definer as
-----------------------------------------------------------------------------
--- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
--- 
--- NAME
---   SVT_STDS_TESTS_LIB_API
---
--- DESCRIPTION
---
--- RUNTIME DEPLOYMENT: Yes
---
--- MODIFIED  (YYYY-MON-DD)
--- hayhudso  2023-Jun-8 - created
----------------------------------------------------------------------------- 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: June 8, 2023
--- Synopsis:
---
--- Procedure to insert / update / merge a record into svt_stds_tests_lib
---
-/*
-begin
-    svt_stds_tests_lib_api.upsert (
-        p_standard_id           => p_standard_id,
-        p_test_name             => p_test_name,
-        p_test_id               => p_test_id,
-        p_query_clob            => p_query_clob,
-        p_test_code             => p_test_code,
-        p_active_yn             => p_active_yn,
-        p_mv_dependency         => p_mv_dependency,
-        p_svt_component_type_id => p_svt_component_type_id,
-        p_explanation           => p_explanation,
-        p_fix                   => p_fix,
-        p_level_id              => p_level_id,
-        p_version_number        => p_version_number
-    );
-end;
-*/
-------------------------------------------------------------------------------
-    procedure upsert (
-        p_standard_id           in svt_stds_tests_lib.standard_id%type,
-        p_test_name             in svt_stds_tests_lib.test_name%type,
-        p_test_id               in svt_stds_tests_lib.test_id%type,
-        p_query_clob            in svt_stds_tests_lib.query_clob%type,
-        p_test_code             in svt_stds_tests_lib.test_code%type,
-        p_active_yn             in svt_stds_tests_lib.active_yn%type,
-        p_mv_dependency         in svt_stds_tests_lib.mv_dependency%type,
-        p_svt_component_type_id in svt_stds_tests_lib.svt_component_type_id%type,
-        p_explanation           in svt_stds_tests_lib.explanation%type,
-        p_fix                   in svt_stds_tests_lib.fix%type,
-        p_level_id              in svt_stds_tests_lib.level_id%type,
-        p_version_number        in svt_stds_tests_lib.version_number%type,
-        p_version_db            in svt_stds_tests_lib.version_db%type
-    );
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: June 8, 2023
--- Synopsis:
---
--- Procedure to load current standards tests
---
-/*
-begin
-    svt_stds_tests_lib_api.take_snapshot;
-    commit;
-end;
-*/
-------------------------------------------------------------------------------
-    -- procedure take_snapshot;
-
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: June 14, 2023
--- Synopsis:
---
--- Procedure to insert from svt_stds_tests_lib into svt_stds_standard_tests
---
-/*
-begin
-    svt_stds_tests_lib_api.install_standard_test(
-                        p_id => :P60_ID,
-                        p_urgency_level_id =>  :P60_URGENCY_LEVEL_ID);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure install_standard_test(p_id               in svt_stds_tests_lib.id%type,
-                                    p_standard_id      in svt_stds_standard_tests.standard_id%type,
-                                    p_urgency_level_id in svt_stds_standard_tests.level_id%type
-                                    );
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: October 17, 2023
--- Synopsis:
---
--- Procedure to install all the tests for a given standard
---
-/*
-begin
-    svt_stds_tests_lib_api.auto_install_standard_test(p_standard_id => :P81_STANDARD_ID);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure auto_install_standard_test (
-                        p_standard_id in svt_stds_standard_tests.standard_id%type,
-                        p_test_code   in svt_stds_standard_tests.test_code%type default null);
-
-    
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: June 26, 2023
--- Synopsis:
---
--- Overloaded procedure to delete a given test from the test library and zip file
--- for a given id 
---
-/*
-begin  
-    svt_stds_tests_lib_api.delete_test_from_lib (p_id => :P60_ID);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure delete_test_from_lib (p_id in svt_stds_tests_lib.id%type);
-
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 7, 2023
--- Synopsis:
---
--- Procedure to delete a given test from the test library and zip file
--- for a test_code
---
-/*
-begin  
-    svt_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
-end;
-*/
-------------------------------------------------------------------------------
-    procedure delete_test_from_lib (p_test_code in svt_stds_tests_lib.test_code%type);
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 11, 2023
--- Synopsis:
---
--- Function to get the primary key of svt_stds_tests_lib from a given test_code
---
-/*
-        select svt_stds_tests_lib_api.get_id(:P60_TEST_CODE)
-        from dual
-*/
-------------------------------------------------------------------------------
-   function get_id(p_test_code in svt_stds_tests_lib.test_code%type)
-   return svt_stds_tests_lib.id%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: July 13, 2023
--- Synopsis:
---
--- Function to return the md5 of a svt_stds_tests_lib for comparison with a svt_stds_standard_tests record
---
-/*
-select svt_stds_tests_lib_api.current_md5(p_test_code)
-from dual
-*/
-------------------------------------------------------------------------------
-   function current_md5(p_test_code in svt_stds_tests_lib.test_code%type)
-   return varchar2;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: August 16, 2023
--- Synopsis:
---
--- Procedure to get the md5 and version number for a given test_code 
---
-/*
-set serveroutput on
-declare
-p_test_code svt_stds_tests_lib.test_code%type := 'RW_BUTTON_PLACEMENT';
-l_md5 varchar2(250);
-l_version_number  svt_stds_tests_lib.version_number%type;
-begin
-    SVT_STDS_TESTS_LIB_API.md5_imported_vsn_num (
-                p_test_code      => p_test_code,
-                p_md5            => l_md5,
-                p_version_number => l_version_number
-        );
-    dbms_output.put_line('l_md5 :'||l_md5);
-    dbms_output.put_line('l_version_number :'||l_version_number);
-end;
-*/
-------------------------------------------------------------------------------
-   procedure md5_imported_vsn_num (
-                p_test_code      in  svt_stds_tests_lib.test_code%type,
-                p_md5            out nocopy varchar2,
-                p_version_number out nocopy svt_stds_tests_lib.version_number%type
-   );
-
-end SVT_STDS_TESTS_LIB_API;
-/
-
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_TYPES_API" authid definer as
-----------------------------------------------------------------------------
--- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
--- 
--- NAME
---   svt_stds_types_api
---
--- DESCRIPTION
---
--- RUNTIME DEPLOYMENT: Yes
---
--- MODIFIED  (YYYY-MON-DD)
--- hayhudso  2023-Oct-18 - created
----------------------------------------------------------------------------- 
-/*
-begin
-  case :APEX$ROW_STATUS
-    when 'C' then
-      :P24_ID := svt_stds_types_api.insert_typ (
-                    p_display_sequence => :P24_DISPLAY_SEQUENCE,
-                    p_type_name        => :P24_TYPE_NAME,
-                    p_type_code        => :P24_TYPE_CODE,
-                    p_description      => :P24_DESCRIPTION,
-                    p_active_yn        => :P24_ACTIVE_YN
-                );
-    when 'U' then
-      svt_stds_types_api.update_typ(
-            p_id               => :P24_ID,
-            p_display_sequence => :P24_DISPLAY_SEQUENCE,
-            p_type_name        => :P24_TYPE_NAME,
-            p_type_code        => :P24_TYPE_CODE,
-            p_description      => :P24_DESCRIPTION,
-            p_active_yn        => :P24_ACTIVE_YN
-        );
-    when 'D' then
-      svt_stds_types_api.delete_typ(p_id => :P24_ID);
-  end case;
-end;
-*/
----------------------------------------------------------------------------- 
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-10
--- Synopsis:
---
--- Procedure to insert records into SVT_STDS_TYPES
---
-------------------------------------------------------------------------------
-    function insert_typ (
-       p_id               in svt_stds_types.id%type default null,
-       p_display_sequence in svt_stds_types.display_sequence%type,
-       p_type_name        in svt_stds_types.type_name%type,
-       p_type_code        in svt_stds_types.type_code%type,
-       p_description      in svt_stds_types.description%type,
-       p_active_yn        in svt_stds_types.active_yn%type
-    ) return svt_stds_types.id%type;
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-10
--- Synopsis:
---
--- Procedure to update records into SVT_STDS_TYPES
---
-------------------------------------------------------------------------------
-    procedure update_typ (
-       p_id               in svt_stds_types.id%type,
-       p_display_sequence in svt_stds_types.display_sequence%type,
-       p_type_name        in svt_stds_types.type_name%type,
-       p_type_code        in svt_stds_types.type_code%type,
-       p_description      in svt_stds_types.description%type,
-       p_active_yn        in svt_stds_types.active_yn%type
-    );
-
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: 2023-Nov-10
--- Synopsis:
---
--- Procedure to delete records into SVT_STDS_TYPES
---
-------------------------------------------------------------------------------
-    procedure delete_typ (
-        p_id in svt_stds_types.id%type
-    );
-    
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: October 18, 2023
--- Synopsis:
---
--- function to return id for a given type code
---
-/*
-select svt_stds_types_api.get_type_id (p_type_code => 'HUMANX') type_id
-from dual
-*/
-------------------------------------------------------------------------------
-    function get_type_id (p_type_code in svt_stds_types.type_code%type)
-    return svt_stds_types.id%type;
-
-end svt_stds_types_api;
-/
-
   CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_ACL" authid definer as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
@@ -1847,7 +13,6 @@ end svt_stds_types_api;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Sep-21 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -1862,7 +27,6 @@ end svt_stds_types_api;
 ------------------------------------------------------------------------------
 procedure add_admin (p_user_name      in apex_workspace_developers.user_name%type,
                      p_application_id in apex_applications.application_id%type);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -1877,7 +41,6 @@ procedure add_admin (p_user_name      in apex_workspace_developers.user_name%typ
 ------------------------------------------------------------------------------
 procedure add_contributor (p_user_name      in apex_workspace_developers.user_name%type,
                            p_application_id in apex_applications.application_id%type);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -1892,7 +55,6 @@ procedure add_contributor (p_user_name      in apex_workspace_developers.user_na
 ------------------------------------------------------------------------------
 procedure add_reader (p_user_name      in apex_workspace_developers.user_name%type,
                       p_application_id in apex_applications.application_id%type);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 21, 2023
@@ -1907,7 +69,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure add_awd_users(p_application_id in apex_applications.application_id%type default null);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -1924,7 +85,6 @@ end;
 ------------------------------------------------------------------------------
 procedure add_default_admin(p_user_name      in apex_workspace_developers.user_name%type,
                             p_application_id in apex_applications.application_id%type);
-
 end SVT_ACL;
 /
 
@@ -1946,8 +106,6 @@ end SVT_ACL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2022-Sep-28 - created
 ---------------------------------------------------------------------------- 
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 21, 2022
@@ -1970,7 +128,6 @@ from dual;
    return varchar2
    deterministic
    result_cache;
-
 end SVT_APEX_ISSUE_LINK;
 /
 
@@ -1992,7 +149,6 @@ end SVT_APEX_ISSUE_LINK;
 -- modified  (yyyy-mon-dd)
 -- hayhudso  2022-sep-28 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 30, 2023
@@ -2006,7 +162,6 @@ from dual
 */
 ------------------------------------------------------------------------------
 function apex_issue_access_yn return varchar2;
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: october 5, 2022
@@ -2034,7 +189,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure manage_apex_issues (p_message out nocopy varchar2);
-
 $if oracle_apex_version.c_apex_issue_access $then
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
@@ -2065,7 +219,6 @@ procedure create_issue (p_id             out apex_issues.issue_id%type,
                         p_page_id        in  apex_issues.related_page_id%type,
                         p_audit_id       in svt_plsql_apex_audit.id%type
                         );
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: september 29, 2022
@@ -2090,7 +243,6 @@ procedure merge_from_audit_tbl(p_issue_category in svt_plsql_apex_audit.issue_ca
                                p_test_code      in svt_stds_standard_tests.test_code%type default null,
                                p_message        out nocopy varchar2
                               );
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: october 3, 2022
@@ -2105,8 +257,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure drop_irrelevant_issues (p_message out nocopy varchar2);
-
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: october 5, 2022
@@ -2119,9 +269,6 @@ procedure drop_irrelevant_issues (p_message out nocopy varchar2);
 -- end;
 ------------------------------------------------------------------------------
 procedure update_audit_tbl_from_apex_issues;
-
-
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: december 7, 2022
@@ -2136,8 +283,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure drop_issue (p_id in  apex_issues.issue_id%type);
-
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: december 9, 2022
@@ -2152,8 +297,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure drop_all_svt_issues;
-
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: may 19, 2023
@@ -2168,10 +311,7 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure hard_correct_svt_issues;
-
-
 $end
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: february 1, 2023
@@ -2188,7 +328,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type);
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: february 1, 2023
@@ -2204,7 +343,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure refresh_for_audit_id (p_audit_id in svt_plsql_apex_audit.id%type);
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: may 19, 2023
@@ -2219,7 +357,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure check_apex_version_up2date;
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: may 19, 2023
@@ -2234,7 +371,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure mark_as_exception (p_audit_id in svt_plsql_apex_audit.id%type);
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: 2023-jun-13
@@ -2249,7 +385,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure bulk_mark_as_exception (p_audit_ids in varchar2);
-
 end SVT_APEX_ISSUE_UTIL;
 /
 
@@ -2267,7 +402,6 @@ end SVT_APEX_ISSUE_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2022-Sep-16 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 16, 2022
@@ -2288,8 +422,6 @@ end SVT_APEX_ISSUE_UTIL;
 ------------------------------------------------------------------------------
 function apex_applications(p_user in all_users.username%type default null)
 return svt_apex_applications_nt pipelined;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2022-Oct-14
@@ -2310,7 +442,6 @@ return svt_apex_applications_nt pipelined;
 ------------------------------------------------------------------------------
 function apex_application_page_ir_col
 return apex_application_page_rpt_cols_nt pipelined;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2022-Oct-14
@@ -2331,7 +462,6 @@ return apex_application_page_rpt_cols_nt pipelined;
 ------------------------------------------------------------------------------
 function apex_appl_page_ig_columns
 return apex_application_page_rpt_cols_nt pipelined;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 9, 2023
@@ -2355,8 +485,6 @@ from svt_apex_view.apex_workspace_preferences()
 function apex_workspace_preferences
 return svt_apex_preferences_nt pipelined 
 deterministic;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 5, 2023
@@ -2377,8 +505,6 @@ function display_position_is_violation (
                 p_template_id           in apex_application_page_regions.template_id%type,
                 p_application_id        in apex_application_temp_region.application_id%type
   ) return varchar2 deterministic;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -2401,7 +527,6 @@ function rpt_link_request(
               p_application_id   in apex_appl_page_ig_rpts.application_id%type default null
         )
 return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -2409,8 +534,6 @@ return varchar2;
 -- svt_apex_view.gc_svt_app_id
 ------------------------------------------------------------------------------
   gc_svt_app_id constant pls_integer := 17000033;
-
-
 end SVT_APEX_VIEW;
 /
 
@@ -2427,7 +550,6 @@ end SVT_APEX_VIEW;
 --
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Nov-13 - created
-
 /*
 begin
   case :APEX$ROW_STATUS
@@ -2448,7 +570,6 @@ begin
 end;
 */
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2461,7 +582,6 @@ end;
         p_action_name          in svt_audit_actions.action_name%type,
         p_include_in_report_yn in svt_audit_actions.include_in_report_yn%type
     ) return svt_audit_actions.id%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2475,7 +595,6 @@ end;
         p_action_name          in svt_audit_actions.action_name%type,
         p_include_in_report_yn in svt_audit_actions.include_in_report_yn%type
     );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2488,8 +607,6 @@ end;
         p_id in svt_audit_actions.id%type
     );
 ---------------------------------------------------------------------------- 
-
-
 end SVT_AUDIT_ACTIONS_API;
 /
 
@@ -2507,7 +624,6 @@ end SVT_AUDIT_ACTIONS_API;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Sep-28 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 28, 2023
@@ -2541,7 +657,6 @@ end SVT_AUDIT_ACTIONS_API;
 	    p_code                       in svt_audit_on_audit.code%type default null,
         p_delete_reason              in varchar2 default null
     );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 13, 2023
@@ -2557,7 +672,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_extra;    
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 20, 2023
@@ -2575,7 +689,6 @@ from dual
                         p_standard_id in svt_stds_standards.id%type default null)
     return pls_integer 
     result_cache;
-
 end SVT_AUDIT_ON_AUDIT_API;
 /
 
@@ -2759,6 +872,20 @@ from dual
 ------------------------------------------------------------------------------
 function min_not_met_error_msg return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 30, 2023
+-- Synopsis:
+--
+-- Function to answer when the next big audit run is scheduled for (to manage expectations)
+--
+/*
+select svt_audit_util.info_on_next_audit_run
+from dual
+*/
+------------------------------------------------------------------------------
+function info_on_next_audit_run return varchar2;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;
@@ -2788,7 +915,6 @@ end SVT_AUDIT_UTIL;
 --
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Nov-13- created
-
 /*
 begin
   case :APEX$ROW_STATUS
@@ -2813,7 +939,6 @@ begin
 end;
 */
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2828,7 +953,6 @@ end;
         p_compatibility_desc in svt_compatibility.compatibility_desc%type,
         p_type_name          in svt_compatibility.type_name%type
     ) return svt_compatibility.id%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2844,7 +968,6 @@ end;
         p_compatibility_desc in svt_compatibility.compatibility_desc%type,
         p_type_name          in svt_compatibility.type_name%type
     );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2856,7 +979,6 @@ end;
     procedure delete_cmp (
         p_id in svt_compatibility.id%type
     );
-
 end svt_compatibility_api;
 /
 
@@ -2873,7 +995,6 @@ end svt_compatibility_api;
 --
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Nov-13 - created
-
 /*
 begin
   case :APEX$ROW_STATUS
@@ -2908,7 +1029,6 @@ begin
 end;
 */
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2928,7 +1048,6 @@ end;
        p_name_column       in svt_component_types.name_column%type,
        p_addl_cols         in svt_component_types.addl_cols%type
     ) return svt_component_types.id%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2949,7 +1068,6 @@ end;
        p_name_column       in svt_component_types.name_column%type,
        p_addl_cols         in svt_component_types.addl_cols%type
     );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-13
@@ -2961,14 +1079,11 @@ end;
     procedure delete_cmp (
         p_id in svt_component_types.id%type
     );
-
-
 end SVT_COMPONENT_TYPES_API;
 /
 
   CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_CTX_UTIL" authid definer
 as
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 21, 2022
@@ -2984,8 +1099,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure set_review_schema (p_schema in all_users.username%type default null);
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: February 8, 2023
@@ -3000,11 +1113,8 @@ from dual;
 -- cannot result_cache or make deterministic, I'm afraid
 ------------------------------------------------------------------------------
     function get_default_user return all_users.username%type;
-
-
 e_insufficient_privs    exception;
 pragma exception_init(e_insufficient_privs,-1031);
-
 end SVT_CTX_UTIL;
 /
 
@@ -3022,7 +1132,6 @@ end SVT_CTX_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jul-28 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 28, 2023
@@ -3050,7 +1159,6 @@ end;
                 p_standard_id   in svt_stds_standards.id%type default null,
                 p_datatype      in varchar2 default 'blob')
     return clob;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -3075,7 +1183,6 @@ end;
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
     return clob;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -3097,7 +1204,6 @@ end;
                   p_standard_id in svt_stds_standards.id%type,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return clob;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -3136,7 +1242,6 @@ from dual
                                 p_standard_id    in svt_stds_standards.id%type default null,
                                 p_zip_yn         in varchar2 default null)
     return blob;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 28, 2023
@@ -3161,7 +1266,6 @@ end;
                                 p_test_code     in svt_stds_standard_tests.test_code%type default null,
                                 p_standard_id   in svt_stds_standards.id%type default null)
     return clob;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -3176,7 +1280,6 @@ from dual
 ------------------------------------------------------------------------------
     function sample_template_file (p_table_name in user_tables.table_name%type)
     return blob;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -3193,7 +1296,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure upsert_static_file(p_table_name in user_tables.table_name%type);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2023
@@ -3210,8 +1312,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure merge_from_zip (p_table_name in user_tables.table_name%type);
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 21, 2023
@@ -3225,7 +1325,6 @@ from dual
 */
 ------------------------------------------------------------------------------
     function table_last_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 9, 2023
@@ -3263,7 +1362,6 @@ from svt_deployment.v_svt_table_data_load_def(p_application_id => 17000033)
 ------------------------------------------------------------------------------
 function v_svt_table_data_load_def (p_application_id in apex_applications.application_id%type)
 return v_svt_table_data_load_def_nt pipelined;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 3, 2023
@@ -3286,7 +1384,6 @@ end;
 */
 ------------------------------------------------------------------------------
 function markdown_summary return clob;
-
 ------------------------------------------------------------------------------
 -- exceptions
 ------------------------------------------------------------------------------
@@ -3294,12 +1391,10 @@ function markdown_summary return clob;
    pragma exception_init(e_missing_field, -0904);
    e_non_existent_tbl exception;
    pragma exception_init(e_non_existent_tbl, -0942);
-
 end SVT_DEPLOYMENT;
 /
 
   CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_ERROR_HANDLER_API" authid definer is
-
 /*
 svt_error_handler_api.error_handler
 */
@@ -3307,8 +1402,6 @@ function error_handler
    (p_error in apex_error.t_error
    ) return apex_error.t_error_result
 ;    
-
-
 end SVT_ERROR_HANDLER_API;
 /
 
@@ -3326,7 +1419,6 @@ end SVT_ERROR_HANDLER_API;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jun-6 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 6, 2023
@@ -3348,7 +1440,6 @@ function is_component_used_yn (
                 p_condition_expression2     IN VARCHAR2,
                 p_component                 IN VARCHAR2 DEFAULT NULL )
             return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 12, 2023
@@ -3364,7 +1455,6 @@ from dual
 function is_authorized_yn (
     p_authorization_name in apex_application_list_entries.authorization_scheme%type
 ) return varchar2;
-
 end SVT_MENU_UTIL;
 /
 
@@ -3382,7 +1472,6 @@ end SVT_MENU_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso   2022-Dec-16 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudsons
 --     Date: December 20, 2022
@@ -3404,8 +1493,6 @@ function unassigned_src_html
      p_fetch_rows    in number default null
     )
     return varchar2;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 16, 2022
@@ -3424,7 +1511,6 @@ end;
 ------------------------------------------------------------------------------
 procedure send_update(p_days_since     in number default 1,
                       p_override_email in varchar2 default null);
-
   ------------------------------------------------------------------------------
   --  Creator: Hayden Hudson
   --     Date: January 3, 2023
@@ -3439,7 +1525,6 @@ procedure send_update(p_days_since     in number default 1,
   ------------------------------------------------------------------------------
   function app_url (p_application_id in apex_applications.application_id%type default null) 
   return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 10, 2023
@@ -3453,8 +1538,6 @@ from dual;
 */
 ------------------------------------------------------------------------------
   function get_db_name return varchar2;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 13, 2023
@@ -3488,8 +1571,6 @@ end;
               p_body      in clob,
               p_body_html in clob
   );
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 13, 2023
@@ -3499,7 +1580,6 @@ end;
 --
 ------------------------------------------------------------------------------
   procedure push_email;
-
   ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 11, 2023
@@ -3515,7 +1595,6 @@ from dual;
 ------------------------------------------------------------------------------
   function unassigned_html_by_src (
             p_days_since in number) return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 11, 2023
@@ -3556,7 +1635,6 @@ from dual
 */
 ------------------------------------------------------------------------------
   function db_unique_name return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 18, 2023
@@ -3571,8 +1649,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure enable_automations (p_application_id in apex_applications.application_id%type default null);
-
-
 end SVT_MONITORING;
 /
 
@@ -3590,7 +1666,6 @@ end SVT_MONITORING;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jul-5 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 5, 2023
@@ -3604,7 +1679,6 @@ from dual
 */
 ------------------------------------------------------------------------------
 function mv_svt_query return clob;
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: may 10, 2023
@@ -3619,7 +1693,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure refresh_mv(p_mv_list in svt_stds_standard_tests.mv_dependency%type default null);
-
 end SVT_MV_UTIL;
 /
 
@@ -3636,7 +1709,6 @@ end SVT_MV_UTIL;
 --
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Aug-23 - created
-
 /*
 begin
   case :APEX$ROW_STATUS
@@ -3659,7 +1731,6 @@ begin
 end;
 */
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 10, 2023
@@ -3673,7 +1744,6 @@ end;
         p_example_query in svt_nested_table_types.example_query%type,
         p_object_type   in svt_nested_table_types.object_type%type
     ) return svt_nested_table_types.id%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 10, 2023
@@ -3688,7 +1758,6 @@ end;
         p_example_query in svt_nested_table_types.example_query%type,
         p_object_type   in svt_nested_table_types.object_type%type
     );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 10, 2023
@@ -3700,7 +1769,6 @@ end;
     procedure delete_nt (
         p_id in svt_nested_table_types.id%type
     );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -3717,7 +1785,6 @@ from dual
     return svt_plsql_apex_audit.issue_category%type
     deterministic
     result_cache;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-29
@@ -3734,8 +1801,6 @@ from dual
     return svt_nested_table_types.nt_name%type
     deterministic
     result_cache;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -3751,7 +1816,6 @@ from dual
     function issue_category (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_plsql_apex_audit.issue_category%type
     deterministic;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 29, 2023
@@ -3765,7 +1829,6 @@ from dual
 */
 ------------------------------------------------------------------------------
     function nt_count return pls_integer result_cache;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 29, 2023
@@ -3779,7 +1842,6 @@ from dual
 */
 ------------------------------------------------------------------------------
     function nt_list return varchar2 result_cache;
-
 end svt_nested_table_types_api;
 /
 
@@ -3838,7 +1900,6 @@ end SVT_ONE_REPORT_MACRO;
 -- modified  (yyyy-mon-dd)
 -- hayhudso  2023-jun-29- created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 4, 2023
@@ -3868,7 +1929,6 @@ end;
       p_action_id in svt_plsql_apex_audit.action_id%type,
       p_legacy_yn in svt_plsql_apex_audit.legacy_yn%type
     );
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: june 29, 2023
@@ -3883,8 +1943,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure mark_as_exception (p_audit_id in svt_plsql_apex_audit.id%type);
-
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: june 29, 2023
@@ -3899,7 +1957,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure null_out_apex_issue (p_audit_id in svt_plsql_apex_audit.id%type);
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: june 29, 2023
@@ -3917,7 +1974,6 @@ end;
 ------------------------------------------------------------------------------
 procedure assign_violation (p_audit_id in svt_plsql_apex_audit.id%type,
                             p_assignee in svt_plsql_apex_audit.assignee%type);
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: june 29, 2023
@@ -3935,7 +1991,6 @@ end;
 ------------------------------------------------------------------------------
 procedure bulk_reassign (p_audit_ids in varchar2,
                          p_assignee  in svt_plsql_apex_audit.assignee%type);
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: february 1, 2023
@@ -3953,7 +2008,6 @@ end;
 ------------------------------------------------------------------------------
 function get_audit_record (p_audit_id in svt_plsql_apex_audit.id%type) 
 return svt_plsql_apex_audit%rowtype;
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: february 2, 2023
@@ -3966,7 +2020,6 @@ function get_unqid(p_audit_id in svt_plsql_apex_audit.id%type)
 return svt_plsql_apex_audit.unqid%type 
 deterministic 
 result_cache;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: May 16, 2023
@@ -3982,8 +2035,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure assign_from_default;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 12, 2023
@@ -3999,7 +2050,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure assign_from_apex_audit;
-
 $if oracle_apex_version.c_loki_access $then
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -4016,7 +2066,6 @@ end;
 ------------------------------------------------------------------------------
 procedure assign_from_loki;
 $end
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: september 26, 2022
@@ -4038,7 +2087,6 @@ end;
                                p_audit_id       in svt_plsql_apex_audit.id%type default null,
                                p_issue_category in svt_plsql_apex_audit.issue_category%type default null
                               );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 28, 2023
@@ -4067,7 +2115,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_stale (p_deleted_count out nocopy pls_integer);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 28, 2023
@@ -4096,7 +2143,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_inactive (p_deleted_count out nocopy pls_integer);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 28, 2023
@@ -4129,8 +2175,6 @@ end;
               p_object_type                in svt_plsql_apex_audit.object_type%type,
               p_code                       in svt_plsql_apex_audit.code%type,
               p_delete_reason              in varchar2);
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 29, 2023
@@ -4145,7 +2189,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 2, 2023
@@ -4172,10 +2215,8 @@ begin
     and paa.application_id = 17000033
     and paa.component_id is not null
     and paa.id = 3782539;
-
     dbms_output.put_line('l_component_id :'||l_component_id);
     dbms_output.put_line('l_view_name :'||l_view_name);
-
     svt_plsql_apex_audit_api.get_assignee_from_parent_apex_audit (
       p_component_id => l_component_id,
       p_view_name    => l_view_name,
@@ -4184,7 +2225,6 @@ begin
       p_assignee     => l_assignee,
       p_parent_view  => l_parent_view
     );
-
     dbms_output.put_line('l_query1 :'||l_query1);
     dbms_output.put_line('l_query2 :'||l_query2);
     dbms_output.put_line('l_assignee :'||l_assignee);
@@ -4202,7 +2242,6 @@ end;
       p_parent_pk_id   out nocopy svt_plsql_apex_audit.component_id%type,
       p_parent_view    out nocopy svt_component_types.component_name%type
   );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 2, 2023
@@ -4232,7 +2271,6 @@ and paa.id = 3782539;
     p_application_id in svt_plsql_apex_audit.application_id%type,
     p_page_id        in svt_plsql_apex_audit.page_id%type
   ) return svt_plsql_apex_audit.assignee%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 2, 2023
@@ -4247,7 +2285,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure assign_from_apex_parent_audit;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 3, 2023
@@ -4264,7 +2301,6 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure rerun_assignment_w_apex_audits;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 3, 2023
@@ -4279,7 +2315,6 @@ from dual;
 ------------------------------------------------------------------------------
   function get_assignee_email (p_username in svt_plsql_apex_audit.apex_last_updated_by%type)
   return svt_plsql_apex_audit.assignee%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 20, 2023
@@ -4296,7 +2331,6 @@ from dual
                   p_application_id in svt_plsql_apex_audit.application_id%type default null,
                   p_standard_id    in svt_stds_standards.id%type default null)
   return pls_integer;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 20, 2023
@@ -4312,7 +2346,6 @@ from dual
   function percent_solved(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                           p_standard_id    in svt_stds_standards.id%type default null)
   return number;
-
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;
@@ -4325,12 +2358,10 @@ e_deadlock    exception;
 pragma exception_init(e_deadlock,-60);
 e_invalid_id    exception;
 pragma exception_init(e_invalid_id,-904);
-
 end SVT_PLSQL_APEX_AUDIT_API;
 /
 
   CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_PLSQL_REVIEW" authid current_user as
-
     ------------------------------------------------------------------------------
     --  Creator: Hayden Hudson
     --     Date: June 17, 2022
@@ -4351,8 +2382,6 @@ end SVT_PLSQL_APEX_AUDIT_API;
                      p_file_dirname            in varchar2 default null
                     )
     return svt_db_plsql_issue_nt pipelined;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 4, 2023
@@ -4363,7 +2392,6 @@ end SVT_PLSQL_APEX_AUDIT_API;
 ------------------------------------------------------------------------------
   function get_object_type (p_object_name in user_objects.object_name%type) 
   return user_objects.object_type%type;
-
 end SVT_PLSQL_REVIEW;
 /
 
@@ -4381,7 +2409,6 @@ end SVT_PLSQL_REVIEW;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Apr-3 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: April 3, 2023
@@ -4390,7 +2417,6 @@ end SVT_PLSQL_REVIEW;
 -- Generic function to retrieve preference values 
 --
 /*
-
 Instructions : Set the values of these preference in the Admin section of the application (p36)
 begin
     svt_audit_util.set_workspace;
@@ -4414,8 +2440,6 @@ from dual;
 ------------------------------------------------------------------------------
 function get(p_preference_name in apex_workspace_preferences.preference_name%type)
 return apex_workspace_preferences.preference_value%type;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: April 17, 2023
@@ -4434,7 +2458,6 @@ end;
 ------------------------------------------------------------------------------
 procedure set_preference (p_preference_name in apex_workspace_preferences.preference_name%type,
                           p_value           in apex_workspace_preferences.preference_value%type);
-
 end SVT_PREFERENCES;
 /
 
@@ -4472,7 +2495,6 @@ begin
 end;
 */
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-9
@@ -4486,7 +2508,6 @@ end;
         p_urgency_level in svt_standards_urgency_level.urgency_level%type,
         p_urgency_name  in svt_standards_urgency_level.urgency_name%type
     ) return svt_standards_urgency_level.id%type;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-9
@@ -4500,7 +2521,6 @@ end;
         p_urgency_level in svt_standards_urgency_level.urgency_level%type,
         p_urgency_name  in svt_standards_urgency_level.urgency_name%type
     );
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-9
@@ -4512,7 +2532,6 @@ end;
     procedure delete_ul (
         p_id in svt_standards_urgency_level.id%type
     );
-
 end SVT_STANDARDS_URGENCY_LEVEL_API;
 /
 
@@ -4530,7 +2549,6 @@ end SVT_STANDARDS_URGENCY_LEVEL_API;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jan-24 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 23, 2023
@@ -4553,7 +2571,6 @@ from svt_standard_view.v_svt_db_plsql(
                           p_failures_only in varchar2 default 'N',
                           p_object_name   in svt_plsql_apex_audit.object_name%type default null )
   return v_svt_db_plsql_ref_nt pipelined;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Jan-25
@@ -4583,7 +2600,6 @@ from svt_standard_view.v_svt_apex(
                       p_application_id       in svt_plsql_apex_audit.application_id%type default null,
                       p_page_id              in svt_plsql_apex_audit.page_id%type default null)
   return v_svt_apex_nt pipelined;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Jan-25
@@ -4600,7 +2616,6 @@ from svt_standard_view.v_svt_db_view__0(
   function v_svt_db_view__0(p_test_code     in svt_stds_standard_tests.test_code%type,
                             p_failures_only in varchar2 default 'N')
   return v_svt_db_view__0_nt pipelined;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Feb-7
@@ -4617,7 +2632,6 @@ from svt_standard_view.v_svt_db_tbl__0(
   function v_svt_db_tbl__0(p_test_code     in svt_stds_standard_tests.test_code%type,
                            p_failures_only in varchar2 default 'N')
   return v_svt_db_tbl__0_nt pipelined;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Jan-25
@@ -4640,8 +2654,6 @@ from svt_standard_view.v_svt(p_test_code => 'MISSING_COMMENT');
                  p_page_id              in svt_plsql_apex_audit.page_id%type default null
                  )
   return v_svt_plsql_apex__0_nt pipelined;
-
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 24, 2023
@@ -4659,7 +2671,6 @@ return svt_standard_view.query_feedback (
   function query_feedback (p_query_code            in svt_stds_standard_tests.query_clob%type,
                            p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type)
   return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 24, 2023
@@ -4673,8 +2684,6 @@ from dual;
 */
 ------------------------------------------------------------------------------
   function get_nt_type_id (p_nt_name in svt_nested_table_types.nt_name%type) return svt_nested_table_types.id%type;
-
-
 ------------------------------------------------------------------------------
 -- exceptions
 ------------------------------------------------------------------------------
@@ -4695,8 +2704,1738 @@ from dual;
    pragma exception_init(e_ambiguous_column,-0918);
    e_buffer2small exception;
    pragma exception_init(e_buffer2small,-22835);
-
 end SVT_STANDARD_VIEW;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS" authid definer is
+    -------------------------------------------------------------------------
+    -- Generates a unique Identifier
+    -------------------------------------------------------------------------
+    function gen_id return number;
+    -------------------------------------------------------------------------
+    -- Handle the process of registering the scheduled job.
+    -------------------------------------------------------------------------
+    procedure register_job;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: January 24, 2023
+-- Synopsis:
+--
+-- public function to convert a standard name into it's primary key
+--
+/*
+select svt_stds.get_standard_id (p_standard_name => :P34_STANDARD_NAME)
+from dual
+*/
+------------------------------------------------------------------------------
+    function get_standard_id (p_standard_name in svt_stds_standards.standard_name%type) 
+    return svt_stds_standards.id%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 16, 2023
+-- Synopsis:
+--
+-- function to get svt_stds_standard_tests.mv_dependency for a given test code
+--
+/*
+select svt_stds.get_mv_dependency(p_test_code => 'UNREACHABLE_PAGE') mv
+from dual;
+*/
+------------------------------------------------------------------------------
+    function get_mv_dependency(p_test_code in svt_stds_standard_tests.test_code%type) 
+    return svt_stds_standard_tests.mv_dependency%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 19, 2023
+-- Synopsis:
+--
+-- Function to determine whether to display the 'initialize standard' on p14 
+--
+/*
+set serveroutput on
+declare
+l_boolean boolean;
+begin
+    l_boolean := svt_stds.display_initialize_button (
+                    p_test_code     => :P14_TEST_CODE,
+                    p_level_id      => :P14_LEVEL_ID
+                );
+    if l_boolean then 
+        dbms_output.put_line('display');
+    else 
+        dbms_output.put_line('do not display');
+    end if;
+end;
+*/
+------------------------------------------------------------------------------
+    function display_initialize_button (
+        p_test_code     in svt_plsql_apex_audit.test_code%type,
+        p_level_id      in svt_standards_urgency_level.id%type
+    ) return boolean;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 4, 2023
+-- Synopsis:
+--
+-- Function to determine whether or not to close the test modal (p14) 
+--
+/*
+set serveroutput on
+declare
+l_boolean boolean;
+begin
+    l_boolean := svt_stds.close_test_modal (
+                    p_request       => :REQUEST,
+                    p_test_code     => :P14_TEST_CODE,
+                    p_level_id      => :P14_LEVEL_ID
+                );
+    if l_boolean then 
+        dbms_output.put_line('display');
+    else 
+        dbms_output.put_line('do not display');
+    end if;
+end;
+*/
+------------------------------------------------------------------------------
+    function close_test_modal (p_request   in varchar2,
+                               p_test_code in svt_plsql_apex_audit.test_code%type,
+                               p_level_id  in svt_standards_urgency_level.id%type
+    ) return boolean;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 2, 2023
+-- Synopsis:
+--
+-- Convert the name of your standard into something that is compatible with a file / folder name
+--
+/*
+select svt_stds.file_name('Idiosyncratic, workspace specific')
+from dual
+*/
+------------------------------------------------------------------------------
+    function file_name (p_standard_name in svt_stds_standards.standard_name%type)
+    return svt_stds_standards.standard_name%type;
+end svt_stds;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_APPLICATIONS_API" authid definer as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   SVT_STDS_APPLICATIONS_API
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso  2023-Nov-9 - created
+---------------------------------------------------------------------------- 
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+      :P161_PK_ID := svt_stds_applications_api.insert_app (
+                    p_apex_app_id       => :P161_APEX_APP_ID,
+                    p_default_developer => :P161_DEFAULT_DEVELOPER,
+                    p_type_id           => :P161_TYPE_ID,
+                    p_notes             => :P161_NOTES,
+                    p_active_yn         => :P161_ACTIVE_YN
+                );
+    when 'U' then
+      svt_stds_applications_api.update_app(
+            p_id                => :P161_PK_ID,
+            p_apex_app_id       => :P161_APEX_APP_ID,
+            p_default_developer => :P161_DEFAULT_DEVELOPER,
+            p_type_id           => :P161_TYPE_ID,
+            p_notes             => :P161_NOTES,
+            p_active_yn         => :P161_ACTIVE_YN
+        );
+    when 'D' then
+      svt_stds_applications_api.delete_app(p_id => :P161_PK_ID);
+  end case;
+end;
+*/
+---------------------------------------------------------------------------- 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-9
+-- Synopsis:
+--
+-- Procedure to insert records into SVT_STDS_APPLICATIONS
+--
+------------------------------------------------------------------------------
+    function insert_app (
+        p_id                in svt_stds_applications.pk_id%type default null,
+        p_apex_app_id       in svt_stds_applications.apex_app_id%type,
+        p_default_developer in svt_stds_applications.default_developer%type,
+        p_type_id           in svt_stds_applications.type_id%type,
+        p_notes             in svt_stds_applications.notes%type,
+        p_active_yn         in svt_stds_applications.active_yn%type default 'Y'
+    ) return svt_stds_applications.pk_id%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-9
+-- Synopsis:
+--
+-- Procedure to update records into SVT_STDS_APPLICATIONS
+--
+------------------------------------------------------------------------------
+    procedure update_app (
+        p_id                in svt_stds_applications.pk_id%type,
+        p_apex_app_id       in svt_stds_applications.apex_app_id%type,
+        p_default_developer in svt_stds_applications.default_developer%type,
+        p_type_id           in svt_stds_applications.type_id%type,
+        p_notes             in svt_stds_applications.notes%type,
+        p_active_yn         in svt_stds_applications.active_yn%type default 'Y'
+    );
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-9
+-- Synopsis:
+--
+-- Procedure to delete records into SVT_STDS_APPLICATIONS
+--
+------------------------------------------------------------------------------
+    procedure delete_app (
+        p_id in svt_stds_applications.pk_id%type
+    );
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 29, 2023
+-- Synopsis:
+--
+-- Function to return the number of active, registered applications to scan
+--
+/*
+select svt_stds_applications_api.active_app_count
+from dual
+*/
+------------------------------------------------------------------------------
+    function active_app_count return pls_integer;
+end SVT_STDS_APPLICATIONS_API;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_DATA" authid definer is
+    procedure load_initial_data;
+    function is_initial_data_loaded return boolean;
+    procedure load_sample_data;
+    procedure remove_sample_data;
+    -- function is_sample_data_loaded return boolean;
+end svt_stds_data;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_INHERITED_TESTS_API" authid definer as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   svt_stds_inherited_tests_api
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso  2023-Aug-17 - created
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+        svt_stds_inherited_tests_api.inherit_test (
+            p_test_id            => :P79_TEST_ID,
+            p_standard_id        => :P79_STANDARD_ID
+        );
+    when 'U' then
+      svt_stds_inherited_tests_api.inherit_test (
+            p_test_id            => :P79_TEST_ID,
+            p_standard_id        => :P79_STANDARD_ID
+        );
+    when 'D' then
+       svt_stds_inherited_tests_api.disinherit (
+        p_test_id            => :P79_TEST_ID,
+        p_standard_id        => :P79_STANDARD_ID
+    );
+  end case;
+end;
+*/
+---------------------------------------------------------------------------- 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- procedure to add a record to svt_stds_inherited_tests
+--
+/*
+declare
+c_standard_id svt_stds_standards.id%type := 4064835866137640665977205961047451272;
+l_parent_standard_id svt_stds_standards.parent_standard_id%type;
+l_test_id svt_stds_standard_tests.id%type;
+begin
+    select parent_standard_id
+    into l_parent_standard_id
+    from  svt_stds_standards
+    where id = c_standard_id;
+    
+    select id 
+    into l_test_id
+    from svt_stds_standard_tests
+    where standard_id = l_parent_standard_id
+    fetch first 1 rows only;
+    
+    svt_stds_inherited_tests_api.inherit_test (
+        p_test_id            => l_test_id,
+        p_standard_id        => c_standard_id
+    );
+end;
+*/
+------------------------------------------------------------------------------
+procedure inherit_test (
+    p_test_id            in svt_stds_inherited_tests.test_id%type,
+    p_standard_id        in svt_stds_inherited_tests.standard_id%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- Procedure sever the relationship between a standard and a test from it's parent standard  
+--
+/*
+begin
+    svt_stds_inherited_tests_api.disinherit (
+        p_test_id            => l_test_id,
+        p_standard_id        => c_standard_id
+    );
+end;
+*/
+------------------------------------------------------------------------------
+procedure disinherit (
+    p_test_id            in svt_stds_inherited_tests.test_id%type,
+    p_standard_id        in svt_stds_inherited_tests.standard_id%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- Procedure to delete all records in svt_stds_inherited_tests for a given standard_id  
+--
+/*
+begin
+    svt_stds_inherited_tests_api.delete_std (p_standard_id => p_standard_id);
+end;
+*/
+------------------------------------------------------------------------------
+procedure delete_std (p_standard_id               in svt_stds_inherited_tests.standard_id%type,
+                      p_former_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type default null);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Aug-21
+-- Synopsis:
+--
+-- Procedure to delete all records for a given test_id  
+--
+/*
+begin
+    svt_stds_inherited_tests_api.delete_test (p_test_id => p_test_id);
+end;
+*/
+------------------------------------------------------------------------------
+procedure delete_test (p_test_id  in svt_stds_inherited_tests.test_id%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- Procedure to add colon-delimited test_ids to svt_stds_inherited_tests
+--
+/*
+begin
+    svt_stds_inherited_tests_api.bulk_add(
+                    p_test_ids    => :P65_SELECTED_IDS,
+                    p_standard_id => :P65_STANDARD_ID
+                );
+end;
+*/
+------------------------------------------------------------------------------
+procedure bulk_add(p_test_ids    in varchar2,
+                   p_standard_id in svt_stds_inherited_tests.standard_id%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- Procedure to remove colon-delimited test_ids to svt_stds_inherited_tests
+--
+/*
+begin
+    svt_stds_inherited_tests_api.bulk_remove(
+                    p_test_ids    => :P65_SELECTED_IDS,
+                    p_standard_id => :P65_STANDARD_ID
+                );
+end;
+*/
+------------------------------------------------------------------------------
+procedure bulk_remove(p_test_ids    in varchar2,
+                      p_standard_id in svt_stds_inherited_tests.standard_id%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 18, 2023
+-- Synopsis:
+--
+-- Procedure to pass on every test from one standard to another 
+--
+/*
+begin
+    svt_stds_inherited_tests_api.inherit_all(
+                      p_parent_standard_id => p_parent_standard_id,
+                      p_standard_id        => p_standard_id
+                    );
+end;
+*/
+------------------------------------------------------------------------------
+procedure inherit_all(p_parent_standard_id in svt_stds_inherited_tests.parent_standard_id%type,
+                      p_standard_id        in svt_stds_inherited_tests.standard_id%type);
+end svt_stds_inherited_tests_api;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_NOTIFICATIONS_API" authid definer as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   SVT_STDS_NOTIFICATIONS_API
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso  2023-Nov-10 - created
+---------------------------------------------------------------------------- 
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+      :P31_ID := svt_stds_notifications_api.insert_ntf (
+                    p_notification_name        => :P31_NOTIFICATION_NAME,
+                    p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
+                    p_notification_type        => :P31_NOTIFICATION_TYPE,
+                    p_display_sequence         => :P31_DISPLAY_SEQUENCE,
+                    p_display_from             => :P31_DISPLAY_FROM,
+                    p_display_until            => :P31_DISPLAY_UNTIL
+                );
+    when 'U' then
+      svt_stds_notifications_api.update_ntf(
+            p_id                       => :P31_ID,
+            p_notification_name        => :P31_NOTIFICATION_NAME,
+            p_notification_description => :P31_NOTIFICATION_DESCRIPTION,
+            p_notification_type        => :P31_NOTIFICATION_TYPE,
+            p_display_sequence         => :P31_DISPLAY_SEQUENCE,
+            p_display_from             => :P31_DISPLAY_FROM,
+            p_display_until            => :P31_DISPLAY_UNTIL
+        );
+    when 'D' then
+      svt_stds_notifications_api.delete_ntf(p_id => :P31_ID);
+  end case;
+end;
+*/
+---------------------------------------------------------------------------- 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-10
+-- Synopsis:
+--
+-- Procedure to insert records into SVT_STDS_NOTIFICATIONS
+--
+------------------------------------------------------------------------------
+    function insert_ntf (
+       p_id                       in svt_stds_notifications.id%type default null,
+       p_notification_name        in svt_stds_notifications.notification_name%type,
+       p_notification_description in svt_stds_notifications.notification_description%type,
+       p_notification_type        in svt_stds_notifications.notification_type%type,
+       p_display_sequence         in svt_stds_notifications.display_sequence%type,
+       p_display_from             in svt_stds_notifications.display_from%type,
+       p_display_until            in svt_stds_notifications.display_until%type
+    ) return svt_stds_notifications.id%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-10
+-- Synopsis:
+--
+-- Procedure to update records into SVT_STDS_NOTIFICATIONS
+--
+------------------------------------------------------------------------------
+    procedure update_ntf (
+       p_id                       in svt_stds_notifications.id%type,
+       p_notification_name        in svt_stds_notifications.notification_name%type,
+       p_notification_description in svt_stds_notifications.notification_description%type,
+       p_notification_type        in svt_stds_notifications.notification_type%type,
+       p_display_sequence         in svt_stds_notifications.display_sequence%type,
+       p_display_from             in svt_stds_notifications.display_from%type,
+       p_display_until            in svt_stds_notifications.display_until%type
+    );
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-10
+-- Synopsis:
+--
+-- Procedure to delete records into SVT_STDS_NOTIFICATIONS
+--
+------------------------------------------------------------------------------
+    procedure delete_ntf (
+        p_id in svt_stds_notifications.id%type
+    );
+end SVT_STDS_NOTIFICATIONS_API;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_PARSER" authid definer as
+    -- g_collection constant varchar2(255):= 'SVT_STDS_PARSER';
+    -- g_false_neg  constant varchar2(31) := 'FALSE_NEGATIVE';
+    -- g_legacy     constant varchar2(31) := 'LEGACY';
+    -- g_ticket     constant varchar2(31) := 'TICKET';
+    -- g_dummy_name constant svt_stds_standard_tests.test_name%type := 'DUMMY';
+    -- function view_sql (p_view_name in user_views.view_name%type,
+    --                    p_owner     in all_views.owner%type default null) return clob;
+    
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 25, 2023
+-- Synopsis:
+--
+-- function to replace build_link using svt_component_types.template_url/component_type_id 
+-- see p8000 in app 4000 and f4000_searchResults.js
+/*
+'<button type="button" class="a-Button edit-button" data-link="' ||
+       wwv_flow_utilities.prepare_url( link_url ) || '"' ||
+       case when component_type_id is not null then
+         ' data-appid="'       || flow_id || '"' ||
+         ' data-pageid="'      || page_id || '"' ||
+         ' data-typeid="'      || component_type_id || '"' ||
+         ' data-componentid="' || component_id || '"'
+       end ||
+       '>' || apex_lang.message( 'VIEW_IN_BUILDER' ) || '</button>' as view_button
+*/
+/*
+select audit_id, test_id,
+       svt_stds_parser.build_url(
+                        p_svt_component_type_id => svt_component_type_id,
+                        p_app_id                => application_id,
+                        p_page_id               => page_id,
+                        p_pk_value              => component_id,
+                        p_parent_pk_value       => parent_component_id,
+                        p_builder_session       => v('APX_BLDR_SESSION')
+       ) the_url
+from v_svt_plsql_apex_audit
+where audit_id = 78318
+*/
+------------------------------------------------------------------------------
+    function build_url( p_template_url          in svt_component_types.template_url%type,
+                        p_app_id                in svt_plsql_apex_audit.application_id%type,
+                        p_page_id               in svt_plsql_apex_audit.page_id%type,
+                        p_pk_value              in svt_plsql_apex_audit.component_id%type,
+                        p_parent_pk_value       in svt_plsql_apex_audit.object_name%type,
+                        p_issue_category        in svt_plsql_apex_audit.issue_category%type,
+                        p_opt_parent_pk_value   in svt_plsql_apex_audit.object_type%type default null,
+                        p_line                  in svt_plsql_apex_audit.line%type default null, 
+                        p_object_name           in svt_plsql_apex_audit.object_name%type default null,
+                        p_object_type           in svt_plsql_apex_audit.object_type%type default null,
+                        p_schema                in svt_plsql_apex_audit.owner%type default null,
+                        p_builder_session       in number default null
+                        )
+    return varchar2 deterministic result_cache;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 26, 2023
+-- Synopsis:
+--
+-- Procedure to retrieve key values about component types 
+--
+/*
+set serveroutput on
+declare
+l_component_name    svt_component_types.component_name%type;
+l_component_type_id svt_component_types.component_type_id%type;
+l_template_url      svt_component_types.template_url%type;
+begin
+    svt_stds_parser.get_component_type_rec (
+                        p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID, --11
+                        p_component_name        => l_component_name,
+                        p_component_type_id     => l_component_type_id,
+                        p_template_url          => l_template_url
+                    );
+    dbms_output.put_line('l_component_name :'||l_component_name);
+    dbms_output.put_line('l_component_type_id :'||l_component_type_id);
+    dbms_output.put_line('l_template_url :'||l_template_url);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure get_component_type_rec (
+                        p_svt_component_type_id in svt_component_types.id%type,
+                        p_component_name        out nocopy svt_component_types.component_name%type,
+                        p_component_type_id     out nocopy svt_component_types.component_type_id%type,
+                        p_template_url          out nocopy svt_component_types.template_url%type
+                    ) deterministic;
+    -- procedure add_applications;
+    -- function default_app_id  
+    --     return apex_applications.application_id%type deterministic;
+    -- function accessibility_app_id
+    --     return apex_applications.application_id%type deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 25, 2023
+-- Synopsis:
+--
+-- Function to determine whether a given url is valid. Used by the 'val_button_links' test, for eg
+--
+------------------------------------------------------------------------------
+    function is_valid_url (p_origin_app_id in apex_applications.application_id%type,
+                           p_url in varchar2) 
+        return varchar2 deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 25, 2023
+-- Synopsis:
+--
+-- Function to extract the app_id from a url, used by all the mv views (mv_svt_buttons for eg)  
+--
+------------------------------------------------------------------------------
+    function app_from_url ( p_origin_app_id in apex_applications.application_id%type,
+                            p_url           in varchar2) return  apex_applications.application_id%type deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 24, 2023
+-- Synopsis:
+--
+-- function to extract the page_id from a url  
+--
+/*
+select svt_stds_parser.page_from_url(p_origin_app_id => application_id,
+                                     p_url => home_link)
+from apex_applications
+*/
+------------------------------------------------------------------------------
+    function page_from_url (p_origin_app_id in apex_applications.application_id%type,
+                            p_url           in varchar2) return apex_application_pages.page_id%type deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 21, 2022
+-- Synopsis:
+--
+-- function to id whether or not it is being called from a builder session
+--
+/*
+set serveroutput on
+declare
+l_boolean boolean;
+l_override_value number := 123123123;
+begin
+    l_boolean := svt_stds_parser.is_logged_into_builder(l_override_value);
+    if l_boolean then 
+        dbms_output.put_line('logged in');
+    else 
+        dbms_output.put_line('not logged in');
+    end if;
+end;
+*/
+------------------------------------------------------------------------------
+    function is_logged_into_builder (p_override_value in number default null) return boolean;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 21, 2022
+-- Synopsis:
+--
+-- Procedure to determine if a given application is in the same workspace as the Application Standard Tracker
+--
+/*
+declare
+l_boolean boolean
+begin
+    l_boolean := svt_stds_parser.app_in_current_workspace(100);
+end;
+*/
+------------------------------------------------------------------------------
+    function app_in_current_workspace (p_app_id in apex_applications.application_id%type) 
+    return boolean;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 30, 2023
+-- Synopsis:
+--
+-- Function to return a default query, given an svt_component_type_id
+--
+/*
+select svt_stds_parser.seed_default_query(p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID) stmt
+from dual
+*/
+------------------------------------------------------------------------------
+    function seed_default_query(p_svt_component_type_id in svt_component_types.id%type)
+    return varchar2;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 23, 2023
+-- Synopsis:
+--
+-- Function to convert a url to friendly as appropriate 
+--
+/*
+select svt_stds_parser.adapt_url()
+from dual
+*/
+------------------------------------------------------------------------------
+    function adapt_url (p_template_url in svt_component_types.template_url%type)
+    return svt_component_types.template_url%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 21, 2022
+-- Synopsis:
+--
+-- Function to return the base url for an apex workspace
+--
+/*
+select svt_stds_parser.get_base_url()
+from dual;
+*/
+------------------------------------------------------------------------------
+    function get_base_url return varchar2 deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 24, 2023
+-- Synopsis:
+--
+-- Function to determine whether or not an HTML block is valid
+--
+/*
+    select svt_stds_parser.valid_html_yn('<b>hello</b>') valid_yn
+    from dual;
+*/
+------------------------------------------------------------------------------
+    function valid_html_yn (p_html in clob) 
+    return varchar2
+    deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 2, 2023
+-- Synopsis:
+--
+-- Function to determine whether a given column exists in a given table 
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    l_bool := svt_stds_parser.column_exists 
+                    (p_column_name => 'UPDATED_BY',
+                     p_table_name => 'APEX_APPLICATION_PAGE_REGIONS'
+                    );
+    if l_bool then 
+        dbms_output.put_line('column exists');
+    else 
+        dbms_output.put_line('column does not exist');
+    end if;
+end;
+*/
+------------------------------------------------------------------------------
+    function column_exists (p_column_name in all_tab_cols.column_name%type,
+                            p_table_name  in all_tab_cols.table_name%type) 
+    return boolean;
+    e_subscript_beyond_count exception;
+    pragma exception_init(e_subscript_beyond_count, -6533);
+    e_not_a_number exception;
+    pragma exception_init(e_not_a_number, -6502);
+    e_number_conversion exception;
+    pragma exception_init(e_number_conversion, -1722);
+    e_table_not_exist exception;
+    pragma exception_init(e_table_not_exist, -942);
+    e_invalid_object exception;
+    pragma exception_init(e_invalid_object, -44002);
+end svt_stds_parser;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_STANDARDS_API" authid definer as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   svt_stds_standards_api
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso  2023-Aug-17 - created
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+      :P11_ID := svt_stds_standards_api.insert_std (
+                p_standard_name         => :P11_STANDARD_NAME,
+                p_description           => :P11_DESCRIPTION,
+                p_primary_developer     => :P11_PRIMARY_DEVELOPER,
+                p_implementation        => :P11_IMPLEMENTATION,
+                p_date_started          => :P11_DATE_STARTED,
+                p_standard_group        => :P11_STANDARD_GROUP,
+                p_active_yn             => :P11_ACTIVE_YN,
+                p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
+                p_parent_standard_id    => :P11_PARENT_STANDARD_ID
+        );
+    when 'U' then
+       svt_stds_standards_api.updated_std (
+            p_id                    => :P11_ID,
+            p_standard_name         => :P11_STANDARD_NAME,
+            p_description           => :P11_DESCRIPTION,
+            p_primary_developer     => :P11_PRIMARY_DEVELOPER,
+            p_implementation        => :P11_IMPLEMENTATION,
+            p_date_started          => :P11_DATE_STARTED,
+            p_standard_group        => :P11_STANDARD_GROUP,
+            p_active_yn             => :P11_ACTIVE_YN,
+            p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
+            p_parent_standard_id    => :P11_PARENT_STANDARD_ID
+        );
+    when 'D' then
+      svt_stds_standards_api.delete_std(p_standard_id => :P11_ID);
+  end case;
+end;
+*/
+---------------------------------------------------------------------------- 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- function to created a record
+--
+/*
+begin
+    :P11_ID := svt_stds_standards_api.insert_std (
+                p_standard_name         => :P11_STANDARD_NAME,
+                p_description           => :P11_DESCRIPTION,
+                p_primary_developer     => :P11_PRIMARY_DEVELOPER,
+                p_implementation        => :P11_IMPLEMENTATION,
+                p_date_started          => :P11_DATE_STARTED,
+                p_standard_group        => :P11_STANDARD_GROUP,
+                p_active_yn             => :P11_ACTIVE_YN,
+                p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
+                p_parent_standard_id    => :P11_PARENT_STANDARD_ID
+    );
+end;
+*/
+------------------------------------------------------------------------------
+function insert_std (
+    p_standard_name         in svt_stds_standards.standard_name%type,
+    p_description           in svt_stds_standards.description%type,
+    p_primary_developer     in svt_stds_standards.primary_developer%type,
+    p_implementation        in svt_stds_standards.implementation%type,
+    p_date_started          in svt_stds_standards.date_started%type,
+    p_standard_group        in svt_stds_standards.standard_group%type,
+    p_active_yn             in svt_stds_standards.active_yn%type,
+    p_compatibility_mode_id in svt_stds_standards.compatibility_mode_id%type,
+    p_parent_standard_id    in svt_stds_standards.parent_standard_id%type
+) return svt_stds_standards.id%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- Procedure to update a record
+--
+/*
+begin
+    svt_stds_standards_api.updated_std (
+        p_id                    => :P11_ID,
+        p_standard_name         => :P11_STANDARD_NAME,
+        p_description           => :P11_DESCRIPTION,
+        p_primary_developer     => :P11_PRIMARY_DEVELOPER,
+        p_implementation        => :P11_IMPLEMENTATION,
+        p_date_started          => :P11_DATE_STARTED,
+        p_standard_group        => :P11_STANDARD_GROUP,
+        p_active_yn             => :P11_ACTIVE_YN,
+        p_compatibility_mode_id => :P11_COMPATIBILITY_MODE_ID,
+        p_parent_standard_id    => :P11_PARENT_STANDARD_ID
+    );
+end;
+*/
+------------------------------------------------------------------------------
+procedure updated_std (
+    p_id                    in svt_stds_standards.id%type,
+    p_standard_name         in svt_stds_standards.standard_name%type,
+    p_description           in svt_stds_standards.description%type,
+    p_primary_developer     in svt_stds_standards.primary_developer%type,
+    p_implementation        in svt_stds_standards.implementation%type,
+    p_date_started          in svt_stds_standards.date_started%type,
+    p_standard_group        in svt_stds_standards.standard_group%type,
+    p_active_yn             in svt_stds_standards.active_yn%type,
+    p_compatibility_mode_id in svt_stds_standards.compatibility_mode_id%type,
+    p_parent_standard_id    in svt_stds_standards.parent_standard_id%type
+);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- function to retrieve a row of svt_stds_standards for a given standard id.  
+--
+/*
+set serveroutput on
+declare
+l_rec svt_stds_standards%rowtype;
+begin
+    l_rec := svt_stds_standards_api.get_rec (p_standard_id => 1);
+    dbms_output.put_line('standard name :'||l_rec.standard_name);
+end;
+*/
+------------------------------------------------------------------------------
+    function get_rec (p_standard_id in svt_stds_standards.id%type)
+    return svt_stds_standards%rowtype;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 17, 2023
+-- Synopsis:
+--
+-- Procedure to delete a standard 
+--
+/*
+begin
+    svt_stds_standards_api.delete_std(p_standard_id => :P11_ID);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_std (p_standard_id in svt_stds_standards.id%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 18, 2023
+-- Synopsis:
+--
+-- Function to get the full name (including compatibility description) for a given standard_id 
+--
+/*
+    select svt_stds_standards_api.get_full_name(p_standard_id => 1) fname
+    from dual;
+*/
+------------------------------------------------------------------------------
+    function get_full_name (p_standard_id in svt_stds_standards.id%type)
+    return svt_stds_standards.standard_name%type
+    deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 9, 2023
+-- Synopsis:
+--
+-- procedure to update svt_stds_standard_tests.avg_exctn_scnds from v_svt_test_timing
+--
+/*
+begin
+    svt_stds_standards_api.update_test_avg_time;
+end;
+*/
+------------------------------------------------------------------------------
+    procedure update_test_avg_time;
+  
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 20, 2023
+-- Synopsis:
+--
+-- Function to return a random but deterministic hex color for a given standard
+--
+/*
+select svt_stds_standards_api.hex_color(p_standard_id => 1) hex
+from dual
+*/
+------------------------------------------------------------------------------
+  function hex_color(p_standard_id in svt_stds_standards.id%type)
+  return varchar2
+  deterministic 
+  result_cache;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return the count of active standards
+--
+/*
+select svt_stds_standards_api.active_standard_count
+from dual
+*/
+------------------------------------------------------------------------------
+  function active_standard_count return pls_integer;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return a comma separated list of active standards
+--
+/*
+select svt_stds_standards_api.active_standard_list
+from dual
+*/
+------------------------------------------------------------------------------
+    function active_standard_list return varchar2;
+end svt_stds_standards_api;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_STANDARD_TESTS_API" authid definer as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   svt_stds_standard_tests_api
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- change_me  YYYY-MON-DD - created
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+      :P14_ID := svt_stds_standard_tests_api.insert_test(
+                  p_id                    => :P14_ID,
+                  p_standard_id           => :P14_STANDARD_ID,
+                  p_test_name             => :P14_SHORT_NAME,
+                  p_display_sequence      => :P14_DISPLAY_SEQUENCE,
+                  p_query_clob            => :P14_QUERY_CLOB,
+                  p_owner                 => :P14_OWNER,
+                  p_test_code             => :P14_TEST_CODE,
+                  p_active_yn             => :P14_ACTIVE_YN,
+                  p_level_id              => :P14_LEVEL_ID,
+                  p_mv_dependency         => :P14_MV_DEPENDENCY,
+                  p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
+                  p_explanation           => :P14_EXPLANATION,
+                  p_fix                   => :P14_FIX
+                );
+    when 'U' then
+      svt_stds_standard_tests_api.update_test(
+                          p_id                    => :P14_ID,
+                          p_standard_id           => :P14_STANDARD_ID,
+                          p_test_name             => :P14_SHORT_NAME,
+                          p_display_sequence      => :P14_DISPLAY_SEQUENCE,
+                          p_query_clob            => :P14_QUERY_CLOB,
+                          p_owner                 => :P14_OWNER,
+                          p_test_code             => :P14_TEST_CODE,
+                          p_active_yn             => :P14_ACTIVE_YN,
+                          p_level_id              => :P14_LEVEL_ID,
+                          p_mv_dependency         => :P14_MV_DEPENDENCY,
+                          p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
+                          p_explanation           => :P14_EXPLANATION,
+                          p_fix                   => :P14_FIX
+                        );
+    when 'D' then
+      svt_stds_standard_tests_api.delete_test(p_id => :P14_ID);
+  end case;
+end;
+*/
+---------------------------------------------------------------------------- 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Jul-10
+-- Synopsis:
+--
+-- Procedure to insert new record into  svt_stds_standard_tests
+--
+/*
+declare 
+l_id svt_stds_standard_tests.id%type;
+begin
+    l_id := svt_stds_standard_tests_api.insert_test(
+                p_standard_id           => p_standard_id,
+                p_test_name             => p_test_name,
+                p_display_sequence      => p_display_sequence,
+                p_query_clob            => p_query_clob,
+                p_owner                 => p_owner,
+                p_test_code             => p_test_code,
+                p_active_yn             => p_active_yn,
+                p_level_id              => p_level_id,
+                p_mv_dependency         => p_mv_dependency,
+                p_svt_component_type_id => p_svt_component_type_id,
+                p_explanation           => p_explanation,
+                p_fix                   => p_fix
+              );
+end;
+*/
+------------------------------------------------------------------------------
+  function insert_test(p_id                    in svt_stds_standard_tests.id%type default null,
+                       p_standard_id           in svt_stds_standard_tests.standard_id%type,
+                       p_test_name             in svt_stds_standard_tests.test_name%type,
+                       p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
+                       p_query_clob            in svt_stds_standard_tests.query_clob%type,
+                       p_owner                 in svt_stds_standard_tests.owner%type,
+                       p_test_code             in svt_stds_standard_tests.test_code%type,
+                       p_active_yn             in svt_stds_standard_tests.active_yn%type,
+                       p_level_id              in svt_stds_standard_tests.level_id%type,
+                       p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
+                       p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
+                       p_explanation           in svt_stds_standard_tests.explanation%type,
+                       p_fix                   in svt_stds_standard_tests.fix%type,
+                       p_version_number        in svt_stds_standard_tests.version_number%type default null,
+                       p_version_db            in svt_stds_standard_tests.version_db%type default null
+                       )
+  return svt_stds_standard_tests.id%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: June 14, 2023
+-- Synopsis:
+--
+-- Procedure to insert new record into  svt_stds_standard_tests (called by SVT_STDS_TESTS_LIB_API.install_standard_test)
+--
+/*
+begin
+    svt_stds_standard_tests_api.insert_test(
+                p_id                    => p_id,
+                p_standard_id           => p_standard_id,
+                p_test_name             => p_test_name,
+                p_display_sequence      => p_display_sequence,
+                p_query_clob            => p_query_clob,
+                p_owner                 => p_owner,
+                p_test_code             => p_test_code,
+                p_active_yn             => p_active_yn,
+                p_level_id              => p_level_id,
+                p_mv_dependency         => p_mv_dependency,
+                p_svt_component_type_id => p_svt_component_type_id);
+end;
+*/
+------------------------------------------------------------------------------
+  procedure insert_test(p_id                    in svt_stds_standard_tests.id%type default null,
+                        p_standard_id           in svt_stds_standard_tests.standard_id%type,
+                        p_test_name             in svt_stds_standard_tests.test_name%type,
+                        p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
+                        p_query_clob            in svt_stds_standard_tests.query_clob%type,
+                        p_owner                 in svt_stds_standard_tests.owner%type,
+                        p_test_code             in svt_stds_standard_tests.test_code%type,
+                        p_active_yn             in svt_stds_standard_tests.active_yn%type,
+                        p_level_id              in svt_stds_standard_tests.level_id%type,
+                        p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
+                        p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
+                        p_explanation           in svt_stds_standard_tests.explanation%type,
+                        p_fix                   in svt_stds_standard_tests.fix%type,
+                        p_version_number        in svt_stds_standard_tests.version_number%type default null,
+                        p_version_db            in svt_stds_standard_tests.version_db%type default null
+                      );
+  
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 13, 2023
+-- Synopsis:
+--
+-- function to get md5 for a record of svt_stds_standard_tests
+--
+/*
+select svt_stds_standard_tests_api.build_test_md5 (
+        p_test_name             => esst.test_name,
+        p_query_clob            => esst.query_clob,
+        p_test_code             => esst.test_code,
+        p_level_id              => esst.level_id,
+        p_mv_dependency         => esst.mv_dependency,
+        p_svt_component_type_id => esst.svt_component_type_id,
+        p_explanation           => esst.explanation,
+        p_fix                   => esst.fix,
+        p_version_number        => esst.version_number,
+        p_version_db            => esst.version_db
+    ) esst_md5
+from svt_stds_standard_tests esst;
+*/
+------------------------------------------------------------------------------
+  function build_test_md5 (
+      p_test_name             in svt_stds_standard_tests.test_name%type,
+      p_query_clob            in svt_stds_standard_tests.query_clob%type,
+      p_test_code             in svt_stds_standard_tests.test_code%type,
+      p_level_id              in svt_stds_standard_tests.level_id%type,
+      p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
+      p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
+      p_explanation           in svt_stds_standard_tests.explanation%type,
+      p_fix                   in svt_stds_standard_tests.fix%type,
+      p_version_number        in svt_stds_standard_tests.version_number%type,
+      p_version_db            in svt_stds_standard_tests.version_db%type
+  ) return varchar2 deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 10, 2023
+-- Synopsis:
+--
+-- Procedure to update svt_stds_standard_tests
+--
+/*
+begin
+  svt_stds_standard_tests_api.update_test(
+                          p_id                    => :P14_ID,
+                          p_standard_id           => :P14_STANDARD_ID,
+                          p_test_name             => :P14_TEST_NAME,
+                          p_display_sequence      => :P14_DISPLAY_SEQUENCE,
+                          p_query_clob            => :P14_QUERY_CLOB,
+                          p_owner                 => :P14_OWNER,
+                          p_test_code             => :P14_TEST_CODE,
+                          p_active_yn             => :P14_ACTIVE_YN,
+                          p_level_id              => :P14_LEVEL_ID,
+                          p_mv_dependency         => :P14_MV_DEPENDENCY,
+                          p_svt_component_type_id => :P14_SVT_COMPONENT_TYPE_ID,
+                          p_explanation           => :P14_EXPLANATION,
+                          p_fix                   => :P14_FIX,
+                          p_version_number        => :P14_VERSION_NUMBER
+                        );
+end;
+*/
+------------------------------------------------------------------------------
+    procedure update_test(p_id                    in svt_stds_standard_tests.id%type default null,
+                          p_standard_id           in svt_stds_standard_tests.standard_id%type,
+                          p_test_name             in svt_stds_standard_tests.test_name%type,
+                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
+                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
+                          p_owner                 in svt_stds_standard_tests.owner%type,
+                          p_test_code             in svt_stds_standard_tests.test_code%type,
+                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
+                          p_level_id              in svt_stds_standard_tests.level_id%type,
+                          p_mv_dependency         in svt_stds_standard_tests.mv_dependency%type,
+                          p_svt_component_type_id in svt_stds_standard_tests.svt_component_type_id%type,
+                          p_explanation           in svt_stds_standard_tests.explanation%type,
+                          p_fix                   in svt_stds_standard_tests.fix%type,
+                          p_version_number        in svt_stds_standard_tests.version_number%type default null,
+                          p_version_db            in svt_stds_standard_tests.version_db%type default null
+                        );
+    
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 13, 2023
+-- Synopsis:
+--
+-- Publish a given svt_stds_standard_tests record 
+--
+/*
+begin
+  svt_stds_standard_tests_api.publish_test(p_test_code => :P14_TEST_CODE);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure publish_test(p_test_code in svt_stds_standard_tests.test_code%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 16, 2023
+-- Synopsis:
+--
+-- Procedure to publish tests in bulk
+--
+/*
+begin
+  svt_stds_standard_tests_api.bulk_publish(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_publish(p_selected_ids in varchar2);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Oct-31
+-- Synopsis:
+--
+-- Procedure to inactivate tests in bulk
+--
+/*
+begin
+  svt_stds_standard_tests_api.bulk_inactivate(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_inactivate(p_selected_ids in varchar2);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-15
+-- Synopsis:
+--
+-- Procedure to delete tests in bulk
+--
+/*
+begin
+  svt_stds_standard_tests_api.bulk_delete(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_delete(p_selected_ids in varchar2);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Oct-31
+-- Synopsis:
+--
+-- Procedure to activate tests in bulk
+--
+/*
+begin
+  svt_stds_standard_tests_api.bulk_activate(p_selected_ids => :P5_SELECTED_IDS);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure bulk_activate(p_selected_ids in varchar2);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 10, 2023
+-- Synopsis:
+--
+-- Procedure to delete test
+--
+/*
+begin
+  svt_stds_standard_tests_api.delete_test(p_id => :P14_ID,
+                                          p_test_code => :P14_TEST_CODE);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_test(p_id        in svt_stds_standard_tests.id%type,
+                          p_test_code in svt_stds_standard_tests.test_code%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 16, 2023
+-- Synopsis:
+--
+-- overloaded function to get svt_stds_standard_tests record for a given test code
+--
+/*
+set serveroutput on;
+declare
+l_rec svt_stds_standard_tests%rowtype;
+begin
+    l_rec := svt_stds_standard_tests_api.get_test_rec(p_test_code => 'UNREACHABLE_PAGE');
+    dbms_output.put_line('code :'||l_rec.test_code);
+end;
+*/
+------------------------------------------------------------------------------
+    function get_test_rec(p_test_code in svt_stds_standard_tests.test_code%type) 
+    return svt_stds_standard_tests%rowtype;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Aug-17
+-- Synopsis:
+--
+-- overloaded function to get svt_stds_standard_tests record for a given test id
+--
+/*
+set serveroutput on;
+declare
+l_rec svt_stds_standard_tests%rowtype;
+begin
+    l_rec := svt_stds_standard_tests_api.get_test_rec(p_test_id => :p_test_id);
+    dbms_output.put_line('code :'||l_rec.test_code);
+end;
+*/
+------------------------------------------------------------------------------
+    function get_test_rec(p_test_id in svt_stds_standard_tests.id%type) 
+    return svt_stds_standard_tests%rowtype;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: May 31, 2023
+-- Synopsis:
+--
+-- Function to duplicate a standard (p14) 
+--
+/*
+begin
+  svt_stds_standard_tests_api.duplicate_standard (
+                                    p_from_test_code  => :P16_FROM_TEST_CODE,
+                                    p_to_test_code    => :P16_TO_TEST_CODE
+                                );
+end;
+*/
+------------------------------------------------------------------------------
+  procedure duplicate_standard (
+                                    p_from_test_code in svt_stds_standard_tests.test_code%type,
+                                    p_to_test_code   in svt_stds_standard_tests.test_code%type
+                                );
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: June 2, 2023
+-- Synopsis:
+--
+-- Function to get the pk of a svt_stds_standard_tests record, given a test code
+--
+/*
+select svt_stds_standard_tests_api.get_test_id (p_test_code => :P14_TEST_CODE)
+from dual
+*/
+------------------------------------------------------------------------------
+    function get_test_id (p_test_code in svt_stds_standard_tests.test_code%type)
+    return svt_stds_standard_tests.id%type deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Aug-17
+-- Synopsis:
+--
+-- Overloaded Function to get the standard_id of a svt_stds_standard_tests record, given a test id
+--
+/*
+select svt_stds_standard_tests_api.get_standard_id (p_test_id => :p_test_id)
+from dual
+*/
+------------------------------------------------------------------------------
+    function get_standard_id (p_test_id in svt_stds_standard_tests.id%type)
+    return svt_stds_standard_tests.standard_id%type deterministic;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-1
+--
+-- OVerloaded Function to get the standard_id of a svt_stds_standard_tests record, given a test code
+--
+/*
+select svt_stds_standard_tests_api.get_standard_id (p_test_code => :p_test_code)
+from dual
+*/
+------------------------------------------------------------------------------
+    function get_standard_id (p_test_code in svt_stds_standard_tests.test_code%type)
+    return svt_stds_standard_tests.standard_id%type deterministic;
+ 
+ ------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 10, 2023
+-- Synopsis:
+--
+-- Function to query the V_SVT_STDS_STANDARD_TESTS view with some additional columns
+-- namely the download test sample file
+--
+/*
+select *
+from svt_stds_standard_tests_api.v_svt_stds_standard_tests()
+*/
+------------------------------------------------------------------------------
+  function v_svt_stds_standard_tests (
+                     p_standard_id        in svt_stds_standard_tests.standard_id%type default null,
+                     p_active_yn          in svt_stds_standard_tests.active_yn%type default null,
+                     p_published_yn       in varchar2 default null,
+                     p_standard_active_yn in varchar2 default null,
+                     p_issue_category     in svt_nested_table_types.nt_name%type default null,
+                     p_inherited_yn       in varchar2 default null
+              )
+  return v_svt_stds_standard_tests_nt pipelined;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 23, 2023
+-- Synopsis:
+--
+-- function to retrieve the nt_name for a given test_code
+--
+/*
+select svt_stds_standard_tests_api.nt_name(p_test_code => 'APP_AUTH')
+from dual
+*/
+------------------------------------------------------------------------------
+  function nt_name(p_test_code in svt_stds_standard_tests.test_code%type)
+  return svt_nested_table_types.nt_name%type
+  deterministic 
+  result_cache;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return the count of active tests
+--
+/*
+select svt_stds_standard_tests_api.active_test_count
+from dual
+*/
+------------------------------------------------------------------------------
+  function active_test_count (
+              p_published_yn   in varchar2 default null,
+              p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return pls_integer;
+end svt_stds_standard_tests_api;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_TESTS_LIB_API" authid definer as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   SVT_STDS_TESTS_LIB_API
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso  2023-Jun-8 - created
+---------------------------------------------------------------------------- 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: June 8, 2023
+-- Synopsis:
+--
+-- Procedure to insert / update / merge a record into svt_stds_tests_lib
+--
+/*
+begin
+    svt_stds_tests_lib_api.upsert (
+        p_standard_id           => p_standard_id,
+        p_test_name             => p_test_name,
+        p_test_id               => p_test_id,
+        p_query_clob            => p_query_clob,
+        p_test_code             => p_test_code,
+        p_active_yn             => p_active_yn,
+        p_mv_dependency         => p_mv_dependency,
+        p_svt_component_type_id => p_svt_component_type_id,
+        p_explanation           => p_explanation,
+        p_fix                   => p_fix,
+        p_level_id              => p_level_id,
+        p_version_number        => p_version_number
+    );
+end;
+*/
+------------------------------------------------------------------------------
+    procedure upsert (
+        p_standard_id           in svt_stds_tests_lib.standard_id%type,
+        p_test_name             in svt_stds_tests_lib.test_name%type,
+        p_test_id               in svt_stds_tests_lib.test_id%type,
+        p_query_clob            in svt_stds_tests_lib.query_clob%type,
+        p_test_code             in svt_stds_tests_lib.test_code%type,
+        p_active_yn             in svt_stds_tests_lib.active_yn%type,
+        p_mv_dependency         in svt_stds_tests_lib.mv_dependency%type,
+        p_svt_component_type_id in svt_stds_tests_lib.svt_component_type_id%type,
+        p_explanation           in svt_stds_tests_lib.explanation%type,
+        p_fix                   in svt_stds_tests_lib.fix%type,
+        p_level_id              in svt_stds_tests_lib.level_id%type,
+        p_version_number        in svt_stds_tests_lib.version_number%type,
+        p_version_db            in svt_stds_tests_lib.version_db%type
+    );
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: June 8, 2023
+-- Synopsis:
+--
+-- Procedure to load current standards tests
+--
+/*
+begin
+    svt_stds_tests_lib_api.take_snapshot;
+    commit;
+end;
+*/
+------------------------------------------------------------------------------
+    -- procedure take_snapshot;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: June 14, 2023
+-- Synopsis:
+--
+-- Procedure to insert from svt_stds_tests_lib into svt_stds_standard_tests
+--
+/*
+begin
+    svt_stds_tests_lib_api.install_standard_test(
+                        p_id => :P60_ID,
+                        p_urgency_level_id =>  :P60_URGENCY_LEVEL_ID);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure install_standard_test(p_id               in svt_stds_tests_lib.id%type,
+                                    p_standard_id      in svt_stds_standard_tests.standard_id%type,
+                                    p_urgency_level_id in svt_stds_standard_tests.level_id%type
+                                    );
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 17, 2023
+-- Synopsis:
+--
+-- Procedure to install all the tests for a given standard
+--
+/*
+begin
+    svt_stds_tests_lib_api.auto_install_standard_test(p_standard_id => :P81_STANDARD_ID);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure auto_install_standard_test (
+                        p_standard_id in svt_stds_standard_tests.standard_id%type,
+                        p_test_code   in svt_stds_standard_tests.test_code%type default null);
+    
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: June 26, 2023
+-- Synopsis:
+--
+-- Overloaded procedure to delete a given test from the test library and zip file
+-- for a given id 
+--
+/*
+begin  
+    svt_stds_tests_lib_api.delete_test_from_lib (p_id => :P60_ID);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_test_from_lib (p_id in svt_stds_tests_lib.id%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 7, 2023
+-- Synopsis:
+--
+-- Procedure to delete a given test from the test library and zip file
+-- for a test_code
+--
+/*
+begin  
+    svt_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
+end;
+*/
+------------------------------------------------------------------------------
+    procedure delete_test_from_lib (p_test_code in svt_stds_tests_lib.test_code%type);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 11, 2023
+-- Synopsis:
+--
+-- Function to get the primary key of svt_stds_tests_lib from a given test_code
+--
+/*
+        select svt_stds_tests_lib_api.get_id(:P60_TEST_CODE)
+        from dual
+*/
+------------------------------------------------------------------------------
+   function get_id(p_test_code in svt_stds_tests_lib.test_code%type)
+   return svt_stds_tests_lib.id%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: July 13, 2023
+-- Synopsis:
+--
+-- Function to return the md5 of a svt_stds_tests_lib for comparison with a svt_stds_standard_tests record
+--
+/*
+select svt_stds_tests_lib_api.current_md5(p_test_code)
+from dual
+*/
+------------------------------------------------------------------------------
+   function current_md5(p_test_code in svt_stds_tests_lib.test_code%type)
+   return varchar2;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: August 16, 2023
+-- Synopsis:
+--
+-- Procedure to get the md5 and version number for a given test_code 
+--
+/*
+set serveroutput on
+declare
+p_test_code svt_stds_tests_lib.test_code%type := 'RW_BUTTON_PLACEMENT';
+l_md5 varchar2(250);
+l_version_number  svt_stds_tests_lib.version_number%type;
+begin
+    SVT_STDS_TESTS_LIB_API.md5_imported_vsn_num (
+                p_test_code      => p_test_code,
+                p_md5            => l_md5,
+                p_version_number => l_version_number
+        );
+    dbms_output.put_line('l_md5 :'||l_md5);
+    dbms_output.put_line('l_version_number :'||l_version_number);
+end;
+*/
+------------------------------------------------------------------------------
+   procedure md5_imported_vsn_num (
+                p_test_code      in  svt_stds_tests_lib.test_code%type,
+                p_md5            out nocopy varchar2,
+                p_version_number out nocopy svt_stds_tests_lib.version_number%type
+   );
+end SVT_STDS_TESTS_LIB_API;
+/
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS_TYPES_API" authid definer as
+----------------------------------------------------------------------------
+-- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
+-- 
+-- NAME
+--   svt_stds_types_api
+--
+-- DESCRIPTION
+--
+-- RUNTIME DEPLOYMENT: Yes
+--
+-- MODIFIED  (YYYY-MON-DD)
+-- hayhudso  2023-Oct-18 - created
+---------------------------------------------------------------------------- 
+/*
+begin
+  case :APEX$ROW_STATUS
+    when 'C' then
+      :P24_ID := svt_stds_types_api.insert_typ (
+                    p_display_sequence => :P24_DISPLAY_SEQUENCE,
+                    p_type_name        => :P24_TYPE_NAME,
+                    p_type_code        => :P24_TYPE_CODE,
+                    p_description      => :P24_DESCRIPTION,
+                    p_active_yn        => :P24_ACTIVE_YN
+                );
+    when 'U' then
+      svt_stds_types_api.update_typ(
+            p_id               => :P24_ID,
+            p_display_sequence => :P24_DISPLAY_SEQUENCE,
+            p_type_name        => :P24_TYPE_NAME,
+            p_type_code        => :P24_TYPE_CODE,
+            p_description      => :P24_DESCRIPTION,
+            p_active_yn        => :P24_ACTIVE_YN
+        );
+    when 'D' then
+      svt_stds_types_api.delete_typ(p_id => :P24_ID);
+  end case;
+end;
+*/
+---------------------------------------------------------------------------- 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-10
+-- Synopsis:
+--
+-- Procedure to insert records into SVT_STDS_TYPES
+--
+------------------------------------------------------------------------------
+    function insert_typ (
+       p_id               in svt_stds_types.id%type default null,
+       p_display_sequence in svt_stds_types.display_sequence%type,
+       p_type_name        in svt_stds_types.type_name%type,
+       p_type_code        in svt_stds_types.type_code%type,
+       p_description      in svt_stds_types.description%type,
+       p_active_yn        in svt_stds_types.active_yn%type
+    ) return svt_stds_types.id%type;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-10
+-- Synopsis:
+--
+-- Procedure to update records into SVT_STDS_TYPES
+--
+------------------------------------------------------------------------------
+    procedure update_typ (
+       p_id               in svt_stds_types.id%type,
+       p_display_sequence in svt_stds_types.display_sequence%type,
+       p_type_name        in svt_stds_types.type_name%type,
+       p_type_code        in svt_stds_types.type_code%type,
+       p_description      in svt_stds_types.description%type,
+       p_active_yn        in svt_stds_types.active_yn%type
+    );
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: 2023-Nov-10
+-- Synopsis:
+--
+-- Procedure to delete records into SVT_STDS_TYPES
+--
+------------------------------------------------------------------------------
+    procedure delete_typ (
+        p_id in svt_stds_types.id%type
+    );
+    
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: October 18, 2023
+-- Synopsis:
+--
+-- function to return id for a given type code
+--
+/*
+select svt_stds_types_api.get_type_id (p_type_code => 'HUMANX') type_id
+from dual
+*/
+------------------------------------------------------------------------------
+    function get_type_id (p_type_code in svt_stds_types.type_code%type)
+    return svt_stds_types.id%type;
+end svt_stds_types_api;
 /
 
   CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_TEST_TIMING_API" authid definer as
@@ -4713,7 +4452,6 @@ end SVT_STANDARD_VIEW;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Oct-9 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 9, 2023
@@ -4729,7 +4467,6 @@ end;
 ------------------------------------------------------------------------------
     procedure insert_timing(p_test_code in svt_test_timing.test_code%type,
                             p_seconds   in svt_test_timing.elapsed_seconds%type);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 9, 2023
@@ -4744,7 +4481,6 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure purge_old;
-
 end svt_test_timing_api;
 /
 
@@ -4762,7 +4498,6 @@ end svt_test_timing_api;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jun-14- created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 14, 2023
@@ -4776,7 +4511,6 @@ from dual
 */
 ------------------------------------------------------------------------------
 function get_default_level_id return svt_standards_urgency_level.id%type;
-
 end SVT_URGENCY_LEVEL_API;
 /
 
@@ -4794,7 +4528,6 @@ end SVT_URGENCY_LEVEL_API;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Nov-21 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 21, 2023
@@ -4808,7 +4541,6 @@ from dual
 */
 ------------------------------------------------------------------------------
     function app_name return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -4822,6 +4554,5 @@ from dual
 */
 ------------------------------------------------------------------------------
     function alerts_yn return varchar2;
-
 end SVT_UTIL;
 /

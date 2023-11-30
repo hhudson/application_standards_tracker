@@ -462,6 +462,30 @@ create or replace package body SVT_AUDIT_UTIL as
        raise;
     end min_not_met_error_msg;
 
+  function info_on_next_audit_run return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'info_on_next_audit_run';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_answer varchar2(1000);
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+
+    select apex_string.format('The next scan for violations is scheduled to take place %0',
+            p0 => apex_util.get_since(polling_next_run_timestamp)
+    )
+    into l_answer
+    from v_svt_automations_status
+    where static_id = 'big-job';
+
+    return l_answer;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end info_on_next_audit_run;
+
 end SVT_AUDIT_UTIL;
 /
 

@@ -180,6 +180,20 @@ from dual
 ------------------------------------------------------------------------------
 function min_not_met_error_msg return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 30, 2023
+-- Synopsis:
+--
+-- Function to answer when the next big audit run is scheduled for (to manage expectations)
+--
+/*
+select svt_audit_util.info_on_next_audit_run
+from dual
+*/
+------------------------------------------------------------------------------
+function info_on_next_audit_run return varchar2;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;

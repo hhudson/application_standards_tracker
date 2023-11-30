@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE EDITIONABLE PACKAGE BODY "SVT_STANDARDS_URGENCY_LEVEL_API" as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
@@ -2689,9 +2690,11 @@ end SVT_AUDIT_ON_AUDIT_API;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Oct-9 - created
 ---------------------------------------------------------------------------- 
+
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_y            constant varchar2(1) := 'Y';
   gc_n            constant varchar2(1) := 'N';
+
   function v_svt_scm_object_assignee
   return v_svt_scm_object_assignee_nt pipelined
   is
@@ -2736,6 +2739,7 @@ end SVT_AUDIT_ON_AUDIT_API;
         from dual
       $end
       ;
+
   type r_aa is record (
     object_name       varchar2(256),
     email             varchar2(240),
@@ -2747,9 +2751,12 @@ end SVT_AUDIT_ON_AUDIT_API;
   begin
     apex_debug.message(c_debug_template,'START');
     open cur_aa;
+
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;
+
       exit when l_aat.count = 0;
+
       for rec in 1 .. l_aat.count
       loop
         pipe row (v_svt_scm_object_assignee_ot (
@@ -2765,6 +2772,7 @@ end SVT_AUDIT_ON_AUDIT_API;
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end v_svt_scm_object_assignee;
+
   function v_loki_object_assignee
   return v_svt_scm_object_assignee_nt pipelined
   is
@@ -2800,6 +2808,7 @@ end SVT_AUDIT_ON_AUDIT_API;
         from dual
       $end
       ;
+
   type r_aa is record (
     object_name       varchar2(256),
     email             varchar2(240),
@@ -2811,9 +2820,12 @@ end SVT_AUDIT_ON_AUDIT_API;
   begin
     apex_debug.message(c_debug_template,'START');
     open cur_aa;
+
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;
+
       exit when l_aat.count = 0;
+
       for rec in 1 .. l_aat.count
       loop
         pipe row (v_svt_scm_object_assignee_ot (
@@ -2829,13 +2841,16 @@ end SVT_AUDIT_ON_AUDIT_API;
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end v_loki_object_assignee;
+
   procedure recompile_w_plscope is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'recompile_w_plscope';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+
     l_compile_stmt         varchar2(512);
     begin
       apex_debug.message(c_debug_template,'recompile_w_plscope');
       execute immediate q'[ALTER SESSION SET PLSCOPE_SETTINGS = 'IDENTIFIERS:ALL, STATEMENTS:ALL']';
+
       for rec in (select distinct 
                     case when upos.type = 'PACKAGE BODY'
                          then 'PACKAGE'
@@ -2878,6 +2893,7 @@ end SVT_AUDIT_ON_AUDIT_API;
             apex_debug.warn(c_debug_template,'timeout occurred', l_compile_stmt);
         end recompltn;
       end loop;
+
     exception 
       when e_deadlock then
         apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock waiting for resource in recompile_w_plscope', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -2886,6 +2902,7 @@ end SVT_AUDIT_ON_AUDIT_API;
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
         raise;
     end recompile_w_plscope;
+
     procedure recompile_all_schemas_w_plscope
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'recompile_all_schemas_w_plscope';
@@ -2901,9 +2918,12 @@ end SVT_AUDIT_ON_AUDIT_API;
               )
       )
       loop
+
         svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
         recompile_w_plscope;
+
       end loop;
+
     exception 
       when e_insufficient_privs then
         apex_debug.error(p_message => c_debug_template, p0 =>'Insufficient privileges', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -2911,6 +2931,7 @@ end SVT_AUDIT_ON_AUDIT_API;
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
         raise;
     end recompile_all_schemas_w_plscope;
+
     procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null)
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'set_workspace';
@@ -2921,28 +2942,38 @@ end SVT_AUDIT_ON_AUDIT_API;
                                                                 end;
     begin
       apex_debug.message(c_debug_template,'START');
+
       apex_util.set_workspace(c_workspace);
+
     exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
     end set_workspace;
+
     procedure assign_violations
     as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'assign_violations';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
       apex_debug.message(c_debug_template,'START');
+
       -- svt_plsql_apex_audit_api.assign_from_scm;
+
       svt_plsql_apex_audit_api.assign_from_apex_audit;
+
       svt_plsql_apex_audit_api.assign_from_apex_parent_audit;
+
       $if oracle_apex_version.c_loki_access $then
         svt_plsql_apex_audit_api.assign_from_loki;
       $end
+
       svt_plsql_apex_audit_api.assign_from_default;
+
     exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
     end assign_violations;
+
     procedure record_daily_issue_snapshot(p_application_id in svt_plsql_apex_audit.application_id%type default null,
                                           p_page_id        in svt_plsql_apex_audit.page_id%type default null,
                                           p_test_code      in svt_stds_standard_tests.test_code%type default null,
@@ -2965,6 +2996,7 @@ end SVT_AUDIT_ON_AUDIT_API;
                                             'p_issue_category', p_issue_category
                                             );
         set_workspace;
+
         <<nonapex>>
         declare
         l_na_test_count pls_integer := 0;
@@ -2982,6 +3014,7 @@ end SVT_AUDIT_ON_AUDIT_API;
           loop
             apex_debug.message(c_debug_template, 'rec.review_schema', rec.review_schema);
             svt_ctx_util.set_review_schema(p_schema => rec.review_schema);
+
             for ic_rec in (select issue_category, test_code
                             from v_svt_stds_standard_tests
                             where issue_category != c_apex
@@ -3014,6 +3047,7 @@ end SVT_AUDIT_ON_AUDIT_API;
           end loop;
           l_message := 'Ran '||l_na_test_count||' non-APEX tests.';
         end nonapex;
+
         <<apex_issues>>
         declare
         l_apx_test_count pls_integer := 0;
@@ -3050,8 +3084,12 @@ end SVT_AUDIT_ON_AUDIT_API;
           end loop;
           l_message := l_message || ' Ran '||l_apx_test_count||' APEX tests.';
         end apex_issues;
+
+
         assign_violations;
+
         p_message := l_message;
+
     exception 
       when e_deadlock then
         apex_debug.error(p_message => c_debug_template, p0 =>'Deadlock waiting for resource in record_daily_issue_snapshot', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -3060,21 +3098,26 @@ end SVT_AUDIT_ON_AUDIT_API;
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
         raise;
     end record_daily_issue_snapshot;
+
     procedure initialize_standard(p_test_code  in svt_stds_standard_tests.test_code%type)
     is
     c_scope constant varchar2(128) := gc_scope_prefix || 'initialize_standard';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
+
       svt_plsql_apex_audit_api.merge_audit_tbl ( 
                         p_test_code  => p_test_code,
                         p_legacy_yn  => gc_y
                       );
+
       svt_audit_util.assign_violations;
+
     exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
     end initialize_standard;
+
     function min_not_met_error_msg return varchar2
     as
     c_scope constant varchar2(128) := gc_scope_prefix || 'min_not_met_error_msg';
@@ -3082,16 +3125,43 @@ end SVT_AUDIT_ON_AUDIT_API;
     begin
      apex_debug.message(c_debug_template,'START'
                        );
+
       return case when svt_stds_applications_api.active_app_count = 0
                   then 'No violations found because no apps have been registered.'
                   when svt_stds_standard_tests_api.active_test_count = 0
                   then 'No violations found because no active tests have been registered.'
                   end;
+
     exception
      when others then
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
        raise;
     end min_not_met_error_msg;
+
+  function info_on_next_audit_run return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'info_on_next_audit_run';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_answer varchar2(1000);
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+
+    select apex_string.format('The next scan for violations is scheduled to take place %0',
+            p0 => apex_util.get_since(polling_next_run_timestamp)
+    )
+    into l_answer
+    from v_svt_automations_status
+    where static_id = 'big-job';
+
+    return l_answer;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end info_on_next_audit_run;
+
 end SVT_AUDIT_UTIL;
 /
 
@@ -9701,4 +9771,4 @@ end SVT_STDS_TESTS_LIB_API;
       raise;
   end get_type_id;
 end svt_stds_types_api;
-/ 
+/
