@@ -192,6 +192,54 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: You must enable all APEX automations ========
+  id: 356402894164521250
+  identification: 
+    title: You must enable all APEX automations
+    type: Static Content
+
+  source: 
+    html-code: The application periodic functions are entirely controlled by Automations. They must be enabled for the intended usage.
+
+  layout: 
+    sequence: 50
+    parent-region: Alerts # 823178836891316216
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7822428015265481433
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--info
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Main Region =================================
   id: 539834945298619242
   identification: 
@@ -240,7 +288,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 100
+    sequence: 90
     parent-region: Alerts # 823178836891316216
     position: BODY
     start-new-layout: false
@@ -3097,7 +3145,7 @@ regions:
       order by assignee desc
 
   layout: 
-    sequence: 90
+    sequence: 80
     parent-region: Alerts # 823178836891316216
     position: BODY
     start-new-layout: false
@@ -3792,7 +3840,7 @@ regions:
     type: None
 
   layout: 
-    sequence: 80
+    sequence: 70
     parent-region: Alerts # 823178836891316216
     position: BODY
     start-new-layout: false
@@ -4133,139 +4181,6 @@ regions:
     security: 
       escape-special-characters: true
 
-- # ====== Region: You must configure the following Missing data
-  id: 899547172315473123
-  identification: 
-    title: You must configure the following Missing data
-    type: Classic Report
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: V_SVT_MISSING_BASE_DATA
-    include-rowid-column: false
-
-  order-by: 
-    type: None
-
-  layout: 
-    sequence: 30
-    parent-region: Alerts # 823178836891316216
-    position: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Alert # 7822428015265481433
-    template-options: 
-    - '#DEFAULT#'
-    - t-Alert--horizontal
-    - t-Alert--defaultIcons
-    - t-Alert--danger
-    - t-Alert--accessibleHeading
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  header-and-footer: 
-    header-text: |
-      There exist some base tables that must have data in order for the application to function correctly.
-      Ideally this data should have been populated by the Application Supporting Objects Installation, but this step must have been skipped.
-
-  server-side-condition: 
-    type: Rows returned
-    sql-query: |
-      select 1
-      from V_SVT_MISSING_BASE_DATA
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11029006037200708265
-
-  server-cache: 
-    caching: Disabled
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    layout: 
-      number-of-rows-type: Static Value
-      number-of-rows: 15
-
-    appearance: 
-      template-type: Theme
-      template: Standard # 7822450183682481477
-      template-options: 
-      - '#DEFAULT#'
-      - t-Report--altRowsDefault
-      - t-Report--rowHighlight
-
-    pagination: 
-      type: No Pagination (Show All Rows)
-      partial-page-refresh: true
-
-    performance: 
-      lazy-loading: true
-
-    break-formatting: 
-      break-columns: No Break
-
-    advanced: 
-      strip-html: false
-      sort-nulls: Last
-
-    heading: 
-      type: None
-
-    download: 
-      csv-export-enabled: false
-
-    printing: 
-      enabled: false
-
-  columns: 
-  - # ====== Column: TBL_NAME ====================================
-    id: 543146796713951895
-    identification: 
-      column-name: TBL_NAME
-      type: Plain Text
-
-    heading: 
-      heading: Tbl Name
-      alignment: start
-
-    layout: 
-      sequence: 10
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: true
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
 - # ====== Region: Team mismatch Assignees =====================
   id: 920047894773141304
   identification: 
@@ -4428,10 +4343,10 @@ regions:
     security: 
       escape-special-characters: true
 
-- # ====== Region: You must enable these disabled jobs =========
+- # ====== Region: List of disabled automations ================
   id: 944264515308371447
   identification: 
-    title: You must enable these disabled jobs
+    title: List of disabled automations
     type: Classic Report
 
   source: 
@@ -4454,8 +4369,8 @@ regions:
 
   layout: 
     sequence: 50
-    parent-region: Alerts # 823178836891316216
-    position: BODY
+    parent-region: You must enable all APEX automations # 356402894164521250
+    position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -4466,10 +4381,9 @@ regions:
     template: Collapsible # 7822440324825481451
     template-options: 
     - '#DEFAULT#'
-    - js-useLocalStorage
     - t-Region--hideShowIconsMath
     - t-Region--controlsPosEnd
-    - is-expanded
+    - is-collapsed
     - t-Region--scrollBody
     icon: fa-gears
     render-components: Above Content
@@ -4483,7 +4397,7 @@ regions:
     exclude-title-from-translation: false
 
   header-and-footer: 
-    header-text: The application periodic functions are entirely controlled by Automations. They must be enabled for the intended usage.
+    header-text: The following automations need to be enabled
 
   server-side-condition: 
     type: Rows returned
@@ -5891,43 +5805,6 @@ buttons:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11029006037200708265
 
-- # ====== Button: DEPLOY_DATA =================================
-  id: 543147158277951896
-  identification: 
-    button-name: DEPLOY_DATA
-    label: Install Data
-
-  layout: 
-    sequence: 10
-    region: You must configure the following Missing data # 899547172315473123
-    position: NEXT
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text with Icon # 7822460632009481512
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-    - t-Button--simple
-    - t-Button--iconLeft
-    icon: fa-upload
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:43::'
-      page: 43 # Deploying data
-      clear-cache: 43
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 11029006528973708276
-
 - # ====== Button: ENABLE_JOBS =================================
   id: 543153010158951903
   identification: 
@@ -5936,8 +5813,8 @@ buttons:
 
   layout: 
     sequence: 10
-    region: You must enable these disabled jobs # 944264515308371447
-    position: CREATE
+    region: You must enable all APEX automations # 356402894164521250
+    position: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5949,6 +5826,7 @@ buttons:
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-power-off
 
@@ -5985,6 +5863,7 @@ buttons:
     hot: true
     template-options: 
     - '#DEFAULT#'
+    - t-Button--simple
     - t-Button--iconLeft
     icon: fa-bug-slash
 
