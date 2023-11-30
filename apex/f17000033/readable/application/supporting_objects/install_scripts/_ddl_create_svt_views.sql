@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_APEX_APPLICATIONS" ("APPLICATION_ID", "APPLICATION_NAME", "APPLICATION_GROUP", "AVAILABILITY_STATUS", "AUTHORIZATION_SCHEME", "CREATED_BY", "CREATED_ON", "LAST_UPDATED_BY", "LAST_UPDATED_ON", "WORKSPACE") DEFAULT COLLATION "USING_NLS_COMP"  AS 
   select application_id, 
        application_name, 
@@ -49,14 +50,14 @@ from svt_apex_view.apex_application_page_ir_col();
   with vas as (select v.*,
                     case when v.status_code != 'SUCCESS'
                          then 'N'
-                         when v.job_initials in ('6D')
-                         then case when v.start_timestamp < (systimestamp - INTERVAL '2' DAY)
+                         when lower(v.job_name) like '%email%' and svt_preferences.get('SVT_EMAIL_API') = 'NA'
+                         then 'Y'
+                         when lower(v.job_name) like '%apex%' and svt_apex_issue_util.apex_issue_access_yn = 'N'
+                         then 'Y'
+                         else case when v.start_timestamp < (systimestamp - interval '2' day)
                                    then 'N'
                                    else 'Y'
                                    end
-                         when v.start_timestamp < (systimestamp - interval '1' day)
-                         then 'N'
-                         else 'Y'
                          end pass_yn
              from v_svt_automations_status v)
 select job_name, 
@@ -1045,4 +1046,4 @@ inner join v_svt_stds_standard_tests esst on std.test_code = esst.test_code
                                           and esst.issue_category = 'APEX'
 inner join v_svt_stds_applications esa on esa.apex_app_id = std.app_id
 where std.therank = 1
-and std.action_name = 'DELETE'; 
+and std.action_name = 'DELETE';

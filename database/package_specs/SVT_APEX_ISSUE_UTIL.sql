@@ -20,6 +20,20 @@ create or replace package SVT_APEX_ISSUE_UTIL authid current_user as
 ---------------------------------------------------------------------------- 
 
 ------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 30, 2023
+-- Synopsis:
+--
+-- function to return the boolean from oracle_apex_version.c_apex_issue_access into a y/n 
+--
+/*
+select svt_apex_issue_util.apex_issue_access_yn
+from dual
+*/
+------------------------------------------------------------------------------
+function apex_issue_access_yn return varchar2;
+
+------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: october 5, 2022
 -- synopsis:

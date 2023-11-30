@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE EDITIONABLE PACKAGE "SVT_STDS" authid definer is
     -------------------------------------------------------------------------
     -- Generates a unique Identifier
@@ -1993,6 +1994,20 @@ end SVT_APEX_ISSUE_LINK;
 ---------------------------------------------------------------------------- 
 
 ------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 30, 2023
+-- Synopsis:
+--
+-- function to return the boolean from oracle_apex_version.c_apex_issue_access into a y/n 
+--
+/*
+select svt_apex_issue_util.apex_issue_access_yn
+from dual
+*/
+------------------------------------------------------------------------------
+function apex_issue_access_yn return varchar2;
+
+------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: october 5, 2022
 -- synopsis:
@@ -2738,6 +2753,8 @@ procedure set_workspace (p_workspace in apex_workspaces.workspace%type default n
 -- for any tests to be run and return any results. A null response is a success
 --
 /*
+select svt_audit_util.min_not_met_error_msg
+from dual
 */
 ------------------------------------------------------------------------------
 function min_not_met_error_msg return varchar2;
@@ -4807,4 +4824,4 @@ from dual
     function alerts_yn return varchar2;
 
 end SVT_UTIL;
-/ 
+/

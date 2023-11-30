@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE EDITIONABLE PACKAGE BODY "SVT_STANDARDS_URGENCY_LEVEL_API" as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
@@ -1643,9 +1644,30 @@ end SVT_APEX_ISSUE_LINK;
   gc_scope_prefix      constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_false_positive_id constant svt_audit_actions.id%type := 2;
   gc_title_max         constant number := 250; --limit is 255
-  
+  gc_n                 constant varchar2(1) := 'N';
+  gc_y                 constant varchar2(1) := 'Y';
+
 
   -- https://docs.oracle.com/en/database/oracle/application-express/21.2/aeapi/SUBMIT_FEEDBACK_FOLLOWUP-Procedure.html#GUID-C6F4E4A8-7E40-498F-8E8F-7D99D98527B0
+
+function apex_issue_access_yn return varchar2
+as
+c_scope constant varchar2(128) := gc_scope_prefix || 'apex_issue_access_yn';
+c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+begin
+ apex_debug.message(c_debug_template,'START'
+                   );
+
+ return case when oracle_apex_version.c_apex_issue_access
+             then gc_y
+             else gc_n
+             end;
+
+exception
+ when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+   raise;
+end apex_issue_access_yn;
 
 $if oracle_apex_version.c_apex_issue_access $then
 ------------------------------------------------------------------------------
@@ -1971,7 +1993,7 @@ $if oracle_apex_version.c_apex_issue_access $then
               case when l_issues_t(i).apex_issue_id is null 
                    then 
                         begin <<insert_section>>
-                        
+
                           apex_debug.message(c_debug_template, 'unqid', l_issues_t(i).unqid);
                           create_issue (p_id             => l_issue_id,
                                         p_title          => l_issues_t(i).issue_title,
@@ -2136,7 +2158,7 @@ $if oracle_apex_version.c_apex_issue_access $then
     loop 
       svt_plsql_apex_audit_api.null_out_apex_issue (p_audit_id  => rec.audit_id);
     end loop;
-    
+
     drop_irrelevant_issues(p_message => l_message);
 
   exception when others then
@@ -2145,7 +2167,7 @@ $if oracle_apex_version.c_apex_issue_access $then
   end hard_correct_svt_issues;
 
 $end
-  
+
   procedure refresh_for_test_code (p_test_code in svt_plsql_apex_audit.test_code%type)
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_for_test_code';
@@ -2155,7 +2177,7 @@ $end
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
     svt_plsql_apex_audit_api.refresh_for_test_code (p_test_code => p_test_code);
-    
+
 
     $if oracle_apex_version.c_apex_issue_access $then
     <<dii>>
@@ -2191,7 +2213,7 @@ $end
     apex_debug.message(c_debug_template,'START', 'p_audit_id', p_audit_id);
 
     if c_svt_plsql_apex_audit_rec1.id is not null then
-      
+
       if c_mv_dependency is not null then
         svt_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
       end if;
@@ -2203,7 +2225,7 @@ $end
                         p_page_id        => c_svt_plsql_apex_audit_rec1.page_id,
                         p_audit_id       => p_audit_id
                     );
-      
+
       l_svt_plsql_apex_audit_rec2 := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
 
       if c_svt_plsql_apex_audit_rec1.updated < l_svt_plsql_apex_audit_rec2.updated then
@@ -2270,7 +2292,7 @@ $end
   l_message varchar2(500);
   begin
     apex_debug.message(c_debug_template,'START');
-    
+
     check_apex_version_up2date;
 
     $if oracle_apex_version.c_apex_issue_access $then
@@ -2314,7 +2336,7 @@ $end
     l_first_period := instr(c_current_version, '.', 1, 1);
     l_version      := to_number(substr(c_current_version, 1, l_first_period - 1));
     l_release      := to_number(substr(c_current_version, l_first_period + 1, l_first_period - 2));
-    
+
     l_is_match := case when l_version = oracle_apex_version.version
                        then case when l_release = oracle_apex_version.release
                                  then true
@@ -2350,7 +2372,7 @@ $end
     if p_audit_id is not null then
 
       svt_plsql_apex_audit_api.mark_as_exception (p_audit_id  => p_audit_id);
-    
+
       $if oracle_apex_version.c_apex_issue_access $then
       l_svt_plsql_apex_audit_rec := svt_plsql_apex_audit_api.get_audit_record (p_audit_id);
       svt_apex_issue_util.drop_issue (p_id => l_svt_plsql_apex_audit_rec.apex_issue_id);
@@ -11092,4 +11114,4 @@ end SVT_STDS_TESTS_LIB_API;
 
 
 end svt_stds_types_api;
-/ 
+/
