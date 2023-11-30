@@ -63,87 +63,6 @@ from svt_apex_view.apex_workspace_preferences()
 where user_name = 'SVT'
 ;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_APPLICATION_REPORT_CARD" ("APPLICATION_ID", "CRITICAL_URGENCY", "HIGH_URGENCY", "MED_URGENCY", "VIOLATION_COUNT", "DEFAULT_DEVELOPER", "APPLICATION_NAME", "APPLICATION_TYPE") AS 
-  with rptcrd as (select application_id, 
-                       critical_urgency, 
-                       high_urgency, 
-                       med_urgency
-                    from (
-                      select paa.application_id, 
-                             esst.urgency
-                        from svt_plsql_apex_audit paa
-                        inner join v_svt_stds_standard_tests esst on paa.test_code = esst.test_code
-                        left outer join svt_audit_actions aaa on paa.action_id = aaa.id
-                        where coalesce(aaa.include_in_report_yn, 'Y') = 'Y'
-                    )
-                    pivot ( count(*) for urgency in 
-                    ( 'Critical' as critical_urgency, 'High' as high_urgency,'Medium' as med_urgency,'Low' as low_urgency ) )
-                )
-select esa.apex_app_id application_id, 
-       coalesce(rptcrd.critical_urgency,0) critical_urgency, 
-       coalesce(rptcrd.high_urgency,0) high_urgency, 
-       coalesce(rptcrd.med_urgency,0) med_urgency,
-       coalesce(rptcrd.critical_urgency,0) + coalesce(rptcrd.high_urgency,0) + coalesce(rptcrd.med_urgency,0) violation_count,
-       esa.default_developer,
-       apex_string.format('%s (%s)', aa.application_name, esa.apex_app_id) application_name,
-       est.type_name application_type
-from svt_stds_applications esa
-inner join apex_applications aa on aa.application_id = esa.apex_app_id
-inner join svt_stds_types est on est.id = esa.type_id
-left outer join rptcrd on esa.apex_app_id = rptcrd.application_id
---order by critical_urgency desc, high_urgency desc, med_urgency desc
-;
-
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_AUDIT_ON_AUDIT_APEX" ("ID", "AUDIT_ID", "UNQID", "STANDARD_NAME", "APP_ID", "PK_ID", "COMPONENT_NAME", "CREATED", "TEST_CODE", "VALIDATION_FAILURE_MESSAGE", "URGENCY", "URGENCY_LEVEL", "TEST_NAME", "PAGE_ID", "COMPONENT_ID", "ASSIGNEE", "LINE", "OBJECT_NAME", "OBJECT_TYPE", "CODE", "DELETE_REASON") AS 
-  with std as (select id, 
-                    unqid, 
-                    action_name,
-                    created, 
-                    created_by, 
-                    test_code, 
-                    audit_id, 
-                    validation_failure_message, 
-                    app_id,
-                    page_id,
-                    component_id,
-                    assignee,
-                    line,
-                    object_name,
-                    object_type,
-                    code,
-                    delete_reason,
-                    dense_rank() over (partition by unqid order by created desc) therank
-                from svt_audit_on_audit
-                )
-select  std.id, 
-        std.audit_id,
-        std.unqid, 
-        esst.standard_name,
-        std.app_id, 
-        esa.pk_id,
-        esst.component_name,
-        std.created, 
-        std.test_code, 
-        std.validation_failure_message,
-        esst.urgency, 
-        esst.urgency_level,
-        esst.test_name,
-        std.page_id,
-        std.component_id,
-        std.assignee,
-        std.line,
-        std.object_name,
-        std.object_type,
-        std.code,
-        std.delete_reason
-from std
-inner join v_svt_stds_standard_tests esst on std.test_code = esst.test_code
-                                          and esst.issue_category = 'APEX'
-inner join v_svt_stds_applications esa on esa.apex_app_id = std.app_id
-where std.therank = 1
-and std.action_name = 'DELETE'
-;
-
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_AUDIT_ON_AUDIT_KEEP_THESE" ("ID", "UNQID", "ACTION_NAME", "CREATED", "THERANK") AS 
   with std as (select id, 
                     unqid, 
@@ -294,7 +213,7 @@ from stmt
 where prefs is not null
 ;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_APPLICATIONS" ("PK_ID", "APEX_APP_ID", "ESA_CREATED", "ESA_CREATED_BY", "ESA_UPDATED", "ESA_UPDATED_BY", "DEFAULT_DEVELOPER", "AVAILABILITY_STATUS", "APPLICATION_TYPE", "APP_TYPE_ID", "APPLICATION_NAME", "NOTES", "APP_ACTIVE_YN", "TYPE_ACTIVE_YN", "TYPE_CODE") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_APPLICATIONS" ("PK_ID", "APEX_APP_ID", "ESA_CREATED", "ESA_CREATED_BY", "ESA_UPDATED", "ESA_UPDATED_BY", "DEFAULT_DEVELOPER", "AVAILABILITY_STATUS", "APP_TYPE_ID", "APPLICATION_NAME", "NOTES", "APPLICATION_TYPE", "APP_ACTIVE_YN", "TYPE_ACTIVE_YN", "TYPE_CODE") AS 
   select /*+ result_cache */
        esa.pk_id, 
        esa.apex_app_id, 
@@ -304,36 +223,19 @@ where prefs is not null
        esa.esa_updated_by, 
        esa.default_developer,
        aa.availability_status,
-       est.type_name application_type,
        esa.type_id app_type_id,
        aa.application_name,
        esa.notes,
+       est.type_name application_type,
        esa.active_yn app_active_yn,
-       est.active_yn type_active_yn,
-       est.type_code
+       coalesce(est.active_yn, 'Y') type_active_yn,
+       coalesce(est.type_code,'NA') type_code
 from svt_stds_applications esa
 inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                 and aa.availability_status != 'Unavailable'
-inner join svt_stds_types est on est.id = esa.type_id
-                              and est.active_yn = 'Y'
+left outer join svt_stds_types est on est.id = esa.type_id
 where esa.active_yn = 'Y'
-;
-
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_INHERITED_TESTS_TREE" ("STANDARD_ID", "STANDARD_NAME", "PARENT_STANDARD_ID", "TEST_ID") AS 
-  select distinct esit.parent_standard_id standard_id, 
-                ess1.full_standard_name||' (Originating standard)' standard_name, 
-                null parent_standard_id, 
-                esit.test_id
-from svt_stds_inherited_tests esit
-inner join v_svt_stds_standards ess1 on ess1.id = esit.parent_standard_id
-union all 
-select esit.standard_id, 
-       ess2.full_standard_name standard_name, 
-       esit.parent_standard_id, 
-       esit.test_id
-from svt_stds_inherited_tests esit
-inner join v_svt_stds_standards ess2 on ess2.id = esit.standard_id
-;
+and coalesce(est.active_yn, 'Y')  = 'Y';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_STANDARDS" ("ID", "STANDARD_NAME", "DESCRIPTION", "PRIMARY_DEVELOPER", "IMPLEMENTATION", "DATE_STARTED", "CREATED", "CREATED_BY", "UPDATED", "UPDATED_BY", "STANDARD_GROUP", "ACTIVE_YN", "COMPATIBILITY_MODE_ID", "COMPATIBILITY_MODE", "COMPATIBILITY_DESC", "TYPE_NAME", "COMPATIBILITY_TEXT", "FULL_STANDARD_NAME", "PARENT_STANDARD_ID", "DISPLAY_ORDER") AS 
   select ess.id,
