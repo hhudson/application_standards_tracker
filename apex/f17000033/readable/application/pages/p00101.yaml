@@ -5,11 +5,11 @@ identification:
   name: Login
   alias: LOGIN
   title: Sign-In
-  page-group: Login # 9143297152058447694
+  page-group: Login # 9192743692519684038
 
 appearance: 
   page-mode: Normal
-  page-template: Login # 7815131458904818914
+  page-template: Login # 7864577999366055258
   template-options: 
   - '#DEFAULT#'
 
@@ -22,11 +22,6 @@ navigation:
 
 security: 
   authentication: Page Is Public
-
-advanced: 
-  enable-meta-tags: false
-
-security: 
   deep-linking: Application Default
   page-access-protection: No Arguments Supported
   form-auto-complete: Off
@@ -36,6 +31,7 @@ session-management:
   rejoin-sessions: Application Default
 
 advanced: 
+  enable-meta-tags: false
   enable-duplicate-page-submissions: Yes - Enable page to be re-posted
   reload-on-submit: Always
 
@@ -44,7 +40,7 @@ server-cache:
 
 regions: 
 - # ====== Region: Standard Violation Tracker ==================
-  id: 12226032166356622203
+  id: 12275478706817858547
   identification: 
     title: Standard Violation Tracker
     type: Static Content
@@ -60,7 +56,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Login # 7815165377015818960
+    template: Login # 7864611917477055304
     template-options: 
     - '#DEFAULT#'
     icon: app-application-standards-tracker
@@ -88,7 +84,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P101_APP_NAME ============================
-  id: 9151791549882156216
+  id: 9201238090343392560
   identification: 
     name: P101_APP_NAME
     type: Hidden
@@ -98,7 +94,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Standard Violation Tracker # 12226032166356622203
+    region: Standard Violation Tracker # 12275478706817858547
     position: BODY
 
   advanced: 
@@ -120,7 +116,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P101_USERNAME ============================
-  id: 12226032291697622207
+  id: 12275478832158858551
   identification: 
     name: P101_USERNAME
     type: Text Field
@@ -138,7 +134,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Standard Violation Tracker # 12226032166356622203
+    region: Standard Violation Tracker # 12275478706817858547
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -149,7 +145,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Hidden # 7815182264407819004
+    template: Hidden # 7864628804869055348
     template-options: 
     - '#DEFAULT#'
     icon: fa-user
@@ -180,7 +176,7 @@ page-items:
     restricted-characters: Blocklist HTML command characters (<>")
 
 - # ====== Page Item: P101_PASSWORD ============================
-  id: 12226032367929622210
+  id: 12275478908390858554
   identification: 
     name: P101_PASSWORD
     type: Password
@@ -194,7 +190,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Standard Violation Tracker # 12226032166356622203
+    region: Standard Violation Tracker # 12275478706817858547
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -205,7 +201,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Hidden # 7815182264407819004
+    template: Hidden # 7864628804869055348
     template-options: 
     - '#DEFAULT#'
     icon: fa-key
@@ -234,14 +230,14 @@ page-items:
 
 buttons: 
 - # ====== Button: LOGIN =======================================
-  id: 10952295552279723013
+  id: 11001742092740959357
   identification: 
     button-name: LOGIN
     label: Sign In
 
   layout: 
     sequence: 10
-    region: Standard Violation Tracker # 12226032166356622203
+    region: Standard Violation Tracker # 12275478706817858547
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -250,7 +246,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7815182634883819014
+    button-template: Text with Icon # 7864629175345055358
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -264,12 +260,13 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Set Focus ===========================
-  id: 11093318048867064239
+  id: 11142764589328300583
   identification: 
     name: Set Focus
 
   execution: 
     sequence: 10
+    event-scope: Static
 
   when: 
     event: EVENT.EVENT.BROWSER.READY
@@ -278,12 +275,9 @@ dynamic-actions:
     type: JavaScript expression
     javascript-expression: ( $v( "P101_USERNAME" ) === "" )
 
-  execution: 
-    event-scope: Static
-
   actions: 
   - # ====== Action: Set Focus ===================================
-    id: 11093318333971064263
+    id: 11142764874432300607
     identification: 
       action: Set Focus
 
@@ -294,12 +288,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: Set Focus # 11093318048867064239
+      event: Set Focus # 11142764589328300583
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Set Focus ===================================
-    id: 11093318556252064265
+    id: 11142765096713300609
     identification: 
       action: Set Focus
 
@@ -310,13 +304,13 @@ dynamic-actions:
 
     execution: 
       sequence: 20
-      event: Set Focus # 11093318048867064239
+      event: Set Focus # 11142764589328300583
       fire-when-event-result-is: False
       fire-on-initialization: false
 
 processes: 
 - # ====== Process: Login ======================================
-  id: 12226032587652622210
+  id: 12275479128113858554
   identification: 
     name: Login
     type: Execute Code
@@ -339,7 +333,7 @@ processes:
     display-location: On Error Page
 
 - # ====== Process: Set Username Cookie ========================
-  id: 12226032662721622212
+  id: 12275479203182858556
   identification: 
     name: Set Username Cookie
     type: Execute Code
@@ -361,7 +355,7 @@ processes:
     display-location: On Error Page
 
 - # ====== Process: Get Username Cookie ========================
-  id: 12226032777413622213
+  id: 12275479317874858557
   identification: 
     name: Get Username Cookie
     type: Execute Code
@@ -378,7 +372,7 @@ processes:
     run-process: Once Per Page Visit (default)
 
 - # ====== Process: Clear Page(s) Cache ========================
-  id: 12226032875467622213
+  id: 12275479415928858557
   identification: 
     name: Clear Page(s) Cache
     type: Clear Session State
