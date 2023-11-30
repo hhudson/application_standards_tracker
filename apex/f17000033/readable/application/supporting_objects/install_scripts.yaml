@@ -167,6 +167,13 @@
   execution: 
     sequence: 160
 
+  server-side-condition: 
+    type: No Rows returned
+    sql-query: |
+      select 1
+      from all_mview_logs
+      where master = 'SVT_PLSQL_APEX_AUDIT'
+
 - # ====== Install Script: (DDL) Create MV =====================
   id: 65180873179805706
   identification: 
@@ -174,6 +181,13 @@
 
   execution: 
     sequence: 170
+
+  server-side-condition: 
+    type: No Rows returned
+    sql-query: |
+      select 1 
+      from user_tables 
+      where table_name = 'MV_SVT_SEARCH_CONFIG'
 
 - # ====== Install Script: (DML) Insert Application Types ======
   id: 582760470088141691
