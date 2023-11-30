@@ -229,6 +229,14 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select * 
+      from apex_appl_automations
+      where polling_status_code = 'DISABLED'
+      and application_id = :APP_ID
+
   server-cache: 
     caching: Disabled
 
