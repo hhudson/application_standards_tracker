@@ -163,6 +163,7 @@ drop package svt_stds_types_api;
 drop package svt_test_timing_api;
 drop package svt_urgency_level_api;
 drop package svt_util;
+drop package oracle_apex_version;
 
 /*
 select apex_string.format('drop view %0;',lower(view_name)) stmt
