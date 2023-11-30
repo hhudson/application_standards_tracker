@@ -18,9 +18,30 @@ create or replace package body SVT_APEX_ISSUE_UTIL as
   gc_scope_prefix      constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_false_positive_id constant svt_audit_actions.id%type := 2;
   gc_title_max         constant number := 250; --limit is 255
+  gc_n                 constant varchar2(1) := 'N';
+  gc_y                 constant varchar2(1) := 'Y';
   
 
   -- https://docs.oracle.com/en/database/oracle/application-express/21.2/aeapi/SUBMIT_FEEDBACK_FOLLOWUP-Procedure.html#GUID-C6F4E4A8-7E40-498F-8E8F-7D99D98527B0
+
+function apex_issue_access_yn return varchar2
+as
+c_scope constant varchar2(128) := gc_scope_prefix || 'apex_issue_access_yn';
+c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+begin
+ apex_debug.message(c_debug_template,'START'
+                   );
+
+ return case when oracle_apex_version.c_apex_issue_access
+             then gc_y
+             else gc_n
+             end;
+ 
+exception
+ when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+   raise;
+end apex_issue_access_yn;
 
 $if oracle_apex_version.c_apex_issue_access $then
 ------------------------------------------------------------------------------
@@ -605,7 +626,7 @@ $end
               p_application_id             => l_svt_plsql_apex_audit_rec2.application_id,
               p_page_id                    => l_svt_plsql_apex_audit_rec2.page_id,
               p_component_id               => l_svt_plsql_apex_audit_rec2.component_id,
-              p_assignee                   => l_svt_plsql_apex_audit_rec2.assignee,
+              p_assignee                   => c_svt_plsql_apex_audit_rec1.assignee,
               p_line                       => l_svt_plsql_apex_audit_rec2.line,
               p_object_name                => l_svt_plsql_apex_audit_rec2.object_name,
               p_object_type                => l_svt_plsql_apex_audit_rec2.object_type,

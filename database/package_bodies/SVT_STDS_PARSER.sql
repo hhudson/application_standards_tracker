@@ -9,53 +9,6 @@ is
     gc_n                    constant varchar2(1) := 'N';
 
 
-    -- function view_sql (p_view_name in user_views.view_name%type,
-    --                    p_owner     in all_views.owner%type default null) return clob
-    -- is
-    -- c_scope constant varchar2(128) := gc_scope_prefix || 'view_sql';
-    -- c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20';
-
-    -- c_view_name constant user_views.view_name%type := upper(p_view_name);
-    -- c_owner     constant all_views.owner%type := upper(coalesce(p_owner, case when gc_userenv_current_user = 'SVT'
-    --                                                             then svt_ctx_util.get_default_user
-    --                                                             else gc_userenv_current_user
-    --                                                             end));
-    -- l_sql_long  user_views.text%type;
-    -- begin
-    --   apex_debug.message(c_debug_template,'START', 
-    --                                       'p_view_name', p_view_name, 
-    --                                       'p_owner', p_owner);
-    --   assert.is_not_null (  
-    --                   p_val_in => p_view_name
-    --                 , p_msg_in => 'The View Name must not be null' 
-    --             );
-
-    --   assert.is_not_null (  
-    --                   p_val_in => c_owner
-    --                 , p_msg_in => 'Owner must not be null' 
-    --             );
-
-    --   select text 
-    --     into l_sql_long
-    --     from all_views
-    --     where view_name  = c_view_name
-    --     and owner = c_owner;
-
-    --     return  to_clob(l_sql_long);
-
-    -- exception 
-    --     when no_data_found then
-    --         apex_debug.message(p_message => c_debug_template, 
-    --                            p0 => 'View does not exist: '||c_view_name, 
-    --                            p1 => 'Owner: '||c_owner, 
-    --                            p_level => apex_debug.c_log_level_warn, p_force => true);
-    --         raise;
-    --     when others then
-    --         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception: '||p_view_name, p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
-    --         raise;
-    -- end view_sql;
-
-
     function is_logged_into_builder (p_override_value in number default null) return boolean
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'is_logged_into_builder';
@@ -277,6 +230,8 @@ is
              when c_url = '#' 
              then return gc_y;
              when c_url = '/SIGNOUT' 
+             then return gc_y;
+             when c_url like '&%.'
              then return gc_y;
              when c_url like '&LOGOUT_URL%' 
              then return gc_y;

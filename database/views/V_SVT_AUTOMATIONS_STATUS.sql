@@ -1,10 +1,10 @@
 --liquibase formatted sql
---changeset view_script:V_AUTOMATIONS_STATUS stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_AUTOMATIONS_STATUS stripComments:false endDelimiter:/ runOnChange:true
 --------------------------------------------------------
---  DDL for View V_AUTOMATIONS_STATUS
+--  DDL for View V_SVT_AUTOMATIONS_STATUS
 --------------------------------------------------------
 
-create or replace force editionable view V_AUTOMATIONS_STATUS as
+create or replace force editionable view V_SVT_AUTOMATIONS_STATUS as
 with aal as (select id, 
                     automation_id, 
                     start_timestamp, 
@@ -41,4 +41,4 @@ left outer join aal on aaa.automation_id = aal.automation_id
 where aaa.application_name = 'Standard Violation Tracker'
 /
 
---rollback drop view V_AUTOMATIONS_STATUS;
+--rollback drop view V_SVT_AUTOMATIONS_STATUS;

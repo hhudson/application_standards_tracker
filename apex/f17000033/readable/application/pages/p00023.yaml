@@ -20,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+  authorization-scheme: READER RIGHTS # 290389226857495826
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -38,11 +38,11 @@ server-cache:
   caching: Disabled
 
 help: 
-  help-text: No help is available for this page.
+  help-text: Application types are a grouping mechanism that allows you to, for example, reference them in a test query.
 
 regions: 
 - # ====== Region: Application Types ===========================
-  id: 7804532807361923172
+  id: 7819635233343807198
   identification: 
     title: Application Types
     type: Interactive Report
@@ -65,7 +65,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7800062643236934930
+    template: Interactive Report # 7815165069218818956
     template-options: 
     - '#DEFAULT#'
     - t-IRR-region--noBorders
@@ -86,7 +86,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 7804532982315923172
+    id: 7819635408297807198
     link: 
       link-column: Link to Custom Target
       target: 
@@ -98,7 +98,7 @@ regions:
 
       link-icon: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
       link-attributes: 'title = "Edit #TYPE_NAME#" aria-label = "Edit #TYPE_NAME#"'
-      authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+      authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
     appearance: 
       show-null-values-as: '-'
@@ -160,14 +160,14 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 7804560299493145106
+      id: 7819662725475029132
       identification: 
         name: Primary Report
         alias: 7907174
 
     columns: 
     - # ====== Column: TYPE_CODE ===================================
-      id: 341543567247766908
+      id: 356645993229650934
       identification: 
         column-name: TYPE_CODE
         type: Plain Text
@@ -208,13 +208,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ACTIVE_YN ===================================
-      id: 341543696534766909
+      id: 356646122516650935
       identification: 
         column-name: ACTIVE_YN
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10685213912969174197
+        list-of-values: YES NO # 10700316338951058223
 
       heading: 
         heading: Active
@@ -249,7 +249,7 @@ regions:
         pivot: true
 
     - # ====== Column: TYPE_NAME ===================================
-      id: 365746537195297052
+      id: 380848963177181078
       identification: 
         column-name: TYPE_NAME
         type: Plain Text
@@ -290,7 +290,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ID ==========================================
-      id: 7804533086909923176
+      id: 7819635512891807202
       identification: 
         column-name: ID
         type: Hidden Column
@@ -308,7 +308,7 @@ regions:
         escape-special-characters: false
 
     - # ====== Column: DISPLAY_SEQUENCE ============================
-      id: 7804533194629923180
+      id: 7819635620611807206
       identification: 
         column-name: DISPLAY_SEQUENCE
         type: Plain Text
@@ -349,7 +349,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: DESCRIPTION =================================
-      id: 7804533404934923180
+      id: 7819635830916807206
       identification: 
         column-name: DESCRIPTION
         type: Plain Text
@@ -390,15 +390,52 @@ regions:
         escape-special-characters: true
 
 buttons: 
+- # ====== Button: REGISTERED_APPS =============================
+  id: 14441426874283723
+  identification: 
+    button-name: REGISTERED_APPS
+    label: Registered Apps
+
+  layout: 
+    sequence: 10
+    region: Super Breadcrumb # 385872410902744480
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7815182634883819014
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-apex
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:160:&SESSION.::&DEBUG.:160::'
+      page: 160 # Registered APEX Applications
+      clear-cache: 160
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: READER RIGHTS # 290389226857495826
+
 - # ====== Button: RESET =======================================
-  id: 6413975151966603762
+  id: 6429077577948487788
   identification: 
     button-name: RESET
     label: Reset
 
   layout: 
     sequence: 30
-    region: Application Types # 7804532807361923172
+    region: Application Types # 7819635233343807198
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -407,7 +444,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7800080208901934988
+    button-template: Text with Icon # 7815182634883819014
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -426,14 +463,14 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CREATE ======================================
-  id: 7804533610043923181
+  id: 7819636036025807207
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 20
-    region: Application Types # 7804532807361923172
+    region: Application Types # 7819635233343807198
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -442,7 +479,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7800080132300934984
+    button-template: Icon # 7815182558282819010
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -459,11 +496,11 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+    authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
 dynamic-actions: 
 - # ====== Dynamic Action: Refresh on Add ======================
-  id: 6413975300192603764
+  id: 6429077726174487790
   identification: 
     name: Refresh on Add
 
@@ -473,7 +510,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Button
-    button: CREATE # 7804533610043923181
+    button: CREATE # 7819636036025807207
 
   execution: 
     event-scope: Static
@@ -481,22 +518,22 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 6413975447635603765
+    id: 6429077873617487791
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Application Types # 7804532807361923172
+      region: Application Types # 7819635233343807198
 
     execution: 
       sequence: 10
-      event: Refresh on Add # 6413975300192603764
+      event: Refresh on Add # 6429077726174487790
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Refresh on Edit =====================
-  id: 6413975567237603766
+  id: 6429077993219487792
   identification: 
     name: Refresh on Edit
 
@@ -506,7 +543,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: Application Types # 7804532807361923172
+    region: Application Types # 7819635233343807198
 
   execution: 
     event-scope: Static
@@ -514,17 +551,17 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 6413975670722603767
+    id: 6429078096704487793
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Application Types # 7804532807361923172
+      region: Application Types # 7819635233343807198
 
     execution: 
       sequence: 10
-      event: Refresh on Edit # 6413975567237603766
+      event: Refresh on Edit # 6429077993219487792
       fire-when-event-result-is: True
       fire-on-initialization: false
 

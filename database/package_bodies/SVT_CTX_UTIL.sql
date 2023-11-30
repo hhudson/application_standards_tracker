@@ -24,6 +24,8 @@ as
                                     c_schema
                                     );
         end if;
+    exception when e_insufficient_privs then
+        apex_debug.error(p_message => c_debug_template, p0 =>'Insufficient privileges', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
     end set_review_schema;
 
     function get_default_user 

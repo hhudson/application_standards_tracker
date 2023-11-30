@@ -13,7 +13,7 @@ with ppref as (select replace(item_name, 'P45_') preference_name
                 and coalesce(condition_type_code,'NA') != 'NEVER'),
     stmt as (select 'The following preferences have not been configured : ' intro, listagg(ppref.preference_name, ', ') within group (order by ppref.preference_name) prefs     
                 from ppref
-                left outer join v_apex_workspace_preferences awp on awp.preference_name = ppref.preference_name
+                left outer join v_svt_apex_workspace_preferences awp on awp.preference_name = ppref.preference_name
                 where awp.preference_value is null)
 select intro||prefs stmt
 from stmt

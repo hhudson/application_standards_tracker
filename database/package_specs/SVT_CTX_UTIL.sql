@@ -35,6 +35,10 @@ from dual;
 ------------------------------------------------------------------------------
     function get_default_user return all_users.username%type;
 
+
+e_insufficient_privs    exception;
+pragma exception_init(e_insufficient_privs,-1031);
+
 end SVT_CTX_UTIL;
 /
 

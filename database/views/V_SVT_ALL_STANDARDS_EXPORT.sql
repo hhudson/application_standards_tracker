@@ -1,7 +1,7 @@
 --liquibase formatted sql
---changeset view_script:V_ALL_STANDARDS_EXPORT stripComments:false endDelimiter:/ runOnChange:true
+--changeset view_script:V_SVT_ALL_STANDARDS_EXPORT stripComments:false endDelimiter:/ runOnChange:true
 
-create or replace force view V_ALL_STANDARDS_EXPORT as
+create or replace force view V_SVT_ALL_STANDARDS_EXPORT as
 with jcb as (select 'application/json' mime_type,
                     'UTF-8' character_set,
                     svt_deployment.json_content_blob (p_table_name => 'V_SVT_STDS_STANDARD_TESTS_EXPORT') all_tests_file_blob,
@@ -18,4 +18,4 @@ select sys.dbms_lob.getlength(jcb.all_tests_file_blob) all_tests_file_size,
 from jcb
 /
 
---rollback drop view V_ALL_STANDARDS_EXPORT;
+--rollback drop view V_SVT_ALL_STANDARDS_EXPORT;

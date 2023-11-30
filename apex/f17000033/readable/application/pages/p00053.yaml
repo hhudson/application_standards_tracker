@@ -5,11 +5,11 @@ identification:
   name: Add Multiple Users
   alias: ADD-MULTIPLE-USERS
   title: Add Multiple Users
-  page-group: ACL # 9128194827115563978
+  page-group: ACL # 9143297253097448004
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 276309964637119943
+  dialog-template: Drawer # 291412390619003969
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -25,7 +25,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+  authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -45,18 +45,21 @@ server-cache:
 help: 
   help-text: Enter or copy and paste usernames separated by commas, semicolons, or whitespace. All usernames provided will be added as the selected role. Existing or duplicate usernames will be ignored.
 
-configuration: 
-  build-option: TO_DELETE # 6384384957050863767
-
 regions: 
-- # ====== Region: Load Multiple Users =========================
-  id: 8492540702158263979
+- # ====== Region: Add multiple users ==========================
+  id: 14441573952283724
   identification: 
-    title: Load Multiple Users
+    title: Add multiple users
     type: Static Content
 
+  source: 
+    html-code: |
+      This application uses Application Access Control. Click the 'Add All Devs' button below to add all the developers known to this workspace as 'readers' to this application.
+      
+      FYI, You can manually add users in the Application Builder > Shared Components > Application Access Control.
+
   layout: 
-    sequence: 60
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -66,9 +69,13 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7800049465222934912
+    template: Alert # 7815150018139818935
     template-options: 
     - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--info
     render-components: Above Content
 
   accessibility: 
@@ -85,16 +92,13 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
-  configuration: 
-    build-option: TO_DELETE # 6384384957050863767
-
   attributes: 
     settings: 
       output-as: HTML
       expand-shortcuts: false
 
 - # ====== Region: Buttons =====================================
-  id: 8495351192796816707
+  id: 8510453618778700733
   identification: 
     title: Buttons
     type: Static Content
@@ -110,7 +114,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7800049597329934914
+    template: Buttons Container # 7815152023311818940
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -134,145 +138,16 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-page-items: 
-- # ====== Page Item: P53_ROLE =================================
-  id: 8492540992376275689
-  identification: 
-    name: P53_ROLE
-    type: Radio Group
-
-  label: 
-    label: Role
-    alignment: Left
-
-  settings: 
-    number-of-columns: 3
-    page-action-on-selection: None
-
-  layout: 
-    sequence: 20
-    region: Load Multiple Users # 8492540702158263979
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6638107616876476202
-    template-options: 
-    - '#DEFAULT#'
-    - t-Form-fieldContainer--stretchInputs
-    - t-Form-fieldContainer--radioButtonGroup
-
-  validation: 
-    value-required: true
-
-  list-of-values: 
-    type: Static Values
-    static-values: 'STATIC:Display1;Return1,Display2;Return2'
-    display-extra-values: true
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  default: 
-    type: Static
-    static-value: 2
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    escape-special-characters: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    help-text: Pick the role to which the user(s) should be assigned
-
-- # ====== Page Item: P53_PRELIM_USERS =========================
-  id: 8492556890729443612
-  identification: 
-    name: P53_PRELIM_USERS
-    type: Textarea
-
-  label: 
-    label: Usernames
-    alignment: Left
-
-  settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: None
-
-  layout: 
-    sequence: 30
-    region: Load Multiple Users # 8492540702158263979
-    position: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Required - Floating # 6638107616876476202
-    template-options: 
-    - '#DEFAULT#'
-    width: 80
-    height: 10
-    value-placeholder: Enter usernames here
-
-  validation: 
-    value-required: true
-    maximum-length: 4000
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Checksum Required - Application Level
-    store-value-encrypted-in-session-state: false
-    restricted-characters: All characters can be saved.
-
-  help: 
-    inline-help-text: Enter usernames separated by commas, semicolons, or whitespace. Existing or duplicate usernames will automatically be ignored.
-    help-text: Enter usernames separated by commas, semicolons, or whitespace. Existing or duplicate usernames will automatically be ignored.
-
 buttons: 
 - # ====== Button: ADD_ALL_DEVS ================================
-  id: 229576550214659403
+  id: 244678976196543429
   identification: 
     button-name: ADD_ALL_DEVS
     label: Add All Devs
 
   layout: 
     sequence: 10
-    region: Buttons # 8495351192796816707
+    region: Buttons # 8510453618778700733
     position: CREATE
     start-new-layout: false
     start-new-row: true
@@ -281,7 +156,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7800080208901934988
+    button-template: Text with Icon # 7815182634883819014
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -294,14 +169,14 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CANCEL ======================================
-  id: 8492523505377077797
+  id: 8507625931358961823
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 8495351192796816707
+    region: Buttons # 8510453618778700733
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -310,7 +185,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7800080814852934990
+    button-template: Text # 7815183240834819016
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -320,17 +195,17 @@ buttons:
     execute-validations: true
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+    authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 
 - # ====== Button: NEXT ========================================
-  id: 8492523804478077797
+  id: 8507626230459961823
   identification: 
     button-name: NEXT
     label: Next
 
   layout: 
     sequence: 20
-    region: Buttons # 8495351192796816707
+    region: Buttons # 8510453618778700733
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -339,7 +214,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7800080208901934988
+    button-template: Text with Icon # 7815182634883819014
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -353,11 +228,11 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   configuration: 
-    build-option: TO_DELETE # 6384384957050863767
+    build-option: TO_DELETE # 6399487383032747793
 
 dynamic-actions: 
 - # ====== Dynamic Action: CNX =================================
-  id: 6480109152511537450
+  id: 6495211578493421476
   identification: 
     name: CNX
 
@@ -367,7 +242,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 8492523505377077797
+    button: CANCEL # 8507625931358961823
 
   execution: 
     event-scope: Static
@@ -375,19 +250,19 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6480109202317537451
+    id: 6495211628299421477
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: CNX # 6480109152511537450
+      event: CNX # 6495211578493421476
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 computations: 
 - # ====== Computation: A_LAST_VIEW ============================
-  id: 8493873898688834275
+  id: 8508976324670718301
   identification: 
     item-name: A_LAST_VIEW
 
@@ -401,7 +276,7 @@ computations:
 
 processes: 
 - # ====== Process: Add all devs ===============================
-  id: 229576645325659404
+  id: 244679071307543430
   identification: 
     name: Add all devs
     type: Execute Code
@@ -427,10 +302,10 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: ADD_ALL_DEVS # 229576550214659403
+    when-button-pressed: ADD_ALL_DEVS # 244678976196543429
 
 - # ====== Process: Close dialog ===============================
-  id: 229576713348659405
+  id: 244679139330543431
   identification: 
     name: Close dialog
     type: Close Dialog
@@ -445,11 +320,11 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: ADD_ALL_DEVS # 229576550214659403
+    when-button-pressed: ADD_ALL_DEVS # 244678976196543429
 
 branches: 
 - # ====== Branch: Go To Page 54 ===============================
-  id: 8492524201041077799
+  id: 8507626627022961825
   identification: 
     name: Go To Page 54
 
@@ -464,8 +339,8 @@ branches:
       page: 54
 
   server-side-condition: 
-    when-button-pressed: NEXT # 8492523804478077797
+    when-button-pressed: NEXT # 8507626230459961823
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11006625614093161741
+    authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
 

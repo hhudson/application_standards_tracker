@@ -91,6 +91,19 @@ end;
         p_id in svt_stds_applications.pk_id%type
     );
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 29, 2023
+-- Synopsis:
+--
+-- Function to return the number of active, registered applications to scan
+--
+/*
+select svt_stds_applications_api.active_app_count
+from dual
+*/
+------------------------------------------------------------------------------
+    function active_app_count return pls_integer;
 
 end SVT_STDS_APPLICATIONS_API;
 /
