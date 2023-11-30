@@ -1,23 +1,346 @@
 ---
 - # ====== Plugin: IR-Row-Selector =============================
-  id: 360682789625546725
+  id: 367960786751209223
   identification: 
     name: IR-Row-Selector
+    internal-name: IR_ROW_SELECTOR
+    type: Template Component
+
+  advanced: 
+    quick-pick: false
+
+  templates: 
+    available-as: 
+    - Single (Partial)
+    partial: |
+      {if !SHOW_YN_FIELD/}
+      <span 
+          class="irrs u-selector" 
+          role="checkbox" 
+          aria-checked="false" 
+          aria-label="Select Row" 
+          title="Select Row" 
+          tabindex="0" 
+          data-primarykey ="#ID#"
+          data-outputitem = "#OUTPUT_ITEM#"
+          id = "irrs-#ID#"
+          onclick="javascript:irrs.MngPK(this);"
+      >
+      </span>
+      {else/}
+      <span></span>
+      {endif/}
+    translate-templates: false
+    default-escape-mode: HTML
+
+  callbacks: 
+    api-interface: Procedure
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  javascript: 
+    file-urls: 
+    - '#PLUGIN_FILES#irrs.js'
+
+  information: 
+    version: 1.0
+    about-url: 'https://github.com/hhudson/IR_row_selector_template_component_plugin'
+    help-text: |
+      This column type imitates some of the functionality of the APEX$ROW_SELECTOR field of Interactive Grids. 
+      
+      The selected values are stored in a javascript array named 'irrs.PKs'. 
+      
+      For 'Select All' functionality, add the following code in the heading field : <span class="irrsHeader u-selector" role="checkbox" aria-checked="false" aria-label="Select All Rows" title="Select All" aria-disabled="false" onclick="javascript:irrs.SelectAll(this);"></span>
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Output Page Item ==================
+    id: 356272736498423636
+    identification: 
+      static-id: OUTPUT_ITEM
+      attribute: 2
+      name: Output Page Item
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      set-text-case: Uppercase
+      escape-mode: HTML
+
+    help: 
+      help-text: Select a Page Item into which the comma-separated list of selected "Primary Keys" should be written, e.g. "P1_SELECTED_IDS"
+
+    examples: 
+      examples: Try it! If "P1_SELECTED_IDS" is the name of your chosen "output item", select a few values in your IR and run "apex.item('P1_SELECTED_IDS').getValue()" in your console.
+      demo-value: P1_SELECTED_IDS
+
+  - # ====== Custom Attribute: Show Selector Y/N Field ===========
+    id: 356422158844377748
+    identification: 
+      static-id: SHOW_YN_FIELD
+      attribute: 4
+      name: Show Selector Y/N Field
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Session State Value
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+      escape-mode: HTML
+
+    help: 
+      help-text: Do you have a field that returns ’F’, ‘N’, or ‘0’ to indicate that a selector box should not be shown? Put it here.
+
+    examples: 
+      examples: eg 'SHOW_SELECTOR_YN'
+      demo-value: SHOW_SELECTOR_YN
+
+  - # ====== Custom Attribute: Primary Key Column ================
+    id: 367961085885209271
+    identification: 
+      static-id: ID
+      attribute: 1
+      name: Primary Key Column
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Session State Value
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      data-types: 
+      - Varchar2
+      escape-mode: HTML
+
+    help: 
+      help-text: The "primary key column" determines what values are injected into the irrs.PKs javascript array.
+
+    examples: 
+      examples: Try it! Selected a few values and run "irrs.PKs" in your console
+      demo-value: ID
+
+  files: 
+  - # ====== File: irrs.js =======================================
+    id: 367963077984259015
+    identification: 
+      file-name: irrs.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: irrs.min.js ===================================
+    id: 393928289335999389
+    identification: 
+      file-name: irrs.min.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
 
 - # ====== Plugin: Publish Test Button =========================
-  id: 391458985476171341
+  id: 398736982601833839
   identification: 
     name: Publish Test Button
+    internal-name: PUBLISH BUTTON
+    type: Template Component
+
+  advanced: 
+    quick-pick: false
+
+  templates: 
+    available-as: 
+    - Single (Partial)
+    partial: |
+      {if APEX$IS_LAZY_LOADING/}
+        <div></div>
+      {else/}
+          {case ACTIVE_YN/}
+              {when Yes/}
+                  {case PUBLISH_YN/}
+                      {when No/}
+                      <button type="button" 
+                          class="t-Button t-Button--icon t-Button--warning t-Button--simple t-Button--iconLeft publishRpt"
+                          data-stdcd="#TEST_CODE#">
+                      <span aria-hidden="true" class="t-Icon t-Icon--left fa fa-print"></span>
+                      {if ?LIB_MD5/}
+                          Update
+                      {else/}
+                          Publish
+                      {endif/}
+                      </button>
+                  {endcase/}
+          {endcase/}
+      {endif/}
+    translate-templates: false
+    default-escape-mode: HTML
+
+  callbacks: 
+    api-interface: Procedure
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 1.0
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Test Code =========================
+    id: 398738102526833844
+    identification: 
+      static-id: TEST_CODE
+      attribute: 3
+      name: Test Code
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Session State Value
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      data-types: 
+      - Varchar2
+      escape-mode: HTML
+
+  - # ====== Custom Attribute: Active yes/no =====================
+    id: 409698350285545023
+    identification: 
+      static-id: ACTIVE_YN
+      attribute: 6
+      name: Active yes/no
+      scope: Component
+
+    layout: 
+      sequence: 60
+
+    settings: 
+      type: Session State Value
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      data-types: 
+      - Varchar2
+      escape-mode: HTML
+
+  - # ====== Custom Attribute: Published yes/no ==================
+    id: 409700218805597457
+    identification: 
+      static-id: PUBLISH_YN
+      attribute: 4
+      name: Published yes/no
+      scope: Component
+
+    layout: 
+      sequence: 70
+
+    settings: 
+      type: Session State Value
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      data-types: 
+      - Varchar2
+      escape-mode: HTML
+
+  - # ====== Custom Attribute: Lib MD5 ===========================
+    id: 411095786202068324
+    identification: 
+      static-id: LIB_MD5
+      attribute: 7
+      name: Lib MD5
+      scope: Component
+
+    layout: 
+      sequence: 90
+
+    settings: 
+      type: Session State Value
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      data-types: 
+      - Varchar2
+      escape-mode: HTML
 
 - # ====== Plugin: IR Checkbox =================================
-  id: 402970177521849505
+  id: 410248174647512003
   identification: 
     name: IR Checkbox
+    internal-name: IR_CHECKBOX
+    type: Template Component
+
+  advanced: 
+    quick-pick: false
+
+  templates: 
+    available-as: 
+    - Single (Partial)
+    - Multiple (Report)
+    partial: |
+      {if APEX$IS_LAZY_LOADING/}
+        <div></div>
+      {else/}
+        <span class="ir-custom-chkbx u-selector" 
+              role="checkbox" 
+              aria-checked="false" 
+              aria-label="Select Row" 
+              title="Select Row">
+        </span>
+      {endif/}
+    report-body: <ul>#APEX$ROWS# hhh report body</ul>
+    report-row: '<li #APEX$ROW_IDENTIFICATION#>#APEX$PARTIAL# hhh report row</li>'
+    translate-templates: false
+    default-escape-mode: HTML
+    number-of-lazy-loading-skeletons: 3
+
+  callbacks: 
+    api-interface: Procedure
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  javascript: 
+    file-urls: 
+    - var thid = $('.ir-custom-chkbx').closest('table').find('th').eq($('.ir-custom-chkbx').index()).attr('id');
+
+  information: 
+    version: 1.0
+    help-text: Place `<span class="u-selector" role="checkbox" aria-checked="false" aria-label="Select All Rows" title="Select All" aria-disabled="false">` into the column heading
 
 - # ====== Plugin: CodeMirror ==================================
-  id: 473972812926387793
+  id: 481250810052050291
   identification: 
     name: CodeMirror
+    internal-name: COM.APEXBYG.BLOGSPOT.CODEMIRROR
+    type: Item
+
+  advanced: 
+    quick-pick: false
 
   source: 
     pl/sql-code: |2
@@ -219,10 +542,495 @@
             p_msg(sqlerrm, 'E');      
        end p_ajax_call;
 
+  callbacks: 
+    api-interface: Procedure
+    render-procedure/function-name: p_render
+    ajax-procedure/function-name: p_ajax_call
+
+  supported-for: 
+    component-type: 
+    - Page Items
+
+  standard-attributes: 
+    attributes: 
+    - Is Visible Widget
+    - Standard Form Element
+    - Session State Changeable
+    - Has Read Only Attribute
+    - Has Source Attributes
+    - Has "Initialization JavaScript Code" Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  files: 
+    file-prefix: '&G_APEX_NITRO_IMAGES.'
+
+  information: 
+    version: 1.0.4
+    about-url: 'https://apex.oracle.com/pls/apex/f?p=apexbyg:codeeditor'
+    help-text: 'More info on https://github.com/mgoricki/apex-plugin-code-editor'
+
+  standard-attributes: 
+  - # ====== Standard Attribute: INIT_JAVASCRIPT_CODE ============
+    id: 486339606717424603
+    identification: 
+      name: INIT_JAVASCRIPT_CODE
+
+    value: 
+      required: false
+
+    help: 
+      help-text: |
+        function(config){
+          config.autocomplete = true;
+          return config
+        }
+
+    examples: 
+      examples: |
+        function(config){
+          config.autocomplete = true;
+          return config
+        }
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Autocomplete ======================
+    id: 420018661448029553
+    identification: 
+      attribute: 2
+      name: Autocomplete
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: N
+
+  - # ====== Custom Attribute: Autocomplete Hints ================
+    id: 420023184517033983
+    identification: 
+      attribute: 3
+      name: Autocomplete Hints
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: PL/SQL Function Body Returning VARCHAR2
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Autocomplete # 420018661448029553
+      depending-on-condition-type: equal to
+      expression: Y
+      always-evaluate: true
+
+    help: 
+      help-text: |
+        Needs to return JS array of hints<br />
+        <pre>
+        [
+          {text:'P$CONTRACT_SD', displayText:'P$CONTRACT_SD - display option'},
+          {text:'PB$PB_MAX_POLICIES', displayText:'PB$PB_MAX_POLICIES - display option'},
+          {text:'P$NET_LOAN_INT_PCT', displayText:'P$NET_LOAN_INT_PCT - display option'},
+          {text:'P$EFF_DATE', displayText:'P$EFF_DATE - display option'}
+        ]
+        </pre>
+
+    examples: 
+      examples: |
+        <pre>
+        DECLARE
+          v_return CLOB;
+        BEGIN
+          apex_json.initialize_clob_output;
+        
+          apex_json.open_array;
+            apex_json.open_object;
+                apex_json.write('text', 'P$TEST_PARAM');
+                apex_json.write('displayText', 'P$TEST_PARAM - with descripto');
+            apex_json.close_object;
+            apex_json.open_object;
+                apex_json.write('text', 'PR$PARAM_TEST');
+                apex_json.write('displayText', 'PR$PARAM_TEST - with descripton');
+            apex_json.close_object;
+          apex_json.close_array;
+          v_return := apex_json.get_clob_output;
+          apex_json.free_output;
+          return v_return;
+        END;
+        </pre>
+
+  - # ====== Custom Attribute: Validate Code =====================
+    id: 422837448424337622
+    identification: 
+      attribute: 4
+      name: Validate Code
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: N
+
+    help: 
+      help-text: Validate Codee
+
+  - # ====== Custom Attribute: Validate Function Name ============
+    id: 424442601177819561
+    identification: 
+      attribute: 5
+      name: Validate Function Name
+      scope: Component
+
+    layout: 
+      sequence: 50
+
+    settings: 
+      type: PL/SQL Function Body Returning VARCHAR2
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Validate Code # 422837448424337622
+      depending-on-condition-type: equal to
+      expression: Y
+      always-evaluate: true
+
+    help: 
+      help-text: |
+        Enter function name that excepts code to validate as the first parameter and returns validation message as the second parameter.
+        Make sure that function is available to the parsing schema.
+
+    examples: 
+      examples: |
+        <pre>
+        pck_code_edior_plugin.f_validate_code
+        </pre>
+
+  - # ====== Custom Attribute: Run in Fullscreen =================
+    id: 454963777936289148
+    identification: 
+      attribute: 1
+      name: Run in Fullscreen
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: N
+
+  files: 
+  - # ====== File: lib/codemirror/mode/sql/index.html ============
+    id: 420120467516258712
+    identification: 
+      file-name: lib/codemirror/mode/sql/index.html
+
+    attributes: 
+      mime-type: text/html
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/anyword-hint.js =====
+    id: 420121306327258786
+    identification: 
+      file-name: lib/codemirror/addon/hint/anyword-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/xml-hint.js =========
+    id: 420122376813258854
+    identification: 
+      file-name: lib/codemirror/addon/hint/xml-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/html-hint.js ========
+    id: 420122657710258875
+    identification: 
+      file-name: lib/codemirror/addon/hint/html-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/sql-hint.js =========
+    id: 420123070037258896
+    identification: 
+      file-name: lib/codemirror/addon/hint/sql-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/css-hint.js =========
+    id: 420123474564258915
+    identification: 
+      file-name: lib/codemirror/addon/hint/css-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/javascript-hint.js ==
+    id: 420123832693258940
+    identification: 
+      file-name: lib/codemirror/addon/hint/javascript-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/edit/continuelist.js =====
+    id: 420124150046258963
+    identification: 
+      file-name: lib/codemirror/addon/edit/continuelist.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/edit/closetag.js =========
+    id: 420124580601258985
+    identification: 
+      file-name: lib/codemirror/addon/edit/closetag.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/edit/matchtags.js ========
+    id: 420124934282259006
+    identification: 
+      file-name: lib/codemirror/addon/edit/matchtags.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/edit/matchbrackets.js ====
+    id: 420125686148259047
+    identification: 
+      file-name: lib/codemirror/addon/edit/matchbrackets.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/edit/trailingspace.js ====
+    id: 420125977506259070
+    identification: 
+      file-name: lib/codemirror/addon/edit/trailingspace.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror_5.34.0/codemirror.js ===========
+    id: 420126383791259163
+    identification: 
+      file-name: lib/codemirror_5.34.0/codemirror.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror_5.34.0/mode/sql/sql.js =========
+    id: 420126652161259191
+    identification: 
+      file-name: lib/codemirror_5.34.0/mode/sql/sql.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror_5.34.0/codemirror.css ==========
+    id: 420127012222259215
+    identification: 
+      file-name: lib/codemirror_5.34.0/codemirror.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror_5.34.0/addon/hint/show-hint.css 
+    id: 420127452270259239
+    identification: 
+      file-name: lib/codemirror_5.34.0/addon/hint/show-hint.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror_5.34.0/addon/hint/show-hint.js =
+    id: 420127791457259264
+    identification: 
+      file-name: lib/codemirror_5.34.0/addon/hint/show-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror_5.34.0/addon/edit/closebrackets.
+    id: 420128112436259288
+    identification: 
+      file-name: lib/codemirror_5.34.0/addon/edit/closebrackets.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/codemirror_custom.min.css =================
+    id: 443112159000724413
+    identification: 
+      file-name: css/codemirror_custom.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/codemirror_custom.css =====================
+    id: 443112465396724418
+    identification: 
+      file-name: css/codemirror_custom.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/codemirror_custom.css.map =================
+    id: 443112816389724420
+    identification: 
+      file-name: css/codemirror_custom.css.map
+
+    attributes: 
+      mime-type: application/octet-stream
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/codemirror_custom.min.js ===================
+    id: 443113276864724422
+    identification: 
+      file-name: js/codemirror_custom.min.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/codemirror_custom.js =======================
+    id: 443113674726724425
+    identification: 
+      file-name: js/codemirror_custom.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/codemirror_custom.js.map ===================
+    id: 443114061417724427
+    identification: 
+      file-name: js/codemirror_custom.js.map
+
+    attributes: 
+      mime-type: application/octet-stream
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/codemirror.js ==================
+    id: 443114404093724431
+    identification: 
+      file-name: lib/codemirror/codemirror.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/mode/sql/sql.js ================
+    id: 443114813011724434
+    identification: 
+      file-name: lib/codemirror/mode/sql/sql.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/codemirror.css =================
+    id: 443115235045724437
+    identification: 
+      file-name: lib/codemirror/codemirror.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/show-hint.css =======
+    id: 443115662874724443
+    identification: 
+      file-name: lib/codemirror/addon/hint/show-hint.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/hint/show-hint.js ========
+    id: 443116080045724445
+    identification: 
+      file-name: lib/codemirror/addon/hint/show-hint.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: lib/codemirror/addon/edit/closebrackets.js ====
+    id: 443116422612724448
+    identification: 
+      file-name: lib/codemirror/addon/edit/closebrackets.js
+
+    attributes: 
+      mime-type: application/x-javascript
+      file-character-set: Unicode UTF-8
+
 - # ====== Plugin: Mini Calendar ===============================
-  id: 7821481434270323983
+  id: 7828759431395986481
   identification: 
     name: Mini Calendar
+    internal-name: COM.ORACLE.APEX.MINICALENDAR
+    type: Region
+
+  advanced: 
+    quick-pick: false
 
   source: 
     pl/sql-code: |
@@ -417,10 +1225,109 @@
           return null;
       end;
 
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: render
+
+  standard-attributes: 
+    attributes: 
+    - Region Source is SQL Statement [Deprecated]
+    - Has "Escape Special Characters" Region Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 5.0.1
+    help-text: This region plug-in displays a small calendar with the specified date highlighted.
+
+  standard-attributes: 
+  - # ====== Standard Attribute: SOURCE_SQL ======================
+    id: 7241588775414633282
+    identification: 
+      name: SOURCE_SQL
+
+    value: 
+      required: true
+
+    settings: 
+      minimum-columns: 1
+
+    examples: 
+      examples: |
+        The query must return at least two columns--a date and its label (other columns will be ignored). The calendar will display for the earliest date returned, highlighting all dates returned within that month.
+        
+        <pre>
+        select date_value, label_value
+        from ...
+        </pre>
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Date Column =======================
+    id: 8683932779441757241
+    identification: 
+      attribute: 1
+      name: Date Column
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      data-types: 
+      - Date
+      - Timestamp
+      - Timestamp with Time Zone
+      - Timestamp with Local Time Zone
+
+    help: 
+      help-text: Select the column from the region SQL Query which holds the single date value for the calendar.
+
+  - # ====== Custom Attribute: Label Column ======================
+    id: 8683933116725757241
+    identification: 
+      attribute: 2
+      name: Label Column
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which holds the label for the calendar.
+
+  files: 
+  - # ====== File: com_oracle_apex_minicalendar.css ==============
+    id: 8683934501645757242
+    identification: 
+      file-name: com_oracle_apex_minicalendar.css
+
+    attributes: 
+      mime-type: text/css
+
 - # ====== Plugin: Authorization Administration ================
-  id: 7822711432549235669
+  id: 7829989429674898167
   identification: 
     name: Authorization Administration
+    internal-name: COM.ORACLE.AUTH_ADMINISTRATION
+    type: Region
+
+  advanced: 
+    quick-pick: false
 
   source: 
     pl/sql-code: |
@@ -523,10 +1430,119 @@
           return l_retval;    
       end auth_admin;
 
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: auth_admin
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 5.0.1
+    about-url: 'http://apex.oracle.com/plugins'
+    help-text: |
+      <p>Authorization Administration displays the current authentication scheme together with a count of public pages, pages requiring authentication, and pages with an authorization defined.</p>
+      <p>This plug-in is suitable for adding to the main Administration page to provide an overview of high level security settings.</p>
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Page Report Page ==================
+    id: 8840810604674856949
+    identification: 
+      attribute: 1
+      name: Page Report Page
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Page Number
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    help: 
+      help-text: Enter or select the page number which has a report listing the pages within the application and the respective role required to access that page.
+
+  - # ====== Custom Attribute: Public Pages Label ================
+    id: 8840811010399856950
+    identification: 
+      attribute: 2
+      name: Public Pages Label
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Public Pages
+
+    help: 
+      help-text: Enter the label displayed for pages with no authorization defined.
+
+  - # ====== Custom Attribute: Authenticated Pages Label =========
+    id: 8840811495284856950
+    identification: 
+      attribute: 3
+      name: Authenticated Pages Label
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Login Required Pages
+
+    help: 
+      help-text: Enter the label displayed for pages that require authentication.
+
+  - # ====== Custom Attribute: Authorized Pages Label ============
+    id: 8840811848585856950
+    identification: 
+      attribute: 4
+      name: Authorized Pages Label
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Authorization Protected
+
+    help: 
+      help-text: Enter the label displayed for pages where a specific authorization is defined.
+
 - # ====== Plugin: Translated Message ==========================
-  id: 8551952313073969924
+  id: 8559230310199632422
   identification: 
     name: Translated Message
+    internal-name: COM.ORACLE.APEX.TRANSLATED_MESSAGE
+    type: Region
+
+  advanced: 
+    quick-pick: false
 
   source: 
     pl/sql-code: |
@@ -624,10 +1640,314 @@
           return null;
       end;
 
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: render
+
+  standard-attributes: 
+    attributes: 
+    - Region Source is SQL Statement [Deprecated]
+    - Has "Escape Special Characters" Region Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 5.0.1
+    help-text: |
+      <p>This region plug-in is used to allow text messages to readily be translated into different languages. Up to nine values can be substituted into the text message.</p>
+      <p>The text message, with appropriate substitution variables, must be defined as a system message.</p>
+
+  standard-attributes: 
+  - # ====== Standard Attribute: SOURCE_SQL ======================
+    id: 10252124734196682834
+    identification: 
+      name: SOURCE_SQL
+
+    value: 
+      required: false
+
+    settings: 
+      minimum-columns: 1
+
+    examples: 
+      examples: This SQL is optional. If the message you are translating has substitutions built in (%0 through %9), select the values you wish to replace them with within Attributes.
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Text Message ======================
+    id: 10252116080297682814
+    identification: 
+      attribute: 1
+      name: Text Message
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    help: 
+      help-text: Enter the name of the Text Message (from shared components) to be displayed.
+
+  - # ====== Custom Attribute: Substitution Column 0 (%0) ========
+    id: 10252116418262682816
+    identification: 
+      attribute: 2
+      name: Substitution Column 0 (%0)
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%0</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 1 (%1) ========
+    id: 10252116816713682816
+    identification: 
+      attribute: 3
+      name: Substitution Column 1 (%1)
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%1</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 2 (%2) ========
+    id: 10252117265846682816
+    identification: 
+      attribute: 4
+      name: Substitution Column 2 (%2)
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%2</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 3 (%3) ========
+    id: 10252117669522682816
+    identification: 
+      attribute: 5
+      name: Substitution Column 3 (%3)
+      scope: Component
+
+    layout: 
+      sequence: 50
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%3</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 4 (%4) ========
+    id: 10252118017336682817
+    identification: 
+      attribute: 6
+      name: Substitution Column 4 (%4)
+      scope: Component
+
+    layout: 
+      sequence: 60
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%4</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 5 (%5) ========
+    id: 10252118437152682818
+    identification: 
+      attribute: 7
+      name: Substitution Column 5 (%5)
+      scope: Component
+
+    layout: 
+      sequence: 70
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%5</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 6 (%6) ========
+    id: 10252118839129682820
+    identification: 
+      attribute: 8
+      name: Substitution Column 6 (%6)
+      scope: Component
+
+    layout: 
+      sequence: 80
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%6</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 7 (%7) ========
+    id: 10252119284324682820
+    identification: 
+      attribute: 9
+      name: Substitution Column 7 (%7)
+      scope: Component
+
+    layout: 
+      sequence: 90
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%7</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 8 (%8) ========
+    id: 10252119615424682820
+    identification: 
+      attribute: 10
+      name: Substitution Column 8 (%8)
+      scope: Component
+
+    layout: 
+      sequence: 100
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%8</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Substitution Column 9 (%9) ========
+    id: 10252120068955682821
+    identification: 
+      attribute: 11
+      name: Substitution Column 9 (%9)
+      scope: Component
+
+    layout: 
+      sequence: 110
+
+    settings: 
+      type: Region SQL Statement Column
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      data-types: 
+      - Varchar2
+
+    help: 
+      help-text: Select the column from the region SQL Query which is used to replace any <strong>%9</strong> values in the displayed message.
+
+  - # ====== Custom Attribute: Add Paragraph Tags ================
+    id: 10252120480223682821
+    identification: 
+      attribute: 12
+      name: Add Paragraph Tags
+      scope: Component
+
+    layout: 
+      sequence: 120
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: Y
+
+    help: 
+      help-text: |
+        <p>Select whether paragraph tags are added around the text message.</p>
+        <p>Note: If the message already starts with a paragraph tag, no changes are made.</p>
+
 - # ====== Plugin: Tag Cloud ===================================
-  id: 14054909626761364702
+  id: 14062187623887027200
   identification: 
     name: Tag Cloud
+    internal-name: COM.ORACLE.APEX.TAG_CLOUD
+    type: Region
+
+  advanced: 
+    quick-pick: false
 
   source: 
     pl/sql-code: |
@@ -750,10 +2070,149 @@
          return null;
       end render;
 
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: render
+
+  standard-attributes: 
+    attributes: 
+    - Region Source is SQL Statement [Deprecated]
+    - Has "No Data Found Message" Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 5.0.1
+    help-text: <p>Use this region type plug-in to render a tag cloud. The developer supplies a query returning the tag name and count. </p>
+
+  standard-attributes: 
+  - # ====== Standard Attribute: SOURCE_SQL ======================
+    id: 7048750061165573206
+    identification: 
+      name: SOURCE_SQL
+
+    value: 
+      required: false
+
+    settings: 
+      minimum-columns: 2
+      maximum-columns: 2
+
+    examples: 
+      examples: |
+        <p>
+        <strong>Example 1: Render tag cloud with all tags.</strong>
+        <pre>
+        select tag, count(*) cnt 
+          from your_tag_table
+         group by tag
+         order by 1
+        </pre>
+        </p>
+        
+        <p>
+        <b>Example 2: Render tag cloud with tags specific to a content type.</b>
+        <pre>
+        select tag, count(*) cnt 
+          from your_tag_table
+         where content_type = 'DOCUMENT'
+         group by tag
+         order by 1
+        </pre>
+        </p>
+        
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Link Target =======================
+    id: 7048748245397573204
+    identification: 
+      attribute: 1
+      name: Link Target
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Link to Target Page/URL
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    help: 
+      help-text: 'Enter a target page to be called when the user clicks a tag. Use the #TAG# substitution for the tag that is clicked.'
+
+    examples: 
+      examples: 'f?p=&APP_ID.:69:&APP_SESSION.::::P69_SEARCH:#TAG#'
+
+  - # ====== Custom Attribute: Maximum Tags ======================
+    id: 7048748657952573204
+    identification: 
+      attribute: 2
+      name: Maximum Tags
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Integer
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      display-width: 4
+      maximum-length: 4
+
+    help: 
+      help-text: Enter the maximum number of tags to display.
+
+    comments: 
+      comments: Enter the maximum number of tags to display in the region.
+
+  - # ====== Custom Attribute: Show Count ========================
+    id: 7048749085705573205
+    identification: 
+      attribute: 3
+      name: Show Count
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: Y
+
+    help: 
+      help-text: Select whether to show the tag count next to the tag.
+
+  files: 
+  - # ====== File: tag_cloud.css =================================
+    id: 7048750750796573206
+    identification: 
+      file-name: tag_cloud.css
+
+    attributes: 
+      mime-type: text/css
+
 - # ====== Plugin: Simple Checkbox =============================
-  id: 30704468902968927962
+  id: 30711746900094590460
   identification: 
     name: Simple Checkbox
+    internal-name: COM.ORACLE.APEX.SIMPLE_CHECKBOX
+    type: Item
+
+  advanced: 
+    quick-pick: false
 
   source: 
     pl/sql-code: |
@@ -868,10 +2327,130 @@
       end validate_simple_checkbox;
       
 
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: render_simple_checkbox
+    validation-procedure-name: validate_simple_checkbox
+
+  supported-for: 
+    component-type: 
+    - Page Items
+
+  standard-attributes: 
+    attributes: 
+    - Is Visible Widget
+    - Session State Changeable
+    - Has Read Only Attribute
+    - Has Source Attributes
+    - Has Element Attributes
+    - Has Encrypt Session State Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 5.0.1
+    about-url: 'http://apex.oracle.com/plugins/'
+    help-text: |
+      <p>
+      	This item type plug-in displays a single checkbox but allows you to set 2 values (one for checked and another for unchecked). It&#39;s perfect for Y(es)/N(o) type checkboxes.</p>
+      <p>
+      	Without this plug-in, you would need to write a custom computation to get the same functionality.</p>
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Checked Value =====================
+    id: 7329548181753337637
+    identification: 
+      attribute: 1
+      name: Checked Value
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      display-width: 10
+      maximum-length: 255
+
+    default: 
+      value: Y
+
+    help: 
+      help-text: Enter the value stored if the checkbox is checked.
+
+  - # ====== Custom Attribute: Unchecked Value ===================
+    id: 7329548628330337637
+    identification: 
+      attribute: 2
+      name: Unchecked Value
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      display-width: 10
+      maximum-length: 255
+
+    help: 
+      help-text: |
+        <p>Enter the value stored if the checkbox is unchecked. This attribute can also be left blank if you want to store NULL when the checkbox is left unchecked.</p>
+        <p>Note: This value will also be used if the page item is populated with a value which doesn't match the "Checked Value" or "Unchecked Value".</p>
+
+  - # ====== Custom Attribute: Checkbox Label ====================
+    id: 7329548970138337638
+    identification: 
+      attribute: 3
+      name: Checkbox Label
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: true
+      display-width: 40
+
+    help: 
+      help-text: |
+        <p>Enter the label to be displayed after the checkbox.</p>
+        <p>Note: If you set this optional attribute, you should remove the text in the label attribute of the page item.</p>
+
+  files: 
+  - # ====== File: com_oracle_apex_simple_checkbox.min.js ========
+    id: 7329549666400337641
+    identification: 
+      file-name: com_oracle_apex_simple_checkbox.min.js
+
+    attributes: 
+      mime-type: application/x-javascript
+
 - # ====== Plugin: Super Breadcrumb ============================
-  id: 41489517171438004816
+  id: 41496795168563667314
   identification: 
     name: Super Breadcrumb
+    internal-name: SUPER_BREADCRUMB
+    type: Region
+
+  advanced: 
+    quick-pick: false
+
+  templates: 
+    default-escape-mode: HTML
 
   source: 
     pl/sql-code: |
@@ -1313,10 +2892,494 @@
       end ajax;   
       
 
+  callbacks: 
+    api-interface: Procedure
+    render-procedure/function-name: render
+    ajax-procedure/function-name: ajax
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 1.0
+    help-text: |
+      <p>This region plug-in is optimized for use on page 0 (the global page). Place this in the breadcrumb location with a template of "Title Bar."</p>
+      <p>You may wish to only show the region on Normal (non-modal) pages and not on certain other pages. Consider using a Server Side Condition, type = "Function Body" with the following code:
+      <pre>
+      declare
+      
+      l_page_mode     varchar2(200);
+      begin
+        select page_mode 
+          into l_page_mode
+          from apex_application_pages
+          where application_id = :APP_ID
+            and page_id = :APP_PAGE_ID;
+      
+        return l_page_mode = 'Normal' and :APP_PAGE_ID not in (9999); -- 9999 is the login page
+      end;
+      </pre>
+      </p>
+
+  attribute-groups: 
+  - # ====== Attribute Group: Rewind Options =====================
+    id: 42283216028367082823
+    identification: 
+      name: Rewind Options
+      sequence: 100
+
+  - # ====== Attribute Group: History Options ====================
+    id: 42298589092403329750
+    identification: 
+      name: History Options
+      sequence: 50
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Max Levels ========================
+    id: 41507497520634893412
+    identification: 
+      attribute: 1
+      name: Max Levels
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: 5
+
+    help: 
+      help-text: |
+        <p>Indicate the maximum levels to show.</p>
+        <p><strong>Note:</strong> This region plug-in is optimized for use on page 0 (the global page). Place this in the breadcrumb location with a template of "Title Bar."</p>
+        <p>You may wish to only show the region on Normal (non-modal) pages and not on certain other pages. Consider using a Server Side Condition, type = "Function Body" with the following code:
+        <pre>
+        declare
+        
+        l_page_mode     varchar2(200);
+        begin
+          select page_mode 
+            into l_page_mode
+            from apex_application_pages
+            where application_id = :APP_ID
+              and page_id = :APP_PAGE_ID;
+        
+          return l_page_mode = 'Normal' and :APP_PAGE_ID not in (9999); -- 9999 is the login page
+        end;
+        </pre>
+        </p>
+
+    entries: 
+    - # ====== Entry: 1 ============================================
+      id: 41507503525241894397
+      entry: 
+        sequence: 10
+        display: 1
+        return: 1
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 3 ============================================
+      id: 41507509998011895130
+      entry: 
+        sequence: 30
+        display: 3
+        return: 3
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 4 ============================================
+      id: 41507512847859895516
+      entry: 
+        sequence: 40
+        display: 4
+        return: 4
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 5 ============================================
+      id: 41507513487577895875
+      entry: 
+        sequence: 50
+        display: 5
+        return: 5
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 8 ============================================
+      id: 41507524055093897117
+      entry: 
+        sequence: 80
+        display: 8
+        return: 8
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 15 ===========================================
+      id: 41507538029562898626
+      entry: 
+        sequence: 110
+        display: 15
+        return: 15
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 100 (really?) ================================
+      id: 41507555512969901699
+      entry: 
+        sequence: 140
+        display: 100 (really?)
+        return: 100
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 2 ============================================
+      id: 41508001647438744980
+      entry: 
+        sequence: 20
+        display: 2
+        return: 2
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 6 ============================================
+      id: 41508012995975746422
+      entry: 
+        sequence: 60
+        display: 6
+        return: 6
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 7 ============================================
+      id: 41508014225280746868
+      entry: 
+        sequence: 70
+        display: 7
+        return: 7
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 9 ============================================
+      id: 41508016249250747691
+      entry: 
+        sequence: 90
+        display: 9
+        return: 9
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 10 ===========================================
+      id: 41508019785955748409
+      entry: 
+        sequence: 100
+        display: 10
+        return: 10
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 20 ===========================================
+      id: 41508033029112749356
+      entry: 
+        sequence: 120
+        display: 20
+        return: 20
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: 30 ===========================================
+      id: 41508035102656750007
+      entry: 
+        sequence: 130
+        display: 30
+        return: 30
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Breadcrumb Source =================
+    id: 41508500381223910901
+    identification: 
+      attribute: 2
+      name: Breadcrumb Source
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: NAV
+
+    help: 
+      help-text: Indicate if the breadcrumb should be based upon the application navigation menu or the actual pages visited.
+
+    entries: 
+    - # ====== Entry: Application Navigation Menu ==================
+      id: 41509293025428917535
+      entry: 
+        sequence: 10
+        display: Application Navigation Menu
+        return: NAV
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The navigation menu defined in Application Definition > User Interface > Navigation Menu List
+
+    - # ====== Entry: Page View History ============================
+      id: 41509692328470924958
+      entry: 
+        sequence: 20
+        display: Page View History
+        return: COLLECTION
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: Pages viewed will be stored in the collection name defined below. This style will only render for Normal (non-modal) pages.
+
+  - # ====== Custom Attribute: Collection Name ===================
+    id: 41510165314295782120
+    identification: 
+      attribute: 3
+      name: Collection Name
+      scope: Component
+
+    layout: 
+      attribute-group: History Options # 42298589092403329750
+      sequence: 30
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: INSUM_SUPER_BREADCRUMB
+
+    condition: 
+      depending-on-custom-attribute: Breadcrumb Source # 41508500381223910901
+      depending-on-condition-type: equal to
+      expression: COLLECTION
+      always-evaluate: true
+
+    help: 
+      help-text: Enter the name of the collection to store page view history.
+
+  - # ====== Custom Attribute: CSS Classes =======================
+    id: 41515355505024851995
+    identification: 
+      attribute: 4
+      name: CSS Classes
+      scope: Component
+
+    layout: 
+      sequence: 15
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    help: 
+      help-text: 'Add additional CSS classes. This will replace #COMPONENT_CSS_CLASSES# in the breadcrumb template.'
+
+  - # ====== Custom Attribute: Rewind Style ======================
+    id: 41636211481012642307
+    identification: 
+      attribute: 5
+      name: Rewind Style
+      scope: Component
+
+    layout: 
+      attribute-group: Rewind Options # 42283216028367082823
+      sequence: 50
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: PAGE_AND_TITLE
+
+    condition: 
+      depending-on-custom-attribute: Breadcrumb Source # 41508500381223910901
+      depending-on-condition-type: equal to
+      expression: COLLECTION
+      always-evaluate: true
+
+    help: 
+      help-text: Indicate if and how the breadcrumb should rewind.
+
+    entries: 
+    - # ====== Entry: Matching Page ID and Title ===================
+      id: 41637147823945797647
+      entry: 
+        sequence: 50
+        display: Matching Page ID and Title
+        return: PAGE_AND_TITLE
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: Rewind if the Page ID and title match anything in the tree.
+
+    - # ====== Entry: Never Rewind =================================
+      id: 41640818336017821075
+      entry: 
+        sequence: 5
+        display: Never Rewind
+        return: DO_NOT_REWIND
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: Do not rewind. This will show the most recent n pages viewed where n is the "Max Levels" setting above.
+
+    - # ====== Entry: Matching Page ID =============================
+      id: 41642365275161846709
+      entry: 
+        sequence: 20
+        display: Matching Page ID
+        return: PAGE
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: Rewind if the Page ID matches anything in the tree.
+
+  - # ====== Custom Attribute: Do Not Rewind (Pages) =============
+    id: 41992870170819476211
+    identification: 
+      attribute: 6
+      name: Do Not Rewind (Pages)
+      scope: Component
+
+    layout: 
+      attribute-group: Rewind Options # 42283216028367082823
+      sequence: 60
+
+    settings: 
+      type: Page Numbers
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Rewind Style # 41636211481012642307
+      depending-on-condition-type: not equal to
+      expression: DO_NOT_REWIND
+      always-evaluate: true
+
+    help: 
+      help-text: Enter a list of page IDs that will not rewind. For example, if you have a report and form, you may not want to rewind on the report.
+
+  - # ====== Custom Attribute: Do Not Add Breadcrumb (Pages) =====
+    id: 42283152837058074704
+    identification: 
+      attribute: 7
+      name: Do Not Add Breadcrumb (Pages)
+      scope: Component
+
+    layout: 
+      attribute-group: History Options # 42298589092403329750
+      sequence: 37
+
+    settings: 
+      type: Page Numbers
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Rewind Style # 41636211481012642307
+      depending-on-condition-type: not equal to
+      expression: DO_NOT_REWIND
+      always-evaluate: true
+
+    help: 
+      help-text: Enter a list of pages that should not have a breadcrumb entry created for them.
+
+  - # ====== Custom Attribute: Do Not Include Params (Pages) =====
+    id: 42287023543042266478
+    identification: 
+      attribute: 8
+      name: Do Not Include Params (Pages)
+      scope: Component
+
+    layout: 
+      attribute-group: History Options # 42298589092403329750
+      sequence: 40
+
+    settings: 
+      type: Page Numbers
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Breadcrumb Source # 41508500381223910901
+      depending-on-condition-type: equal to
+      expression: COLLECTION
+      always-evaluate: true
+
+    help: 
+      help-text: Enter a comma separated list of page numbers. The breadcrumb for these pages will only include a link to the page, not any additional page parameters and not the REQUEST value.
+
 - # ====== Plugin: APEX Percent Bargraphs ======================
-  id: 79508926107608662508
+  id: 79516204104734325006
   identification: 
     name: APEX Percent Bargraphs
+    internal-name: APEX.PERECENT.BARGRAPHS
+    type: Region
+
+  advanced: 
+    quick-pick: false
 
   source: 
     pl/sql-code: |
@@ -1369,4 +3432,126 @@
       
           RETURN VR_RESULT;
       END;
+
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: F_RENDER
+    ajax-procedure/function-name: F_AJAX
+
+  standard-attributes: 
+    attributes: 
+    - Region Source is SQL Statement [Deprecated]
+    - Has "Page Items to Submit" Attribute
+    - Has "No Data Found Message" Attribute
+    - Has "Escape Special Characters" Region Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 1.0.3
+    about-url: 'https://github.com/RonnyWeiss/APEX-Percent-Bargraphs'
+    help-text: This plug-in is used to visualize percent bargraphs in APEX.
+
+  standard-attributes: 
+  - # ====== Standard Attribute: SOURCE_SQL ======================
+    id: 24631519165579392061
+    identification: 
+      name: SOURCE_SQL
+
+    value: 
+      required: true
+
+    settings: 
+      minimum-columns: 1
+
+    default: 
+      value: |
+        SELECT
+            /* Required: Title that is show on skill bar */
+            DECODE( ROWNUM, 1, 'ORACLE APEX', 2, 'HTML5', 3, 'CSS3', 4, 'JavaScript', NULL ) AS TITLE,
+            /* Required: Percentage value as integer between 0 and 100 */
+            ROUND( DBMS_RANDOM.VALUE( 30, 100 ) ) AS VALUE,
+            /* Optional: background color of the title */
+            DECODE( ROWNUM, 1, '#0572CE', 2, 'rgb(233,98,41)', 3, 'rgb(38,143,201)', 4, 'rgb(239,216,29)', NULL ) AS TITLE_COLOR,
+            /* Optional: background color of the bar value */
+            NULL AS BAR_COLOR
+        FROM
+            DUAL
+        CONNECT BY ROWNUM <= 4
+
+    help: 
+      help-text: |
+        <pre>
+        SELECT
+            /* Required: Title that is show on skill bar */
+            DECODE( ROWNUM, 1, 'ORACLE APEX', 2, 'HTML5', 3, 'CSS3', 4, 'JavaScript', NULL ) AS TITLE,
+            /* Required: Percentage value as integer between 0 and 100 */
+            ROUND( DBMS_RANDOM.VALUE( 30, 100 ) ) AS VALUE,
+            /* Optional: background color of the title */
+            DECODE( ROWNUM, 1, '#0572CE', 2, 'rgb(233,98,41)', 3, 'rgb(38,143,201)', 4, 'rgb(239,216,29)', NULL ) AS TITLE_COLOR,
+            /* Optional: background color of the bar value */
+            NULL AS BAR_COLOR
+        FROM
+            DUAL
+        CONNECT BY ROWNUM <= 4
+        </pre>
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Refresh Time (Seconds) ============
+    id: 79536948609575138379
+    identification: 
+      attribute: 1
+      name: Refresh Time (Seconds)
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Integer
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    help: 
+      help-text: Set the refresh time of the region in seconds.
+
+  files: 
+  - # ====== File: script.min.js =================================
+    id: 52087279865447900844
+    identification: 
+      file-name: script.min.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: style.min.css =================================
+    id: 52087281451602901867
+    identification: 
+      file-name: style.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: LICENSE =======================================
+    id: 56451347679936375707
+    identification: 
+      file-name: LICENSE
+
+    attributes: 
+      mime-type: application/octet-stream
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: LICENSE4LIBS ==================================
+    id: 56451348044054375709
+    identification: 
+      file-name: LICENSE4LIBS
+
+    attributes: 
+      mime-type: application/octet-stream
+      file-character-set: Unicode UTF-8
 

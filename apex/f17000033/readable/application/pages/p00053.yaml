@@ -5,11 +5,11 @@ identification:
   name: Add Multiple Users
   alias: ADD-MULTIPLE-USERS
   title: Add Multiple Users
-  page-group: ACL # 9143297253097448004
+  page-group: ACL # 9150575250223110502
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 291412390619003969
+  dialog-template: Drawer # 298690387744666467
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -25,7 +25,7 @@ navigation:
   warn-on-unsaved-changes: false
 
 security: 
-  authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
+  authorization-scheme: ADMINISTRATION RIGHTS # 11029006037200708265
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -47,7 +47,7 @@ help:
 
 regions: 
 - # ====== Region: Add multiple users ==========================
-  id: 14441573952283724
+  id: 21719571077946222
   identification: 
     title: Add multiple users
     type: Static Content
@@ -69,7 +69,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7815150018139818935
+    template: Alert # 7822428015265481433
     template-options: 
     - '#DEFAULT#'
     - t-Alert--colorBG
@@ -98,7 +98,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Buttons =====================================
-  id: 8510453618778700733
+  id: 8517731615904363231
   identification: 
     title: Buttons
     type: Static Content
@@ -114,7 +114,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7815152023311818940
+    template: Buttons Container # 7822430020437481438
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -140,14 +140,14 @@ regions:
 
 buttons: 
 - # ====== Button: ADD_ALL_DEVS ================================
-  id: 244678976196543429
+  id: 251956973322205927
   identification: 
     button-name: ADD_ALL_DEVS
     label: Add All Devs
 
   layout: 
     sequence: 10
-    region: Buttons # 8510453618778700733
+    region: Buttons # 8517731615904363231
     position: CREATE
     start-new-layout: false
     start-new-row: true
@@ -156,7 +156,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7815182634883819014
+    button-template: Text with Icon # 7822460632009481512
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -169,14 +169,14 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CANCEL ======================================
-  id: 8507625931358961823
+  id: 8514903928484624321
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 8510453618778700733
+    region: Buttons # 8517731615904363231
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -185,7 +185,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7815183240834819016
+    button-template: Text # 7822461237960481514
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -195,17 +195,17 @@ buttons:
     execute-validations: true
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
+    authorization-scheme: ADMINISTRATION RIGHTS # 11029006037200708265
 
 - # ====== Button: NEXT ========================================
-  id: 8507626230459961823
+  id: 8514904227585624321
   identification: 
     button-name: NEXT
     label: Next
 
   layout: 
     sequence: 20
-    region: Buttons # 8510453618778700733
+    region: Buttons # 8517731615904363231
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -214,7 +214,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7815182634883819014
+    button-template: Text with Icon # 7822460632009481512
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -228,41 +228,39 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   configuration: 
-    build-option: TO_DELETE # 6399487383032747793
+    build-option: TO_DELETE # 6406765380158410291
 
 dynamic-actions: 
 - # ====== Dynamic Action: CNX =================================
-  id: 6495211578493421476
+  id: 6502489575619083974
   identification: 
     name: CNX
 
   execution: 
     sequence: 10
+    event-scope: Static
+    type: Immediate
 
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 8507625931358961823
-
-  execution: 
-    event-scope: Static
-    type: Immediate
+    button: CANCEL # 8514903928484624321
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 6495211628299421477
+    id: 6502489625425083975
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: CNX # 6495211578493421476
+      event: CNX # 6502489575619083974
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 computations: 
 - # ====== Computation: A_LAST_VIEW ============================
-  id: 8508976324670718301
+  id: 8516254321796380799
   identification: 
     item-name: A_LAST_VIEW
 
@@ -276,7 +274,7 @@ computations:
 
 processes: 
 - # ====== Process: Add all devs ===============================
-  id: 244679071307543430
+  id: 251957068433205928
   identification: 
     name: Add all devs
     type: Execute Code
@@ -302,14 +300,17 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: ADD_ALL_DEVS # 244678976196543429
+    when-button-pressed: ADD_ALL_DEVS # 251956973322205927
 
 - # ====== Process: Close dialog ===============================
-  id: 244679139330543431
+  id: 251957136456205929
   identification: 
     name: Close dialog
     type: Close Dialog
     execution-chain: None
+
+  settings: 
+    show-success-messages: false
 
   execution: 
     sequence: 30
@@ -320,11 +321,11 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: ADD_ALL_DEVS # 244678976196543429
+    when-button-pressed: ADD_ALL_DEVS # 251956973322205927
 
 branches: 
 - # ====== Branch: Go To Page 54 ===============================
-  id: 8507626627022961825
+  id: 8514904624148624323
   identification: 
     name: Go To Page 54
 
@@ -339,8 +340,8 @@ branches:
       page: 54
 
   server-side-condition: 
-    when-button-pressed: NEXT # 8507626230459961823
+    when-button-pressed: NEXT # 8514904227585624321
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11021728040075045767
+    authorization-scheme: ADMINISTRATION RIGHTS # 11029006037200708265
 

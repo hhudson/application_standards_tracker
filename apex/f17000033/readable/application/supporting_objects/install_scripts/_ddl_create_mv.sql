@@ -1038,6 +1038,7 @@ group by assignee;
 
    COMMENT ON MATERIALIZED VIEW "MV_SVT_IG_COLS"  IS 'snapshot table for snapshot ILA.MV_SVT_IG_COLS';
 
+
    COMMENT ON MATERIALIZED VIEW "MV_SVT_IR"  IS 'snapshot table for snapshot ILA.MV_SVT_IR';
 
    COMMENT ON MATERIALIZED VIEW "MV_SVT_IR_COLS"  IS 'snapshot table for snapshot ILA.MV_SVT_IR_COLS';
