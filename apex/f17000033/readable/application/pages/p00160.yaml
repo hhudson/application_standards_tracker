@@ -53,6 +53,7 @@ regions:
     sql-query: |
       select esa.pk_id, 
              esa.apex_app_id, 
+             esa.apex_app_id application_id, 
              esa.esa_created, 
              esa.esa_created_by, 
              esa.esa_updated, 
@@ -111,7 +112,7 @@ regions:
         values: 
           p161_pk_id: '#PK_ID#'
 
-      link-icon: <span aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
+      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
       authorization-scheme: READER RIGHTS # 339835767318732170
 
     pagination: 
@@ -452,7 +453,7 @@ regions:
         list-of-values: SVT_APPLICATIONS # 406523757325617061
 
       heading: 
-        heading: Apex Application
+        heading: APEX Application
         alignment: start
 
       single-row-view: 
@@ -463,7 +464,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -573,15 +574,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Esa Updated
-        alignment: start
+        heading: Updated
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 5
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -690,6 +691,58 @@ regions:
       security: 
         escape-special-characters: true
 
+    - # ====== Column: APPLICATION_ID ==============================
+      id: 517457156022072744
+      identification: 
+        column-name: APPLICATION_ID
+        type: Link
+
+      heading: 
+        heading: View Current Issues
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 96
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:1:&SESSION.:&P160_LINK_REQUEST.:&DEBUG.:RR,1:IR[AUDIT_RPT]EQ_APPLICATION_ID:#APPLICATION_ID#'
+          page: 1 # Issue Tracking
+          request: '&P160_LINK_REQUEST.'
+          clear-cache: RR,1
+          values: 
+            ir[audit_rpt]eq_application_id: '#APPLICATION_ID#'
+
+        link-text: <img src="#APEX_FILES#app_ui/img/icons/apex-edit-view.png" class="apex-edit-view" alt="">
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: DEFAULT_DEVELOPER ===========================
       id: 559575098210168756
       identification: 
@@ -772,6 +825,37 @@ regions:
         font-size: 12
         font-color: '#000000'
         alignment: center
+
+page-items: 
+- # ====== Page Item: P160_LINK_REQUEST ========================
+  id: 517456905418072742
+  identification: 
+    name: P160_LINK_REQUEST
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Applications # 406515879992586516
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
 
 buttons: 
 - # ====== Button: APPLICATION_TYPES ===========================
@@ -913,4 +997,21 @@ dynamic-actions:
       event: Edit Report - Dialog Closed # 406519214944586522
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P160_LINK_REQUEST ======================
+  id: 517457025400072743
+  identification: 
+    item-name: P160_LINK_REQUEST
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      svt_apex_view.rpt_link_request(p_issue_category => 'APEX',
+                                     p_application_id => :APP_ID)
 

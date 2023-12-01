@@ -69,7 +69,7 @@ regions:
     - P161_APEX_APP_ID
 
   layout: 
-    sequence: 60
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -554,7 +554,7 @@ regions:
     - P161_PK_ID
 
   layout: 
-    sequence: 30
+    sequence: 50
     parent-region: No Parent
     position: BODY
     start-new-layout: false
@@ -583,7 +583,7 @@ regions:
   server-side-condition: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ':P161_PK_ID is not null and svt_stds_standard_tests_api.active_test_count > 0'
+    pl/sql-expression: ':P161_PK_ID is not null and :P161_ACTIVE_TEST_COUNT > 0'
 
   security: 
     escape-special-characters: true
@@ -907,6 +907,66 @@ page-items:
 
   help: 
     help-text: The application id of your application
+
+- # ====== Page Item: P161_LINK_REQUEST ========================
+  id: 517457290253072745
+  identification: 
+    name: P161_LINK_REQUEST
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: Scores # 502515115533182320
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P161_ACTIVE_TEST_COUNT ===================
+  id: 517457511895072748
+  identification: 
+    name: P161_ACTIVE_TEST_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: Manage Application # 406505856568586503
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P161_ESA_CREATED =========================
   id: 559575257030168757
@@ -1248,6 +1308,48 @@ buttons:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
 
+- # ====== Button: CURRENT_VIOLATIONS ==========================
+  id: 517457483984072747
+  identification: 
+    button-name: CURRENT_VIOLATIONS
+    label: Current Violations
+
+  layout: 
+    sequence: 10
+    region: Buttons # 406511143845586511
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7864629175345055358
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-eye
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:1:&SESSION.:&P161_LINK_REQUEST.:&DEBUG.:RP,1:IR[AUDIT_RPT]EQ_APPLICATION_ID:&P161_APEX_APP_ID.'
+      page: 1 # Issue Tracking
+      request: '&P161_LINK_REQUEST.'
+      clear-cache: RP,1
+      values: 
+        ir[audit_rpt]eq_application_id: '&P161_APEX_APP_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item != Value
+    item: P161_ACTIVE_TEST_COUNT
+    value: 0
+
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel Dialog =======================
   id: 406511600212586512
@@ -1275,6 +1377,37 @@ dynamic-actions:
       event: Cancel Dialog # 406511600212586512
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P161_LINK_REQUEST ======================
+  id: 517457398854072746
+  identification: 
+    item-name: P161_LINK_REQUEST
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      svt_apex_view.rpt_link_request(p_issue_category => 'APEX',
+                                     p_application_id => :APP_ID)
+
+- # ====== Computation: P161_ACTIVE_TEST_COUNT =================
+  id: 517457631321072749
+  identification: 
+    item-name: P161_ACTIVE_TEST_COUNT
+
+  execution: 
+    sequence: 20
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_stds_standard_tests_api.active_test_count
 
 processes: 
 - # ====== Process: Initialize form Edit Application ===========
