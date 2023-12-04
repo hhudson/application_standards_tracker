@@ -1085,6 +1085,7 @@ PRO step 2 : query invalid objects
 select object_name, object_type
 from user_objects
 where status != 'VALID'
+and object_name like '%SVT%'
 order by object_name
 ;
 exit;
@@ -1196,6 +1197,7 @@ spool release/$p_file_name.sql
 select object_name, object_type
 from user_objects
 where status != 'VALID'
+and object_name like '%SVT%'
 order by object_name
 ;
 spool off

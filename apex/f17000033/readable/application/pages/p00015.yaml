@@ -71,6 +71,11 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: svt_preferences.get('SVT_APEX_ISSUES_YN') = 'Y'
+
   server-cache: 
     caching: Disabled
 
@@ -892,8 +897,11 @@ processes:
     location: Local Database
     language: PL/SQL
     pl/sql-code: |
+      declare
+      l_message varchar2(1000);
       begin
-      svt_audit_util.record_daily_issue_snapshot;
+        svt_audit_util.record_daily_issue_snapshot(p_message => l_message);
+        apex_debug.error('svt_audit_util >','record_daily_issue_snapshot >', l_message);
       end;
 
   execution: 

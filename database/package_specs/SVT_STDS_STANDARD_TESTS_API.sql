@@ -500,6 +500,21 @@ from dual
               p_issue_category in svt_nested_table_types.object_type%type default null) 
   return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Procedure to download a json file of a given test  
+--
+/*
+begin
+  svt_stds_standard_tests_api.get_test_file(p_test_code => 'ACC_AUTOCOMPLETE');
+end;
+*/
+------------------------------------------------------------------------------
+  procedure get_test_file(p_test_code in svt_stds_standard_tests.test_code%type);
+
 end svt_stds_standard_tests_api;
 /
 --rollback drop package svt_stds_standard_tests_api;

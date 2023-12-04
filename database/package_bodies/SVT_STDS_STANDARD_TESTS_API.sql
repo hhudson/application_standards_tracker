@@ -20,6 +20,7 @@ create or replace package body svt_stds_standard_tests_api as
   gc_n constant varchar2(1) := 'N';
   gc_y constant varchar2(1) := 'Y';
   gc_default_version_number constant number := 0;
+  gc_mime_type constant varchar2(25) := 'application/json';
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -791,7 +792,7 @@ begin
                                                         p_standard_id => l_aat (rec).standard_id, 
                                                         p_test_code   => l_aat (rec).test_code);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
-        c_mime_type constant varchar2(25) := 'application/json';
+        
         c_character_set constant varchar2(10) := 'UTF-8';
         c_md5 constant varchar2(250) := build_test_md5 (
                                           p_test_name             => l_aat (rec).test_name,
@@ -856,7 +857,7 @@ begin
                       l_aat (rec).fix,
                       c_file_size,  --download
                       c_file_blob,
-                      c_mime_type,
+                      gc_mime_type,
                       apex_string.format('%s-%s.json',l_aat (rec).test_code, l_aat (rec).version_db), --file_name
                       c_character_set,
                       l_aat (rec).version_number,
@@ -972,6 +973,43 @@ begin
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
      raise;
   end active_tests_yn;
+
+  procedure get_test_file(p_test_code in svt_stds_standard_tests.test_code%type)
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_file';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_file_blob  blob;
+  l_file_name  varchar2(100);
+  l_rec svt_stds_standard_tests%rowtype;
+  begin
+    dbms_output.put_line('code :'||l_rec.test_code);
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+  l_rec := get_test_rec(p_test_code => p_test_code);
+
+  l_file_blob := svt_deployment.json_standard_tests_blob (
+                    p_standard_id => l_rec.standard_id, 
+                    p_test_code   => p_test_code);
+
+  l_file_name := apex_string.format('%s-%s.json',p_test_code, l_rec.version_db);
+
+  sys.htp.init;
+  sys.owa_util.mime_header(gc_mime_type, false);
+  sys.htp.p('Content-Length: ' || dbms_lob.getlength(l_file_blob));
+  sys.htp.p('Content-Disposition: filename="' || l_file_name || '"');
+  sys.owa_util.http_header_close;
+
+  sys.wpg_docload.download_file(l_file_blob);
+  apex_application.stop_apex_engine;
+  
+exception
+  when apex_application.e_stop_apex_engine then
+    null;
+  when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end get_test_file;
 
 end svt_stds_standard_tests_api;
 /

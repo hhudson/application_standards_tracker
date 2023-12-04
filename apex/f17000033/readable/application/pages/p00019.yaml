@@ -1,0 +1,240 @@
+---
+# ====== Page: delete me =====================================
+id: 19
+identification: 
+  name: delete me
+  alias: DELETE-ME
+  title: delete me
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: New =========================================
+  id: 14167923230137210
+  identification: 
+    title: New
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7878740838537143755
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P19_TEST_CODE ============================
+  id: 14168127475137212
+  identification: 
+    name: P19_TEST_CODE
+    type: Text Field
+
+  label: 
+    label: Test Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: New # 14167923230137210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7878757624142143800
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: New =========================================
+  id: 14168074558137211
+  identification: 
+    button-name: New
+    label: New
+
+  layout: 
+    sequence: 20
+    region: New # 14167923230137210
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text # 7878758503320143810
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to URL
+    target: 
+      url: 'f?p=&APP_ID.:19:&APP_SESSION.:APPLICATION_PROCESS=DOWNLOAD_FILE:::A_TEST_CODE:&P19_TEST_CODE.'
+      page: 19 # delete me
+      request: APPLICATION_PROCESS=DOWNLOAD_FILE
+      values: 
+        a_test_code: '&P19_TEST_CODE.'
+
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: New_1 =======================================
+  id: 14168358565137214
+  identification: 
+    button-name: New_1
+    label: New 1
+
+  layout: 
+    sequence: 30
+    region: New # 14167923230137210
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text # 7878758503320143810
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+computations: 
+- # ====== Computation: P19_TEST_CODE ==========================
+  id: 14168200801137213
+  identification: 
+    item-name: P19_TEST_CODE
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Static Value
+    static-value: ACC_AUTOCOMPLETE
+
+processes: 
+- # ====== Process: New ========================================
+  id: 14167850298137209
+  identification: 
+    name: New
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+        svt_stds_standard_tests_api.get_test_file(p_test_code => 'ACC_AUTOCOMPLETE');
+      end;
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
