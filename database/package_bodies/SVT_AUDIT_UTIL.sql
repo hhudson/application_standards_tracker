@@ -452,7 +452,7 @@ create or replace package body SVT_AUDIT_UTIL as
      
       return case when svt_stds_applications_api.active_app_count = 0
                   then 'No violations found because no apps have been registered.'
-                  when svt_stds_standard_tests_api.active_test_count = 0
+                  when svt_stds_standard_tests_api.active_tests_yn = gc_n
                   then 'No violations found because no active tests have been registered.'
                   end;
 

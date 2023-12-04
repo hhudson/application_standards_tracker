@@ -484,6 +484,22 @@ from dual
               p_issue_category in svt_nested_table_types.object_type%type default null) 
   return pls_integer;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return whether or not there are active tests (more performant than active_test_count)
+--
+/*
+select svt_stds_standard_tests_api.active_tests_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function active_tests_yn (
+              p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return varchar2;
+
 end svt_stds_standard_tests_api;
 /
 --rollback drop package svt_stds_standard_tests_api;

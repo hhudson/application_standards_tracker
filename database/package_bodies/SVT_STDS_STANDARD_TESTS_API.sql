@@ -942,6 +942,37 @@ begin
      raise;
   end active_test_count;
 
+  function active_tests_yn (
+              p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'active_tests_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_tests_yn varchar2(1) := gc_y;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_issue_category', p_issue_category
+                     );
+
+   select case when count(*) = 1
+                        then 'Y'
+                        else 'N'
+                        end into l_tests_yn
+                from sys.dual where exists (
+                    select 1
+                    from v_svt_stds_standard_tests
+                    where active_yn = gc_y
+                    and standard_active_yn = gc_y
+                );
+  
+    return l_tests_yn;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end active_tests_yn;
+
 end svt_stds_standard_tests_api;
 /
 --rollback drop package body svt_stds_standard_tests_api;
