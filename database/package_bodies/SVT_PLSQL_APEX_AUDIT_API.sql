@@ -288,8 +288,14 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
   l_count pls_integer := 0;
   c_sysdate constant date := sysdate;
+  l_automation_problems_yn varchar2(1) := 'N';
   BEGIN
     apex_debug.message(c_debug_template,'START');
+
+    if svt_util.automation_issues_yn(p_except_static_id => '8-nightly-delete-stale-issues') = gc_y 
+    or svt_util.disabled_jobs_yn = gc_y then 
+      raise_application_error(-20123,'Please fix / enable automations');
+    end if;
 
     for rec in (
       select unqid, 

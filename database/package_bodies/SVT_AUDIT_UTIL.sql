@@ -466,19 +466,21 @@ create or replace package body SVT_AUDIT_UTIL as
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'info_on_next_audit_run';
   c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
-  l_answer varchar2(1000);
+  l_next_runtime varchar2(100);
   begin
-   apex_debug.message(c_debug_template,'START'
-                     );
+   apex_debug.message(c_debug_template,'START');
 
-    select apex_string.format('The next scan for violations is scheduled to take place %0',
-            p0 => apex_util.get_since(polling_next_run_timestamp)
-    )
-    into l_answer
+    select apex_util.get_since(polling_next_run_timestamp)
+    into l_next_runtime
     from v_svt_automations_status
     where static_id = 'big-job';
 
-    return l_answer;
+    return case when l_next_runtime is null
+                then 'No scan is currently scheduled. Activate the automations to schedule a scan.'
+                else apex_string.format('The next scan for violations is scheduled to take place %0',
+                        p0 => l_next_runtime
+                )
+                end;
    
   exception
    when others then

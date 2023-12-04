@@ -351,7 +351,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 60
+    sequence: 50
     region: General # 437496662996215029
     position: BODY
     alignment: Left
@@ -542,7 +542,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 50
+    sequence: 70
     region: General # 437496662996215029
     position: BODY
     alignment: Left
@@ -582,6 +582,17 @@ page-items:
 
   quick-picks: 
     show-quick-picks: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case when svt_preferences.get('SVT_EMAIL_API') is null
+           then false
+           when svt_preferences.get('SVT_EMAIL_API') = 'NA'
+           then false
+           else true
+           end
 
   security: 
     session-state-protection: Unrestricted
@@ -1018,7 +1029,7 @@ page-items:
     minimum-characters: No minimum (0)
 
   layout: 
-    sequence: 20
+    sequence: 60
     region: General # 437496662996215029
     position: BODY
     alignment: Left
