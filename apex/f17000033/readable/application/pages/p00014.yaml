@@ -122,6 +122,61 @@ help:
     </ol>
 
 regions: 
+- # ====== Region: New =========================================
+  id: 14169230887137223
+  identification: 
+    title: New
+    type: Static Content
+
+  source: 
+    html-code: |
+      <a href="&P14_DOWNLOAD_URL." download> Click Here </a> to download file.
+      
+      <a href="f?p=17000033:19:16401177539592:APPLICATION_PROCESS%3DDOWNLOAD_FILE:::A_TEST_CODE:ACC_AUTOCOMPLETE&amp;cs=2Mx9CW-NTpXn3oHXR3VR7s8eeRAQ" 
+      download=""> Click Here (from p19) </a>
+      
+      <a href="f?p=17000033:19:&APP_SESSION.:APPLICATION_PROCESS%3DDOWNLOAD_FILE:::A_TEST_CODE:ACC_AUTOCOMPLETE" 
+      download=""> Click Here (from p19) no checksum </a>
+
+  layout: 
+    sequence: 10
+    parent-region: Configuration # 420305783544846661
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7878740838537143755
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: DEV_ONLY # 6463062305093063277
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Advanced ====================================
   id: 308255794273868239
   identification: 
@@ -2278,6 +2333,9 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: DEV_ONLY # 6463062305093063277
+
   attributes: 
     id: 448519430427206461
     link: 
@@ -3011,6 +3069,36 @@ regions:
         escape-special-characters: true
 
 page-items: 
+- # ====== Page Item: P14_DOWNLOAD_URL =========================
+  id: 14168447069137215
+  identification: 
+    name: P14_DOWNLOAD_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 150
+    region: Configuration # 420305783544846661
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P14_COMPONENT_TYPE_ID ====================
   id: 348005657232017471
   identification: 
@@ -4325,6 +4413,66 @@ page-items:
     restricted-characters: All characters can be saved.
 
 buttons: 
+- # ====== Button: DOWNLOAD_TEST_1 =============================
+  id: 14168835499137219
+  identification: 
+    button-name: DOWNLOAD_TEST_1
+    label: Download 2
+
+  layout: 
+    sequence: 80
+    region: Buttons # 7399152814889084882
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7878758503320143810
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to URL
+    target: '&P14_DOWNLOAD_URL.'
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  configuration: 
+    build-option: DEV_ONLY # 6463062305093063277
+
+- # ====== Button: DOWNLOAD_TEST ===============================
+  id: 14242751537793514
+  identification: 
+    button-name: DOWNLOAD_TEST
+    label: Download javascript
+
+  layout: 
+    sequence: 70
+    region: Buttons # 7399152814889084882
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7878758503320143810
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  configuration: 
+    build-option: DEV_ONLY # 6463062305093063277
+
 - # ====== Button: RESET_WCAG ==================================
   id: 296173128262281934
   identification: 
@@ -4950,6 +5098,55 @@ buttons:
     authorization-scheme: ADMINISTRATION RIGHTS # 11085303302560370561
 
 dynamic-actions: 
+- # ====== Dynamic Action: Download test file ==================
+  id: 14168676263137217
+  identification: 
+    name: Download test file
+
+  execution: 
+    sequence: 250
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: DOWNLOAD_TEST # 14242751537793514
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 14168710874137218
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        // apex.navigation.redirect(apex.item('P14_DOWNLOAD_URL').getValue())
+        // javascript:window.open('https://google.com','_blank')
+        // window.open(apex.item('P14_DOWNLOAD_URL').getValue())
+        apex.navigation.popup(apex.item('P14_DOWNLOAD_URL').getValue())
+
+    execution: 
+      sequence: 20
+      event: Download test file # 14168676263137217
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: load download url ===========================
+    id: 14169108743137222
+    identification: 
+      name: load download url
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.debug.info('Download url >', apex.item('P14_DOWNLOAD_URL').getValue());
+
+    execution: 
+      sequence: 10
+      event: Download test file # 14168676263137217
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: Refresh on dialog close =============
   id: 296175033402281953
   identification: 
@@ -5995,6 +6192,23 @@ validations:
     value: Y
 
 computations: 
+- # ====== Computation: P14_DOWNLOAD_URL =======================
+  id: 14168503652137216
+  identification: 
+    item-name: P14_DOWNLOAD_URL
+
+  execution: 
+    sequence: 70
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      svt_stds_standard_tests_api.get_test_file_url (
+                  p_page_id => 19, --:APP_PAGE_ID,
+                  p_test_code => :P14_TEST_CODE)
+
 - # ====== Computation: P5_ID ==================================
   id: 353746431990802672
   identification: 

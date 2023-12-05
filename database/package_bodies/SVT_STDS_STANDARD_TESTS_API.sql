@@ -1011,6 +1011,32 @@ exception
      raise;
   end get_test_file;
 
+  function get_test_file_url (
+     p_page_id   in apex_application_pages.page_id%type,
+     p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_file_url';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code,
+                                       'p_page_id', p_page_id
+                     );
+
+    return apex_page.get_url (
+            p_page    => p_page_id,
+            p_items   => 'A_TEST_CODE',
+            p_values  => p_test_code,
+            p_request => 'APPLICATION_PROCESS=DOWNLOAD_FILE');
+
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end get_test_file_url;
+
 end svt_stds_standard_tests_api;
 /
 --rollback drop package body svt_stds_standard_tests_api;

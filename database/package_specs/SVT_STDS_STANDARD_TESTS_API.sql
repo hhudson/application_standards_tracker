@@ -515,6 +515,25 @@ end;
 ------------------------------------------------------------------------------
   procedure get_test_file(p_test_code in svt_stds_standard_tests.test_code%type);
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- function to return the url to download a test code json file 
+--
+/*
+select svt_stds_standard_tests_api.get_test_file_url (
+            p_page_id => :APP_PAGE_ID,
+            p_test_code => :P14_TEST_CODE) the_url
+from dual
+*/
+------------------------------------------------------------------------------
+  function get_test_file_url (
+              p_page_id   in apex_application_pages.page_id%type,
+              p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
 end svt_stds_standard_tests_api;
 /
 --rollback drop package svt_stds_standard_tests_api;

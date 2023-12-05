@@ -22,7 +22,7 @@ navigation:
 security: 
   authentication: Page Requires Authentication
   deep-linking: Application Default
-  page-access-protection: Arguments Must Have Checksum
+  page-access-protection: Unrestricted
   form-auto-complete: Off
   browser-cache: Application Default
 
@@ -35,6 +35,9 @@ advanced:
 
 server-cache: 
   caching: Disabled
+
+configuration: 
+  build-option: DEV_ONLY # 6463062305093063277
 
 regions: 
 - # ====== Region: New =========================================
@@ -79,6 +82,96 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: &nbsp =======================================
+  id: 14169434147137225
+  identification: 
+    title: '&nbsp'
+    type: Static Content
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7878740838537143755
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: New =========================================
+  id: 28436421359294331
+  identification: 
+    title: New
+    type: Static Content
+
+  source: 
+    html-code: <a href="&P19_DOWNLOAD_URL." download> Click Here </a> to download file.
+
+  layout: 
+    sequence: 10
+    parent-region: New # 14167923230137210
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 7878740838537143755
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: DEV_ONLY # 6463062305093063277
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 page-items: 
 - # ====== Page Item: P19_TEST_CODE ============================
   id: 14168127475137212
@@ -88,6 +181,62 @@ page-items:
 
   label: 
     label: Test Code
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: New # 14167923230137210
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 7878757624142143800
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P19_DOWNLOAD_URL =========================
+  id: 14266095998145382
+  identification: 
+    name: P19_DOWNLOAD_URL
+    type: Text Field
+
+  label: 
+    label: download url
     alignment: Left
 
   settings: 
@@ -133,7 +282,7 @@ page-items:
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 buttons: 
@@ -141,10 +290,10 @@ buttons:
   id: 14168074558137211
   identification: 
     button-name: New
-    label: New
+    label: New redirect to url
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: New # 14167923230137210
     position: BODY
     start-new-layout: false
@@ -179,7 +328,7 @@ buttons:
     label: New 1
 
   layout: 
-    sequence: 30
+    sequence: 50
     region: New # 14167923230137210
     position: BODY
     start-new-layout: false
@@ -196,9 +345,158 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Submit Page
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:19:&SESSION.:APPLICATION_PROCESS=DOWNLOAD_FILE:&DEBUG.::A_TEST_CODE:&P19_TEST_CODE.'
+      page: 19 # delete me
+      request: APPLICATION_PROCESS=DOWNLOAD_FILE
+      values: 
+        a_test_code: '&P19_TEST_CODE.'
+
     warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: New_2 =======================================
+  id: 14169312665137224
+  identification: 
+    button-name: New_2
+    label: New 27
+
+  layout: 
+    sequence: 10
+    region: New # 28436421359294331
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text # 7878758503320143810
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:27:&SESSION.::&DEBUG.:27::'
+      page: 27 # delete me
+      clear-cache: 27
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: New_2_1 =====================================
+  id: 14169543190137226
+  identification: 
+    button-name: New_2_1
+    label: New 28
+
+  layout: 
+    sequence: 20
+    region: New # 28436421359294331
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text # 7878758503320143810
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:28:&SESSION.::&DEBUG.:28::'
+      page: 28 # delete me form
+      clear-cache: 28
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DOWNLOAD_TEST ===============================
+  id: 14266954381155564
+  identification: 
+    button-name: DOWNLOAD_TEST
+    label: Download javascript
+
+  layout: 
+    sequence: 40
+    region: New # 14167923230137210
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 7878758503320143810
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  configuration: 
+    build-option: DEV_ONLY # 6463062305093063277
+
+dynamic-actions: 
+- # ====== Dynamic Action: Download test file ==================
+  id: 14493867821715651
+  identification: 
+    name: Download test file
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: DOWNLOAD_TEST # 14266954381155564
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 14494232535715656
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        // apex.navigation.redirect(apex.item('P19_DOWNLOAD_URL').getValue())
+        // javascript:window.open('https://google.com','_blank')
+        window.open(apex.item('P19_DOWNLOAD_URL').getValue(),'_blank')
+        // apex.navigation.popup(apex.item('P19_DOWNLOAD_URL').getValue())
+
+    execution: 
+      sequence: 20
+      event: Download test file # 14493867821715651
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: load download url ===========================
+    id: 14494752000715656
+    identification: 
+      name: load download url
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.debug.info('Download url >', apex.item('P19_DOWNLOAD_URL').getValue());
+
+    execution: 
+      sequence: 10
+      event: Download test file # 14493867821715651
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 
 computations: 
 - # ====== Computation: P19_TEST_CODE ==========================
@@ -213,6 +511,23 @@ computations:
   computation: 
     type: Static Value
     static-value: ACC_AUTOCOMPLETE
+
+- # ====== Computation: P19_DOWNLOAD_URL =======================
+  id: 14266642454152530
+  identification: 
+    item-name: P19_DOWNLOAD_URL
+
+  execution: 
+    sequence: 80
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      svt_stds_standard_tests_api.get_test_file_url (
+                  p_page_id => :APP_PAGE_ID,
+                  p_test_code => :P19_TEST_CODE)
 
 processes: 
 - # ====== Process: New ========================================

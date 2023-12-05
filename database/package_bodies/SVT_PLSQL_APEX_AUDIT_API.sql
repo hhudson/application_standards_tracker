@@ -1038,17 +1038,18 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   begin
       apex_debug.message(c_debug_template,'START');
 
-      merge into (select object_type, object_name, assignee
-                  from svt_plsql_apex_audit 
-                  where issue_category in 'DB_PLSQL'
-                  and assignee is null) e
-      using (select object_type, object_name, apex_username
-             from v_loki_object_assignee
-             where apex_username is not null
-             and lock_rank = 1) h
-      on (e.object_name = h.object_name)
-      when matched then
-      update set e.assignee = lower(h.apex_username);
+      for rec in (
+        select object_type, object_name, apex_username
+        from v_loki_object_assignee
+        where apex_username is not null
+        and lock_rank = 1
+      ) loop
+        update svt_plsql_apex_audit 
+          set assignee = lower(rec.apex_username)
+          where object_name = rec.object_name
+          and issue_category in 'DB_PLSQL'
+          and assignee is null;
+      end loop;
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
