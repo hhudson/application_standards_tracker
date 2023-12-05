@@ -5103,7 +5103,7 @@ end svt_one_report_macro;
         updated_by                 = gc_user
     where unqid = p_unqid;
     apex_debug.message(c_debug_template, 'updated :', sql%rowcount);
-
+  
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -5248,7 +5248,7 @@ end svt_one_report_macro;
         p_object_type                => p_object_type,
         p_code                       => substr(p_code,1,255)
     );
-
+  
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -5361,7 +5361,7 @@ end svt_one_report_macro;
     end loop;
 
     p_deleted_count := l_count;
-
+  
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -5416,7 +5416,7 @@ end svt_one_report_macro;
               );
       end loop;
     end delete_inactive_apps;
-
+    
     begin <<delete_inactive_tests>>
       for rec in (
         select unqid, 
@@ -5458,7 +5458,7 @@ end svt_one_report_macro;
     end delete_inactive_tests;
 
     p_deleted_count := l_count;
-
+  
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -5476,7 +5476,7 @@ end svt_one_report_macro;
     update svt_plsql_apex_audit
     set action_id = c_ignore_legacy
     where id = p_audit_id;
-
+  
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -5493,7 +5493,7 @@ end svt_one_report_macro;
     update svt_plsql_apex_audit
     set apex_issue_id = null, apex_issue_title_suffix = null
     where id = p_audit_id;
-
+  
   exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -5515,12 +5515,12 @@ end svt_one_report_macro;
                                         'p_audit_id', p_audit_id,
                                         'p_assignee', p_assignee,
                                         'c_assignee', c_assignee);
-
+    
     update svt_plsql_apex_audit
     set assignee = c_assignee
     where id = p_audit_id;
     apex_debug.message(c_debug_template, 'updated', sql%rowcount);
-
+    
   exception
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -5767,9 +5767,9 @@ end svt_one_report_macro;
           p4 => p_application_id
         );
         apex_debug.message(c_debug_template, 'l_query', l_query);
-
+        
         p_query1 := l_query;
-
+        
         begin <<q1>>
           execute immediate l_query into p_parent_pk_id;
         exception when no_data_found then
@@ -5799,7 +5799,7 @@ end svt_one_report_macro;
                                     else l_parent_pk_value
                                     end;
           apex_debug.message(c_debug_template, 'l_parent_pk_value', l_parent_pk_value);
-
+                              
 
           l_query2 := apex_string.format(
               'select coalesce(%4, %5) assignee from %1 where %2 = %3 and application_id = %6 fetch first 1 rows only',
@@ -5831,7 +5831,7 @@ end svt_one_report_macro;
 
           apex_debug.message(c_debug_template, 'l_query2: ', l_query2);
           p_query2 := l_query2;
-
+          
           begin <<assgn>>
             execute immediate l_query2 into p_assignee;
           exception 
@@ -5848,7 +5848,7 @@ end svt_one_report_macro;
       else 
         apex_debug.message(c_debug_template, 'p_parent_pk_id is null');
       end if;
-
+    
     else 
       apex_debug.message(c_debug_template, 'p_component_id or p_view_name or p_application_id is null');
     end if;
@@ -5880,7 +5880,7 @@ end svt_one_report_macro;
                                         'p_view_name',p_view_name,
                                         'p_application_id',p_application_id,
                                         'p_page_id',p_page_id);
-
+    
     get_assignee_from_parent_apex_audit (
         p_application_id => p_application_id,
         p_component_id   => p_component_id,
@@ -5911,7 +5911,7 @@ end svt_one_report_macro;
             p_parent_pk_id   => l_parent_pk_id2,
             p_parent_view    => l_parent_view2
         );
-
+        
         if l_assignee is null then 
           <<take3>>
           declare 
@@ -5951,7 +5951,7 @@ end svt_one_report_macro;
                     p_parent_pk_id   => l_parent_pk_id4,
                     p_parent_view    => l_parent_view4
                 );
-
+                  
                   begin <<finaltake_page>>
                     apex_debug.message(c_debug_template,'START final take (page)', 
                                                         'p_page_id', p_page_id,
@@ -5964,7 +5964,7 @@ end svt_one_report_macro;
                         from apex_application_pages 
                         where page_id = p_page_id 
                         and application_id = p_application_id;
-
+                        
                     else 
                       apex_debug.message(c_debug_template, 'final take (page) not executed');
                     end if;
@@ -6149,7 +6149,7 @@ end svt_one_report_macro;
         then
           svt_ctx_util.set_review_schema (p_schema => l_svt_plsql_apex_audit_rec.owner);
         end if;
-
+                                           
         for rec in (select 
                     a.unqid,
                     esst.issue_category,
@@ -6250,7 +6250,7 @@ end svt_one_report_macro;
   c_sysdate        constant date := sysdate;
   begin
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
-
+      
       if c_mv_dependency is not null then
         svt_mv_util.refresh_mv(c_mv_dependency); --refresh the dependent materialized view
       end if;
@@ -6274,7 +6274,7 @@ end svt_one_report_macro;
       where test_code = c_test_code
       and updated < c_sysdate;
       apex_debug.message(c_debug_template, 'deleted', sql%rowcount);
-
+    
   exception 
     when others then 
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception in merge_audit_tbl', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -6305,7 +6305,7 @@ end svt_one_report_macro;
     and (esst.standard_id = p_standard_id or p_standard_id is null);
 
     return l_count;
-
+   
   exception
    when no_data_found then
       return 0;
@@ -8560,6 +8560,7 @@ end svt_stds_standards_api;
   gc_y constant varchar2(1) := 'Y';
   gc_default_version_number constant number := 0;
   gc_mime_type constant varchar2(25) := 'application/json';
+  gc_owner     constant varchar2(128) := sys_context('userenv','current_schema');
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -8591,7 +8592,7 @@ end svt_stds_standards_api;
                          p_test_name             in svt_stds_standard_tests.test_name%type,
                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                         p_owner                 in svt_stds_standard_tests.owner%type,
+                         p_owner                 in svt_stds_standard_tests.owner%type default null,
                          p_test_code             in svt_stds_standard_tests.test_code%type,
                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
                          p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -8609,6 +8610,7 @@ end svt_stds_standards_api;
    c_test_code constant svt_stds_standard_tests.test_code%type := format_test_code(p_test_code);
    c_id constant svt_stds_standard_tests.id%type := coalesce(p_id, 
                                                             to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+   c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
    begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
@@ -8640,7 +8642,7 @@ end svt_stds_standards_api;
       p_test_name,
       p_display_sequence,
       p_query_clob,
-      p_owner,
+      c_owner,
       c_test_code,
       p_active_yn,
       p_level_id,
@@ -8669,7 +8671,7 @@ end svt_stds_standards_api;
                          p_test_name             in svt_stds_standard_tests.test_name%type,
                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                         p_owner                 in svt_stds_standard_tests.owner%type,
+                         p_owner                 in svt_stds_standard_tests.owner%type default null,
                          p_test_code             in svt_stds_standard_tests.test_code%type,
                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
                          p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -8684,6 +8686,7 @@ end svt_stds_standards_api;
   c_scope constant varchar2(128) := gc_scope_prefix || 'insert_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_id svt_stds_standard_tests.id%type;
+  c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -8702,7 +8705,7 @@ end svt_stds_standards_api;
                         p_test_name             => p_test_name,
                         p_display_sequence      => p_display_sequence,
                         p_query_clob            => p_query_clob,
-                        p_owner                 => p_owner,
+                        p_owner                 => c_owner,
                         p_test_code             => p_test_code,
                         p_active_yn             => p_active_yn,
                         p_level_id              => p_level_id,
@@ -8897,7 +8900,7 @@ end svt_stds_standards_api;
                         p_test_name             in svt_stds_standard_tests.test_name%type,
                         p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                         p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                        p_owner                 in svt_stds_standard_tests.owner%type,
+                        p_owner                 in svt_stds_standard_tests.owner%type default null,
                         p_test_code             in svt_stds_standard_tests.test_code%type,
                         p_active_yn             in svt_stds_standard_tests.active_yn%type,
                         p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -8912,6 +8915,7 @@ end svt_stds_standards_api;
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_test_code constant svt_stds_standard_tests.test_code%type := format_test_code(p_test_code);
+  c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -8931,7 +8935,7 @@ end svt_stds_standards_api;
         test_name             = p_test_name,
         display_sequence      = coalesce(p_display_sequence, display_sequence),
         query_clob            = p_query_clob,
-        owner                 = p_owner,
+        owner                 = c_owner,
         test_code             = c_test_code,
         active_yn             = p_active_yn,
         level_id              = p_level_id,

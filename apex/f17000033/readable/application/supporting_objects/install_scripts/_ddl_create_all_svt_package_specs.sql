@@ -3706,7 +3706,6 @@ begin
                   p_test_name             => :P14_SHORT_NAME,
                   p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                   p_query_clob            => :P14_QUERY_CLOB,
-                  p_owner                 => :P14_OWNER,
                   p_test_code             => :P14_TEST_CODE,
                   p_active_yn             => :P14_ACTIVE_YN,
                   p_level_id              => :P14_LEVEL_ID,
@@ -3722,7 +3721,6 @@ begin
                           p_test_name             => :P14_SHORT_NAME,
                           p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                           p_query_clob            => :P14_QUERY_CLOB,
-                          p_owner                 => :P14_OWNER,
                           p_test_code             => :P14_TEST_CODE,
                           p_active_yn             => :P14_ACTIVE_YN,
                           p_level_id              => :P14_LEVEL_ID,
@@ -3754,7 +3752,6 @@ begin
                 p_test_name             => p_test_name,
                 p_display_sequence      => p_display_sequence,
                 p_query_clob            => p_query_clob,
-                p_owner                 => p_owner,
                 p_test_code             => p_test_code,
                 p_active_yn             => p_active_yn,
                 p_level_id              => p_level_id,
@@ -3771,7 +3768,7 @@ end;
                        p_test_name             in svt_stds_standard_tests.test_name%type,
                        p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                        p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                       p_owner                 in svt_stds_standard_tests.owner%type,
+                       p_owner                 in svt_stds_standard_tests.owner%type default null,
                        p_test_code             in svt_stds_standard_tests.test_code%type,
                        p_active_yn             in svt_stds_standard_tests.active_yn%type,
                        p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -3799,7 +3796,6 @@ begin
                 p_test_name             => p_test_name,
                 p_display_sequence      => p_display_sequence,
                 p_query_clob            => p_query_clob,
-                p_owner                 => p_owner,
                 p_test_code             => p_test_code,
                 p_active_yn             => p_active_yn,
                 p_level_id              => p_level_id,
@@ -3813,7 +3809,7 @@ end;
                         p_test_name             in svt_stds_standard_tests.test_name%type,
                         p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                         p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                        p_owner                 in svt_stds_standard_tests.owner%type,
+                        p_owner                 in svt_stds_standard_tests.owner%type default null,
                         p_test_code             in svt_stds_standard_tests.test_code%type,
                         p_active_yn             in svt_stds_standard_tests.active_yn%type,
                         p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -3824,7 +3820,7 @@ end;
                         p_version_number        in svt_stds_standard_tests.version_number%type default null,
                         p_version_db            in svt_stds_standard_tests.version_db%type default null
                       );
-  
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -3876,7 +3872,6 @@ begin
                           p_test_name             => :P14_TEST_NAME,
                           p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                           p_query_clob            => :P14_QUERY_CLOB,
-                          p_owner                 => :P14_OWNER,
                           p_test_code             => :P14_TEST_CODE,
                           p_active_yn             => :P14_ACTIVE_YN,
                           p_level_id              => :P14_LEVEL_ID,
@@ -3894,7 +3889,7 @@ end;
                           p_test_name             in svt_stds_standard_tests.test_name%type,
                           p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                           p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                          p_owner                 in svt_stds_standard_tests.owner%type,
+                          p_owner                 in svt_stds_standard_tests.owner%type default null,
                           p_test_code             in svt_stds_standard_tests.test_code%type,
                           p_active_yn             in svt_stds_standard_tests.active_yn%type,
                           p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -3905,7 +3900,7 @@ end;
                           p_version_number        in svt_stds_standard_tests.version_number%type default null,
                           p_version_db            in svt_stds_standard_tests.version_db%type default null
                         );
-    
+
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -4105,7 +4100,7 @@ from dual
     function get_standard_id (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_stds_standard_tests.standard_id%type deterministic;
 
- 
+
  ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 10, 2023
@@ -4177,6 +4172,40 @@ from dual
 ------------------------------------------------------------------------------
   function active_tests_yn (
               p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return varchar2;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Procedure to download a json file of a given test  
+--
+/*
+begin
+  svt_stds_standard_tests_api.get_test_file(p_test_code => 'ACC_AUTOCOMPLETE');
+end;
+*/
+------------------------------------------------------------------------------
+  procedure get_test_file(p_test_code in svt_stds_standard_tests.test_code%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- function to return the url to download a test code json file 
+--
+/*
+select svt_stds_standard_tests_api.get_test_file_url (
+            p_page_id => :APP_PAGE_ID,
+            p_test_code => :P14_TEST_CODE) the_url
+from dual
+*/
+------------------------------------------------------------------------------
+  function get_test_file_url (
+              p_page_id   in apex_application_pages.page_id%type,
+              p_test_code in svt_stds_standard_tests.test_code%type)
   return varchar2;
 
 end svt_stds_standard_tests_api;

@@ -20,6 +20,7 @@ These tests help support Accessibility standards. They are not substitutes for s
 | [ACC_PAGE_MOUSE_EVNT](APEX_ACCESSIBILITY_212/tests/ACC_PAGE_MOUSE_EVNT-REDWOOD.json) |  Page JS must avoid mouse events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [ACC_PG_JS_FOCUS](APEX_ACCESSIBILITY_212/tests/ACC_PG_JS_FOCUS-REDWOOD.json) |  Page JS should avoid focus events | v1.4 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [ACC_PG_TMP_CSS_ANMTN](APEX_ACCESSIBILITY_212/tests/ACC_PG_TMP_CSS_ANMTN-REDWOOD.json) |  Page Templates should avoid CSS animations | v1.4 [REDWOOD] | APEX_APPLICATION_TEMP_PAGE |
+| [ACC_REGION_NAMES](APEX_ACCESSIBILITY_212/tests/ACC_REGION_NAMES-REDWOOD.json) |  Region names should be descriptive | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [ACC_TAB_TABINDEX](APEX_ACCESSIBILITY_212/tests/ACC_TAB_TABINDEX-REDWOOD.json) |  Application Tabs should avoid tabindex | v1.4 [REDWOOD] | APEX_APPLICATION_TABS |
 | [ACC_VAL_DSPLY_LOCN](APEX_ACCESSIBILITY_212/tests/ACC_VAL_DSPLY_LOCN-REDWOOD.json) |  Inline with field error notification is insufficient | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_VAL |
 | [BTN_TABINDX](APEX_ACCESSIBILITY_212/tests/BTN_TABINDX-REDWOOD.json) |  Buttons should avoid hardcoded tab indexes | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |

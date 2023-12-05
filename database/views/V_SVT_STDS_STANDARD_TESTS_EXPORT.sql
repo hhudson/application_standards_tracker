@@ -32,7 +32,8 @@ select standard_id,
        lib_md5,
        published_yn,
        null publish_button_html,
-       download_css dlclss
+       download_css dlclss,
+       display_sequence
 from svt_stds_standard_tests_api.v_svt_stds_standard_tests() 
 /
 --rollback drop view v_svt_stds_standard_tests_export;

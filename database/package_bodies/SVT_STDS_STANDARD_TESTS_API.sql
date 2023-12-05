@@ -21,6 +21,7 @@ create or replace package body svt_stds_standard_tests_api as
   gc_y constant varchar2(1) := 'Y';
   gc_default_version_number constant number := 0;
   gc_mime_type constant varchar2(25) := 'application/json';
+  gc_owner     constant varchar2(128) := sys_context('userenv','current_schema');
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -52,7 +53,7 @@ create or replace package body svt_stds_standard_tests_api as
                          p_test_name             in svt_stds_standard_tests.test_name%type,
                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                         p_owner                 in svt_stds_standard_tests.owner%type,
+                         p_owner                 in svt_stds_standard_tests.owner%type default null,
                          p_test_code             in svt_stds_standard_tests.test_code%type,
                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
                          p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -70,6 +71,7 @@ create or replace package body svt_stds_standard_tests_api as
    c_test_code constant svt_stds_standard_tests.test_code%type := format_test_code(p_test_code);
    c_id constant svt_stds_standard_tests.id%type := coalesce(p_id, 
                                                             to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+   c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
    begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
@@ -101,7 +103,7 @@ create or replace package body svt_stds_standard_tests_api as
       p_test_name,
       p_display_sequence,
       p_query_clob,
-      p_owner,
+      c_owner,
       c_test_code,
       p_active_yn,
       p_level_id,
@@ -130,7 +132,7 @@ create or replace package body svt_stds_standard_tests_api as
                          p_test_name             in svt_stds_standard_tests.test_name%type,
                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                         p_owner                 in svt_stds_standard_tests.owner%type,
+                         p_owner                 in svt_stds_standard_tests.owner%type default null,
                          p_test_code             in svt_stds_standard_tests.test_code%type,
                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
                          p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -145,6 +147,7 @@ create or replace package body svt_stds_standard_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'insert_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_id svt_stds_standard_tests.id%type;
+  c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -163,7 +166,7 @@ create or replace package body svt_stds_standard_tests_api as
                         p_test_name             => p_test_name,
                         p_display_sequence      => p_display_sequence,
                         p_query_clob            => p_query_clob,
-                        p_owner                 => p_owner,
+                        p_owner                 => c_owner,
                         p_test_code             => p_test_code,
                         p_active_yn             => p_active_yn,
                         p_level_id              => p_level_id,
@@ -358,7 +361,7 @@ create or replace package body svt_stds_standard_tests_api as
                         p_test_name             in svt_stds_standard_tests.test_name%type,
                         p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                         p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                        p_owner                 in svt_stds_standard_tests.owner%type,
+                        p_owner                 in svt_stds_standard_tests.owner%type default null,
                         p_test_code             in svt_stds_standard_tests.test_code%type,
                         p_active_yn             in svt_stds_standard_tests.active_yn%type,
                         p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -373,6 +376,7 @@ create or replace package body svt_stds_standard_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_test_code constant svt_stds_standard_tests.test_code%type := format_test_code(p_test_code);
+  c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -392,7 +396,7 @@ create or replace package body svt_stds_standard_tests_api as
         test_name             = p_test_name,
         display_sequence      = coalesce(p_display_sequence, display_sequence),
         query_clob            = p_query_clob,
-        owner                 = p_owner,
+        owner                 = c_owner,
         test_code             = c_test_code,
         active_yn             = p_active_yn,
         level_id              = p_level_id,
