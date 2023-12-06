@@ -1,1 +1,33 @@
-{"std_test":{"standard":{"standard_id":7837857267161810704439141202380776768,"standard_name":"Millenium Gen2","description":"Tests that are specific to the Millenium Gen2 project","compatibility_mode_id":21,"created":"2023-09-22T01:27:28.872000Z","created_by":"HAYDEN.H.HUDSON@ORACLE.COM","updated":"2023-09-22T01:27:28.872000Z","updated_by":"HAYDEN.H.HUDSON@ORACLE.COM"}},"test":[{"test_id":7815139285722760313678955543995360374,"test_name":"Tables should have audit columns","standard_id":7837857267161810704439141202380776768,"display_sequence":null,"query_clob":"select case when utc.col_count is null\r\n            then 'N' \r\n            when utc.col_count < 4\r\n            then 'N' \r\n            else 'Y'\r\n            end pass_yn,\r\n       ao.object_name table_name,\r\n       ao.object_id unqid,\r\n       apex_string.format('Table `%0` is missing audit columns (`CREATED,CREATED_BY,UPDATED,UPDATED_BY`)', \r\n        p0 => ao.object_name) code,\r\n       ao.object_id,\r\n       coalesce(utc.col_count,0) col_count,\r\n\t\t\t ao.owner schema\r\nfrom v_user_objects ao\r\nleft outer join (select table_name, count(*) col_count\r\n                 from v_user_tab_cols\r\n                 where column_name in ('CREATED','CREATED_BY','UPDATED','UPDATED_BY')\r\n                 group by table_name\r\n                 ) utc on utc.table_name = ao.object_name\r\nwhere ao.object_type = 'TABLE'\r\nand ao.object_name not in (select mview_name\r\n                           from v_user_mviews)","test_code":"TBL_AUDIT_COLS","level_id":319367883342220103240397164810613715872,"mv_dependency":null,"svt_component_type_id":102,"explanation":"The following standard columns must be defined on application tables (exceptions to be agreed), and represent what we would typically refer to as \"audit\" columns. These should be maintained by a trigger.\r\n\r\n*   CREATED\\_BY VARCHAR2(255 CHAR)\r\n*   CREATED\\_ON DATE\r\n*   UPDATED\\_BY VARCHAR2(255 CHAR)\r\n*   UPDATED\\_ONDATE","fix":"Add the requisite audit columns","version_number":1.2,"version_db":"REDWOOD"}]}    
+{
+  "standard" :
+  [
+    {
+      "standard_id" : 7837857267161810704439141202380776768,
+      "standard_name" : "Millenium Gen2",
+      "description" : "Tests that are specific to the Millenium Gen2 project",
+      "compatibility_mode_id" : 21,
+      "created" : "2023-09-22T01:27:28.872000Z",
+      "created_by" : "HAYDEN.H.HUDSON@ORACLE.COM",
+      "updated" : "2023-09-22T01:27:28.872000Z",
+      "updated_by" : "HAYDEN.H.HUDSON@ORACLE.COM"
+    }
+  ],
+  "test" :
+  [
+    {
+      "test_id" : 7815139285722760313678955543995360374,
+      "test_name" : "Tables should have audit columns",
+      "standard_id" : 7837857267161810704439141202380776768,
+      "display_sequence" : null,
+      "query_clob" : "select case when utc.col_count is null\r\n            then 'N' \r\n            when utc.col_count < 4\r\n            then 'N' \r\n            else 'Y'\r\n            end pass_yn,\r\n       ao.object_name table_name,\r\n       ao.object_id unqid,\r\n       apex_string.format('Table `%0` is missing audit columns (`CREATED,CREATED_BY,UPDATED,UPDATED_BY`)', \r\n        p0 => ao.object_name) code,\r\n       ao.object_id,\r\n       coalesce(utc.col_count,0) col_count,\r\n\t\t\t ao.owner schema\r\nfrom v_user_objects ao\r\nleft outer join (select table_name, count(*) col_count\r\n                 from v_user_tab_cols\r\n                 where column_name in ('CREATED','CREATED_BY','UPDATED','UPDATED_BY')\r\n                 group by table_name\r\n                 ) utc on utc.table_name = ao.object_name\r\nwhere ao.object_type = 'TABLE'\r\nand ao.object_name not in (select mview_name\r\n                           from v_user_mviews)",
+      "test_code" : "TBL_AUDIT_COLS",
+      "level_id" : 319367883342220103240397164810613715872,
+      "mv_dependency" : null,
+      "svt_component_type_id" : 102,
+      "explanation" : "The following standard columns must be defined on application tables (exceptions to be agreed), and represent what we would typically refer to as \"audit\" columns. These should be maintained by a trigger.\r\n\r\n*   CREATED\\_BY VARCHAR2(255 CHAR)\r\n*   CREATED\\_ON DATE\r\n*   UPDATED\\_BY VARCHAR2(255 CHAR)\r\n*   UPDATED\\_ONDATE",
+      "fix" : "Add the requisite audit columns",
+      "version_number" : 1.2,
+      "version_db" : "REDWOOD"
+    }
+  ]
+}    

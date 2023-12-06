@@ -99,21 +99,21 @@ create or replace package body SVT_DEPLOYMENT as
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end assemble_json_query;
-
-  function assemble_json_std_tsts_qry (
-                  p_standard_id   in svt_stds_standards.id%type,
+  
+  function assemble_json_tsts_qry (
+                  p_standard_id   in svt_stds_standards.id%type default null,
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
   return clob 
   is 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_std_tsts_qry';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_tsts_qry';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_query clob;
   c_datatype constant varchar2(4) := case when lower(p_datatype) = gc_blob
                                           then gc_blob
                                           else gc_clob
                                           end;
-  c_standard_id constant svt_stds_standards.id%type 
+  c_standard_id constant svt_stds_standards.id%type
                := case when p_test_code is null 
                        then p_standard_id
                        else svt_stds_standard_tests_api.get_standard_id (p_test_code => p_test_code)
@@ -124,78 +124,93 @@ create or replace package body SVT_DEPLOYMENT as
                                         'c_standard_id', c_standard_id,
                                         'p_test_code', p_test_code,
                                         'p_datatype', p_datatype);
-
-    l_query := 
+   
+   l_query := 
     apex_string.format(
     q'[
-      select  json_object ( 
-         'std_test' value json_object (
-           'standard' value json_object(
-             'standard_id'           value ess.id, 
-             'standard_name'         value ess.standard_name,
-             'description'           value ess.description,
-             'compatibility_mode_id' value ess.compatibility_mode_id,
-             'created'               value ess.created,
-             'created_by'            value ess.created_by,
-             'updated'               value ess.created,
-             'updated_by'            value ess.created_by
-           )
-         ), 'test' value json_arrayagg (
-           json_object (
-             'test_id'               value esst.test_id, 
-             'test_name'             value esst.test_name,
-             'standard_id'           value esst.standard_id,
-             'display_sequence'      value esst.display_sequence,
-             'query_clob'            value esst.query_clob,
-             'test_code'             value esst.test_code,
-             'level_id'              value esst.level_id,
-             'mv_dependency'         value esst.mv_dependency,
-             'svt_component_type_id' value esst.svt_component_type_id,
-             'explanation'           value esst.explanation,
-             'fix'                   value esst.fix,
-             'version_number'        value esst.version_number,
-             'version_db'            value esst.version_db
-             returning %1
-           )  
-           returning %1
-         )
-         returning %1
-        ) thejson
-    from svt_stds_standards ess
-    inner join v_svt_stds_standard_tests_w_inherited esst on ess.id = esst.standard_id
-    where ess.active_yn = 'Y'
-    and esst.active_yn = 'Y'
-    and ess.id = %0
-    and (esst.test_code = '%2' or '%2' is null)
-    group by ess.id, 
-             ess.standard_name, 
-             ess.description, 
-             ess.compatibility_mode_id,
-             ess.created,
-             ess.created_by,
-             ess.updated,
-             ess.updated_by
+      with std as (
+        select  json_object ( 
+            'standard' value json_arrayagg (
+              json_object (
+                'standard_id'           value ess.id, 
+                'standard_name'         value ess.standard_name,
+                'description'           value ess.description,
+                'compatibility_mode_id' value ess.compatibility_mode_id,
+                'created'               value ess.created,
+                'created_by'            value ess.created_by,
+                'updated'               value ess.created,
+                'updated_by'            value ess.created_by
+                returning %1
+              )  
+              returning %1
+            )
+            returning %1
+            ) thejson
+        from svt_stds_standards ess
+        where ess.active_yn = 'Y'
+        %4
+      ), tst as (
+        select  json_object ( 
+          'test' value json_arrayagg (
+            json_object (
+              'test_id'               value esst.test_id, 
+              'test_name'             value esst.test_name,
+              'standard_id'           value esst.standard_id,
+              'display_sequence'      value esst.display_sequence,
+              'query_clob'            value esst.query_clob,
+              'test_code'             value esst.test_code,
+              'level_id'              value esst.level_id,
+              'mv_dependency'         value esst.mv_dependency,
+              'svt_component_type_id' value esst.svt_component_type_id,
+              'explanation'           value esst.explanation,
+              'fix'                   value esst.fix,
+              'version_number'        value esst.version_number,
+              'version_db'            value esst.version_db
+              returning %1
+            )  
+            returning %1
+          )
+          returning %1
+          ) thejson
+      from svt_stds_standards ess
+      inner join v_svt_stds_standard_tests_w_inherited esst on ess.id = esst.standard_id
+      where ess.active_yn = 'Y'
+      and esst.active_yn = 'Y'
+      %4
+      and (esst.test_code = '%2' or '%2' is null)
+      )
+      select json_mergepatch(std.thejson, tst.thejson returning %1 %3) mjson
+      from tst
+      cross join std
     ]',
     p0 => c_standard_id,
     p1 => c_datatype,
-    p2 => p_test_code
+    p2 => p_test_code,
+    p3 => case when c_datatype = gc_clob
+               then 'pretty'
+               end,
+    p4 => case when c_standard_id is not null
+               then 'and ess.id = '||c_standard_id
+               end
     );
 
     return l_query;
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
-  end assemble_json_std_tsts_qry;
+    
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end assemble_json_tsts_qry;
 
   function json_standard_tests_clob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
    ) return clob
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_standard_tests_clob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_query     clob;
-  l_file_clob clob;
+  l_tst_query     clob;
+  l_tst_file_clob clob;
   c_test_code constant svt_stds_standard_tests.test_code%type := dbms_assert.noop(upper(p_test_code));
   begin
     apex_debug.message(c_debug_template,'START', 
@@ -203,22 +218,23 @@ create or replace package body SVT_DEPLOYMENT as
                                         'p_test_code', p_test_code
                                         );
 
-    l_query := assemble_json_std_tsts_qry (
+    l_tst_query := assemble_json_tsts_qry (
                     p_standard_id   => p_standard_id,
                     p_test_code     => c_test_code,
                     p_datatype      => gc_clob);
 
-    execute immediate l_query into l_file_clob;
+    execute immediate l_tst_query into l_tst_file_clob;
+    
+    return l_tst_file_clob;
 
-    return l_file_clob;
-
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
+   exception
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
   end json_standard_tests_clob;
   
   function json_standard_tests_blob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
   ) return blob
   is 
@@ -233,7 +249,7 @@ create or replace package body SVT_DEPLOYMENT as
                                         'p_test_code', p_test_code
                                         );
 
-    l_query := assemble_json_std_tsts_qry (
+    l_query := assemble_json_tsts_qry (
                     p_standard_id   => p_standard_id,
                     p_test_code     => c_test_code,
                     p_datatype      => gc_blob);

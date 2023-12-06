@@ -46,10 +46,10 @@ help:
   help-text: <p>This application is designed to assist in the development of consistent Oracle Application Express (APEX) applications by analyzing each application for adherence to best practices. Appl ications can be divided into different types, with some standards applying only to specific types of applications. To test for compliance, create a standard and associate it with the appropriate type(s) of application(s), defining at least one test against the APEX Data Dictionary to verify compliance.</p>
 
 regions: 
-- # ====== Region: &P1_MIN_NOT_MET_MESSAGE. ====================
+- # ====== Region: <span class="MinNotMet"></span> =============
   id: 78015616912608506
   identification: 
-    title: '&P1_MIN_NOT_MET_MESSAGE.'
+    title: <span class="MinNotMet"></span>
     type: Static Content
 
   layout: 
@@ -79,10 +79,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-side-condition: 
-    type: Item is NOT NULL
-    item: P1_MIN_NOT_MET_MESSAGE
 
   security: 
     authorization-scheme: CONTRIBUTION RIGHTS # 11085303794333370572
@@ -2039,7 +2035,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: View Button
+        heading: View
         alignment: center
 
       single-row-view: 
@@ -5521,7 +5517,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: '&P1_MIN_NOT_MET_MESSAGE.' # 78015616912608506
+    region: <span class="MinNotMet"></span> # 78015616912608506
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -5662,6 +5658,10 @@ buttons:
       clear-cache: 41
 
     warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P1_MIN_NOT_MET_MESSAGE
 
   security: 
     authorization-scheme: READER RIGHTS # 353964489342820620
@@ -5971,10 +5971,10 @@ buttons:
     authorization-scheme: CONTRIBUTION RIGHTS # 11085303794333370572
 
 dynamic-actions: 
-- # ====== Dynamic Action: Hide  ===============================
+- # ====== Dynamic Action: Populate P1_PERCENT_SOLVED text =====
   id: 14167242960137203
   identification: 
-    name: 'Hide '
+    name: Populate P1_PERCENT_SOLVED text
 
   execution: 
     sequence: 160
@@ -5984,9 +5984,10 @@ dynamic-actions:
     event: EVENT.EVENT.BROWSER.READY
 
   actions: 
-  - # ====== Action: Execute Server-side Code ====================
+  - # ====== Action: svt_plsql_apex_audit_api.percent_solved =====
     id: 14167436440137205
     identification: 
+      name: svt_plsql_apex_audit_api.percent_solved
       action: Execute Server-side Code
 
     settings: 
@@ -5998,15 +5999,16 @@ dynamic-actions:
 
     execution: 
       sequence: 20
-      event: 'Hide ' # 14167242960137203
+      event: Populate P1_PERCENT_SOLVED text # 14167242960137203
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
-  - # ====== Action: Execute JavaScript Code =====================
+  - # ====== Action: Set P1_PERCENT_SOLVED text ==================
     id: 14167797376137208
     identification: 
+      name: Set P1_PERCENT_SOLVED text
       action: Execute JavaScript Code
 
     settings: 
@@ -6016,10 +6018,101 @@ dynamic-actions:
         
 
     execution: 
-      sequence: 30
-      event: 'Hide ' # 14167242960137203
+      sequence: 40
+      event: Populate P1_PERCENT_SOLVED text # 14167242960137203
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+- # ====== Dynamic Action: Populate Min Not Met text ===========
+  id: 14682658510726511
+  identification: 
+    name: Populate Min Not Met text
+
+  execution: 
+    sequence: 170
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: EVENT.EVENT.BROWSER.LOAD
+    selection-type: Region
+    region: Tracking issues report # 811959286686553297
+
+  actions: 
+  - # ====== Action: Hide region by default ======================
+    id: 14682782292726512
+    identification: 
+      name: Hide region by default
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: <span class="MinNotMet"></span> # 78015616912608506
+
+    execution: 
+      sequence: 10
+      event: Populate Min Not Met text # 14682658510726511
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: svt_plsql_apex_audit_api.percent_solved =====
+    id: 14682892450726513
+    identification: 
+      name: svt_plsql_apex_audit_api.percent_solved
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: ':P1_MIN_NOT_MET_MESSAGE := svt_audit_util.min_not_met_error_msg;'
+      items-to-return: 
+      - P1_MIN_NOT_MET_MESSAGE
+      suppress-change-event: false
+
+    execution: 
+      sequence: 30
+      event: Populate Min Not Met text # 14682658510726511
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Set P1_MIN_NOT_MET_MESSAGE text =============
+    id: 14683019586726515
+    identification: 
+      name: Set P1_MIN_NOT_MET_MESSAGE text
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var lText = apex.item('P1_MIN_NOT_MET_MESSAGE').getValue();
+        $('.MinNotMet').text(lText);
+        
+
+    execution: 
+      sequence: 40
+      event: Populate Min Not Met text # 14682658510726511
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Show region if there is a warning ===========
+    id: 14683149005726516
+    identification: 
+      name: Show region if there is a warning
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: <span class="MinNotMet"></span> # 78015616912608506
+
+    execution: 
+      sequence: 50
+      event: Populate Min Not Met text # 14682658510726511
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is not null
+      item: P1_MIN_NOT_MET_MESSAGE
 
 - # ====== Dynamic Action: Mark as Exception ===================
   id: 306767604733057679
@@ -6821,20 +6914,6 @@ computations:
     type: Expression
     language: PL/SQL
     pl/sql-expression: svt_audit_util.info_on_next_audit_run
-
-- # ====== Computation: P1_MIN_NOT_MET_MESSAGE =================
-  id: 78015512719608505
-  identification: 
-    item-name: P1_MIN_NOT_MET_MESSAGE
-
-  execution: 
-    sequence: 60
-    point: Before Regions
-
-  computation: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: svt_audit_util.min_not_met_error_msg;
 
 - # ====== Computation: P1_TEST_URL ============================
   id: 452885937828835987

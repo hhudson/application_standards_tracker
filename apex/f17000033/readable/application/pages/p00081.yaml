@@ -82,8 +82,8 @@ regions:
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
                         p_add_headers_row   => 'Y',
-                        p_row_selector      => 'std_test',
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_std' ),
+                        --p_row_selector      => 'standard',
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_standard' ),
                         p_max_rows          => 10) ) p
              left outer join svt_stds_standards ess on to_char(ess.id) = p.col002
        where f.name = :P81_FILE
@@ -749,7 +749,7 @@ regions:
                         p_add_headers_row   => 'Y',
                         p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_tests' ),
                         p_max_rows          => 100) ) p
-             left outer join svt_stds_standard_tests esst on to_char(esst.test_code) = p.col004
+             left outer join svt_stds_standard_tests esst on to_char(esst.test_code) = p.col003
        where f.name = :P81_FILE
     page-items-to-submit: 
     - P81_FILE
@@ -1329,6 +1329,65 @@ regions:
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P81_STANDARD_COUNT =======================
+  id: 14683238910726517
+  identification: 
+    name: P81_STANDARD_COUNT
+    type: Text Field
+
+  label: 
+    label: Standard Count
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: File Analysis # 435078202473730047
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 6716785598981685022
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The number of tests from the uploaded file
+
 - # ====== Page Item: P81_FILE =================================
   id: 432916544900213940
   identification: 
@@ -1560,7 +1619,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: File Analysis # 435078202473730047
     position: BODY
     alignment: Left
@@ -1619,7 +1678,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: File Analysis # 435078202473730047
     position: BODY
     alignment: Left
@@ -1678,7 +1737,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 30
+    sequence: 50
     region: File Analysis # 435078202473730047
     position: BODY
     alignment: Left
@@ -1833,6 +1892,39 @@ dynamic-actions:
     item: P81_FILE
 
   actions: 
+  - # ====== Action: set standard_count ==========================
+    id: 14683308676726518
+    identification: 
+      name: set standard_count
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        select count(*)
+               into :P81_STANDARD_COUNT
+          from apex_application_temp_files f, 
+               table( apex_data_parser.parse(
+                          p_content           => f.blob_content,
+                          p_file_name         => f.filename,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_standards' ),
+                          p_max_rows          => 5) ) p
+         where f.name = :P81_FILE;
+      items-to-submit: 
+      - P81_FILE
+      - P81_STANDARD_COUNT
+      items-to-return: 
+      - P81_STANDARD_COUNT
+      suppress-change-event: false
+
+    execution: 
+      sequence: 10
+      event: extract values # 432931015289250738
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
   - # ====== Action: set standard_id =============================
     id: 432931090751250739
     identification: 
@@ -1844,16 +1936,12 @@ dynamic-actions:
       pl/sql-code: |
         select p.COL002
                into :P81_STANDARD_ID
-               -- add more columns (col011 to col300) here.
           from apex_application_temp_files f, 
                table( apex_data_parser.parse(
                           p_content           => f.blob_content,
                           p_file_name         => f.filename,
-                          --p_add_headers_row   => 'Y',
-                          --p_skip_rows         => 1,
-                          p_row_selector      => 'std_test',
-                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_std' ),
-                          p_max_rows          => 100) ) p
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_tests' ),
+                          p_max_rows          => 5) ) p
          where f.name = :P81_FILE
          fetch first 1 rows only;
       items-to-submit: 
@@ -1864,27 +1952,12 @@ dynamic-actions:
       suppress-change-event: false
 
     execution: 
-      sequence: 20
+      sequence: 30
       event: extract values # 432931015289250738
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
-
-  - # ====== Action: log standard id =============================
-    id: 432931345346250741
-    identification: 
-      name: log standard id
-      action: Execute JavaScript Code
-
-    settings: 
-      code: "apex.debug.log('standard id :'+apex.item('P81_STANDARD_ID').getValue());"
-
-    execution: 
-      sequence: 40
-      event: extract values # 432931015289250738
-      fire-when-event-result-is: True
-      fire-on-initialization: false
 
   - # ====== Action: set test_count ==============================
     id: 435023595357408452
@@ -1897,7 +1970,6 @@ dynamic-actions:
       pl/sql-code: |
         select count(*)
                into :P81_TEST_COUNT
-               -- add more columns (col011 to col300) here.
           from apex_application_temp_files f, 
                table( apex_data_parser.parse(
                           p_content           => f.blob_content,
@@ -1920,21 +1992,6 @@ dynamic-actions:
       stop-execution-on-error: true
       wait-for-result: true
 
-  - # ====== Action: log test count ==============================
-    id: 435078309997730048
-    identification: 
-      name: log test count
-      action: Execute JavaScript Code
-
-    settings: 
-      code: "apex.debug.log('test count :'+apex.item('P81_TEST_COUNT').getValue());"
-
-    execution: 
-      sequence: 80
-      event: extract values # 432931015289250738
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
   - # ====== Action: set test_code ===============================
     id: 435078440273730049
     identification: 
@@ -1944,7 +2001,7 @@ dynamic-actions:
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
-        select p.COL004
+        select p.COL003
                into :P81_TEST_CODE
           from apex_application_temp_files f, 
                table( apex_data_parser.parse(
@@ -1962,7 +2019,7 @@ dynamic-actions:
       suppress-change-event: false
 
     execution: 
-      sequence: 100
+      sequence: 80
       event: extract values # 432931015289250738
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -1974,17 +2031,21 @@ dynamic-actions:
       item: P81_TEST_COUNT
       value: 1
 
-  - # ====== Action: log test code ===============================
+  - # ====== Action: log values ==================================
     id: 435078552553730050
     identification: 
-      name: log test code
+      name: log values
       action: Execute JavaScript Code
 
     settings: 
-      code: "apex.debug.log('test code :'+apex.item('P81_TEST_CODE').getValue());"
+      code: |
+        apex.debug.log('standard count :'+apex.item('P81_STANDARD_COUNT').getValue());
+        apex.debug.log('standard id :'+apex.item('P81_STANDARD_ID').getValue());
+        apex.debug.log('test code :'+apex.item('P81_TEST_CODE').getValue());
+        apex.debug.log('test count :'+apex.item('P81_TEST_COUNT').getValue());
 
     execution: 
-      sequence: 110
+      sequence: 90
       event: extract values # 432931015289250738
       fire-when-event-result-is: True
       fire-on-initialization: false
@@ -2066,6 +2127,9 @@ processes:
   server-side-condition: 
     when-button-pressed: LOAD # 432914529053213939
 
+  configuration: 
+    build-option: TO_DELETE # 6463062645518072587
+
 - # ====== Process: Clear Cache ================================
   id: 432915445173213939
   identification: 
@@ -2097,7 +2161,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: LOAD_STD # 432955086782356512
+    data-load-definition: LOAD_STANDARDS # 15179165015306872
     source-data-type: File Browse Item
     file-browse-item: P81_FILE
     processed-row-count-item: 
@@ -2144,6 +2208,27 @@ processes:
     item: P81_STANDARD_ID
 
 branches: 
+- # ====== Branch: go to page 3 ================================
+  id: 14683526426726520
+  identification: 
+    name: go to page 3
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:3:&SESSION.::&DEBUG.:RR,3::&success_msg=#SUCCESS_MSG#'
+      page: 3 # All Standards
+      clear-cache: RR,3
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 432914529053213939
+    type: Item is NULL
+    item: P81_STANDARD_ID
+
 - # ====== Branch: go to page 5 ================================
   id: 432930812907250736
   identification: 

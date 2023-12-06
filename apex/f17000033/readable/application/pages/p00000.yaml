@@ -5,6 +5,71 @@ identification:
   name: Global Page
 
 regions: 
+- # ====== Region: No Role =====================================
+  id: 14682502126726510
+  identification: 
+    title: No Role
+    type: Static Content
+
+  source: 
+    html-code: You (&APP_USER.) are not an authorized user of this application.
+
+  layout: 
+    sequence: 30
+    parent-region: Universal Warnings # 454042109517209578
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7878725280625143729
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    - t-Form--xlarge
+    - t-Form--stretchInputs
+    - margin-top-lg
+    - margin-bottom-lg
+    - margin-left-lg
+    - margin-right-lg
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case when APEX_ACL.HAS_USER_ANY_ROLES (
+                      p_application_id => :APP_ID,
+                      p_user_name      => :APP_USER)
+           then false
+           else true
+           end
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Navigate through application ================
   id: 357164677618500178
   identification: 
@@ -148,7 +213,7 @@ regions:
 
   layout: 
     sequence: 20
-    parent-region: Builder # 454042109517209578
+    parent-region: Universal Warnings # 454042109517209578
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -261,10 +326,10 @@ regions:
     rewind-options: 
       rewind-style: Matching Page ID and Title
 
-- # ====== Region: Builder =====================================
+- # ====== Region: Universal Warnings ==========================
   id: 454042109517209578
   identification: 
-    title: Builder
+    title: Universal Warnings
     type: Static Content
 
   layout: 
@@ -314,7 +379,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Builder # 454042109517209578
+    region: Universal Warnings # 454042109517209578
     position: BODY
 
   advanced: 
@@ -344,8 +409,8 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
-    region: Builder # 454042109517209578
+    sequence: 40
+    region: Universal Warnings # 454042109517209578
     position: BODY
 
   advanced: 

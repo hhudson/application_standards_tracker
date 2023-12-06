@@ -59,15 +59,15 @@ set serveroutput on
 declare 
 l_clob clob;
 begin
-    l_clob := svt_deployment.assemble_json_std_tsts_qry (
+    l_clob := svt_deployment.assemble_json_tsts_qry (
                 p_standard_id => :p_standard_id,
                 p_datatype => 'clob');
     dbms_output.put_line(l_clob);
 end;
 */
 ------------------------------------------------------------------------------
-    function assemble_json_std_tsts_qry (
-                  p_standard_id   in svt_stds_standards.id%type,
+    function assemble_json_tsts_qry (
+                  p_standard_id   in svt_stds_standards.id%type default null,
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
     return clob;
@@ -90,7 +90,7 @@ end;
 */
 ------------------------------------------------------------------------------
     function json_standard_tests_clob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return clob;
 
@@ -110,7 +110,7 @@ end;
 */
 ------------------------------------------------------------------------------
     function json_standard_tests_blob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return blob;
     
@@ -290,6 +290,8 @@ function markdown_summary return clob;
    pragma exception_init(e_missing_field, -0904);
    e_non_existent_tbl exception;
    pragma exception_init(e_non_existent_tbl, -0942);
+   e_numeric_or_value exception;
+   pragma exception_init (e_numeric_or_value, -6512);
 
 end SVT_DEPLOYMENT;
 /
