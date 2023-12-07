@@ -1001,7 +1001,7 @@ begin
   sys.htp.init;
   sys.owa_util.mime_header(gc_mime_type, false);
   sys.htp.p('Content-Length: ' || dbms_lob.getlength(l_file_blob));
-  sys.htp.p('Content-Disposition: filename="' || l_file_name || '"');
+  sys.htp.p('Content-Disposition: attachment; filename="' || l_file_name || '"');
   sys.owa_util.http_header_close;
 
   sys.wpg_docload.download_file(l_file_blob);
