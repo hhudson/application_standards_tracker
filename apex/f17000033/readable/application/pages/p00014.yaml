@@ -2320,11 +2320,11 @@ page-items:
 
   session-state: 
     data-type: VARCHAR2
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   security: 
     session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
+    store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P14_PUBLISH_BUTTON_HTML ==================
@@ -3163,7 +3163,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    help-text: This number helps to distinguish editions of this standard test across time and deployments. Tests only get versions once they are active and published.
+    help-text: This number helps to distinguish editions of this standard test across time and deployments. Tests only get versions once they are active and published. FYI, if your changes are "unpublished", it is possible to return to the former version by visiting the "Test Library" (ask an Admin).
 
 - # ====== Page Item: P14_MV_DEPENDENCY ========================
   id: 473129176766457171
@@ -5102,7 +5102,9 @@ computations:
   computation: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: "apex_util.get_blob_file_src('P14_FILE_BLOB',:P14_TEST_ID)"
+    pl/sql-expression: |
+      -- apex_util.get_blob_file_src('P14_FILE_BLOB',:P14_TEST_ID)
+      apex_util.get_blob_file_src('P14_FILE_BLOB',290954809810145789302942589791813389134)
 
   server-side-condition: 
     type: Item is NOT NULL
@@ -5160,8 +5162,11 @@ computations:
     language: PL/SQL
     pl/sql-expression: |
       case when :P14_VERSION_NUMBER is not null 
-           then apex_string.format('%s (%s)',:P14_VERSION_NUMBER,:P14_VERSION_DB)
-           else 'N/A'
+           then case when :P14_PUBLISHED_YN = 'Y' 
+                     then apex_string.format('%s (%s)',:P14_VERSION_NUMBER,:P14_VERSION_DB)
+                     else apex_string.format('Unpublished changes (Formerly v%s-%s)',:P14_VERSION_NUMBER,:P14_VERSION_DB)
+                     end
+           else 'Unpublished'
            end
 
 - # ====== Computation: P14_ISSUE_CATEGORY =====================

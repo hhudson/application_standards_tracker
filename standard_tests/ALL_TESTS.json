@@ -1735,8 +1735,8 @@
       "mv_dependency" : null,
       "svt_component_type_id" : 102,
       "explanation" : "Foreign keys must be indexed",
-      "fix" : "Eg `create index eba_stdapp_idx1 on eba_stds_applications (type_id)`",
-      "version_number" : 1.2,
+      "fix" : "Eg `create index svt_stdapp_idx1 on svt_stds_applications (type_id)`",
+      "version_number" : 1.3,
       "version_db" : "REDWOOD"
     },
     {
@@ -1932,21 +1932,6 @@
       "explanation" : "Breadcrumb hierarchies should match navigation menu hierarchies",
       "fix" : "Correct the hierarchies",
       "version_number" : 1.2,
-      "version_db" : "REDWOOD"
-    },
-    {
-      "test_id" : 293042031711024343743217219378644412213,
-      "test_name" : "Form pages require authentication and have access protection",
-      "standard_id" : 335371825641905585121080132445374054310,
-      "display_sequence" : null,
-      "query_clob" : "with unrestricted_pg_itms as (\r\n      select application_id, page_id, listagg(item_name,':' on overflow truncate '...') within group (order by item_name) page_item_list\r\n            from apex_application_page_items\r\n            where item_protection_level = 'Unrestricted'\r\n            group by application_id, page_id\r\n), a30 as (\r\n      select \r\n      case when aap.page_requires_authentication = 'No'\r\n      then 'N'\r\n      when aap.page_access_protection = 'Unrestricted'\r\n      then 'N'\r\n      else 'Y'\r\n      end as pass_yn,\r\n      aap.application_id,\r\n      aap.page_id,\r\n      aap.page_name,\r\n      aap.page_requires_authentication, \r\n      aap.page_access_protection,\r\n      aap.build_option,\r\n      bo.build_option_status,\r\n      pi.page_item_list,\r\n      aap.created_by, \r\n      aap.created_on, \r\n      aap.last_updated_by, \r\n      aap.last_updated_on,\r\n\t    bo.status_on_export,\r\n\t    aap.workspace\r\n      from apex_application_pages aap\r\n      inner join v_apex_applications aa on aa.application_id = aap.application_id\r\n                                    and aa.availability_status != 'Unavailable'\r\n      inner join unrestricted_pg_itms pi on aap.application_id = pi.application_id\r\n                                    and aap.page_id = pi.page_id\r\n      left join apex_application_build_options bo on aap.application_id = bo.application_id\r\n                                                and aap.build_option = bo.build_option_name\r\n      where aap.page_id not in (9999,101)\r\n      and aap.page_name not in ('Login Page')\r\n      and (bo.status_on_export != 'Exclude' or bo.build_option_status is null)\r\n\t    and aap.application_id = 17000033\r\n)\r\nselect a30.pass_yn,\r\n       a30.application_id,\r\n\t\t\t null child_code,\r\n       a30.page_id,\r\n       a30.page_name,\r\n       a30.page_requires_authentication, \r\n       a30.page_access_protection,\r\n       a30.build_option,\r\n       a30.build_option_status,\r\n       a30.page_item_list,\r\n       a30.created_by, \r\n       a30.created_on, \r\n       a30.last_updated_by, \r\n       a30.last_updated_on,\r\n       case when a30.pass_yn = 'N'\r\n            then apex_string.format(p_message => \r\n            q'^\"Page requires_authentication\" attribute = %0\r\n               \"Page access protection\" attribute = %1\r\n               \"Build option\" attribute = %2\r\n               \"Build option status\" attribute = %3\r\n                Page items  = %4\r\n            ^',\r\n                                    p0 => a30.page_requires_authentication, \r\n                                    p1 => a30.page_access_protection,\r\n                                    p2 => a30.build_option,\r\n                                    p3 => a30.build_option_status,\r\n                                    p4 => a30.page_item_list\r\n                                    )\r\n            end as validation_failure_message,\r\n       case when a30.pass_yn = 'N'\r\n            then apex_string.format(p_message => \r\n            q'^Page %0 (app %1) should require authentication and should not have access protection set to 'Unrestricted'.^',\r\n                                    p0 => a30.page_id, \r\n                                    p1 => a30.application_id\r\n                                    )\r\n            end as issue_title,\r\n\t\t\t page_id component_id,\r\n       null parent_component_id,\r\n\t\t\t a30.workspace\r\nfrom a30",
-      "test_code" : "PAGE_ACCESS_PROTECTION",
-      "level_id" : 319367883342218894314577550181439009696,
-      "mv_dependency" : null,
-      "svt_component_type_id" : 4,
-      "explanation" : "Pages should require authentication and should not have access protection set to \"Unrestricted\"",
-      "fix" : "Require Authentication and set access protection to something other than ‘Unrestricted’",
-      "version_number" : 1.1,
       "version_db" : "REDWOOD"
     },
     {
@@ -2612,9 +2597,9 @@
     {
       "test_id" : 290954809810145789302942589791813389134,
       "test_name" : "Page Items incorrectly prefixed",
-      "standard_id" : 8467975092489085553189835659685444234,
+      "standard_id" : 331927390054668715455647074009653484512,
       "display_sequence" : null,
-      "query_clob" : "select a50.pass_yn,\r\n       a50.application_id,\r\n\t\t\t null child_code,\r\n       a50.page_id, \r\n       a50.page_name, \r\n       a50.component_id, \r\n\t\t\t null parent_component_id,\r\n       a50.item_name, \r\n       a50.region,\r\n       a50.created_by, \r\n       a50.created_on, \r\n       a50.last_updated_by, \r\n       a50.last_updated_on,\r\n\t\t\t a50.workspace,\r\n       case when a50.pass_yn = 'N'\r\n            then apex_string.format(p_message => \r\n            q'^%1, is incorrectly named (id: %0, region: %2)^',\r\n            p0 => a50.component_id, \r\n            p1 => a50.item_name, \r\n            p2 => a50.region\r\n            )\r\n            end as validation_failure_message,\r\n       case when a50.pass_yn = 'N'\r\n            then apex_string.format(p_message => \r\n            q'^%1 is incorrectly named (page %0 app %2)^',\r\n            p0 => a50.page_id, \r\n            p1 => a50.item_name, \r\n            p2 => a50.application_id\r\n            )\r\n            end as issue_title\r\nfrom (\r\n     select \r\n     case when pi.item_name like 'P'||pi.page_id||'_%'\r\n          then 'Y'\r\n          else 'N'\r\n          end as pass_yn,\r\n     pi.application_id,\r\n     pi.item_id component_id, \r\n     pi.item_name, \r\n     pi.page_id, \r\n     pi.page_name, \r\n     pi.region,\r\n     app.created_by created_by, \r\n     app.created_on created_on, \r\n     coalesce(pi.last_updated_by, app.last_updated_by) last_updated_by, \r\n     coalesce(pi.last_updated_on, app.last_updated_on) last_updated_on,\r\n\t   pi.workspace\r\n     from apex_application_page_items pi\r\n     inner join apex_application_pages app on  app.page_id = pi.page_id\r\n                                           and app.application_id = pi.application_id\r\n     inner join v_apex_applications aa on pi.application_id = aa.application_id\r\n                                     and aa.availability_status != 'Unavailable'\r\n     where pi.page_id not like '%.%' --indicates a translated app \r\n) a50",
+      "query_clob" : "select a50.pass_yn,\r\n       a50.application_id,\r\n\t\t\t null child_code,\r\n       a50.page_id, \r\n       a50.page_name, \r\n       a50.component_id, \r\n\t\t\t null parent_component_id,\r\n       a50.item_name, \r\n       a50.region,\r\n       a50.created_by, \r\n       a50.created_on, \r\n       a50.last_updated_by, \r\n       a50.last_updated_on,\r\n\t\t\t a50.workspace,\r\n       case when a50.pass_yn = 'N'\r\n            then apex_string.format(p_message => \r\n            q'^%1, is incorrectly named (id: %0, region: %2)^',\r\n            p0 => a50.component_id, \r\n            p1 => a50.item_name, \r\n            p2 => a50.region\r\n            )\r\n            end as validation_failure_message,\r\n       case when a50.pass_yn = 'N'\r\n            then apex_string.format(p_message => \r\n            q'^%1 is incorrectly named (page %0 app %2)^',\r\n            p0 => a50.page_id, \r\n            p1 => a50.item_name, \r\n            p2 => a50.application_id\r\n            )\r\n            end as issue_title\r\nfrom (\r\n     select \r\n     case when pi.item_name like 'P'||pi.page_id||'_%'\r\n          then 'Y'\r\n          else 'N'\r\n          end as pass_yn,\r\n     pi.application_id,\r\n     pi.item_id component_id, \r\n     pi.item_name, \r\n     pi.page_id, \r\n     pi.page_name, \r\n     pi.region,\r\n     app.created_by created_by, \r\n     app.created_on created_on, \r\n     coalesce(pi.last_updated_by, app.last_updated_by) last_updated_by, \r\n     coalesce(pi.last_updated_on, app.last_updated_on) last_updated_on,\r\n\t   pi.workspace\r\n     from apex_application_page_items pi\r\n     inner join apex_application_pages app on  app.page_id = pi.page_id\r\n                                           and app.application_id = pi.application_id\r\n     inner join v_svt_apex_applications aa on pi.application_id = aa.application_id\r\n                                     and aa.availability_status != 'Unavailable'\r\n     where pi.page_id not like '%.%' --indicates a translated app \r\n) a50",
       "test_code" : "PAGE_ITEM_NAMING",
       "level_id" : 319367883342220103240397164810613715872,
       "mv_dependency" : null,
@@ -2622,7 +2607,7 @@
       "explanation" : "Page Items should be prefixed \"P\" and the \\`page id\\`, e.g. \"P1\\_ITEM\".",
       "fix" : "Correct the item name",
       "version_number" : 1,
-      "version_db" : "REDWOOD"
+      "version_db" : "ILA"
     },
     {
       "test_id" : 1260090028114095386291472442620966421,
@@ -2922,21 +2907,6 @@
       "explanation" : "We want a consistent, modern look",
       "fix" : "Use one of the 'Floating' templates (under Appearance)",
       "version_number" : 1.1,
-      "version_db" : "REDWOOD"
-    },
-    {
-      "test_id" : 333495250044230674609483550703957109004,
-      "test_name" : "Non-modal pages should have breadcrumbs ",
-      "standard_id" : 1,
-      "display_sequence" : null,
-      "query_clob" : "select case when aap.page_template in ('AO Generic')\r\n            then 'Y'\r\n            when aap.page_id = eba_stds_parser.page_from_url(\r\n                                            p_origin_app_id => aa.application_id,\r\n                                            p_url => aa.home_link)\r\n            then 'Y'\r\n            else case when coalesce(apr.bc_count,0) = 0 \r\n                      then 'N'\r\n                      else 'Y'\r\n                      end\r\n            end pass_yn,\r\n      aap.application_id, \r\n      aap.page_id, \r\n      aap.created_by,\r\n      aap.created_on,\r\n      aap.last_updated_by,\r\n      aap.last_updated_on,\r\n      case when coalesce(apr.bc_count,0) = 0 \r\n           then apex_string.format('Page %0 (app %1) is missing a breadcrumb',\r\n                                    p0 => aap.page_id,\r\n                                    p1 => aap.application_id)\r\n           end validation_failure_message,\r\n      case when coalesce(apr.bc_count,0) = 0 \r\n           then apex_string.format('Page %0 (app %1) is missing a breadcrumb. All non-modal pages should have a breadcrumb region displayed',\r\n                                    p0 => aap.page_id,\r\n                                    p1 => aap.application_id)\r\n           end issue_title,\r\n      apr.bc_count,\r\n      aap.page_mode,\r\n      aap.build_option,\r\n      abo.build_option_status,\r\n      abo.status_on_export,\r\n      aap.page_template,\r\n\t\t\taap.page_id component_id,\r\n\t\t\tnull parent_component_id,\r\n\t\t\taap.workspace\r\nfrom apex_application_pages aap \r\ninner join apex_applications aa on aap.application_id = aa.application_id\r\nleft join (select application_id, page_id, count(*) bc_count \r\n      from apex_application_page_regions\r\n      where source_type = 'Breadcrumb'\r\n      group by application_id, page_id\r\n     ) apr on aap.application_id = apr.application_id\r\n           and aap.page_id = apr.page_id\r\nleft outer join apex_application_build_options abo on abo.application_id = aap.application_id \r\n                                                   and abo.build_option_name = aap.build_option\r\nwhere aap.page_mode = 'Normal'\r\nand aap.page_id not in (0,101,9999)\r\nand coalesce(abo.status_on_export,'NA') != 'Exclude'",
-      "test_code" : "NORMAL_PAGE_BREADCRUMB",
-      "level_id" : 299712008894515240349432973583165583501,
-      "mv_dependency" : null,
-      "svt_component_type_id" : 4,
-      "explanation" : "Use the breadcrumb region's button positions to add the page's primary action. All non-modal pages should have a breadcrumb region displayed. : Use the breadcrumb region's button positions to add the page's primary action.  \r\nAll non-modal pages should have a breadcrumb region displayed.",
-      "fix" : "Add a breadcrumb",
-      "version_number" : 1,
       "version_db" : "REDWOOD"
     },
     {
