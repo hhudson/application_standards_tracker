@@ -24,7 +24,6 @@ These tests help support Accessibility standards. They are not substitutes for s
 | [ACC_TAB_TABINDEX](APEX_ACCESSIBILITY_212/tests/ACC_TAB_TABINDEX-REDWOOD.json) |  Application Tabs should avoid tabindex | v1.4 [REDWOOD] | APEX_APPLICATION_TABS |
 | [ACC_VAL_DSPLY_LOCN](APEX_ACCESSIBILITY_212/tests/ACC_VAL_DSPLY_LOCN-REDWOOD.json) |  Inline with field error notification is insufficient | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_VAL |
 | [BTN_TABINDX](APEX_ACCESSIBILITY_212/tests/BTN_TABINDX-REDWOOD.json) |  Buttons should avoid hardcoded tab indexes | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
-| [COL_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/COL_ALT_TEXT-ILA.json) |  Column image links should have alt text | v1 [ILA] | APEX_APPLICATION_PAGE_IR_COL |
 | [CRD_ACTNS_TAB_INDX](APEX_ACCESSIBILITY_212/tests/CRD_ACTNS_TAB_INDX-REDWOOD.json) |  Card Actions should avoid hard coded tab indexes | v1.4 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
 | [C_COL_BAD_HTML](APEX_ACCESSIBILITY_212/tests/C_COL_BAD_HTML-REDWOOD.json) |  Classic Columns have wellformed HTML | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [C_COL_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/C_COL_IMG_ALT_TEXT-REDWOOD.json) |  Classic Columns with images have alt text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
