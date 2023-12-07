@@ -1,7 +1,10 @@
 # Standards and Tests available for download and import
 
 ## Summary and instructions
-This page lists 193 published tests distributed across 13 standards (*Accessibility, Accessibility Missing Aria-label, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
+This page lists 196 published tests distributed across 13 standards (*Accessibility, Accessibility Missing Aria-label, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
+
+## Download All Tests
+ - [Consolidated export of all 196 tests and 13 standards](ALL_TESTS.json)
 
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests help support Accessibility standards. They are not substitutes for screen reader tests and other manual tests.
@@ -78,6 +81,7 @@ Tests that ID missing aria-labels
 | [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_COL_LINK-REDWOOD.json) |  IG Column Links should have aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
 | [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_IV_LINK-REDWOOD.json) |  IG Icon View Links need aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IGS |
 | [ACC_PG_ITM_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_PG_ITM_LINK-REDWOOD.json) |  Page Item Quick Pick Links need aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [COL_ALT_TEXT](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/COL_ALT_TEXT-ILA.json) |  Column image links should have alt text | v1 [ILA] | APEX_APPLICATION_PAGE_IR_COL |
 | [C_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/C_COL_LINK-REDWOOD.json) |  Classic Columns links must have aria-labels | v1.7 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
 | [IR_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_COL_LINK-REDWOOD.json) |  IR Column links should have aria-labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [IR_DETL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_DETL_LINK-REDWOOD.json) |  IR detail link must contain aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_IR |
@@ -148,6 +152,7 @@ These tests describe general tests to run against DB objects
 | [URGENT_PLSQL_WARNINGS](DB_GENERAL_19C/tests/URGENT_PLSQL_WARNINGS-REDWOOD.json) |  Urgent PLSQL Warning | v1.2 [REDWOOD] | DATABASE SUPPORTING OBJECT |
 | [VALID_OBJECTS](DB_GENERAL_19C/tests/VALID_OBJECTS-REDWOOD.json) |  Invalid Object | v1.3 [REDWOOD] | DATABASE SUPPORTING OBJECT |
 | [VALID_VIEW](DB_GENERAL_19C/tests/VALID_VIEW-REDWOOD.json) |  Fix Invalid View | v1.2 [REDWOOD] | DATABASE VIEW |
+| [VIEW_NAME](DB_GENERAL_19C/tests/VIEW_NAME-REDWOOD.json) |  Views must be correctly named | v1.1 [REDWOOD] | DATABASE VIEW |
 
 ## General (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These are general tests with no theme-specific angle
@@ -160,6 +165,7 @@ These are general tests with no theme-specific angle
 | [FORM_ITEM_HELP](APEX_GENERAL_212/tests/FORM_ITEM_HELP-REDWOOD.json) |  Form Elements may benefit from help text | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [JVSCRIPT_CONSOLE_LOG](APEX_GENERAL_212/tests/JVSCRIPT_CONSOLE_LOG-REDWOOD.json) |  Do not use console.log | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_DA_ACTS |
 | [NO_HARDCDD_DT_FRMTS](APEX_GENERAL_212/tests/NO_HARDCDD_DT_FRMTS-REDWOOD.json) |  Avoid hardcoded date formats | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [PAGE_ITEM_NAMING](APEX_GENERAL_212/tests/PAGE_ITEM_NAMING-REDWOOD.json) |  Page Items incorrectly prefixed | v1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [RGN_STTC_NODASH](APEX_GENERAL_212/tests/RGN_STTC_NODASH-REDWOOD.json) |  Region Static IDs can have underscores not dashes | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 
 ## Idiosyncratic (Database Version 19C)
@@ -193,7 +199,8 @@ Tests that are *not* general standards. You are welcome to disagree with them.
 | [FRIENDLY_PAGE_NAMES](APEX_IDIOSYNCRATIC_212/tests/FRIENDLY_PAGE_NAMES-REDWOOD.json) |  Page names should be human friendly | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [LIST_MENU_ENTRY_DESC](APEX_IDIOSYNCRATIC_212/tests/LIST_MENU_ENTRY_DESC-REDWOOD.json) |  List Menu Entries have Descriptions (for searchability) | v1.4 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
 | [NAVIGATION_MENU_ICONS](APEX_IDIOSYNCRATIC_212/tests/NAVIGATION_MENU_ICONS-REDWOOD.json) |  Navigation menu list entries should have icons | v1.1 [REDWOOD] | APEX_APPLICATION_LIST_ENTRIES |
-| [NEVER_REGIONS_HAVE_BUILDS](APEX_IDIOSYNCRATIC_212/tests/NEVER_REGIONS_HAVE_BUILDS-REDWOOD.json) |  Regions with a 'never' condition have 'to_delete' build option | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+| [NEVER_REGIONS_HAVE_BUILDS](APEX_IDIOSYNCRATIC_212/tests/NEVER_REGIONS_HAVE_BUILDS-AHA_APEX.json) |  Regions with a 'never' condition have 'to_delete' build | v1.1 [AHA_APEX] | APEX_APPLICATION_PAGE_REGIONS |
+| [PAGE_ACCESS_PROTECTION](APEX_IDIOSYNCRATIC_212/tests/PAGE_ACCESS_PROTECTION-REDWOOD.json) |  Form pages require authentication and have access protection | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER-REDWOOD.json) |  RDS regions should have a template of Tabs Container | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE-REDWOOD.json) |  Reset buttons should be styled in a consistent way | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS-REDWOOD.json) |  Button names and labels should be correctly capitalized | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -244,7 +251,6 @@ Standards for correctly implementing Redwood patterns
 | [COL_HEADERS_IR](APEX_REDWOOD_212/tests/COL_HEADERS_IR-REDWOOD.json) |  IR Column header is appropriate | v1.5 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
 | [FIELD_NAMES](APEX_REDWOOD_212/tests/FIELD_NAMES-REDWOOD.json) |  Form field label is appropriate | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [NO_CSS_IN_PAGE](APEX_REDWOOD_212/tests/NO_CSS_IN_PAGE-ILA.json) |  Pages should not have local CSS | v1 [ILA] | APEX_APPLICATION_PAGES |
-| [PAGE_ITEM_NAMING](APEX_REDWOOD_212/tests/PAGE_ITEM_NAMING-ILA.json) |  Page Items incorrectly prefixed | v1 [ILA] | APEX_APPLICATION_PAGE_ITEMS |
 | [RW_ADDL_INFO](APEX_REDWOOD_212/tests/RW_ADDL_INFO-REDWOOD.json) |  Additional Info regions are correctly configured | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BNNR_MSG_LNKS](APEX_REDWOOD_212/tests/RW_BNNR_MSG_LNKS-REDWOOD.json) |  Banner Message region should only have Links | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RW_BUTTON_ICON](APEX_REDWOOD_212/tests/RW_BUTTON_ICON-REDWOOD.json) |  Buttons should the correct icons | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
@@ -296,6 +302,7 @@ These are best practices that apply to Universal Theme applications.
 | [COL_HEADER_RF_TG](APEX_UNIVERSAL_THEME_212/tests/COL_HEADER_RF_TG-REDWOOD.json) |  Reflow / Toggle Column header is appropriate | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REG_COLS |
 | [FILTER_RGN_TMPLT](APEX_UNIVERSAL_THEME_212/tests/FILTER_RGN_TMPLT-REDWOOD.json) |  Filtered Regions has Card Container template | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [MODAL_FLOATING_LABEL](APEX_UNIVERSAL_THEME_212/tests/MODAL_FLOATING_LABEL-REDWOOD.json) |  Use Floating Labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
+| [NORMAL_PAGE_BREADCRUMB](APEX_UNIVERSAL_THEME_212/tests/NORMAL_PAGE_BREADCRUMB-REDWOOD.json) |  Non-modal pages should have breadcrumbs  | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING-REDWOOD.json) |  Pages should not remove padding | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 

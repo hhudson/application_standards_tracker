@@ -453,7 +453,7 @@ create or replace package body SVT_AUDIT_UTIL as
       return case when svt_stds_applications_api.active_app_count = 0
                   then 'No violations found because no apps have been registered.'
                   when svt_stds_standard_tests_api.active_tests_yn = gc_n
-                  then 'No violations found because no active tests have been registered.'
+                  then 'No violations found because there are no active standards & tests.'
                   end;
 
     exception
@@ -467,17 +467,27 @@ create or replace package body SVT_AUDIT_UTIL as
   c_scope constant varchar2(128) := gc_scope_prefix || 'info_on_next_audit_run';
   c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
   l_next_runtime varchar2(100);
+  c_bigjob_static_id varchar2(20) := 'big-job';
+  c_currently_running constant boolean 
+                      := apex_automation.is_running(
+                                    p_application_id => v('APP_ID'),
+                                    p_static_id => c_bigjob_static_id );
   begin
    apex_debug.message(c_debug_template,'START');
 
-    select apex_util.get_since(polling_next_run_timestamp)
-    into l_next_runtime
-    from v_svt_automations_status
-    where static_id = 'big-job';
+    if c_currently_running  = false then
+      select apex_util.get_since(polling_next_run_timestamp)
+      into l_next_runtime
+      from v_svt_automations_status
+      where static_id = c_bigjob_static_id;
+    end if;
 
-    return case when l_next_runtime is null
+    return case when c_currently_running
+                then 'The scan is currently taking place. This may take several minutes.'
+                when l_next_runtime is null
                 then 'No scan is currently scheduled. Activate the automations to schedule a scan.'
-                else apex_string.format('The next scan for violations is scheduled to take place %0',
+                else apex_string.format(
+                  'The next scan for violations is scheduled to take place %0',
                         p0 => l_next_runtime
                 )
                 end;

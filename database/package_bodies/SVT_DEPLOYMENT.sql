@@ -620,6 +620,8 @@ create or replace package body SVT_DEPLOYMENT as
   c_scope constant varchar2(128) := gc_scope_prefix || 'markdown_summary';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_md_clob clob;
+  c_test_count pls_integer := svt_stds_standard_tests_api.active_test_count;
+  c_standard_count pls_integer := svt_stds_standards_api.active_standard_count;
   c_intro constant clob :=
   '# Standards and Tests available for download and import'
   ||chr(10)
@@ -628,8 +630,8 @@ create or replace package body SVT_DEPLOYMENT as
   '## Summary and instructions' 
   ||chr(10)
   || apex_string.format(q'[This page lists %0 published tests distributed across %1 standards (*%2*) and %3 issue categories (*%4*).]',
-                          p0 => svt_stds_standard_tests_api.active_test_count,
-                          p1 => svt_stds_standards_api.active_standard_count,
+                          p0 => c_test_count,
+                          p1 => c_standard_count,
                           p2 => svt_stds_standards_api.active_standard_list,
                           p3 => svt_nested_table_types_api.nt_count,
                           p4 => svt_nested_table_types_api.nt_list)                
@@ -641,6 +643,15 @@ create or replace package body SVT_DEPLOYMENT as
    chr(10)||
    '|-----------|-----------|---------|----------------|'||
    chr(10);
+  c_all_tests constant clob := 
+  '## Download All Tests' 
+  ||chr(10)
+  ||apex_string.format(
+                      ' - [Consolidated export of all %0 tests and %1 standards](ALL_TESTS.json)',
+                      p0 => c_test_count,
+                      p1 => c_standard_count)
+  ||chr(10)
+  ||chr(10);
   c_addendum constant clob :=
   chr(10)
   ||'* Test versions are idenfied by an incrementing number and the name of the database on which they were developed.'
@@ -648,7 +659,7 @@ create or replace package body SVT_DEPLOYMENT as
   begin
     apex_debug.message(c_debug_template,'START');
 
-    l_md_clob := c_intro || c_summary;
+    l_md_clob := c_intro || c_summary || c_all_tests;
 
     for srec in (select id, standard_name, svt_stds.file_name(full_standard_name) file_name, description, compatibility_text
                  from v_svt_stds_standards
