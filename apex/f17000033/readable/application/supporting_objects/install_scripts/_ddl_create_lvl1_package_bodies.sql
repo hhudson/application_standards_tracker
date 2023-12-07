@@ -3496,11 +3496,13 @@ end SVT_CTX_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- change_me  YYYY-MON-DD - created
 ---------------------------------------------------------------------------- 
+
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_y constant varchar2(1) := 'Y';
   gc_n constant varchar2(1) := 'N';
   gc_blob constant varchar2(4) := 'blob';
   gc_clob constant varchar2(4) := 'clob';
+
   function assemble_json_query (
                 p_table_name    in user_tables.table_name%type,
                 p_row_limit     in number default null,
@@ -3540,6 +3542,7 @@ end SVT_CTX_UTIL;
                                         'p_row_limit', p_row_limit,
                                         'p_test_code', p_test_code,
                                         'p_standard_id', p_standard_id);
+
     l_query := apex_string.format(
       p_message =>   c_query_template,
       p0 => c_table_name,
@@ -3571,26 +3574,27 @@ end SVT_CTX_UTIL;
                  then p_standard_id||' standard_id, '
                  end
     );
-    
+
     return l_query;
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end assemble_json_query;
-  function assemble_json_std_tsts_qry (
-                  p_standard_id   in svt_stds_standards.id%type,
+
+  function assemble_json_tsts_qry (
+                  p_standard_id   in svt_stds_standards.id%type default null,
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
   return clob 
   is 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_std_tsts_qry';
+  c_scope constant varchar2(128) := gc_scope_prefix || 'assemble_json_tsts_qry';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_query clob;
   c_datatype constant varchar2(4) := case when lower(p_datatype) = gc_blob
                                           then gc_blob
                                           else gc_clob
                                           end;
-  c_standard_id constant svt_stds_standards.id%type 
+  c_standard_id constant svt_stds_standards.id%type
                := case when p_test_code is null 
                        then p_standard_id
                        else svt_stds_standard_tests_api.get_standard_id (p_test_code => p_test_code)
@@ -3601,94 +3605,117 @@ end SVT_CTX_UTIL;
                                         'c_standard_id', c_standard_id,
                                         'p_test_code', p_test_code,
                                         'p_datatype', p_datatype);
-    l_query := 
+
+   l_query := 
     apex_string.format(
     q'[
-      select  json_object ( 
-         'std_test' value json_object (
-           'standard' value json_object(
-             'standard_id'           value ess.id, 
-             'standard_name'         value ess.standard_name,
-             'description'           value ess.description,
-             'compatibility_mode_id' value ess.compatibility_mode_id,
-             'created'               value ess.created,
-             'created_by'            value ess.created_by,
-             'updated'               value ess.created,
-             'updated_by'            value ess.created_by
-           )
-         ), 'test' value json_arrayagg (
-           json_object (
-             'test_id'               value esst.test_id, 
-             'test_name'             value esst.test_name,
-             'standard_id'           value esst.standard_id,
-             'display_sequence'      value esst.display_sequence,
-             'query_clob'            value esst.query_clob,
-             'test_code'             value esst.test_code,
-             'level_id'              value esst.level_id,
-             'mv_dependency'         value esst.mv_dependency,
-             'svt_component_type_id' value esst.svt_component_type_id,
-             'explanation'           value esst.explanation,
-             'fix'                   value esst.fix,
-             'version_number'        value esst.version_number,
-             'version_db'            value esst.version_db
-             returning %1
-           )  
-           returning %1
-         )
-         returning %1
-        ) thejson
-    from svt_stds_standards ess
-    inner join v_svt_stds_standard_tests_w_inherited esst on ess.id = esst.standard_id
-    where ess.active_yn = 'Y'
-    and esst.active_yn = 'Y'
-    and ess.id = %0
-    and (esst.test_code = '%2' or '%2' is null)
-    group by ess.id, 
-             ess.standard_name, 
-             ess.description, 
-             ess.compatibility_mode_id,
-             ess.created,
-             ess.created_by,
-             ess.updated,
-             ess.updated_by
+      with std as (
+        select  json_object ( 
+            'standard' value json_arrayagg (
+              json_object (
+                'standard_id'           value ess.id, 
+                'standard_name'         value ess.standard_name,
+                'description'           value ess.description,
+                'compatibility_mode_id' value ess.compatibility_mode_id,
+                'created'               value ess.created,
+                'created_by'            value ess.created_by,
+                'updated'               value ess.created,
+                'updated_by'            value ess.created_by
+                returning %1
+              )  
+              returning %1
+            )
+            returning %1
+            ) thejson
+        from svt_stds_standards ess
+        where ess.active_yn = 'Y'
+        %4
+      ), tst as (
+        select  json_object ( 
+          'test' value json_arrayagg (
+            json_object (
+              'test_id'               value esst.test_id, 
+              'test_name'             value esst.test_name,
+              'standard_id'           value esst.standard_id,
+              'display_sequence'      value esst.display_sequence,
+              'query_clob'            value esst.query_clob,
+              'test_code'             value esst.test_code,
+              'level_id'              value esst.level_id,
+              'mv_dependency'         value esst.mv_dependency,
+              'svt_component_type_id' value esst.svt_component_type_id,
+              'explanation'           value esst.explanation,
+              'fix'                   value esst.fix,
+              'version_number'        value esst.version_number,
+              'version_db'            value esst.version_db
+              returning %1
+            )  
+            returning %1
+          )
+          returning %1
+          ) thejson
+      from svt_stds_standards ess
+      inner join v_svt_stds_standard_tests_w_inherited esst on ess.id = esst.standard_id
+      where ess.active_yn = 'Y'
+      and esst.active_yn = 'Y'
+      %4
+      and (esst.test_code = '%2' or '%2' is null)
+      )
+      select json_mergepatch(std.thejson, tst.thejson returning %1 %3) mjson
+      from tst
+      cross join std
     ]',
     p0 => c_standard_id,
     p1 => c_datatype,
-    p2 => p_test_code
+    p2 => p_test_code,
+    p3 => case when c_datatype = gc_clob
+               then 'pretty'
+               end,
+    p4 => case when c_standard_id is not null
+               then 'and ess.id = '||c_standard_id
+               end
     );
+
     return l_query;
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
-  end assemble_json_std_tsts_qry;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end assemble_json_tsts_qry;
+
   function json_standard_tests_clob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
    ) return clob
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'json_standard_tests_clob';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  l_query     clob;
-  l_file_clob clob;
+  l_tst_query     clob;
+  l_tst_file_clob clob;
   c_test_code constant svt_stds_standard_tests.test_code%type := dbms_assert.noop(upper(p_test_code));
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_standard_id', p_standard_id,
                                         'p_test_code', p_test_code
                                         );
-    l_query := assemble_json_std_tsts_qry (
+
+    l_tst_query := assemble_json_tsts_qry (
                     p_standard_id   => p_standard_id,
                     p_test_code     => c_test_code,
                     p_datatype      => gc_clob);
-    execute immediate l_query into l_file_clob;
-    return l_file_clob;
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
+
+    execute immediate l_tst_query into l_tst_file_clob;
+
+    return l_tst_file_clob;
+
+   exception
+    when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+      raise;
   end json_standard_tests_clob;
-  
+
   function json_standard_tests_blob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
   ) return blob
   is 
@@ -3702,12 +3729,16 @@ end SVT_CTX_UTIL;
                                         'p_standard_id', p_standard_id,
                                         'p_test_code', p_test_code
                                         );
-    l_query := assemble_json_std_tsts_qry (
+
+    l_query := assemble_json_tsts_qry (
                     p_standard_id   => p_standard_id,
                     p_test_code     => c_test_code,
                     p_datatype      => gc_blob);
+
     execute immediate l_query into l_file_blob;
+
     return l_file_blob;
+
   exception 
     when no_data_found then
       apex_debug.message(c_debug_template,' no data found');
@@ -3716,6 +3747,7 @@ end SVT_CTX_UTIL;
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end json_standard_tests_blob;
+
   function json_content_blob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
                               p_test_code     in svt_stds_standard_tests.test_code%type default null,
@@ -3742,13 +3774,16 @@ end SVT_CTX_UTIL;
                                         'p_test_code', p_test_code,
                                         'p_standard_id', p_standard_id,
                                         'p_zip_yn', p_zip_yn);
+
     l_query := assemble_json_query (
                     p_table_name    => c_table_name,
                     p_row_limit     => p_row_limit,
                     p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
                     p_datatype      => gc_blob);
+
     execute immediate l_query into l_file_blob;
+
     if c_zip_yn = gc_y then
       apex_zip.add_file (
               p_zipped_blob => l_zip_file,
@@ -3758,11 +3793,14 @@ end SVT_CTX_UTIL;
     else 
       l_final_blob := l_file_blob;
     end if;
+
     return l_final_blob;
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end json_content_blob;
+
   function json_content_clob (p_table_name    in user_tables.table_name%type,
                               p_row_limit     in number default null,
                               p_test_code     in svt_stds_standard_tests.test_code%type default null,
@@ -3781,18 +3819,23 @@ end SVT_CTX_UTIL;
                                         'p_row_limit', p_row_limit,
                                         'p_test_code', p_test_code,
                                         'p_standard_id', p_standard_id);
+
     l_query := assemble_json_query (
                     p_table_name    => c_table_name,
                     p_row_limit     => p_row_limit,
                     p_test_code     => p_test_code,
                     p_standard_id   => p_standard_id,
                     p_datatype      => gc_clob);
+
     execute immediate l_query into l_file_clob;
+
     return l_file_clob;
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end json_content_clob;
+
   function sample_template_file (p_table_name in user_tables.table_name%type)
   return blob
   as
@@ -3800,12 +3843,15 @@ end SVT_CTX_UTIL;
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START', 'p_table_name', p_table_name);
+
     return json_content_blob (p_table_name => p_table_name,
                               p_row_limit => 5);
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end sample_template_file;
+
   procedure upsert_static_file(p_table_name in user_tables.table_name%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'upsert_static_file';
@@ -3818,15 +3864,17 @@ end SVT_CTX_UTIL;
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_table_name', p_table_name);
+
     l_content_blob := json_content_blob (p_table_name => p_table_name);
-    
+
     apex_zip.add_file (
             p_zipped_blob => l_zip_file,
             p_file_name   => c_json_file_name,
             p_content     => l_content_blob );
+
     apex_zip.finish (
         p_zipped_blob => l_zip_file );
-    
+
     wwv_flow_imp_shared.create_app_static_file (
        p_flow_id      => svt_apex_view.gc_svt_app_id,
        p_file_name    => c_zip_file_name,
@@ -3834,10 +3882,12 @@ end SVT_CTX_UTIL;
        p_file_charset =>' utf-8',
        p_file_content => l_zip_file
     );
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end upsert_static_file;
+
   procedure merge_from_zip (p_table_name in user_tables.table_name%type)
   as 
     c_scope constant varchar2(128) := gc_scope_prefix || 'merge_from_zip';
@@ -3849,6 +3899,7 @@ end SVT_CTX_UTIL;
     l_load_result apex_data_loading.t_data_load_result;
   begin
     apex_debug.message(c_debug_template,'START');
+
     select apex_zip.get_file_content (
                     p_zipped_blob => aasf.file_content,
                     p_file_name   => lower(aadl.table_name)||'.json'
@@ -3858,30 +3909,38 @@ end SVT_CTX_UTIL;
     inner join apex_application_static_files aasf on aasf.file_name = 'data/'||lower(aadl.table_name)||'.zip'
     where aadl.application_id = v('APP_ID')
     and aadl.table_name = c_table_name;
+
     l_content_clob := to_clob(utl_raw.cast_to_varchar2(dbms_lob.substr(l_content_blob,dbms_lob.getlength(l_content_blob)))); 
-    
+
     -- 
     l_load_result := apex_data_loading.load_data (
                        p_static_id    => l_static_id,
                        p_data_to_load => l_content_clob );
+
     apex_debug.message(c_debug_template, 'Processed ' || l_load_result.processed_rows || ' rows.');
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end merge_from_zip;
+
+
   function table_last_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'table_last_updated_on';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+
   l_most_recent_date apex_application_static_files.created_on%type;
   c_query_template constant varchar2(1000) := 'select updated from %s order by updated desc fetch first 1 rows only';
   c_table_name constant user_tables.table_name%type 
               := dbms_assert.sql_object_name (upper(p_table_name));
   begin
     apex_debug.message(c_debug_template,'START', 'p_table_name', p_table_name);
+
     execute immediate apex_string.format(c_query_template, c_table_name) into l_most_recent_date;
-    
+
     return l_most_recent_date;
+
   exception 
     when no_data_found then 
       apex_debug.message(c_debug_template, 'no data found for table : ', p_table_name);
@@ -3896,12 +3955,13 @@ end SVT_CTX_UTIL;
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end table_last_updated_on;
+
   function v_svt_table_data_load_def (p_application_id in apex_applications.application_id%type)
   return v_svt_table_data_load_def_nt pipelined
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_table_data_load_def';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  
+
   cursor cur_aa
     is
   with std as (
@@ -3945,6 +4005,7 @@ end SVT_CTX_UTIL;
                                                       and aasf.file_name = 'data/'||lower(std.table_name)||'.zip'
     left outer join apex_application_pages aap on aap.application_id = p_application_id
                                               and aap.page_comment = std.table_name;
+
     type r_aa is record (
       table_name                   varchar2(128),
       mime_type                    char(16),
@@ -3967,10 +4028,14 @@ end SVT_CTX_UTIL;
     l_aat t_aa;
   begin
     apex_debug.message(c_debug_template,'START', 'p_application_id', p_application_id);
+
     open cur_aa;
+
     loop
       fetch cur_aa bulk collect into l_aat limit 1000;
+
       exit when l_aat.count = 0;
+
       for rec in 1 .. l_aat.count
       loop
         <<load_block>>
@@ -4022,7 +4087,7 @@ end SVT_CTX_UTIL;
           end load_block;
       end loop;
     end loop;  
-  
+
   exception 
     when no_data_needed then
       apex_debug.message(c_debug_template, 'No data needed');
@@ -4030,6 +4095,7 @@ end SVT_CTX_UTIL;
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end v_svt_table_data_load_def;
+
   function markdown_summary return clob
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'markdown_summary';
@@ -4062,14 +4128,16 @@ end SVT_CTX_UTIL;
   ||' The addition of the database name allows us to distinguish between tests that have been imported and untouched and ones that have been modified locally after import.';
   begin
     apex_debug.message(c_debug_template,'START');
+
     l_md_clob := c_intro || c_summary;
+
     for srec in (select id, standard_name, svt_stds.file_name(full_standard_name) file_name, description, compatibility_text
                  from v_svt_stds_standards
                  where active_yn = gc_y
                  order by standard_name, display_order)
     loop 
       apex_debug.message(c_debug_template, 'file_name', srec.file_name);
-      
+
       l_md_clob := l_md_clob
                    ||apex_string.format(
                       '## %0 (%2)',
@@ -4091,7 +4159,7 @@ end SVT_CTX_UTIL;
       declare
       l_test_md clob;
       begin
-        
+
         for trec in (select test_code, test_name, vsn, component_name, file_name, version_db
                       from svt_stds_standard_tests_api.v_svt_stds_standard_tests(
                           p_standard_id => srec.id,
@@ -4115,17 +4183,24 @@ end SVT_CTX_UTIL;
             )
           ||chr(10);
         end loop;
+
         l_md_clob := l_md_clob || l_test_md || chr(10);
+
       end test_sec;
+
     end loop;
+
       l_md_clob := l_md_clob || c_addendum;
+
     return l_md_clob;
-  
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end markdown_summary;
-  
+
+
+
 end SVT_DEPLOYMENT;
 /
 

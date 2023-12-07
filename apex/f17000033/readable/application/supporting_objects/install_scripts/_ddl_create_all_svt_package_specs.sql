@@ -1119,6 +1119,7 @@ end SVT_CTX_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jul-28 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 28, 2023
@@ -1146,6 +1147,7 @@ end;
                 p_standard_id   in svt_stds_standards.id%type default null,
                 p_datatype      in varchar2 default 'blob')
     return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -1158,18 +1160,19 @@ set serveroutput on
 declare 
 l_clob clob;
 begin
-    l_clob := svt_deployment.assemble_json_std_tsts_qry (
+    l_clob := svt_deployment.assemble_json_tsts_qry (
                 p_standard_id => :p_standard_id,
                 p_datatype => 'clob');
     dbms_output.put_line(l_clob);
 end;
 */
 ------------------------------------------------------------------------------
-    function assemble_json_std_tsts_qry (
-                  p_standard_id   in svt_stds_standards.id%type,
+    function assemble_json_tsts_qry (
+                  p_standard_id   in svt_stds_standards.id%type default null,
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
     return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -1188,9 +1191,10 @@ end;
 */
 ------------------------------------------------------------------------------
     function json_standard_tests_clob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -1207,10 +1211,10 @@ end;
 */
 ------------------------------------------------------------------------------
     function json_standard_tests_blob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return blob;
-    
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1229,6 +1233,7 @@ from dual
                                 p_standard_id    in svt_stds_standards.id%type default null,
                                 p_zip_yn         in varchar2 default null)
     return blob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 28, 2023
@@ -1253,6 +1258,7 @@ end;
                                 p_test_code     in svt_stds_standard_tests.test_code%type default null,
                                 p_standard_id   in svt_stds_standards.id%type default null)
     return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1267,6 +1273,7 @@ from dual
 ------------------------------------------------------------------------------
     function sample_template_file (p_table_name in user_tables.table_name%type)
     return blob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1283,6 +1290,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure upsert_static_file(p_table_name in user_tables.table_name%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2023
@@ -1299,6 +1307,8 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure merge_from_zip (p_table_name in user_tables.table_name%type);
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 21, 2023
@@ -1312,6 +1322,7 @@ from dual
 */
 ------------------------------------------------------------------------------
     function table_last_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 9, 2023
@@ -1349,6 +1360,7 @@ from svt_deployment.v_svt_table_data_load_def(p_application_id => 17000033)
 ------------------------------------------------------------------------------
 function v_svt_table_data_load_def (p_application_id in apex_applications.application_id%type)
 return v_svt_table_data_load_def_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 3, 2023
@@ -1371,6 +1383,7 @@ end;
 */
 ------------------------------------------------------------------------------
 function markdown_summary return clob;
+
 ------------------------------------------------------------------------------
 -- exceptions
 ------------------------------------------------------------------------------
@@ -1378,6 +1391,9 @@ function markdown_summary return clob;
    pragma exception_init(e_missing_field, -0904);
    e_non_existent_tbl exception;
    pragma exception_init(e_non_existent_tbl, -0942);
+   e_numeric_or_value exception;
+   pragma exception_init (e_numeric_or_value, -6512);
+
 end SVT_DEPLOYMENT;
 /
 
