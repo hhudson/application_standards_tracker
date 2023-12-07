@@ -5588,6 +5588,9 @@ buttons:
     action: Defined by Dynamic Action
     execute-validations: true
 
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
+
 - # ====== Button: APP_HELP ====================================
   id: 94148061939612407
   identification: 
@@ -6065,6 +6068,9 @@ dynamic-actions:
     selection-type: Button
     button: RUN_AUTOMATION # 14683790686726522
 
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
+
   actions: 
   - # ====== Action: apex_automation.execute =====================
     id: 14684068428726525
@@ -6127,6 +6133,26 @@ dynamic-actions:
       event: Run automation # 14683909881726524
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+  - # ====== Action: Hide ========================================
+    id: 14684584896726530
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Button
+      button: RUN_AUTOMATION # 14683790686726522
+
+    execution: 
+      sequence: 50
+      event: Run automation # 14683909881726524
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: svt_audit_util.audit_job_is_running
 
 - # ====== Dynamic Action: Populate P1_PERCENT_SOLVED text =====
   id: 30299565403141103

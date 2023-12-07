@@ -706,6 +706,7 @@ end SVT_AUDIT_ON_AUDIT_API;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2022-Dec-23 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     date: april 11, 2023
@@ -722,6 +723,7 @@ from svt_audit_util.v_svt_scm_object_assignee()
 ------------------------------------------------------------------------------
 function v_svt_scm_object_assignee
 return v_svt_scm_object_assignee_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 20, 2023
@@ -738,6 +740,7 @@ from svt_audit_util.v_loki_object_assignee()
 ------------------------------------------------------------------------------
 function v_loki_object_assignee
 return v_svt_scm_object_assignee_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: june 28, 2022
@@ -752,6 +755,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure recompile_w_plscope;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 13, 2023
@@ -766,6 +770,7 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure recompile_all_schemas_w_plscope;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2022
@@ -803,6 +808,8 @@ end;
                                          p_issue_category in svt_plsql_apex_audit.issue_category%type default null,
                                          p_message        out nocopy varchar2
                                         );
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: May 17, 2023
@@ -817,6 +824,7 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure assign_violations;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: February 8, 2023
@@ -833,6 +841,7 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure initialize_standard(p_test_code  in svt_stds_standard_tests.test_code%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: April 13, 2023
@@ -847,6 +856,7 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure set_workspace (p_workspace in apex_workspaces.workspace%type default null);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 29, 2023
@@ -861,6 +871,26 @@ from dual
 */
 ------------------------------------------------------------------------------
 function min_not_met_error_msg return varchar2;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 7, 2023
+-- Synopsis:
+--
+-- Function to answer whether the automation is currently in progress
+--
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>'HAYHUDSO');   
+    l_bool := svt_audit_util.audit_job_is_running;
+end;
+*/
+------------------------------------------------------------------------------
+function audit_job_is_running return boolean;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 30, 2023
@@ -874,6 +904,7 @@ from dual
 */
 ------------------------------------------------------------------------------
 function info_on_next_audit_run return varchar2;
+
 e_compilation_error    exception;
 pragma exception_init(e_compilation_error,-24344);
 e_dependent_error    exception;
@@ -886,6 +917,7 @@ e_deadlock    exception;
 pragma exception_init(e_deadlock,-60);
 e_insufficient_privs    exception;
 pragma exception_init(e_insufficient_privs,-1031);
+
 end SVT_AUDIT_UTIL;
 /
 
@@ -1214,7 +1246,7 @@ end;
                   p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return blob;
-
+    
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1669,7 +1701,6 @@ end SVT_MONITORING;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jul-5 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 5, 2023
@@ -1683,7 +1714,6 @@ from dual
 */
 ------------------------------------------------------------------------------
 function mv_svt_query return clob;
-
 ------------------------------------------------------------------------------
 --  creator: hayden hudson
 --     date: may 10, 2023
@@ -1698,7 +1728,6 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure refresh_mv(p_mv_list in svt_stds_standard_tests.mv_dependency%type default null);
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 4, 2023
@@ -1713,7 +1742,6 @@ from dual
 ------------------------------------------------------------------------------
   function problem_assignments_yn
   return varchar2;
-
 end SVT_MV_UTIL;
 /
 
@@ -3836,7 +3864,7 @@ end;
                         p_version_number        in svt_stds_standard_tests.version_number%type default null,
                         p_version_db            in svt_stds_standard_tests.version_db%type default null
                       );
-
+  
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -3916,7 +3944,7 @@ end;
                           p_version_number        in svt_stds_standard_tests.version_number%type default null,
                           p_version_db            in svt_stds_standard_tests.version_db%type default null
                         );
-
+    
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -4116,7 +4144,7 @@ from dual
     function get_standard_id (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_stds_standard_tests.standard_id%type deterministic;
 
-
+ 
  ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 10, 2023
@@ -4614,7 +4642,6 @@ end SVT_URGENCY_LEVEL_API;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Nov-21 - created
 ---------------------------------------------------------------------------- 
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 21, 2023
@@ -4628,7 +4655,6 @@ from dual
 */
 ------------------------------------------------------------------------------
     function app_name return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 4, 2023
@@ -4642,7 +4668,6 @@ from dual
 */
 ------------------------------------------------------------------------------
   function disabled_jobs_yn return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 4, 2023
@@ -4657,7 +4682,6 @@ from dual
 ------------------------------------------------------------------------------
   function automation_issues_yn (p_except_static_id in apex_appl_automations.static_id%type default null) 
   return varchar2;
-
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -4671,6 +4695,5 @@ from dual
 */
 ------------------------------------------------------------------------------
     function alerts_yn return varchar2;
-
 end SVT_UTIL;
 /

@@ -18,6 +18,7 @@ create or replace package body SVT_AUDIT_UTIL as
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_y            constant varchar2(1) := 'Y';
   gc_n            constant varchar2(1) := 'N';
+  gc_bigjob_static_id constant varchar2(20) := 'big-job';
 
   function v_svt_scm_object_assignee
   return v_svt_scm_object_assignee_nt pipelined
@@ -461,17 +462,31 @@ create or replace package body SVT_AUDIT_UTIL as
         apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
        raise;
     end min_not_met_error_msg;
+  
+  function audit_job_is_running return boolean
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'audit_job_is_running';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  begin
+   apex_debug.message(c_debug_template,'START');
+   
+   return apex_automation.is_running(
+              p_application_id => v('APP_ID'),
+              p_static_id => gc_bigjob_static_id );
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end audit_job_is_running;
 
   function info_on_next_audit_run return varchar2
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'info_on_next_audit_run';
   c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
   l_next_runtime varchar2(100);
-  c_bigjob_static_id varchar2(20) := 'big-job';
   c_currently_running constant boolean 
-                      := apex_automation.is_running(
-                                    p_application_id => v('APP_ID'),
-                                    p_static_id => c_bigjob_static_id );
+                      := audit_job_is_running;
   begin
    apex_debug.message(c_debug_template,'START');
 
@@ -479,7 +494,7 @@ create or replace package body SVT_AUDIT_UTIL as
       select apex_util.get_since(polling_next_run_timestamp)
       into l_next_runtime
       from v_svt_automations_status
-      where static_id = c_bigjob_static_id;
+      where static_id = gc_bigjob_static_id;
     end if;
 
     return case when c_currently_running

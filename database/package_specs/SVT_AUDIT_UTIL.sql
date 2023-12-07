@@ -182,6 +182,25 @@ function min_not_met_error_msg return varchar2;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: December 7, 2023
+-- Synopsis:
+--
+-- Function to answer whether the automation is currently in progress
+--
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>'HAYHUDSO');   
+    l_bool := svt_audit_util.audit_job_is_running;
+end;
+*/
+------------------------------------------------------------------------------
+function audit_job_is_running return boolean;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: November 30, 2023
 -- Synopsis:
 --
