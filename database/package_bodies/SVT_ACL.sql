@@ -148,6 +148,36 @@ create or replace package body SVT_ACL as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
      raise;
   end add_default_admin;
+
+  function default_admin_message (p_application_id in apex_applications.application_id%type) 
+  return apex_workspace_developers.user_name%type
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'default_admin_message';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_admin apex_workspace_developers.user_name%type;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_application_id', p_application_id
+                     );
+   
+   select user_name_lc
+   into l_admin
+   from apex_appl_acl_users
+   where application_id = p_application_id
+   and upper(role_names) like '%'||gc_admin||'%'
+   order by user_name
+   fetch first 1 rows only;
+
+   return apex_string.format('Please contact %s if you need any help.', l_admin);
+   --todo  : convert into text message
+   
+  exception
+   when no_data_found then
+      return 'This application is missing an admin.';
+   when others then
+     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end default_admin_message;
     
 
 
