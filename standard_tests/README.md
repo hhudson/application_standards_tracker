@@ -66,7 +66,7 @@ These tests help support Accessibility standards. They are not substitutes for s
 | [PRNT_TAB_INDX](APEX_ACCESSIBILITY_212/tests/PRNT_TAB_INDX-REDWOOD.json) |  Parent tab should avoid hard coded tab indexes | v1.4 [REDWOOD] | APEX_APPLICATION_PARENT_TABS |
 | [RGN_IMG_ALT_TEXT](APEX_ACCESSIBILITY_212/tests/RGN_IMG_ALT_TEXT-REDWOOD.json) |  Regions with HTML images should have alt text | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RGN_UNQ](APEX_ACCESSIBILITY_212/tests/RGN_UNQ-REDWOOD.json) |  Regions on a page must be unique | v1.4 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
-| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-ILA.json) |  Reports should have Row Headers | v1 [ILA] | APEX_APPLICATION_PAGE_REGIONS |
+| [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-REDWOOD.json) |  Reports should have Row Headers | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-REDWOOD.json) |  Theme styles should avoid animations | v1.1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
 

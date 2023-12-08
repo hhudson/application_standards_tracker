@@ -13,6 +13,7 @@
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Sep-21 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -27,6 +28,7 @@
 ------------------------------------------------------------------------------
 procedure add_admin (p_user_name      in apex_workspace_developers.user_name%type,
                      p_application_id in apex_applications.application_id%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -41,6 +43,7 @@ procedure add_admin (p_user_name      in apex_workspace_developers.user_name%typ
 ------------------------------------------------------------------------------
 procedure add_contributor (p_user_name      in apex_workspace_developers.user_name%type,
                            p_application_id in apex_applications.application_id%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -55,6 +58,7 @@ procedure add_contributor (p_user_name      in apex_workspace_developers.user_na
 ------------------------------------------------------------------------------
 procedure add_reader (p_user_name      in apex_workspace_developers.user_name%type,
                       p_application_id in apex_applications.application_id%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 21, 2023
@@ -69,6 +73,7 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure add_awd_users(p_application_id in apex_applications.application_id%type default null);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -85,6 +90,22 @@ end;
 ------------------------------------------------------------------------------
 procedure add_default_admin(p_user_name      in apex_workspace_developers.user_name%type,
                             p_application_id in apex_applications.application_id%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 7, 2023
+-- Synopsis:
+--
+-- Function to give the name of an admin that someone can contact 
+--
+/*
+select svt_acl.default_admin_message(p_application_id => :APP_ID)
+from dual
+*/
+------------------------------------------------------------------------------
+function default_admin_message(p_application_id in apex_applications.application_id%type) 
+return apex_workspace_developers.user_name%type;
+
 end SVT_ACL;
 /
 
@@ -402,6 +423,7 @@ end SVT_APEX_ISSUE_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2022-Sep-16 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 16, 2022
@@ -422,6 +444,8 @@ end SVT_APEX_ISSUE_UTIL;
 ------------------------------------------------------------------------------
 function apex_applications(p_user in all_users.username%type default null)
 return svt_apex_applications_nt pipelined;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2022-Oct-14
@@ -442,6 +466,7 @@ return svt_apex_applications_nt pipelined;
 ------------------------------------------------------------------------------
 function apex_application_page_ir_col
 return apex_application_page_rpt_cols_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2022-Oct-14
@@ -462,6 +487,7 @@ return apex_application_page_rpt_cols_nt pipelined;
 ------------------------------------------------------------------------------
 function apex_appl_page_ig_columns
 return apex_application_page_rpt_cols_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 9, 2023
@@ -482,9 +508,11 @@ select workspace_id,
 from svt_apex_view.apex_workspace_preferences() 
 */
 ------------------------------------------------------------------------------
-function apex_workspace_preferences
+function apex_workspace_preferences --deprecated bc slow(2023-Dec-8)
 return svt_apex_preferences_nt pipelined 
 deterministic;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 5, 2023
@@ -505,6 +533,8 @@ function display_position_is_violation (
                 p_template_id           in apex_application_page_regions.template_id%type,
                 p_application_id        in apex_application_temp_region.application_id%type
   ) return varchar2 deterministic;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -527,6 +557,7 @@ function rpt_link_request(
               p_application_id   in apex_appl_page_ig_rpts.application_id%type default null
         )
 return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -534,6 +565,8 @@ return varchar2;
 -- svt_apex_view.gc_svt_app_id
 ------------------------------------------------------------------------------
   gc_svt_app_id constant pls_integer := 17000033;
+
+
 end SVT_APEX_VIEW;
 /
 
@@ -2458,6 +2491,7 @@ end SVT_PLSQL_REVIEW;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Apr-3 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: April 3, 2023
@@ -2466,6 +2500,7 @@ end SVT_PLSQL_REVIEW;
 -- Generic function to retrieve preference values 
 --
 /*
+
 Instructions : Set the values of these preference in the Admin section of the application (p36)
 begin
     svt_audit_util.set_workspace;
@@ -2488,7 +2523,10 @@ from dual;
 */
 ------------------------------------------------------------------------------
 function get(p_preference_name in apex_workspace_preferences.preference_name%type)
-return apex_workspace_preferences.preference_value%type;
+return apex_workspace_preferences.preference_value%type
+result_cache;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: April 17, 2023
@@ -2507,6 +2545,7 @@ end;
 ------------------------------------------------------------------------------
 procedure set_preference (p_preference_name in apex_workspace_preferences.preference_name%type,
                           p_value           in apex_workspace_preferences.preference_value%type);
+
 end SVT_PREFERENCES;
 /
 

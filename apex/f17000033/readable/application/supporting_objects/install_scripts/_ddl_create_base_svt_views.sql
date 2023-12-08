@@ -60,9 +60,8 @@ where workspace_display_name = svt_preferences.get('SVT_WORKSPACE')
        user_name, 
        preference_name,
        preference_value
-from svt_apex_view.apex_workspace_preferences() 
-where user_name = 'SVT'
-;
+from apex_workspace_preferences
+where user_name = 'SVT';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_AUDIT_ON_AUDIT_KEEP_THESE" ("ID", "UNQID", "ACTION_NAME", "CREATED", "THERANK") AS 
   with std as (select id, 
@@ -150,11 +149,10 @@ where available_yn = 'Y'
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_EMAIL_SUBSCRIPTIONS" ("USER_NAME", "EMAIL") AS 
   select distinct lower(awp.user_name) user_name, lower(awd.email) email
-from svt_apex_view.apex_workspace_preferences()  awp
+from apex_workspace_preferences  awp
 inner join apex_workspace_developers awd on awp.user_name = awd.user_name
 where awp.preference_name = 'SVT_EMAIL_SUBSCRIPTION'
-and awp.preference_value = 'Y'
-;
+and awp.preference_value = 'Y';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_MISSING_BASE_DATA" ("TBL_NAME") AS 
   with std as (select count(*) rwcount, 'svt_stds_types' tbl_name from sys.dual where exists ( select 1 from svt_stds_types)
