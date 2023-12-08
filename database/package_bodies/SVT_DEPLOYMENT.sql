@@ -395,7 +395,7 @@ create or replace package body SVT_DEPLOYMENT as
         p_zipped_blob => l_zip_file );
     
     wwv_flow_imp_shared.create_app_static_file (
-       p_flow_id      => svt_apex_view.gc_svt_app_id,
+       p_flow_id      => v('APP_ID'),
        p_file_name    => c_zip_file_name,
        p_mime_type    => 'application/zip',
        p_file_charset =>' utf-8',

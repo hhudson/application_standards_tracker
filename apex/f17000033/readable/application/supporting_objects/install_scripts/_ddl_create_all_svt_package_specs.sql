@@ -1540,6 +1540,7 @@ end SVT_MENU_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso   2022-Dec-16 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudsons
 --     Date: December 20, 2022
@@ -1561,6 +1562,8 @@ function unassigned_src_html
      p_fetch_rows    in number default null
     )
     return varchar2;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 16, 2022
@@ -1578,7 +1581,9 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure send_update(p_days_since     in number default 1,
-                      p_override_email in varchar2 default null);
+                      p_override_email in varchar2 default null,
+                      p_application_id in apex_applications.application_id%type default null);
+
   ------------------------------------------------------------------------------
   --  Creator: Hayden Hudson
   --     Date: January 3, 2023
@@ -1593,6 +1598,7 @@ procedure send_update(p_days_since     in number default 1,
   ------------------------------------------------------------------------------
   function app_url (p_application_id in apex_applications.application_id%type default null) 
   return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 10, 2023
@@ -1606,6 +1612,8 @@ from dual;
 */
 ------------------------------------------------------------------------------
   function get_db_name return varchar2;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 13, 2023
@@ -1639,6 +1647,8 @@ end;
               p_body      in clob,
               p_body_html in clob
   );
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 13, 2023
@@ -1648,6 +1658,7 @@ end;
 --
 ------------------------------------------------------------------------------
   procedure push_email;
+
   ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 11, 2023
@@ -1663,6 +1674,7 @@ from dual;
 ------------------------------------------------------------------------------
   function unassigned_html_by_src (
             p_days_since in number) return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 11, 2023
@@ -1703,6 +1715,7 @@ from dual
 */
 ------------------------------------------------------------------------------
   function db_unique_name return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 18, 2023
@@ -1717,6 +1730,8 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure enable_automations (p_application_id in apex_applications.application_id%type default null);
+
+
 end SVT_MONITORING;
 /
 

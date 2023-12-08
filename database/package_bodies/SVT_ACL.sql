@@ -92,7 +92,7 @@ create or replace package body SVT_ACL as
   c_scope          constant varchar2(128) := gc_scope_prefix || 'add_awd_users';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_application_id constant apex_applications.application_id%type
-                   := coalesce(p_application_id, svt_apex_view.gc_svt_app_id);
+                   := coalesce(p_application_id, v('APP_ID'));
   begin
     apex_debug.message(c_debug_template,'START');
 
