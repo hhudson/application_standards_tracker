@@ -229,6 +229,26 @@ from dual
   function autoinstall_lib_yn (p_test_code in svt_stds_standard_tests.test_code%type)
   return varchar2;
 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 11, 2023
+-- Synopsis:
+--
+-- Function to answer whether a record in  svt_stds_tests_lib exists for a given test_code
+--
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    l_bool := svt_stds_tests_lib_api.published_exists (p_test_code => 'ACC_AUTOCOMPLETE');
+end;
+*/
+------------------------------------------------------------------------------
+  function published_exists (p_test_code in svt_stds_standard_tests.test_code%type)
+  return boolean;
+
 end SVT_STDS_TESTS_LIB_API;
 /
 --rollback drop package SVT_STDS_TESTS_LIB_API;

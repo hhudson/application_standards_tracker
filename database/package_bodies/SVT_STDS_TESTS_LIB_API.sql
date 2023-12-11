@@ -430,6 +430,35 @@ create or replace package body SVT_STDS_TESTS_LIB_API as
     raise;
   end auto_install_standard_test;
 
+  function published_exists (p_test_code in svt_stds_standard_tests.test_code%type)
+  return boolean
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'published_exists';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_exists_yn varchar2(1) := 'N';
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+
+    select case when count(*) = 1
+                then 'Y'
+                else 'N'
+                end into l_exists_yn
+    from svt_stds_tests_lib
+    where test_code = p_test_code;
+    
+    return case when l_exists_yn = gc_n
+                then false
+                else true
+                end;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end published_exists;
+
 end SVT_STDS_TESTS_LIB_API;
 /
 --rollback drop package body SVT_STDS_TESTS_LIB_API;
