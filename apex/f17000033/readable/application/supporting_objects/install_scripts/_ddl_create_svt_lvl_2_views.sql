@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_APPLICATION_REPORT_CARD" ("APPLICATION_ID", "CRITICAL_URGENCY", "HIGH_URGENCY", "MED_URGENCY", "VIOLATION_COUNT", "DEFAULT_DEVELOPER", "APPLICATION_NAME", "APPLICATION_TYPE") AS 
   with rptcrd as (select application_id, 
                        critical_urgency, 
@@ -26,8 +27,7 @@ from svt_stds_applications esa
 inner join apex_applications aa on aa.application_id = esa.apex_app_id
 inner join svt_stds_types est on est.id = esa.type_id
 left outer join rptcrd on esa.apex_app_id = rptcrd.application_id
---order by critical_urgency desc, high_urgency desc, med_urgency desc
-;
+--order by critical_urgency desc, high_urgency desc, med_urgency desc;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_AUDIT_ON_AUDIT_APEX" ("ID", "AUDIT_ID", "UNQID", "STANDARD_NAME", "APP_ID", "PK_ID", "COMPONENT_NAME", "CREATED", "TEST_CODE", "VALIDATION_FAILURE_MESSAGE", "URGENCY", "URGENCY_LEVEL", "TEST_NAME", "PAGE_ID", "COMPONENT_ID", "ASSIGNEE", "LINE", "OBJECT_NAME", "OBJECT_TYPE", "CODE", "DELETE_REASON") AS 
   with std as (select id, 
@@ -76,10 +76,9 @@ inner join v_svt_stds_standard_tests esst on std.test_code = esst.test_code
                                           and esst.issue_category = 'APEX'
 inner join v_svt_stds_applications esa on esa.apex_app_id = std.app_id
 where std.therank = 1
-and std.action_name = 'DELETE'
-;
+and std.action_name = 'DELETE';
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_AUTOMATIONS_PROBLEMS" ("JOB_NAME", "JOB_INITIALS", "STATUS", "LOG_DATE", "POLLING_INTERVAL", "LOG_DATE_CHAR", "ERROR_MSG") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_AUTOMATIONS_PROBLEMS" ("JOB_NAME", "JOB_INITIALS", "STATUS", "LOG_DATE", "POLLING_INTERVAL", "LOG_DATE_CHAR", "STATIC_ID", "ERROR_MSG") AS 
   with vas as (select v.*,
                     case when v.status_code != 'SUCCESS'
                          then 'N'
@@ -99,13 +98,13 @@ select job_name,
        start_timestamp log_date, 
        polling_interval,
        start_timestamp_char log_date_char,
+       static_id,
        case when error_msg is not null
             then error_msg
             else 'Has the automation stopped? Check on it.'
             end  error_msg
 from vas
-where pass_yn = 'N'
-;
+where pass_yn = 'N';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_DB_TBL__0" ("TABLE_NAME", "TEST_CODE", "PASS_YN", "UNQID", "CODE") AS 
   select dv.table_name,
@@ -117,8 +116,7 @@ from v_svt_stds_standard_tests esst
 join svt_standard_view.v_svt_db_tbl__0(esst.test_code) dv
     on  esst.nt_name = 'V_SVT_DB_TBL__0_NT'
     and esst.query_clob is not null
-    and esst.active_yn = 'Y'
-;
+    and esst.active_yn = 'Y';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_DB_VIEW__0" ("VIEW_NAME", "TEST_CODE", "PASS_YN", "UNQID") AS 
   select dv.view_name,
@@ -129,8 +127,7 @@ from v_svt_stds_standard_tests esst
 join SVT_STANDARD_VIEW.V_SVT_DB_VIEW__0(esst.test_code) dv
     on  esst.nt_name = 'V_SVT_DB_VIEW__0_NT'
     and esst.query_clob is not null
-    and esst.active_yn = 'Y'
-;
+    and esst.active_yn = 'Y';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_PLSQL_APEX_AUDIT" ("AUDIT_ID", "ISSUE_CATEGORY", "APPLICATION_ID", "APPLICATION_NAME", "APPLICATION_TYPE", "APP_TYPE_ID", "APP_TYPE_CODE", "APP_PK_ID", "PAGE_ID", "TEST_ID", "URGENCY", "URGENCY_LEVEL", "LINE", "OBJECT_NAME", "OBJECT_TYPE", "CODE", "VALIDATION_FAILURE_MESSAGE", "SHORT_FAILURE_MESSAGE", "ISSUE_TEXT", "ISSUE_TITLE", "APEX_CREATED_BY", "APEX_CREATED_ON", "APEX_LAST_UPDATED_BY", "APEX_LAST_UPDATED_ON", "NOTES", "SHORT_NOTES", "ACTION_ID", "ACTION_NAME", "INCLUDE_IN_REPORT_YN", "CREATED", "UPDATED", "STALE_YN", "ASSIGNEE", "LINK_URL", "PREPARED_URL", "VIEW_TEXT", "LINK_TO_APEX_ISSUE", "APEX_ISSUE_ID", "APEX_ISSUE_TITLE", "APEX_ISSUE_TEXT", "ISSUE_STATUS", "APEX_ISSUE_TITLE_SUFFIX", "RECENT_YN", "URGENT_YN", "TEST_CODE", "TEST_NAME", "SRC_RECENT_CHANGE_YN", "LEGACY_YN", "UNQID", "IS_EXCEPTION_YN", "IS_EXCEPTION_YN2", "MV_DEPENDENCY", "ASSIGNED_TO_ME_YN", "OWNER", "VIEW_BUTTON", "RERUN", "MARK_AS_EXCEPTION", "COMPONENT_ID", "PARENT_COMPONENT_ID", "SVT_COMPONENT_TYPE_ID", "COMPONENT_TYPE_ID", "STANDARD_NAME", "STANDARD_ID") AS 
   with aspaa as (
@@ -248,15 +245,19 @@ select
 |%2|
 |%10|
 |%7|
+
 Details:
 ```
 %0
 ```
 %4
+
+
 | | How to get rid of this issue|
 |-------------------------------------|---|
 |Option 1|Click "Manage Issue" for info on how to fix the underlying problem and rerun the test (which is run automatically every 24 hours)|
 |Option 2|Close this "issue" and records will mark it as a "valid exception to the standard"|
+
 %5
 Questions/concerns? Contact hayden.h.hudson@oracle.com.
 Audit id : %3
@@ -349,8 +350,7 @@ Audit id : %3
     a.standard_id
 from aspaa a
 left outer join apex_issues ai on a.apex_issue_id = ai.issue_id
--- where a.include_in_report_yn = 'Y'
-;
+-- where a.include_in_report_yn = 'Y';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_PLSQL_APEX__0" ("ISSUE_CATEGORY", "APPLICATION_ID", "PAGE_ID", "PASS_YN", "LINE", "OBJECT_NAME", "OBJECT_TYPE", "CODE", "VALIDATION_FAILURE_MESSAGE", "ISSUE_TITLE", "APEX_CREATED_BY", "APEX_CREATED_ON", "APEX_LAST_UPDATED_BY", "APEX_LAST_UPDATED_ON", "TEST_CODE", "UNQID") AS 
   select a.issue_category,
@@ -375,8 +375,7 @@ join svt_standard_view.v_svt(p_test_code        => esst.test_code,
                              p_urgent_only          => 'Y',
                              p_production_apps_only => 'Y') a
         on  esst.query_clob is not null
-        and esst.active_yn = 'Y'
-;
+        and esst.active_yn = 'Y';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_INHERITED_TESTS_TREE" ("STANDARD_ID", "STANDARD_NAME", "PARENT_STANDARD_ID", "TEST_ID") AS 
   select distinct esit.parent_standard_id standard_id, 
@@ -391,8 +390,7 @@ select esit.standard_id,
        esit.parent_standard_id, 
        esit.test_id
 from svt_stds_inherited_tests esit
-inner join v_svt_stds_standards ess2 on ess2.id = esit.standard_id
-;
+inner join v_svt_stds_standards ess2 on ess2.id = esit.standard_id;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_STANDARD_TESTS_W_INHERITED" ("STANDARD_ID", "TEST_ID", "LEVEL_ID", "URGENCY", "URGENCY_LEVEL", "TEST_NAME", "TEST_CODE", "FULL_STANDARD_NAME", "ACTIVE_YN", "NT_NAME", "QUERY_CLOB", "STD_CREATION_DATE", "MV_DEPENDENCY", "SVT_COMPONENT_TYPE_ID", "COMPONENT_NAME", "STANDARD_ACTIVE_YN", "EXPLANATION", "FIX", "VERSION_NUMBER", "VERSION_DB", "INHERITED_YN", "DISPLAY_SEQUENCE", "ISSUE_CATEGORY") AS 
   select   o.standard_id,
@@ -445,5 +443,4 @@ inner join v_svt_stds_standards ess2 on ess2.id = esit.standard_id
          i.issue_category
   from v_svt_stds_standard_tests i
   inner join svt_stds_inherited_tests esit on i.test_id = esit.test_id
-                                           and i.standard_id = esit.parent_standard_id
-; 
+                                           and i.standard_id = esit.parent_standard_id;

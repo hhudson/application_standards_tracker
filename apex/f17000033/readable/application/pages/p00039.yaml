@@ -1,17 +1,22 @@
 ---
-# ====== Page: Help ==========================================
+# ====== Page: Application Help ==============================
 id: 39
 identification: 
-  name: Help
+  name: Application Help
   alias: HELP
-  title: Help
-  page-group: Help # 9192743490095683308
+  title: Application Help
+  page-group: Help # 9223004534562775658
 
 appearance: 
-  page-mode: Normal
-  page-template: Standard # 7864568796414055243
+  page-mode: Modal Dialog
+  dialog-template: Drawer # 371119975547332663
   template-options: 
   - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+  - js-dialog-class-t-Drawer--lg
+
+dialog: 
+  chained: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -47,15 +52,63 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: Help message ================================
+  id: 14684619458726531
+  identification: 
+    title: Help message
+    type: Static Content
+
+  source: 
+    html-code: '&A_DEFAULT_ADMIN_MESSAGE.'
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7894857603068147629
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--noIcon
+    - t-Alert--warning
+    - t-Alert--accessibleHeading
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Getting started =============================
-  id: 63887092984520058
+  id: 94148137451612408
   identification: 
     title: Getting started
     type: Static Content
 
   layout: 
     sequence: 20
-    parent-region: Help Container # 11102159293727311770
+    parent-region: Help Container # 11132420338194404120
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -64,7 +117,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7864612116513055305
+    template: Standard # 7894873160980147655
     template-options: 
     - '#DEFAULT#'
     - t-Region--noBorder
@@ -92,14 +145,14 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Validate Application Types ==================
-  id: 63887142937520059
+  id: 94148187404612409
   identification: 
     title: Validate Application Types
     type: Translated Message
 
   layout: 
     sequence: 20
-    parent-region: Getting started # 63887092984520058
+    parent-region: Getting started # 94148137451612408
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -108,7 +161,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7864598563773055284
+    template: Buttons Container # 7894859608240147634
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noBorder
@@ -137,14 +190,14 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: Add apps ====================================
-  id: 63887524432520062
+  id: 94148568899612412
   identification: 
     title: Add apps
     type: Translated Message
 
   layout: 
     sequence: 40
-    parent-region: Getting started # 63887092984520058
+    parent-region: Getting started # 94148137451612408
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -153,7 +206,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7864598563773055284
+    template: Buttons Container # 7894859608240147634
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noBorder
@@ -182,14 +235,14 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: Add standards and tests =====================
-  id: 63887716129520064
+  id: 94148760596612414
   identification: 
     title: Add standards and tests
     type: Translated Message
 
   layout: 
     sequence: 50
-    parent-region: Getting started # 63887092984520058
+    parent-region: Getting started # 94148137451612408
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -198,7 +251,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7864598563773055284
+    template: Buttons Container # 7894859608240147634
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noBorder
@@ -227,14 +280,14 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: Configure preferences =======================
-  id: 63888178419520069
+  id: 94149222886612419
   identification: 
     title: Configure preferences
     type: Translated Message
 
   layout: 
     sequence: 10
-    parent-region: Getting started # 63887092984520058
+    parent-region: Getting started # 94148137451612408
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -243,7 +296,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7864598563773055284
+    template: Buttons Container # 7894859608240147634
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noBorder
@@ -272,14 +325,14 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: Add users ===================================
-  id: 63888240642520070
+  id: 94149285109612420
   identification: 
     title: Add users
     type: Translated Message
 
   layout: 
     sequence: 60
-    parent-region: Getting started # 63887092984520058
+    parent-region: Getting started # 94148137451612408
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -288,7 +341,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7864598563773055284
+    template: Buttons Container # 7894859608240147634
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noBorder
@@ -317,7 +370,7 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: &APPLICATION_TITLE. =========================
-  id: 8484267892930342943
+  id: 8514528937397435293
   identification: 
     title: '&APPLICATION_TITLE.'
     type: Classic Report
@@ -343,7 +396,7 @@ regions:
     column-span: 4
 
   appearance: 
-    template: Standard # 7864612116513055305
+    template: Standard # 7894873160980147655
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -375,7 +428,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Value Attribute Pairs - Column # 7864620644207055326
+      template: Value Attribute Pairs - Column # 7894881688674147676
       template-options: 
       - '#DEFAULT#'
       - t-AVPList--rightAligned
@@ -406,7 +459,7 @@ regions:
 
   columns: 
   - # ====== Column: APP_VERSION =================================
-    id: 8484267975049342944
+    id: 8514529019516435294
     identification: 
       column-name: APP_VERSION
       type: Plain Text
@@ -438,7 +491,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: PAGES =======================================
-    id: 8484268050428342945
+    id: 8514529094895435295
     identification: 
       column-name: PAGES
       type: Plain Text
@@ -470,7 +523,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: VENDOR ======================================
-    id: 8484268225753342946
+    id: 8514529270220435296
     identification: 
       column-name: VENDOR
       type: Plain Text
@@ -502,14 +555,14 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: About this Application ======================
-  id: 8601411871983319282
+  id: 8631672916450411632
   identification: 
     title: About this Application
     type: Translated Message
 
   layout: 
     sequence: 10
-    parent-region: Help Container # 11102159293727311770
+    parent-region: Help Container # 11132420338194404120
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -518,7 +571,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7864598431666055282
+    template: Blank with Attributes # 7894859476133147632
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -546,14 +599,14 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: Features ====================================
-  id: 8601414850017350415
+  id: 8631675894484442765
   identification: 
     title: Features
     type: Translated Message
 
   layout: 
     sequence: 40
-    parent-region: Help Container # 11102159293727311770
+    parent-region: Help Container # 11132420338194404120
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -562,7 +615,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7864598431666055282
+    template: Blank with Attributes # 7894859476133147632
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -590,7 +643,7 @@ regions:
       add-paragraph-tags: true
 
 - # ====== Region: Help Container ==============================
-  id: 11102159293727311770
+  id: 11132420338194404120
   identification: 
     title: Help Container
     type: Static Content
@@ -606,7 +659,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7864612116513055305
+    template: Standard # 7894873160980147655
     template-options: 
     - '#DEFAULT#'
     - t-Region--removeHeader js-removeLandmark
@@ -634,14 +687,14 @@ regions:
 
 buttons: 
 - # ====== Button: APPLICATION_TYPES ===========================
-  id: 63887267989520060
+  id: 94148312456612410
   identification: 
     button-name: APPLICATION_TYPES
     label: Check Application Types
 
   layout: 
     sequence: 10
-    region: Validate Application Types # 63887142937520059
+    region: Validate Application Types # 94148187404612409
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -650,7 +703,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -668,17 +721,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: REGISTERED_APPLICATIONS =====================
-  id: 63887547284520063
+  id: 94148591751612413
   identification: 
     button-name: REGISTERED_APPLICATIONS
     label: Register Applications
 
   layout: 
     sequence: 10
-    region: Add apps # 63887524432520062
+    region: Add apps # 94148568899612412
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -687,7 +740,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -705,17 +758,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: ADD_STANDARD ================================
-  id: 63887828611520065
+  id: 94148873078612415
   identification: 
     button-name: ADD_STANDARD
     label: Add Standard
 
   layout: 
     sequence: 10
-    region: Add standards and tests # 63887716129520064
+    region: Add standards and tests # 94148760596612414
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -724,7 +777,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -742,17 +795,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: BROWSE_REPO =================================
-  id: 63887919240520066
+  id: 94148963707612416
   identification: 
     button-name: BROWSE_REPO
     label: Browse tests for download
 
   layout: 
     sequence: 10
-    region: Add standards and tests # 63887716129520064
+    region: Add standards and tests # 94148760596612414
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -761,7 +814,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -780,14 +833,14 @@ buttons:
     - target="_blank"
 
 - # ====== Button: VISIT_PREFERENCES ===========================
-  id: 63888408923520071
+  id: 94149453390612421
   identification: 
     button-name: VISIT_PREFERENCES
     label: Check Preferences
 
   layout: 
     sequence: 10
-    region: Configure preferences # 63888178419520069
+    region: Configure preferences # 94149222886612419
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -796,7 +849,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -814,17 +867,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: ADD_USERS ===================================
-  id: 63888485951520072
+  id: 94149530418612422
   identification: 
     button-name: ADD_USERS
     label: Add Users
 
   layout: 
     sequence: 10
-    region: Add users # 63888240642520070
+    region: Add users # 94149285109612420
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -833,7 +886,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -851,5 +904,5 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 

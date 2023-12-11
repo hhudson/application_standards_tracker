@@ -12,7 +12,7 @@ select workspace_name,
        user_name, 
        preference_name,
        preference_value
-from svt_apex_view.apex_workspace_preferences() 
+from apex_workspace_preferences
 where user_name = 'SVT'
 /
 --rollback drop view v_svt_apex_workspace_preferences;

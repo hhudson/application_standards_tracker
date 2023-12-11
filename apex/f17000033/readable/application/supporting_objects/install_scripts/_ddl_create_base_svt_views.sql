@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_ALL_STANDARDS_EXPORT" ("ALL_TESTS_FILE_SIZE", "STD_FILE_SIZE", "ALL_TESTS_FILE_BLOB", "STD_FILE_BLOB", "MIME_TYPE", "STD_FILE_NAME", "ALL_TESTS_FILE_NAME", "CHARACTER_SET") AS 
   with jcb as (select 'application/json' mime_type,
                     'UTF-8' character_set,
@@ -59,9 +60,8 @@ where workspace_display_name = svt_preferences.get('SVT_WORKSPACE')
        user_name, 
        preference_name,
        preference_value
-from svt_apex_view.apex_workspace_preferences() 
-where user_name = 'SVT'
-;
+from apex_workspace_preferences
+where user_name = 'SVT';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_AUDIT_ON_AUDIT_KEEP_THESE" ("ID", "UNQID", "ACTION_NAME", "CREATED", "THERANK") AS 
   with std as (select id, 
@@ -149,11 +149,10 @@ where available_yn = 'Y'
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_EMAIL_SUBSCRIPTIONS" ("USER_NAME", "EMAIL") AS 
   select distinct lower(awp.user_name) user_name, lower(awd.email) email
-from svt_apex_view.apex_workspace_preferences()  awp
+from apex_workspace_preferences  awp
 inner join apex_workspace_developers awd on awp.user_name = awd.user_name
 where awp.preference_name = 'SVT_EMAIL_SUBSCRIPTION'
-and awp.preference_value = 'Y'
-;
+and awp.preference_value = 'Y';
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_MISSING_BASE_DATA" ("TBL_NAME") AS 
   with std as (select count(*) rwcount, 'svt_stds_types' tbl_name from sys.dual where exists ( select 1 from svt_stds_types)
@@ -235,7 +234,8 @@ inner join apex_applications aa on esa.apex_app_id = aa.application_id
                                 and aa.availability_status != 'Unavailable'
 left outer join svt_stds_types est on est.id = esa.type_id
 where esa.active_yn = 'Y'
-and coalesce(est.active_yn, 'Y')  = 'Y';
+and coalesce(est.active_yn, 'Y')  = 'Y'
+;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_STANDARDS" ("ID", "STANDARD_NAME", "DESCRIPTION", "PRIMARY_DEVELOPER", "IMPLEMENTATION", "DATE_STARTED", "CREATED", "CREATED_BY", "UPDATED", "UPDATED_BY", "STANDARD_GROUP", "ACTIVE_YN", "COMPATIBILITY_MODE_ID", "COMPATIBILITY_MODE", "COMPATIBILITY_DESC", "TYPE_NAME", "COMPATIBILITY_TEXT", "FULL_STANDARD_NAME", "PARENT_STANDARD_ID", "DISPLAY_ORDER") AS 
   select ess.id,
@@ -360,7 +360,7 @@ inner join svt_nested_table_types antt on act.nt_type_id = antt.id
 inner join svt_standards_urgency_level asul on asul.id = st.level_id
 ;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_STANDARD_TESTS_EXPORT" ("STANDARD_ID", "TEST_ID", "URGENCY", "URGENCY_LEVEL", "LEVEL_ID", "TEST_NAME", "TEST_CODE", "STANDARD_NAME", "ACTIVE_YN", "NT_NAME", "QUERY_CLOB", "STD_CREATION_DATE", "MV_DEPENDENCY", "SVT_COMPONENT_TYPE_ID", "COMPONENT_NAME", "STANDARD_ACTIVE_YN", "EXPLANATION", "FIX", "DOWNLOAD", "FILE_BLOB", "MIME_TYPE", "FILE_NAME", "CHARACTER_SET", "VSN", "VERSION_NUMBER", "VERSION_DB", "RECORD_MD5", "LIB_MD5", "PUBLISHED_YN", "PUBLISH_BUTTON_HTML", "DLCLSS") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_STANDARD_TESTS_EXPORT" ("STANDARD_ID", "TEST_ID", "URGENCY", "URGENCY_LEVEL", "LEVEL_ID", "TEST_NAME", "TEST_CODE", "STANDARD_NAME", "ACTIVE_YN", "NT_NAME", "QUERY_CLOB", "STD_CREATION_DATE", "MV_DEPENDENCY", "SVT_COMPONENT_TYPE_ID", "COMPONENT_NAME", "STANDARD_ACTIVE_YN", "EXPLANATION", "FIX", "DOWNLOAD", "FILE_BLOB", "MIME_TYPE", "FILE_NAME", "CHARACTER_SET", "VSN", "VERSION_NUMBER", "VERSION_DB", "RECORD_MD5", "LIB_MD5", "PUBLISHED_YN", "PUBLISH_BUTTON_HTML", "DLCLSS", "DISPLAY_SEQUENCE") AS 
   select standard_id,
        test_id,
        urgency,
@@ -391,9 +391,9 @@ inner join svt_standards_urgency_level asul on asul.id = st.level_id
        lib_md5,
        published_yn,
        null publish_button_html,
-       download_css dlclss
-from svt_stds_standard_tests_api.v_svt_stds_standard_tests()
-;
+       download_css dlclss,
+       display_sequence
+from svt_stds_standard_tests_api.v_svt_stds_standard_tests();
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_STDS_STANDARD_TESTS_W_INHERITED" ("STANDARD_ID", "TEST_ID", "LEVEL_ID", "URGENCY", "URGENCY_LEVEL", "TEST_NAME", "TEST_CODE", "FULL_STANDARD_NAME", "ACTIVE_YN", "NT_NAME", "QUERY_CLOB", "STD_CREATION_DATE", "MV_DEPENDENCY", "SVT_COMPONENT_TYPE_ID", "COMPONENT_NAME", "STANDARD_ACTIVE_YN", "EXPLANATION", "FIX", "VERSION_NUMBER", "VERSION_DB", "INHERITED_YN", "DISPLAY_SEQUENCE", "ISSUE_CATEGORY") AS 
   select   o.standard_id,
@@ -577,7 +577,6 @@ left outer join svt_standards_urgency_level asul on asul.id = lib.level_id
 ;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SVT_TEST_TIMING" ("TEST_CODE", "AVG_SECONDS") AS 
-  select test_code, avg(elapsed_seconds) avg_seconds
+  select test_code, round(avg(elapsed_seconds),2) avg_seconds
 from svt_test_timing
-group by test_code
-; 
+group by test_code;

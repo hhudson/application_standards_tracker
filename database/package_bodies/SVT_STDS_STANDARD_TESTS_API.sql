@@ -20,6 +20,8 @@ create or replace package body svt_stds_standard_tests_api as
   gc_n constant varchar2(1) := 'N';
   gc_y constant varchar2(1) := 'Y';
   gc_default_version_number constant number := 0;
+  gc_mime_type constant varchar2(25) := 'application/json';
+  gc_owner     constant varchar2(128) := sys_context('userenv','current_schema');
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -51,7 +53,7 @@ create or replace package body svt_stds_standard_tests_api as
                          p_test_name             in svt_stds_standard_tests.test_name%type,
                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                         p_owner                 in svt_stds_standard_tests.owner%type,
+                         p_owner                 in svt_stds_standard_tests.owner%type default null,
                          p_test_code             in svt_stds_standard_tests.test_code%type,
                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
                          p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -69,6 +71,7 @@ create or replace package body svt_stds_standard_tests_api as
    c_test_code constant svt_stds_standard_tests.test_code%type := format_test_code(p_test_code);
    c_id constant svt_stds_standard_tests.id%type := coalesce(p_id, 
                                                             to_number(sys_guid(), 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+   c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
    begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
@@ -100,7 +103,7 @@ create or replace package body svt_stds_standard_tests_api as
       p_test_name,
       p_display_sequence,
       p_query_clob,
-      p_owner,
+      c_owner,
       c_test_code,
       p_active_yn,
       p_level_id,
@@ -129,7 +132,7 @@ create or replace package body svt_stds_standard_tests_api as
                          p_test_name             in svt_stds_standard_tests.test_name%type,
                          p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                          p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                         p_owner                 in svt_stds_standard_tests.owner%type,
+                         p_owner                 in svt_stds_standard_tests.owner%type default null,
                          p_test_code             in svt_stds_standard_tests.test_code%type,
                          p_active_yn             in svt_stds_standard_tests.active_yn%type,
                          p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -144,6 +147,7 @@ create or replace package body svt_stds_standard_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'insert_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   l_id svt_stds_standard_tests.id%type;
+  c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -162,7 +166,7 @@ create or replace package body svt_stds_standard_tests_api as
                         p_test_name             => p_test_name,
                         p_display_sequence      => p_display_sequence,
                         p_query_clob            => p_query_clob,
-                        p_owner                 => p_owner,
+                        p_owner                 => c_owner,
                         p_test_code             => p_test_code,
                         p_active_yn             => p_active_yn,
                         p_level_id              => p_level_id,
@@ -219,14 +223,6 @@ create or replace package body svt_stds_standard_tests_api as
     raise;
   end build_test_md5;
 
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: September 13, 2023
--- Synopsis:
---
--- Private function to get the md5 for a given test_code
---
------------------------------------------------------------------------------- 
   function current_md5(p_test_code in svt_stds_standard_tests.test_code%type)
   return varchar2
   as 
@@ -357,7 +353,7 @@ create or replace package body svt_stds_standard_tests_api as
                         p_test_name             in svt_stds_standard_tests.test_name%type,
                         p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                         p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                        p_owner                 in svt_stds_standard_tests.owner%type,
+                        p_owner                 in svt_stds_standard_tests.owner%type default null,
                         p_test_code             in svt_stds_standard_tests.test_code%type,
                         p_active_yn             in svt_stds_standard_tests.active_yn%type,
                         p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -372,6 +368,7 @@ create or replace package body svt_stds_standard_tests_api as
   c_scope constant varchar2(128) := gc_scope_prefix || 'update_test';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   c_test_code constant svt_stds_standard_tests.test_code%type := format_test_code(p_test_code);
+  c_owner constant svt_stds_standard_tests.owner%type := coalesce(p_owner, gc_owner);
   begin
     apex_debug.message(c_debug_template,'START', 
                                         'p_id', p_id,
@@ -391,7 +388,7 @@ create or replace package body svt_stds_standard_tests_api as
         test_name             = p_test_name,
         display_sequence      = coalesce(p_display_sequence, display_sequence),
         query_clob            = p_query_clob,
-        owner                 = p_owner,
+        owner                 = c_owner,
         test_code             = c_test_code,
         active_yn             = p_active_yn,
         level_id              = p_level_id,
@@ -791,7 +788,7 @@ begin
                                                         p_standard_id => l_aat (rec).standard_id, 
                                                         p_test_code   => l_aat (rec).test_code);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
-        c_mime_type constant varchar2(25) := 'application/json';
+        
         c_character_set constant varchar2(10) := 'UTF-8';
         c_md5 constant varchar2(250) := build_test_md5 (
                                           p_test_name             => l_aat (rec).test_name,
@@ -856,7 +853,7 @@ begin
                       l_aat (rec).fix,
                       c_file_size,  --download
                       c_file_blob,
-                      c_mime_type,
+                      gc_mime_type,
                       apex_string.format('%s-%s.json',l_aat (rec).test_code, l_aat (rec).version_db), --file_name
                       c_character_set,
                       l_aat (rec).version_number,
@@ -941,6 +938,131 @@ begin
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
      raise;
   end active_test_count;
+
+  function active_tests_yn (
+              p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'active_tests_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_tests_yn varchar2(1) := gc_y;
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_issue_category', p_issue_category
+                     );
+
+   select case when count(*) = 1
+                        then 'Y'
+                        else 'N'
+                        end into l_tests_yn
+                from sys.dual where exists (
+                    select 1
+                    from v_svt_stds_standard_tests
+                    where active_yn = gc_y
+                    and standard_active_yn = gc_y
+                );
+  
+    return l_tests_yn;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end active_tests_yn;
+
+  procedure get_test_file(p_test_code in svt_stds_standard_tests.test_code%type)
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_file';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_file_blob  blob;
+  l_file_name  varchar2(100);
+  l_rec svt_stds_standard_tests%rowtype;
+  begin
+    dbms_output.put_line('code :'||l_rec.test_code);
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+  l_rec := get_test_rec(p_test_code => p_test_code);
+
+  l_file_blob := svt_deployment.json_standard_tests_blob (
+                    p_standard_id => l_rec.standard_id, 
+                    p_test_code   => p_test_code);
+
+  l_file_name := apex_string.format('%s-%s.json',p_test_code, l_rec.version_db);
+
+  sys.htp.init;
+  sys.owa_util.mime_header(gc_mime_type, false);
+  sys.htp.p('Content-Length: ' || dbms_lob.getlength(l_file_blob));
+  sys.htp.p('Content-Disposition: attachment; filename="' || l_file_name || '"');
+  sys.owa_util.http_header_close;
+
+  sys.wpg_docload.download_file(l_file_blob);
+  apex_application.stop_apex_engine;
+  
+exception
+  when apex_application.e_stop_apex_engine then
+    null;
+  when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end get_test_file;
+
+  function get_test_file_url (
+     p_page_id   in apex_application_pages.page_id%type,
+     p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'get_test_file_url';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code,
+                                       'p_page_id', p_page_id
+                     );
+
+    return apex_page.get_url (
+            p_page    => p_page_id,
+            p_items   => 'A_TEST_CODE',
+            p_values  => p_test_code,
+            p_request => 'APPLICATION_PROCESS=DOWNLOAD_FILE');
+
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end get_test_file_url;
+
+  function test_published_locally_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'test_published_locally_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_test_version_db svt_stds_standard_tests.version_db%type;
+  c_local_db_name constant svt_stds_standard_tests.version_db%type
+                  := coalesce(svt_preferences.get('SVT_DB_NAME'), 'NA');
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+   
+   select version_db 
+   into l_test_version_db
+   from svt_stds_standard_tests 
+   where test_code = p_test_code;
+
+   return case when l_test_version_db = c_local_db_name
+               then gc_y 
+               else gc_n
+               end;
+   
+  exception
+   when no_data_found then
+    return gc_n;
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end test_published_locally_yn;
 
 end svt_stds_standard_tests_api;
 /

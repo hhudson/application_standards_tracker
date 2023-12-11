@@ -17,6 +17,8 @@ create or replace package body SVT_STDS_TESTS_LIB_API as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(51) := lower($$plsql_unit) || '.';
+  gc_y constant varchar2(1) := 'Y';
+  gc_n constant varchar2(1) := 'N';
 
 
   procedure upsert (
@@ -233,31 +235,6 @@ create or replace package body SVT_STDS_TESTS_LIB_API as
     raise;
   end install_standard_test;
 
-  procedure auto_install_standard_test (
-                      p_standard_id in svt_stds_standard_tests.standard_id%type,
-                      p_test_code   in svt_stds_standard_tests.test_code%type default null)
-  as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'auto_install_standard_test';
-  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  begin
-    apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_id', p_standard_id,
-                                        'p_test_code', p_test_code);
-    
-    for rec in (select id, standard_id, level_id
-                from svt_stds_tests_lib
-                where standard_id = p_standard_id
-                and (test_code = p_test_code or p_test_code is null)
-                )
-    loop
-      install_standard_test(p_id               => rec.id,
-                            p_standard_id      => rec.standard_id,
-                            p_urgency_level_id => rec.level_id);
-    end loop;
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
-  end auto_install_standard_test;
 
   procedure delete_test_from_lib (p_id in svt_stds_tests_lib.id%type)
   as 
@@ -389,6 +366,98 @@ create or replace package body SVT_STDS_TESTS_LIB_API as
       raise;
   end current_md5;
 
+  function autoinstall_lib_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'autoinstall_lib_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  c_installed_md5 constant varchar2(250)
+              := svt_stds_standard_tests_api.current_md5(p_test_code => p_test_code);
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+   
+   return case when c_installed_md5 is null
+               then gc_y 
+               when svt_stds_standard_tests_api.test_published_locally_yn (p_test_code => p_test_code) = gc_y
+               then gc_n 
+               when svt_stds_standard_tests_api.current_md5(p_test_code => p_test_code) = 
+                    current_md5(p_test_code => p_test_code)
+               then gc_n 
+               else gc_y 
+               end;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end autoinstall_lib_yn;
+
+  procedure auto_install_standard_test (
+                      p_standard_id in svt_stds_standard_tests.standard_id%type default null,
+                      p_test_code   in svt_stds_standard_tests.test_code%type   default null,
+                      p_message     out nocopy varchar2)
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'auto_install_standard_test';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_counter pls_integer := 0;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_code', p_test_code);
+    
+    for librec in (select id, standard_id, level_id, test_code, version_number, version_db
+                  from svt_stds_tests_lib
+                  where (standard_id = p_standard_id or p_standard_id is null)
+                  and (test_code = p_test_code or p_test_code is null)
+                )
+    loop
+      if autoinstall_lib_yn (p_test_code => librec.test_code) = gc_y then
+        l_counter := l_counter + 1;
+        install_standard_test(p_id               => librec.id,
+                              p_standard_id      => librec.standard_id,
+                              p_urgency_level_id => librec.level_id);
+      else 
+        apex_debug.info(c_debug_template, 'Not suited for autoinstall', librec.test_code);
+      end if;
+    end loop;
+
+    p_message := apex_string.format('%s test(s) updated/installed.', l_counter);
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end auto_install_standard_test;
+
+  function published_exists (p_test_code in svt_stds_standard_tests.test_code%type)
+  return boolean
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'published_exists';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_exists_yn varchar2(1) := 'N';
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+
+    select case when count(*) = 1
+                then 'Y'
+                else 'N'
+                end into l_exists_yn
+    from svt_stds_tests_lib
+    where test_code = p_test_code;
+    
+    return case when l_exists_yn = gc_n
+                then false
+                else true
+                end;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end published_exists;
 
 end SVT_STDS_TESTS_LIB_API;
 /

@@ -418,7 +418,7 @@ create or replace package body SVT_APEX_VIEW as
   c_ir constant varchar2(2) := 'IR';
   c_ig constant varchar2(2) := 'IG';
   c_application_id constant apex_appl_page_ig_rpts.application_id%type
-                   := coalesce(p_application_id, svt_apex_view.gc_svt_app_id);
+                   := coalesce(p_application_id, v('APP_ID'));
   l_link_request varchar2(50);
   begin
     apex_debug.message(c_debug_template,'START', 

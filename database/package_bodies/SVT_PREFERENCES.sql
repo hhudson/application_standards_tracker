@@ -18,10 +18,10 @@ create or replace package body SVT_PREFERENCES as
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
   gc_svt          constant varchar2(3) := 'SVT';
-  -- gc_ast          constant varchar2(3) := 'AST';
 
   function get(p_preference_name in apex_workspace_preferences.preference_name%type)
   return apex_workspace_preferences.preference_value%type 
+  result_cache
   is
   c_scope constant varchar2(128) := gc_scope_prefix || 'get';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
@@ -30,9 +30,18 @@ create or replace package body SVT_PREFERENCES as
   begin
     -- apex_debug.message(c_debug_template,'START', 'p_preference_name', p_preference_name);
     
+    select apex_util.get_preference(      
+              p_preference => c_preference_name,
+              p_user       => gc_svt)
+    into l_pref_value
+    from dual;
+    /*
+    2023-Dec-8 :
+    for reasons possibly related to result_cache the following doesn't work reliably :
     l_pref_value := apex_util.get_preference(      
-                      p_preference => c_preference_name,
-                      p_user       => gc_svt);
+                        p_preference => c_preference_name,
+                        p_user       => gc_svt);
+    */
     
     return case when l_pref_value is not null 
                 then l_pref_value

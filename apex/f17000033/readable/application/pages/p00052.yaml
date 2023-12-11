@@ -8,7 +8,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 340858931080240313
+  dialog-template: Drawer # 371119975547332663
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -25,7 +25,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: READER RIGHTS # 339835767318732170
+  authorization-scheme: READER RIGHTS # 370096811785824520
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -44,7 +44,7 @@ server-cache:
 
 regions: 
 - # ====== Region: email subscription ==========================
-  id: 641049937449564698
+  id: 671310981916657048
   identification: 
     title: email subscription
     type: Static Content
@@ -60,7 +60,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7864598431666055282
+    template: Blank with Attributes # 7894859476133147632
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -85,7 +85,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: button region ===============================
-  id: 641050800479564706
+  id: 671311844946657056
   identification: 
     title: button region
     type: Static Content
@@ -101,7 +101,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7864598563773055284
+    template: Buttons Container # 7894859608240147634
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -127,7 +127,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P52_EMAIL_SUBSCRIPTION ===================
-  id: 641050098420564699
+  id: 671311142887657049
   identification: 
     name: P52_EMAIL_SUBSCRIPTION
     type: Switch
@@ -141,7 +141,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: email subscription # 641049937449564698
+    region: email subscription # 671310981916657048
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -152,7 +152,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6702656876957596572
+    template: Optional - Floating # 6732917921424688922
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
@@ -183,14 +183,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 439535075266631144
+  id: 469796119733723494
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 10
-    region: button region # 641050800479564706
+    region: button region # 671311844946657056
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -200,7 +200,7 @@ buttons:
     alignment: Right
 
   appearance: 
-    button-template: Text # 7864629781296055360
+    button-template: Text # 7894890825763147710
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -210,14 +210,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: SAVE ========================================
-  id: 641050221677564701
+  id: 671311266144657051
   identification: 
     button-name: SAVE
     label: Save
 
   layout: 
     sequence: 10
-    region: button region # 641050800479564706
+    region: button region # 671311844946657056
     position: EDIT
     start-new-layout: false
     start-new-row: true
@@ -226,7 +226,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7864629781296055360
+    button-template: Text # 7894890825763147710
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -238,7 +238,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Cancel dialog =======================
-  id: 439535188995631145
+  id: 469796233462723495
   identification: 
     name: Cancel dialog
 
@@ -250,23 +250,43 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 439535075266631144
+    button: CANCEL # 469796119733723494
 
   actions: 
   - # ====== Action: Cancel Dialog ===============================
-    id: 439535286429631146
+    id: 469796330896723496
     identification: 
       action: Cancel Dialog
 
     execution: 
       sequence: 10
-      event: Cancel dialog # 439535188995631145
+      event: Cancel dialog # 469796233462723495
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14686011633726545
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: SVT_EMAIL_SUBSCRIPTION =====================
-  id: 641050398534564702
+  id: 671311443001657052
   identification: 
     name: SVT_EMAIL_SUBSCRIPTION
     type: User Preferences
@@ -286,17 +306,19 @@ processes:
     display-location: Inline in Notification
 
 - # ====== Process: Close Dialog ===============================
-  id: 641050427401564703
+  id: 671311471868657053
   identification: 
     name: Close Dialog
     type: Close Dialog
     execution-chain: None
 
   settings: 
+    items-to-return-: 
+    - P0_SUCCESS
     show-success-messages: false
 
   execution: 
-    sequence: 20
+    sequence: 30
     point: Processing
     run-process: Once Per Page Visit (default)
 

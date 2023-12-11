@@ -35,6 +35,35 @@ from dual
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Function to answer whether any automations are currently disabled
+--
+/*
+select svt_util.disabled_jobs_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function disabled_jobs_yn return varchar2;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Function to answer whether v_svt_automations_problems returns any rows
+--
+/*
+select svt_util.automation_issues_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function automation_issues_yn (p_except_static_id in apex_appl_automations.static_id%type default null) 
+  return varchar2;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: November 28, 2023
 -- Synopsis:
 --

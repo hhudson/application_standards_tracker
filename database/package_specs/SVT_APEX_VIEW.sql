@@ -99,7 +99,7 @@ select workspace_id,
 from svt_apex_view.apex_workspace_preferences() 
 */
 ------------------------------------------------------------------------------
-function apex_workspace_preferences
+function apex_workspace_preferences --deprecated bc slow(2023-Dec-8)
 return svt_apex_preferences_nt pipelined 
 deterministic;
 

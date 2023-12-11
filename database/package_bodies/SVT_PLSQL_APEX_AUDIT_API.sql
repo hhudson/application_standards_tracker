@@ -288,8 +288,14 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10'; 
   l_count pls_integer := 0;
   c_sysdate constant date := sysdate;
+  l_automation_problems_yn varchar2(1) := 'N';
   BEGIN
     apex_debug.message(c_debug_template,'START');
+
+    if svt_util.automation_issues_yn(p_except_static_id => '8-nightly-delete-stale-issues') = gc_y 
+    or svt_util.disabled_jobs_yn = gc_y then 
+      raise_application_error(-20123,'Please fix / enable automations');
+    end if;
 
     for rec in (
       select unqid, 
@@ -1032,17 +1038,18 @@ create or replace package body SVT_PLSQL_APEX_AUDIT_API as
   begin
       apex_debug.message(c_debug_template,'START');
 
-      merge into (select object_type, object_name, assignee
-                  from svt_plsql_apex_audit 
-                  where issue_category in 'DB_PLSQL'
-                  and assignee is null) e
-      using (select object_type, object_name, apex_username
-             from v_loki_object_assignee
-             where apex_username is not null
-             and lock_rank = 1) h
-      on (e.object_name = h.object_name)
-      when matched then
-      update set e.assignee = lower(h.apex_username);
+      for rec in (
+        select object_type, object_name, apex_username
+        from v_loki_object_assignee
+        where apex_username is not null
+        and lock_rank = 1
+      ) loop
+        update svt_plsql_apex_audit 
+          set assignee = lower(rec.apex_username)
+          where object_name = rec.object_name
+          and issue_category in 'DB_PLSQL'
+          and assignee is null;
+      end loop;
 
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);

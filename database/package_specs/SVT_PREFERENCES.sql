@@ -50,7 +50,8 @@ from dual;
 */
 ------------------------------------------------------------------------------
 function get(p_preference_name in apex_workspace_preferences.preference_name%type)
-return apex_workspace_preferences.preference_value%type;
+return apex_workspace_preferences.preference_value%type
+result_cache;
 
 
 ------------------------------------------------------------------------------

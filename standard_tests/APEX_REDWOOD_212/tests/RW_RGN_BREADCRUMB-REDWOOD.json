@@ -1,1 +1,33 @@
-{"std_test":{"standard":{"standard_id":331927390054668715455647074009653484512,"standard_name":"Redwood","description":"Standards for correctly implementing Redwood patterns","compatibility_mode_id":1,"created":"2023-04-19T23:47:30.414000Z","created_by":"HAYDEN.H.HUDSON@ORACLE.COM","updated":"2023-04-19T23:47:30.414000Z","updated_by":"HAYDEN.H.HUDSON@ORACLE.COM"}},"test":[{"test_id":1142692832668488973070674594374116586,"test_name":"Breadcrumbs have a template and position of \"Page Header\"","standard_id":331927390054668715455647074009653484512,"display_sequence":null,"query_clob":"select case when aapr.display_position = 'Page Header'\r\n            then 'Y'\r\n            when aapr.template = 'Page Header'\r\n            then 'Y'\r\n            else 'N'\r\n            end pass_yn,                          \r\n       aapr.application_id, \r\n       aapr.page_id,\r\n       null created_by,\r\n       null created_on,\r\n       aapr.last_updated_by,\r\n       aapr.last_updated_on,\r\n       apex_string.format('Region `%0` (app %1, page %2) should have both a template and position of \"Page Header\" (position `%3`, template `%4`)', \r\n        p0 => aapr.region_name, \r\n        p1 => aapr.application_id,\r\n        p2 => aapr.page_id,\r\n\t\t\t\tp3 => aapr.display_position,\r\n\t\t\t\tp4 => aapr.template) validation_failure_message,\r\n       apex_string.format('Region `%0` (app %1, page %2) has the wrong template or position', \r\n        p0 => aapr.region_name, \r\n        p1 => aapr.application_id,\r\n        p2 => aapr.page_id) issue_title,\r\n       aapr.region_id component_id,\r\n       null parent_component_id,\r\n       aapr.region_name,\r\n       aapr.template,\r\n       aapr.display_position,\r\n       aapr.source_type,\r\n       aa.theme_number,\r\n\t\t\t aapr.workspace\r\nfrom apex_application_page_regions aapr\r\ninner join apex_application_pages aap on aap.page_id = aapr.page_id and aap.application_id = aapr.application_id\r\ninner join apex_applications aa on aa.application_id = aap.application_id\r\nleft outer join apex_application_build_options aabo1 on aabo1.build_option_name = aap.build_option\n                                                     and aabo1.application_id = aap.application_id\r\nleft outer join apex_application_build_options aabo2 on aabo2.build_option_name = aapr.build_option\n                                                     and aabo2.application_id = aapr.application_id\r\nwhere aapr.workspace = svt_preferences.get('SVT_WORKSPACE')\r\nand aa.theme_number  = 1000\r\nand aapr.source_type = 'Breadcrumb'\r\nand coalesce(aabo1.status_on_export,'NA') != 'Exclude'\r\nand coalesce(aabo2.status_on_export,'NA') != 'Exclude'","test_code":"RW_RGN_BREADCRUMB","level_id":319367883342220103240397164810613715872,"mv_dependency":null,"svt_component_type_id":5,"explanation":"Regions with a Source type of `Breadcrumb` should be in the `Page Header` display position and with a template of `Page Header`","fix":"Correct the display position and/or template","version_number":1.1,"version_db":"REDWOOD"}]}    
+{
+  "standard" :
+  [
+    {
+      "standard_id" : 331927390054668715455647074009653484512,
+      "standard_name" : "Redwood",
+      "description" : "Standards for correctly implementing Redwood patterns",
+      "compatibility_mode_id" : 1,
+      "created" : "2023-04-19T23:47:30.414000Z",
+      "created_by" : "HAYDEN.H.HUDSON@ORACLE.COM",
+      "updated" : "2023-04-19T23:47:30.414000Z",
+      "updated_by" : "HAYDEN.H.HUDSON@ORACLE.COM"
+    }
+  ],
+  "test" :
+  [
+    {
+      "test_id" : 1142692832668488973070674594374116586,
+      "test_name" : "Breadcrumbs have a template and position of \"Page Header\"",
+      "standard_id" : 331927390054668715455647074009653484512,
+      "display_sequence" : null,
+      "query_clob" : "select case when aapr.display_position = 'Page Header'\r\n            then 'Y'\r\n            when aapr.template = 'Page Header'\r\n            then 'Y'\r\n            else 'N'\r\n            end pass_yn,                          \r\n       aapr.application_id, \r\n       aapr.page_id,\r\n       null created_by,\r\n       null created_on,\r\n       aapr.last_updated_by,\r\n       aapr.last_updated_on,\r\n       apex_string.format('Region `%0` (app %1, page %2) should have both a template and position of \"Page Header\" (position `%3`, template `%4`)', \r\n        p0 => aapr.region_name, \r\n        p1 => aapr.application_id,\r\n        p2 => aapr.page_id,\r\n\t\t\t\tp3 => aapr.display_position,\r\n\t\t\t\tp4 => aapr.template) validation_failure_message,\r\n       apex_string.format('Region `%0` (app %1, page %2) has the wrong template or position', \r\n        p0 => aapr.region_name, \r\n        p1 => aapr.application_id,\r\n        p2 => aapr.page_id) issue_title,\r\n       aapr.region_id component_id,\r\n       null parent_component_id,\r\n       aapr.region_name,\r\n       aapr.template,\r\n       aapr.display_position,\r\n       aapr.source_type,\r\n       aa.theme_number,\r\n\t\t\t aapr.workspace\r\nfrom apex_application_page_regions aapr\r\ninner join apex_application_pages aap on aap.page_id = aapr.page_id and aap.application_id = aapr.application_id\r\ninner join apex_applications aa on aa.application_id = aap.application_id\r\nleft outer join apex_application_build_options aabo1 on aabo1.build_option_name = aap.build_option\n                                                     and aabo1.application_id = aap.application_id\r\nleft outer join apex_application_build_options aabo2 on aabo2.build_option_name = aapr.build_option\n                                                     and aabo2.application_id = aapr.application_id\r\nwhere aapr.workspace = svt_preferences.get('SVT_WORKSPACE')\r\nand aa.theme_number  = 1000\r\nand aapr.source_type = 'Breadcrumb'\r\nand coalesce(aabo1.status_on_export,'NA') != 'Exclude'\r\nand coalesce(aabo2.status_on_export,'NA') != 'Exclude'",
+      "test_code" : "RW_RGN_BREADCRUMB",
+      "level_id" : 319367883342220103240397164810613715872,
+      "mv_dependency" : null,
+      "svt_component_type_id" : 5,
+      "explanation" : "Regions with a Source type of `Breadcrumb` should be in the `Page Header` display position and with a template of `Page Header`",
+      "fix" : "Correct the display position and/or template",
+      "version_number" : 1.1,
+      "version_db" : "REDWOOD"
+    }
+  ]
+}    

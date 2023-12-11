@@ -20,7 +20,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: READER RIGHTS # 339835767318732170
+  authorization-scheme: READER RIGHTS # 370096811785824520
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -42,7 +42,7 @@ comments:
 
 regions: 
 - # ====== Region: Applications ================================
-  id: 406515879992586516
+  id: 436776924459678866
   identification: 
     title: Applications
     type: Interactive Report
@@ -53,6 +53,7 @@ regions:
     sql-query: |
       select esa.pk_id, 
              esa.apex_app_id, 
+             esa.apex_app_id application_id, 
              esa.esa_created, 
              esa.esa_created_by, 
              esa.esa_updated, 
@@ -81,7 +82,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7864611609680055300
+    template: Interactive Report # 7894872654147147650
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -101,7 +102,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 406515984154586516
+    id: 436777028621678866
     link: 
       link-column: Link to Custom Target
       target: 
@@ -111,8 +112,8 @@ regions:
         values: 
           p161_pk_id: '#PK_ID#'
 
-      link-icon: <span aria-label="Edit"><span class="fa fa-edit" aria-hidden="true" title="Edit"></span></span>
-      authorization-scheme: READER RIGHTS # 339835767318732170
+      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
+      authorization-scheme: READER RIGHTS # 370096811785824520
 
     pagination: 
       type: Row Ranges X to Y
@@ -172,14 +173,14 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 406521165329586904
+      id: 436782209796679254
       identification: 
         name: Primary Report
         alias: 1155794
 
     columns: 
     - # ====== Column: NOTES =======================================
-      id: 357072479996813602
+      id: 387333524463905952
       identification: 
         column-name: NOTES
         type: Plain Text
@@ -220,7 +221,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_TYPE ============================
-      id: 405593846611041249
+      id: 435854891078133599
       identification: 
         column-name: APPLICATION_TYPE
         type: Plain Text
@@ -261,7 +262,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_NAME ============================
-      id: 405593924654041250
+      id: 435854969121133600
       identification: 
         column-name: APPLICATION_NAME
         type: Plain Text
@@ -302,13 +303,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APP_ACTIVE_YN ===============================
-      id: 406092258087887275
+      id: 436353302554979625
       identification: 
         column-name: APP_ACTIVE_YN
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10749762879412294567
+        list-of-values: YES NO # 10780023923879386917
 
       heading: 
         heading: App Active
@@ -343,13 +344,13 @@ regions:
         pivot: true
 
     - # ====== Column: TYPE_ACTIVE_YN ==============================
-      id: 406092283171887276
+      id: 436353327638979626
       identification: 
         column-name: TYPE_ACTIVE_YN
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10749762879412294567
+        list-of-values: YES NO # 10780023923879386917
 
       heading: 
         heading: Type Active
@@ -384,7 +385,7 @@ regions:
         pivot: true
 
     - # ====== Column: TYPE_CODE ===================================
-      id: 406092440033887277
+      id: 436353484500979627
       identification: 
         column-name: TYPE_CODE
         type: Plain Text
@@ -425,7 +426,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PK_ID =======================================
-      id: 406516401055586519
+      id: 436777445522678869
       identification: 
         column-name: PK_ID
         type: Hidden Column
@@ -443,16 +444,16 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_APP_ID =================================
-      id: 406516822389586520
+      id: 436777866856678870
       identification: 
         column-name: APEX_APP_ID
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: SVT_APPLICATIONS # 406523757325617061
+        list-of-values: SVT_APPLICATIONS # 436784801792709411
 
       heading: 
-        heading: Apex Application
+        heading: APEX Application
         alignment: start
 
       single-row-view: 
@@ -463,7 +464,7 @@ regions:
         column-alignment: start
 
       accessibility: 
-        value-identifies-row: false
+        value-identifies-row: true
 
       source: 
         primary-key: false
@@ -484,7 +485,7 @@ regions:
         pivot: true
 
     - # ====== Column: ESA_CREATED =================================
-      id: 406517179823586520
+      id: 436778224290678870
       identification: 
         column-name: ESA_CREATED
         type: Plain Text
@@ -526,7 +527,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ESA_CREATED_BY ==============================
-      id: 406517587200586521
+      id: 436778631667678871
       identification: 
         column-name: ESA_CREATED_BY
         type: Plain Text
@@ -567,21 +568,21 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ESA_UPDATED =================================
-      id: 406518017124586521
+      id: 436779061591678871
       identification: 
         column-name: ESA_UPDATED
         type: Plain Text
 
       heading: 
-        heading: Esa Updated
-        alignment: start
+        heading: Updated
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 5
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -609,7 +610,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ESA_UPDATED_BY ==============================
-      id: 406518381633586521
+      id: 436779426100678871
       identification: 
         column-name: ESA_UPDATED_BY
         type: Plain Text
@@ -650,7 +651,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: AVAILABILITY_STATUS =========================
-      id: 437496771959215030
+      id: 467757816426307380
       identification: 
         column-name: AVAILABILITY_STATUS
         type: Plain Text
@@ -690,8 +691,60 @@ regions:
       security: 
         escape-special-characters: true
 
+    - # ====== Column: APPLICATION_ID ==============================
+      id: 547718200489165094
+      identification: 
+        column-name: APPLICATION_ID
+        type: Link
+
+      heading: 
+        heading: View Current Issues
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 96
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:1:&SESSION.:&P160_LINK_REQUEST.:&DEBUG.:RR,1:IR[AUDIT_RPT]EQ_APPLICATION_ID:#APPLICATION_ID#'
+          page: 1 # Issue Tracking
+          request: '&P160_LINK_REQUEST.'
+          clear-cache: RR,1
+          values: 
+            ir[audit_rpt]eq_application_id: '#APPLICATION_ID#'
+
+        link-text: <img src="#APEX_FILES#app_ui/img/icons/apex-edit-view.png" class="apex-edit-view" alt="">
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: DEFAULT_DEVELOPER ===========================
-      id: 559575098210168756
+      id: 589836142677261106
       identification: 
         column-name: DEFAULT_DEVELOPER
         type: Plain Text
@@ -773,16 +826,47 @@ regions:
         font-color: '#000000'
         alignment: center
 
+page-items: 
+- # ====== Page Item: P160_LINK_REQUEST ========================
+  id: 547717949885165092
+  identification: 
+    name: P160_LINK_REQUEST
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Applications # 436776924459678866
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
 buttons: 
 - # ====== Button: APPLICATION_TYPES ===========================
-  id: 63888560518520073
+  id: 94149604985612423
   identification: 
     button-name: APPLICATION_TYPES
     label: Application Types
 
   layout: 
     sequence: 10
-    region: Super Breadcrumb # 435318951363980824
+    region: Super Breadcrumb # 465579995831073174
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -791,7 +875,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -809,17 +893,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: CREATE ======================================
-  id: 406518927653586522
+  id: 436779972120678872
   identification: 
     button-name: CREATE
     label: Create
 
   layout: 
     sequence: 10
-    region: Applications # 406515879992586516
+    region: Applications # 436776924459678866
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -828,7 +912,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7864629098744055354
+    button-template: Icon # 7894890143211147704
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -845,17 +929,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
 - # ====== Button: RESET =======================================
-  id: 559573761091168742
+  id: 589834805558261092
   identification: 
     button-name: RESET
     label: Reset
 
   layout: 
     sequence: 20
-    region: Applications # 406515879992586516
+    region: Applications # 436776924459678866
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -864,7 +948,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -884,7 +968,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
-  id: 406519214944586522
+  id: 436780259411678872
   identification: 
     name: Edit Report - Dialog Closed
 
@@ -896,21 +980,38 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
     selection-type: Region
-    region: Applications # 406515879992586516
+    region: Applications # 436776924459678866
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 406519772467586523
+    id: 436780816934678873
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Applications # 406515879992586516
+      region: Applications # 436776924459678866
 
     execution: 
       sequence: 10
-      event: Edit Report - Dialog Closed # 406519214944586522
+      event: Edit Report - Dialog Closed # 436780259411678872
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P160_LINK_REQUEST ======================
+  id: 547718069867165093
+  identification: 
+    item-name: P160_LINK_REQUEST
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      svt_apex_view.rpt_link_request(p_issue_category => 'APEX',
+                                     p_application_id => :APP_ID)
 

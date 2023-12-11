@@ -5,7 +5,7 @@ identification:
   name: Issue Tracking
   alias: HOME
   title: Violations
-  page-group: Home # 9192743591134683651
+  page-group: Home # 9223004635601776001
 
 appearance: 
   page-mode: Normal
@@ -43,18 +43,65 @@ server-cache:
   caching: Disabled
 
 help: 
-  help-text: <p>This application is designed to assist in the development of consistent Oracle Application Express (APEX) applications by analyzing each application for adherence to best practices. Appl ications can be divided into different types, with some standards applying only to specific types of applications. To test for compliance, create a standard and associate it with the appropriate type(s) of application(s), defining at least one test against the APEX Data Dictionary to verify compliance.</p>
+  help-text: |
+    <p>This application is designed to assist in the development of consistent Oracle Application Express (APEX) applications by analyzing each application for adherence to best practices. Appl ications can be divided into different types, with some standards applying only to specific types of applications. To test for compliance, create a standard and associate it with the appropriate type(s) of application(s), defining at least one test against the APEX Data Dictionary to verify compliance.</p>
+    <p>&A_DEFAULT_ADMIN_MESSAGE.</p>
 
 regions: 
-- # ====== Region: &P1_MIN_NOT_MET_MESSAGE. ====================
-  id: 63886894888520056
+- # ====== Region: Next run info ===============================
+  id: 14683678284726521
   identification: 
-    title: '&P1_MIN_NOT_MET_MESSAGE.'
+    title: Next run info
+    type: Static Content
+
+  source: 
+    html-code: <span class="nexRun">&P1_NEXT_RUN_INFO.</span>
+
+  layout: 
+    sequence: 10
+    parent-region: Tracking issues report # 828091609129557197
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 7894859608240147634
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: <span class="MinNotMet"></span> =============
+  id: 94147939355612406
+  identification: 
+    title: <span class="MinNotMet"></span>
     type: Static Content
 
   layout: 
     sequence: 50
-    parent-region: Issues # 692368808000555021
+    parent-region: Issues # 722629852467647371
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -63,7 +110,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7864596558601055279
+    template: Alert # 7894857603068147629
     template-options: 
     - '#DEFAULT#'
     - t-Alert--colorBG
@@ -80,12 +127,8 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-side-condition: 
-    type: Item is NOT NULL
-    item: P1_MIN_NOT_MET_MESSAGE
-
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 11071175072309282122
+    authorization-scheme: CONTRIBUTION RIGHTS # 11101436116776374472
 
   server-cache: 
     caching: Disabled
@@ -99,14 +142,14 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: New Assignment ==============================
-  id: 346726565163742221
+  id: 376987609630834571
   identification: 
     title: New Assignment
     type: Static Content
 
   layout: 
     sequence: 10
-    parent-region: Issues # 692368808000555021
+    parent-region: Issues # 722629852467647371
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -115,7 +158,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Inline Drawer # 341097050645240517
+    template: Inline Drawer # 371358095112332867
     template-options: 
     - '#DEFAULT#'
     - js-dialog-class-t-Drawer--pullOutEnd
@@ -143,14 +186,14 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Jobs Status =================================
-  id: 346755667429390918
+  id: 377016711896483268
   identification: 
     title: Jobs Status
     type: Static Content
 
   layout: 
     sequence: 80
-    parent-region: Main Region # 582003488634193088
+    parent-region: Main Region # 612264533101285438
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -159,7 +202,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7864608868161055297
+    template: Collapsible # 7894869912628147647
     template-options: 
     - '#DEFAULT#'
     - js-useLocalStorage
@@ -179,7 +222,7 @@ regions:
     exclude-title-from-translation: false
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 11071175072309282122
+    authorization-scheme: CONTRIBUTION RIGHTS # 11101436116776374472
 
   server-cache: 
     caching: Disabled
@@ -193,7 +236,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: You must enable all APEX automations ========
-  id: 398571437500095096
+  id: 428832481967187446
   identification: 
     title: You must enable all APEX automations
     type: Static Content
@@ -203,7 +246,7 @@ regions:
 
   layout: 
     sequence: 50
-    parent-region: Alerts # 865347380226890062
+    parent-region: Admin Alerts # 895608424693982412
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -212,7 +255,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7864596558601055279
+    template: Alert # 7894857603068147629
     template-options: 
     - '#DEFAULT#'
     - t-Alert--colorBG
@@ -249,7 +292,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Main Region =================================
-  id: 582003488634193088
+  id: 612264533101285438
   identification: 
     title: Main Region
     type: Static Content
@@ -265,7 +308,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7864598431666055282
+    template: Blank with Attributes # 7894859476133147632
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -290,14 +333,14 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: There are no alerts at this time ============
-  id: 582004572754193099
+  id: 612265617221285449
   identification: 
     title: There are no alerts at this time
     type: Static Content
 
   layout: 
     sequence: 90
-    parent-region: Alerts # 865347380226890062
+    parent-region: Admin Alerts # 895608424693982412
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -306,7 +349,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7864596558601055279
+    template: Alert # 7894857603068147629
     template-options: 
     - '#DEFAULT#'
     - t-Alert--colorBG
@@ -340,14 +383,14 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Issues ======================================
-  id: 692368808000555021
+  id: 722629852467647371
   identification: 
     title: Issues
     type: Static Content
 
   layout: 
     sequence: 70
-    parent-region: Main Region # 582003488634193088
+    parent-region: Main Region # 612264533101285438
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -356,7 +399,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7864598431666055282
+    template: Blank with Attributes # 7894859476133147632
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -381,7 +424,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Job Status Report ===========================
-  id: 692368840098555022
+  id: 722629884565647372
   identification: 
     title: Job Status Report
     type: Classic Report
@@ -403,7 +446,7 @@ regions:
 
   layout: 
     sequence: 61
-    parent-region: Jobs Status # 346755667429390918
+    parent-region: Jobs Status # 377016711896483268
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -412,7 +455,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7864612116513055305
+    template: Standard # 7894873160980147655
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -441,7 +484,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Timeline # 6613324380067835165
+      template: Timeline # 6643585424534927515
       template-options: 
       - '#DEFAULT#'
       - t-Timeline--compact
@@ -473,7 +516,7 @@ regions:
 
   columns: 
   - # ====== Column: EVENT_DATE ==================================
-    id: 344582815181923209
+    id: 374843859649015559
     identification: 
       column-name: EVENT_DATE
       type: Plain Text
@@ -508,7 +551,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_NAME ===================================
-    id: 344582887118923210
+    id: 374843931586015560
     identification: 
       column-name: USER_NAME
       type: Plain Text
@@ -543,7 +586,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TYPE ==================================
-    id: 344583013311923211
+    id: 374844057779015561
     identification: 
       column-name: EVENT_TYPE
       type: Plain Text
@@ -575,7 +618,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_AVATAR =================================
-    id: 344583148823923212
+    id: 374844193291015562
     identification: 
       column-name: USER_AVATAR
       type: Plain Text
@@ -607,7 +650,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TITLE =================================
-    id: 344583228386923213
+    id: 374844272854015563
     identification: 
       column-name: EVENT_TITLE
       type: Plain Text
@@ -639,7 +682,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DESC ==================================
-    id: 344583347110923214
+    id: 374844391578015564
     identification: 
       column-name: EVENT_DESC
       type: Plain Text
@@ -671,7 +714,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_LINK ==================================
-    id: 439535424700631147
+    id: 469796469167723497
     identification: 
       column-name: EVENT_LINK
       type: Plain Text
@@ -703,7 +746,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: LOG_DATE ====================================
-    id: 725803344918698482
+    id: 756064389385790832
     identification: 
       column-name: LOG_DATE
       type: Plain Text
@@ -738,7 +781,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Tracking issues report ======================
-  id: 797830564662464847
+  id: 828091609129557197
   identification: 
     title: Tracking issues report
     type: Interactive Report
@@ -752,7 +795,7 @@ regions:
 
   layout: 
     sequence: 60
-    parent-region: Issues # 692368808000555021
+    parent-region: Issues # 722629852467647371
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -761,7 +804,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7864611609680055300
+    template: Interactive Report # 7894872654147147650
     template-options: 
     - '#DEFAULT#'
     css-classes: 
@@ -777,9 +820,6 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  header-and-footer: 
-    footer-text: <i>&P1_NEXT_RUN_INFO.</i>
-
   read-only: 
     type: Always
 
@@ -790,7 +830,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 357072713766813604
+    id: 387333758233905954
     link: 
       link-column: Exclude Link Column
 
@@ -824,15 +864,15 @@ regions:
       compute: false
       aggregate: false
       chart: false
-      group-by: false
-      pivot: false
+      group-by: true
+      pivot: true
       flashback: false
       save-report: true
-      save-public-report: false
+      save-public-report: true
       reset: true
       help: true
       download: true
-      subscription: false
+      subscription: true
 
     download: 
       formats: 
@@ -853,50 +893,50 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 398368068484611036
+      id: 428629112951703386
       identification: 
         name: Primary Report
         alias: PRIMARY
 
     - # ====== Saved Report: APEX standards ========================
-      id: 398570638368840977
+      id: 428831682835933327
       identification: 
         name: APEX standards
         alias: APEX
 
     - # ====== Saved Report: DB PLSQL standards ====================
-      id: 406073446708646177
+      id: 436334491175738527
       identification: 
         name: DB PLSQL standards
         alias: DB_PLSQL
 
     - # ====== Saved Report: Table standards =======================
-      id: 406077142612658210
+      id: 436338187079750560
       identification: 
         name: Table standards
         alias: TABLE
 
     - # ====== Saved Report: View standards ========================
-      id: 406081054532665343
+      id: 436342098999757693
       identification: 
         name: View standards
         alias: VIEW
 
     - # ====== Saved Report: Trigger standards =====================
-      id: 483481239533769357
+      id: 513742284000861707
       identification: 
         name: Trigger standards
         alias: TRIGGER
 
     - # ====== Saved Report: Materialized Views Standards ==========
-      id: 483502742762830859
+      id: 513763787229923209
       identification: 
         name: Materialized Views Standards
         alias: MV
 
     columns: 
     - # ====== Column: AUDIT_ID ====================================
-      id: 357072798313813605
+      id: 387333842780905955
       identification: 
         column-name: AUDIT_ID
         type: Link
@@ -943,14 +983,14 @@ regions:
         compute: false
         chart: false
         group-by: false
-        pivot: false
+        pivot: true
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
         escape-special-characters: true
 
     - # ====== Column: ISSUE_CATEGORY ==============================
-      id: 357072912867813606
+      id: 387333957334905956
       identification: 
         column-name: ISSUE_CATEGORY
         type: Plain Text
@@ -991,7 +1031,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_ID ==============================
-      id: 357073037725813607
+      id: 387334082192905957
       identification: 
         column-name: APPLICATION_ID
         type: Link
@@ -1040,11 +1080,11 @@ regions:
         pivot: true
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_NAME ============================
-      id: 357073151802813608
+      id: 387334196269905958
       identification: 
         column-name: APPLICATION_NAME
         type: Plain Text
@@ -1103,7 +1143,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APPLICATION_TYPE ============================
-      id: 357073226177813609
+      id: 387334270644905959
       identification: 
         column-name: APPLICATION_TYPE
         type: Link
@@ -1152,11 +1192,11 @@ regions:
         pivot: true
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
         escape-special-characters: true
 
     - # ====== Column: PAGE_ID =====================================
-      id: 357073303659813610
+      id: 387334348126905960
       identification: 
         column-name: PAGE_ID
         type: Plain Text
@@ -1197,7 +1237,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: TEST_ID =====================================
-      id: 357073406054813611
+      id: 387334450521905961
       identification: 
         column-name: TEST_ID
         type: Hidden Column
@@ -1215,7 +1255,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: URGENCY =====================================
-      id: 357073469352813612
+      id: 387334513819905962
       identification: 
         column-name: URGENCY
         type: Plain Text
@@ -1256,7 +1296,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: URGENCY_LEVEL ===============================
-      id: 357073617402813613
+      id: 387334661869905963
       identification: 
         column-name: URGENCY_LEVEL
         type: Plain Text
@@ -1297,7 +1337,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: LINE ========================================
-      id: 357073685964813614
+      id: 387334730431905964
       identification: 
         column-name: LINE
         type: Plain Text
@@ -1338,7 +1378,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: OBJECT_NAME =================================
-      id: 357073825941813615
+      id: 387334870408905965
       identification: 
         column-name: OBJECT_NAME
         type: Plain Text
@@ -1379,7 +1419,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: OBJECT_TYPE =================================
-      id: 357073921970813616
+      id: 387334966437905966
       identification: 
         column-name: OBJECT_TYPE
         type: Plain Text
@@ -1420,7 +1460,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CODE ========================================
-      id: 357074004810813617
+      id: 387335049277905967
       identification: 
         column-name: CODE
         type: Plain Text
@@ -1461,7 +1501,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: VALIDATION_FAILURE_MESSAGE ==================
-      id: 357074093798813618
+      id: 387335138265905968
       identification: 
         column-name: VALIDATION_FAILURE_MESSAGE
         type: Plain Text
@@ -1535,13 +1575,13 @@ regions:
         compute: false
         chart: false
         group-by: false
-        pivot: false
+        pivot: true
 
       security: 
         escape-special-characters: true
 
     - # ====== Column: ISSUE_TEXT ==================================
-      id: 357074201090813619
+      id: 387335245557905969
       identification: 
         column-name: ISSUE_TEXT
         type: Hidden Column
@@ -1559,7 +1599,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ISSUE_TITLE =================================
-      id: 357074331597813620
+      id: 387335376064905970
       identification: 
         column-name: ISSUE_TITLE
         type: Plain Text
@@ -1600,7 +1640,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_CREATED_BY =============================
-      id: 398175565257518971
+      id: 428436609724611321
       identification: 
         column-name: APEX_CREATED_BY
         type: Plain Text
@@ -1641,7 +1681,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_CREATED_ON =============================
-      id: 398175631801518972
+      id: 428436676268611322
       identification: 
         column-name: APEX_CREATED_ON
         type: Plain Text
@@ -1683,7 +1723,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_LAST_UPDATED_BY ========================
-      id: 398175668406518973
+      id: 428436712873611323
       identification: 
         column-name: APEX_LAST_UPDATED_BY
         type: Plain Text
@@ -1724,7 +1764,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_LAST_UPDATED_ON ========================
-      id: 398175859826518974
+      id: 428436904293611324
       identification: 
         column-name: APEX_LAST_UPDATED_ON
         type: Plain Text
@@ -1766,7 +1806,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: NOTES =======================================
-      id: 398175871531518975
+      id: 428436915998611325
       identification: 
         column-name: NOTES
         type: Hidden Column
@@ -1784,7 +1824,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ACTION_ID ===================================
-      id: 398175988393518976
+      id: 428437032860611326
       identification: 
         column-name: ACTION_ID
         type: Hidden Column
@@ -1802,7 +1842,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ACTION_NAME =================================
-      id: 398176149027518977
+      id: 428437193494611327
       identification: 
         column-name: ACTION_NAME
         type: Plain Text
@@ -1843,7 +1883,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREATED =====================================
-      id: 398176186638518978
+      id: 428437231105611328
       identification: 
         column-name: CREATED
         type: Plain Text
@@ -1888,7 +1928,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UPDATED =====================================
-      id: 398176285490518979
+      id: 428437329957611329
       identification: 
         column-name: UPDATED
         type: Plain Text
@@ -1933,13 +1973,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: STALE_YN ====================================
-      id: 398176412985518980
+      id: 428437457452611330
       identification: 
         column-name: STALE_YN
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10749762879412294567
+        list-of-values: YES NO # 10780023923879386917
 
       heading: 
         heading: Stale
@@ -1974,7 +2014,7 @@ regions:
         pivot: true
 
     - # ====== Column: ASSIGNEE ====================================
-      id: 398176540766518981
+      id: 428437585233611331
       identification: 
         column-name: ASSIGNEE
         type: Plain Text
@@ -2015,7 +2055,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: LINK_URL ====================================
-      id: 398176618724518982
+      id: 428437663191611332
       identification: 
         column-name: LINK_URL
         type: Hidden Column
@@ -2033,13 +2073,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: VIEW_BUTTON =================================
-      id: 398176728192518983
+      id: 428437772659611333
       identification: 
         column-name: VIEW_BUTTON
         type: Plain Text
 
       heading: 
-        heading: View Button
+        heading: View
         alignment: center
 
       single-row-view: 
@@ -2097,7 +2137,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: LINK_TO_APEX_ISSUE ==========================
-      id: 398176826288518984
+      id: 428437870755611334
       identification: 
         column-name: LINK_TO_APEX_ISSUE
         type: Hidden Column
@@ -2115,7 +2155,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_ISSUE_ID ===============================
-      id: 398176956877518985
+      id: 428438001344611335
       identification: 
         column-name: APEX_ISSUE_ID
         type: Plain Text
@@ -2156,7 +2196,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_ISSUE_TITLE ============================
-      id: 398177020486518986
+      id: 428438064953611336
       identification: 
         column-name: APEX_ISSUE_TITLE
         type: Hidden Column
@@ -2174,7 +2214,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_ISSUE_TEXT =============================
-      id: 398177105835518987
+      id: 428438150302611337
       identification: 
         column-name: APEX_ISSUE_TEXT
         type: Hidden Column
@@ -2192,7 +2232,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ISSUE_STATUS ================================
-      id: 398177190840518988
+      id: 428438235307611338
       identification: 
         column-name: ISSUE_STATUS
         type: Plain Text
@@ -2233,7 +2273,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APEX_ISSUE_TITLE_SUFFIX =====================
-      id: 398177277145518989
+      id: 428438321612611339
       identification: 
         column-name: APEX_ISSUE_TITLE_SUFFIX
         type: Hidden Column
@@ -2251,7 +2291,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: RECENT_YN ===================================
-      id: 398177458238518990
+      id: 428438502705611340
       identification: 
         column-name: RECENT_YN
         type: Hidden Column
@@ -2269,13 +2309,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: URGENT_YN ===================================
-      id: 398177543106518991
+      id: 428438587573611341
       identification: 
         column-name: URGENT_YN
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10749762879412294567
+        list-of-values: YES NO # 10780023923879386917
 
       heading: 
         heading: Urgent
@@ -2310,7 +2350,7 @@ regions:
         pivot: true
 
     - # ====== Column: TEST_CODE ===================================
-      id: 398177625729518992
+      id: 428438670196611342
       identification: 
         column-name: TEST_CODE
         type: Plain Text
@@ -2345,13 +2385,13 @@ regions:
         compute: false
         chart: false
         group-by: false
-        pivot: false
+        pivot: true
 
       security: 
         escape-special-characters: true
 
     - # ====== Column: SRC_RECENT_CHANGE_YN ========================
-      id: 398177709382518993
+      id: 428438753849611343
       identification: 
         column-name: SRC_RECENT_CHANGE_YN
         type: Hidden Column
@@ -2369,7 +2409,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: LEGACY_YN ===================================
-      id: 398177860220518994
+      id: 428438904687611344
       identification: 
         column-name: LEGACY_YN
         type: Hidden Column
@@ -2387,7 +2427,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: UNQID =======================================
-      id: 398177953441518995
+      id: 428438997908611345
       identification: 
         column-name: UNQID
         type: IR-Row-Selector
@@ -2418,10 +2458,10 @@ regions:
         hide: false
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
 
     - # ====== Column: MV_DEPENDENCY ===============================
-      id: 398178117276518997
+      id: 428439161743611347
       identification: 
         column-name: MV_DEPENDENCY
         type: Hidden Column
@@ -2439,13 +2479,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ASSIGNED_TO_ME_YN ===========================
-      id: 398178176466518998
+      id: 428439220933611348
       identification: 
         column-name: ASSIGNED_TO_ME_YN
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10749762879412294567
+        list-of-values: YES NO # 10780023923879386917
 
       heading: 
         heading: Assigned To Me
@@ -2480,7 +2520,7 @@ regions:
         pivot: true
 
     - # ====== Column: OWNER =======================================
-      id: 398178356357518999
+      id: 428439400824611349
       identification: 
         column-name: OWNER
         type: Plain Text
@@ -2521,7 +2561,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: RERUN =======================================
-      id: 398178424604519000
+      id: 428439469071611350
       identification: 
         column-name: RERUN
         type: Plain Text
@@ -2575,11 +2615,11 @@ regions:
         pivot: true
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
         escape-special-characters: true
 
     - # ====== Column: MARK_AS_EXCEPTION ===========================
-      id: 398178557516519001
+      id: 428439601983611351
       identification: 
         column-name: MARK_AS_EXCEPTION
         type: Plain Text
@@ -2633,11 +2673,11 @@ regions:
         pivot: true
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
         escape-special-characters: true
 
     - # ====== Column: COMPONENT_ID ================================
-      id: 398178658361519002
+      id: 428439702828611352
       identification: 
         column-name: COMPONENT_ID
         type: Hidden Column
@@ -2655,7 +2695,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: PARENT_COMPONENT_ID =========================
-      id: 398178755727519003
+      id: 428439800194611353
       identification: 
         column-name: PARENT_COMPONENT_ID
         type: Hidden Column
@@ -2673,7 +2713,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
-      id: 398178848783519004
+      id: 428439893250611354
       identification: 
         column-name: SVT_COMPONENT_TYPE_ID
         type: Hidden Column
@@ -2691,7 +2731,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: STANDARD_NAME ===============================
-      id: 398178882240519005
+      id: 428439926707611355
       identification: 
         column-name: STANDARD_NAME
         type: Link
@@ -2740,11 +2780,11 @@ regions:
         pivot: true
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
         escape-special-characters: true
 
     - # ====== Column: PREPARED_URL ================================
-      id: 398178996685519006
+      id: 428440041152611356
       identification: 
         column-name: PREPARED_URL
         type: Hidden Column
@@ -2762,7 +2802,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: VIEW_TEXT ===================================
-      id: 398179162454519007
+      id: 428440206921611357
       identification: 
         column-name: VIEW_TEXT
         type: Hidden Column
@@ -2780,7 +2820,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: COMPONENT_TYPE_ID ===========================
-      id: 398179182768519008
+      id: 428440227235611358
       identification: 
         column-name: COMPONENT_TYPE_ID
         type: Hidden Column
@@ -2798,7 +2838,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: IS_EXCEPTION_YN =============================
-      id: 398180054361519016
+      id: 428441098828611366
       identification: 
         column-name: IS_EXCEPTION_YN
         type: Plain Text
@@ -2839,7 +2879,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APP_TYPE_CODE ===============================
-      id: 406092135487887274
+      id: 436353179954979624
       identification: 
         column-name: APP_TYPE_CODE
         type: Hidden Column
@@ -2857,7 +2897,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APP_PK_ID ===================================
-      id: 406092939903887282
+      id: 436353984370979632
       identification: 
         column-name: APP_PK_ID
         type: Hidden Column
@@ -2875,7 +2915,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: SHORT_FAILURE_MESSAGE =======================
-      id: 406095547920887308
+      id: 436356592387979658
       identification: 
         column-name: SHORT_FAILURE_MESSAGE
         type: Hidden Column
@@ -2893,7 +2933,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: SHORT_NOTES =================================
-      id: 441450269798309779
+      id: 471711314265402129
       identification: 
         column-name: SHORT_NOTES
         type: Hidden Column
@@ -2911,7 +2951,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: STANDARD_ID =================================
-      id: 441450367251309780
+      id: 471711411718402130
       identification: 
         column-name: STANDARD_ID
         type: Hidden Column
@@ -2929,7 +2969,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: APP_TYPE_ID =================================
-      id: 441450523732309781
+      id: 471711568199402131
       identification: 
         column-name: APP_TYPE_ID
         type: Hidden Column
@@ -2947,13 +2987,13 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: IS_EXCEPTION_YN2 ============================
-      id: 502513519881182304
+      id: 532774564348274654
       identification: 
         column-name: IS_EXCEPTION_YN2
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: YES NO # 10749762879412294567
+        list-of-values: YES NO # 10780023923879386917
 
       heading: 
         heading: Exception
@@ -2988,7 +3028,7 @@ regions:
         pivot: true
 
     - # ====== Column: TEST_NAME ===================================
-      id: 502513581553182305
+      id: 532774626020274655
       identification: 
         column-name: TEST_NAME
         type: Link
@@ -3036,7 +3076,7 @@ regions:
         pivot: true
 
       security: 
-        authorization-scheme: READER RIGHTS # 339835767318732170
+        authorization-scheme: READER RIGHTS # 370096811785824520
         escape-special-characters: true
 
     printing: 
@@ -3081,10 +3121,10 @@ regions:
         font-color: '#000000'
         alignment: center
 
-- # ====== Region: Alerts ======================================
-  id: 865347380226890062
+- # ====== Region: Admin Alerts ================================
+  id: 895608424693982412
   identification: 
-    title: Alerts
+    title: Admin Alerts
     type: Static Content
 
   layout: 
@@ -3098,7 +3138,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Inline Drawer # 341097050645240517
+    template: Inline Drawer # 371358095112332867
     template-options: 
     - '#DEFAULT#'
     - js-dialog-class-t-Drawer--pullOutEnd
@@ -3131,7 +3171,7 @@ regions:
       end;
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   server-cache: 
     caching: Disabled
@@ -3145,7 +3185,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: You must correct the following Problem Assign
-  id: 865347473688890063
+  id: 895608518155982413
   identification: 
     title: You must correct the following Problem Assignees
     type: Classic Report
@@ -3160,7 +3200,7 @@ regions:
 
   layout: 
     sequence: 80
-    parent-region: Alerts # 865347380226890062
+    parent-region: Admin Alerts # 895608424693982412
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -3169,7 +3209,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7864608868161055297
+    template: Collapsible # 7894869912628147647
     template-options: 
     - '#DEFAULT#'
     - js-useLocalStorage
@@ -3204,7 +3244,7 @@ regions:
       from V_SVT_PROBLEM_ASSIGNEES
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   server-cache: 
     caching: Disabled
@@ -3219,7 +3259,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Standard # 7864618727018055323
+      template: Standard # 7894879771485147673
       template-options: 
       - '#DEFAULT#'
       - t-Report--stretch
@@ -3253,7 +3293,7 @@ regions:
 
   columns: 
   - # ====== Column: DISPLAY_ASSIGNEE ============================
-    id: 582004169564193095
+    id: 612265214031285445
     identification: 
       column-name: DISPLAY_ASSIGNEE
       type: Hidden Column
@@ -3268,7 +3308,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: PROBLEM_ASSIGNEE ============================
-    id: 585322189064525750
+    id: 615583233531618100
     identification: 
       column-name: PROBLEM_ASSIGNEE
       type: Link
@@ -3312,7 +3352,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: You must refresh these stale deployment files
-  id: 865351253783328603
+  id: 895612298250420953
   identification: 
     title: You must refresh these stale deployment files
     type: Classic Report
@@ -3353,7 +3393,7 @@ regions:
 
   layout: 
     sequence: 110
-    parent-region: Alerts # 865347380226890062
+    parent-region: Admin Alerts # 895608424693982412
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -3362,7 +3402,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7864612116513055305
+    template: Standard # 7894873160980147655
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -3383,7 +3423,7 @@ regions:
     type: Never
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   server-cache: 
     caching: Disabled
@@ -3392,7 +3432,7 @@ regions:
     customizable: Not Customizable By End Users
 
   configuration: 
-    build-option: TO_DELETE # 6448933923493984137
+    build-option: TO_DELETE # 6479194967961076487
 
   attributes: 
     layout: 
@@ -3401,7 +3441,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Timeline # 6613324380067835165
+      template: Timeline # 6643585424534927515
       template-options: 
       - '#DEFAULT#'
       - t-Timeline--compact
@@ -3433,7 +3473,7 @@ regions:
 
   columns: 
   - # ====== Column: APPLICATION_FILE_ID =========================
-    id: 585327949069525755
+    id: 615588993536618105
     identification: 
       column-name: APPLICATION_FILE_ID
       type: Hidden Column
@@ -3448,7 +3488,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ZIP_BLOB ====================================
-    id: 585328310535525755
+    id: 615589355002618105
     identification: 
       column-name: ZIP_BLOB
       type: Hidden Column
@@ -3463,7 +3503,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ZIP_FILE_SIZE ===============================
-    id: 585328757062525756
+    id: 615589801529618106
     identification: 
       column-name: ZIP_FILE_SIZE
       type: Hidden Column
@@ -3478,7 +3518,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ZIP_DOWNLOAD ================================
-    id: 585329138027525756
+    id: 615590182494618106
     identification: 
       column-name: ZIP_DOWNLOAD
       type: Hidden Column
@@ -3493,7 +3533,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ZIP_MIME_TYPE ===============================
-    id: 585329565410525756
+    id: 615590609877618106
     identification: 
       column-name: ZIP_MIME_TYPE
       type: Hidden Column
@@ -3508,7 +3548,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ZIP_CHARSET =================================
-    id: 585329925261525757
+    id: 615590969728618107
     identification: 
       column-name: ZIP_CHARSET
       type: Hidden Column
@@ -3523,7 +3563,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ZIP_UPDATED_ON ==============================
-    id: 585330301957525757
+    id: 615591346424618107
     identification: 
       column-name: ZIP_UPDATED_ON
       type: Hidden Column
@@ -3538,7 +3578,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: PAGE_ID_ICON ================================
-    id: 585330758818525757
+    id: 615591803285618107
     identification: 
       column-name: PAGE_ID_ICON
       type: Hidden Column
@@ -3553,7 +3593,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DATE ==================================
-    id: 585331124984525758
+    id: 615592169451618108
     identification: 
       column-name: EVENT_DATE
       type: Hidden Column
@@ -3568,7 +3608,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DESC ==================================
-    id: 585331522202525758
+    id: 615592566669618108
     identification: 
       column-name: EVENT_DESC
       type: Hidden Column
@@ -3583,7 +3623,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: STALE_YN ====================================
-    id: 585331878042525758
+    id: 615592922509618108
     identification: 
       column-name: STALE_YN
       type: Hidden Column
@@ -3598,7 +3638,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_AVATAR =================================
-    id: 585332328771525759
+    id: 615593373238618109
     identification: 
       column-name: USER_AVATAR
       type: Hidden Column
@@ -3613,7 +3653,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_LINK ==================================
-    id: 585332701737525759
+    id: 615593746204618109
     identification: 
       column-name: EVENT_LINK
       type: Hidden Column
@@ -3628,7 +3668,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_ACTION ================================
-    id: 585333155485525760
+    id: 615594199952618110
     identification: 
       column-name: ALERT_ACTION
       type: Hidden Column
@@ -3643,7 +3683,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TYPE ==================================
-    id: 585333470217525760
+    id: 615594514684618110
     identification: 
       column-name: EVENT_TYPE
       type: Hidden Column
@@ -3658,7 +3698,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: FILE_BLOB ===================================
-    id: 585333880525525761
+    id: 615594924992618111
     identification: 
       column-name: FILE_BLOB
       type: Hidden Column
@@ -3673,7 +3713,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: MIME_TYPE ===================================
-    id: 585334302414525761
+    id: 615595346881618111
     identification: 
       column-name: MIME_TYPE
       type: Hidden Column
@@ -3688,7 +3728,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: FILE_NAME ===================================
-    id: 585334753083525761
+    id: 615595797550618111
     identification: 
       column-name: FILE_NAME
       type: Hidden Column
@@ -3703,7 +3743,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TITLE =================================
-    id: 585335097642525762
+    id: 615596142109618112
     identification: 
       column-name: EVENT_TITLE
       type: Hidden Column
@@ -3718,7 +3758,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: CHARACTER_SET ===============================
-    id: 585335488732525762
+    id: 615596533199618112
     identification: 
       column-name: CHARACTER_SET
       type: Hidden Column
@@ -3733,7 +3773,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: FILE_SIZE ===================================
-    id: 585335891846525762
+    id: 615596936313618112
     identification: 
       column-name: FILE_SIZE
       type: Hidden Column
@@ -3748,7 +3788,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: DOWNLOAD ====================================
-    id: 585336349055525763
+    id: 615597393522618113
     identification: 
       column-name: DOWNLOAD
       type: Hidden Column
@@ -3763,7 +3803,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: DATA_LOAD_DEFINITION_NAME ===================
-    id: 585336762462525763
+    id: 615597806929618113
     identification: 
       column-name: DATA_LOAD_DEFINITION_NAME
       type: Hidden Column
@@ -3778,7 +3818,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: STATIC_APPLICATION_FILE_NAME ================
-    id: 585337137747525763
+    id: 615598182214618113
     identification: 
       column-name: STATIC_APPLICATION_FILE_NAME
       type: Hidden Column
@@ -3793,7 +3833,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_NAME ===================================
-    id: 585337532598525763
+    id: 615598577065618113
     identification: 
       column-name: USER_NAME
       type: Hidden Column
@@ -3808,7 +3848,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: INSPECT_STATIC_FILE_ICON ====================
-    id: 585337916320525764
+    id: 615598960787618114
     identification: 
       column-name: INSPECT_STATIC_FILE_ICON
       type: Hidden Column
@@ -3823,7 +3863,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: PAGE_ID =====================================
-    id: 585338287092525764
+    id: 615599331559618114
     identification: 
       column-name: PAGE_ID
       type: Hidden Column
@@ -3838,7 +3878,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: You must configure the following Missing pref
-  id: 866435001330312413
+  id: 896696045797404763
   identification: 
     title: You must configure the following Missing preferences
     type: Classic Report
@@ -3855,7 +3895,7 @@ regions:
 
   layout: 
     sequence: 70
-    parent-region: Alerts # 865347380226890062
+    parent-region: Admin Alerts # 895608424693982412
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -3864,7 +3904,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7864596558601055279
+    template: Alert # 7894857603068147629
     template-options: 
     - '#DEFAULT#'
     - t-Alert--horizontal
@@ -3891,7 +3931,7 @@ regions:
       from V_SVT_PREFERENCE_PROBLEMS
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   server-cache: 
     caching: Disabled
@@ -3906,7 +3946,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Standard # 7864618727018055323
+      template: Standard # 7894879771485147673
       template-options: 
       - '#DEFAULT#'
       - t-Report--altRowsDefault
@@ -3937,7 +3977,7 @@ regions:
 
   columns: 
   - # ====== Column: STMT ========================================
-    id: 585326789242525754
+    id: 615587833709618104
     identification: 
       column-name: STMT
       type: Plain Text
@@ -3969,7 +4009,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: You must address these Unsuccessful Jobs ====
-  id: 919315168375921395
+  id: 949576212843013745
   identification: 
     title: You must address these Unsuccessful Jobs
     type: Classic Report
@@ -3991,7 +4031,7 @@ regions:
 
   layout: 
     sequence: 60
-    parent-region: Alerts # 865347380226890062
+    parent-region: Admin Alerts # 895608424693982412
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -4000,7 +4040,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7864608868161055297
+    template: Collapsible # 7894869912628147647
     template-options: 
     - '#DEFAULT#'
     - js-useLocalStorage
@@ -4029,7 +4069,7 @@ regions:
       from V_SVT_AUTOMATIONS_PROBLEMS
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   server-cache: 
     caching: Disabled
@@ -4044,7 +4084,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Timeline # 6613324380067835165
+      template: Timeline # 6643585424534927515
       template-options: 
       - '#DEFAULT#'
       - t-Timeline--compact
@@ -4076,7 +4116,7 @@ regions:
 
   columns: 
   - # ====== Column: USER_NAME ===================================
-    id: 585322957183525750
+    id: 615584001650618100
     identification: 
       column-name: USER_NAME
       type: Hidden Column
@@ -4091,7 +4131,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_ACTION ================================
-    id: 585323322400525751
+    id: 615584366867618101
     identification: 
       column-name: ALERT_ACTION
       type: Hidden Column
@@ -4106,7 +4146,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DATE ==================================
-    id: 585323755498525751
+    id: 615584799965618101
     identification: 
       column-name: EVENT_DATE
       type: Hidden Column
@@ -4121,7 +4161,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TITLE =================================
-    id: 585324096877525751
+    id: 615585141344618101
     identification: 
       column-name: EVENT_TITLE
       type: Hidden Column
@@ -4136,7 +4176,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_AVATAR =================================
-    id: 585324483689525752
+    id: 615585528156618102
     identification: 
       column-name: USER_AVATAR
       type: Hidden Column
@@ -4151,7 +4191,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DESC ==================================
-    id: 585324946727525752
+    id: 615585991194618102
     identification: 
       column-name: EVENT_DESC
       type: Hidden Column
@@ -4166,7 +4206,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TYPE ==================================
-    id: 585325315306525752
+    id: 615586359773618102
     identification: 
       column-name: EVENT_TYPE
       type: Hidden Column
@@ -4181,7 +4221,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_LINK ==================================
-    id: 585325738342525753
+    id: 615586782809618103
     identification: 
       column-name: EVENT_LINK
       type: Hidden Column
@@ -4196,7 +4236,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Team mismatch Assignees =====================
-  id: 962216438108715150
+  id: 992477482575807500
   identification: 
     title: Team mismatch Assignees
     type: Classic Report
@@ -4213,7 +4253,7 @@ regions:
 
   layout: 
     sequence: 100
-    parent-region: Alerts # 865347380226890062
+    parent-region: Admin Alerts # 895608424693982412
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -4222,7 +4262,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7864608868161055297
+    template: Collapsible # 7894869912628147647
     template-options: 
     - '#DEFAULT#'
     - js-useLocalStorage
@@ -4245,7 +4285,7 @@ regions:
     type: Never
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   server-cache: 
     caching: Disabled
@@ -4254,7 +4294,7 @@ regions:
     customizable: Not Customizable By End Users
 
   configuration: 
-    build-option: TO_DELETE # 6448933923493984137
+    build-option: TO_DELETE # 6479194967961076487
 
   attributes: 
     layout: 
@@ -4263,7 +4303,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Standard # 7864618727018055323
+      template: Standard # 7894879771485147673
       template-options: 
       - '#DEFAULT#'
       - t-Report--stretch
@@ -4297,7 +4337,7 @@ regions:
 
   columns: 
   - # ====== Column: ASSIGNED_APP_TYPE ===========================
-    id: 585316408988525744
+    id: 615577453455618094
     identification: 
       column-name: ASSIGNED_APP_TYPE
       type: Link
@@ -4343,7 +4383,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ASSIGNEE ====================================
-    id: 585316805223525745
+    id: 615577849690618095
     identification: 
       column-name: ASSIGNEE
       type: Hidden Column
@@ -4358,7 +4398,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: List of disabled automations ================
-  id: 986433058643945293
+  id: 1016694103111037643
   identification: 
     title: List of disabled automations
     type: Classic Report
@@ -4383,7 +4423,7 @@ regions:
 
   layout: 
     sequence: 50
-    parent-region: You must enable all APEX automations # 398571437500095096
+    parent-region: You must enable all APEX automations # 428832481967187446
     position: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
@@ -4392,7 +4432,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7864608868161055297
+    template: Collapsible # 7894869912628147647
     template-options: 
     - '#DEFAULT#'
     - t-Region--hideShowIconsMath
@@ -4422,7 +4462,7 @@ regions:
       and application_id = :APP_ID
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   server-cache: 
     caching: Disabled
@@ -4437,7 +4477,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Timeline # 6613324380067835165
+      template: Timeline # 6643585424534927515
       template-options: 
       - '#DEFAULT#'
       - t-Report--hideNoPagination
@@ -4468,7 +4508,7 @@ regions:
 
   columns: 
   - # ====== Column: USER_NAME ===================================
-    id: 585317505957525745
+    id: 615578550424618095
     identification: 
       column-name: USER_NAME
       type: Plain Text
@@ -4500,7 +4540,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_ACTION ================================
-    id: 585317931803525746
+    id: 615578976270618096
     identification: 
       column-name: ALERT_ACTION
       type: Plain Text
@@ -4532,7 +4572,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DATE ==================================
-    id: 585318294339525746
+    id: 615579338806618096
     identification: 
       column-name: EVENT_DATE
       type: Plain Text
@@ -4564,7 +4604,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TITLE =================================
-    id: 585318666732525746
+    id: 615579711199618096
     identification: 
       column-name: EVENT_TITLE
       type: Plain Text
@@ -4596,7 +4636,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: USER_AVATAR =================================
-    id: 585319102072525747
+    id: 615580146539618097
     identification: 
       column-name: USER_AVATAR
       type: Plain Text
@@ -4628,7 +4668,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_DESC ==================================
-    id: 585319561627525747
+    id: 615580606094618097
     identification: 
       column-name: EVENT_DESC
       type: Plain Text
@@ -4660,7 +4700,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_TYPE ==================================
-    id: 585319901657525748
+    id: 615580946124618098
     identification: 
       column-name: EVENT_TYPE
       type: Plain Text
@@ -4692,7 +4732,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: EVENT_LINK ==================================
-    id: 585320319660525748
+    id: 615581364127618098
     identification: 
       column-name: EVENT_LINK
       type: Plain Text
@@ -4724,7 +4764,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: STATIC_ID ===================================
-    id: 585320733504525748
+    id: 615581777971618098
     identification: 
       column-name: STATIC_ID
       type: Plain Text
@@ -4756,7 +4796,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: APPLICATION_ID ==============================
-    id: 585321099096525749
+    id: 615582143563618099
     identification: 
       column-name: APPLICATION_ID
       type: Plain Text
@@ -4788,7 +4828,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Notifications ===============================
-  id: 9095227798944439807
+  id: 9125488843411532157
   identification: 
     title: Notifications
     type: Classic Report
@@ -4818,7 +4858,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7864612116513055305
+    template: Standard # 7894873160980147655
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -4855,7 +4895,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Alerts # 8034743209673745005
+      template: Alerts # 8065004254140837355
       template-options: 
       - '#DEFAULT#'
       show-null-values-as: ' '
@@ -4886,7 +4926,7 @@ regions:
 
   columns: 
   - # ====== Column: ALERT_TYPE ==================================
-    id: 8335541494017784759
+    id: 8365802538484877109
     identification: 
       column-name: ALERT_TYPE
       type: Plain Text
@@ -4921,7 +4961,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_TITLE =================================
-    id: 8335541909504784761
+    id: 8365802953971877111
     identification: 
       column-name: ALERT_TITLE
       type: Plain Text
@@ -4953,7 +4993,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_DESC ==================================
-    id: 8335542288557784761
+    id: 8365803333024877111
     identification: 
       column-name: ALERT_DESC
       type: Plain Text
@@ -4985,7 +5025,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ALERT_ACTION ================================
-    id: 8335542687166784761
+    id: 8365803731633877111
     identification: 
       column-name: ALERT_ACTION
       type: Plain Text
@@ -5017,7 +5057,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: ID ==========================================
-    id: 9095228095644439812
+    id: 9125489140111532162
     identification: 
       column-name: ID
       type: Hidden Column
@@ -5032,7 +5072,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Footer region ===============================
-  id: 11083362368948724969
+  id: 11113623413415817319
   identification: 
     title: Footer region
     type: Static Content
@@ -5051,7 +5091,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7864598563773055284
+    template: Buttons Container # 7894859608240147634
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--stickToBottom
@@ -5079,7 +5119,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P1_NEXT_RUN_INFO =========================
-  id: 16982399741131927
+  id: 47243444208224277
   identification: 
     name: P1_NEXT_RUN_INFO
     type: Hidden
@@ -5089,7 +5129,7 @@ page-items:
 
   layout: 
     sequence: 90
-    region: Issues # 692368808000555021
+    region: Issues # 722629852467647371
     position: BODY
 
   advanced: 
@@ -5109,7 +5149,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_MIN_NOT_MET_MESSAGE ===================
-  id: 63886699886520054
+  id: 94147744353612404
   identification: 
     name: P1_MIN_NOT_MET_MESSAGE
     type: Hidden
@@ -5119,7 +5159,7 @@ page-items:
 
   layout: 
     sequence: 80
-    region: Issues # 692368808000555021
+    region: Issues # 722629852467647371
     position: BODY
 
   advanced: 
@@ -5138,38 +5178,8 @@ page-items:
     store-value-encrypted-in-session-state: false
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P1_VIOLATION_COUNT =======================
-  id: 345668988113907043
-  identification: 
-    name: P1_VIOLATION_COUNT
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 10
-    region: Super Breadcrumb # 435318951363980824
-    position: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
 - # ====== Page Item: P1_NEW_ASSIGNEE ==========================
-  id: 346726589091742222
+  id: 376987633558834572
   identification: 
     name: P1_NEW_ASSIGNEE
     type: Popup LOV
@@ -5188,7 +5198,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: New Assignment # 346726565163742221
+    region: New Assignment # 376987609630834571
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -5199,7 +5209,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6702656583319596572
+    template: Required - Floating # 6732917627786688922
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -5209,7 +5219,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: ASSIGNEES # 692613868162699271
+    list-of-values: ASSIGNEES # 722874912629791621
     display-extra-values: false
     display-null-value: false
 
@@ -5235,7 +5245,7 @@ page-items:
     help-text: The developer to whom you wish to reassign the violation
 
 - # ====== Page Item: P1_SELECTED_IDS ==========================
-  id: 396662302299453523
+  id: 426923346766545873
   identification: 
     name: P1_SELECTED_IDS
     type: Hidden
@@ -5245,7 +5255,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Issues # 692368808000555021
+    region: Issues # 722629852467647371
     position: BODY
 
   advanced: 
@@ -5265,7 +5275,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_TEST_URL ==============================
-  id: 438756907763747534
+  id: 469017952230839884
   identification: 
     name: P1_TEST_URL
     type: Hidden
@@ -5275,7 +5285,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Issues # 692368808000555021
+    region: Issues # 722629852467647371
     position: BODY
 
   advanced: 
@@ -5295,7 +5305,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_TEST_CODE =============================
-  id: 438757062054747535
+  id: 469018106521839885
   identification: 
     name: P1_TEST_CODE
     type: Hidden
@@ -5305,7 +5315,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Issues # 692368808000555021
+    region: Issues # 722629852467647371
     position: BODY
 
   advanced: 
@@ -5325,7 +5335,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_AUDIT_URL =============================
-  id: 439535739930631150
+  id: 469796784397723500
   identification: 
     name: P1_AUDIT_URL
     type: Hidden
@@ -5335,7 +5345,7 @@ page-items:
 
   layout: 
     sequence: 40
-    region: Issues # 692368808000555021
+    region: Issues # 722629852467647371
     position: BODY
 
   advanced: 
@@ -5355,7 +5365,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_PERCENT_SOLVED ========================
-  id: 502513989257182309
+  id: 532775033724274659
   identification: 
     name: P1_PERCENT_SOLVED
     type: Hidden
@@ -5365,7 +5375,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Super Breadcrumb # 435318951363980824
+    region: Super Breadcrumb # 465579995831073174
     position: BODY
 
   advanced: 
@@ -5385,7 +5395,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_AUDIT_ID ==============================
-  id: 559574476741168750
+  id: 589835521208261100
   identification: 
     name: P1_AUDIT_ID
     type: Hidden
@@ -5395,7 +5405,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Issues # 692368808000555021
+    region: Issues # 722629852467647371
     position: BODY
 
   advanced: 
@@ -5415,7 +5425,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_SUPPRESS_ALERTS_YN ====================
-  id: 582003849040193091
+  id: 612264893507285441
   identification: 
     name: P1_SUPPRESS_ALERTS_YN
     type: Hidden
@@ -5425,7 +5435,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Alerts # 865347380226890062
+    region: Admin Alerts # 895608424693982412
     position: BODY
 
   advanced: 
@@ -5449,7 +5459,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_ALERT_YN ==============================
-  id: 582003935543193092
+  id: 612264980010285442
   identification: 
     name: P1_ALERT_YN
     type: Hidden
@@ -5459,7 +5469,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Alerts # 865347380226890062
+    region: Admin Alerts # 895608424693982412
     position: BODY
 
   advanced: 
@@ -5479,7 +5489,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_TIMEZONE_URL ==========================
-  id: 9126463497217492982
+  id: 9156724541684585332
   identification: 
     name: P1_TIMEZONE_URL
     type: Hidden
@@ -5489,7 +5499,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Footer region # 11083362368948724969
+    region: Footer region # 11113623413415817319
     position: BODY
 
   advanced: 
@@ -5511,7 +5521,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P1_TIMEZONE ==============================
-  id: 9126463689885496458
+  id: 9156724734352588808
   identification: 
     name: P1_TIMEZONE
     type: Hidden
@@ -5521,7 +5531,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Footer region # 11083362368948724969
+    region: Footer region # 11113623413415817319
     position: BODY
 
   advanced: 
@@ -5543,15 +5553,48 @@ page-items:
     restricted-characters: All characters can be saved.
 
 buttons: 
+- # ====== Button: RUN_AUTOMATION ==============================
+  id: 14683790686726522
+  identification: 
+    button-name: RUN_AUTOMATION
+    label: Run Automation Now
+
+  layout: 
+    sequence: 10
+    region: Next run info # 14683678284726521
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7894890219812147708
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--warning
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-alarm-clock
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
+
 - # ====== Button: APP_HELP ====================================
-  id: 63887017472520057
+  id: 94148061939612407
   identification: 
     button-name: APP_HELP
     label: Help
 
   layout: 
     sequence: 10
-    region: '&P1_MIN_NOT_MET_MESSAGE.' # 63886894888520056
+    region: <span class="MinNotMet"></span> # 94147939355612406
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -5560,7 +5603,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -5573,7 +5616,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:39:&SESSION.::&DEBUG.:39::'
-      page: 39 # Help
+      page: 39 # Application Help
       clear-cache: 39
 
     warn-on-unsaved-changes: Do Not Check
@@ -5582,14 +5625,14 @@ buttons:
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 
 - # ====== Button: EMAIL_SUBSCRIPTION ==========================
-  id: 343907311685696721
+  id: 374168356152789071
   identification: 
     button-name: EMAIL_SUBSCRIPTION
     label: email subscription
 
   layout: 
     sequence: 10
-    region: Super Breadcrumb # 435318951363980824
+    region: Super Breadcrumb # 465579995831073174
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -5598,7 +5641,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5627,17 +5670,17 @@ buttons:
            end
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: BULK_EXCEPTION ==============================
-  id: 343907685799696722
+  id: 374168730266789072
   identification: 
     button-name: BULK_EXCEPTION
     label: Bulk Exception
 
   layout: 
     sequence: 20
-    region: Tracking issues report # 797830564662464847
+    region: Tracking issues report # 828091609129557197
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -5646,7 +5689,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5659,14 +5702,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: VIOLATION_COUNT =============================
-  id: 345668932248907042
+  id: 375929976715999392
   identification: 
     button-name: VIOLATION_COUNT
-    label: '&P1_PERCENT_SOLVED.% of Violations Addressed'
+    label: <span class="violCount">Violations Addressed</span>
 
   layout: 
     sequence: 30
-    region: Super Breadcrumb # 435318951363980824
+    region: Super Breadcrumb # 465579995831073174
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -5675,7 +5718,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5693,18 +5736,22 @@ buttons:
 
     warn-on-unsaved-changes: Do Not Check
 
+  server-side-condition: 
+    type: Item is NULL
+    item: P1_MIN_NOT_MET_MESSAGE
+
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: BULK_REASSIGN ===============================
-  id: 345670144010907054
+  id: 375931188477999404
   identification: 
     button-name: BULK_REASSIGN
     label: Bulk Reassign
 
   layout: 
     sequence: 30
-    region: Tracking issues report # 797830564662464847
+    region: Tracking issues report # 828091609129557197
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -5713,7 +5760,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5726,14 +5773,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: REASSIGN ====================================
-  id: 346726797544742224
+  id: 376987842011834574
   identification: 
     button-name: REASSIGN
     label: Reassign
 
   layout: 
     sequence: 20
-    region: New Assignment # 346726565163742221
+    region: New Assignment # 376987609630834571
     position: EDIT
     start-new-layout: false
     start-new-row: true
@@ -5742,7 +5789,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -5754,17 +5801,17 @@ buttons:
     execute-validations: true
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: CANCEL ======================================
-  id: 346726934723742225
+  id: 376987979190834575
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 30
-    region: New Assignment # 346726565163742221
+    region: New Assignment # 376987609630834571
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -5773,7 +5820,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7864629781296055360
+    button-template: Text # 7894890825763147710
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5783,14 +5830,14 @@ buttons:
     execute-validations: true
 
 - # ====== Button: RESET =======================================
-  id: 398179317137519009
+  id: 428440361604611359
   identification: 
     button-name: RESET
     label: Reset
 
   layout: 
     sequence: 40
-    region: Tracking issues report # 797830564662464847
+    region: Tracking issues report # 828091609129557197
     position: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
@@ -5799,7 +5846,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5818,14 +5865,14 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: OPEN_ALERTS =================================
-  id: 582004335459193096
+  id: 612265379926285446
   identification: 
     button-name: OPEN_ALERTS
-    label: Open Alerts
+    label: Admin Alerts
 
   layout: 
     sequence: 40
-    region: Footer region # 11083362368948724969
+    region: Footer region # 11113623413415817319
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -5834,10 +5881,11 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
+    - t-Button--warning
     - t-Button--simple
     - t-Button--iconLeft
     icon: fa-alert
@@ -5847,18 +5895,18 @@ buttons:
     execute-validations: true
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
 - # ====== Button: ENABLE_JOBS =================================
-  id: 585321553494525749
+  id: 615582597961618099
   identification: 
     button-name: ENABLE_JOBS
     label: Enable Jobs
 
   layout: 
     sequence: 10
-    region: You must enable all APEX automations # 398571437500095096
-    position: NEXT
+    region: You must enable all APEX automations # 428832481967187446
+    position: CREATE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -5866,7 +5914,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -5884,17 +5932,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
 - # ====== Button: DEBUG_JOB ===================================
-  id: 585326137218525753
+  id: 615587181685618103
   identification: 
     button-name: DEBUG_JOB
     label: Debug Job
 
   layout: 
     sequence: 10
-    region: You must address these Unsuccessful Jobs # 919315168375921395
+    region: You must address these Unsuccessful Jobs # 949576212843013745
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -5903,7 +5951,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -5922,17 +5970,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
 - # ====== Button: CONFIGURE_PREFS =============================
-  id: 585327232437525754
+  id: 615588276904618104
   identification: 
     button-name: CONFIGURE_PREFS
     label: Configure Preferences
 
   layout: 
     sequence: 10
-    region: You must configure the following Missing preferences # 866435001330312413
+    region: You must configure the following Missing preferences # 896696045797404763
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -5941,7 +5989,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5959,17 +6007,17 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
 - # ====== Button: MNG_DEP_FILES ===============================
-  id: 585338748714525764
+  id: 615599793181618114
   identification: 
     button-name: MNG_DEP_FILES
     label: Manage Deployment Files
 
   layout: 
     sequence: 10
-    region: You must refresh these stale deployment files # 865351253783328603
+    region: You must refresh these stale deployment files # 895612298250420953
     position: CHANGE
     start-new-layout: false
     start-new-row: true
@@ -5978,7 +6026,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7864629175345055358
+    button-template: Text with Icon # 7894890219812147708
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -5997,11 +6045,254 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   security: 
-    authorization-scheme: CONTRIBUTION RIGHTS # 11071175072309282122
+    authorization-scheme: CONTRIBUTION RIGHTS # 11101436116776374472
 
 dynamic-actions: 
+- # ====== Dynamic Action: Run automation ======================
+  id: 14683909881726524
+  identification: 
+    name: Run automation
+
+  execution: 
+    sequence: 180
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: RUN_AUTOMATION # 14683790686726522
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
+
+  actions: 
+  - # ====== Action: apex_automation.execute =====================
+    id: 14684068428726525
+    identification: 
+      name: apex_automation.execute
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        apex_automation.execute(
+                p_application_id  => :APP_ID,
+                p_static_id       => 'big-job',
+                p_run_in_background => true);
+
+    execution: 
+      sequence: 10
+      event: Run automation # 14683909881726524
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: svt_audit_util.info_on_next_audit_run =======
+    id: 14684127600726526
+    identification: 
+      name: svt_audit_util.info_on_next_audit_run
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: ':P1_NEXT_RUN_INFO := svt_audit_util.info_on_next_audit_run;'
+      items-to-submit: 
+      - P1_NEXT_RUN_INFO
+      items-to-return: 
+      - P1_NEXT_RUN_INFO
+      suppress-change-event: false
+
+    execution: 
+      sequence: 30
+      event: Run automation # 14683909881726524
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: update next run text ========================
+    id: 14684422931726529
+    identification: 
+      name: update next run text
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var lText = apex.item('P1_NEXT_RUN_INFO').getValue();
+        $('.nexRun').text(lText);
+
+    execution: 
+      sequence: 40
+      event: Run automation # 14683909881726524
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Hide ========================================
+    id: 14684584896726530
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Button
+      button: RUN_AUTOMATION # 14683790686726522
+
+    execution: 
+      sequence: 50
+      event: Run automation # 14683909881726524
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: svt_audit_util.audit_job_is_running
+
+- # ====== Dynamic Action: Populate P1_PERCENT_SOLVED text =====
+  id: 30299565403141103
+  identification: 
+    name: Populate P1_PERCENT_SOLVED text
+
+  execution: 
+    sequence: 160
+    event-scope: Static
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  actions: 
+  - # ====== Action: svt_plsql_apex_audit_api.percent_solved =====
+    id: 30299758883141105
+    identification: 
+      name: svt_plsql_apex_audit_api.percent_solved
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: ':P1_PERCENT_SOLVED := svt_plsql_apex_audit_api.percent_solved;'
+      items-to-return: 
+      - P1_PERCENT_SOLVED
+      suppress-change-event: false
+
+    execution: 
+      sequence: 20
+      event: Populate P1_PERCENT_SOLVED text # 30299565403141103
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Set P1_PERCENT_SOLVED text ==================
+    id: 30300119819141108
+    identification: 
+      name: Set P1_PERCENT_SOLVED text
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var lText = apex.item('P1_PERCENT_SOLVED').getValue()+'% of Violations Addressed';
+        $('.violCount').text(lText);
+        
+
+    execution: 
+      sequence: 40
+      event: Populate P1_PERCENT_SOLVED text # 30299565403141103
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Populate Min Not Met text ===========
+  id: 30814980953730411
+  identification: 
+    name: Populate Min Not Met text
+
+  execution: 
+    sequence: 170
+    event-scope: Static
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  actions: 
+  - # ====== Action: Hide region by default ======================
+    id: 30815104735730412
+    identification: 
+      name: Hide region by default
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: <span class="MinNotMet"></span> # 94147939355612406
+
+    execution: 
+      sequence: 10
+      event: Populate Min Not Met text # 30814980953730411
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: svt_plsql_apex_audit_api.percent_solved =====
+    id: 30815214893730413
+    identification: 
+      name: svt_plsql_apex_audit_api.percent_solved
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: ':P1_MIN_NOT_MET_MESSAGE := svt_audit_util.min_not_met_error_msg;'
+      items-to-submit: 
+      - P1_MIN_NOT_MET_MESSAGE
+      items-to-return: 
+      - P1_MIN_NOT_MET_MESSAGE
+      suppress-change-event: false
+
+    execution: 
+      sequence: 30
+      event: Populate Min Not Met text # 30814980953730411
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Set P1_MIN_NOT_MET_MESSAGE text =============
+    id: 30815342029730415
+    identification: 
+      name: Set P1_MIN_NOT_MET_MESSAGE text
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var lText = apex.item('P1_MIN_NOT_MET_MESSAGE').getValue();
+        $('.MinNotMet').text(lText);
+        
+
+    execution: 
+      sequence: 40
+      event: Populate Min Not Met text # 30814980953730411
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Show region if there is a warning ===========
+    id: 30815471448730416
+    identification: 
+      name: Show region if there is a warning
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: <span class="MinNotMet"></span> # 94147939355612406
+
+    execution: 
+      sequence: 50
+      event: Populate Min Not Met text # 30814980953730411
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is not null
+      item: P1_MIN_NOT_MET_MESSAGE
+
 - # ====== Dynamic Action: Mark as Exception ===================
-  id: 292638882708969229
+  id: 322899927176061579
   identification: 
     name: Mark as Exception
 
@@ -6016,11 +6307,11 @@ dynamic-actions:
     jquery-selector: .mrkExcptn
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
   actions: 
   - # ====== Action: Disable =====================================
-    id: 292639053412969230
+    id: 322900097880061580
     identification: 
       action: Disable
 
@@ -6030,12 +6321,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: Mark as Exception # 292638882708969229
+      event: Mark as Exception # 322899927176061579
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: set audit id ================================
-    id: 292639077479969231
+    id: 322900121947061581
     identification: 
       name: set audit id
       action: Execute JavaScript Code
@@ -6045,12 +6336,12 @@ dynamic-actions:
 
     execution: 
       sequence: 20
-      event: Mark as Exception # 292638882708969229
+      event: Mark as Exception # 322899927176061579
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: mark as exception ===========================
-    id: 292639258996969232
+    id: 322900303464061582
     identification: 
       name: mark as exception
       action: Execute Server-side Code
@@ -6063,14 +6354,14 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: Mark as Exception # 292638882708969229
+      event: Mark as Exception # 322899927176061579
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Enable ======================================
-    id: 292639445101969234
+    id: 322900489569061584
     identification: 
       action: Enable
 
@@ -6080,27 +6371,27 @@ dynamic-actions:
 
     execution: 
       sequence: 50
-      event: Mark as Exception # 292638882708969229
+      event: Mark as Exception # 322899927176061579
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Refresh =====================================
-    id: 343697203461668121
+    id: 373958247928760471
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Tracking issues report # 797830564662464847
+      region: Tracking issues report # 828091609129557197
 
     execution: 
       sequence: 40
-      event: Mark as Exception # 292638882708969229
+      event: Mark as Exception # 322899927176061579
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: navigateInBuilderWindow =============
-  id: 333879049307929042
+  id: 364140093775021392
   identification: 
     name: navigateInBuilderWindow
 
@@ -6117,7 +6408,7 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 333879091424929043
+    id: 364140135892021393
     identification: 
       action: Execute JavaScript Code
 
@@ -6177,12 +6468,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: navigateInBuilderWindow # 333879049307929042
+      event: navigateInBuilderWindow # 364140093775021392
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: bulk exception ======================
-  id: 343931432141706301
+  id: 374192476608798651
   identification: 
     name: bulk exception
 
@@ -6194,18 +6485,18 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: BULK_EXCEPTION # 343907685799696722
+    button: BULK_EXCEPTION # 374168730266789072
 
   client-side-condition: 
     type: Item is not null
     item: P1_SELECTED_IDS
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
   actions: 
   - # ====== Action: Disable =====================================
-    id: 343697048828668119
+    id: 373958093295760469
     identification: 
       action: Disable
 
@@ -6215,12 +6506,12 @@ dynamic-actions:
 
     execution: 
       sequence: 20
-      event: bulk exception # 343931432141706301
+      event: bulk exception # 374192476608798651
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Enable ======================================
-    id: 343697134642668120
+    id: 373958179109760470
     identification: 
       action: Enable
 
@@ -6230,27 +6521,27 @@ dynamic-actions:
 
     execution: 
       sequence: 60
-      event: bulk exception # 343931432141706301
+      event: bulk exception # 374192476608798651
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Refresh =====================================
-    id: 343931831944706302
+    id: 374192876411798652
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Tracking issues report # 797830564662464847
+      region: Tracking issues report # 828091609129557197
 
     execution: 
       sequence: 50
-      event: bulk exception # 343931432141706301
+      event: bulk exception # 374192476608798651
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Execute Server-side Code ====================
-    id: 343932290113706302
+    id: 374193334580798652
     identification: 
       action: Execute Server-side Code
 
@@ -6262,14 +6553,14 @@ dynamic-actions:
 
     execution: 
       sequence: 40
-      event: bulk exception # 343931432141706301
+      event: bulk exception # 374192476608798651
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 343932844052706303
+    id: 374193888519798653
     identification: 
       action: Execute JavaScript Code
 
@@ -6278,12 +6569,12 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: bulk exception # 343931432141706301
+      event: bulk exception # 374192476608798651
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Confirm =====================================
-    id: 346756134325390923
+    id: 377017178792483273
     identification: 
       action: Confirm
 
@@ -6295,12 +6586,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: bulk exception # 343931432141706301
+      event: bulk exception # 374192476608798651
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: open bulk reassign region ===========
-  id: 346725867932742214
+  id: 376986912399834564
   identification: 
     name: open bulk reassign region
 
@@ -6312,18 +6603,18 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: BULK_REASSIGN # 345670144010907054
+    button: BULK_REASSIGN # 375931188477999404
 
   client-side-condition: 
     type: Item is not null
     item: P1_SELECTED_IDS
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 346726043156742216
+    id: 376987087623834566
     identification: 
       action: Execute JavaScript Code
 
@@ -6332,27 +6623,27 @@ dynamic-actions:
 
     execution: 
       sequence: 20
-      event: open bulk reassign region # 346725867932742214
+      event: open bulk reassign region # 376986912399834564
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Open Region =================================
-    id: 346726469871742220
+    id: 376987514338834570
     identification: 
       action: Open Region
 
     affected-elements: 
       selection-type: Region
-      region: New Assignment # 346726565163742221
+      region: New Assignment # 376987609630834571
 
     execution: 
       sequence: 30
-      event: open bulk reassign region # 346725867932742214
+      event: open bulk reassign region # 376986912399834564
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Cancel reassign =====================
-  id: 346727015453742226
+  id: 376988059920834576
   identification: 
     name: Cancel reassign
 
@@ -6364,26 +6655,26 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 346726934723742225
+    button: CANCEL # 376987979190834575
 
   actions: 
   - # ====== Action: Close Region ================================
-    id: 346727161147742227
+    id: 376988205614834577
     identification: 
       action: Close Region
 
     affected-elements: 
       selection-type: Region
-      region: New Assignment # 346726565163742221
+      region: New Assignment # 376987609630834571
 
     execution: 
       sequence: 10
-      event: Cancel reassign # 346727015453742226
+      event: Cancel reassign # 376988059920834576
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Bulk Reassign =======================
-  id: 346727672301742232
+  id: 376988716768834582
   identification: 
     name: Bulk Reassign
 
@@ -6395,7 +6686,7 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: REASSIGN # 346726797544742224
+    button: REASSIGN # 376987842011834574
 
   client-side-condition: 
     type: Item is not null
@@ -6403,7 +6694,7 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Execute Server-side Code ====================
-    id: 346727691224742233
+    id: 376988735691834583
     identification: 
       action: Execute Server-side Code
 
@@ -6419,44 +6710,44 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: Bulk Reassign # 346727672301742232
+      event: Bulk Reassign # 376988716768834582
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Close Region ================================
-    id: 346727787844742234
+    id: 376988832311834584
     identification: 
       action: Close Region
 
     affected-elements: 
       selection-type: Region
-      region: New Assignment # 346726565163742221
+      region: New Assignment # 376987609630834571
 
     execution: 
       sequence: 20
-      event: Bulk Reassign # 346727672301742232
+      event: Bulk Reassign # 376988716768834582
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Refresh =====================================
-    id: 346727929982742235
+    id: 376988974449834585
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Tracking issues report # 797830564662464847
+      region: Tracking issues report # 828091609129557197
 
     execution: 
       sequence: 30
-      event: Bulk Reassign # 346727672301742232
+      event: Bulk Reassign # 376988716768834582
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Change in p1_selected_ids ===========
-  id: 398179491289519011
+  id: 428440535756611361
   identification: 
     name: Change in p1_selected_ids
 
@@ -6473,18 +6764,18 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Enable bulk_exception =======================
-    id: 398179651678519012
+    id: 428440696145611362
     identification: 
       name: Enable bulk_exception
       action: Enable
 
     affected-elements: 
       selection-type: Button
-      button: BULK_EXCEPTION # 343907685799696722
+      button: BULK_EXCEPTION # 374168730266789072
 
     execution: 
       sequence: 10
-      event: Change in p1_selected_ids # 398179491289519011
+      event: Change in p1_selected_ids # 428440535756611361
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -6493,18 +6784,18 @@ dynamic-actions:
       item: P1_SELECTED_IDS
 
   - # ====== Action: Disable bulk_exception ======================
-    id: 398179681103519013
+    id: 428440725570611363
     identification: 
       name: Disable bulk_exception
       action: Disable
 
     affected-elements: 
       selection-type: Button
-      button: BULK_EXCEPTION # 343907685799696722
+      button: BULK_EXCEPTION # 374168730266789072
 
     execution: 
       sequence: 30
-      event: Change in p1_selected_ids # 398179491289519011
+      event: Change in p1_selected_ids # 428440535756611361
       fire-when-event-result-is: True
       fire-on-initialization: true
 
@@ -6513,18 +6804,18 @@ dynamic-actions:
       item: P1_SELECTED_IDS
 
   - # ====== Action: Enable bulk_reassign ========================
-    id: 398179795554519014
+    id: 428440840021611364
     identification: 
       name: Enable bulk_reassign
       action: Enable
 
     affected-elements: 
       selection-type: Button
-      button: BULK_REASSIGN # 345670144010907054
+      button: BULK_REASSIGN # 375931188477999404
 
     execution: 
       sequence: 50
-      event: Change in p1_selected_ids # 398179491289519011
+      event: Change in p1_selected_ids # 428440535756611361
       fire-when-event-result-is: True
       fire-on-initialization: false
 
@@ -6533,18 +6824,18 @@ dynamic-actions:
       item: P1_SELECTED_IDS
 
   - # ====== Action: Disable bulk_reassign =======================
-    id: 398179948284519015
+    id: 428440992751611365
     identification: 
       name: Disable bulk_reassign
       action: Disable
 
     affected-elements: 
       selection-type: Button
-      button: BULK_REASSIGN # 345670144010907054
+      button: BULK_REASSIGN # 375931188477999404
 
     execution: 
       sequence: 60
-      event: Change in p1_selected_ids # 398179491289519011
+      event: Change in p1_selected_ids # 428440535756611361
       fire-when-event-result-is: True
       fire-on-initialization: true
 
@@ -6553,7 +6844,7 @@ dynamic-actions:
       item: P1_SELECTED_IDS
 
 - # ====== Dynamic Action: open test dialog ====================
-  id: 438757328891747538
+  id: 469018373358839888
   identification: 
     name: open test dialog
 
@@ -6573,7 +6864,7 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 438757415165747539
+    id: 469018459632839889
     identification: 
       action: Execute JavaScript Code
 
@@ -6582,12 +6873,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: open test dialog # 438757328891747538
+      event: open test dialog # 469018373358839888
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: open audit dialog ===================
-  id: 439535539048631148
+  id: 469796583515723498
   identification: 
     name: open audit dialog
 
@@ -6603,11 +6894,11 @@ dynamic-actions:
     item: P1_AUDIT_ID
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 439535607371631149
+    id: 469796651838723499
     identification: 
       action: Execute JavaScript Code
 
@@ -6616,12 +6907,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: open audit dialog # 439535539048631148
+      event: open audit dialog # 469796583515723498
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: rerun For Audit ID ==================
-  id: 559574220917168747
+  id: 589835265384261097
   identification: 
     name: rerun For Audit ID
 
@@ -6636,26 +6927,26 @@ dynamic-actions:
     jquery-selector: .reRunForAD
 
   security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
+    authorization-scheme: READER RIGHTS # 370096811785824520
 
   actions: 
   - # ====== Action: Refresh =====================================
-    id: 343697274348668122
+    id: 373958318815760472
     identification: 
       action: Refresh
 
     affected-elements: 
       selection-type: Region
-      region: Tracking issues report # 797830564662464847
+      region: Tracking issues report # 828091609129557197
 
     execution: 
       sequence: 50
-      event: rerun For Audit ID # 559574220917168747
+      event: rerun For Audit ID # 589835265384261097
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: set audit id ================================
-    id: 559574594254168751
+    id: 589835638721261101
     identification: 
       name: set audit id
       action: Execute JavaScript Code
@@ -6665,12 +6956,12 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: rerun For Audit ID # 559574220917168747
+      event: rerun For Audit ID # 589835265384261097
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Disable =====================================
-    id: 559574688839168752
+    id: 589835733306261102
     identification: 
       action: Disable
 
@@ -6680,12 +6971,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: rerun For Audit ID # 559574220917168747
+      event: rerun For Audit ID # 589835265384261097
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: rerun test ==================================
-    id: 559574839205168753
+    id: 589835883672261103
     identification: 
       name: rerun test
       action: Execute Server-side Code
@@ -6698,14 +6989,14 @@ dynamic-actions:
 
     execution: 
       sequence: 40
-      event: rerun For Audit ID # 559574220917168747
+      event: rerun For Audit ID # 589835265384261097
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Enable ======================================
-    id: 559574993209168755
+    id: 589836037676261105
     identification: 
       action: Enable
 
@@ -6715,12 +7006,12 @@ dynamic-actions:
 
     execution: 
       sequence: 60
-      event: rerun For Audit ID # 559574220917168747
+      event: rerun For Audit ID # 589835265384261097
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: open alerts region ==================
-  id: 582003641189193089
+  id: 612264685656285439
   identification: 
     name: open alerts region
 
@@ -6737,26 +7028,26 @@ dynamic-actions:
     pl/sql-expression: ":P1_SUPPRESS_ALERTS_YN = 'N' and :P1_ALERT_YN = 'Y'"
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
   actions: 
   - # ====== Action: Open Region =================================
-    id: 582003721055193090
+    id: 612264765522285440
     identification: 
       action: Open Region
 
     affected-elements: 
       selection-type: Region
-      region: Alerts # 865347380226890062
+      region: Admin Alerts # 895608424693982412
 
     execution: 
       sequence: 10
-      event: open alerts region # 582003641189193089
+      event: open alerts region # 612264685656285439
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: open alerts =========================
-  id: 582004368772193097
+  id: 612265413239285447
   identification: 
     name: open alerts
 
@@ -6768,27 +7059,27 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: OPEN_ALERTS # 582004335459193096
+    button: OPEN_ALERTS # 612265379926285446
 
   actions: 
   - # ====== Action: Open Region =================================
-    id: 582004513127193098
+    id: 612265557594285448
     identification: 
       action: Open Region
 
     affected-elements: 
       selection-type: Region
-      region: Alerts # 865347380226890062
+      region: Admin Alerts # 895608424693982412
 
     execution: 
       sequence: 10
-      event: open alerts # 582004368772193097
+      event: open alerts # 612265413239285447
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 computations: 
 - # ====== Computation: P1_NEXT_RUN_INFO =======================
-  id: 16982450404131928
+  id: 47243494871224278
   identification: 
     item-name: P1_NEXT_RUN_INFO
 
@@ -6801,44 +7092,8 @@ computations:
     language: PL/SQL
     pl/sql-expression: svt_audit_util.info_on_next_audit_run
 
-- # ====== Computation: P1_MIN_NOT_MET_MESSAGE =================
-  id: 63886790695520055
-  identification: 
-    item-name: P1_MIN_NOT_MET_MESSAGE
-
-  execution: 
-    sequence: 60
-    point: Before Regions
-
-  computation: 
-    type: Function Body
-    language: PL/SQL
-    pl/sql-function-body: |
-      begin
-          if :P1_VIOLATION_COUNT = 0 then
-              return svt_audit_util.min_not_met_error_msg;
-          end if;
-      end;
-
-- # ====== Computation: P1_VIOLATION_COUNT =====================
-  id: 345669091620907044
-  identification: 
-    item-name: P1_VIOLATION_COUNT
-
-  execution: 
-    sequence: 10
-    point: Before Header
-
-  computation: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: svt_plsql_apex_audit_api.total_open_violations
-
-  security: 
-    authorization-scheme: READER RIGHTS # 339835767318732170
-
 - # ====== Computation: P1_TEST_URL ============================
-  id: 438757215804747537
+  id: 469018260271839887
   identification: 
     item-name: P1_TEST_URL
 
@@ -6863,7 +7118,7 @@ computations:
     item: P1_TEST_CODE
 
 - # ====== Computation: P1_AUDIT_URL ===========================
-  id: 439535799597631151
+  id: 469796844064723501
   identification: 
     item-name: P1_AUDIT_URL
 
@@ -6887,22 +7142,8 @@ computations:
     type: Item is NOT NULL
     item: P1_AUDIT_ID
 
-- # ====== Computation: P1_PERCENT_SOLVED ======================
-  id: 502514151258182310
-  identification: 
-    item-name: P1_PERCENT_SOLVED
-
-  execution: 
-    sequence: 40
-    point: Before Regions
-
-  computation: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: svt_plsql_apex_audit_api.percent_solved
-
 - # ====== Computation: P1_ALERT_YN ============================
-  id: 582004116840193094
+  id: 612265161307285444
   identification: 
     item-name: P1_ALERT_YN
 
@@ -6916,10 +7157,10 @@ computations:
     pl/sql-expression: svt_util.alerts_yn
 
   security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11071174580536282111
+    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
 - # ====== Computation: A_LAST_VIEW ============================
-  id: 12294047131336720805
+  id: 12324308175803813155
   identification: 
     item-name: A_LAST_VIEW
 

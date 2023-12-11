@@ -17,6 +17,8 @@ create or replace package body SVT_MV_UTIL as
 ---------------------------------------------------------------------------- 
 
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_n            constant varchar2(1) := 'N';
+  gc_y            constant varchar2(1) := 'Y';
 
 
   function mv_svt_query return clob
@@ -120,6 +122,33 @@ create or replace package body SVT_MV_UTIL as
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end refresh_mv;
+
+  function problem_assignments_yn
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'problem_assignments_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_alerts_yn varchar2(1) := gc_n;
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+
+   select case when count(*) = 1
+                  then gc_y
+                  else gc_n
+                  end into l_alerts_yn
+          from sys.dual where exists (
+              select 1 
+              from v_svt_problem_assignees
+          );
+          
+   return l_alerts_yn;
+   
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end problem_assignments_yn;
 
 
 end SVT_MV_UTIL;

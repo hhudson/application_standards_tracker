@@ -13,6 +13,7 @@
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Sep-21 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -27,6 +28,7 @@
 ------------------------------------------------------------------------------
 procedure add_admin (p_user_name      in apex_workspace_developers.user_name%type,
                      p_application_id in apex_applications.application_id%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -41,6 +43,7 @@ procedure add_admin (p_user_name      in apex_workspace_developers.user_name%typ
 ------------------------------------------------------------------------------
 procedure add_contributor (p_user_name      in apex_workspace_developers.user_name%type,
                            p_application_id in apex_applications.application_id%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -55,6 +58,7 @@ procedure add_contributor (p_user_name      in apex_workspace_developers.user_na
 ------------------------------------------------------------------------------
 procedure add_reader (p_user_name      in apex_workspace_developers.user_name%type,
                       p_application_id in apex_applications.application_id%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 21, 2023
@@ -69,6 +73,7 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure add_awd_users(p_application_id in apex_applications.application_id%type default null);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -85,6 +90,22 @@ end;
 ------------------------------------------------------------------------------
 procedure add_default_admin(p_user_name      in apex_workspace_developers.user_name%type,
                             p_application_id in apex_applications.application_id%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 7, 2023
+-- Synopsis:
+--
+-- Function to give the name of an admin that someone can contact 
+--
+/*
+select svt_acl.default_admin_message(p_application_id => :APP_ID)
+from dual
+*/
+------------------------------------------------------------------------------
+function default_admin_message(p_application_id in apex_applications.application_id%type) 
+return apex_workspace_developers.user_name%type;
+
 end SVT_ACL;
 /
 
@@ -402,6 +423,7 @@ end SVT_APEX_ISSUE_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2022-Sep-16 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 16, 2022
@@ -422,6 +444,8 @@ end SVT_APEX_ISSUE_UTIL;
 ------------------------------------------------------------------------------
 function apex_applications(p_user in all_users.username%type default null)
 return svt_apex_applications_nt pipelined;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2022-Oct-14
@@ -442,6 +466,7 @@ return svt_apex_applications_nt pipelined;
 ------------------------------------------------------------------------------
 function apex_application_page_ir_col
 return apex_application_page_rpt_cols_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2022-Oct-14
@@ -462,6 +487,7 @@ return apex_application_page_rpt_cols_nt pipelined;
 ------------------------------------------------------------------------------
 function apex_appl_page_ig_columns
 return apex_application_page_rpt_cols_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 9, 2023
@@ -482,9 +508,11 @@ select workspace_id,
 from svt_apex_view.apex_workspace_preferences() 
 */
 ------------------------------------------------------------------------------
-function apex_workspace_preferences
+function apex_workspace_preferences --deprecated bc slow(2023-Dec-8)
 return svt_apex_preferences_nt pipelined 
 deterministic;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 5, 2023
@@ -505,6 +533,8 @@ function display_position_is_violation (
                 p_template_id           in apex_application_page_regions.template_id%type,
                 p_application_id        in apex_application_temp_region.application_id%type
   ) return varchar2 deterministic;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -527,6 +557,7 @@ function rpt_link_request(
               p_application_id   in apex_appl_page_ig_rpts.application_id%type default null
         )
 return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -534,6 +565,8 @@ return varchar2;
 -- svt_apex_view.gc_svt_app_id
 ------------------------------------------------------------------------------
   gc_svt_app_id constant pls_integer := 17000033;
+
+
 end SVT_APEX_VIEW;
 /
 
@@ -874,6 +907,25 @@ function min_not_met_error_msg return varchar2;
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
+--     Date: December 7, 2023
+-- Synopsis:
+--
+-- Function to answer whether the automation is currently in progress
+--
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    apex_session.create_session(p_app_id=>17000033,p_page_id=>1,p_username=>'HAYHUDSO');   
+    l_bool := svt_audit_util.audit_job_is_running;
+end;
+*/
+------------------------------------------------------------------------------
+function audit_job_is_running return boolean;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
 --     Date: November 30, 2023
 -- Synopsis:
 --
@@ -1132,6 +1184,7 @@ end SVT_CTX_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jul-28 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 28, 2023
@@ -1159,6 +1212,7 @@ end;
                 p_standard_id   in svt_stds_standards.id%type default null,
                 p_datatype      in varchar2 default 'blob')
     return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -1171,18 +1225,19 @@ set serveroutput on
 declare 
 l_clob clob;
 begin
-    l_clob := svt_deployment.assemble_json_std_tsts_qry (
+    l_clob := svt_deployment.assemble_json_tsts_qry (
                 p_standard_id => :p_standard_id,
                 p_datatype => 'clob');
     dbms_output.put_line(l_clob);
 end;
 */
 ------------------------------------------------------------------------------
-    function assemble_json_std_tsts_qry (
-                  p_standard_id   in svt_stds_standards.id%type,
+    function assemble_json_tsts_qry (
+                  p_standard_id   in svt_stds_standards.id%type default null,
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
                   p_datatype      in varchar2 default 'blob')
     return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -1201,9 +1256,10 @@ end;
 */
 ------------------------------------------------------------------------------
     function json_standard_tests_clob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -1220,7 +1276,7 @@ end;
 */
 ------------------------------------------------------------------------------
     function json_standard_tests_blob (
-                  p_standard_id in svt_stds_standards.id%type,
+                  p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return blob;
     
@@ -1242,6 +1298,7 @@ from dual
                                 p_standard_id    in svt_stds_standards.id%type default null,
                                 p_zip_yn         in varchar2 default null)
     return blob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 28, 2023
@@ -1266,6 +1323,7 @@ end;
                                 p_test_code     in svt_stds_standard_tests.test_code%type default null,
                                 p_standard_id   in svt_stds_standards.id%type default null)
     return clob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1280,6 +1338,7 @@ from dual
 ------------------------------------------------------------------------------
     function sample_template_file (p_table_name in user_tables.table_name%type)
     return blob;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1296,6 +1355,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure upsert_static_file(p_table_name in user_tables.table_name%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2023
@@ -1312,6 +1372,8 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure merge_from_zip (p_table_name in user_tables.table_name%type);
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 21, 2023
@@ -1325,6 +1387,7 @@ from dual
 */
 ------------------------------------------------------------------------------
     function table_last_updated_on (p_table_name in user_tables.table_name%type) return apex_application_static_files.created_on%type;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 9, 2023
@@ -1362,6 +1425,7 @@ from svt_deployment.v_svt_table_data_load_def(p_application_id => 17000033)
 ------------------------------------------------------------------------------
 function v_svt_table_data_load_def (p_application_id in apex_applications.application_id%type)
 return v_svt_table_data_load_def_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 3, 2023
@@ -1384,6 +1448,7 @@ end;
 */
 ------------------------------------------------------------------------------
 function markdown_summary return clob;
+
 ------------------------------------------------------------------------------
 -- exceptions
 ------------------------------------------------------------------------------
@@ -1391,6 +1456,9 @@ function markdown_summary return clob;
    pragma exception_init(e_missing_field, -0904);
    e_non_existent_tbl exception;
    pragma exception_init(e_non_existent_tbl, -0942);
+   e_numeric_or_value exception;
+   pragma exception_init (e_numeric_or_value, -6512);
+
 end SVT_DEPLOYMENT;
 /
 
@@ -1472,6 +1540,7 @@ end SVT_MENU_UTIL;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso   2022-Dec-16 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudsons
 --     Date: December 20, 2022
@@ -1493,6 +1562,8 @@ function unassigned_src_html
      p_fetch_rows    in number default null
     )
     return varchar2;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: December 16, 2022
@@ -1510,7 +1581,9 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure send_update(p_days_since     in number default 1,
-                      p_override_email in varchar2 default null);
+                      p_override_email in varchar2 default null,
+                      p_application_id in apex_applications.application_id%type default null);
+
   ------------------------------------------------------------------------------
   --  Creator: Hayden Hudson
   --     Date: January 3, 2023
@@ -1525,6 +1598,7 @@ procedure send_update(p_days_since     in number default 1,
   ------------------------------------------------------------------------------
   function app_url (p_application_id in apex_applications.application_id%type default null) 
   return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 10, 2023
@@ -1538,6 +1612,8 @@ from dual;
 */
 ------------------------------------------------------------------------------
   function get_db_name return varchar2;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 13, 2023
@@ -1571,6 +1647,8 @@ end;
               p_body      in clob,
               p_body_html in clob
   );
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 13, 2023
@@ -1580,6 +1658,7 @@ end;
 --
 ------------------------------------------------------------------------------
   procedure push_email;
+
   ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 11, 2023
@@ -1595,6 +1674,7 @@ from dual;
 ------------------------------------------------------------------------------
   function unassigned_html_by_src (
             p_days_since in number) return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: January 11, 2023
@@ -1635,6 +1715,7 @@ from dual
 */
 ------------------------------------------------------------------------------
   function db_unique_name return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: September 18, 2023
@@ -1649,6 +1730,8 @@ end;
 */
 ------------------------------------------------------------------------------
   procedure enable_automations (p_application_id in apex_applications.application_id%type default null);
+
+
 end SVT_MONITORING;
 /
 
@@ -1693,6 +1776,20 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure refresh_mv(p_mv_list in svt_stds_standard_tests.mv_dependency%type default null);
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Function to answer whether v_svt_problem_assignees returns any rows
+--
+/*
+select svt_mv_util.problem_assignments_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function problem_assignments_yn
+  return varchar2;
 end SVT_MV_UTIL;
 /
 
@@ -2409,6 +2506,7 @@ end SVT_PLSQL_REVIEW;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Apr-3 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: April 3, 2023
@@ -2417,6 +2515,7 @@ end SVT_PLSQL_REVIEW;
 -- Generic function to retrieve preference values 
 --
 /*
+
 Instructions : Set the values of these preference in the Admin section of the application (p36)
 begin
     svt_audit_util.set_workspace;
@@ -2439,7 +2538,10 @@ from dual;
 */
 ------------------------------------------------------------------------------
 function get(p_preference_name in apex_workspace_preferences.preference_name%type)
-return apex_workspace_preferences.preference_value%type;
+return apex_workspace_preferences.preference_value%type
+result_cache;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: April 17, 2023
@@ -2458,6 +2560,7 @@ end;
 ------------------------------------------------------------------------------
 procedure set_preference (p_preference_name in apex_workspace_preferences.preference_name%type,
                           p_value           in apex_workspace_preferences.preference_value%type);
+
 end SVT_PREFERENCES;
 /
 
@@ -3701,7 +3804,6 @@ begin
                   p_test_name             => :P14_SHORT_NAME,
                   p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                   p_query_clob            => :P14_QUERY_CLOB,
-                  p_owner                 => :P14_OWNER,
                   p_test_code             => :P14_TEST_CODE,
                   p_active_yn             => :P14_ACTIVE_YN,
                   p_level_id              => :P14_LEVEL_ID,
@@ -3717,7 +3819,6 @@ begin
                           p_test_name             => :P14_SHORT_NAME,
                           p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                           p_query_clob            => :P14_QUERY_CLOB,
-                          p_owner                 => :P14_OWNER,
                           p_test_code             => :P14_TEST_CODE,
                           p_active_yn             => :P14_ACTIVE_YN,
                           p_level_id              => :P14_LEVEL_ID,
@@ -3732,6 +3833,7 @@ begin
 end;
 */
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Jul-10
@@ -3748,7 +3850,6 @@ begin
                 p_test_name             => p_test_name,
                 p_display_sequence      => p_display_sequence,
                 p_query_clob            => p_query_clob,
-                p_owner                 => p_owner,
                 p_test_code             => p_test_code,
                 p_active_yn             => p_active_yn,
                 p_level_id              => p_level_id,
@@ -3765,7 +3866,7 @@ end;
                        p_test_name             in svt_stds_standard_tests.test_name%type,
                        p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                        p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                       p_owner                 in svt_stds_standard_tests.owner%type,
+                       p_owner                 in svt_stds_standard_tests.owner%type default null,
                        p_test_code             in svt_stds_standard_tests.test_code%type,
                        p_active_yn             in svt_stds_standard_tests.active_yn%type,
                        p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -3777,6 +3878,7 @@ end;
                        p_version_db            in svt_stds_standard_tests.version_db%type default null
                        )
   return svt_stds_standard_tests.id%type;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 14, 2023
@@ -3792,7 +3894,6 @@ begin
                 p_test_name             => p_test_name,
                 p_display_sequence      => p_display_sequence,
                 p_query_clob            => p_query_clob,
-                p_owner                 => p_owner,
                 p_test_code             => p_test_code,
                 p_active_yn             => p_active_yn,
                 p_level_id              => p_level_id,
@@ -3806,7 +3907,7 @@ end;
                         p_test_name             in svt_stds_standard_tests.test_name%type,
                         p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                         p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                        p_owner                 in svt_stds_standard_tests.owner%type,
+                        p_owner                 in svt_stds_standard_tests.owner%type default null,
                         p_test_code             in svt_stds_standard_tests.test_code%type,
                         p_active_yn             in svt_stds_standard_tests.active_yn%type,
                         p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -3817,7 +3918,7 @@ end;
                         p_version_number        in svt_stds_standard_tests.version_number%type default null,
                         p_version_db            in svt_stds_standard_tests.version_db%type default null
                       );
-  
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -3853,6 +3954,7 @@ from svt_stds_standard_tests esst;
       p_version_number        in svt_stds_standard_tests.version_number%type,
       p_version_db            in svt_stds_standard_tests.version_db%type
   ) return varchar2 deterministic;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 10, 2023
@@ -3868,7 +3970,6 @@ begin
                           p_test_name             => :P14_TEST_NAME,
                           p_display_sequence      => :P14_DISPLAY_SEQUENCE,
                           p_query_clob            => :P14_QUERY_CLOB,
-                          p_owner                 => :P14_OWNER,
                           p_test_code             => :P14_TEST_CODE,
                           p_active_yn             => :P14_ACTIVE_YN,
                           p_level_id              => :P14_LEVEL_ID,
@@ -3886,7 +3987,7 @@ end;
                           p_test_name             in svt_stds_standard_tests.test_name%type,
                           p_display_sequence      in svt_stds_standard_tests.display_sequence%type default null,
                           p_query_clob            in svt_stds_standard_tests.query_clob%type,
-                          p_owner                 in svt_stds_standard_tests.owner%type,
+                          p_owner                 in svt_stds_standard_tests.owner%type default null,
                           p_test_code             in svt_stds_standard_tests.test_code%type,
                           p_active_yn             in svt_stds_standard_tests.active_yn%type,
                           p_level_id              in svt_stds_standard_tests.level_id%type,
@@ -3897,7 +3998,8 @@ end;
                           p_version_number        in svt_stds_standard_tests.version_number%type default null,
                           p_version_db            in svt_stds_standard_tests.version_db%type default null
                         );
-    
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -3912,6 +4014,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure publish_test(p_test_code in svt_stds_standard_tests.test_code%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 16, 2023
@@ -3926,6 +4029,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure bulk_publish(p_selected_ids in varchar2);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Oct-31
@@ -3940,6 +4044,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure bulk_inactivate(p_selected_ids in varchar2);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-15
@@ -3954,6 +4059,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure bulk_delete(p_selected_ids in varchar2);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Oct-31
@@ -3968,6 +4074,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure bulk_activate(p_selected_ids in varchar2);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 10, 2023
@@ -3984,6 +4091,7 @@ end;
 ------------------------------------------------------------------------------
     procedure delete_test(p_id        in svt_stds_standard_tests.id%type,
                           p_test_code in svt_stds_standard_tests.test_code%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: May 16, 2023
@@ -4003,6 +4111,7 @@ end;
 ------------------------------------------------------------------------------
     function get_test_rec(p_test_code in svt_stds_standard_tests.test_code%type) 
     return svt_stds_standard_tests%rowtype;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Aug-17
@@ -4022,6 +4131,7 @@ end;
 ------------------------------------------------------------------------------
     function get_test_rec(p_test_id in svt_stds_standard_tests.id%type) 
     return svt_stds_standard_tests%rowtype;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: May 31, 2023
@@ -4042,6 +4152,8 @@ end;
                                     p_from_test_code in svt_stds_standard_tests.test_code%type,
                                     p_to_test_code   in svt_stds_standard_tests.test_code%type
                                 );
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 2, 2023
@@ -4056,6 +4168,7 @@ from dual
 ------------------------------------------------------------------------------
     function get_test_id (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_stds_standard_tests.id%type deterministic;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Aug-17
@@ -4070,6 +4183,7 @@ from dual
 ------------------------------------------------------------------------------
     function get_standard_id (p_test_id in svt_stds_standard_tests.id%type)
     return svt_stds_standard_tests.standard_id%type deterministic;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: 2023-Nov-1
@@ -4083,7 +4197,8 @@ from dual
 ------------------------------------------------------------------------------
     function get_standard_id (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_stds_standard_tests.standard_id%type deterministic;
- 
+
+
  ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 10, 2023
@@ -4106,6 +4221,7 @@ from svt_stds_standard_tests_api.v_svt_stds_standard_tests()
                      p_inherited_yn       in varchar2 default null
               )
   return v_svt_stds_standard_tests_nt pipelined;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 23, 2023
@@ -4122,6 +4238,7 @@ from dual
   return svt_nested_table_types.nt_name%type
   deterministic 
   result_cache;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023
@@ -4138,6 +4255,88 @@ from dual
               p_published_yn   in varchar2 default null,
               p_issue_category in svt_nested_table_types.object_type%type default null) 
   return pls_integer;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: November 28, 2023
+-- Synopsis:
+--
+-- Function to return whether or not there are active tests (more performant than active_test_count)
+--
+/*
+select svt_stds_standard_tests_api.active_tests_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function active_tests_yn (
+              p_issue_category in svt_nested_table_types.object_type%type default null) 
+  return varchar2;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Procedure to download a json file of a given test  
+--
+/*
+begin
+  svt_stds_standard_tests_api.get_test_file(p_test_code => 'ACC_AUTOCOMPLETE');
+end;
+*/
+------------------------------------------------------------------------------
+  procedure get_test_file(p_test_code in svt_stds_standard_tests.test_code%type);
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- function to return the url to download a test code json file 
+--
+/*
+select svt_stds_standard_tests_api.get_test_file_url (
+            p_page_id => :APP_PAGE_ID,
+            p_test_code => :P14_TEST_CODE) the_url
+from dual
+*/
+------------------------------------------------------------------------------
+  function get_test_file_url (
+              p_page_id   in apex_application_pages.page_id%type,
+              p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to get the md5 of the current record for a given test_code 
+--
+/*
+select svt_stds_standard_tests_api.current_md5
+from dual;
+*/
+------------------------------------------------------------------------------
+  function current_md5(p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to answer whether a given test has been published in the current instance
+--
+/*
+select svt_stds_standard_tests_api.test_published_locally_yn (p_test_code => 'ACC_AUTOCOMPLETE') answ
+from dual
+*/
+------------------------------------------------------------------------------
+  function test_published_locally_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
 end svt_stds_standard_tests_api;
 /
 
@@ -4155,6 +4354,7 @@ end svt_stds_standard_tests_api;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jun-8 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2023
@@ -4196,6 +4396,7 @@ end;
         p_version_number        in svt_stds_tests_lib.version_number%type,
         p_version_db            in svt_stds_tests_lib.version_db%type
     );
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2023
@@ -4211,6 +4412,8 @@ end;
 */
 ------------------------------------------------------------------------------
     -- procedure take_snapshot;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 14, 2023
@@ -4230,6 +4433,7 @@ end;
                                     p_standard_id      in svt_stds_standard_tests.standard_id%type,
                                     p_urgency_level_id in svt_stds_standard_tests.level_id%type
                                     );
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 17, 2023
@@ -4238,15 +4442,21 @@ end;
 -- Procedure to install all the tests for a given standard
 --
 /*
+declare
+l_message varchar2(250);
 begin
-    svt_stds_tests_lib_api.auto_install_standard_test(p_standard_id => :P81_STANDARD_ID);
+    svt_stds_tests_lib_api.auto_install_standard_test(
+                                p_standard_id => :P81_STANDARD_ID,
+                                p_message => l_message);
 end;
 */
 ------------------------------------------------------------------------------
     procedure auto_install_standard_test (
-                        p_standard_id in svt_stds_standard_tests.standard_id%type,
-                        p_test_code   in svt_stds_standard_tests.test_code%type default null);
-    
+                      p_standard_id in svt_stds_standard_tests.standard_id%type default null,
+                      p_test_code   in svt_stds_standard_tests.test_code%type   default null,
+                      p_message     out nocopy varchar2);
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 26, 2023
@@ -4262,6 +4472,8 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_test_from_lib (p_id in svt_stds_tests_lib.id%type);
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 7, 2023
@@ -4277,6 +4489,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_test_from_lib (p_test_code in svt_stds_tests_lib.test_code%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 11, 2023
@@ -4291,6 +4504,7 @@ end;
 ------------------------------------------------------------------------------
    function get_id(p_test_code in svt_stds_tests_lib.test_code%type)
    return svt_stds_tests_lib.id%type;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -4305,6 +4519,7 @@ from dual
 ------------------------------------------------------------------------------
    function current_md5(p_test_code in svt_stds_tests_lib.test_code%type)
    return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 16, 2023
@@ -4334,6 +4549,42 @@ end;
                 p_md5            out nocopy varchar2,
                 p_version_number out nocopy svt_stds_tests_lib.version_number%type
    );
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to answer whether a given testcode will be overwritten on import of a test json file automatically 
+--
+/*
+select svt_stds_tests_lib_api.autoinstall_lib_yn(p_test_code => 'ACC_AUTOCOMPLETE')
+from dual
+*/
+------------------------------------------------------------------------------
+  function autoinstall_lib_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 11, 2023
+-- Synopsis:
+--
+-- Function to answer whether a record in  svt_stds_tests_lib exists for a given test_code
+--
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    l_bool := svt_stds_tests_lib_api.published_exists (p_test_code => 'ACC_AUTOCOMPLETE');
+end;
+*/
+------------------------------------------------------------------------------
+  function published_exists (p_test_code in svt_stds_standard_tests.test_code%type)
+  return boolean;
+
 end SVT_STDS_TESTS_LIB_API;
 /
 
@@ -4541,6 +4792,33 @@ from dual
 */
 ------------------------------------------------------------------------------
     function app_name return varchar2;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Function to answer whether any automations are currently disabled
+--
+/*
+select svt_util.disabled_jobs_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function disabled_jobs_yn return varchar2;
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Function to answer whether v_svt_automations_problems returns any rows
+--
+/*
+select svt_util.automation_issues_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function automation_issues_yn (p_except_static_id in apex_appl_automations.static_id%type default null) 
+  return varchar2;
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: November 28, 2023

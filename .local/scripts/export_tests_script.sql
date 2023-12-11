@@ -24,10 +24,10 @@ select svt_deployment.json_standard_tests_clob (p_standard_id => '%0') thejsoncl
 from v_svt_stds_standards_export tet
 where all_tests_file_blob is not null
 union all
--- select distinct apex_string.format(q'[spool standard_tests/ALL_TESTS.json
--- select svt_deployment.json_content_clob (p_table_name => 'V_SVT_STDS_STANDARD_TESTS_EXPORT') thejsonclob from dual;]') stmt
--- from dual
--- union all 
+select apex_string.format(q'[spool standard_tests/ALL_TESTS.json
+select svt_deployment.json_standard_tests_clob () thejsonclob from dual;]') stmt
+from dual
+union all
 select q'[spool standard_tests/README.md
 select svt_deployment.markdown_summary thejsonclob from dual;]' stmt
 from dual

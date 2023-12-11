@@ -1,6 +1,182 @@
 ---
+- # ====== Data Load Definition: LOAD_STANDARDS ================
+  id: 31311487458310772
+  identification: 
+    name: LOAD_STANDARDS
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SVT_STDS_STANDARDS
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: load_standard
+
+  data-profiles: 
+    id: 31309143260310757
+    identification: 
+      name: STD
+
+    data-profile: 
+      format: JSON
+      row-selector: standard
+
+    advanced: 
+      encoding: Unicode UTF-8
+
+    columns: 
+    - # ====== Column: CREATED =====================================
+      id: 31309461050310770
+      identification: 
+        column-name: CREATED
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP WITH LOCAL TIME ZONE
+        primary-key: false
+
+      parsing: 
+        path-expression: created
+        format-mask: 'YYYY"-"MM"-"DD"T"HH24":"MI:SS.FF9TZR'
+        has-time-zone: true
+
+      advanced: 
+        sequence: 50
+        hidden: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 31309787722310771
+      identification: 
+        column-name: UPDATED
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP WITH LOCAL TIME ZONE
+        primary-key: false
+
+      parsing: 
+        path-expression: updated
+        format-mask: 'YYYY"-"MM"-"DD"T"HH24":"MI:SS.FF9TZR'
+        has-time-zone: true
+
+      advanced: 
+        sequence: 70
+        hidden: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 31310117771310771
+      identification: 
+        column-name: CREATED_BY
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        path-expression: created_by
+
+      advanced: 
+        sequence: 60
+        hidden: true
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 31310407068310771
+      identification: 
+        column-name: UPDATED_BY
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        path-expression: updated_by
+
+      advanced: 
+        sequence: 80
+        hidden: true
+
+    - # ====== Column: DESCRIPTION =================================
+      id: 31310707620310772
+      identification: 
+        column-name: DESCRIPTION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        path-expression: description
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: STANDARD_NAME ===============================
+      id: 31310953640310772
+      identification: 
+        column-name: STANDARD_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 256
+        primary-key: false
+
+      parsing: 
+        path-expression: standard_name
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: COMPATIBILITY_MODE_ID =======================
+      id: 31311242151310772
+      identification: 
+        column-name: COMPATIBILITY_MODE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        decimal-character: .
+        primary-key: false
+
+      parsing: 
+        path-expression: compatibility_mode_id
+
+      advanced: 
+        sequence: 40
+        hidden: true
+
+    - # ====== Column: ID ==========================================
+      id: 31328598181334526
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        path-expression: standard_id
+
+      advanced: 
+        sequence: 10
+        hidden: true
+
 - # ====== Data Load Definition: SVT-STDS-TYPES ================
-  id: 322177618586703739
+  id: 352438663053796089
   identification: 
     name: SVT-STDS-TYPES
 
@@ -18,7 +194,7 @@
     static-id: svt_stds_types
 
   data-profiles: 
-    id: 322176535460703728
+    id: 352437579927796078
     identification: 
       name: SVT-STDS-TYPES
 
@@ -30,7 +206,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 322176792995703738
+      id: 352437837462796088
       identification: 
         column-name: ID
 
@@ -48,7 +224,7 @@
         hidden: false
 
     - # ====== Column: TYPE_NAME ===================================
-      id: 322177161823703738
+      id: 352438206290796088
       identification: 
         column-name: TYPE_NAME
 
@@ -66,7 +242,7 @@
         hidden: false
 
     - # ====== Column: DESCRIPTION =================================
-      id: 322177468159703738
+      id: 352438512626796088
       identification: 
         column-name: DESCRIPTION
 
@@ -84,7 +260,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-AUDIT-ACTIONS =============
-  id: 342363704891440321
+  id: 372624749358532671
   identification: 
     name: SVT-AUDIT-ACTIONS
 
@@ -102,7 +278,7 @@
     static-id: svt_audit_actions
 
   data-profiles: 
-    id: 342362639250440320
+    id: 372623683717532670
     identification: 
       name: SVT-AUDIT-ACTIONS
 
@@ -114,7 +290,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 342362913463440320
+      id: 372623957930532670
       identification: 
         column-name: ID
 
@@ -132,7 +308,7 @@
         hidden: false
 
     - # ====== Column: ACTION_NAME =================================
-      id: 342363239641440320
+      id: 372624284108532670
       identification: 
         column-name: ACTION_NAME
 
@@ -150,7 +326,7 @@
         hidden: false
 
     - # ====== Column: INCLUDE_IN_REPORT_YN ========================
-      id: 342363513517440321
+      id: 372624557984532671
       identification: 
         column-name: INCLUDE_IN_REPORT_YN
 
@@ -168,7 +344,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-STDS-STANDARDS ============
-  id: 342693620454612294
+  id: 372954664921704644
   identification: 
     name: SVT-STDS-STANDARDS
 
@@ -186,7 +362,7 @@
     static-id: svt_stds_standards
 
   data-profiles: 
-    id: 342691643191612292
+    id: 372952687658704642
     identification: 
       name: svt-stds-standards
 
@@ -198,7 +374,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 342691885786612292
+      id: 372952930253704642
       identification: 
         column-name: ID
 
@@ -216,7 +392,7 @@
         hidden: false
 
     - # ====== Column: STANDARD_NAME ===============================
-      id: 342692203794612293
+      id: 372953248261704643
       identification: 
         column-name: STANDARD_NAME
 
@@ -234,7 +410,7 @@
         hidden: false
 
     - # ====== Column: DESCRIPTION =================================
-      id: 342692542010612293
+      id: 372953586477704643
       identification: 
         column-name: DESCRIPTION
 
@@ -252,7 +428,7 @@
         hidden: false
 
     - # ====== Column: IMPLEMENTATION ==============================
-      id: 342692785307612293
+      id: 372953829774704643
       identification: 
         column-name: IMPLEMENTATION
 
@@ -269,7 +445,7 @@
         hidden: false
 
     - # ====== Column: STANDARD_GROUP ==============================
-      id: 342693104896612293
+      id: 372954149363704643
       identification: 
         column-name: STANDARD_GROUP
 
@@ -287,7 +463,7 @@
         hidden: false
 
     - # ====== Column: PRIMARY_DEVELOPER ===========================
-      id: 342693404490612294
+      id: 372954448957704644
       identification: 
         column-name: PRIMARY_DEVELOPER
 
@@ -305,7 +481,7 @@
         hidden: false
 
     - # ====== Column: CREATED =====================================
-      id: 382946187927062524
+      id: 413207232394154874
       identification: 
         column-name: CREATED
 
@@ -323,7 +499,7 @@
         hidden: false
 
     - # ====== Column: CREATED_BY ==================================
-      id: 382946544789065013
+      id: 413207589256157363
       identification: 
         column-name: CREATED_BY
 
@@ -341,7 +517,7 @@
         hidden: false
 
     - # ====== Column: UPDATED =====================================
-      id: 382946810615067562
+      id: 413207855082159912
       identification: 
         column-name: UPDATED
 
@@ -359,7 +535,7 @@
         hidden: false
 
     - # ====== Column: UPDATED_BY ==================================
-      id: 382947140555069702
+      id: 413208185022162052
       identification: 
         column-name: UPDATED_BY
 
@@ -377,7 +553,7 @@
         hidden: false
 
     - # ====== Column: COMPATIBILITY_MODE_ID =======================
-      id: 451759024128963425
+      id: 482020068596055775
       identification: 
         column-name: COMPATIBILITY_MODE_ID
 
@@ -394,7 +570,7 @@
         hidden: false
 
     - # ====== Column: ACTIVE_YN ===================================
-      id: 463306340725653866
+      id: 493567385192746216
       identification: 
         column-name: ACTIVE_YN
 
@@ -412,7 +588,7 @@
         hidden: false
 
     - # ====== Column: PARENT_STANDARD_ID ==========================
-      id: 463306622183657798
+      id: 493567666650750148
       identification: 
         column-name: PARENT_STANDARD_ID
 
@@ -429,7 +605,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-COMPONENT-TYPES ===========
-  id: 342947566474389341
+  id: 373208610941481691
   identification: 
     name: SVT-COMPONENT-TYPES
 
@@ -447,7 +623,7 @@
     static-id: svt_component_types
 
   data-profiles: 
-    id: 342944912977389339
+    id: 373205957444481689
     identification: 
       name: SVT-COMPONENT-TYPES
 
@@ -459,7 +635,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 342945256634389339
+      id: 373206301101481689
       identification: 
         column-name: ID
 
@@ -477,7 +653,7 @@
         hidden: false
 
     - # ====== Column: PK_VALUE ====================================
-      id: 342945528430389340
+      id: 373206572897481690
       identification: 
         column-name: PK_VALUE
 
@@ -495,7 +671,7 @@
         hidden: false
 
     - # ====== Column: NT_TYPE_ID ==================================
-      id: 342945783035389340
+      id: 373206827502481690
       identification: 
         column-name: NT_TYPE_ID
 
@@ -513,7 +689,7 @@
         hidden: false
 
     - # ====== Column: AVAILABLE_YN ================================
-      id: 342946171487389340
+      id: 373207215954481690
       identification: 
         column-name: AVAILABLE_YN
 
@@ -531,7 +707,7 @@
         hidden: false
 
     - # ====== Column: TEMPLATE_URL ================================
-      id: 342946469724389340
+      id: 373207514191481690
       identification: 
         column-name: TEMPLATE_URL
 
@@ -549,7 +725,7 @@
         hidden: false
 
     - # ====== Column: COMPONENT_NAME ==============================
-      id: 342946992443389341
+      id: 373208036910481691
       identification: 
         column-name: COMPONENT_NAME
 
@@ -567,7 +743,7 @@
         hidden: false
 
     - # ====== Column: PARENT_PK_VALUE =============================
-      id: 342947371255389341
+      id: 373208415722481691
       identification: 
         column-name: PARENT_PK_VALUE
 
@@ -585,7 +761,7 @@
         hidden: false
 
     - # ====== Column: ADDL_COLS ===================================
-      id: 346628406329766215
+      id: 376889450796858565
       identification: 
         column-name: ADDL_COLS
 
@@ -603,7 +779,7 @@
         hidden: false
 
     - # ====== Column: NAME_COLUMN =================================
-      id: 346629295423773540
+      id: 376890339890865890
       identification: 
         column-name: NAME_COLUMN
 
@@ -621,7 +797,7 @@
         hidden: false
 
     - # ====== Column: FRIENDLY_NAME ===============================
-      id: 346630211565783895
+      id: 376891256032876245
       identification: 
         column-name: FRIENDLY_NAME
 
@@ -639,7 +815,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-STANDARDS-URGENCY-LEVEL ===
-  id: 342957940455538199
+  id: 373218984922630549
   identification: 
     name: SVT-STANDARDS-URGENCY-LEVEL
 
@@ -657,7 +833,7 @@
     static-id: svt_standards_urgency_level
 
   data-profiles: 
-    id: 342956836294538198
+    id: 373217880761630548
     identification: 
       name: SVT-STANDARDS-URGENCY-LEVEL
 
@@ -669,7 +845,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 342957087757538198
+      id: 373218132224630548
       identification: 
         column-name: ID
 
@@ -687,7 +863,7 @@
         hidden: false
 
     - # ====== Column: URGENCY_NAME ================================
-      id: 342957460720538198
+      id: 373218505187630548
       identification: 
         column-name: URGENCY_NAME
 
@@ -705,7 +881,7 @@
         hidden: false
 
     - # ====== Column: URGENCY_LEVEL ===============================
-      id: 342957745327538198
+      id: 373218789794630548
       identification: 
         column-name: URGENCY_LEVEL
 
@@ -723,7 +899,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-NESTED-TABLE-TYPES ========
-  id: 342960818550548399
+  id: 373221863017640749
   identification: 
     name: SVT-NESTED-TABLE-TYPES
 
@@ -741,7 +917,7 @@
     static-id: svt_nested_table_types
 
   data-profiles: 
-    id: 342959461949548398
+    id: 373220506416640748
     identification: 
       name: SVT-NESTED-TABLE-TYPES
 
@@ -753,7 +929,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 342959733974548398
+      id: 373220778441640748
       identification: 
         column-name: ID
 
@@ -771,7 +947,7 @@
         hidden: false
 
     - # ====== Column: NT_NAME =====================================
-      id: 342960068252548398
+      id: 373221112719640748
       identification: 
         column-name: NT_NAME
 
@@ -789,7 +965,7 @@
         hidden: false
 
     - # ====== Column: OBJECT_TYPE =================================
-      id: 342960281546548399
+      id: 373221326013640749
       identification: 
         column-name: OBJECT_TYPE
 
@@ -807,7 +983,7 @@
         hidden: false
 
     - # ====== Column: EXAMPLE_QUERY ===============================
-      id: 342960599459548399
+      id: 373221643926640749
       identification: 
         column-name: EXAMPLE_QUERY
 
@@ -824,7 +1000,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-STDS-TESTS-LIB ============
-  id: 343016510380361260
+  id: 373277554847453610
   identification: 
     name: SVT-STDS-TESTS-LIB
 
@@ -842,7 +1018,7 @@
     static-id: svt_stds_tests_lib
 
   data-profiles: 
-    id: 343012997137361257
+    id: 373274041604453607
     identification: 
       name: SVT-STDS-TESTS-LIB
 
@@ -854,7 +1030,7 @@
 
     columns: 
     - # ====== Column: TEST_ID =====================================
-      id: 343013582346361258
+      id: 373274626813453608
       identification: 
         column-name: TEST_ID
 
@@ -872,7 +1048,7 @@
         hidden: false
 
     - # ====== Column: ACTIVE_YN ===================================
-      id: 343013933667361258
+      id: 373274978134453608
       identification: 
         column-name: ACTIVE_YN
 
@@ -890,7 +1066,7 @@
         hidden: false
 
     - # ====== Column: TEST_NAME ===================================
-      id: 343014176609361258
+      id: 373275221076453608
       identification: 
         column-name: TEST_NAME
 
@@ -908,7 +1084,7 @@
         hidden: false
 
     - # ====== Column: QUERY_CLOB ==================================
-      id: 343015156796361259
+      id: 373276201263453609
       identification: 
         column-name: QUERY_CLOB
 
@@ -925,7 +1101,7 @@
         hidden: false
 
     - # ====== Column: STANDARD_ID =================================
-      id: 343015444925361259
+      id: 373276489392453609
       identification: 
         column-name: STANDARD_ID
 
@@ -943,7 +1119,7 @@
         hidden: false
 
     - # ====== Column: MV_DEPENDENCY ===============================
-      id: 343015741933361259
+      id: 373276786400453609
       identification: 
         column-name: MV_DEPENDENCY
 
@@ -961,7 +1137,7 @@
         hidden: false
 
     - # ====== Column: TEST_CODE ===================================
-      id: 343016032416361260
+      id: 373277076883453610
       identification: 
         column-name: TEST_CODE
 
@@ -979,7 +1155,7 @@
         hidden: false
 
     - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
-      id: 343016275776361260
+      id: 373277320243453610
       identification: 
         column-name: SVT_COMPONENT_TYPE_ID
 
@@ -997,7 +1173,7 @@
         hidden: false
 
     - # ====== Column: VERSION_DB ==================================
-      id: 349097579319489618
+      id: 379358623786581968
       identification: 
         column-name: VERSION_DB
 
@@ -1015,7 +1191,7 @@
         hidden: false
 
     - # ====== Column: FIX =========================================
-      id: 427320339150834325
+      id: 457581383617926675
       identification: 
         column-name: FIX
 
@@ -1032,7 +1208,7 @@
         hidden: false
 
     - # ====== Column: EXPLANATION =================================
-      id: 427320951880841188
+      id: 457581996347933538
       identification: 
         column-name: EXPLANATION
 
@@ -1050,7 +1226,7 @@
         hidden: false
 
     - # ====== Column: LEVEL_ID ====================================
-      id: 427325427240895358
+      id: 457586471707987708
       identification: 
         column-name: LEVEL_ID
 
@@ -1068,7 +1244,7 @@
         hidden: false
 
     - # ====== Column: VERSION_NUMBER ==============================
-      id: 433588652350889719
+      id: 463849696817982069
       identification: 
         column-name: VERSION_NUMBER
 
@@ -1086,7 +1262,7 @@
         hidden: false
 
 - # ====== Data Load Definition: LOAD_TESTS ====================
-  id: 418784618368121788
+  id: 449045662835214138
   identification: 
     name: LOAD_TESTS
 
@@ -1104,7 +1280,7 @@
     static-id: load_tests
 
   data-profiles: 
-    id: 418780841923121784
+    id: 449041886390214134
     identification: 
       name: STD_AND_TESTS
 
@@ -1117,7 +1293,7 @@
 
     columns: 
     - # ====== Column: FIX =========================================
-      id: 418781125018121785
+      id: 449042169485214135
       identification: 
         column-name: FIX
 
@@ -1130,11 +1306,11 @@
         path-expression: fix
 
       advanced: 
-        sequence: 1
+        sequence: 70
         hidden: false
 
     - # ====== Column: TEST_ID =====================================
-      id: 418781422948121785
+      id: 449042467415214135
       identification: 
         column-name: TEST_ID
 
@@ -1148,11 +1324,11 @@
         path-expression: test_id
 
       advanced: 
-        sequence: 2
-        hidden: false
+        sequence: 10
+        hidden: true
 
     - # ====== Column: LEVEL_ID ====================================
-      id: 418781700789121786
+      id: 449042745256214136
       identification: 
         column-name: LEVEL_ID
 
@@ -1166,11 +1342,11 @@
         path-expression: level_id
 
       advanced: 
-        sequence: 3
-        hidden: false
+        sequence: 120
+        hidden: true
 
     - # ====== Column: TEST_CODE ===================================
-      id: 418782015724121786
+      id: 449043060191214136
       identification: 
         column-name: TEST_CODE
 
@@ -1184,11 +1360,11 @@
         path-expression: test_code
 
       advanced: 
-        sequence: 4
+        sequence: 30
         hidden: false
 
     - # ====== Column: TEST_NAME ===================================
-      id: 418782270770121786
+      id: 449043315237214136
       identification: 
         column-name: TEST_NAME
 
@@ -1202,11 +1378,11 @@
         path-expression: test_name
 
       advanced: 
-        sequence: 5
+        sequence: 40
         hidden: false
 
     - # ====== Column: QUERY_CLOB ==================================
-      id: 418782578462121786
+      id: 449043622929214136
       identification: 
         column-name: QUERY_CLOB
 
@@ -1219,29 +1395,29 @@
         path-expression: query_clob
 
       advanced: 
-        sequence: 6
-        hidden: false
+        sequence: 90
+        hidden: true
 
     - # ====== Column: VERSION_DB ==================================
-      id: 418782953466121786
+      id: 449043997933214136
       identification: 
         column-name: VERSION_DB
 
       source: 
         type: Data
         data-type: VARCHAR2
-        maximum-length: 55
+        maximum-length: 100
         primary-key: false
 
       parsing: 
         path-expression: version_db
 
       advanced: 
-        sequence: 7
+        sequence: 60
         hidden: false
 
     - # ====== Column: EXPLANATION =================================
-      id: 418783233285121787
+      id: 449044277752214137
       identification: 
         column-name: EXPLANATION
 
@@ -1255,11 +1431,11 @@
         path-expression: explanation
 
       advanced: 
-        sequence: 8
+        sequence: 80
         hidden: false
 
     - # ====== Column: STANDARD_ID =================================
-      id: 418783535627121787
+      id: 449044580094214137
       identification: 
         column-name: STANDARD_ID
 
@@ -1273,11 +1449,11 @@
         path-expression: standard_id
 
       advanced: 
-        sequence: 9
-        hidden: false
+        sequence: 20
+        hidden: true
 
     - # ====== Column: MV_DEPENDENCY ===============================
-      id: 418783821171121787
+      id: 449044865638214137
       identification: 
         column-name: MV_DEPENDENCY
 
@@ -1291,11 +1467,11 @@
         path-expression: mv_dependency
 
       advanced: 
-        sequence: 10
-        hidden: false
+        sequence: 100
+        hidden: true
 
     - # ====== Column: VERSION_NUMBER ==============================
-      id: 418784078279121787
+      id: 449045122746214137
       identification: 
         column-name: VERSION_NUMBER
 
@@ -1309,11 +1485,11 @@
         path-expression: version_number
 
       advanced: 
-        sequence: 11
+        sequence: 50
         hidden: false
 
     - # ====== Column: SVT_COMPONENT_TYPE_ID =======================
-      id: 418784390029121788
+      id: 449045434496214138
       identification: 
         column-name: SVT_COMPONENT_TYPE_ID
 
@@ -1327,11 +1503,11 @@
         path-expression: svt_component_type_id
 
       advanced: 
-        sequence: 12
-        hidden: false
+        sequence: 110
+        hidden: true
 
 - # ====== Data Load Definition: LOAD_STD ======================
-  id: 418826364758268062
+  id: 449087409225360412
   identification: 
     name: LOAD_STD
 
@@ -1349,19 +1525,20 @@
     static-id: load_std
 
   data-profiles: 
-    id: 418824945046268061
+    id: 449085989513360411
     identification: 
-      name: blergf
+      name: standard
 
     data-profile: 
       format: JSON
+      row-selector: standard
 
     advanced: 
       encoding: Unicode UTF-8
 
     columns: 
     - # ====== Column: DESCRIPTION =================================
-      id: 418825250988268061
+      id: 449086295455360411
       identification: 
         column-name: DESCRIPTION
 
@@ -1379,7 +1556,7 @@
         hidden: false
 
     - # ====== Column: ID ==========================================
-      id: 418825501941268062
+      id: 449086546408360412
       identification: 
         column-name: ID
 
@@ -1397,7 +1574,7 @@
         hidden: false
 
     - # ====== Column: STANDARD_NAME ===============================
-      id: 418825788431268062
+      id: 449086832898360412
       identification: 
         column-name: STANDARD_NAME
 
@@ -1415,7 +1592,7 @@
         hidden: false
 
     - # ====== Column: COMPATIBILITY_MODE_ID =======================
-      id: 418826131674268062
+      id: 449087176141360412
       identification: 
         column-name: COMPATIBILITY_MODE_ID
 
@@ -1433,7 +1610,7 @@
         hidden: false
 
     - # ====== Column: CREATED =====================================
-      id: 418846065268524936
+      id: 449107109735617286
       identification: 
         column-name: CREATED
 
@@ -1451,7 +1628,7 @@
         hidden: false
 
     - # ====== Column: CREATED_BY ==================================
-      id: 418846346453528815
+      id: 449107390920621165
       identification: 
         column-name: CREATED_BY
 
@@ -1469,7 +1646,7 @@
         hidden: false
 
     - # ====== Column: UPDATED =====================================
-      id: 418847858126531902
+      id: 449108902593624252
       identification: 
         column-name: UPDATED
 
@@ -1487,7 +1664,7 @@
         hidden: false
 
     - # ====== Column: UPDATED_BY ==================================
-      id: 418848088886534492
+      id: 449109133353626842
       identification: 
         column-name: UPDATED_BY
 
@@ -1505,7 +1682,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-COMPATIBILITY =============
-  id: 451729271741556226
+  id: 481990316208648576
   identification: 
     name: SVT-COMPATIBILITY
 
@@ -1523,7 +1700,7 @@
     static-id: svt_compatibility
 
   data-profiles: 
-    id: 451728091056556211
+    id: 481989135523648561
     identification: 
       name: SVT-COMPATIBILITY
 
@@ -1535,7 +1712,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 451728424671556224
+      id: 481989469138648574
       identification: 
         column-name: ID
 
@@ -1553,7 +1730,7 @@
         hidden: false
 
     - # ====== Column: COMPATIBILITY_DESC ==========================
-      id: 451728730736556225
+      id: 481989775203648575
       identification: 
         column-name: COMPATIBILITY_DESC
 
@@ -1571,7 +1748,7 @@
         hidden: false
 
     - # ====== Column: COMPATIBILITY_MODE ==========================
-      id: 451729017352556226
+      id: 481990061819648576
       identification: 
         column-name: COMPATIBILITY_MODE
 
@@ -1589,7 +1766,7 @@
         hidden: false
 
     - # ====== Column: DISPLAY_ORDER ===============================
-      id: 451738516170698226
+      id: 481999560637790576
       identification: 
         column-name: DISPLAY_ORDER
 
@@ -1606,7 +1783,7 @@
         hidden: false
 
     - # ====== Column: TYPE_NAME ===================================
-      id: 451756422122885189
+      id: 482017466589977539
       identification: 
         column-name: TYPE_NAME
 
@@ -1624,7 +1801,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-WCAG ======================
-  id: 517279287031877347
+  id: 547540331498969697
   identification: 
     name: SVT-WCAG
 
@@ -1642,7 +1819,7 @@
     static-id: svt_wcag
 
   data-profiles: 
-    id: 517277371111877333
+    id: 547538415578969683
     identification: 
       name: SVT-WCAG
 
@@ -1654,7 +1831,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 517277624911877346
+      id: 547538669378969696
       identification: 
         column-name: ID
 
@@ -1672,7 +1849,7 @@
         hidden: false
 
     - # ====== Column: C1ST_DIGIT ==================================
-      id: 517277936851877346
+      id: 547538981318969696
       identification: 
         column-name: C1ST_DIGIT
 
@@ -1690,7 +1867,7 @@
         hidden: false
 
     - # ====== Column: C2ND_DIGIT ==================================
-      id: 517278227639877346
+      id: 547539272106969696
       identification: 
         column-name: C2ND_DIGIT
 
@@ -1708,7 +1885,7 @@
         hidden: false
 
     - # ====== Column: C3RD_DIGIT ==================================
-      id: 517278550030877347
+      id: 547539594497969697
       identification: 
         column-name: C3RD_DIGIT
 
@@ -1726,7 +1903,7 @@
         hidden: false
 
     - # ====== Column: DESCRIPTION =================================
-      id: 517278814639877347
+      id: 547539859106969697
       identification: 
         column-name: DESCRIPTION
 
@@ -1744,7 +1921,7 @@
         hidden: false
 
     - # ====== Column: CONFORMANCE_LEVEL ===========================
-      id: 517279150118877347
+      id: 547540194585969697
       identification: 
         column-name: CONFORMANCE_LEVEL
 
@@ -1762,7 +1939,7 @@
         hidden: false
 
 - # ====== Data Load Definition: SVT-WCAG-TEST-CODES ===========
-  id: 517296794394891330
+  id: 547557838861983680
   identification: 
     name: SVT-WCAG-TEST-CODES
 
@@ -1780,7 +1957,7 @@
     static-id: svt_wcag_test_codes
 
   data-profiles: 
-    id: 517295734279891329
+    id: 547556778746983679
     identification: 
       name: SVT-WCAG-TEST-CODES
 
@@ -1792,7 +1969,7 @@
 
     columns: 
     - # ====== Column: ID ==========================================
-      id: 517295999982891329
+      id: 547557044449983679
       identification: 
         column-name: ID
 
@@ -1810,7 +1987,7 @@
         hidden: false
 
     - # ====== Column: TEST_ID =====================================
-      id: 517296370067891329
+      id: 547557414534983679
       identification: 
         column-name: TEST_ID
 
@@ -1828,7 +2005,7 @@
         hidden: false
 
     - # ====== Column: WCAG_ID =====================================
-      id: 517296659418891330
+      id: 547557703885983680
       identification: 
         column-name: WCAG_ID
 

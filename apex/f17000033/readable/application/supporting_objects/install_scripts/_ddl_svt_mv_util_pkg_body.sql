@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE EDITIONABLE PACKAGE BODY "SVT_MV_UTIL" as
 ----------------------------------------------------------------------------
 -- Copyright (c) Oracle Corporation 2020. All Rights Reserved.
@@ -12,7 +13,12 @@
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jul-5 - created
 ---------------------------------------------------------------------------- 
+
   gc_scope_prefix constant varchar2(31) := lower($$plsql_unit) || '.';
+  gc_n            constant varchar2(1) := 'N';
+  gc_y            constant varchar2(1) := 'Y';
+
+
   function mv_svt_query return clob
   as
     c_scope          constant varchar2(128) := gc_scope_prefix || 'mv_svt_query';
@@ -21,6 +27,7 @@
     l_query_clob     clob;
   begin
     apex_debug.message(c_debug_template,'START');
+
     for rec in (select table_name
                 from user_tables
                 where table_name like 'MV_SVT%'
@@ -50,7 +57,7 @@
         from thecols
         left outer join all_tab_cols atc on atc.column_name = thecols.column_name
                                         and atc.table_name = rec.table_name;
-        
+
         l_query_clob := l_query_clob ||
                         apex_string.format ('%3select %0%1from %2',
                         p0 => l_sql_frgmt,
@@ -63,19 +70,23 @@
         l_index := l_index + 1;
       end sqlfrgmt;
     end loop;
+
     return l_query_clob;
   exception
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
       raise;
   end mv_svt_query;
+
   procedure refresh_mv(p_mv_list in svt_stds_standard_tests.mv_dependency%type default null)
     is 
     c_scope constant varchar2(128) := gc_scope_prefix || 'refresh_mv';
     c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
     begin
       apex_debug.message(c_debug_template,'START', 'p_mv_list', p_mv_list);
+
       svt_audit_util.set_workspace;
+
       if p_mv_list like '%V_MV_SVT%' then
         for rec in (select object_name mview
                       from user_objects
@@ -104,9 +115,39 @@
           dbms_mview.refresh (rec.mview);
         end loop;
       end if;
+
   exception when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end refresh_mv;
+
+  function problem_assignments_yn
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'problem_assignments_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_alerts_yn varchar2(1) := gc_n;
+  begin
+   apex_debug.message(c_debug_template,'START'
+                     );
+
+   select case when count(*) = 1
+                  then gc_y
+                  else gc_n
+                  end into l_alerts_yn
+          from sys.dual where exists (
+              select 1 
+              from v_svt_problem_assignees
+          );
+
+   return l_alerts_yn;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end problem_assignments_yn;
+
+
 end SVT_MV_UTIL;
-/ 
+/

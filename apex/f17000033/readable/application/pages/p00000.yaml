@@ -5,8 +5,73 @@ identification:
   name: Global Page
 
 regions: 
+- # ====== Region: No Role =====================================
+  id: 30814824569730410
+  identification: 
+    title: No Role
+    type: Static Content
+
+  source: 
+    html-code: You (&APP_USER.) are not an authorized user of this application. &A_DEFAULT_ADMIN_MESSAGE.
+
+  layout: 
+    sequence: 30
+    parent-region: Universal Warnings # 470174431960213478
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7894857603068147629
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    - t-Form--xlarge
+    - t-Form--stretchInputs
+    - margin-top-lg
+    - margin-bottom-lg
+    - margin-left-lg
+    - margin-right-lg
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case when APEX_ACL.HAS_USER_ANY_ROLES (
+                      p_application_id => :APP_ID,
+                      p_user_name      => :APP_USER)
+           then false
+           else true
+           end
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Navigate through application ================
-  id: 343035955594411728
+  id: 373297000061504078
   identification: 
     title: Navigate through application
     type: Search
@@ -22,7 +87,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Inline Drawer # 341097050645240517
+    template: Inline Drawer # 371358095112332867
     template-options: 
     - '#DEFAULT#'
     - js-dialog-class-t-Drawer--pullOutEnd
@@ -67,37 +132,37 @@ regions:
 
   search-sources: 
   - # ====== Search Source: Navigation Search ====================
-    id: 343035976945411829
+    id: 373297021412504179
     identification: 
       name: Navigation Search
-      search-configuration: V_SVT_NAV_MENU # 343406861835300755
+      search-configuration: V_SVT_NAV_MENU # 373667906302393105
       use-as-initial-result: false
 
     layout: 
       sequence: 10
 
   - # ====== Search Source: Standard Groups ======================
-    id: 437498640309215049
+    id: 467759684776307399
     identification: 
       name: Standard Groups
-      search-configuration: Standard Groups # 438745716852149236
+      search-configuration: Standard Groups # 469006761319241586
       use-as-initial-result: false
 
     layout: 
       sequence: 20
 
   - # ====== Search Source: Tests ================================
-    id: 437498768319215050
+    id: 467759812786307400
     identification: 
       name: Tests
-      search-configuration: Tests # 438747500848178730
+      search-configuration: Tests # 469008545315271080
       use-as-initial-result: false
 
     layout: 
       sequence: 30
 
 - # ====== Region: Container ===================================
-  id: 343036269386411831
+  id: 373297313853504181
   identification: 
     title: Container
     type: Static Content
@@ -113,7 +178,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7864598431666055282
+    template: Blank with Attributes # 7894859476133147632
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -138,17 +203,17 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Run from Builder ============================
-  id: 382774737994765554
+  id: 413035782461857904
   identification: 
     title: Run from Builder
     type: Static Content
 
   source: 
-    html-code: You do not have an active builder session. Important functionality will not be operational until log into the workspace and re-launch this application again.
+    html-code: You do not have an active builder session. Important functionality will not be operational until log into the workspace and re-launch this application again. &A_DEFAULT_ADMIN_MESSAGE.
 
   layout: 
     sequence: 20
-    parent-region: Builder # 439913387493121128
+    parent-region: Universal Warnings # 470174431960213478
     position: BODY
     start-new-layout: false
     start-new-row: true
@@ -157,7 +222,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7864596558601055279
+    template: Alert # 7894857603068147629
     template-options: 
     - '#DEFAULT#'
     - t-Alert--colorBG
@@ -196,7 +261,7 @@ regions:
       expand-shortcuts: false
 
 - # ====== Region: Super Breadcrumb ============================
-  id: 435318951363980824
+  id: 465579995831073174
   identification: 
     title: Super Breadcrumb
     type: Super Breadcrumb
@@ -212,7 +277,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7864614576617055310
+    template: Title Bar # 7894875621084147660
     template-options: 
     - '#DEFAULT#'
     - t-BreadcrumbRegion--useBreadcrumbTitle
@@ -261,10 +326,10 @@ regions:
     rewind-options: 
       rewind-style: Matching Page ID and Title
 
-- # ====== Region: Builder =====================================
-  id: 439913387493121128
+- # ====== Region: Universal Warnings ==========================
+  id: 470174431960213478
   identification: 
-    title: Builder
+    title: Universal Warnings
     type: Static Content
 
   layout: 
@@ -278,7 +343,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7864598431666055282
+    template: Blank with Attributes # 7894859476133147632
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -304,7 +369,7 @@ regions:
 
 page-items: 
 - # ====== Page Item: P0_APX_BLDR_SESSION ======================
-  id: 333878165109929033
+  id: 364139209577021383
   identification: 
     name: P0_APX_BLDR_SESSION
     type: Hidden
@@ -314,7 +379,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Builder # 439913387493121128
+    region: Universal Warnings # 470174431960213478
     position: BODY
 
   advanced: 
@@ -335,7 +400,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P0_CURRENT_REVIEW_SCHEMA =================
-  id: 342889419130632266
+  id: 373150463597724616
   identification: 
     name: P0_CURRENT_REVIEW_SCHEMA
     type: Hidden
@@ -344,8 +409,8 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
-    region: Builder # 439913387493121128
+    sequence: 40
+    region: Universal Warnings # 470174431960213478
     position: BODY
 
   advanced: 
@@ -368,7 +433,7 @@ page-items:
     help-text: 'This is the schema in which the "live test results" are being evaluated. '
 
 - # ====== Page Item: P0_SEARCH ================================
-  id: 343036090099411830
+  id: 373297134566504180
   identification: 
     name: P0_SEARCH
     type: Text Field
@@ -386,7 +451,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Navigate through application # 343035955594411728
+    region: Navigate through application # 373297000061504078
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -397,7 +462,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6702656876957596572
+    template: Optional - Floating # 6732917921424688922
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -427,7 +492,7 @@ page-items:
     help-text: Search for the pages in this application to which you have access
 
 - # ====== Page Item: P0_SEARCH_BAR ============================
-  id: 343036296876411832
+  id: 373297341343504182
   identification: 
     name: P0_SEARCH_BAR
     type: Text Field
@@ -445,7 +510,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: Container # 343036269386411831
+    region: Container # 373297313853504181
     position: BODY
     alignment: Left
     start-new-layout: false
@@ -456,7 +521,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Hidden # 7864628804869055348
+    template: Hidden # 7894889849336147698
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
@@ -489,7 +554,7 @@ page-items:
     help-text: Search this application
 
 - # ====== Page Item: P0_SUCCESS ===============================
-  id: 438757765218747542
+  id: 469018809685839892
   identification: 
     name: P0_SUCCESS
     type: Hidden
@@ -519,7 +584,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
 - # ====== Page Item: P0_SUCCESS_DIALOG ========================
-  id: 438757849485747543
+  id: 469018893952839893
   identification: 
     name: P0_SUCCESS_DIALOG
     type: Hidden
@@ -550,14 +615,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 437498367423215046
+  id: 467759411890307396
   identification: 
     button-name: CANCEL
     label: Cancel
 
   layout: 
     sequence: 20
-    region: Navigate through application # 343035955594411728
+    region: Navigate through application # 373297000061504078
     position: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -566,7 +631,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7864629781296055360
+    button-template: Text # 7894890825763147710
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -577,7 +642,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Popup Search ========================
-  id: 343036430137411833
+  id: 373297474604504183
   identification: 
     name: Popup Search
 
@@ -598,7 +663,7 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Set Value ===================================
-    id: 279880523168588591
+    id: 310141567635680941
     identification: 
       action: Set Value
 
@@ -614,29 +679,29 @@ dynamic-actions:
 
     execution: 
       sequence: 40
-      event: Popup Search # 343036430137411833
+      event: Popup Search # 373297474604504183
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
 
   - # ====== Action: Open Region =================================
-    id: 343036556191411834
+    id: 373297600658504184
     identification: 
       action: Open Region
 
     affected-elements: 
       selection-type: Region
-      region: Navigate through application # 343035955594411728
+      region: Navigate through application # 373297000061504078
 
     execution: 
       sequence: 20
-      event: Popup Search # 343036430137411833
+      event: Popup Search # 373297474604504183
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Set Focus ===================================
-    id: 438756349406747528
+    id: 469017393873839878
     identification: 
       action: Set Focus
 
@@ -647,12 +712,12 @@ dynamic-actions:
 
     execution: 
       sequence: 50
-      event: Popup Search # 343036430137411833
+      event: Popup Search # 373297474604504183
       fire-when-event-result-is: True
       fire-on-initialization: false
 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 439911594478121110
+    id: 470172638945213460
     identification: 
       action: Execute JavaScript Code
 
@@ -661,12 +726,12 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: Popup Search # 343036430137411833
+      event: Popup Search # 373297474604504183
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Cancel Search =======================
-  id: 437498401915215047
+  id: 467759446382307397
   identification: 
     name: Cancel Search
 
@@ -678,26 +743,26 @@ dynamic-actions:
   when: 
     event: EVENT.EVENT.BROWSER.CLICK
     selection-type: Button
-    button: CANCEL # 437498367423215046
+    button: CANCEL # 467759411890307396
 
   actions: 
   - # ====== Action: Close Region ================================
-    id: 437498539801215048
+    id: 467759584268307398
     identification: 
       action: Close Region
 
     affected-elements: 
       selection-type: Region
-      region: Navigate through application # 343035955594411728
+      region: Navigate through application # 373297000061504078
 
     execution: 
       sequence: 10
-      event: Cancel Search # 437498401915215047
+      event: Cancel Search # 467759446382307397
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Create Popup success message ========
-  id: 438757895168747544
+  id: 469018939635839894
   identification: 
     name: Create Popup success message
 
@@ -718,7 +783,7 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Execute JavaScript Code =====================
-    id: 438758068299747545
+    id: 469019112766839895
     identification: 
       action: Execute JavaScript Code
 
@@ -727,12 +792,12 @@ dynamic-actions:
 
     execution: 
       sequence: 20
-      event: Create Popup success message # 438757895168747544
+      event: Create Popup success message # 469018939635839894
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: dialog close ========================
-  id: 438758142433747546
+  id: 469019186900839896
   identification: 
     name: dialog close
 
@@ -748,7 +813,7 @@ dynamic-actions:
 
   actions: 
   - # ====== Action: Set Value ===================================
-    id: 438758261653747547
+    id: 469019306120839897
     identification: 
       action: Set Value
 
@@ -764,7 +829,7 @@ dynamic-actions:
 
     execution: 
       sequence: 30
-      event: dialog close # 438758142433747546
+      event: dialog close # 469019186900839896
       fire-when-event-result-is: True
       fire-on-initialization: false
       stop-execution-on-error: true

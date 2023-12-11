@@ -24,6 +24,7 @@ select job_name,
        start_timestamp log_date, 
        polling_interval,
        start_timestamp_char log_date_char,
+       static_id,
        case when error_msg is not null
             then error_msg
             else 'Has the automation stopped? Check on it.'

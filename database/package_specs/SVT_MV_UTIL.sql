@@ -48,6 +48,21 @@ end;
 ------------------------------------------------------------------------------
 procedure refresh_mv(p_mv_list in svt_stds_standard_tests.mv_dependency%type default null);
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 4, 2023
+-- Synopsis:
+--
+-- Function to answer whether v_svt_problem_assignees returns any rows
+--
+/*
+select svt_mv_util.problem_assignments_yn
+from dual
+*/
+------------------------------------------------------------------------------
+  function problem_assignments_yn
+  return varchar2;
+
 end SVT_MV_UTIL;
 /
 --rollback drop package SVT_MV_UTIL;

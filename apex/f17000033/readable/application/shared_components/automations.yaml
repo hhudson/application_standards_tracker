@@ -1,124 +1,6 @@
 ---
-- # ====== Automation: 3. [Hourly - 40 min past] Manage APEX Iss
-  id: 293271574138372763
-  identification: 
-    name: 3. [Hourly - 40 min past] Manage APEX Issues
-    static-id: manage-apex-issues
-
-  execution: 
-    type: Scheduled
-    schedule-expression: FREQ=HOURLY;INTERVAL=1;BYMINUTE=40
-    schedule-status: Active
-    actions-initiated-on: Always
-
-  action-execution: 
-    action-error-handling: Disable Automation
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: oracle_apex_version.c_apex_issue_access
-
-  comments: 
-    comments: FREQ=HOURLY;INTERVAL=1;BYMINUTE=40
-
-  actions: 
-  - # ====== Action: manage_apex_issues ==========================
-    id: 293271972648372765
-    identification: 
-      name: manage_apex_issues
-      type: Execute Code
-
-    source: 
-      location: Local Database
-      language: PL/SQL
-      pl/sql-code: |
-        declare
-        t1 timestamp; 
-        t2 timestamp; 
-        l_message varchar2(1000);
-        begin
-          t1 := systimestamp; 
-          svt_apex_issue_util.manage_apex_issues(p_message => l_message);
-          t2 := systimestamp; 
-          apex_automation.log_info( p_message => 
-                                    apex_string.format( '%0 [in %1 second(s)]',
-                                        p0=> l_message,
-                                        p1 => extract( second from (t2-t1) )
-                                    )
-                                   );
-          commit;
-        end;
-
-    execution: 
-      sequence: 10
-
-    error: 
-      stop-execution-on-error: true
-
-    server-side-condition: 
-      type: Expression
-      language: PL/SQL
-      pl/sql-expression: oracle_apex_version.c_apex_issue_access
-      execute-condition: For Each Row
-
-- # ====== Automation: 6. [Daily] Validate APEX Version ========
-  id: 293273616043697328
-  identification: 
-    name: 6. [Daily] Validate APEX Version
-    static-id: validate-apex-version
-
-  execution: 
-    type: Scheduled
-    schedule-expression: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
-    schedule-status: Active
-    actions-initiated-on: Always
-
-  action-execution: 
-    action-error-handling: Disable Automation
-
-  server-side-condition: 
-    type: Expression
-    language: PL/SQL
-    pl/sql-expression: oracle_apex_version.c_apex_issue_access
-
-  comments: 
-    comments: FREQ=DAILY;INTERVAL=1;BYHOUR=0;BYMINUTE=0
-
-  actions: 
-  - # ====== Action: Send email ==================================
-    id: 293273901668697329
-    identification: 
-      name: Send email
-      type: Send E-Mail
-
-    settings: 
-      from: '&APP_EMAIL.'
-      to: hayden.h.hudson@oracle.com
-      subject: The Oracle APEX Version is out-of-date
-      body-plain-text: You must update oracle_apex_version & svt_flow_issues.
-      send-immediately: false
-
-    execution: 
-      sequence: 10
-
-    error: 
-      stop-execution-on-error: true
-
-    server-side-condition: 
-      type: Function Body
-      language: PL/SQL
-      pl/sql-function-body: |
-        begin
-        svt_apex_issue_util.hard_correct_svt_issues;
-        return false;
-        exception when others then
-        return true;
-        end;
-      execute-condition: For Each Row
-
 - # ====== Automation: 1. [Hourly on the dot] Refresh Materializ
-  id: 293626402332802918
+  id: 323887446799895268
   identification: 
     name: 1. [Hourly on the dot] Refresh Materialized Views
     static-id: refresh-all-materialized-views
@@ -137,7 +19,7 @@
 
   actions: 
   - # ====== Action: refresh mv ==================================
-    id: 293652852394808060
+    id: 323913896861900410
     identification: 
       name: refresh mv
       type: Execute Code
@@ -157,7 +39,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 8. [Every 6 hours -  55 min past] Delete 
-  id: 328070671372698080
+  id: 358331715839790430
   identification: 
     name: 8. [Every 6 hours -  55 min past] Delete stale issues
     static-id: 8-nightly-delete-stale-issues
@@ -176,7 +58,7 @@
 
   actions: 
   - # ====== Action: svt_plsql_apex_audit_api.delete_stale =======
-    id: 328070971438698082
+    id: 358332015905790432
     identification: 
       name: svt_plsql_apex_audit_api.delete_stale
       type: Execute Code
@@ -210,7 +92,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 7. [Nightly @ midnight] Refresh Cumulativ
-  id: 345416386053430243
+  id: 375677430520522593
   identification: 
     name: 7. [Nightly @ midnight] Refresh Cumulative Issues count
     static-id: 7-nightly-refresh-cumulative-issues-count
@@ -229,7 +111,7 @@
 
   actions: 
   - # ====== Action: dbms_mview.refresh  MV_SVT_ISSUES_CREATED_BY_
-    id: 345416704577430244
+    id: 375677749044522594
     identification: 
       name: dbms_mview.refresh  MV_SVT_ISSUES_CREATED_BY_DAY
       type: Execute Code
@@ -249,7 +131,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 9. [Every morning] manage timing audits =
-  id: 358062971512916308
+  id: 388324015980008658
   identification: 
     name: 9. [Every morning] manage timing audits
     static-id: 9-clear-old-timing-records
@@ -265,7 +147,7 @@
 
   actions: 
   - # ====== Action: svt_test_timing_api.purge_old ===============
-    id: 358063357219916315
+    id: 388324401687008665
     identification: 
       name: svt_test_timing_api.purge_old
       type: Execute Code
@@ -285,7 +167,7 @@
       stop-execution-on-error: true
 
   - # ====== Action: svt_stds_standards_api.update_test_avg_time =
-    id: 358064154687991078
+    id: 388325199155083428
     identification: 
       name: svt_stds_standards_api.update_test_avg_time
       type: Execute Code
@@ -305,7 +187,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 10. [Every night at 1AM] Recompile with P
-  id: 409468822466252495
+  id: 439729866933344845
   identification: 
     name: 10. [Every night at 1AM] Recompile with PLScope
     static-id: 10-recompile-with-plscope
@@ -321,7 +203,7 @@
 
   actions: 
   - # ====== Action: svt_audit_util.recompile_all_schemas_w_plscop
-    id: 409469153154252497
+    id: 439730197621344847
     identification: 
       name: svt_audit_util.recompile_all_schemas_w_plscope
       type: Execute Code
@@ -341,7 +223,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 4. [Hourly 25 min past] Delete inactive v
-  id: 428710509336148314
+  id: 458971553803240664
   identification: 
     name: 4. [Hourly 25 min past] Delete inactive violations
     static-id: 4-delete-inactive-violations
@@ -360,7 +242,7 @@
 
   actions: 
   - # ====== Action: svt_plsql_apex_audit_api.delete_inactive ====
-    id: 428710810783148317
+    id: 458971855250240667
     identification: 
       name: svt_plsql_apex_audit_api.delete_inactive
       type: Execute Code
@@ -394,7 +276,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 2. [Bi-Hourly  - 10 min past] Issue Snaps
-  id: 616646754744248350
+  id: 646907799211340700
   identification: 
     name: 2. [Bi-Hourly  - 10 min past] Issue Snapshot in DB audit table
     static-id: big-job
@@ -415,7 +297,7 @@
 
   actions: 
   - # ====== Action: record_daily_issue_snapshot =================
-    id: 616647067551248366
+    id: 646908112018340716
     identification: 
       name: record_daily_issue_snapshot
       type: Execute Code
@@ -448,7 +330,7 @@
       stop-execution-on-error: true
 
 - # ====== Automation: 5. [Daily] Send Admin Email =============
-  id: 726077327649277729
+  id: 756338372116370079
   identification: 
     name: 5. [Daily] Send Admin Email
     static-id: send-admin-email
@@ -478,7 +360,7 @@
 
   actions: 
   - # ====== Action: send email ==================================
-    id: 726077694027277734
+    id: 756338738494370084
     identification: 
       name: send email
       type: Execute Code
@@ -489,7 +371,8 @@
       pl/sql-code: |
         begin
             svt_monitoring.send_update(p_days_since => 2,
-                                       p_override_email => 'hayden.h.hudson@oracle.com');
+                                       p_override_email => 'hayden.h.hudson@oracle.com',
+                                       p_application_id => :APP_ID);
         end;
 
     execution: 

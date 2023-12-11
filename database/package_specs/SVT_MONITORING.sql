@@ -55,7 +55,8 @@ end;
 */
 ------------------------------------------------------------------------------
 procedure send_update(p_days_since     in number default 1,
-                      p_override_email in varchar2 default null);
+                      p_override_email in varchar2 default null,
+                      p_application_id in apex_applications.application_id%type default null);
 
   ------------------------------------------------------------------------------
   --  Creator: Hayden Hudson

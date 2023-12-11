@@ -96,6 +96,21 @@ end;
 procedure add_default_admin(p_user_name      in apex_workspace_developers.user_name%type,
                             p_application_id in apex_applications.application_id%type);
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 7, 2023
+-- Synopsis:
+--
+-- Function to give the name of an admin that someone can contact 
+--
+/*
+select svt_acl.default_admin_message(p_application_id => :APP_ID)
+from dual
+*/
+------------------------------------------------------------------------------
+function default_admin_message(p_application_id in apex_applications.application_id%type) 
+return apex_workspace_developers.user_name%type;
+
 end SVT_ACL;
 /
 --rollback drop package SVT_ACL;
