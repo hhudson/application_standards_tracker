@@ -1844,6 +1844,26 @@ dynamic-actions:
       fire-on-initialization: false
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14685896898726543
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 180
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: load subset - Close Dialog =================
   id: 372654985148635798
   identification: 
@@ -1852,10 +1872,12 @@ processes:
     execution-chain: None
 
   settings: 
+    items-to-return-: 
+    - P0_SUCCESS
     show-success-messages: false
 
   execution: 
-    sequence: 180
+    sequence: 190
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -2156,39 +2178,6 @@ processes:
 
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
-
-- # ====== Process: test lib snapshot ==========================
-  id: 373961094593760499
-  identification: 
-    name: test lib snapshot
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: svt_stds_tests_lib_api.take_snapshot;
-
-  execution: 
-    sequence: 160
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  success-message: 
-    success-message: Test Library updated.
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: UPDATE_FROM_LOCAL # 373960868370760497
-    type: Never
-
-  security: 
-    authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
-
-  configuration: 
-    build-option: TO_DELETE # 6479194967961076487
 
 - # ====== Process: load SVT_WCAG ==============================
   id: 451211343891733955

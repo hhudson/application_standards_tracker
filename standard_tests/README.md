@@ -1,10 +1,10 @@
 # Standards and Tests available for download and import
 
 ## Summary and instructions
-This page lists 194 published tests distributed across 13 standards (*Accessibility, Accessibility Missing Aria-label, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
+This page lists 195 published tests distributed across 13 standards (*Accessibility, Accessibility Missing Aria-label, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
 
 ## Download All Tests
- - [Consolidated export of all 194 tests and 13 standards](ALL_TESTS.json)
+ - [Consolidated export of all 195 tests and 13 standards](ALL_TESTS.json)
 
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests help support Accessibility standards. They are not substitutes for screen reader tests and other manual tests.
@@ -202,6 +202,7 @@ Tests that are *not* general standards. You are welcome to disagree with them.
 | [RDS_TABS_CONTAINER](APEX_IDIOSYNCRATIC_212/tests/RDS_TABS_CONTAINER-REDWOOD.json) |  RDS regions should have a template of Tabs Container | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [RESET_BUTTON_STYLE](APEX_IDIOSYNCRATIC_212/tests/RESET_BUTTON_STYLE-REDWOOD.json) |  Reset buttons should be styled in a consistent way | v1.3 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 | [SVT_BUTTON_CAPS](APEX_IDIOSYNCRATIC_212/tests/SVT_BUTTON_CAPS-REDWOOD.json) |  Button names and labels should be correctly capitalized | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
+| [SVT_P0SUCCESS_PROC](APEX_IDIOSYNCRATIC_212/tests/SVT_P0SUCCESS_PROC-REDWOOD.json) |  Modal Dialogs should set P0_SUCCESS | v1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [SVT_SAVE_BUTTONS](APEX_IDIOSYNCRATIC_212/tests/SVT_SAVE_BUTTONS-REDWOOD.json) |  Update buttons must be labelled "Save" | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_BUTTONS |
 
 ## Millenium Gen2 (Database Version 19C)

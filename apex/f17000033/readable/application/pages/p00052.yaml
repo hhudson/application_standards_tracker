@@ -265,6 +265,26 @@ dynamic-actions:
       fire-on-initialization: false
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14686011633726545
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: SVT_EMAIL_SUBSCRIPTION =====================
   id: 671311443001657052
   identification: 
@@ -293,10 +313,12 @@ processes:
     execution-chain: None
 
   settings: 
+    items-to-return-: 
+    - P0_SUCCESS
     show-success-messages: false
 
   execution: 
-    sequence: 20
+    sequence: 30
     point: Processing
     run-process: Once Per Page Visit (default)
 

@@ -5122,6 +5122,46 @@ computations:
     build-option: TO_DELETE # 6479194967961076487
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14685760121726542
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Close Dialog ===============================
+  id: 98498343044863501
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    items-to-return-: 
+    - P0_SUCCESS
+    show-success-messages: true
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: Initialize form Inspect Audit Issue ========
   id: 565460726757815951
   identification: 
@@ -5166,6 +5206,9 @@ processes:
     point: Processing
     run-process: Once Per Page Visit (default)
 
+  success-message: 
+    success-message: Record updated
+
   error: 
     display-location: Inline in Notification
 
@@ -5189,54 +5232,12 @@ processes:
     point: Processing
     run-process: Once Per Page Visit (default)
 
+  success-message: 
+    success-message: Test rerun
+
   error: 
     display-location: Inline in Notification
 
   server-side-condition: 
     when-button-pressed: RERUN_TEST_FOR_AUDIT_ID # 565547046343926795
-
-- # ====== Process: Refresh MV =================================
-  id: 589833990903261084
-  identification: 
-    name: Refresh MV
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: 'svt_mv_util.refresh_mv(:P42_MV_DEPENDENCY);'
-
-  execution: 
-    sequence: 30
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    type: Never
-
-  configuration: 
-    build-option: TO_DELETE # 6479194967961076487
-
-branches: 
-- # ====== Branch: Go To Page 1 ================================
-  id: 565460260200815950
-  identification: 
-    name: Go To Page 1
-
-  execution: 
-    sequence: 1
-    point: After Processing
-
-  behavior: 
-    type: Page or URL (Redirect)
-    target: 
-      url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
-      page: 1 # Issue Tracking
-
-  security: 
-    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
 

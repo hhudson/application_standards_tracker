@@ -1244,6 +1244,26 @@ validations:
     associated-item: P31_DISPLAY_UNTIL # 10849550018903775968
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14685409621726539
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: Close Dialog ===============================
   id: 6574917130743750150
   identification: 
@@ -1252,10 +1272,12 @@ processes:
     execution-chain: None
 
   settings: 
+    items-to-return-: 
+    - P0_SUCCESS
     show-success-messages: false
 
   execution: 
-    sequence: 40
+    sequence: 50
     point: Processing
     run-process: Once Per Page Visit (default)
 

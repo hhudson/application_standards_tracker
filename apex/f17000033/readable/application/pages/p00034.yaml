@@ -1614,6 +1614,26 @@ computations:
        where f.name = :P34_FILE
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14685556656726540
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: Load Data ==================================
   id: 460577669215265553
   identification: 

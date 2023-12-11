@@ -270,6 +270,21 @@
       "version_db" : "REDWOOD"
     },
     {
+      "test_id" : 16273856186139362835329282855689000821,
+      "test_name" : "Modal Dialogs should set P0_SUCCESS",
+      "standard_id" : 335371825641905585121080132445374054310,
+      "display_sequence" : null,
+      "query_clob" : "with theproc as (select page_id, count(1) the_count\r\n                    from apex_application_page_proc\r\n                    where application_id = 17000033\r\n                    and to_char(process_source) = ':P0_SUCCESS := apex_application.g_print_success_message;'\r\n                    group by page_id)\r\nselect case when theproc.the_count = 1\r\n            then case when aapp.attribute_01 like '%P0_SUCCESS%'\r\n                      then 'Y'\r\n                      else 'N'\r\n                      end\r\n            else 'N'\r\n            end pass_yn,\r\n       aap.workspace,\r\n       aap.application_id, \r\n       aap.page_id,\r\n       aap.created_by,\r\n       aap.created_on,\r\n       aap.last_updated_by,\r\n       aap.last_updated_on,\r\n       apex_string.format('Page `%0` (app %1, page %2) is not setting P0_SUCCESS', \r\n        p0 => aap.page_name, \r\n        p1 => aap.application_id,\r\n        p2 => aap.page_id) validation_failure_message,\r\n       apex_string.format('Page `%0` (app %1, page %2) is not setting P0_SUCCESS', \r\n        p0 => aap.page_name, \r\n        p1 => aap.application_id,\r\n        p2 => aap.page_id) issue_title,\r\n       aap.page_id component_id,\r\n       aap.application_id parent_component_id,\r\n       aap.page_name,\r\n       aap.page_mode\r\nfrom apex_application_pages aap\r\nleft outer join theproc on theproc.page_id = aap.page_id\r\ninner join apex_application_page_proc aapp on aapp.application_id = aap.application_id\r\n                                           and aapp.page_id = aap.page_id\r\n                                           and aapp.process_type_code = 'CLOSE_WINDOW'\r\nleft outer join apex_application_build_options aabo2 on  aabo2.build_option_name = aap.build_option\r\n                                                     and aabo2.application_id = aap.application_id\r\nwhere aap.workspace = svt_preferences.get('SVT_WORKSPACE')\r\nand coalesce(aabo2.status_on_export,'NA') != 'Exclude'\r\nand aap.page_mode = 'Modal Dialog'\r\nand aap.application_id = 17000033",
+      "test_code" : "SVT_P0SUCCESS_PROC",
+      "level_id" : 319367883342220103240397164810613715872,
+      "mv_dependency" : null,
+      "svt_component_type_id" : 4,
+      "explanation" : null,
+      "fix" : "1.  Before the 'close dialog' process, create a page process 'set success message' with the code ':P0\\_SUCCESS := apex\\_application.g\\_print\\_success\\_message;'\r\n2.  In the 'close dialog' process, add 'P0\\_SUCCESS' to the 'items to return'",
+      "version_number" : 1,
+      "version_db" : "REDWOOD"
+    },
+    {
       "test_id" : 290954809810140953599664131275114564430,
       "test_name" : "Application Item incorrectly prefixed",
       "standard_id" : 335371825641905585121080132445374054310,

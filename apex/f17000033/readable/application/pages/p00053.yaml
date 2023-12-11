@@ -273,6 +273,26 @@ computations:
     static-value: '&APP_PAGE_ID.'
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14686104707726546
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: Add all devs ===============================
   id: 324386656235872124
   identification: 
@@ -310,10 +330,12 @@ processes:
     execution-chain: None
 
   settings: 
+    items-to-return-: 
+    - P0_SUCCESS
     show-success-messages: false
 
   execution: 
-    sequence: 30
+    sequence: 40
     point: Processing
     run-process: Once Per Page Visit (default)
 

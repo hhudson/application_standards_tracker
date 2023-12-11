@@ -1908,6 +1908,26 @@ dynamic-actions:
       fire-on-initialization: false
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14685105488726536
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: Fetch Row from SVT_STDS_STANDARDS ==========
   id: 7882668820949104517
   identification: 

@@ -1958,6 +1958,26 @@ computations:
     pl/sql-expression: ':P60_ID is null and :P60_TEST_CODE is not null'
 
 processes: 
+- # ====== Process: set success message ========================
+  id: 14686313787726548
+  identification: 
+    name: set success message
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P0_SUCCESS := apex_application.g_print_success_message;'
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
 - # ====== Process: Install ====================================
   id: 373961514634760503
   identification: 
@@ -2011,10 +2031,12 @@ processes:
     execution-chain: None
 
   settings: 
+    items-to-return-: 
+    - P0_SUCCESS
     show-success-messages: false
 
   execution: 
-    sequence: 30
+    sequence: 40
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -2074,5 +2096,7 @@ branches:
         p14_test_code: '&P60_TEST_CODE.'
 
   server-side-condition: 
-    when-button-pressed: INSTALL # 373960618614760495
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":REQUEST IN ('INSTALL','REINSTALL')"
 

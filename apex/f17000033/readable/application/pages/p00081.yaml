@@ -162,7 +162,7 @@ regions:
       sort-nulls: Last
 
     heading: 
-      type: None
+      type: Column Names
 
     download: 
       csv-export-enabled: false
@@ -1901,15 +1901,16 @@ dynamic-actions:
     settings: 
       language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
       pl/sql-code: |
-        select count(*)
-               into :P81_STANDARD_COUNT
-          from apex_application_temp_files f, 
+        select count(distinct p.COL001 )
+        into :P81_STANDARD_COUNT
+        from apex_application_temp_files f, 
                table( apex_data_parser.parse(
                           p_content           => f.blob_content,
                           p_file_name         => f.filename,
-                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_standards' ),
-                          p_max_rows          => 5) ) p
-         where f.name = :P81_FILE;
+                          p_skip_rows         => 1,
+                          p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'load_standard' ),
+                          p_max_rows          => 10) ) p
+        where f.name = :P81_FILE;
       items-to-submit: 
       - P81_FILE
       - P81_STANDARD_COUNT
@@ -1958,6 +1959,11 @@ dynamic-actions:
       fire-on-initialization: false
       stop-execution-on-error: true
       wait-for-result: true
+
+    client-side-condition: 
+      type: Item = Value
+      item: P81_STANDARD_COUNT
+      value: 1
 
   - # ====== Action: set test_count ==============================
     id: 451155917800412352
@@ -2187,9 +2193,24 @@ processes:
     location: Local Database
     language: PL/SQL
     pl/sql-code: |
-      svt_stds_tests_lib_api.auto_install_standard_test(
-              p_standard_id => :P81_STANDARD_ID,
-              p_test_code   => :P81_TEST_CODE);
+      declare 
+      l_message varchar2(250);
+      begin
+          svt_stds_tests_lib_api.auto_install_standard_test(
+                  p_standard_id => :P81_STANDARD_ID,
+                  p_test_code   => :P81_TEST_CODE,
+                  p_message => l_message);
+      
+          case when l_message is not null
+             then apex_application.g_print_success_message := apex_application.g_print_success_message ||
+                                                              case when apex_application.g_print_success_message is not null
+                                                                   then '<br/>'
+                                                                   end ||
+                                                              l_message;
+             else null;
+        end case;
+      end;
+      
 
   execution: 
     sequence: 40
