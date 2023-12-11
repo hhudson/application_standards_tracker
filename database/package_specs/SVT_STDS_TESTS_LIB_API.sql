@@ -106,14 +106,19 @@ end;
 -- Procedure to install all the tests for a given standard
 --
 /*
+declare
+l_message varchar2(250);
 begin
-    svt_stds_tests_lib_api.auto_install_standard_test(p_standard_id => :P81_STANDARD_ID);
+    svt_stds_tests_lib_api.auto_install_standard_test(
+                                p_standard_id => :P81_STANDARD_ID,
+                                p_message => l_message);
 end;
 */
 ------------------------------------------------------------------------------
     procedure auto_install_standard_test (
-                        p_standard_id in svt_stds_standard_tests.standard_id%type,
-                        p_test_code   in svt_stds_standard_tests.test_code%type default null);
+                      p_standard_id in svt_stds_standard_tests.standard_id%type default null,
+                      p_test_code   in svt_stds_standard_tests.test_code%type   default null,
+                      p_message     out nocopy varchar2);
 
     
 ------------------------------------------------------------------------------
@@ -208,6 +213,21 @@ end;
                 p_md5            out nocopy varchar2,
                 p_version_number out nocopy svt_stds_tests_lib.version_number%type
    );
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to answer whether a given testcode will be overwritten on import of a test json file automatically 
+--
+/*
+select svt_stds_tests_lib_api.autoinstall_lib_yn(p_test_code => 'ACC_AUTOCOMPLETE')
+from dual
+*/
+------------------------------------------------------------------------------
+  function autoinstall_lib_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
 
 end SVT_STDS_TESTS_LIB_API;
 /

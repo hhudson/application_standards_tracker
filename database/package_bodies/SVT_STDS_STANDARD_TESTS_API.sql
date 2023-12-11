@@ -223,14 +223,6 @@ create or replace package body svt_stds_standard_tests_api as
     raise;
   end build_test_md5;
 
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: September 13, 2023
--- Synopsis:
---
--- Private function to get the md5 for a given test_code
---
------------------------------------------------------------------------------- 
   function current_md5(p_test_code in svt_stds_standard_tests.test_code%type)
   return varchar2
   as 
@@ -1040,6 +1032,37 @@ exception
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
      raise;
   end get_test_file_url;
+
+  function test_published_locally_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'test_published_locally_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_test_version_db svt_stds_standard_tests.version_db%type;
+  c_local_db_name constant svt_stds_standard_tests.version_db%type
+                  := coalesce(svt_preferences.get('SVT_DB_NAME'), 'NA');
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+   
+   select version_db 
+   into l_test_version_db
+   from svt_stds_standard_tests 
+   where test_code = p_test_code;
+
+   return case when l_test_version_db = c_local_db_name
+               then gc_y 
+               else gc_n
+               end;
+   
+  exception
+   when no_data_found then
+    return gc_n;
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end test_published_locally_yn;
 
 end svt_stds_standard_tests_api;
 /

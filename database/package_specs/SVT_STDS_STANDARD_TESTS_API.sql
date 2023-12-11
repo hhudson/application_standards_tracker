@@ -529,6 +529,39 @@ from dual
               p_test_code in svt_stds_standard_tests.test_code%type)
   return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to get the md5 of the current record for a given test_code 
+--
+/*
+select svt_stds_standard_tests_api.current_md5
+from dual;
+*/
+------------------------------------------------------------------------------
+  function current_md5(p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to answer whether a given test has been published in the current instance
+--
+/*
+svt_audit_util.set_workspace;
+
+select svt_stds_standard_tests_api.test_published_locally_yn (p_test_code => 'ACC_AUTOCOMPLETE') answ
+from dual
+*/
+------------------------------------------------------------------------------
+  function test_published_locally_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
 end svt_stds_standard_tests_api;
 /
 --rollback drop package svt_stds_standard_tests_api;

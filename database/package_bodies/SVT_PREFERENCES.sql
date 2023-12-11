@@ -30,9 +30,18 @@ create or replace package body SVT_PREFERENCES as
   begin
     -- apex_debug.message(c_debug_template,'START', 'p_preference_name', p_preference_name);
     
+    select apex_util.get_preference(      
+              p_preference => c_preference_name,
+              p_user       => gc_svt)
+    into l_pref_value
+    from dual;
+    /*
+    2023-Dec-8 :
+    for reasons possibly related to result_cache the following doesn't work reliably :
     l_pref_value := apex_util.get_preference(      
-                      p_preference => c_preference_name,
-                      p_user       => gc_svt);
+                        p_preference => c_preference_name,
+                        p_user       => gc_svt);
+    */
     
     return case when l_pref_value is not null 
                 then l_pref_value
