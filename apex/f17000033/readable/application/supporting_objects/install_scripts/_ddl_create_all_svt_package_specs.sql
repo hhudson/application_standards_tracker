@@ -3918,7 +3918,7 @@ end;
                         p_version_number        in svt_stds_standard_tests.version_number%type default null,
                         p_version_db            in svt_stds_standard_tests.version_db%type default null
                       );
-  
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -3998,7 +3998,7 @@ end;
                           p_version_number        in svt_stds_standard_tests.version_number%type default null,
                           p_version_db            in svt_stds_standard_tests.version_db%type default null
                         );
-    
+
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -4198,7 +4198,7 @@ from dual
     function get_standard_id (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_stds_standard_tests.standard_id%type deterministic;
 
- 
+
  ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 10, 2023
@@ -4306,6 +4306,37 @@ from dual
               p_test_code in svt_stds_standard_tests.test_code%type)
   return varchar2;
 
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to get the md5 of the current record for a given test_code 
+--
+/*
+select svt_stds_standard_tests_api.current_md5
+from dual;
+*/
+------------------------------------------------------------------------------
+  function current_md5(p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to answer whether a given test has been published in the current instance
+--
+/*
+select svt_stds_standard_tests_api.test_published_locally_yn (p_test_code => 'ACC_AUTOCOMPLETE') answ
+from dual
+*/
+------------------------------------------------------------------------------
+  function test_published_locally_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
 end svt_stds_standard_tests_api;
 /
 
@@ -4323,6 +4354,7 @@ end svt_stds_standard_tests_api;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jun-8 - created
 ---------------------------------------------------------------------------- 
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2023
@@ -4364,6 +4396,7 @@ end;
         p_version_number        in svt_stds_tests_lib.version_number%type,
         p_version_db            in svt_stds_tests_lib.version_db%type
     );
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 8, 2023
@@ -4379,6 +4412,8 @@ end;
 */
 ------------------------------------------------------------------------------
     -- procedure take_snapshot;
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 14, 2023
@@ -4398,6 +4433,7 @@ end;
                                     p_standard_id      in svt_stds_standard_tests.standard_id%type,
                                     p_urgency_level_id in svt_stds_standard_tests.level_id%type
                                     );
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: October 17, 2023
@@ -4406,15 +4442,21 @@ end;
 -- Procedure to install all the tests for a given standard
 --
 /*
+declare
+l_message varchar2(250);
 begin
-    svt_stds_tests_lib_api.auto_install_standard_test(p_standard_id => :P81_STANDARD_ID);
+    svt_stds_tests_lib_api.auto_install_standard_test(
+                                p_standard_id => :P81_STANDARD_ID,
+                                p_message => l_message);
 end;
 */
 ------------------------------------------------------------------------------
     procedure auto_install_standard_test (
-                        p_standard_id in svt_stds_standard_tests.standard_id%type,
-                        p_test_code   in svt_stds_standard_tests.test_code%type default null);
-    
+                      p_standard_id in svt_stds_standard_tests.standard_id%type default null,
+                      p_test_code   in svt_stds_standard_tests.test_code%type   default null,
+                      p_message     out nocopy varchar2);
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 26, 2023
@@ -4430,6 +4472,8 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_test_from_lib (p_id in svt_stds_tests_lib.id%type);
+
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 7, 2023
@@ -4445,6 +4489,7 @@ end;
 */
 ------------------------------------------------------------------------------
     procedure delete_test_from_lib (p_test_code in svt_stds_tests_lib.test_code%type);
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 11, 2023
@@ -4459,6 +4504,7 @@ end;
 ------------------------------------------------------------------------------
    function get_id(p_test_code in svt_stds_tests_lib.test_code%type)
    return svt_stds_tests_lib.id%type;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -4473,6 +4519,7 @@ from dual
 ------------------------------------------------------------------------------
    function current_md5(p_test_code in svt_stds_tests_lib.test_code%type)
    return varchar2;
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: August 16, 2023
@@ -4502,6 +4549,42 @@ end;
                 p_md5            out nocopy varchar2,
                 p_version_number out nocopy svt_stds_tests_lib.version_number%type
    );
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 8, 2023
+-- Synopsis:
+--
+-- Function to answer whether a given testcode will be overwritten on import of a test json file automatically 
+--
+/*
+select svt_stds_tests_lib_api.autoinstall_lib_yn(p_test_code => 'ACC_AUTOCOMPLETE')
+from dual
+*/
+------------------------------------------------------------------------------
+  function autoinstall_lib_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 11, 2023
+-- Synopsis:
+--
+-- Function to answer whether a record in  svt_stds_tests_lib exists for a given test_code
+--
+/*
+set serveroutput on
+declare
+l_bool boolean;
+begin
+    l_bool := svt_stds_tests_lib_api.published_exists (p_test_code => 'ACC_AUTOCOMPLETE');
+end;
+*/
+------------------------------------------------------------------------------
+  function published_exists (p_test_code in svt_stds_standard_tests.test_code%type)
+  return boolean;
+
 end SVT_STDS_TESTS_LIB_API;
 /
 

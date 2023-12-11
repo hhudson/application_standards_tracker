@@ -6982,9 +6982,18 @@ end SVT_PLSQL_REVIEW;
   begin
     -- apex_debug.message(c_debug_template,'START', 'p_preference_name', p_preference_name);
 
+    select apex_util.get_preference(      
+              p_preference => c_preference_name,
+              p_user       => gc_svt)
+    into l_pref_value
+    from dual;
+    /*
+    2023-Dec-8 :
+    for reasons possibly related to result_cache the following doesn't work reliably :
     l_pref_value := apex_util.get_preference(      
-                      p_preference => c_preference_name,
-                      p_user       => gc_svt);
+                        p_preference => c_preference_name,
+                        p_user       => gc_svt);
+    */
 
     return case when l_pref_value is not null 
                 then l_pref_value
@@ -8750,13 +8759,13 @@ end svt_stds_standards_api;
       apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
       return upper(replace(p_test_code, ' ', '_'));
-      
+
    exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
     end format_test_code;
-    
+
     function insert_test(p_id                    in svt_stds_standard_tests.id%type default null,
                          p_standard_id           in svt_stds_standard_tests.standard_id%type,
                          p_test_name             in svt_stds_standard_tests.test_name%type,
@@ -8829,7 +8838,7 @@ end svt_stds_standards_api;
     );
 
     return c_id;
-   
+
    exception 
     when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
@@ -8914,7 +8923,7 @@ end svt_stds_standards_api;
 
   begin
       apex_debug.message(c_debug_template,'build_test_md5', 'p_test_code', p_test_code);
-      
+
       return apex_util.get_hash(apex_t_varchar2(
         p_test_name,
         p_query_clob,
@@ -8932,14 +8941,6 @@ end svt_stds_standards_api;
     raise;
   end build_test_md5;
 
-------------------------------------------------------------------------------
---  Creator: Hayden Hudson
---     Date: September 13, 2023
--- Synopsis:
---
--- Private function to get the md5 for a given test_code
---
------------------------------------------------------------------------------- 
   function current_md5(p_test_code in svt_stds_standard_tests.test_code%type)
   return varchar2
   as 
@@ -8965,7 +8966,7 @@ end svt_stds_standards_api;
                       l_test_rec.version_number,
                       l_test_rec.version_db
                   );
-  
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
@@ -9009,7 +9010,7 @@ end svt_stds_standards_api;
                                   then 1
                                   else l_test_rec.version_number + c_minor_version_increment
                                   end;
-        
+
           update svt_stds_standard_tests
           set version_number = l_version_number,
               version_db = c_db_name,
@@ -9063,8 +9064,8 @@ end svt_stds_standards_api;
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end bulk_publish;
-  
-  
+
+
   procedure update_test(p_id                    in svt_stds_standard_tests.id%type,
                         p_standard_id           in svt_stds_standard_tests.standard_id%type,
                         p_test_name             in svt_stds_standard_tests.test_name%type,
@@ -9118,7 +9119,7 @@ end svt_stds_standards_api;
         updated               = localtimestamp,
         updated_by            = coalesce(wwv_flow.g_user,user)
       where id = p_id;
-  
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
@@ -9158,7 +9159,7 @@ end svt_stds_standards_api;
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end bulk_inactivate;
-  
+
   procedure bulk_delete(p_selected_ids in varchar2)
   is 
   c_scope constant varchar2(128) := gc_scope_prefix || 'bulk_delete';
@@ -9227,14 +9228,14 @@ end svt_stds_standards_api;
                                         'p_test_code', p_test_code);
 
     svt_stds_inherited_tests_api.delete_test (p_test_id => p_id);
-    
+
     delete from svt_stds_standard_tests
     where id = p_id;
 
     svt_stds_tests_lib_api.delete_test_from_lib (p_test_code => p_test_code);
 
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
-    
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
@@ -9256,7 +9257,7 @@ end svt_stds_standards_api;
       where test_code = c_test_code;
 
       return l_test_rec;
-      
+
   exception
       when no_data_found then
           return null;
@@ -9280,7 +9281,7 @@ end svt_stds_standards_api;
       where id = p_test_id;
 
       return l_test_rec;
-      
+
   exception
       when no_data_found then
           return null;
@@ -9336,11 +9337,11 @@ end svt_stds_standards_api;
   l_rec svt_stds_standard_tests%rowtype;
 begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
-    
+
     l_rec := svt_stds_standard_tests_api.get_test_rec(p_test_code => c_test_code);
-    
+
     return l_rec.id;
-  
+
   exception 
     when no_data_found then
       return null;
@@ -9359,7 +9360,7 @@ begin
     apex_debug.message(c_debug_template,'START', 'p_test_id', p_test_id);
 
     l_rec := get_test_rec(p_test_id => p_test_id);
-    
+
     return l_rec.standard_id;
 
   exception 
@@ -9380,7 +9381,7 @@ begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
 
     l_rec := get_test_rec(p_test_code => p_test_code);
-    
+
     return l_rec.standard_id;
 
   exception 
@@ -9505,7 +9506,7 @@ begin
                                                         p_standard_id => l_aat (rec).standard_id, 
                                                         p_test_code   => l_aat (rec).test_code);
         c_file_size constant pls_integer := sys.dbms_lob.getlength(c_file_blob);
-        
+
         c_character_set constant varchar2(10) := 'UTF-8';
         c_md5 constant varchar2(250) := build_test_md5 (
                                           p_test_name             => l_aat (rec).test_name,
@@ -9639,7 +9640,7 @@ begin
    apex_debug.message(c_debug_template,'START',
                                         'p_issue_category', p_issue_category
                      );
-   
+
    select count(*) 
    into l_count
    from v_svt_stds_standard_tests(
@@ -9649,7 +9650,7 @@ begin
           p_issue_category => p_issue_category);
 
     return l_count;
-   
+
   exception
    when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -9678,9 +9679,9 @@ begin
                     where active_yn = gc_y
                     and standard_active_yn = gc_y
                 );
-  
+
     return l_tests_yn;
-   
+
   exception
    when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -9715,7 +9716,7 @@ begin
 
   sys.wpg_docload.download_file(l_file_blob);
   apex_application.stop_apex_engine;
-  
+
 exception
   when apex_application.e_stop_apex_engine then
     null;
@@ -9743,12 +9744,43 @@ exception
             p_values  => p_test_code,
             p_request => 'APPLICATION_PROCESS=DOWNLOAD_FILE');
 
-   
+
   exception
    when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
      raise;
   end get_test_file_url;
+
+  function test_published_locally_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'test_published_locally_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_test_version_db svt_stds_standard_tests.version_db%type;
+  c_local_db_name constant svt_stds_standard_tests.version_db%type
+                  := coalesce(svt_preferences.get('SVT_DB_NAME'), 'NA');
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+
+   select version_db 
+   into l_test_version_db
+   from svt_stds_standard_tests 
+   where test_code = p_test_code;
+
+   return case when l_test_version_db = c_local_db_name
+               then gc_y 
+               else gc_n
+               end;
+
+  exception
+   when no_data_found then
+    return gc_n;
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end test_published_locally_yn;
 
 end svt_stds_standard_tests_api;
 /
@@ -9767,7 +9799,12 @@ end svt_stds_standard_tests_api;
 -- MODIFIED  (YYYY-MON-DD)
 -- hayhudso  2023-Jun-8 - created
 ---------------------------------------------------------------------------- 
+
   gc_scope_prefix constant varchar2(51) := lower($$plsql_unit) || '.';
+  gc_y constant varchar2(1) := 'Y';
+  gc_n constant varchar2(1) := 'N';
+
+
   procedure upsert (
         p_standard_id           in svt_stds_tests_lib.standard_id%type,
         p_test_name             in svt_stds_tests_lib.test_name%type,
@@ -9804,6 +9841,7 @@ end svt_stds_standard_tests_api;
                                         'p_version_number',p_version_number,
                                         'p_version_db',p_version_db
                                         );
+
     merge into svt_stds_tests_lib e
     using (select p_standard_id           standard_id,
                   p_test_name             test_name,
@@ -9864,10 +9902,12 @@ end svt_stds_standard_tests_api;
             h.version_number,
             h.version_db
             );
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end upsert;
+
   -- procedure take_snapshot
   -- as 
   -- c_scope constant varchar2(128) := gc_scope_prefix || 'take_snapshot';
@@ -9875,6 +9915,7 @@ end svt_stds_standard_tests_api;
   -- c_workspace constant apex_workspace_preferences.preference_value%type := svt_preferences.get('SVT_WORKSPACE');
   -- begin
   --   apex_debug.message(c_debug_template,'START');
+
   --   for rec in (
   --     select id test_id,
   --            standard_id,
@@ -9907,10 +9948,12 @@ end svt_stds_standard_tests_api;
   --       p_version_number        => rec.version_number
   --     );
   --   end loop;
+
   -- exception when others then
   --   apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
   --   raise;
   -- end take_snapshot;
+
   procedure install_standard_test(p_id               in svt_stds_tests_lib.id%type,
                                   p_standard_id      in svt_stds_standard_tests.standard_id%type,
                                   p_urgency_level_id in svt_stds_standard_tests.level_id%type)
@@ -9924,12 +9967,16 @@ end svt_stds_standard_tests_api;
                                         'p_id', p_id,
                                         'p_urgency_level_id', p_urgency_level_id,
                                         'p_standard_id', p_standard_id);
+
     select *
     into l_lib_rec
     from svt_stds_tests_lib
     where id = p_id;
+
     l_existing_rec := svt_stds_standard_tests_api.get_test_rec(p_test_code => l_lib_rec.test_code);
+
     if l_existing_rec.test_code is null then
+
       svt_stds_standard_tests_api.insert_test(
                   p_id                    => l_lib_rec.test_id,
                   p_standard_id           => coalesce(p_standard_id, l_lib_rec.standard_id),
@@ -9946,7 +9993,7 @@ end svt_stds_standard_tests_api;
                   p_version_number        => l_lib_rec.version_number,
                   p_version_db            => l_lib_rec.version_db
                   );
-    
+
     else 
       svt_stds_standard_tests_api.update_test(
                           p_id                    => l_existing_rec.id,
@@ -9966,65 +10013,47 @@ end svt_stds_standard_tests_api;
                           p_version_db            => l_lib_rec.version_db
                       );
     end if;
-    
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end install_standard_test;
-  procedure auto_install_standard_test (
-                      p_standard_id in svt_stds_standard_tests.standard_id%type,
-                      p_test_code   in svt_stds_standard_tests.test_code%type default null)
-  as 
-  c_scope constant varchar2(128) := gc_scope_prefix || 'auto_install_standard_test';
-  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  begin
-    apex_debug.message(c_debug_template,'START', 
-                                        'p_standard_id', p_standard_id,
-                                        'p_test_code', p_test_code);
-    
-    for rec in (select id, standard_id, level_id
-                from svt_stds_tests_lib
-                where standard_id = p_standard_id
-                and (test_code = p_test_code or p_test_code is null)
-                )
-    loop
-      install_standard_test(p_id               => rec.id,
-                            p_standard_id      => rec.standard_id,
-                            p_urgency_level_id => rec.level_id);
-    end loop;
-  exception when others then
-    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
-    raise;
-  end auto_install_standard_test;
+
+
   procedure delete_test_from_lib (p_id in svt_stds_tests_lib.id%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 1';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START', 'p_id', p_id);
+
     delete from svt_stds_tests_lib
     where id = p_id;
-    
+
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end delete_test_from_lib;
+
   procedure delete_test_from_lib (p_test_code in svt_stds_tests_lib.test_code%type)
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'delete_test_from_lib 2';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
+
     delete from svt_stds_tests_lib
     where test_code = p_test_code;
-    
+
     apex_debug.message(c_debug_template, 'sql%rowcount', sql%rowcount);
-  
+
   exception when others then
   apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
   raise;
   end delete_test_from_lib;
+
   function get_id(p_test_code in svt_stds_tests_lib.test_code%type)
   return svt_stds_tests_lib.id%type
   as 
@@ -10039,13 +10068,14 @@ end svt_stds_standard_tests_api;
   l_id svt_stds_tests_lib.id%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
-    
+
     select id
     into l_id
     from svt_stds_tests_lib
     where test_code = c_test_code;
+
     return l_id;
-  
+
   exception 
   when no_data_found then
     return null;
@@ -10053,6 +10083,7 @@ end svt_stds_standard_tests_api;
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end get_id;
+
   procedure md5_imported_vsn_num (
                 p_test_code      in  svt_stds_tests_lib.test_code%type,
                 p_md5            out nocopy varchar2,
@@ -10064,11 +10095,12 @@ end svt_stds_standard_tests_api;
   l_lib_rec svt_stds_tests_lib%rowtype;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
-  
+
     select *
     into l_lib_rec
     from svt_stds_tests_lib
     where test_code = p_test_code;
+
     p_md5 := svt_stds_standard_tests_api.build_test_md5(
                       l_lib_rec.test_name,
                       l_lib_rec.query_clob,
@@ -10081,8 +10113,9 @@ end svt_stds_standard_tests_api;
                       l_lib_rec.version_number,
                       l_lib_rec.version_db
                   );
+
     p_version_number := l_lib_rec.version_number;
-  
+
   exception 
     when no_data_found then
       apex_debug.message(c_debug_template, 'no data found', p_test_code);
@@ -10090,6 +10123,7 @@ end svt_stds_standard_tests_api;
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end md5_imported_vsn_num;
+
   function current_md5(p_test_code in svt_stds_tests_lib.test_code%type)
   return varchar2
   as 
@@ -10099,13 +10133,15 @@ end svt_stds_standard_tests_api;
   l_version_number svt_stds_tests_lib.version_number%type;
   begin
     apex_debug.message(c_debug_template,'START', 'p_test_code', p_test_code);
+
     md5_imported_vsn_num (
                 p_test_code      => p_test_code,
                 p_md5            => l_md5,
                 p_version_number => l_version_number
               );
-    
+
     return l_md5;
+
   exception 
     when no_data_found then
       return null;
@@ -10113,6 +10149,100 @@ end svt_stds_standard_tests_api;
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
       raise;
   end current_md5;
+
+  function autoinstall_lib_yn (p_test_code in svt_stds_standard_tests.test_code%type)
+  return varchar2
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'autoinstall_lib_yn';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  c_installed_md5 constant varchar2(250)
+              := svt_stds_standard_tests_api.current_md5(p_test_code => p_test_code);
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+
+   return case when c_installed_md5 is null
+               then gc_y 
+               when svt_stds_standard_tests_api.test_published_locally_yn (p_test_code => p_test_code) = gc_y
+               then gc_n 
+               when svt_stds_standard_tests_api.current_md5(p_test_code => p_test_code) = 
+                    current_md5(p_test_code => p_test_code)
+               then gc_n 
+               else gc_y 
+               end;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end autoinstall_lib_yn;
+
+  procedure auto_install_standard_test (
+                      p_standard_id in svt_stds_standard_tests.standard_id%type default null,
+                      p_test_code   in svt_stds_standard_tests.test_code%type   default null,
+                      p_message     out nocopy varchar2)
+  as 
+  c_scope constant varchar2(128) := gc_scope_prefix || 'auto_install_standard_test';
+  c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
+  l_counter pls_integer := 0;
+  begin
+    apex_debug.message(c_debug_template,'START', 
+                                        'p_standard_id', p_standard_id,
+                                        'p_test_code', p_test_code);
+
+    for librec in (select id, standard_id, level_id, test_code, version_number, version_db
+                  from svt_stds_tests_lib
+                  where (standard_id = p_standard_id or p_standard_id is null)
+                  and (test_code = p_test_code or p_test_code is null)
+                )
+    loop
+      if autoinstall_lib_yn (p_test_code => librec.test_code) = gc_y then
+        l_counter := l_counter + 1;
+        install_standard_test(p_id               => librec.id,
+                              p_standard_id      => librec.standard_id,
+                              p_urgency_level_id => librec.level_id);
+      else 
+        apex_debug.info(c_debug_template, 'Not suited for autoinstall', librec.test_code);
+      end if;
+    end loop;
+
+    p_message := apex_string.format('%s test(s) updated/installed.', l_counter);
+
+  exception when others then
+    apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
+    raise;
+  end auto_install_standard_test;
+
+  function published_exists (p_test_code in svt_stds_standard_tests.test_code%type)
+  return boolean
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'published_exists';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_exists_yn varchar2(1) := 'N';
+  begin
+   apex_debug.message(c_debug_template,'START',
+                                       'p_test_code', p_test_code
+                     );
+
+    select case when count(*) = 1
+                then 'Y'
+                else 'N'
+                end into l_exists_yn
+    from svt_stds_tests_lib
+    where test_code = p_test_code;
+
+    return case when l_exists_yn = gc_n
+                then false
+                else true
+                end;
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end published_exists;
+
 end SVT_STDS_TESTS_LIB_API;
 /
 

@@ -5,7 +5,7 @@
 --------------------------------------------------------
 
 create or replace force editionable view V_SVT_TEST_TIMING as
-select test_code, avg(elapsed_seconds) avg_seconds
+select test_code, round(avg(elapsed_seconds),2) avg_seconds
 from svt_test_timing
 group by test_code
 /

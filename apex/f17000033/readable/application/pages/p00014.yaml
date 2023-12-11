@@ -163,6 +163,154 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: Test timing =================================
+  id: 98498437060863502
+  identification: 
+    title: Test timing
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_SVT_TEST_TIMING
+    include-rowid-column: false
+    where-clause: 'test_code = :P14_TEST_CODE'
+    page-items-to-submit: 
+    - P14_TEST_CODE
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 90
+    parent-region: Query # 436439000205850570
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 7894859476133147632
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: 'The below is an average of the number of seconds it has taken for this test to execute during the scheduled runs:'
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1 
+      from V_SVT_TEST_TIMING
+      where test_code = :P14_TEST_CODE
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Badge List # 7894877121704147666
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+      - t-BadgeList--small
+      - t-BadgeList--circular
+      - t-BadgeList--fixed
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+      supplemental-text: This is an average of the number of seconds it has taken for this test to run during the scheduled runs.
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: TEST_CODE ===================================
+    id: 98498511759863503
+    identification: 
+      column-name: TEST_CODE
+      type: Hidden Column
+
+    layout: 
+      sequence: 10
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: AVG_SECONDS =================================
+    id: 98498690106863504
+    identification: 
+      column-name: AVG_SECONDS
+      type: Plain Text
+
+    heading: 
+      heading: Avg. Seconds
+      alignment: end
+
+    layout: 
+      sequence: 20
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Advanced ====================================
   id: 324388116716872139
   identification: 
