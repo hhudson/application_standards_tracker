@@ -166,7 +166,7 @@ end;
 -- Function to return json blob template file for a given table (for the purpose of uploading to Data Load Definition)
 -- v_svt_table_data_load_definition
 /*
-select SVT_DEPLOYMENT.sample_template_file (p_table_name => 'SVT_COMPONENT_TYPES') thblob
+select svt_deployment.sample_template_file (p_table_name => 'SVT_COMPONENT_TYPES') thblob
 from dual
 */
 ------------------------------------------------------------------------------

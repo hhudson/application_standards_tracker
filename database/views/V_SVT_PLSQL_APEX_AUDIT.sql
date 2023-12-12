@@ -173,6 +173,7 @@ Audit id : %3
     a.stale_yn,
     a.assignee,
     a.link_url,
+    a.template_url,
     svt_stds_parser.adapt_url( a.link_url ) prepared_url,
     apex_lang.message( 'VIEW_IN_BUILDER' ) view_text,
     a.link_to_apex_issue,

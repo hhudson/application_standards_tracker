@@ -493,6 +493,7 @@ create or replace package body SVT_DEPLOYMENT as
     and ut.table_name not like 'DEV%'
     and ut.table_name not like 'MV%'
     and ut.table_name not in ('SVT_STDS_STANDARD_TESTS','SVT_STDS_TESTS_LIB')
+    and ut.table_name like 'SVT%'
   )
     select std.table_name, 
           std.mime_type,
