@@ -3692,10 +3692,8 @@ buttons:
     icon: fa-file-json-o
 
   behavior: 
-    action: Redirect to URL
-    target: '&P14_DOWNLOAD_URL.'
-    execute-validations: true
-    warn-on-unsaved-changes: Do Not Check
+    action: Defined by Dynamic Action
+    execute-validations: false
 
   server-side-condition: 
     type: Expression
@@ -3737,6 +3735,48 @@ buttons:
     type: Item = Value
     item: P14_PUBLISHED_YN
     value: N
+
+- # ====== Button: DOWNLOAD_FILE_1 =============================
+  id: 98500002891863518
+  identification: 
+    button-name: DOWNLOAD_FILE_1
+    label: Download 2
+
+  layout: 
+    sequence: 40
+    region: Buttons # 7415285137332088782
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7894890219812147708
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-file-json-o
+
+  behavior: 
+    action: Redirect to URL
+    target: '&P14_DOWNLOAD_URL.'
+    execute-validations: false
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":P14_TEST_ID IS NOT NULL AND :P14_ACTIVE_YN = 'Y'"
+
+  configuration: 
+    build-option: TO_DELETE # 6479194967961076487
+
+  comments: 
+    comments: should work but doesn't because of a bug in apex.navigation.redirect 2023-Dec-13
 
 - # ====== Button: ADD_TO_OTHER_STANDARD =======================
   id: 312306190684285841
@@ -3911,7 +3951,7 @@ buttons:
     label: Save
 
   layout: 
-    sequence: 60
+    sequence: 70
     region: Buttons # 7415285137332088782
     position: EDIT
     start-new-layout: false
@@ -4098,7 +4138,7 @@ buttons:
     label: Save & Run
 
   layout: 
-    sequence: 50
+    sequence: 60
     region: Buttons # 7415285137332088782
     position: EDIT
     start-new-layout: false
@@ -4139,7 +4179,7 @@ buttons:
     label: Initialize
 
   layout: 
-    sequence: 40
+    sequence: 50
     region: Buttons # 7415285137332088782
     position: EDIT
     start-new-layout: false
@@ -4287,6 +4327,37 @@ buttons:
     authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
 dynamic-actions: 
+- # ====== Dynamic Action: download file =======================
+  id: 98499876360863516
+  identification: 
+    name: download file
+
+  execution: 
+    sequence: 250
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: DOWNLOAD_FILE # 30814527357730407
+
+  actions: 
+  - # ====== Action: window.location.href ========================
+    id: 98499902056863517
+    identification: 
+      name: window.location.href
+      action: Execute JavaScript Code
+
+    settings: 
+      code: window.location.href = '&P14_DOWNLOAD_URL.';
+
+    execution: 
+      sequence: 10
+      event: download file # 98499876360863516
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: Refresh on dialog close =============
   id: 312307355845285853
   identification: 
