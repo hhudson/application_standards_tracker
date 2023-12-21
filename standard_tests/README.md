@@ -1,10 +1,7 @@
 # Standards and Tests available for download and import
 
 ## Summary and instructions
-This page lists 195 published tests distributed across 13 standards (*Accessibility, Accessibility Missing Aria-label, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
-
-## Download All Tests
- - [Consolidated export of all 195 tests and 13 standards](ALL_TESTS.json)
+This page lists 187 published tests distributed across 12 standards (*Accessibility, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
 
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests help support Accessibility standards. They are not substitutes for screen reader tests and other manual tests.
@@ -69,22 +66,6 @@ These tests help support Accessibility standards. They are not substitutes for s
 | [ROW_HEADER](APEX_ACCESSIBILITY_212/tests/ROW_HEADER-REDWOOD.json) |  Reports should have Row Headers | v1 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [STTC_CNTNT_BAD_HTML](APEX_ACCESSIBILITY_212/tests/STTC_CNTNT_BAD_HTML-REDWOOD.json) |  Static Content HTML is well formed | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 | [THEME_STL_INACC](APEX_ACCESSIBILITY_212/tests/THEME_STL_INACC-REDWOOD.json) |  Theme styles should avoid animations | v1.1 [REDWOOD] | APEX_APPLICATION_THEME_STYLES |
-
-## Accessibility Missing Aria-label (APEX Version 19.1)
-Tests that ID missing aria-labels
-
- - [Consolidated tests export for Accessibility Missing Aria-label](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/ALL_TESTS-APEX_ACCESSIBILITY_MISSING_ARIALABEL_191.json)
-
-| Test Code | Test Name | Version* | Component Type |
-|-----------|-----------|---------|----------------|
-| [ACC_CARD_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_CARD_LINK-REDWOOD.json) |  Card links require aria-labels | v1.7 [REDWOOD] | APEX_APPL_PAGE_CARD_ACTIONS |
-| [ACC_IG_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_COL_LINK-REDWOOD.json) |  IG Column Links should have aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IG_COLUMNS |
-| [ACC_IG_IV_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_IG_IV_LINK-REDWOOD.json) |  IG Icon View Links need aria-labels | v1.6 [REDWOOD] | APEX_APPL_PAGE_IGS |
-| [ACC_PG_ITM_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/ACC_PG_ITM_LINK-REDWOOD.json) |  Page Item Quick Pick Links need aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
-| [COL_ALT_TEXT](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/COL_ALT_TEXT-ILA.json) |  Column image links should have alt text | v1 [ILA] | APEX_APPLICATION_PAGE_IR_COL |
-| [C_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/C_COL_LINK-REDWOOD.json) |  Classic Columns links must have aria-labels | v1.7 [REDWOOD] | APEX_APPLICATION_PAGE_RPT_COLS |
-| [IR_COL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_COL_LINK-REDWOOD.json) |  IR Column links should have aria-labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_IR_COL |
-| [IR_DETL_LINK](APEX_ACCESSIBILITY_MISSING_ARIALABEL_191/tests/IR_DETL_LINK-REDWOOD.json) |  IR detail link must contain aria-labels | v1.6 [REDWOOD] | APEX_APPLICATION_PAGE_IR |
 
 ## Broken Functionality (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests identify functionality that appears unintentional and could cause problems.
@@ -304,6 +285,9 @@ These are best practices that apply to Universal Theme applications.
 | [MODAL_FLOATING_LABEL](APEX_UNIVERSAL_THEME_212/tests/MODAL_FLOATING_LABEL-REDWOOD.json) |  Use Floating Labels | v1.1 [REDWOOD] | APEX_APPLICATION_PAGE_ITEMS |
 | [PAGES_HAVE_PADDING](APEX_UNIVERSAL_THEME_212/tests/PAGES_HAVE_PADDING-REDWOOD.json) |  Pages should not remove padding | v1.1 [REDWOOD] | APEX_APPLICATION_PAGES |
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
+
+## Download All Tests
+ - [Consolidated export of all 187 tests and 12 standards](ALL_TESTS.json)
 
 
 * Test versions are idenfied by an incrementing number and the name of the database on which they were developed. The addition of the database name allows us to distinguish between tests that have been imported and untouched and ones that have been modified locally after import.    

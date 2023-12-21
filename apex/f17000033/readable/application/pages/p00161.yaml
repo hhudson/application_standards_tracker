@@ -1346,9 +1346,9 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
   server-side-condition: 
-    type: Item != Value
-    item: P161_ACTIVE_TEST_COUNT
-    value: 0
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P161_ACTIVE_TEST_COUNT != 0 AND :P161_PK_ID IS NOT NULL'
 
   security: 
     authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER

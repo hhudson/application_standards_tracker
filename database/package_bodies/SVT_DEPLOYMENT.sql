@@ -660,7 +660,7 @@ create or replace package body SVT_DEPLOYMENT as
   begin
     apex_debug.message(c_debug_template,'START');
 
-    l_md_clob := c_intro || c_summary || c_all_tests;
+    l_md_clob := c_intro || c_summary;
 
     for srec in (select id, standard_name, svt_stds.file_name(full_standard_name) file_name, description, compatibility_text
                  from v_svt_stds_standards
@@ -721,7 +721,7 @@ create or replace package body SVT_DEPLOYMENT as
 
     end loop;
 
-      l_md_clob := l_md_clob || c_addendum;
+      l_md_clob := l_md_clob ||c_all_tests|| c_addendum;
 
     return l_md_clob;
   
