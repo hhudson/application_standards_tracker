@@ -118,6 +118,21 @@
       "fix" : "Correct the region static id name",
       "version_number" : 1.2,
       "version_db" : "REDWOOD"
+    },
+    {
+      "test_id" : 17418090540120988143859063042396001889,
+      "test_name" : "Applications should have the correct initialization and cleanup",
+      "standard_id" : 7733331464110079685447791267224499648,
+      "display_sequence" : null,
+      "query_clob" : "select case when lower(aa.db_session_init_code) = 'aha_apex_global_event.initialization;'\r\n            and lower(aa.db_session_cleanup_code) = 'aha_apex_global_event.cleanup;'\r\n            then 'Y'\r\n            else 'N'\r\n            end pass_yn,\r\n       aa.workspace,\r\n       aa.application_id, \r\n       null page_id,\r\n       aa.created_by,\r\n       aa.created_on,\r\n       aa.last_updated_by,\r\n       aa.last_updated_on,\r\n       apex_string.format('Application `%0` (app %1) has misconfigured initialization and cleanup settings', \r\n        p0 => aa.application_name, \r\n        p1 => aa.application_id) validation_failure_message,\r\n       apex_string.format('Application `%0` (app %1) should have `aha_apex_global_event.initialization;` as its initialization (currently `%2`) and `aha_apex_global_event.cleanup` as its cleanup (currently `%3`)', \r\n        p0 => aa.application_name, \r\n        p1 => aa.application_id,\r\n        p2 => aa.db_session_init_code,\r\n        p3 => aa.db_session_cleanup_code) issue_title,\r\n       aa.application_id component_id,\r\n       null parent_component_id,\r\n       aa.application_name,\r\n       aa.alias,\r\n       aa.availability_status,\r\n       aa.db_session_init_code, \r\n       aa.db_session_cleanup_code\r\nfrom apex_applications aa\r\nwhere aa.workspace = svt_preferences.get('SVT_WORKSPACE')\r\nand aa.owner not in ('SVT','AST')",
+      "test_code" : "GEN2_INIT_CLEANUP",
+      "level_id" : 319367883342220103240397164810613715872,
+      "mv_dependency" : null,
+      "svt_component_type_id" : 1,
+      "explanation" : "Applications should have have \\`aha\\_apex\\_global\\_event.initialization;\\` as its initialization and \\`aha\\_apex\\_global\\_event.cleanup;\\` as its cleanup",
+      "fix" : "Go to `Edit application definition` > `Security` > `Initialization PL/SQL Code` & `Cleanup PL/SQL Code`",
+      "version_number" : 1.1,
+      "version_db" : "AHA_APEX_EOD1"
     }
   ]
 }    
