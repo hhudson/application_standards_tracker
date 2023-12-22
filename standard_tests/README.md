@@ -1,7 +1,7 @@
 # Standards and Tests available for download and import
 
 ## Summary and instructions
-This page lists 188 published tests distributed across 12 standards (*Accessibility, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
+This page lists 189 published tests distributed across 12 standards (*Accessibility, Broken Functionality, Cleanup, General, Idiosyncratic, Millenium Gen2, Redwood, Security, Universal Theme*) and 6 issue categories (*APEX, General DB Object, Materialized view, Table, Trigger, View*). Download either the "consolidated test exports" or the individual tests for import into your Standard Violation Tracker instance.
 
 ## Accessibility (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 These tests help support Accessibility standards. They are not substitutes for screen reader tests and other manual tests.
@@ -216,6 +216,7 @@ Tests that are specific to the Millenium Gen2 project
 | [GEN2_INIT_CLEANUP](APEX_MILLENIUM_GEN2_212/tests/GEN2_INIT_CLEANUP-AHA_APEX_EOD1.json) |  Applications should have the correct initialization and cleanup | v1.1 [AHA_APEX_EOD1] | APEX_APPLICATIONS |
 | [GLOBAL_TIME_FORMATS](APEX_MILLENIUM_GEN2_212/tests/GLOBAL_TIME_FORMATS-REDWOOD.json) |  Time formats should be set in Globalization Attributes | v1.1 [REDWOOD] | APEX_APPLICATIONS |
 | [INVLD_END_POINTS](APEX_MILLENIUM_GEN2_212/tests/INVLD_END_POINTS-REDWOOD.json) |  These URL endpoints are deprecated | v1 [REDWOOD] | APEX_APPLICATIONS |
+| [MISSING_ROW_PROCESSING](APEX_MILLENIUM_GEN2_212/tests/MISSING_ROW_PROCESSING-AHA_APEX_EOD1.json) |  Forms need corresponding Automatic Row Processing | v1 [AHA_APEX_EOD1] | APEX_APPLICATION_PAGE_REGIONS |
 
 ## Redwood (APEX Version 21.2 / 22.1 / 22.2 / 23.1)
 Standards for correctly implementing Redwood patterns
@@ -288,7 +289,7 @@ These are best practices that apply to Universal Theme applications.
 | [RESET_BUTTON_REPORT](APEX_UNIVERSAL_THEME_212/tests/RESET_BUTTON_REPORT-REDWOOD.json) |  Reports should have a reset button | v1.2 [REDWOOD] | APEX_APPLICATION_PAGE_REGIONS |
 
 ## Download All Tests
- - [Consolidated export of all 188 tests and 12 standards](ALL_TESTS.json)
+ - [Consolidated export of all 189 tests and 12 standards](ALL_TESTS.json)
 
 
 * Test versions are idenfied by an incrementing number and the name of the database on which they were developed. The addition of the database name allows us to distinguish between tests that have been imported and untouched and ones that have been modified locally after import.    

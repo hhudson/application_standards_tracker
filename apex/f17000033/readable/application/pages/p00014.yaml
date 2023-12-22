@@ -4792,7 +4792,12 @@ dynamic-actions:
       action: Execute JavaScript Code
 
     settings: 
-      code: apex.util.getTopApex().jQuery('.ui-dialog-title').text('Edit '+$v('P14_HIDDEN_NAME'))
+      code: |
+        let pagename = 'Create new test';
+        if ($v('P14_HIDDEN_NAME') !== ''){
+            pagename ='Edit '+$v('P14_HIDDEN_NAME');
+        }
+        apex.util.getTopApex().jQuery('.ui-dialog-title').text(pagename);
 
     execution: 
       sequence: 10
