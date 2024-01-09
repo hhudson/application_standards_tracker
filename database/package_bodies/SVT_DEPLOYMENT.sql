@@ -730,14 +730,37 @@ create or replace package body SVT_DEPLOYMENT as
     raise;
   end markdown_summary;
 
-  procedure increment_app_version 
-  is 
+  procedure increment_app_version (p_application_id in apex_applications.application_id%type)
   as
   c_scope constant varchar2(128) := gc_scope_prefix || 'increment_app_version';
   c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_current_vsn_no_peroids pls_integer := 0;
+  l_new_vsn_no_peroids pls_integer;
+  l_new_vsn apex_applications.version%type;
   begin
-   apex_debug.message(c_debug_template,'START');
+   apex_debug.message(c_debug_template,'START', 'p_application_id', p_application_id);
+
+   select to_number(replace(version,'.'))
+   into l_current_vsn_no_peroids
+   from apex_applications
+   where application_id = p_application_id;
+
+   l_new_vsn_no_peroids := l_current_vsn_no_peroids + 1;
    
+   if substr(l_new_vsn_no_peroids,4,1) is not null then
+    raise_application_error(-20123, 'Version too long. Procedure needs to be updated');
+   end if;
+
+   l_new_vsn := apex_string.format('%s.%s.%s',
+                  substr(l_new_vsn_no_peroids,1,1),
+                  substr(l_new_vsn_no_peroids,2,1),
+                  substr(l_new_vsn_no_peroids,3,1)
+                );
+
+   apex_application_admin.set_application_version (
+        p_application_id => p_application_id,
+        p_version        => l_new_vsn );
+
   exception
    when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);

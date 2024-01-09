@@ -283,6 +283,46 @@ end;
 ------------------------------------------------------------------------------
 function markdown_summary return clob;
 
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 22, 2023
+-- Synopsis:
+--
+-- Procedure to increase the version of the application  
+--
+/*
+set serveroutput on
+declare
+c_app_id apex_applications.application_id%type := 17000033;
+l_version1 varchar2(25);
+l_version2 varchar2(25);
+begin
+    svt_audit_util.set_workspace;
+    
+    select version
+    into l_version1
+    from apex_applications
+    where application_id = c_app_id;
+    
+    dbms_output.put_line('Before version : '||l_version1);
+   
+    svt_deployment.increment_app_version (p_application_id => c_app_id);
+    
+    
+    select version
+    into l_version2
+    from apex_applications
+    where application_id = c_app_id;
+    
+    dbms_output.put_line('After version : '||l_version2);
+    
+    rollback;
+end;
+*/
+------------------------------------------------------------------------------
+procedure increment_app_version (p_application_id in apex_applications.application_id%type);
+
 ------------------------------------------------------------------------------
 -- exceptions
 ------------------------------------------------------------------------------

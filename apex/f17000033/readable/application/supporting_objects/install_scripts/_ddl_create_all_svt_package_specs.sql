@@ -1279,7 +1279,7 @@ end;
                   p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return blob;
-    
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1448,6 +1448,23 @@ end;
 */
 ------------------------------------------------------------------------------
 function markdown_summary return clob;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 22, 2023
+-- Synopsis:
+--
+-- Procedure to increase the version of the application  
+--
+/*
+begin
+    svt_audit_util.set_workspace;
+    svt_deployment.increment_app_version (p_application_id => 17000033);
+end;
+*/
+------------------------------------------------------------------------------
+procedure increment_app_version (p_application_id in apex_applications.application_id%type);
 
 ------------------------------------------------------------------------------
 -- exceptions

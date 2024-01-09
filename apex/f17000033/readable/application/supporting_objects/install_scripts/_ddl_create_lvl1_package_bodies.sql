@@ -3699,13 +3699,13 @@ end SVT_CTX_UTIL;
                  then p_standard_id||' standard_id, '
                  end
     );
-    
+
     return l_query;
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end assemble_json_query;
-  
+
   function assemble_json_tsts_qry (
                   p_standard_id   in svt_stds_standards.id%type default null,
                   p_test_code     in svt_stds_standard_tests.test_code%type default null,
@@ -3730,7 +3730,7 @@ end SVT_CTX_UTIL;
                                         'c_standard_id', c_standard_id,
                                         'p_test_code', p_test_code,
                                         'p_datatype', p_datatype);
-   
+
    l_query := 
     apex_string.format(
     q'[
@@ -3801,7 +3801,7 @@ end SVT_CTX_UTIL;
     );
 
     return l_query;
-    
+
   exception
    when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
@@ -3830,7 +3830,7 @@ end SVT_CTX_UTIL;
                     p_datatype      => gc_clob);
 
     execute immediate l_tst_query into l_tst_file_clob;
-    
+
     return l_tst_file_clob;
 
    exception
@@ -3838,7 +3838,7 @@ end SVT_CTX_UTIL;
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
       raise;
   end json_standard_tests_clob;
-  
+
   function json_standard_tests_blob (
                   p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
@@ -3991,7 +3991,7 @@ end SVT_CTX_UTIL;
                                         'p_table_name', p_table_name);
 
     l_content_blob := json_content_blob (p_table_name => p_table_name);
-    
+
     apex_zip.add_file (
             p_zipped_blob => l_zip_file,
             p_file_name   => c_json_file_name,
@@ -3999,7 +3999,7 @@ end SVT_CTX_UTIL;
 
     apex_zip.finish (
         p_zipped_blob => l_zip_file );
-    
+
     wwv_flow_imp_shared.create_app_static_file (
        p_flow_id      => v('APP_ID'),
        p_file_name    => c_zip_file_name,
@@ -4036,7 +4036,7 @@ end SVT_CTX_UTIL;
     and aadl.table_name = c_table_name;
 
     l_content_clob := to_clob(utl_raw.cast_to_varchar2(dbms_lob.substr(l_content_blob,dbms_lob.getlength(l_content_blob)))); 
-    
+
     -- 
     l_load_result := apex_data_loading.load_data (
                        p_static_id    => l_static_id,
@@ -4063,7 +4063,7 @@ end SVT_CTX_UTIL;
     apex_debug.message(c_debug_template,'START', 'p_table_name', p_table_name);
 
     execute immediate apex_string.format(c_query_template, c_table_name) into l_most_recent_date;
-    
+
     return l_most_recent_date;
 
   exception 
@@ -4086,7 +4086,7 @@ end SVT_CTX_UTIL;
   as 
   c_scope constant varchar2(128) := gc_scope_prefix || 'v_svt_table_data_load_def';
   c_debug_template constant varchar2(4096) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7 %8 %9 %10';
-  
+
   cursor cur_aa
     is
   with std as (
@@ -4213,7 +4213,7 @@ end SVT_CTX_UTIL;
           end load_block;
       end loop;
     end loop;  
-  
+
   exception 
     when no_data_needed then
       apex_debug.message(c_debug_template, 'No data needed');
@@ -4274,7 +4274,7 @@ end SVT_CTX_UTIL;
                  order by standard_name, display_order)
     loop 
       apex_debug.message(c_debug_template, 'file_name', srec.file_name);
-      
+
       l_md_clob := l_md_clob
                    ||apex_string.format(
                       '## %0 (%2)',
@@ -4296,7 +4296,7 @@ end SVT_CTX_UTIL;
       declare
       l_test_md clob;
       begin
-        
+
         for trec in (select test_code, test_name, vsn, component_name, file_name, version_db
                       from svt_stds_standard_tests_api.v_svt_stds_standard_tests(
                           p_standard_id => srec.id,
@@ -4330,13 +4330,49 @@ end SVT_CTX_UTIL;
       l_md_clob := l_md_clob ||c_all_tests|| c_addendum;
 
     return l_md_clob;
-  
+
   exception when others then
     apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length => 4096);
     raise;
   end markdown_summary;
 
-  
+  procedure increment_app_version (p_application_id in apex_applications.application_id%type)
+  as
+  c_scope constant varchar2(128) := gc_scope_prefix || 'increment_app_version';
+  c_debug_template constant varchar2(4000) := c_scope||' %0 %1 %2 %3 %4 %5 %6 %7';
+  l_current_vsn_no_peroids pls_integer := 0;
+  l_new_vsn_no_peroids pls_integer;
+  l_new_vsn apex_applications.version%type;
+  begin
+   apex_debug.message(c_debug_template,'START', 'p_application_id', p_application_id);
+
+   select to_number(replace(version,'.'))
+   into l_current_vsn_no_peroids
+   from apex_applications
+   where application_id = p_application_id;
+
+   l_new_vsn_no_peroids := l_current_vsn_no_peroids + 1;
+
+   if substr(l_new_vsn_no_peroids,4,1) is not null then
+    raise_application_error(-20123, 'Version too long. Procedure needs to be updated');
+   end if;
+
+   l_new_vsn := apex_string.format('%s.%s.%s',
+                  substr(l_new_vsn_no_peroids,1,1),
+                  substr(l_new_vsn_no_peroids,2,1),
+                  substr(l_new_vsn_no_peroids,3,1)
+                );
+
+   apex_application_admin.set_application_version (
+        p_application_id => p_application_id,
+        p_version        => l_new_vsn );
+
+  exception
+   when others then
+      apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);
+     raise;
+  end increment_app_version;
+
 
 end SVT_DEPLOYMENT;
 /
