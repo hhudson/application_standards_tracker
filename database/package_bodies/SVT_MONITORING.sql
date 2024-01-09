@@ -473,7 +473,7 @@ create or replace package body SVT_MONITORING as
             p_subject         => l_subject,
             p_html            => l_html,
             p_text            => l_text,
-            p_application_id  => p_application_id
+            p_application_id  => c_application_id
           );
 
           for rec in (

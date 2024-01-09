@@ -206,6 +206,28 @@ exit;
 EOF
 } #export_apex_app_readable_yaml
 
+increment_apex_vsn(){
+  # echo "log : increment_apex_vsn"
+
+  local p_apex_id="17000033"
+  # echo "log : p_apex_id : ${p_apex_id}"
+
+
+$VSCODE_TASK_COMPILE_BIN $DB_CONN << EOF
+
+begin
+  svt_audit_util.set_workspace;
+  svt_deployment.increment_app_version (p_application_id => $p_apex_id);
+end;
+/
+--
+-- 
+--
+show errors
+exit;
+EOF
+} #increment_apex_vsn
+
 install_apex_app(){
   # echo "log : install_apex_app"
 

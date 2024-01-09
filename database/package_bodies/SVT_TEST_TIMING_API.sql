@@ -42,7 +42,7 @@ create or replace package body svt_test_timing_api as
     apex_debug.message(c_debug_template,'START');
 
     delete from svt_test_timing
-    where created < add_months(trunc(sysdate,'mm'),-1);
+    where created < add_months(trunc(sysdate,'mm'),-0.5);
     apex_debug.message(c_debug_template, 'deleted :', sql%rowcount);
 
   exception

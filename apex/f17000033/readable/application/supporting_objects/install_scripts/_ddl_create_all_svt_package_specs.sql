@@ -1279,7 +1279,7 @@ end;
                   p_standard_id in svt_stds_standards.id%type default null,
                   p_test_code   in svt_stds_standard_tests.test_code%type default null
     ) return blob;
-    
+
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 7, 2023
@@ -1332,7 +1332,7 @@ end;
 -- Function to return json blob template file for a given table (for the purpose of uploading to Data Load Definition)
 -- v_svt_table_data_load_definition
 /*
-select SVT_DEPLOYMENT.sample_template_file (p_table_name => 'SVT_COMPONENT_TYPES') thblob
+select svt_deployment.sample_template_file (p_table_name => 'SVT_COMPONENT_TYPES') thblob
 from dual
 */
 ------------------------------------------------------------------------------
@@ -1448,6 +1448,23 @@ end;
 */
 ------------------------------------------------------------------------------
 function markdown_summary return clob;
+
+
+------------------------------------------------------------------------------
+--  Creator: Hayden Hudson
+--     Date: December 22, 2023
+-- Synopsis:
+--
+-- Procedure to increase the version of the application  
+--
+/*
+begin
+    svt_audit_util.set_workspace;
+    svt_deployment.increment_app_version (p_application_id => 17000033);
+end;
+*/
+------------------------------------------------------------------------------
+procedure increment_app_version (p_application_id in apex_applications.application_id%type);
 
 ------------------------------------------------------------------------------
 -- exceptions
@@ -3918,7 +3935,7 @@ end;
                         p_version_number        in svt_stds_standard_tests.version_number%type default null,
                         p_version_db            in svt_stds_standard_tests.version_db%type default null
                       );
-
+  
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 13, 2023
@@ -3998,7 +4015,7 @@ end;
                           p_version_number        in svt_stds_standard_tests.version_number%type default null,
                           p_version_db            in svt_stds_standard_tests.version_db%type default null
                         );
-
+    
 
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
@@ -4198,7 +4215,7 @@ from dual
     function get_standard_id (p_test_code in svt_stds_standard_tests.test_code%type)
     return svt_stds_standard_tests.standard_id%type deterministic;
 
-
+ 
  ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: July 10, 2023
@@ -4330,6 +4347,8 @@ from dual;
 -- Function to answer whether a given test has been published in the current instance
 --
 /*
+svt_audit_util.set_workspace;
+
 select svt_stds_standard_tests_api.test_published_locally_yn (p_test_code => 'ACC_AUTOCOMPLETE') answ
 from dual
 */
@@ -4456,7 +4475,7 @@ end;
                       p_test_code   in svt_stds_standard_tests.test_code%type   default null,
                       p_message     out nocopy varchar2);
 
-
+    
 ------------------------------------------------------------------------------
 --  Creator: Hayden Hudson
 --     Date: June 26, 2023

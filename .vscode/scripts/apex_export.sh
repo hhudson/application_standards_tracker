@@ -12,7 +12,12 @@ EXP_OPTION="$1"
 # Export APEX applications
 # 
 
-if [[ "$EXP_OPTION" == "1 - APEX Readable YAML" ]]; then
+if [[ "$EXP_OPTION" == "0 - Increment APEX Version" ]]; then
+
+    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Incrementing APEX Version${COLOR_RESET}"
+    increment_apex_vsn
+
+elif [[ "$EXP_OPTION" == "1 - APEX Readable YAML" ]]; then
 
     echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting Readable YAML${COLOR_RESET}"
     export_apex_app_readable_yaml
@@ -22,9 +27,10 @@ elif [[ "$EXP_OPTION" == "2 - APEX installation file" ]]; then
     echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file${COLOR_RESET}"
     export_apex_app
 
-elif [[ "$EXP_OPTION" == "3 - All APEX stuff (options 1 & 2)" ]]; then
+elif [[ "$EXP_OPTION" == "3 - All APEX stuff (options 0, 1 & 2)" ]]; then
 
-    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX YAML + install file${COLOR_RESET}"
+    echo -e "Gen option : ${COLOR_LIGHT_GREEN}Incrementing version, exporting APEX YAML + install file${COLOR_RESET}"
+    increment_apex_vsn
     export_apex_app_readable_yaml
     export_apex_app
 
@@ -36,6 +42,7 @@ elif [[ "$EXP_OPTION" == "4 - Export published tests & standards" ]]; then
 elif [[ "$EXP_OPTION" == "5 - All of the above" ]]; then
 
     echo -e "Gen option : ${COLOR_LIGHT_GREEN}Exporting APEX install file + Readable YAML + Published tests${COLOR_RESET}"
+    increment_apex_vsn
     export_apex_app
     export_apex_app_readable_yaml
     export_tests

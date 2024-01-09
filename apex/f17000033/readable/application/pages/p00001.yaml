@@ -935,6 +935,24 @@ regions:
         alias: MV
 
     columns: 
+    - # ====== Column: INCLUDE_IN_REPORT_YN ========================
+      id: 98498937637863507
+      identification: 
+        column-name: INCLUDE_IN_REPORT_YN
+        type: Hidden Column
+
+      heading: 
+        heading: Include In Report Yn
+
+      layout: 
+        sequence: 650
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: AUDIT_ID ====================================
       id: 387333842780905955
       identification: 
@@ -6290,6 +6308,38 @@ dynamic-actions:
     client-side-condition: 
       type: Item is not null
       item: P1_MIN_NOT_MET_MESSAGE
+
+- # ====== Dynamic Action: Refresh on dialog close =============
+  id: 98498704318863505
+  identification: 
+    name: Refresh on dialog close
+
+  execution: 
+    sequence: 190
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Tracking issues report # 828091609129557197
+
+  actions: 
+  - # ====== Action: Refresh Tracking Issues report ==============
+    id: 98498870815863506
+    identification: 
+      name: Refresh Tracking Issues report
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tracking issues report # 828091609129557197
+
+    execution: 
+      sequence: 10
+      event: Refresh on dialog close # 98498704318863505
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 
 - # ====== Dynamic Action: Mark as Exception ===================
   id: 322899927176061579

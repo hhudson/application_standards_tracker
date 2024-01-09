@@ -112,6 +112,7 @@ create or replace package body SVT_MV_UTIL as
         for rec in (select object_name mview
                       from user_objects
                       where object_type = 'MATERIALIZED VIEW'
+                      and object_name like 'MV_SVT%'
                       order by 1)
         loop
           dbms_mview.refresh (rec.mview);

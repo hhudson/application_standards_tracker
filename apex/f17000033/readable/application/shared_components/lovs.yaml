@@ -288,16 +288,20 @@
     location: Local Database
     type: SQL Query
     sql-query: |
-      select lower(email) d, upper(email) r
-      from apex_workspace_developers awd
-      where is_application_developer = 'Yes'
-      and workspace_name = svt_preferences.get('SVT_WORKSPACE')
-      order by user_name
+      select email d, email r
+      from (
+          select distinct lower(email) email
+          from apex_workspace_developers awd
+          where is_application_developer = 'Yes'
+          and workspace_name = svt_preferences.get('SVT_WORKSPACE')
+      )
+      
 
   column-mapping: 
     return: R
     display: D
-    default-sort: Use Order By from Query
+    default-sort: D
+    sort-direction: Ascending (Nulls Last)
 
 - # ====== List of Values: SVT_STDS_STANDARD_TESTS =============
   id: 729833365964883359
