@@ -45,7 +45,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 70
+    sequence: 40
     parent-region: Available jobs # 465580838396073183
     position: BODY
     start-new-layout: false
@@ -501,7 +501,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 60
+    sequence: 30
     parent-region: Available jobs # 465580838396073183
     position: BODY
     start-new-layout: false
@@ -634,6 +634,50 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
+- # ====== Region: 1. [Hourly on the dot] Refresh Materialized V
+  id: 513480897961510910
+  identification: 
+    title: 1. [Hourly on the dot] Refresh Materialized Views
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Available jobs # 465580838396073183
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 7894857603068147629
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--danger
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Hard Reset ==================================
   id: 538697398099076762
   identification: 
@@ -746,15 +790,15 @@ buttons:
 
     warn-on-unsaved-changes: Do Not Check
 
-- # ====== Button: RECORD_DAILY_ISSUE_SNAPSHOT =================
+- # ====== Button: REFRESH_MV ==================================
   id: 465580509937073179
   identification: 
-    button-name: RECORD_DAILY_ISSUE_SNAPSHOT
-    label: Run job (Issue Snapshot)
+    button-name: REFRESH_MV
+    label: Refresh Materialized Views
 
   layout: 
     sequence: 10
-    region: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table # 465580359824073178
+    region: 1. [Hourly on the dot] Refresh Materialized Views # 513480897961510910
     position: NEXT
     start-new-layout: false
     start-new-row: true
@@ -769,7 +813,7 @@ buttons:
     - '#DEFAULT#'
     - t-Button--simple
     - t-Button--iconLeft
-    icon: fa-apex
+    icon: fa-ils
 
   behavior: 
     action: Submit Page
@@ -801,6 +845,36 @@ buttons:
     - t-Button--simple
     - t-Button--iconLeft
     icon: fa-bug
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RECORD_DAILY_ISSUE_SNAPSHOT_1 ===============
+  id: 513480964556510911
+  identification: 
+    button-name: RECORD_DAILY_ISSUE_SNAPSHOT_1
+    label: Run job (Issue Snapshot)
+
+  layout: 
+    sequence: 20
+    region: 2. [Hourly  - 10 min past] Issue Snapshot in DB audit table # 465580359824073178
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 7894890219812147708
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--iconLeft
+    icon: fa-apex
 
   behavior: 
     action: Submit Page
@@ -913,7 +987,33 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: RECORD_DAILY_ISSUE_SNAPSHOT # 465580509937073179
+    when-button-pressed: RECORD_DAILY_ISSUE_SNAPSHOT_1 # 513480964556510911
+
+- # ====== Process: refresh_mv =================================
+  id: 513481046403510912
+  identification: 
+    name: refresh_mv
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+        svt_mv_util.refresh_mv();
+      end;
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: REFRESH_MV # 465580509937073179
 
 - # ====== Process: reset_apex_issues ==========================
   id: 538697584648076764
