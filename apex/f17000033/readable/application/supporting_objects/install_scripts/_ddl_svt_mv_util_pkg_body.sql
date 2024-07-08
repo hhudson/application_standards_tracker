@@ -57,7 +57,7 @@
         from thecols
         left outer join all_tab_cols atc on atc.column_name = thecols.column_name
                                         and atc.table_name = rec.table_name;
-        
+
         l_query_clob := l_query_clob ||
                         apex_string.format ('%3select %0%1from %2',
                         p0 => l_sql_frgmt,
@@ -94,6 +94,7 @@
                       and object_name like 'MV_SVT%'
                       order by 1)
         loop
+          apex_debug.message(c_debug_template,'refreshing', rec.mview);
           dbms_mview.refresh (rec.mview);
         end loop;
       elsif p_mv_list is not null then
@@ -104,6 +105,7 @@
                     where asp.column_value is not null
                     order by 1)
         loop
+          apex_debug.message(c_debug_template,'refreshing', rec.mview);
           dbms_mview.refresh (rec.mview);
         end loop;
       else 
@@ -113,6 +115,7 @@
                       and object_name like 'MV_SVT%'
                       order by 1)
         loop
+          apex_debug.message(c_debug_template,'refreshing', rec.mview);
           dbms_mview.refresh (rec.mview);
         end loop;
       end if;
@@ -140,9 +143,9 @@
               select 1 
               from v_svt_problem_assignees
           );
-          
+
    return l_alerts_yn;
-   
+
   exception
    when others then
       apex_debug.error(p_message => c_debug_template, p0 =>'Unhandled Exception', p1 => sqlerrm, p5 => sqlcode, p6 => dbms_utility.format_error_stack, p7 => dbms_utility.format_error_backtrace, p_max_length=> 4096);

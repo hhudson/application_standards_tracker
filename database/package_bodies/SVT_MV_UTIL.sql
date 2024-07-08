@@ -96,6 +96,7 @@ create or replace package body SVT_MV_UTIL as
                       and object_name like 'MV_SVT%'
                       order by 1)
         loop
+          apex_debug.message(c_debug_template,'refreshing', rec.mview);
           dbms_mview.refresh (rec.mview);
         end loop;
       elsif p_mv_list is not null then
@@ -106,6 +107,7 @@ create or replace package body SVT_MV_UTIL as
                     where asp.column_value is not null
                     order by 1)
         loop
+          apex_debug.message(c_debug_template,'refreshing', rec.mview);
           dbms_mview.refresh (rec.mview);
         end loop;
       else 
@@ -115,6 +117,7 @@ create or replace package body SVT_MV_UTIL as
                       and object_name like 'MV_SVT%'
                       order by 1)
         loop
+          apex_debug.message(c_debug_template,'refreshing', rec.mview);
           dbms_mview.refresh (rec.mview);
         end loop;
       end if;
