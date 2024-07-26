@@ -8,7 +8,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 371119975547332663
+  dialog-template: Drawer
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -95,13 +95,13 @@ regions:
 - # ====== Region: region ======================================
   id: 365417841827513259
   identification: 
-    title: region
+    name: region
     type: Static Content
 
   layout: 
     sequence: 20
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -109,7 +109,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7894873160980147655
+    template: Standard
     template-options: 
     - '#DEFAULT#'
     - t-Region--removeHeader js-removeLandmark
@@ -125,9 +125,6 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -139,13 +136,13 @@ regions:
 - # ====== Region: Buttons =====================================
   id: 365418065504513261
   identification: 
-    title: Buttons
+    name: Buttons
     type: Static Content
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    position: REGION_POSITION_03
+    slot: REGION_POSITION_03
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -153,7 +150,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7894859608240147634
+    template: Buttons Container
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -165,9 +162,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -198,7 +192,7 @@ page-items:
   layout: 
     sequence: 10
     region: region # 365417841827513259
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -208,7 +202,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6732917627786688922
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -261,7 +255,7 @@ page-items:
   layout: 
     sequence: 20
     region: region # 365417841827513259
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: false
@@ -271,7 +265,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6732917627786688922
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -312,7 +306,7 @@ page-items:
   layout: 
     sequence: 30
     region: region # 365417841827513259
-    position: BODY
+    slot: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -340,7 +334,7 @@ buttons:
   layout: 
     sequence: 10
     region: Buttons # 365418065504513261
-    position: CREATE
+    slot: CREATE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -348,7 +342,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -358,6 +352,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
   security: 

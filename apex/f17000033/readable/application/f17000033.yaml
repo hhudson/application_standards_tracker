@@ -9,6 +9,7 @@ identification:
 
 row-search: 
   tokenize: true
+  text-query-function: None
 
 availability: 
   status: Available with Developer Toolbar
@@ -26,7 +27,8 @@ advanced:
   allow-feedback: false
   logging: true
   debugging: true
-  compatibility-mode: 21.2 / 22.1 / 22.2
+  compatibility-mode: 21.2 to 24.1
+  accessible-read-only-items: false
   pass-ecid: N
 
 authentication: 
@@ -85,7 +87,7 @@ navigation:
     page: 1 # Issue Tracking
 
 navigation-menu: 
-  list-template: Top Navigation Menu # 7894888178481147690
+  list-template: Top Navigation Menu
   template-options: 
   - '#DEFAULT#'
   - js-tabLike
@@ -94,7 +96,7 @@ navigation-menu:
 navigation-bar: 
   implementation: List
   list: Navigation # 7424974532455157777
-  list-template: Navigation Bar # 7894888759805147692
+  list-template: Navigation Bar
   template-options: 
   - '#DEFAULT#'
 
@@ -113,6 +115,7 @@ attributes:
   global-page: 0
   enable-end-users-to-choose-theme-style: true
   add-"built-with-apex"-to-footer: true
+  auto-dismiss-success-messages: false
 
 substitutions: 
 - # ====== Substitution: GETTING_STARTED_URL ===================
@@ -164,6 +167,39 @@ substitutions:
     static-value: '[SVT]'
 
 component-settings: 
+- # ====== Component Setting: NATIVE_SELECT_MANY ===============
+  id: 1422332918597425
+  identification: 
+    name: NATIVE_SELECT_MANY
+    type: Item
+
+  settings: 
+    attribute-1: separated
+
+  subscription: 
+    version-number: 37167929208903
+
+- # ====== Component Setting: NATIVE_GEOCODING =================
+  id: 1439984348597428
+  identification: 
+    name: NATIVE_GEOCODING
+    type: Process
+
+  settings: 
+    attribute-1: RELAX_HOUSE_NUMBER
+
+  subscription: 
+    version-number: 37167929208908
+
+- # ====== Component Setting: NATIVE_OPEN_AI_ASSISTANT =========
+  id: 1457556195597432
+  identification: 
+    name: NATIVE_OPEN_AI_ASSISTANT
+    type: Dynamic Action
+
+  subscription: 
+    version-number: 37167929208910
+
 - # ====== Component Setting: NATIVE_ADFBC =====================
   id: 79708347088328697
   identification: 
@@ -178,9 +214,6 @@ component-settings:
   identification: 
     name: NATIVE_MAP_REGION
     type: Region
-
-  settings: 
-    attribute-1: Y
 
   subscription: 
     version-number: 37166586778912
@@ -248,9 +281,6 @@ component-settings:
     name: NATIVE_DISPLAY_SELECTOR
     type: Region
 
-  settings: 
-    attribute-1: N
-
   subscription: 
     version-number: 37166586778912
 
@@ -259,9 +289,6 @@ component-settings:
   identification: 
     name: NATIVE_IR
     type: Region
-
-  settings: 
-    attribute-1: IG
 
   subscription: 
     version-number: 37166586778912

@@ -9,7 +9,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 371119975547332663
+  dialog-template: Drawer
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -51,13 +51,13 @@ regions:
 - # ====== Region: Buttons =====================================
   id: 7969418879447062370
   identification: 
-    title: Buttons
+    name: Buttons
     type: Static Content
 
   layout: 
     sequence: 20
     parent-region: No Parent
-    position: REGION_POSITION_03
+    slot: REGION_POSITION_03
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -65,7 +65,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7894859608240147634
+    template: Buttons Container
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noUI
@@ -79,9 +79,6 @@ regions:
     region-display-selector: true
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -93,13 +90,13 @@ regions:
 - # ====== Region: Rename Application ==========================
   id: 9228868115344788030
   identification: 
-    title: Rename Application
+    name: Rename Application
     type: Static Content
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -107,7 +104,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7894873160980147655
+    template: Standard
     template-options: 
     - '#DEFAULT#'
     - t-Region--scrollBody
@@ -122,9 +119,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -155,7 +149,7 @@ page-items:
   layout: 
     sequence: 10
     region: Rename Application # 9228868115344788030
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -165,7 +159,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating # 6732917627786688922
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 64
@@ -210,7 +204,7 @@ buttons:
   layout: 
     sequence: 10
     region: Buttons # 7969418879447062370
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -218,7 +212,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7894890825763147710
+    button-template: Text
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -236,7 +230,7 @@ buttons:
   layout: 
     sequence: 20
     region: Buttons # 7969418879447062370
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -244,7 +238,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7894890825763147710
+    button-template: Text
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -253,6 +247,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
@@ -267,7 +262,7 @@ dynamic-actions:
     type: Immediate
 
   when: 
-    event: EVENT.EVENT.BROWSER.CLICK
+    event: Click
     selection-type: Button
     button: CANCEL # 9228868740409804725
 

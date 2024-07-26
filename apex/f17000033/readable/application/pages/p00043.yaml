@@ -41,7 +41,7 @@ regions:
 - # ====== Region: Deployment data =============================
   id: 435853512056133585
   identification: 
-    title: Deployment data
+    name: Deployment data
     type: Interactive Report
 
   source: 
@@ -78,7 +78,7 @@ regions:
   layout: 
     sequence: 30
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -86,7 +86,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7894872654147147650
+    template: Interactive Report
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -383,7 +383,7 @@ regions:
       id: 372655381391635802
       identification: 
         column-name: PAGE_ID_ICON
-        type: Hidden Column
+        type: Hidden
 
       heading: 
         heading: Page ID Icon
@@ -541,7 +541,7 @@ regions:
         value-identifies-row: false
 
       appearance: 
-        content-disposition: Attachment
+        view-file-as: Attachment
 
       blob-attributes: 
         table-owner: Parsing Schema
@@ -1070,7 +1070,7 @@ regions:
       id: 435854541268133596
       identification: 
         column-name: FILE_BLOB
-        type: Hidden Column
+        type: Hidden
 
       heading: 
         heading: File Blob
@@ -1146,7 +1146,7 @@ regions:
         value-identifies-row: false
 
       appearance: 
-        content-disposition: Attachment
+        view-file-as: Attachment
 
       blob-attributes: 
         table-owner: Parsing Schema
@@ -1180,6 +1180,7 @@ regions:
 
     printing: 
       output: 
+        layout: Default Report Layout
         view-file-as: Attachment
 
       page: 
@@ -1233,7 +1234,7 @@ page-items:
   layout: 
     sequence: 10
     region: Deployment data # 435853512056133585
-    position: BODY
+    slot: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1263,7 +1264,7 @@ page-items:
   layout: 
     sequence: 20
     region: Deployment data # 435853512056133585
-    position: BODY
+    slot: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1291,7 +1292,7 @@ buttons:
   layout: 
     sequence: 10
     region: Deployment data # 435853512056133585
-    position: RIGHT_OF_IR_SEARCH_BAR
+    slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1299,7 +1300,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1330,7 +1331,7 @@ dynamic-actions:
     type: Immediate
 
   when: 
-    event: EVENT.EVENT.BROWSER.CLICK
+    event: Click
     selection-type: jQuery Selector
     jquery-selector: .rfreshSttc
 
@@ -1420,7 +1421,7 @@ dynamic-actions:
     type: Immediate
 
   when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    event: Dialog Closed
     selection-type: Region
     region: Deployment data # 435853512056133585
 

@@ -44,13 +44,13 @@ regions:
 - # ====== Region: Set Preferences =============================
   id: 377016528856483267
   identification: 
-    title: Set Preferences
+    name: Set Preferences
     type: Static Content
 
   layout: 
     sequence: 20
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -58,7 +58,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7894857603068147629
+    template: Alert
     template-options: 
     - '#DEFAULT#'
     - t-Alert--wizard
@@ -74,9 +74,6 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -88,13 +85,13 @@ regions:
 - # ====== Region: Advanced ====================================
   id: 467757568645307378
   identification: 
-    title: Advanced
+    name: Advanced
     type: Static Content
 
   layout: 
     sequence: 20
     parent-region: Admin Preferences # 589833538696261080
-    position: SUB_REGIONS
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -102,7 +99,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7894869912628147647
+    template: Collapsible
     template-options: 
     - '#DEFAULT#'
     - js-useLocalStorage
@@ -123,9 +120,6 @@ regions:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -137,13 +131,13 @@ regions:
 - # ====== Region: General =====================================
   id: 467757707463307379
   identification: 
-    title: General
+    name: General
     type: Static Content
 
   layout: 
     sequence: 10
     parent-region: Admin Preferences # 589833538696261080
-    position: SUB_REGIONS
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -151,7 +145,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7894869912628147647
+    template: Collapsible
     template-options: 
     - '#DEFAULT#'
     - js-useLocalStorage
@@ -169,9 +163,6 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -183,13 +174,13 @@ regions:
 - # ====== Region: Admin Preferences ===========================
   id: 589833538696261080
   identification: 
-    title: Admin Preferences
+    name: Admin Preferences
     type: Static Content
 
   layout: 
     sequence: 20
     parent-region: Set Preferences # 377016528856483267
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -197,7 +188,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7894859476133147632
+    template: Blank with Attributes
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -213,9 +204,6 @@ regions:
   security: 
     authorization-scheme: ADMINISTRATION RIGHTS # 11101435625003374461
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -227,13 +215,13 @@ regions:
 - # ====== Region: Personal ====================================
   id: 11113624537787833811
   identification: 
-    title: Personal
+    name: Personal
     type: Static Content
 
   layout: 
     sequence: 10
     parent-region: Set Preferences # 377016528856483267
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -241,7 +229,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Collapsible # 7894869912628147647
+    template: Collapsible
     template-options: 
     - '#DEFAULT#'
     - js-useLocalStorage
@@ -261,9 +249,6 @@ regions:
 
   security: 
     authorization-scheme: READER RIGHTS # 370096811785824520
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -290,7 +275,7 @@ page-items:
   layout: 
     sequence: 100
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -300,7 +285,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
 
@@ -353,7 +338,7 @@ page-items:
   layout: 
     sequence: 50
     region: General # 467757707463307379
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -363,7 +348,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -414,7 +399,7 @@ page-items:
   layout: 
     sequence: 110
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: false
@@ -424,7 +409,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
 
@@ -464,16 +449,18 @@ page-items:
   settings: 
     display-as: Inline Popup
     initial-fetch: Automatic
-    multiple-values: true
-    separator: ':'
     manual-entry: false
     search-as-you-type: true
     minimum-characters: No minimum (0)
 
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
   layout: 
     sequence: 10
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -483,7 +470,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -544,7 +531,7 @@ page-items:
   layout: 
     sequence: 70
     region: General # 467757707463307379
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -554,7 +541,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -621,7 +608,7 @@ page-items:
   layout: 
     sequence: 30
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -631,7 +618,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -685,7 +672,7 @@ page-items:
   layout: 
     sequence: 20
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -695,7 +682,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -743,16 +730,18 @@ page-items:
   settings: 
     display-as: Inline Popup
     initial-fetch: Automatic
-    multiple-values: true
-    separator: ':'
     manual-entry: false
     search-as-you-type: true
     minimum-characters: No minimum (0)
 
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
   layout: 
     sequence: 60
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -762,7 +751,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -819,7 +808,7 @@ page-items:
   layout: 
     sequence: 20
     region: Personal # 11113624537787833811
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -829,7 +818,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
 
@@ -883,15 +872,17 @@ page-items:
   settings: 
     display-as: Inline Popup
     initial-fetch: Automatic
-    multiple-values: false
     manual-entry: false
     search-as-you-type: true
     minimum-characters: No minimum (0)
 
+  multiple-values: 
+    type: No
+
   layout: 
     sequence: 70
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -901,7 +892,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -925,8 +916,8 @@ page-items:
     used: Only when current value in session state is null
 
   default: 
-    type: SQL Query
-    sql-query: |
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): |
       select owner
       from apex_applications
       where application_id = :APP_ID 
@@ -965,7 +956,7 @@ page-items:
   layout: 
     sequence: 40
     region: General # 467757707463307379
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -975,7 +966,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -1023,15 +1014,17 @@ page-items:
   settings: 
     display-as: Inline Popup
     initial-fetch: Automatic
-    multiple-values: false
     manual-entry: false
     search-as-you-type: true
     minimum-characters: No minimum (0)
 
+  multiple-values: 
+    type: No
+
   layout: 
     sequence: 60
     region: General # 467757707463307379
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -1041,7 +1034,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -1102,7 +1095,7 @@ page-items:
   layout: 
     sequence: 50
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -1112,7 +1105,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -1166,7 +1159,7 @@ page-items:
   layout: 
     sequence: 10
     region: General # 467757707463307379
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -1176,7 +1169,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
 
@@ -1225,7 +1218,7 @@ page-items:
   layout: 
     sequence: 80
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -1235,7 +1228,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
 
@@ -1278,7 +1271,7 @@ page-items:
   layout: 
     sequence: 90
     region: Advanced # 467757568645307378
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: false
@@ -1288,7 +1281,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
 
@@ -1333,12 +1326,14 @@ page-items:
 
   settings: 
     page-action-on-selection: None
-    allow-multi-selection: false
+
+  multiple-values: 
+    type: No
 
   layout: 
     sequence: 10
     region: Personal # 11113624537787833811
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -1348,7 +1343,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     height: 1
@@ -1402,7 +1397,7 @@ buttons:
   layout: 
     sequence: 10
     region: Super Breadcrumb # 465579995831073174
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1410,7 +1405,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7894890825763147710
+    button-template: Text
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1432,7 +1427,7 @@ buttons:
   layout: 
     sequence: 20
     region: Super Breadcrumb # 465579995831073174
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1440,7 +1435,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7894890825763147710
+    button-template: Text
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -1448,6 +1443,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
 computations: 

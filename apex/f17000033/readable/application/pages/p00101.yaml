@@ -9,7 +9,7 @@ identification:
 
 appearance: 
   page-mode: Normal
-  page-template: Login # 7894839043833147608
+  page-template: Login
   template-options: 
   - '#DEFAULT#'
 
@@ -42,13 +42,13 @@ regions:
 - # ====== Region: Standard Violation Tracker ==================
   id: 12305739751284950897
   identification: 
-    title: Standard Violation Tracker
+    name: Standard Violation Tracker
     type: Static Content
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -56,7 +56,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Login # 7894872961944147654
+    template: Login
     template-options: 
     - '#DEFAULT#'
     icon: app-application-standards-tracker
@@ -70,9 +70,6 @@ regions:
     static-id: standards_tester_app
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -95,7 +92,7 @@ page-items:
   layout: 
     sequence: 30
     region: Standard Violation Tracker # 12305739751284950897
-    position: BODY
+    slot: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -135,7 +132,7 @@ page-items:
   layout: 
     sequence: 10
     region: Standard Violation Tracker # 12305739751284950897
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -145,7 +142,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Hidden # 7894889849336147698
+    template: Hidden
     template-options: 
     - '#DEFAULT#'
     icon: fa-user
@@ -191,7 +188,7 @@ page-items:
   layout: 
     sequence: 20
     region: Standard Violation Tracker # 12305739751284950897
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -201,7 +198,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Hidden # 7894889849336147698
+    template: Hidden
     template-options: 
     - '#DEFAULT#'
     icon: fa-key
@@ -238,7 +235,7 @@ buttons:
   layout: 
     sequence: 10
     region: Standard Violation Tracker # 12305739751284950897
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -246,7 +243,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -256,6 +253,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
@@ -269,7 +267,7 @@ dynamic-actions:
     event-scope: Static
 
   when: 
-    event: EVENT.EVENT.BROWSER.READY
+    event: Page Load
 
   client-side-condition: 
     type: JavaScript expression

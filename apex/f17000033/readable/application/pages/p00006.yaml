@@ -51,7 +51,7 @@ regions:
 - # ====== Region: Configured Component Types ==================
   id: 364005299360071903
   identification: 
-    title: Configured Component Types
+    name: Configured Component Types
     type: Interactive Report
 
   source: 
@@ -81,7 +81,7 @@ regions:
   layout: 
     sequence: 20
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -89,7 +89,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report # 7894872654147147650
+    template: Interactive Report
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -811,6 +811,7 @@ regions:
 
     printing: 
       output: 
+        layout: Default Report Layout
         view-file-as: Attachment
 
       page: 
@@ -854,13 +855,13 @@ regions:
 - # ====== Region: Menu ========================================
   id: 369877380404806558
   identification: 
-    title: Menu
+    name: Menu
     type: Region Display Selector
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -868,7 +869,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7894873160980147655
+    template: Standard
     template-options: 
     - '#DEFAULT#'
     - t-Region--hideHeader
@@ -883,9 +884,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -903,13 +901,13 @@ regions:
 - # ====== Region: Footer ======================================
   id: 607227001223662723
   identification: 
-    title: Footer
+    name: Footer
     type: Static Content
 
   layout: 
     sequence: 40
     parent-region: No Parent
-    position: REGION_POSITION_05
+    slot: REGION_POSITION_05
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -917,7 +915,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar # 7894875621084147660
+    template: Title Bar
     template-options: 
     - '#DEFAULT#'
     - t-BreadcrumbRegion--useBreadcrumbTitle
@@ -930,9 +928,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -952,7 +947,7 @@ buttons:
   layout: 
     sequence: 20
     region: Configured Component Types # 364005299360071903
-    position: RIGHT_OF_IR_SEARCH_BAR
+    slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -960,7 +955,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Icon # 7894890143211147704
+    button-template: Icon
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -988,7 +983,7 @@ buttons:
   layout: 
     sequence: 30
     region: Configured Component Types # 364005299360071903
-    position: RIGHT_OF_IR_SEARCH_BAR
+    slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -996,7 +991,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1023,7 +1018,7 @@ buttons:
   layout: 
     sequence: 10
     region: Super Breadcrumb # 465579995831073174
-    position: HELP
+    slot: HELP
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1031,7 +1026,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1060,7 +1055,7 @@ buttons:
   layout: 
     sequence: 10
     region: Footer # 607227001223662723
-    position: EDIT
+    slot: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -1068,7 +1063,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -1103,7 +1098,7 @@ dynamic-actions:
     type: Immediate
 
   when: 
-    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    event: Dialog Closed
     selection-type: Region
     region: Configured Component Types # 364005299360071903
 

@@ -8,7 +8,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 371119975547332663
+  dialog-template: Drawer
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -46,13 +46,13 @@ regions:
 - # ====== Region: email subscription ==========================
   id: 671310981916657048
   identification: 
-    title: email subscription
+    name: email subscription
     type: Static Content
 
   layout: 
     sequence: 40
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -60,7 +60,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7894859476133147632
+    template: Blank with Attributes
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -72,9 +72,6 @@ regions:
   advanced: 
     region-display-selector: true
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -87,13 +84,13 @@ regions:
 - # ====== Region: button region ===============================
   id: 671311844946657056
   identification: 
-    title: button region
+    name: button region
     type: Static Content
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    position: REGION_POSITION_03
+    slot: REGION_POSITION_03
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -101,7 +98,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7894859608240147634
+    template: Buttons Container
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -113,9 +110,6 @@ regions:
   advanced: 
     region-display-selector: true
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -142,7 +136,7 @@ page-items:
   layout: 
     sequence: 10
     region: email subscription # 671310981916657048
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -152,7 +146,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
@@ -191,7 +185,7 @@ buttons:
   layout: 
     sequence: 10
     region: button region # 671311844946657056
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -200,7 +194,7 @@ buttons:
     alignment: Right
 
   appearance: 
-    button-template: Text # 7894890825763147710
+    button-template: Text
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -218,7 +212,7 @@ buttons:
   layout: 
     sequence: 10
     region: button region # 671311844946657056
-    position: EDIT
+    slot: EDIT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -226,7 +220,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7894890825763147710
+    button-template: Text
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -234,6 +228,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
@@ -248,7 +243,7 @@ dynamic-actions:
     type: Immediate
 
   when: 
-    event: EVENT.EVENT.BROWSER.CLICK
+    event: Click
     selection-type: Button
     button: CANCEL # 469796119733723494
 

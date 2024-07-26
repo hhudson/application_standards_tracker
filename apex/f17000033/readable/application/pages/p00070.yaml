@@ -44,13 +44,13 @@ regions:
 - # ====== Region: Button Bar ==================================
   id: 352439024276797392
   identification: 
-    title: Button Bar
+    name: Button Bar
     type: Static Content
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -58,7 +58,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7894859608240147634
+    template: Buttons Container
     template-options: 
     - '#DEFAULT#'
     - t-ButtonRegion--noUI
@@ -76,9 +76,6 @@ regions:
     type: Item is NOT NULL
     item: P70_FILE
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -90,13 +87,13 @@ regions:
 - # ====== Region: Data Source =================================
   id: 352441088459797394
   identification: 
-    title: Data Source
+    name: Data Source
     type: Static Content
 
   layout: 
     sequence: 20
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -104,7 +101,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7894873160980147655
+    template: Standard
     template-options: 
     - '#DEFAULT#'
     - t-Region--hideHeader
@@ -120,9 +117,6 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -134,13 +128,13 @@ regions:
 - # ====== Region: Upload a File ===============================
   id: 352441511066797394
   identification: 
-    title: Upload a File
+    name: Upload a File
     type: Static Content
 
   layout: 
     sequence: 30
     parent-region: Data Source # 352441088459797394
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -148,7 +142,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7894859476133147632
+    template: Blank with Attributes
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -165,9 +159,6 @@ regions:
     type: Item is NULL
     item: P70_FILE
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -179,13 +170,13 @@ regions:
 - # ====== Region: Loaded File =================================
   id: 352443531082797396
   identification: 
-    title: Loaded File
+    name: Loaded File
     type: Static Content
 
   layout: 
     sequence: 40
     parent-region: Data Source # 352441088459797394
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -193,7 +184,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes # 7894859476133147632
+    template: Blank with Attributes
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -210,9 +201,6 @@ regions:
     type: Item is NOT NULL
     item: P70_FILE
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -224,7 +212,7 @@ regions:
 - # ====== Region: Preview =====================================
   id: 352445128899797397
   identification: 
-    title: Preview
+    name: Preview
     type: Classic Report
 
   source: 
@@ -245,7 +233,7 @@ regions:
   layout: 
     sequence: 50
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -253,7 +241,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Standard # 7894873160980147655
+    template: Standard
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
@@ -286,7 +274,7 @@ regions:
 
     appearance: 
       template-type: Theme
-      template: Standard # 7894879771485147673
+      template: Standard
       template-options: 
       - '#DEFAULT#'
       - t-Report--stretch
@@ -701,7 +689,7 @@ page-items:
   layout: 
     sequence: 10
     region: Upload a File # 352441511066797394
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -711,7 +699,7 @@ page-items:
     label-column-span: 0
 
   appearance: 
-    template: Hidden # 7894889849336147698
+    template: Hidden
     template-options: 
     - '#DEFAULT#'
     - t-Form-fieldContainer--stretchInputs
@@ -748,7 +736,7 @@ page-items:
   layout: 
     sequence: 20
     region: Upload a File # 352441511066797394
-    position: BODY
+    slot: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -785,7 +773,7 @@ page-items:
   layout: 
     sequence: 20
     region: Loaded File # 352443531082797396
-    position: BODY
+    slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
@@ -795,7 +783,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating # 6732917921424688922
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
 
@@ -832,7 +820,7 @@ buttons:
   layout: 
     sequence: 10
     region: Button Bar # 352439024276797392
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -840,7 +828,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -851,6 +839,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: LOAD ========================================
@@ -862,7 +851,7 @@ buttons:
   layout: 
     sequence: 20
     region: Button Bar # 352439024276797392
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -870,7 +859,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -880,6 +869,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
@@ -894,7 +884,7 @@ dynamic-actions:
     type: Immediate
 
   when: 
-    event: EVENT.EVENT.BROWSER.CHANGE
+    event: Change
     selection-type: Item(s)
     item(s): 
     - P70_FILE

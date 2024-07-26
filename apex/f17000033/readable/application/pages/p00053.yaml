@@ -9,7 +9,7 @@ identification:
 
 appearance: 
   page-mode: Modal Dialog
-  dialog-template: Drawer # 371119975547332663
+  dialog-template: Drawer
   template-options: 
   - '#DEFAULT#'
   - js-dialog-class-t-Drawer--pullOutEnd
@@ -49,7 +49,7 @@ regions:
 - # ====== Region: Add multiple users ==========================
   id: 94149158880612418
   identification: 
-    title: Add multiple users
+    name: Add multiple users
     type: Static Content
 
   source: 
@@ -61,7 +61,7 @@ regions:
   layout: 
     sequence: 50
     parent-region: No Parent
-    position: BODY
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -69,7 +69,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Alert # 7894857603068147629
+    template: Alert
     template-options: 
     - '#DEFAULT#'
     - t-Alert--colorBG
@@ -86,9 +86,6 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
@@ -100,13 +97,13 @@ regions:
 - # ====== Region: Buttons =====================================
   id: 8590161203707029427
   identification: 
-    title: Buttons
+    name: Buttons
     type: Static Content
 
   layout: 
     sequence: 50
     parent-region: No Parent
-    position: REGION_POSITION_03
+    slot: REGION_POSITION_03
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -114,7 +111,7 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Buttons Container # 7894859608240147634
+    template: Buttons Container
     template-options: 
     - '#DEFAULT#'
     render-components: Above Content
@@ -126,9 +123,6 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
-
-  server-cache: 
-    caching: Disabled
 
   customization: 
     customizable: Not Customizable By End Users
@@ -148,7 +142,7 @@ buttons:
   layout: 
     sequence: 10
     region: Buttons # 8590161203707029427
-    position: CREATE
+    slot: CREATE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -156,7 +150,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -166,6 +160,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: CANCEL ======================================
@@ -177,7 +172,7 @@ buttons:
   layout: 
     sequence: 10
     region: Buttons # 8590161203707029427
-    position: CLOSE
+    slot: CLOSE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -185,7 +180,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text # 7894890825763147710
+    button-template: Text
     hot: false
     template-options: 
     - '#DEFAULT#'
@@ -206,7 +201,7 @@ buttons:
   layout: 
     sequence: 20
     region: Buttons # 8590161203707029427
-    position: NEXT
+    slot: NEXT
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -214,7 +209,7 @@ buttons:
     column-span: Automatic
 
   appearance: 
-    button-template: Text with Icon # 7894890219812147708
+    button-template: Text with Icon
     hot: true
     template-options: 
     - '#DEFAULT#'
@@ -225,6 +220,7 @@ buttons:
   behavior: 
     action: Submit Page
     execute-validations: true
+    show-processing: false
     warn-on-unsaved-changes: Do Not Check
 
   configuration: 
@@ -242,7 +238,7 @@ dynamic-actions:
     type: Immediate
 
   when: 
-    event: EVENT.EVENT.BROWSER.CLICK
+    event: Click
     selection-type: Button
     button: CANCEL # 8587333516287290517
 
